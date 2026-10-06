@@ -1,0 +1,467 @@
+{
+ "load-obs:coeur#1": {
+  "zone": "Coeur du carrefour Paquet Jardin (Meylan) : boîte de carrefour, traversées piétonnes et cyclables, îlots centraux. Ortho PCRS 5 cm du 10 mai 2022, état avant les travaux de 2025. Centre L93 917279,6460290 (pixel (589,200) de la tuile 917250_6460250).",
+  "tuiles_vues": [
+   "/home/user/ClaudeCode_RoadCreation/data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917250_6460250.jpg (tuile principale, lue en entier puis par zooms 2x/3x/4x/6x)",
+   "/home/user/ClaudeCode_RoadCreation/data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917250_6460300.jpg",
+   "/home/user/ClaudeCode_RoadCreation/data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917300_6460250.jpg",
+   "/home/user/ClaudeCode_RoadCreation/data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917200_6460250.jpg",
+   "/home/user/ClaudeCode_RoadCreation/data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917250_6460200.jpg (voisine, quais bus)",
+   "Mosaïque 3x3 (917200-917350 / 6460200-6460350), avec les tuiles 917200_6460300, 917300_6460300, 917200_6460200 et 917300_6460200, plus des vues tournées dans l'axe de Verdun (45,8°), de la Revirée (328°) et du Vercors (160-163°). Fichiers : /tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_ortho/coeur/ (rot_V_0/1/2.png, rot_overview.png, al_*.png, xs_SW_*.png, helper.py)",
+   "Recoupements : LiDAR HD 2021 (MNT, pente, intensité et points COPC), Panoramax 2020-05-21 (ea2e3119, 0fe67f82, ffd43e85, 4668329c) et 2023-03-18 (b05ebf7e, 886cb012), BD TOPO tronçons, topo GAM signalisation horizontale (récente), orthos IGN 2018, 2021 et 2024"
+  ],
+  "constats": [
+   {
+    "id": "coeur-01",
+    "categorie": "geometrie_voies",
+    "description": "La boîte de carrefour est très étendue. Le long de Verdun, environ 28 m séparent les zébras SW et NE. Entre la traversée de la Revirée et celle du Vercors, la distance est d'environ 30 m. Le carrefour à feux compte 4 branches et 2 couloirs bus. L'axe de Verdun est décalé d'environ 2,5 m entre la branche SW et la branche NE.",
+    "localisation": "Centre L93 917279,6460290. Zébra SW vers 917268,6460275 ; zébra NE vers 917290,6460297",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (240-925, 0-620) ; rot_V_1.png (x 155 à 720 = 565 px)",
+    "usure": "NA",
+    "confiance": "haute",
+    "mesure": "565 px = 28,3 m (SW-NE) ; 605 px = 30 m (Revirée-Vercors) ; déport d'axe 50 px = 2,5 m"
+   },
+   {
+    "id": "coeur-02",
+    "categorie": "marquage_longitudinal",
+    "description": "Une ligne de guidage de l'axe traverse la boîte, en tirets courts. Elle part du refuge D est, coupe en diagonale, puis longe l'axe jusqu'au TPC NE. Elle matérialise le déport de 2,5 m entre les deux branches de Verdun. Le tronçon NE est net, le tronçon diagonal est grisé.",
+    "localisation": "De L93 917273,6460279 (px 469,426) à 917280,6460287 (px 605,252), puis 917287,6460296 (px 735,78)",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (465-740, 75-430) ; rotbox_2x.png ; rot_guide_4x.png",
+    "usure": "1",
+    "confiance": "haute",
+    "mesure": "Tirets d'environ 0,50 m, intervalles d'environ 0,45 m (modulation T'2 probable). Largeur 2-3 px (0,10-0,15 m).",
+    "cause_usure": "Le tronçon diagonal (usure 2) est roulé par les tourne-à-gauche qui coupent la boîte (Verdun NE→Vercors, Verdun SW→Revirée)."
+   },
+   {
+    "id": "coeur-03",
+    "categorie": "marquage_longitudinal",
+    "description": "Une ligne continue fine longe la ligne de guidage, juste au NO de ses tirets côté NE et sous ses tirets côté SW, sur 15 à 20 m. Son contraste est bien plus faible que celui des tirets. Il s'agit probablement d'une ancienne ligne continue effacée ou usée, restée à côté de la ligne discontinue actuelle : une ligne mixte non réglementaire dans un carrefour.",
+    "localisation": "L93 917284,6460293 (px 670,141) et 917270,6460275 (px 396,502)",
+    "preuve": "rot_guide_4x.png (trait continu à y≈70, tirets à y≈92) ; rot_guideW_4x.png ; pcrs5cm_917250_6460250.jpg px (380-740, 75-520)",
+    "usure": "F",
+    "confiance": "moyenne",
+    "mesure": "Environ 0,10 m de large, décalée d'environ 0,2 m des tirets",
+    "cause_usure": "Effacement partiel d'un ancien tracé, ou usure ancienne non repeinte"
+   },
+   {
+    "id": "coeur-04",
+    "categorie": "marquage_longitudinal",
+    "description": "Les lignes séparant les voies de même sens sont en T3. Sur Verdun SW sortant, la ligne est oblique et se décale de 1,25 m sur 14,5 m. On en trouve aussi sur Verdun NE entrant et sur Vercors entrant. Aucune ligne de voie près du zébra sur Verdun NE sortant.",
+    "localisation": "Verdun SW sortant de px (90,830) à (200,640) environ (L93 ≈917256,6460265) ; Verdun NE entrant L93 917292,6460306 ; Vercors entrant L93 ≈917293,6460262",
+    "preuve": "median_SW_3x.png ; NE_lanes_3x.png ; arrows_VC_6x.png ; pcrs5cm_917250_6460250.jpg px (840-950, 660-900) ; pcrs5cm_917250_6460300.jpg px (780-1000, 860-1000)",
+    "usure": "1",
+    "confiance": "haute",
+    "mesure": "Tirets de 2,8-3,4 m pour des intervalles de 1,2-1,3 m. Largeur apparente 3-4 px (≈0,10-0,15 m réels après correction du flou).",
+    "cause_usure": "Usure faible ; légers manques à l'aplomb des traces de roues lors des changements de voie"
+   },
+   {
+    "id": "coeur-05",
+    "categorie": "marquage_longitudinal",
+    "description": "Une ligne en damier, faite de carrés blancs, sépare le couloir bus vers Grenoble des 2 voies générales sortantes. Elle va du nez de l'îlot jusqu'au zébra, avec 8-9 carrés visibles. Son motif est celui d'un bord de traversée cyclable, mais elle est posée dans le sens de la circulation, ce qui est atypique. Le blanc est franc.",
+    "localisation": "De L93 917251,6460268 (px 18,636) à 917259,6460276 (px 182,480)",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (85-185, 475-615) ; slip_3x.png ; median_SW_3x.png",
+    "usure": "0",
+    "confiance": "haute",
+    "mesure": "Carrés d'environ 0,55 × 0,55 m, au pas de 1,0 m (intervalle ≈0,45-0,5 m)",
+    "cause_usure": "Peu exposée : elle est hors des traces de roues"
+   },
+   {
+    "id": "coeur-06",
+    "categorie": "marquage_longitudinal",
+    "description": "Sur Verdun SW, une ligne continue fine marque l'axe entre les deux sens. Une seconde ligne continue sépare les 2 voies entrantes. Côté sortant, une bande plus claire d'environ 1,75 m longe l'axe, avec des traînées blanchâtres et un trait fantôme oblique. Ce sont probablement les résidus d'un zébra ou d'une ligne grenaillés.",
+    "localisation": "Axe de L93 917261,6460266 (px 221,681) vers le refuge D ouest ; bande claire de L93 917258,6460264 (px 157,716) à 917266,6460272 (px 321,554)",
+    "preuve": "xs_SW_a.png ; xs_SW_b.png ; median_SW_3x.png ; pcrs5cm_917250_6460250.jpg px (130-480, 420-760)",
+    "usure": "F",
+    "confiance": "moyenne",
+    "mesure": "Lignes de 2-3 px (≈0,10-0,15 m). Bande claire de 35 px (1,75 m). Voie entrante gauche de 2,78 m entre les deux lignes continues.",
+    "cause_usure": "Lignes continues en usure 1-2 (grisées) par l'âge. Les résidus clairs viennent d'un effacement par rabotage ou grenaillage d'un ancien marquage."
+   },
+   {
+    "id": "coeur-07",
+    "categorie": "marquage_longitudinal",
+    "description": "L'axe de la Revirée est une double ligne continue : deux traits d'environ 0,15 m espacés d'environ 0,6 m, sur un fond gris clair. Elle s'arrête sur un petit îlot axial équipé d'un mât de feu, juste en amont de la traversée.",
+    "localisation": "De L93 917267,6460313 à 917270,6460303 (îlot)",
+    "preuve": "pcrs5cm_917250_6460300.jpg px (290-410, 745-935) ; rev_axis_5x.png ; zN_revirée.png",
+    "usure": "1",
+    "confiance": "haute",
+    "mesure": "Entraxe 12 px = 0,6 m",
+    "cause_usure": "Usure faible (marquage non circulé)"
+   },
+   {
+    "id": "coeur-08",
+    "categorie": "marquage_longitudinal",
+    "description": "Le nez de l'îlot effilé du Vercors est prolongé par un marquage peint : deux traits convergents au remplissage grisé, qui se continuent en ligne continue d'axe entre la voie sortante et les voies entrantes.",
+    "localisation": "Pointe de l'îlot vers L93 917289,6460262 (px 790,755), puis vers le sud",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (770-860, 730-1000) ; vercors_nose_4x.png",
+    "usure": "1",
+    "confiance": "haute",
+    "mesure": "Trait d'environ 0,15 m ; nez peint d'environ 5 m",
+    "cause_usure": "Le remplissage est grisé (usure 2) par l'âge et par les roues qui coupent la pointe"
+   },
+   {
+    "id": "coeur-09",
+    "categorie": "marquage_transversal",
+    "description": "Aucune ligne d'effet des feux ni ligne d'arrêt n'est visible sur les 4 approches ni sur les 2 couloirs bus : les zébras sont la seule référence d'arrêt. Aucun fantôme de ligne d'arrêt n'a été détecté à proximité. Contrôle visuel sur Verdun SW entrant, Verdun NE entrant, Revirée et Vercors.",
+    "localisation": "5 à 15 m en amont de chaque zébra",
+    "preuve": "stoplines_V.png ; al_rev.png ; al_VC2.png ; pcrs5cm_917250_6460250.jpg px (330-470, 540-700) ; pcrs5cm_917250_6460300.jpg px (780-900, 820-1000)",
+    "usure": "NA",
+    "confiance": "haute",
+    "mesure": "Rien au-dessus du fond sur les profils de luminance, à l'échelle d'une ligne de 0,15 m"
+   },
+   {
+    "id": "coeur-10",
+    "categorie": "marquage_transversal",
+    "description": "Deux triangles gris-bleu foncés, plus sombres que l'enrobé (contraste inversé), se trouvent juste au SO de la traversée de la Revirée. Un troisième est devant le passage cyan du couloir bus. Ce sont probablement des dents de requin, masquées par une peinture sombre ou peintes dans une teinte non standard. Ils sont à peine visibles.",
+    "localisation": "L93 917268,6460292 (px 340-390, 130-185) ; second groupe vers L93 917258,6460283",
+    "preuve": "triangles_6x.png ; al_W_arrows.png ; pcrs5cm_917250_6460250.jpg px (330-395, 125-190)",
+    "usure": "F",
+    "confiance": "faible",
+    "mesure": "Triangles d'environ 1,0 m de côté",
+    "cause_usure": "Masquage par surpeinture (ancien cédez-le-passage), ou teinte peu contrastée"
+   },
+   {
+    "id": "coeur-11",
+    "categorie": "fleche_symbole",
+    "description": "Deux flèches de déport sont peintes dans la boîte. Dans le sens vers le NE, la flèche pointe vers l'avant avec un coude d'environ 30° à gauche. Dans le sens vers le SW, la flèche pointe aussi vers l'avant, coudée vers la gauche du conducteur. Toutes deux accompagnent le déport d'axe de 2,5 m.",
+    "localisation": "Flèche vers le NE à L93 917285,6460292 (px 692,162) ; flèche vers le SW à L93 917275,6460282 (px 502,354)",
+    "preuve": "rot_guide_4x.png ; rot_guideW_4x.png ; pcrs5cm_917250_6460250.jpg px (480-720, 140-375)",
+    "usure": "1",
+    "confiance": "moyenne",
+    "mesure": "Environ 3,7 m de long",
+    "cause_usure": "La tête de la flèche vers le SW est grisée (usure 2) par les roues des tourne-à-gauche venant du Vercors"
+   },
+   {
+    "id": "coeur-12",
+    "categorie": "fleche_symbole",
+    "description": "Sur Verdun NE entrant, chaque voie porte une flèche de sélection. La voie de droite indique tout droit ou à droite (vers la Revirée). La voie de gauche indique tout droit ou à gauche (vers le Vercors).",
+    "localisation": "L93 917291,6460307 et 917293,6460305 (px main 817,-135 et 860,-93)",
+    "preuve": "pcrs5cm_917250_6460300.jpg px (790-900, 820-900) ; NE_lanes_3x.png",
+    "usure": "1",
+    "confiance": "moyenne",
+    "mesure": "Environ 3,8 m de long",
+    "cause_usure": "Usure légère"
+   },
+   {
+    "id": "coeur-13",
+    "categorie": "fleche_symbole",
+    "description": "Sur Vercors entrant, la voie de droite porte une flèche triple (tout droit, gauche et droite) et la voie de gauche une flèche de tourne-à-gauche. La topo GAM place au même endroit 2 symboles FLECHE_DROIT_GAUCHE en miroir et 1 symbole FLECHE_GAUCHE, ce qui confirme cette lecture.",
+    "localisation": "Flèche triple à L93 917297,6460260 (px 930,791) ; tourne-à-gauche à L93 917293,6460260 (px 865,795)",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (840-950, 735-845) ; arrows_VC_6x.png ; gam_overlay_main.png",
+    "usure": "2",
+    "confiance": "moyenne",
+    "mesure": "Flèche triple ≈5,7 m ; tourne-à-gauche ≈3,7 m",
+    "cause_usure": "La tête du tourne-à-gauche est grisée par les démarrages au feu et les girations ; la flèche triple est en usure 1"
+   },
+   {
+    "id": "coeur-14",
+    "categorie": "fleche_symbole",
+    "description": "Flèches directionnelles sur Verdun SW. Une flèche vers Grenoble dans le couloir bus sortant. Deux flèches vers Grenoble sur les voies générales sortantes. Une flèche tout droit dans la voie entrante de gauche.",
+    "localisation": "Couloir bus L93 917253,6460271 (px 20-87, 550-593) ; voies sortantes L93 917261,6460276 (px 207-253, 463-493) et 917253,6460260 (px 40-95, 765-820) ; voie entrante L93 917265,6460268 (px 280-310, 630-660)",
+    "preuve": "g_r320_c0.png ; g_r640_c0.png ; slip_3x.png ; stoplines_V.png",
+    "usure": "1",
+    "confiance": "haute",
+    "mesure": "Environ 3,9 m (flèche du couloir bus)",
+    "cause_usure": "Usure légère"
+   },
+   {
+    "id": "coeur-15",
+    "categorie": "fleche_symbole",
+    "description": "Rappels de vitesse peints dans une ellipse, lisibles par les véhicules qui quittent le carrefour. Verdun porte 50 (deux sur chaque branche) et la Revirée et le Vercors portent 30. La lecture a été vérifiée en tournant les extraits dans le sens de marche.",
+    "localisation": "50 Verdun SW : L93 917256,6460269 et 917259,6460267. 50 Verdun NE : L93 917300,6460304 et 917303,6460302. 30 Revirée : L93 917267,6460313. 30 Vercors : L93 917289,6460260.",
+    "preuve": "t30_both.png ; t30_RV.png ; pcrs5cm_917250_6460250.jpg px (110-190, 595-670) et (765-805, 770-810) ; pcrs5cm_917250_6460300.jpg px (325-360, 720-760)",
+    "usure": "1",
+    "confiance": "haute",
+    "mesure": "Ellipse 50 ≈1,85 × 1,0 m ; ellipse 30 du Vercors ≈2,4 × 1,4 m",
+    "cause_usure": "Placés au centre des voies, hors des traces de roues"
+   },
+   {
+    "id": "coeur-16",
+    "categorie": "passage_pieton",
+    "description": "Le zébra de Verdun SW compte 2 moitiés de 6 bandes. La moitié NO, sur les voies sortantes vers Grenoble, est nettement usée : bandes 2 à 4 rognées, peinture marbrée et couverture d'environ 0,71. La moitié SE, sur les voies entrantes, est en bon état (couverture ≈0,93). Le passage traverse le TPC à niveau (MNT 2021 plat à ±3 cm), où se trouvent 2 barres grises, probablement des bandes d'éveil de vigilance (BEV).",
+    "localisation": "Moitié NO à L93 917265,6460278 ; moitié SE à L93 917271,6460272",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (235-500, 375-620) ; SWzebra_3x.png ; profils de bandes (largeurs mesurées 0,18-0,33 m au lieu de 0,50 m dans les traces de roues) ; Panoramax 2023-03-18 b05ebf7e (bandes très dégradées)",
+    "usure": "2",
+    "confiance": "haute",
+    "mesure": "Bandes de 0,50 m au pas de 1,0 m, longueur 2,55 m (51 px), 12 bandes au total",
+    "cause_usure": "Moitié NO : accélération en sortie de feu et cisaillement par les girations qui convergent vers Grenoble (tourne-à-gauche du Vercors, tourne-à-droite de la Revirée), poids lourds. Moitié SE : usure 1."
+   },
+   {
+    "id": "coeur-17",
+    "categorie": "passage_pieton",
+    "description": "Le zébra de Verdun NE compte 2 moitiés de 6 bandes, au blanc franc et aux bords nets, avec très peu de manques ; il a probablement été repeint récemment. Le TPC est coupé à niveau au droit du passage (≈2,35 m) ; on y voit 2 barres grises, probablement des BEV.",
+    "localisation": "Moitié NO (entrante) à L93 917286,6460301 ; moitié SE (sortante) à L93 917293,6460294 ; coupure du TPC à L93 917290,6460297",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (680-925, 0-165) ; pcrs5cm_917250_6460300.jpg px (680-780, 935-1000) ; NEzebra_4x.png ; al_NE.png",
+    "usure": "0",
+    "confiance": "haute",
+    "mesure": "Bandes de 0,40-0,45 m au pas de 1,0 m, longueur 3,0 m (60 px). Barres du TPC ≈1,55 × 0,45 m.",
+    "cause_usure": "Usure 0-1 : légères taches dans les traces de roues de la voie entrante"
+   },
+   {
+    "id": "coeur-18",
+    "categorie": "passage_pieton",
+    "description": "Les 2 moitiés du zébra de la Revirée sont décalées. La moitié entrante compte 3 bandes, la moitié sortante 5 bandes plus 1 barre grise. Entre les deux, une bande médiane de 2,6 m n'a ni bandes ni îlot : le refuge n'est pas matérialisé. Cette zone est au niveau de la chaussée (MNT 216,24-216,26 m), alors que les îlots voisins sont 17 à 21 cm plus hauts.",
+    "localisation": "Zébra entrant à L93 917271,6460298 ; zébra sortant à L93 917275,6460303 ; vide médian à L93 917273,6460300",
+    "preuve": "al_rev_4x.png ; al_rev.png ; pcrs5cm_917250_6460250.jpg px (380-470, 0-95) ; pcrs5cm_917250_6460300.jpg px (440-560, 875-1000) ; profil MNT dtm_15cm",
+    "usure": "1",
+    "confiance": "haute",
+    "mesure": "Bandes de 0,45-0,50 m au pas de 1,0 m. Emprise côté entrant 2,6 m, côté sortant ≈4,6 m. Vide médian 52 px = 2,6 m.",
+    "cause_usure": "Usure faible ; la moitié sortante est un peu plus marbrée (couverture ≈0,7)"
+   },
+   {
+    "id": "coeur-19",
+    "categorie": "passage_pieton",
+    "description": "Les 2 moitiés du zébra du Vercors sont en biais d'environ 30° par rapport à la chaussée. La moitié entrante a 7 bandes complètes et 1 partielle ; leurs extrémités côté axe et îlot triangulaire sont grisées. La moitié sortante a 4 bandes nettes et 2 bandes grises dans l'intervalle entre l'îlot triangulaire et l'îlot effilé, intervalle traversé à niveau.",
+    "localisation": "Moitié entrante à L93 917289,6460278 ; moitié sortante à L93 917283,6460271",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (610-845, 365-625) ; al_VC.png ; g_r320_c640.png ; profils (bandes à 55/76/98/117/136/157/175 px)",
+    "usure": "2",
+    "confiance": "haute",
+    "mesure": "Bandes de 0,40-0,50 m au pas de 1,0 m",
+    "cause_usure": "Démarrages et girations courtes des véhicules en tourne-à-gauche, poids lourds qui mordent sur les extrémités. Moitié sortante : usure 1."
+   },
+   {
+    "id": "coeur-20",
+    "categorie": "passage_pieton",
+    "description": "Au sud, un zébra traverse le couloir bus qui tourne de Verdun vers le Vercors. Il compte 5 bandes, plus une barre gris clair à chaque extrémité (BEV ou abaissé). La 4e bande est tachée de gris.",
+    "localisation": "L93 917274,6460263",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (440-535, 680-800) ; zS_bus_crossing.png ; plaza_6x.png",
+    "usure": "2",
+    "confiance": "haute",
+    "mesure": "Bandes d'environ 0,5 m, longueur d'environ 2,5 m",
+    "cause_usure": "Roues des bus qui tournent à droite vers le Vercors (trajectoire courbe sur le passage)"
+   },
+   {
+    "id": "coeur-21",
+    "categorie": "passage_pieton",
+    "description": "Au NO de la branche SW, un dispositif non standard traverse la piste bidirectionnelle puis le couloir bus vers Grenoble. Sur la piste, 2 rectangles cyan pâle encadrent des bandes grises très effacées. Sur le couloir bus, 2 bandes courtes sont largement espacées, puis vient la première bande du grand zébra.",
+    "localisation": "L93 917259,6460284 (px 140-255, 280-400)",
+    "preuve": "blue_x_3x.png ; pcrs5cm_917250_6460250.jpg px (140-255, 280-400) ; RGB du cyan ≈164/181/180 contre ≈158 pour l'enrobé",
+    "usure": "3",
+    "confiance": "moyenne",
+    "mesure": "Rectangles cyan d'environ 1,25 × 3 m. Bandes du couloir bus 1,55 × 0,35 m, espacées de 1,5 m.",
+    "cause_usure": "Cyan délavé par l'âge (usure 2). Bandes sur la piste presque effacées (passages cyclistes, âge, possible masquage)."
+   },
+   {
+    "id": "coeur-22",
+    "categorie": "passage_pieton",
+    "description": "Aux extrémités des passages, sur trottoirs et refuges, on voit des barres gris clair d'environ 0,4 m : probablement des BEV. L'ombre portée de la bordure s'interrompt au droit de chaque traversée, signe d'abaissés de trottoir. Le relief des dalles podotactiles n'est pas résolu à 5 cm.",
+    "localisation": "Sud à L93 917275,6460259 (px 480-530, 800-815) ; TPC NE ; TPC SW ; vide Vercors ; bords de la piste NE",
+    "preuve": "plaza_6x.png ; NEzebra_4x.png ; al_NE.png ; SWzebra_3x.png",
+    "usure": "NA",
+    "confiance": "moyenne",
+    "mesure": "Barres de 0,4-0,45 m × 1,5-2,3 m"
+   },
+   {
+    "id": "coeur-23",
+    "categorie": "amenagement_cyclable",
+    "description": "Sur Verdun SW, la traversée cyclable bidirectionnelle est bordée de 2 bandes de blocs jaunes et porte 4 pictogrammes vélo blancs. En mai 2022 le jaune est devenu ocre-kaki ; la photo Panoramax du 21 mai 2020 le montre jaune vif. Ce jaune n'est pas un marquage provisoire de chantier : il existe en 2020 et encore en 2023. C'est la charte des itinéraires cyclables (type Chronovélo, probable).",
+    "localisation": "L93 917271,6460278 (px 275-555, 315-580)",
+    "preuve": "yb_6x.png ; SWzebra_3x.png ; pcrs5cm_917250_6460250.jpg px (275-555, 315-580) ; Panoramax 2020-05-21 ea2e3119 et ffd43e85",
+    "usure": "2",
+    "confiance": "haute",
+    "mesure": "Largeur utile entre bandes 3,05 m. Bandes de 0,60-0,65 m de large. Blocs d'environ 0,45 m, joints d'environ 0,10 m, une dizaine par chaussée.",
+    "cause_usure": "Décoloration par l'âge et les UV. Trafic sur les voies sortantes. Pictogrammes fins en usure 2."
+   },
+   {
+    "id": "coeur-24",
+    "categorie": "amenagement_cyclable",
+    "description": "Sur la Revirée, deux traversées cyclables en résine verte pâle sont bordées de carrés blancs de 0,5 m. Un pictogramme vélo est peint sur l'îlot arrondi. Le vert est très délavé, presque gris (RGB ≈150/162/151), alors que les carrés blancs restent nets.",
+    "localisation": "L93 917271,6460296 et 917275,6460301",
+    "preuve": "al_rev_4x.png ; pcrs5cm_917250_6460250.jpg px (395-470, 40-140) ; pcrs5cm_917250_6460300.jpg px (440-560, 880-1000)",
+    "usure": "2",
+    "confiance": "haute",
+    "mesure": "Carrés de 0,5 m au pas d'environ 1 m. Largeur intérieure 1,5-1,7 m, extérieure 2,6-2,8 m.",
+    "cause_usure": "Perte de pigment de la résine (UV, âge, trafic) ; carrés en usure 0-1"
+   },
+   {
+    "id": "coeur-25",
+    "categorie": "amenagement_cyclable",
+    "description": "La piste cyclable sud, vers le Vercors, a ses bordures soulignées d'une ligne jaune continue des deux côtés, un axe en tirets blancs et des flèches. À l'entrée de la traversée, 3 barres jaunes transversales sont peintes. Plus loin, la traversée du couloir bus est en blocs jaunes (9-10 blocs par bande, 2 pictogrammes usés).",
+    "localisation": "Barres jaunes à L93 917280,6460259 ; traversée à L93 917278,6460263 ; piste de px (555-740, 790-1000)",
+    "preuve": "zS_bus_crossing.png ; g_r640_c320.png ; Panoramax 2020-05-21 4668329c (mêmes marquages, jaune vif)",
+    "usure": "1",
+    "confiance": "haute",
+    "mesure": "Barres d'environ 0,5 × 0,25 m",
+    "cause_usure": "Blocs et pictogrammes en usure 2, piétinés par les roues des bus. Lignes de bordure jaunes en usure 1-2 (âge)."
+   },
+   {
+    "id": "coeur-26",
+    "categorie": "amenagement_cyclable",
+    "description": "Sur la piste bidirectionnelle NO, le long de Verdun SW, l'axe est marqué de tirets turquoise peu contrastés espacés d'environ 7,5 m. On y voit aussi des flèches blanches (vers la gauche, vers le bas, et un symbole en T), un cadre de fines lignes jaunes devant la traversée et 3 petites barres jaunes.",
+    "localisation": "L93 917256-917266, 6460280-6460292 ; tuile 917200_6460250 px (590-815, 620-835)",
+    "preuve": "al_W_arrows.png ; slip_3x.png ; pcrs5cm_917200_6460250.jpg px (590-815, 620-835) ; RGB des tirets ≈154/166/161 contre ≈136/140/135 pour l'enrobé",
+    "usure": "2",
+    "confiance": "moyenne",
+    "mesure": "Tirets d'environ 0,8 × 0,15 m",
+    "cause_usure": "Couleur peu contrastée et âge ; lignes jaunes très fines"
+   },
+   {
+    "id": "coeur-27",
+    "categorie": "arret_bus",
+    "description": "Arrêt de bus en ligne dans la voie entrante de droite de Verdun SW, marqué d'un zigzag jaune sur environ 15 m le long de l'îlot à barrière, qui sert de quai. Le LiDAR 2021 contient un objet de 10,7 m de long et 3,0-3,2 m de haut, orienté dans l'axe et arrêté sur ce zigzag : un bus.",
+    "localisation": "De L93 917258,6460257 à 917269,6460268 (px 166,864 à 375,649)",
+    "preuve": "xs_SW_b.png ; stoplines_V.png ; pcrs5cm_917250_6460250.jpg px (160-380, 640-870) ; lidar_elev_pts_main.png",
+    "usure": "2",
+    "confiance": "moyenne",
+    "mesure": "Voie de 3,05 m ; amplitude du zigzag ≈2,2 m",
+    "cause_usure": "Le zigzag est dans une voie circulée : roues des véhicules et freinage des bus"
+   },
+   {
+    "id": "coeur-28",
+    "categorie": "arret_bus",
+    "description": "Un couloir bus vers le NE (BD TOPO : accès « Restreint aux ayants droit », sens unique, 1 voie, largeur 3,5 m) longe l'îlot à barrière. Il porte un zigzag jaune et l'abri bus est sur le trottoir sud. Il tourne ensuite vers le Vercors en passant par la traversée sud ; c'est la voie de tourne-à-droite Verdun→Vercors supprimée en 2025.",
+    "localisation": "Abri à L93 917266,6460253 ; zigzag vers L93 917260,6460251",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (160-360, 840-1000) ; pcrs5cm_917250_6460200.jpg px (0-170, 0-120) ; bdtopo_overlay.png",
+    "usure": "1",
+    "confiance": "haute",
+    "mesure": "Largeur mesurée 2,65 m entre bordures (53 px)",
+    "cause_usure": "Usure 1-2 : roulement des bus"
+   },
+   {
+    "id": "coeur-29",
+    "categorie": "geometrie_voies",
+    "description": "Un couloir bus vers Grenoble (BD TOPO : voie réservée) commence dans la boîte. Il est séparé des voies générales d'abord par la ligne en damier, puis par un îlot dont le nez est arrondi. Le long de sa bordure NO, une bande d'enrobé plus sombre d'environ 2,75 m forme une reprise.",
+    "localisation": "De L93 917259,6460280 au nez de l'îlot à L93 917251,6460268",
+    "preuve": "slip_3x.png ; rot_V_0.png ; pcrs5cm_917250_6460250.jpg px (0-190, 380-640) ; bdtopo_overlay.png",
+    "usure": "NA",
+    "confiance": "haute",
+    "mesure": "Largeur ≈3,6 m près du carrefour, ≈6 m à 15 m en aval (reprise comprise)"
+   },
+   {
+    "id": "coeur-30",
+    "categorie": "bordure_ilot_trottoir",
+    "description": "Plusieurs petits îlots portent un mât de feu. Les deux refuges en D de Verdun SW ont leurs bordures peintes en blanc. Sur la Revirée, on trouve un îlot arrondi (+17 cm, avec pictogramme vélo) et un petit îlot axial (+21 cm). Le relief est confirmé par la pente et le MNT LiDAR 2021.",
+    "localisation": "D ouest à L93 917266,6460273 ; D est à L93 917272,6460279 ; îlot arrondi Revirée à L93 917276,6460295 ; îlot axial à L93 917270,6460303",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (295-355, 500-560), (415-470, 390-445), (480-550, 45-130) ; slope_pct_15cm_main.png ; dtm_15cm_main.png",
+    "usure": "1",
+    "confiance": "haute",
+    "mesure": "Refuges D d'environ 2,7 × 2,5 m",
+    "cause_usure": "Peinture des bordures salie et éraflée aux nez"
+   },
+   {
+    "id": "coeur-31",
+    "categorie": "bordure_ilot_trottoir",
+    "description": "Le terre-plein central (TPC) de Verdun NE mesure environ 2,35 m entre bordures, porte 2 tampons carrés et est coupé à niveau au droit du zébra. Côté Vercors : un îlot triangulaire d'environ 3,5 m (gravillons, bordures béton claires, feu à la pointe) et un îlot effilé d'environ 13 m × 2,5 m au plus, gravillonné. Au NE, un îlot en goutte de terre et herbe d'environ 9 m. Au NO, un îlot vert triangulaire d'environ 8 m avec candélabre.",
+    "localisation": "TPC NE à L93 917291-917298, 6460299-6460306 ; triangle du Vercors à 917284,6460276 ; îlot effilé à 917288,6460268 ; goutte NE à 917295,6460287 ; îlot vert NO à 917268,6460288",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (643-712, 440-510), (700-830, 525-750), (840-940, 175-345), (305-420, 150-310) ; NE_lanes_3x.png ; slope_pct_15cm_main.png",
+    "usure": "NA",
+    "confiance": "haute",
+    "mesure": "TPC 47 px = 2,35 m ; îlot effilé ≈260 × 50 px"
+   },
+   {
+    "id": "coeur-32",
+    "categorie": "bordure_ilot_trottoir",
+    "description": "Au sud, une grande surface centrale d'environ 10 × 7 m, en enrobé gris, se trouve au niveau de la chaussée (MNT à ±5 cm). Elle porte 3 mâts de feux et plusieurs tampons, et sert de refuge aux piétons et aux cycles entre Verdun entrant, le Vercors et le couloir bus. Elle est délimitée par des bordures basses et des joints. La photo Panoramax 2020 montre la même surface plane avec ses tampons.",
+    "localisation": "L93 917277,6460269 (px 430-650, 540-700)",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (430-650, 540-700) ; dtm_15cm_main.png ; Panoramax 2020-05-21 0fe67f82",
+    "usure": "NA",
+    "confiance": "moyenne",
+    "mesure": "Environ 200 × 140 px"
+   },
+   {
+    "id": "coeur-33",
+    "categorie": "mobilier_vegetation",
+    "description": "L'îlot séparateur entre les voies générales et le couloir bus mesure 2,45 m. Il est équipé d'une barrière métallique d'environ 9 éléments sur environ 12 m, qui empêche de traverser le couloir bus depuis le quai central.",
+    "localisation": "De L93 917261,6460255 à 917270,6460265",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (210-410, 700-900) ; xs_SW_b.png",
+    "usure": "NA",
+    "confiance": "haute",
+    "mesure": "Largeur 49 px = 2,45 m"
+   },
+   {
+    "id": "coeur-34",
+    "categorie": "revetement_texture",
+    "description": "La chaussée est un enrobé bitumineux, probablement du BBSG à granulométrie fine. Il est gris clair et neutre (luminance 150-160), avec une texture fermée et homogène et un liant oxydé. Dans la boîte, des bandes plus sombres suivent les trajectoires principales : dépôts de gomme et d'huile dans les traces de roues. Le dévers est d'environ 1,8-1,9 % de l'axe vers les fils d'eau (MNT 2021). Aucun orniérage supérieur à 1,5 cm, aucun nid-de-poule, aucun ressuage étendu.",
+    "localisation": "Ensemble de la boîte et des approches",
+    "preuve": "tone_main.png ; texture_main.png ; profils MNT (216,20 m à l'axe, 216,02 m au fil d'eau côté couloir bus SW, 216,10 m au fil d'eau côté îlot à barrière)",
+    "usure": "NA",
+    "confiance": "moyenne",
+    "mesure": "Pente transversale de 0,18 m sur 9,5 m et de 0,10 m sur 5,5 m"
+   },
+   {
+    "id": "coeur-35",
+    "categorie": "degradation",
+    "description": "Un réseau de fines lignes sombres de 1-2 px couvre la boîte et les traversées. Il mêle deux choses. (a) Des fissures longitudinales et transversales colmatées au bitume (pontage), aux tracés sinueux ; ce pontage est bien visible au sol sur la photo Panoramax 2023. (b) Des lignes rectilignes ou en chaînette qui convergent vers les mâts : probablement les ombres de câbles aériens. La photo Panoramax 2020 montre de nombreux câbles et guirlandes au-dessus du carrefour, que le LiDAR 2021 capte à peine.",
+    "localisation": "Boîte entière, de L93 917265 à 917295 et de 6460270 à 6460300",
+    "preuve": "hp_main.png ; box_6x.png ; pcrs5cm_917250_6460250.jpg px (300-900, 50-650) ; Panoramax 2023-03-18 b05ebf7e et 2020-05-21 0fe67f82 / ea2e3119",
+    "usure": "NA",
+    "confiance": "moyenne",
+    "mesure": "Lignes de 5 à 30 m de long, environ 5-10 cm de large"
+   },
+   {
+    "id": "coeur-36",
+    "categorie": "degradation",
+    "description": "Une tranchée transversale refermée, d'environ 1,05 m de large, traverse la chaussée entrante de Verdun SW à environ 15 m en amont du zébra. Elle est bordée de deux traits de scie. On y voit des points de peinture blanche : peut-être le fantôme d'une ancienne ligne transversale. L'îlot du couloir bus s'arrête au même endroit.",
+    "localisation": "De L93 917247,6460273 à 917262,6460258 (px de -68,546 à 233,838)",
+    "preuve": "joint_SW_5x.png ; xs_SW_b.png ; pcrs5cm_917250_6460250.jpg px (0-235, 600-840)",
+    "usure": "F",
+    "confiance": "moyenne",
+    "mesure": "Joints à rot x 289 et 310, soit 21 px = 1,05 m",
+    "cause_usure": "Résidus d'un marquage effacé lors de la réfection de la tranchée"
+   },
+   {
+    "id": "coeur-37",
+    "categorie": "degradation",
+    "description": "Sur Verdun NE, une tranchée transversale d'environ 1,2-1,5 m traverse les 2 chaussées à environ 5 m en amont du zébra. Sur les voies entrantes s'ajoutent des découpes rectangulaires d'environ 3,4 × 4,4 m et 6,6 × 2 m : reprises, ou boucles de détection des feux.",
+    "localisation": "De L93 917289,6460307 à 917300,6460298",
+    "preuve": "NE_lanes_3x.png ; pcrs5cm_917250_6460300.jpg px (750-1000, 850-1000) ; pcrs5cm_917250_6460250.jpg px (950-1000, 0-50)",
+    "usure": "NA",
+    "confiance": "moyenne",
+    "mesure": "Traits de scie espacés de 29 px"
+   },
+   {
+    "id": "coeur-38",
+    "categorie": "degradation",
+    "description": "Autres reprises. Une bande d'enrobé plus sombre d'environ 2,75 m longe la bordure du couloir bus vers Grenoble (cf. coeur-29), limitée par un joint transversal droit. Une tache sombre (huile ou bitume frais) se trouve dans la voie générale sortante, près d'un tampon. Une tranchée transversale d'environ 1,2 m traverse la Revirée en amont du « 30 ».",
+    "localisation": "Bande de L93 917247,6460272 à 917258,6460280 ; tache à 917257,6460272 ; tranchée de la Revirée vers 917269,6460310",
+    "preuve": "slip_3x.png ; median_SW_3x.png ; pcrs5cm_917250_6460250.jpg px (133-173, 533-570) ; rev_axis_5x.png",
+    "usure": "NA",
+    "confiance": "moyenne",
+    "mesure": "Bande de 55 px = 2,75 m"
+   },
+   {
+    "id": "coeur-39",
+    "categorie": "assainissement_reseaux",
+    "description": "Tampons et réseaux. Chambres carrées dans la boîte, dans la voie sortante SW, sur le refuge D est, sur la surface centrale sud (3) et près du passage sud (2). Regards ronds dans la boîte. Les fils d'eau sont au pied de l'îlot du couloir bus SW (point bas MNT 216,02 m) et le long de l'îlot à barrière. De petites grilles d'avaloir sont vues le long des bordures, sans relevé exhaustif.",
+    "localisation": "Carrées : L93 917272,6460284 ; 917259,6460271 ; 917276,6460269 ; 917279,6460267 ; 917284,6460268 ; 917273,6460257 ; 917276,6460258. Rondes : 917280,6460294 ; 917278,6460270",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (422-452, 295-325), (155-190, 553-592), (523-540, 620-637), (580-597, 643-657), (667-697, 625-653), (430-477, 840-862), (500-540, 822-847), (583-597, 105-122), (558-570, 595-607)",
+    "usure": "NA",
+    "confiance": "haute",
+    "mesure": "Chambres de 0,8 à 1,75 m de côté"
+   },
+   {
+    "id": "coeur-40",
+    "categorie": "signalisation_verticale_feux",
+    "description": "Au moins 14 supports de feux sont identifiés par leurs ombres nettes, sur les refuges, les îlots, les nez et la surface centrale sud. Les ombres des candélabres, longues de 8 à 10 m, sont orientées vers le NNO (azimut ≈328°) : soleil au SSE (≈148°), vers midi TU. Vues d'en haut, les têtes de feux ne sont pas lisibles : seuls les mâts et leurs ombres le sont.",
+    "localisation": "Candélabres vers px (300,260), (950,120), (1000,340) et (650,830) ; feux sur tous les îlots",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (217-300, 120-260), (915-970, 0-120), (950-1000, 220-340), (597-653, 683-837) ; lidar_elev_pts_main.png (amas de points de mâts)",
+    "usure": "NA",
+    "confiance": "haute",
+    "mesure": "Ombre du candélabre NO : 157 px = 7,9 m"
+   },
+   {
+    "id": "coeur-41",
+    "categorie": "mobilier_vegetation",
+    "description": "Les arbres à l'est, dans la tuile 917300_6460250, ombragent le trottoir est et la rive du Vercors. Des arbres au sud ombragent la piste sud. La photo Panoramax 2020 montre des guirlandes d'illumination suspendues à des câbles au-dessus du carrefour.",
+    "localisation": "Trottoir est de L93 917294 à 917300, 6460265 à 6460285 ; piste sud vers 917275,6460251",
+    "preuve": "pcrs5cm_917250_6460250.jpg px (880-1000, 300-700) et (450-700, 930-1000) ; pcrs5cm_917300_6460250.jpg px (0-250, 0-800) ; Panoramax 2020-05-21 ea2e3119",
+    "usure": "NA",
+    "confiance": "haute"
+   },
+   {
+    "id": "coeur-42",
+    "categorie": "autre",
+    "description": "Contrôle de cohérence dans le temps. Les traversées sont aux mêmes positions sur l'ortho IGN 2021 et sur l'intensité LiDAR 2021 : en mai 2022, les marquages ont donc au moins 1 an, et la photo Panoramax 2020 montre déjà la traversée jaune. L'ortho IGN 2024 montre un enrobé neuf sombre au centre de la boîte. La topo GAM, récente, place les zébras de Verdun SW environ 6 à 8 m plus à l'ouest. L'état de 2022 est donc périmé, avec un risque de fantômes après effacement.",
+    "localisation": "Carrefour entier",
+    "preuve": "vintages_cmp.png ; lidar_int_main.png ; gam_overlay_main.png",
+    "usure": "NA",
+    "confiance": "moyenne"
+   }
+  ],
+  "configuration_voies": "Verdun SW (vers Grenoble), coupe à 10-15 m du zébra, du NO au SE :\n- piste bidirectionnelle et trottoir (≈4,9 m) ;\n- bordure ;\n- couloir bus sortant d'environ 3,6 m (voie réservée selon BD TOPO), avec une flèche vers Grenoble, séparé des voies générales d'abord par une ligne en damier puis par un îlot ;\n- 2 voies générales sortantes de 3,15 m et 3,5 m, séparées par une ligne T3 oblique, avec flèches vers Grenoble et « 50 » ;\n- bande neutre claire d'environ 1,75 m ;\n- ligne continue d'axe ;\n- 2 voies entrantes de 2,78 m (tout droit) et 3,05 m (zigzag d'arrêt bus en ligne), séparées par une ligne continue ;\n- îlot à barrière de 2,45 m ;\n- couloir bus vers le NE d'environ 2,65 m, avec zigzag et abri, qui tourne vers le Vercors ;\n- trottoir.\n\nVerdun NE (vers Montbonnot), à environ 5 m du zébra :\n- piste et trottoir ;\n- 2 voies entrantes de 3,3 m (tout droit ou à droite vers la Revirée) et 2,95 m (tout droit ou à gauche vers le Vercors), séparées par une ligne T3 (3,2 m / 1,2 m) ;\n- TPC bordé de 2,35 m ;\n- 2 voies sortantes d'environ 6,35 m au total, avec « 50 » ×2 et sans ligne de voie près du zébra (au-delà, tirets espacés, probablement T1) ;\n- bande plantée.\n\nRevirée (NNO) : 1 voie entrante d'environ 3 m et 1 voie sortante plus large avec « 30 ». L'axe est une double ligne continue (entraxe 0,6 m) qui mène à un petit îlot axial, puis à la traversée en deux temps, puis à un îlot arrondi côté carrefour.\n\nVercors (S) :\n- 2 voies entrantes d'environ 2,6 m et 2,65 m (gauche : tourne-à-gauche ; droite : flèche triple), séparées par une ligne T3 (3,4 m / 1,3 m) ;\n- axe continu prolongé par l'îlot effilé d'environ 13 m ;\n- 1 voie sortante de 5,25 à 5,75 m avec « 30 », qui reçoit le couloir bus venant de Verdun.\n\nBoîte : environ 28 × 30 m, sans ligne d'effet des feux. Un déport de l'axe de Verdun d'environ 2,5 m est guidé par une ligne en tirets courts et 2 flèches de déport.\n\nLes largeurs sont mesurées sur des profils à 5 cm/px, à ±0,1 m. Les lignes de 10 à 15 cm sont à la limite de la résolution.",
+  "revetement_synthese": "Chaussée en enrobé bitumineux, probablement du BBSG à granulométrie fine. Il est gris clair et neutre (RGB ≈155-160), d'aspect vieilli : liant oxydé, texture fermée et homogène. Aucun pavé, aucun béton apparent sur la chaussée.\n\nDans la boîte, des bandes plus sombres suivent les trajectoires directes et les girations : dépôts de gomme et d'huile.\n\nFissuration : un réseau de fissures longitudinales et transversales a été colmaté au bitume (pontage). Il apparaît en fines lignes sombres sinueuses, que la photo Panoramax 2023 confirme au sol. S'y superposent probablement les ombres rectilignes des câbles aériens.\n\nTranchées et reprises :\n- tranchée transversale d'environ 1 m sur Verdun SW entrant ;\n- tranchée d'environ 1,2-1,5 m sur les deux chaussées de Verdun NE, avec des découpes rectangulaires (reprises ou boucles de détection) ;\n- tranchée d'environ 1,2 m sur la Revirée ;\n- bande sombre d'environ 2,75 m le long du couloir bus SW ;\n- trottoir est rapiécé ;\n- une tache d'huile.\n\nAucun faïençage marqué, aucun nid-de-poule visible. Aucun orniérage supérieur à environ 1,5 cm sur les profils du MNT LiDAR 2021.\n\nDévers d'environ 1,8-1,9 % de l'axe vers les fils d'eau, au pied des îlots et bordures. Point bas le long de l'îlot du couloir bus SW (216,02 m). Le sol descend vers le sud et le Vercors (environ 215,5-215,9 m).\n\nNombreux tampons de chambres télécom ou de feux, surtout dans la boîte et sur la surface centrale sud. Ce sont des surfaces sombres et lisses. Les îlots sont en gravillons, en terre ou en gazon, avec des bordures béton claires, celles des refuges étant peintes en blanc.\n\nUn enrobé neuf apparaît au centre sur l'ortho IGN 2024, donc après la prise de vue.",
+  "usure_synthese": "L'usure se concentre aux endroits suivants.\n1. Moitié NO du zébra de Verdun SW, sur les voies sortantes vers Grenoble : usure 2 (couverture de peinture ≈0,71 contre ≈0,93 pour la moitié SE). Cause : accélération en sortie et cisaillement par les girations qui convergent vers Grenoble (tourne-à-gauche du Vercors, tourne-à-droite de la Revirée), poids lourds. La photo Panoramax de mars 2023 montre une aggravation.\n2. Extrémités côté axe du zébra entrant du Vercors : usure 2, par les démarrages et girations courtes des tourne-à-gauche.\n3. Zigzag jaune de l'arrêt en ligne : usure 2, car il est posé dans une voie circulée, et les bus y freinent.\n4. Zébra et blocs jaunes de la traversée sud : usure 1-2, par les roues des bus qui tournent vers le Vercors.\n5. Tronçon diagonal de la ligne de guidage et tête des flèches de déport : usure 2, par les tourne-à-gauche qui coupent la boîte.\n6. Couleurs des aménagements cyclables : jaune devenu ocre (vif en 2020), vert de la Revirée délavé presque gris, cyan pâle, tirets turquoise peu contrastés. C'est surtout un vieillissement par les UV et l'âge.\n\nMarquages fantômes ou effacés (F) :\n- ligne continue juxtaposée à la ligne de guidage ;\n- traînées blanches dans la bande neutre SW et au nez de l'îlot du couloir bus ;\n- points blancs sur la tranchée SW ;\n- dents de requin gris-bleu masquées ;\n- bandes grises dans les vides médians.\n\nPeu usés (0-1) : le zébra de Verdun NE, probablement repeint récemment, les zébras de la Revirée, les carrés blancs, la ligne en damier, les rappels « 50 » et « 30 », et les flèches de Verdun.\n\nLes marquages ont au moins 1 an en 2022 : ils sont présents sur l'ortho IGN 2021 et le LiDAR 2021, et la traversée jaune existe déjà en 2020.",
+  "points_adas": "Pièges pour une détection par caméra ou LiDAR :\n1. Aucune ligne d'effet des feux sur aucune approche : le point d'arrêt doit être déduit du zébra et de la position du feu. Risque d'arrêt sur le passage, ou trop tôt.\n2. Plusieurs types de traversées se suivent : zébra blanc, blocs jaunes, résine verte, rectangles cyan, carrés blancs, damier blanc posé dans le sens de la circulation. Ces couleurs ne sont pas standard. Le jaune signale normalement un marquage provisoire de chantier, et un détecteur peut prendre les blocs et les lignes jaunes pour un marquage temporaire de voie. Le jaune et le vert pâle sont peu contrastés en niveaux de gris et en intensité LiDAR, alors que les zébras ressortent.\n3. La ligne en damier entre le couloir bus et les voies générales ressemble à un bord de traversée cyclable ou à des tirets de voie : risque d'affectation au couloir bus.\n4. Le décalage de 2,5 m de l'axe dans la boîte n'est marqué que par des tirets courts doublés d'une ligne continue fantôme : prolonger tout droit les voies d'approche fait empiéter sur le sens opposé, et la ligne mixte peut être lue comme continue.\n5. Dans la boîte, un dense réseau de lignes sombres (pontage, ombres de câbles) crée des faux contours et des lignes candidates. Les ombres de câbles, de mâts et de candélabres (bandes de 8 à 10 m) se déplacent avec l'heure.\n6. Marquages fantômes : traînées blanches dans la bande neutre et au nez d'îlot, points blancs sur la tranchée transversale, dents de requin masquées à contraste inversé.\n7. Les refuges sont à niveau : TPC NE coupé, vide médian de 2,6 m non marqué sur la Revirée, intervalle entre les îlots du Vercors, grande surface centrale sud. Un LiDAR n'y voit aucune bordure, et des piétons y attendent au niveau de la chaussée.\n8. Les petits îlots en D avec mât sont des obstacles fixes au milieu des trajectoires ; leurs bordures peintes en blanc aident la caméra.\n9. L'arrêt de bus en ligne masque la vue et bloque une voie : le LiDAR 2021 a capté un bus arrêté. La barrière de l'îlot, ajourée, est une cible LiDAR mince.\n10. Les zébras usés de la moitié NO de Verdun SW et de la traversée sud font baisser le score de détection.\n11. La carte est obsolète : la boîte a été reprise en 2024 (IGN), puis transformée en 2025, et la topo GAM montre des zébras déplacés. Une carte HD tirée de cette ortho de 2022 serait fausse et exposée aux fantômes d'effacement.",
+  "pourquoi_cette_conception": "L'avenue de Verdun (RD1090) est une 2×2 voies limitée à 50 km/h, traversée par des voies de quartier à 30 km/h (la Revirée et le Vercors). D'où les rappels « 50 » sur les sorties de Verdun et « 30 » sur les sorties de la Revirée et du Vercors.\n\nLe carrefour à feux, large d'environ 28 × 30 m, a été conçu pour la capacité automobile. Il y ajoute :\n- deux couloirs bus séparés pour la ligne Chrono C1 et les lignes qui tournent : un couloir vers Grenoble qui démarre dans la boîte, et un couloir vers le NE qui tourne vers le Vercors avec un arrêt et un abri ;\n- un arrêt en ligne sur un quai central protégé par une barrière, qui empêche les usagers de traverser le couloir bus ;\n- un itinéraire cyclable structurant (piste bidirectionnelle NO, traversée de Verdun SW, piste sud vers le Vercors), dont la couleur jaune le distingue des passages piétons blancs, en cohérence avec la charte métropolitaine ;\n- des passages piétons de 2,5 à 3 m en deux temps, coupés à niveau dans les terre-pleins pour l'accessibilité, avec des bandes d'éveil de vigilance aux extrémités.\n\nLe décalage d'axe de 2,5 m vient de l'emprise différente des deux branches de Verdun : couloir bus et voies sortantes larges côté SW, TPC bordé côté NE. La ligne de guidage et les flèches de déport assurent la continuité.\n\nLes voies du Vercors (tourne-à-gauche dédié et flèche triple) offrent deux files possibles vers la gauche, c'est-à-dire vers Grenoble, qui concentre la demande.\n\nLes grandes dimensions, les girations rapides et les traversées longues expliquent le projet de 2025 : carrefour compacté, suppression du tourne-à-droite Verdun→Vercors, traversées sécurisées, quais de bus mutualisés.",
+  "incertitudes": "- Lignes sombres : sans vue oblique au même instant, je ne peux pas dire, ligne par ligne, si c'est une fissure colmatée ou l'ombre d'un câble.\n- Barres grises en bout de passage : bandes d'éveil de vigilance (BEV) ou bandes usées, la distinction n'est pas certaine.\n- Fonction de la ligne en damier : interprétation à confirmer.\n- Flèches de déport et flèche triple du Vercors : la forme exacte des têtes latérales est difficile à lire à 5 cm.\n- Types de lignes (T'2, T3, T1) : déduits des longueurs mesurées des traits et des intervalles. Les largeurs de 10 à 15 cm valent ±1-2 px.\n- Coordonnées : environ ±0,5 m (vues tournées).\n- Couleurs jaune, cyan et turquoise : la charte Chronovélo n'a pas été vérifiée dans un document.\n- Arrêt en ligne : interprétation fondée sur le zigzag et le bus vu par le LiDAR 2021, sans photo prise dans ce sens.\n- Couloirs bus : la BD TOPO est récente (2024-2025), mais sa géométrie correspond à l'ortho 2022.\n- Date de la topo GAM inconnue : elle paraît postérieure aux travaux pour la branche Verdun SW.\n- Sources de dates différentes : LiDAR août-septembre 2021, ortho mai 2022, Panoramax 2020 et 2023.\n- Têtes de feux : non visibles d'en haut.\n- Revêtement : le type exact (BBSG ou BBM, granulométrie) se déduit visuellement, sans carottage."
+ }
+}

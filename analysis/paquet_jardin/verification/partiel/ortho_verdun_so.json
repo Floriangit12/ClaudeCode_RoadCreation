@@ -1,0 +1,701 @@
+{
+ "load-obs:verdun_so": {
+  "zone": "Avenue de Verdun (RD1090, ex-RN90) côté Grenoble : branche sud-ouest du carrefour Paquet Jardin et arrêts de bus « La Revirée ». Ortho PCRS 5 cm du 10/05/2022, donc AVANT les travaux C1 de 2025. Repère local utilisé partout : s = abscisse le long de l'avenue en m (origine L93 917200 / 6460200, s>0 vers le NE donc vers le carrefour ; axe de la route mesuré à 44,25° d'azimut), t = décalage transversal en m (t>0 vers le SE). Passage en L93 : x ≈ 917200 + 0,698·s + 0,716·t ; y ≈ 6460200 + 0,716·s − 0,698·t. Emprise analysée : s −140 → +70 (L93 ≈ 917101,6460101 → 917249,6460250), de t −30 (Paquet Jardin) à t +20 (parkings des Mitaillères).",
+  "tuiles_vues": [
+   "data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917200_6460200.jpg (tuile entière + 4 quadrants zoomés ×2)",
+   "data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917150_6460200.jpg",
+   "data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917150_6460150.jpg (+ quadrant SE zoomé ×2)",
+   "data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917100_6460150.jpg",
+   "data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917100_6460100.jpg",
+   "data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917200_6460150.jpg",
+   "Tuiles voisines pour les objets qui débordent : pcrs5cm_917250_6460200.jpg et pcrs5cm_917200_6460250.jpg",
+   "Mosaïque 4×4 (917100–917250 × 6460100–6460250) redressée dans l'axe de la route à 5 cm/px (scratchpad wf_ortho/vso/strip.png). Sert aux mesures de largeur, de tirets et de contraste, et à toutes les vues zoomées s/t",
+   "Contrôles croisés : LiDAR HD 2021 (points sol du COPC → intensité et profils en travers), orthos IGN 20 cm 2015/2018/2021/2024 redressées dans le même repère, Panoramax 2024-08-24_6a93db6e (tuile r01_c02 + recadrage HD), 2024-08-24_ab5fa4d3 (recadrage HD), 2023-03-18_03e30668 (r01_c01, r01_c02), levé GAM topo_sol_signalisation_horizontale (lin/pct), OSM 2026 (roads, public_transport, street_lamps)"
+  ],
+  "constats": [
+   {
+    "id": "verdun_so-01",
+    "categorie": "geometrie_voies",
+    "description": "Profil en travers courant : une seule chaussée bidirectionnelle de 2+2 voies, sans séparateur physique ; les deux sens ne sont séparés que par l'axe continu. Bordure NO à t≈−7,5, bordure SE à t≈+4,0. Contrôle indépendant fait sur la tuile d'origine (profils perpendiculaires à s=−47, −44 et −30) : lignes à t −4,72 / −1,80 / +1,03, bordure SE à +4,05.",
+    "localisation": "s −140 → +20 ; profil de référence à s≈−45, L93 ≈ (917168, 6460168)",
+    "preuve": "pcrs5cm_917150_6460150.jpg px ~(200-330, 560-800) ; pcrs5cm_917100_6460100.jpg px ~(400-700, 250-600)",
+    "mesure": "11,5 m de bordure à bordure. Voie SO droite 2,75-2,80 m (caniveau compris), voie SO gauche 2,93 m, voie NE gauche 2,83 m, voie NE droite 2,97 m (±0,05 m)",
+    "usure": "NA",
+    "confiance": "haute",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-02",
+    "categorie": "marquage_longitudinal",
+    "description": "Axe central en ligne continue blanche. Sur s −140 → +20 il est à t≈−1,85 ; il se décale ensuite à t≈−2,35 pour s>30, là où la chaussée s'élargit côté NE. Ligne quasi sans lacune. Confirmée par l'intensité LiDAR 2021 et par le levé GAM (même position jusqu'à s≈22).",
+    "localisation": "t≈−1,85 → −2,35 ; de L93 (917101, 6460101) à (917249, 6460250)",
+    "preuve": "pcrs5cm_917100_6460100.jpg px (18,978)→(577,406) ; pcrs5cm_917150_6460150.jpg px (276,690)→(980,0) ; pcrs5cm_917200_6460200.jpg px (0,1000)→(665,252)",
+    "mesure": "largeur à mi-hauteur 0,20-0,25 m ; contraste +40 à +43 niveaux de gris",
+    "usure": "1",
+    "confiance": "haute",
+    "cause_usure": "Âge et UV. Peu de roulage dessus : l'axe est au sommet du bombement et ne se franchit pas."
+   },
+   {
+    "id": "verdun_so-03",
+    "categorie": "marquage_longitudinal",
+    "description": "Ligne de séparation des 2 voies SO (vers Grenoble), discontinue à modulation T3. Elle s'arrête net à s=27,5 au bord de la réfection du quai : le dernier tiret est coupé à 1,7 m.",
+    "localisation": "t≈−4,75 (s<0) → −5,05 (s≈+25) ; s −138 → +27,5 ; L93 (917100, 6460104) → (917215, 6460223)",
+    "preuve": "pcrs5cm_917100_6460100.jpg px (5,909)→(800,110) ; pcrs5cm_917150_6460150.jpg px (234,650) ; pcrs5cm_917200_6460200.jpg px (304,543)",
+    "mesure": "tirets 3,05-3,20 m, intervalles 1,15-1,30 m (T3), largeur 0,15-0,25 m. Contraste +45 à +60 pour s<−60, +36 à +40 de s −60 à 0, +28 à +33 de s 0 à 27",
+    "usure": "1",
+    "confiance": "haute",
+    "cause_usure": "Usure 1 en section courante, qui monte à 2 entre s 0 et 27, juste en aval de l'arrêt bus SO. Là, les véhicules qui ont doublé le bus arrêté se rabattent en franchissant la ligne, et les bus redémarrent en accélérant. S'y ajoute l'âge."
+   },
+   {
+    "id": "verdun_so-04",
+    "categorie": "marquage_longitudinal",
+    "description": "Ligne fantôme parallèle à la ligne T3 SO, décalée de 0,5 m vers le SE. Ses tirets sont sombres, sans doute recouverts de peinture noire de masquage, avec du blanc qui réapparaît par endroits. Visible par intermittence de s −129 à 0. Vérifiée en profil perpendiculaire sur la tuile d'origine (pics à t −4,22 et −4,07) et sur l'ortho IGN 2018. C'est l'ancienne ligne de voie d'un marquage antérieur.",
+    "localisation": "t≈−4,2 ; s −129 → 0 ; ex. L93 (917164, 6460169)",
+    "preuve": "pcrs5cm_917100_6460100.jpg px (139,789) et (802-815, 97-111) ; pcrs5cm_917150_6460150.jpg px (284,615)",
+    "mesure": "tirets 3,1-3,3 m, intervalles ≈ 6,5-10 m (ancienne T1), largeur ≈ 0,15 m",
+    "usure": "F",
+    "confiance": "moyenne",
+    "cause_usure": "Effacement par masquage noir que le trafic use et qui laisse réapparaître l'ancien blanc."
+   },
+   {
+    "id": "verdun_so-05",
+    "categorie": "marquage_longitudinal",
+    "description": "Ligne de séparation des 2 voies NE (vers le carrefour), discontinue T3, visible de s −58 à +40. Pour s<−60 elle est sous l'ombre des arbres du côté SE : seuls des fragments se détectent, son état n'y est pas évaluable.",
+    "localisation": "t≈+1,0 → +0,75 ; L93 (917160, 6460158) → (917228, 6460228)",
+    "preuve": "pcrs5cm_917150_6460150.jpg px (205,845)→(1000,60) ; pcrs5cm_917200_6460200.jpg px (0,960)→(569,437)",
+    "mesure": "tirets 3,05-3,20 m, intervalles 1,15-1,25 m, largeur ≈ 0,25 m, contraste +40 à +43",
+    "usure": "1",
+    "confiance": "haute",
+    "cause_usure": "Âge, et changements de voie à l'approche du carrefour."
+   },
+   {
+    "id": "verdun_so-06",
+    "categorie": "marquage_longitudinal",
+    "description": "La ligne de voie NE devient continue à partir de s=40,8 jusqu'au carrefour, au-delà de la tuile. Elle sépare la voie gauche (TD+TAG) de la voie médiane (TD) et interdit de changer de voie sur les ~30 derniers mètres.",
+    "localisation": "t≈+0,7 → +0,6 ; s 40,8 → >70 ; L93 (917229, 6460229) → (917249, 6460250)",
+    "preuve": "pcrs5cm_917200_6460200.jpg px (579,425)→(986,6)",
+    "mesure": "largeur ≈ 0,15 m, contraste +47",
+    "usure": "1",
+    "confiance": "haute",
+    "cause_usure": "Usure faible : ligne récente ou peu franchie."
+   },
+   {
+    "id": "verdun_so-07",
+    "categorie": "marquage_longitudinal",
+    "description": "Anomalie : une ligne discontinue T1 est placée 1,2 m à droite de l'axe continu, dans la voie NE gauche. Elle découpe artificiellement cette voie en 1,2 m + 1,65 m. Les tirets sont étroits, nets et plus contrastés que les lignes actives, sans halo sombre mesurable : ce n'est pas un fantôme effacé. On la retrouve sur les orthos IGN 2015, 2018, 2021 et 2024 et sur la photo Panoramax 2024 (tiret court entre l'axe et la ligne de voie NE). Sa fonction est inexpliquée : vestige d'un ancien partage de chaussée ?",
+    "localisation": "t≈−0,65 (−0,25 vers s≈−12) ; s −85 → −11 ; ex. L93 (917161, 6460161) et (917192, 6460192)",
+    "preuve": "pcrs5cm_917150_6460150.jpg px (223,779) et (842,153) ; Panoramax 2024-08-24_ab5fa4d3 HD px ~(600-830, 1640-1690)",
+    "mesure": "tirets 3,05-4,05 m, intervalles 10,1-10,6 m (T1), largeur ≈ 0,10 m, contraste +56",
+    "usure": "1",
+    "confiance": "moyenne",
+    "cause_usure": "Peu usée : posée hors des traces de roues de la voie, entre la roue gauche et l'axe."
+   },
+   {
+    "id": "verdun_so-08",
+    "categorie": "marquage_longitudinal",
+    "description": "Ligne de rive NO discontinue T2, à 0,1-0,2 m de la bordure, à peine visible. Elle n'est lisible qu'entre s −24 et +16, ailleurs elle se confond avec la bordure et le caniveau en béton clair.",
+    "localisation": "t≈−7,7 ; s −24 → +16 ; L93 (917178, 6460188) → (917206, 6460217)",
+    "preuve": "pcrs5cm_917150_6460150.jpg px (555,236)→(764,21) ; pcrs5cm_917150_6460200.jpg px (918,864) ; pcrs5cm_917200_6460200.jpg px (113,663)",
+    "mesure": "tirets 3,1-3,2 m, intervalles 3,25-3,7 m (T2), largeur ≈ 0,10-0,15 m",
+    "usure": "3",
+    "confiance": "moyenne",
+    "cause_usure": "Âge sans remarquage, salissures et balayage du caniveau. Presque pas roulée."
+   },
+   {
+    "id": "verdun_so-09",
+    "categorie": "bordure_ilot_trottoir",
+    "description": "Rive SE sans ligne peinte : bordure béton haute, dont l'ombre forme un trait sombre. Derrière, un terre-plein enherbé (s −49 → −19) et deux îlots en galets sertis dans le béton, bordés de blanc, au nez des raccordements de la voie de desserte SE : îlot A de s −57,7 à −49,2 (nez arrondi), îlot B de s −19 à −3,25.",
+    "localisation": "t≈+4,0 à +6,0 ; îlot A L93 (917163, 6460155) → (917169, 6460161) ; îlot B L93 (917190, 6460183) → (917201, 6460194)",
+    "preuve": "pcrs5cm_917150_6460150.jpg px (266,896)-(385,775) et (806,342)-(1000,130) ; pcrs5cm_917200_6460150.jpg px (0-40, 90-180)",
+    "mesure": "terre-plein et îlots ≈ 2,0 m de large ; bordure SE à t +4,0",
+    "usure": "NA",
+    "confiance": "haute",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-10",
+    "categorie": "fleche_symbole",
+    "description": "Flèches de présélection des 2 voies NE à s≈12. Voie gauche : flèche « tout droit + branche oblique à droite » (forme TD+TAD), nette. Voie droite : même forme, très pâle. Lecture contrôlée par un rendu orienté dans le sens de marche et sur la photo Panoramax 2024, où la branche est bien côté SE. Incohérence : cette voie gauche devient TD+TAG en aval (s≈43).",
+    "localisation": "s≈10-15 ; voie gauche t≈−0,5, L93 (917208, 6460209) ; voie droite t≈+2,4, L93 (917210, 6460207)",
+    "preuve": "pcrs5cm_917200_6460200.jpg px (140-240, 780-880) ; Panoramax 2024-08-24_6a93db6e HD px (2200-2600, 1540-1640)",
+    "mesure": "longueur ≈ 4,0-5,0 m ; contraste +53 (voie gauche), +39 (voie droite)",
+    "usure": "2",
+    "confiance": "moyenne",
+    "cause_usure": "Voie gauche usure 1. Voie droite usure 2 : plus de poids lourds et de bus, et la roue droite passe sur la flèche."
+   },
+   {
+    "id": "verdun_so-11",
+    "categorie": "fleche_symbole",
+    "description": "Flèches de présélection à s≈43 : voie gauche « tout droit + tourne-à-gauche », voie médiane « tout droit », voie de tourne-à-droite (TAD) vers l'avenue du Vercors avec une flèche courbe à droite. La flèche TD+TAG apparaît aussi dans l'intensité LiDAR 2021.",
+    "localisation": "s 40-46 ; TD+TAG L93 (917230, 6460231) ; TD (917232, 6460229) ; TAD (917235, 6460227)",
+    "preuve": "pcrs5cm_917200_6460200.jpg px (560-720, 340-500)",
+    "mesure": "flèches ≈ 4,5-5 m ; contraste +43 (TD+TAG), +32 (TD), +41 (TAD)",
+    "usure": "1",
+    "confiance": "haute",
+    "cause_usure": "Flèche TD usure 2 : ralentissement et freinage dans la file d'attente avant les feux, et passage des roues."
+   },
+   {
+    "id": "verdun_so-12",
+    "categorie": "marquage_transversal",
+    "description": "Îlot peint en biseau (musoir) entre la voie TD et la voie TAD. Il prend naissance à s≈38,5, s'élargit jusqu'à s≈51,5 et s'arrête contre un nez d'îlot maçonné en demi-cercle qui porte un poteau. Il apparaît comme une bande blanche pâle uniforme striée dans le sens de la route : les hachures ne se distinguent plus.",
+    "localisation": "t +3,5 → +5,0 ; L93 (917230, 6460225) → (917239, 6460234)",
+    "preuve": "pcrs5cm_917200_6460200.jpg px (595,504)→(785,326)",
+    "mesure": "largeur 0 → ≈ 1,5 m sur 13 m ; contraste +20",
+    "usure": "2",
+    "confiance": "moyenne",
+    "cause_usure": "Empiètement des véhicules qui coupent pour rejoindre la voie TAD, et des bus vers l'arrêt NE. Stries longitudinales dues aux pneus."
+   },
+   {
+    "id": "verdun_so-13",
+    "categorie": "geometrie_voies",
+    "description": "Élargissement côté SE pour créer la voie TAD vers l'avenue du Vercors (voie supprimée par les travaux de 2025). La bordure SE passe de t +4,4 à s≈20 à t +8,4 à s≈40. L'axe se déplace de 0,5 m vers le NO. Au-delà du nez (s 51,5), un séparateur étroit surélevé longe la voie TAD : son ombre est continue à t +3,55 jusqu'à s≈100.",
+    "localisation": "s 20 → 52 ; L93 (917217, 6460211) → (917234, 6460223)",
+    "preuve": "pcrs5cm_917200_6460200.jpg px (344,776)→(677,543) et (785,326)→(1000,180)",
+    "mesure": "à s≈47-55 : TD+TAG 3,0-3,05 m, TD 2,8-3,1 m, musoir ou séparateur 1,5 m, TAD 3,2-3,4 m ; biseau ≈ 4 m sur 18-20 m",
+    "usure": "NA",
+    "confiance": "haute",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-14",
+    "categorie": "autre",
+    "description": "Damier n°1 : damier blanc de carrés de 0,5 m qui occupe toute la largeur de la voie NE droite. Il fait face à l'entrée de la voie de desserte SE (sens unique d'après OSM 2026, entrée à s≈−62). Il est presque entièrement sous l'ombre des arbres ; seule la partie à s −62 → −58,6 est éclairée. Il apparaît déjà sur l'ortho IGN 2018.",
+    "localisation": "s −83,5 → −58,5 ; t +1,25 → +3,9 ; L93 (917144, 6460138) → (917161, 6460156)",
+    "preuve": "pcrs5cm_917100_6460100.jpg px (850-1000, 0-260) ; pcrs5cm_917150_6460150.jpg px (0-240, 860-1000)",
+    "mesure": "≈ 25 m × 2,65 m ; carrés de 0,5 m ; contraste +61 sur la partie éclairée",
+    "usure": "1",
+    "confiance": "moyenne",
+    "cause_usure": "Peu d'usure visible là où il est éclairé. Dans l'ombre, l'état n'est pas évaluable."
+   },
+   {
+    "id": "verdun_so-15",
+    "categorie": "autre",
+    "description": "Damier n°2 : même motif dans la voie NE droite, face à la sortie de la voie de desserte SE vers l'avenue (OSM : sortie à s≈+3..+7). Le marquage paraît local, hors catalogue IISR à ma connaissance ; il signale probablement la zone d'échange.",
+    "localisation": "s −3 → +10 ; t +1,25 → +3,9 ; L93 (917200, 6460196) → (917209, 6460205)",
+    "preuve": "pcrs5cm_917150_6460150.jpg px (940-1000, 0-130) ; pcrs5cm_917200_6460200.jpg px (30-190, 870-1000) ; pcrs5cm_917200_6460150.jpg px (0-100, 0-100)",
+    "mesure": "13 m × 2,65 m ; période mesurée 1,0 m (carrés de 0,5 m) ; contraste +34. Niveau des carrés blancs (centile 90) : 171 dans la trace de roue droite (t≈+3,15) contre 183-194 ailleurs",
+    "usure": "2",
+    "confiance": "haute",
+    "cause_usure": "Usure dans les traces de roues, surtout la droite, et freinage avant les feux."
+   },
+   {
+    "id": "verdun_so-16",
+    "categorie": "marquage_transversal",
+    "description": "Ligne blanche continue large posée le long de la rive SE, qui ferme le débouché de la voie de desserte entre l'îlot B et le nez de l'îlot enherbé. Un poteau de panneau est planté sur ce nez. C'est probablement la ligne d'effet du STOP pour les véhicules qui sortent de la desserte. Le levé GAM post-travaux la porte toujours : deux traits à t 4,1 et 4,6 sur s −3,2 → 10,2.",
+    "localisation": "t≈+4,0 → +4,5 ; s −3,25 → +10,0 ; L93 (917201, 6460195) → (917210, 6460204)",
+    "preuve": "pcrs5cm_917200_6460150.jpg px (16,106) ; pcrs5cm_917200_6460200.jpg px (100-200, 900-1000)",
+    "mesure": "largeur 0,50 m (largeur à mi-hauteur) ; longueur 13,25 m ; luminosité ≈ 222 contre 169 pour l'enrobé",
+    "usure": "0",
+    "confiance": "moyenne",
+    "cause_usure": "Très peu roulée."
+   },
+   {
+    "id": "verdun_so-17",
+    "categorie": "geometrie_voies",
+    "description": "Voie de desserte SE : une boucle à sens unique, parallèle à l'avenue, qui dessert le centre des finances publiques, le centre médical des Mitaillères et le SNMSF. Entrée depuis la voie NE droite à s≈−62, sortie à s≈+3..+7. Elle porte un tireté court le long de son bord SE et une rangée de blocs rocheux anti-stationnement espacés de ~2,5-3 m dans l'herbe. Son revêtement est plus ancien, lustré dans les traces de roues.",
+    "localisation": "t≈+6 → +9,5 ; s −62 → +7 ; ex. L93 (917178, 6460166)",
+    "preuve": "pcrs5cm_917150_6460150.jpg px (500-1000, 450-950) (quadrant SE) ; OSM way/330540354",
+    "mesure": "largeur ≈ 3,5-4 m ; blocs rocheux de ≈ 0,6-0,8 m",
+    "usure": "1",
+    "confiance": "haute",
+    "cause_usure": "Tireté légèrement usé (âge)."
+   },
+   {
+    "id": "verdun_so-18",
+    "categorie": "arret_bus",
+    "description": "Arrêt « La Revirée » sens SO (vers Grenoble), bus arrêté sur la voie de droite, sans encoche. Il comprend un quai haut avec bordure de quai claire, un abri, une poubelle, des rectangles clairs en bord de quai (repères d'arrêt ou podotactiles, non confirmés) et un zigzag jaune pâle. D'après le LiDAR 2021, le quai est environ 0,16 m plus haut que le centre de la voie à s≈45. Le zigzag existe déjà sur les orthos IGN 2015, 2018 et 2021.",
+    "localisation": "zigzag s 30,9 → 65,9 ; t −7,77 → −5,3 ; abri s 33,3-38,9 ; L93 (917217, 6460227) → (917241, 6460252) ; abri ≈ (917216, 6460234)",
+    "preuve": "pcrs5cm_917200_6460200.jpg px (320-780, 0-480), abri px (290-400, 255-395) ; pcrs5cm_917200_6460250.jpg px (770-840, 940-1000)",
+    "mesure": "zigzag de 35 m : 7 périodes de 5,0 m, amplitude 2,45 m, trait ≈ 0,10-0,12 m, fermé par un trait perpendiculaire à chaque bout ; RGB du trait ≈ (171,172,156) contre (145,146,141) pour l'enrobé ; abri ≈ 5,6 m",
+    "usure": "1",
+    "confiance": "haute",
+    "cause_usure": "Jaune pâli par les UV ; les roues des bus passent sur les sommets du zigzag. Les traits restent continus."
+   },
+   {
+    "id": "verdun_so-19",
+    "categorie": "revetement_texture",
+    "description": "Réfection en pleine voie sous l'arrêt SO : bande d'enrobé plus sombre et plus lisse, aux bords nets, avec un joint longitudinal à t≈−4,0/−4,2 et un joint transversal à s 27,4. Absente de l'ortho IGN 2018, présente sur l'ortho IGN 2021 et plus sombre sur l'intensité LiDAR 2021 : faite entre 2018 et août-septembre 2021.",
+    "localisation": "s 27,4 → 71,6 ; t −7,85 → −4,0 ; L93 (917215, 6460224) → (917246, 6460256)",
+    "preuve": "pcrs5cm_917200_6460200.jpg px (296,524)→(1000,~20) ; pcrs5cm_917200_6460250.jpg px (913,891)",
+    "mesure": "≈ 44 m × 3,85 m ≈ 170 m²",
+    "usure": "NA",
+    "confiance": "haute",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-20",
+    "categorie": "marquage_longitudinal",
+    "description": "La ligne de voie SO n'a pas été retracée sur la réfection : de s 27,5 à au moins 71,6, les 2 voies SO forment une chaussée de 5,7 m sans séparation. Le seul trait longitudinal visible est le joint sombre de la réfection, 0,75 m à gauche de l'ancienne position de la ligne. Vérifié sur la tuile d'origine par profils perpendiculaires à s=36, 47 et 55 : aucun pic blanc vers t −4,8 à −5,0, un trait sombre à −4,0/−4,1.",
+    "localisation": "t≈−4,8 attendu ; L93 (917215, 6460223) → (917246, 6460255)",
+    "preuve": "pcrs5cm_917200_6460200.jpg px (296,524)→(1000,~30)",
+    "mesure": "absence de ligne sur ≈ 44 m ; chaussée SO de 5,7 m entre la bordure de quai (t −8,0) et l'axe (t −2,3)",
+    "usure": "NA",
+    "confiance": "haute",
+    "cause_usure": "Ligne non reconstituée après réfection : c'est un défaut d'entretien, pas une usure."
+   },
+   {
+    "id": "verdun_so-21",
+    "categorie": "marquage_longitudinal",
+    "description": "Zigzag fantôme sombre dans la voie SO droite, environ 20 m en amont de l'arrêt actuel. Ses traits sont gris foncé (masquage ou grenaillage) et sa période (≈4,6 m) diffère de celle du zigzag actuel (5,0 m). Il s'agit sans doute de l'ancien marquage d'un arrêt provisoire ou antérieur. Un tampon carré se trouve dans son emprise.",
+    "localisation": "s 2 → 13,5 ; t −7,5 → −5,1 ; L93 (917197, 6460206) → (917205, 6460214)",
+    "preuve": "pcrs5cm_917150_6460200.jpg px (900-1000, 850-1000) ; pcrs5cm_917200_6460200.jpg px (0-110, 700-800)",
+    "mesure": "demi-période ≈ 2,3 m, amplitude 2,4 m, trait ≈ 0,12-0,15 m, plus sombre que l'enrobé",
+    "usure": "F",
+    "confiance": "haute",
+    "cause_usure": "Marquage effacé : masquage noir ou grenaillage."
+   },
+   {
+    "id": "verdun_so-22",
+    "categorie": "passage_pieton",
+    "description": "Passage piéton oblique sur la rampe SO du plateau de l'arrêt de bus, au bout de la contre-allée NO. Il est précédé de 4 dents de requin, base côté SO et pointe vers le NE, c'est-à-dire vers le haut de la rampe. Les bandes du passage apparaissent dans l'intensité LiDAR 2021. Pas de podotactile visible.",
+    "localisation": "bandes s 17-21, t −17,5 → −11,5 ; dents s 14,8-17,3, t −13,8 → −11,2 ; L93 ≈ (917203, 6460223)",
+    "preuve": "pcrs5cm_917200_6460200.jpg px (45-130, 480-560) pour les bandes et (10-70, 565-620) pour les dents",
+    "mesure": "6 bandes (4 entières de ≈ 2,5-3,0 × 0,5 m et 2 partielles) ; dents de ≈ 0,65 m de base et 1,7-1,9 m de long",
+    "usure": "1",
+    "confiance": "haute",
+    "cause_usure": "Trafic faible sur la contre-allée : marquage récent ou peu sollicité."
+   },
+   {
+    "id": "verdun_so-23",
+    "categorie": "passage_pieton",
+    "description": "Passage piéton sur la rampe NE du même plateau, avec 4 dents de requin pointées vers le SO, donc elles aussi vers le haut de la rampe. Un mât d'éclairage et son ombre traversent le motif. Les bandes apparaissent dans l'intensité LiDAR 2021.",
+    "localisation": "s 44,5-51 ; t −18 → −12 ; L93 ≈ (917223, 6460245)",
+    "preuve": "pcrs5cm_917200_6460200.jpg px (410-500, 45-165) pour les bandes et (490-540, 50-110) pour les dents",
+    "mesure": "5 bandes (4 entières de ≈ 2,3-3,0 × 0,5 m et 1 courte)",
+    "usure": "1",
+    "confiance": "haute",
+    "cause_usure": "Usure faible."
+   },
+   {
+    "id": "verdun_so-24",
+    "categorie": "bordure_ilot_trottoir",
+    "description": "Plateau surélevé de l'arrêt SO, enrobé gris clair : il réunit le quai, l'abri et le passage de la contre-allée entre la piste cyclable et l'abri. On y voit de légers contours de bordures arasées et une marque blanche en T à s≈34,2, t −14,7. Mesures LiDAR 2021 à t −13/−11 : la cote monte de 215,64 m (s 12,5) à 216,09 m (s 45,5) puis redescend à 215,93 m (s 54,5). Les rampes à s 14-19 et 48-53 font chacune ≈ ±0,14 m.",
+    "localisation": "s ≈ 15 → 52 ; t −18,5 → −8,4 ; L93 (917203, 6460222) → (917230, 6460247)",
+    "preuve": "pcrs5cm_917200_6460200.jpg px (0-500, 0-500) (quadrant NO) ; profil LiDAR COPC LHD_FXX_0917_6461",
+    "mesure": "plateau ≈ +0,45 m au-dessus de la contre-allée à s −8 ; quai ≈ +0,16 m au-dessus de la voie SO à s 45",
+    "usure": "NA",
+    "confiance": "moyenne",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-25",
+    "categorie": "amenagement_cyclable",
+    "description": "Piste cyclable bidirectionnelle côté NO, probablement de type Chronovélo (identité jaune). Enrobé sombre plus récent, RGB ≈ (131,138,134). Lignes de rive jaunes des deux côtés (indice de jaune +17 à +25). Axe en tirets clairs courts d'environ 1 m, alternés de points jaunes. Pictogrammes vélo blancs, par exemple à s −114 et s −62,6. Son bord SE est souvent masqué par l'ombre ou le débord de la haie.",
+    "localisation": "t −21,4 → −18,6 ; s −140 → +70 ; vélos L93 (917107, 6460131) et (917142, 6460169)",
+    "preuve": "pcrs5cm_917200_6460200.jpg px (0-350, 0-390) ; pcrs5cm_917100_6460100.jpg px (143,374) ; pcrs5cm_917100_6460150.jpg px (838,616)",
+    "mesure": "largeur ≈ 2,8-3,0 m entre lignes jaunes (OSM : 3 m)",
+    "usure": "1",
+    "confiance": "moyenne",
+    "cause_usure": "Tirets d'axe petits et peu contrastés (usure 1-2), bien que l'enrobé soit récent."
+   },
+   {
+    "id": "verdun_so-26",
+    "categorie": "revetement_texture",
+    "description": "Piste cyclable : un joint transversal net à s≈17,4. Une pièce d'enrobé plus sombre à s≈52,5-59 porte 3 courtes barres jaunes transversales, peut-être une bande d'alerte ou un marquage provisoire, non identifié.",
+    "localisation": "joint L93 (917198, 6460226) ; pièce L93 ≈ (917223, 6460253)",
+    "preuve": "pcrs5cm_917150_6460200.jpg px (962,477) ; pcrs5cm_917200_6460250.jpg px (430-520, 900-980)",
+    "mesure": "pièce ≈ 6,4 × 3 m",
+    "usure": "1",
+    "confiance": "faible",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-27",
+    "categorie": "mobilier_vegetation",
+    "description": "Sur le plateau NE : 5 arceaux vélo et une aire de stationnement de vélos ou trottinettes en libre-service délimitée en jaune, avec un pictogramme vélo et des engins garés. Une flèche blanche à deux pointes est peinte sur l'enrobé à s≈58, t −13,3.",
+    "localisation": "s ≈ 55-61 ; t −15 → −12,5 ; L93 ≈ (917231, 6460253)",
+    "preuve": "pcrs5cm_917200_6460250.jpg px (600-720, 800-910) et (540-600, 900-960)",
+    "mesure": "aire ≈ 5 × 2,6 m",
+    "usure": "1",
+    "confiance": "moyenne",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-28",
+    "categorie": "marquage_transversal",
+    "description": "Contre-allée NO à sens unique (d'après OSM 2026 : vers le SO depuis le plateau) avec stationnement longitudinal. Les places sont délimitées par des marques en T blanches, dont le côté change le long de la rue : côté NO pour s<−97 et s>−26, côté SE de s −87 à −35. Des triangles hachurés marquent chaque changement de côté et créent une chicane : à s −97/−91 (NO), −93/−87,5 (SE), −35,4/−30,3 (SE) et −32/−26 (NO). On voit quelques marques fantômes de places, par exemple vers s −115. Avaloirs à s −110 et −73. La contre-allée se termine à s≈10-16 par un îlot planté.",
+    "localisation": "t −16,5 → −10,4 ; s −140 → +16 ; ex. L93 (917106, 6460124), (917150, 6460165), (917199, 6460219)",
+    "preuve": "pcrs5cm_917100_6460100.jpg px (100-620, 100-560) ; pcrs5cm_917150_6460150.jpg px (0-450, 0-720) ; pcrs5cm_917150_6460200.jpg px (780-1000, 600-820)",
+    "mesure": "largeur ≈ 6 m (places 2,0 m + voie ≈ 3-4 m) ; pas des T ≈ 5,3 m ; branche du T 2,0 m, barre 1 m",
+    "usure": "1",
+    "confiance": "haute",
+    "cause_usure": "Marques en T peu usées. Hachures en usure 1-2 dans les biseaux, parce que les véhicules y coupent la trajectoire."
+   },
+   {
+    "id": "verdun_so-29",
+    "categorie": "assainissement_reseaux",
+    "description": "Boucles de détection électromagnétiques : saignées dans l'enrobé remplies de produit noir, formant des groupes de 2 ou 3 rectangles sombres. Trois sites : voie SO droite à s −121,5, voie SO droite à s −23,4, voie NE droite à s −21,5. Ce sont soit des postes de comptage, soit des détecteurs de régulation des feux, implantés de part et d'autre de la chaussée. La voie NE à s≈−121 est sous l'ombre et n'est pas vérifiable.",
+    "localisation": "L93 (917111, 6460117), (917179, 6460187), (917187, 6460183)",
+    "preuve": "pcrs5cm_917100_6460100.jpg px (190-235, 625-670) ; pcrs5cm_917150_6460150.jpg px (570-610, 235-275) et (715-760, 320-365)",
+    "mesure": "≈ 1,8-2,0 m le long de la voie × 1,8 m en travers (2-3 saignées)",
+    "usure": "NA",
+    "confiance": "haute",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-30",
+    "categorie": "assainissement_reseaux",
+    "description": "Deux regards à cadre carré et tampon rond au bord NO de la voie SO droite (s −28,3 et +11,9), en plein dans la trace de roue droite. Un avaloir à grille au pied de la bordure SE, à s −19,9, contre le nez de l'îlot B. Avaloirs dans la contre-allée.",
+    "localisation": "L93 (917175, 6460185), (917203, 6460214), (917189, 6460183)",
+    "preuve": "pcrs5cm_917150_6460150.jpg px (490-515, 290-320) et (775-795, 335-355) ; pcrs5cm_917200_6460200.jpg px (47-77, 715-745)",
+    "mesure": "cadres ≈ 1,0-1,2 m, tampons ≈ 0,6 m ; t −7,7 → −6,6",
+    "usure": "NA",
+    "confiance": "haute",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-31",
+    "categorie": "degradation",
+    "description": "Probable tranchée transversale oblique refermée sur les 2 voies SO : deux joints sombres d'environ 2,3 m d'écart, avec une tache de réparation au pied de la bordure NO. Le contraste est faible ; la suite de la tranchée côté NE est sous l'ombre.",
+    "localisation": "s −84,7 → −80,2 ; t −7,4 → −2,1 ; L93 ≈ (917137-917140, 6460141-6460148)",
+    "preuve": "pcrs5cm_917100_6460100.jpg px (740-810, 40-190)",
+    "mesure": "bande ≈ 2,3 m de large, oblique",
+    "usure": "NA",
+    "confiance": "faible",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-32",
+    "categorie": "revetement_texture",
+    "description": "Chaussée principale en enrobé bitumineux dense (type BBSG ou BBM), gris moyen à clair (≈155-165/255), texture fine homogène, sans granulat lisible à 5 cm. On voit des bandes longitudinales lustrées dans les traces de roues. Aucun nid-de-poule ni faïençage visible. Le LiDAR 2021 donne un profil en toit avec le sommet à t −2,1/−2,4 (sous l'axe), un dévers de 2,2-2,5 % côté NO et de 2,2-2,7 % côté SE, une pente en long de 0,1-0,35 % qui monte vers le NE, et pas d'orniérage détectable (résidus ±5-8 mm, bruit ≈25 mm par point).",
+    "localisation": "s −140 → +70 ; t −7,6 → +4,0",
+    "preuve": "strip redressé (scratchpad wf_ortho/vso/strip.png) ; pcrs5cm_917150_6460150.jpg (toute la chaussée) ; COPC LHD_FXX_0917_6461",
+    "mesure": "dévers 2,2-2,7 % ; ornière < ~8 mm",
+    "usure": "NA",
+    "confiance": "haute",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-33",
+    "categorie": "degradation",
+    "description": "Fissuration : elle n'est pas détectable à 5 cm en mai 2022 (pas de réseau visible, même en contraste égalisé). Pourtant les photos Panoramax du 18/03/2023 montrent des fissures pontées le long de la rive SO, et celles du 24/08/2024 un réseau très dense de pontages noirs en mailles sur les deux sens. Les fissures existaient donc sans doute déjà en 2022 mais étaient trop fines pour l'ortho. Le pontage a été fait après mai 2022.",
+    "localisation": "voies NE et SO, s≈−40 → +20 (zone vue par Panoramax)",
+    "preuve": "Panoramax 2024-08-24_ab5fa4d3 HD px (1500-2700, 1450-1950) ; 2023-03-18_03e30668 tuile r01_c02 ; recadrage égalisé du strip à s −36 → −21",
+    "mesure": "pontages ≈ 3-5 cm de large, mailles ≈ 0,5-2 m (photo 2024)",
+    "usure": "NA",
+    "confiance": "moyenne",
+    "cause_usure": "Fatigue et vieillissement thermique de l'enrobé."
+   },
+   {
+    "id": "verdun_so-34",
+    "categorie": "mobilier_vegetation",
+    "description": "Mâts d'éclairage à crosse plantés dans la haie séparative environ tous les 29 m, à s −97,3, −67,9, −38,6, −10,2 et +19,4. La lanterne surplombe la voie SO droite à t≈−6,4 ; à cause du déport des objets hauts sur l'ortho, elle apparaît comme un ovale blanc posé sur la chaussée. Une seconde crosse surplombe la contre-allée (t≈−11,2). OSM étiquette ces mâts « catenary_mast » (anciens mâts de ligne aérienne ?). Leurs ombres forment de longues barres sombres en travers de la contre-allée, de la piste et du plateau. L'analyse automatique (Hough) n'a trouvé aucune ombre de câble aérien de plus de 8-10 m en travers de la chaussée principale.",
+    "localisation": "lanternes L93 (917128, 6460135), (917148, 6460156), (917169, 6460177), (917188, 6460197), (917209, 6460218)",
+    "preuve": "pcrs5cm_917100_6460100.jpg px (550,305) ; pcrs5cm_917100_6460150.jpg px (961,883) ; pcrs5cm_917150_6460150.jpg px (370,464) et (766,57) ; pcrs5cm_917200_6460200.jpg px (178,631) et (60-200, 790-1000) pour l'ombre",
+    "mesure": "espacement ≈ 29 m",
+    "usure": "NA",
+    "confiance": "haute",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-35",
+    "categorie": "mobilier_vegetation",
+    "description": "Ombres des arbres plantés côté SE (vol vers 10-11 h solaire, soleil au SE) projetées sur les voies NE. Part de la surface des voies NE à l'ombre : 65-99 % de s −140 à −60, 39-52 % à s 60-70, et 18-78 % de la voie SO gauche par endroits. Les lignes et le damier n°1 y sont quasi invisibles sur l'ortho.",
+    "localisation": "s −140 → −60 et s 60 → 70 ; t −4,7 → +4,0",
+    "preuve": "pcrs5cm_917100_6460100.jpg (moitié droite) ; pcrs5cm_917150_6460150.jpg px (0-300, 700-1000) ; pcrs5cm_917200_6460200.jpg px (450-900, 300-650)",
+    "mesure": "pourcentage de pixels de gris <95 par tranche de 10 m et par voie",
+    "usure": "NA",
+    "confiance": "haute",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-36",
+    "categorie": "bordure_ilot_trottoir",
+    "description": "Haies séparatives continues : une de ≈ 2,5 m entre la chaussée et la contre-allée (t −10,5 → −8), une autre entre la contre-allée et la piste (t −18 → −16,5). Aucune ouverture dans la zone, donc aucun tourne-à-gauche ni aucun accès riverain direct sur l'avenue. Les bordures sont en béton clair.",
+    "localisation": "s −140 → +16",
+    "preuve": "pcrs5cm_917100_6460100.jpg ; pcrs5cm_917150_6460150.jpg (diagonales NO) ; pcrs5cm_917150_6460200.jpg px (700-1000, 700-1000)",
+    "mesure": "",
+    "usure": "NA",
+    "confiance": "haute",
+    "cause_usure": ""
+   },
+   {
+    "id": "verdun_so-37",
+    "categorie": "arret_bus",
+    "description": "Hors tuiles assignées, mais l'objet déborde : l'arrêt sens NE semble double. Un zigzag jaune est peint dans la voie TAD (s≈67 → 87) avec un abri sur le trottoir SE (s≈82-86). Un second zigzag est peint dans la voie TD (s≈81 → 96), le long du séparateur central équipé de barrières (s≈82-95). Le second suggère un quai central pour les lignes qui continuent tout droit.",
+    "localisation": "L93 ≈ (917252, 6460243) → (917270, 6460264)",
+    "preuve": "pcrs5cm_917250_6460200.jpg px (0-200, 0-150) ; pcrs5cm_917250_6460250.jpg px (270-410, 700-870)",
+    "mesure": "zigzag TAD ≈ 20 m",
+    "usure": "1",
+    "confiance": "faible",
+    "cause_usure": "Jaune pâli."
+   },
+   {
+    "id": "verdun_so-38",
+    "categorie": "autre",
+    "description": "Comparaison avec le levé GAM, qui correspond à l'état APRÈS les travaux. Le zigzag NO y couvre s 16,7 → 89 et un zigzag SE s 13 → 48 ; une zone hachurée centrale occupe s 27 → 50 (t −4,4/−2,1) ; on y compte 6 symboles PMR sur le plateau. Deux éléments sont inchangés depuis 2022 : l'axe à t −1,9 pour s<22 et la ligne de 0,5 m à s −3,2 → 10,2. La géométrie de 2022 (voie TAD, arrêts, flèches) est donc obsolète. OSM 2026 confirme : arrêt NE à s≈36 côté SE, entrée de la contre-allée depuis l'avenue à s≈37.",
+    "localisation": "zone entière",
+    "preuve": "data/vector/gam/topo_sol_signalisation_horizontale_lin.geojson et _pct.geojson ; data/sites/paquet_jardin/vector/osm_roads.geojson, osm_public_transport.geojson",
+    "mesure": "",
+    "usure": "NA",
+    "confiance": "haute",
+    "cause_usure": ""
+   }
+  ],
+  "configuration_voies": "Le repère s/t est défini dans le champ « zone ».\n\nChaussée principale, s −140 → +20 :\n- Avenue de Verdun en chaussée unique bidirectionnelle 2+2, sans terre-plein ; les deux sens ne sont séparés que par l'axe continu (t −1,85).\n- Largeur de bordure à bordure : 11,5 m.\n- Sens SO (vers Grenoble), 2 voies : la droite fait 2,75-2,80 m caniveau compris, la gauche 2,93 m. Ligne de voie T3 (3,1 m / 1,2 m) à t −4,75. Rive NO en T2, quasi effacée.\n- Sens NE (vers le carrefour), 2 voies : la gauche fait 2,83 m, la droite 2,97 m. Ligne de voie T3 à t +1,0. Rive SE sans peinture.\n- Une ligne T1 parasite court à t −0,65 dans la voie NE gauche.\n\nAffectation des voies NE :\n- s≈12 : flèches « tout droit + droite » dans les 2 voies.\n- s 20 → 40 : élargissement à droite ; la bordure SE passe de t +4,4 à t +8,4 et l'axe recule à t −2,35.\n- s ≥ 40 : 3 voies. Voie gauche TD+TAG (3,0-3,05 m), voie médiane TD (2,8-3,1 m), musoir peint de 0 à 1,5 m (s 38,5 → 51,5) puis séparateur étroit, et voie TAD de 3,2-3,4 m vers l'avenue du Vercors.\n- La ligne entre TD+TAG et TD devient continue à partir de s 40,8.\n\nSens SO au droit de l'arrêt (s 27,4 → 71,6) :\n- La chaussée SO fait 5,7 m sans ligne de voie.\n- Le bus s'arrête sur la voie de droite (zigzag jaune de 35 m), contre un quai haut.\n\nÉchanges avec la voie de desserte SE (sens unique) :\n- Entrée à s≈−62, au droit du damier n°1.\n- Sortie à s≈+3..+7, au droit du damier n°2 et de la ligne continue de 0,5 m (probable STOP).\n\nAménagements latéraux, côté NO (de la chaussée vers l'extérieur) :\n- haie de ≈ 2,5 m ;\n- contre-allée à sens unique d'≈ 6 m avec stationnement longitudinal dont le côté alterne ;\n- haie ;\n- piste cyclable bidirectionnelle de 2,8-3,0 m à rives jaunes ;\n- trottoir.\nDe s≈15 à 52, un plateau surélevé (quai, abri, passages piétons sur les rampes) prolonge la contre-allée.\n\nAménagements latéraux, côté SE :\n- terre-plein enherbé et îlots en galets ;\n- voie de desserte d'≈ 3,5-4 m avec blocs rocheux ;\n- parkings des Mitaillères.",
+  "revetement_synthese": "Chaussée principale :\n- Enrobé bitumineux dense gris moyen à clair (≈155-165/255), à texture fine et homogène.\n- Bandes lustrées dans les traces de roues.\n- Profil en toit : sommet sous l'axe, dévers de 2,2-2,7 % de chaque côté, pente en long de 0,1-0,35 % qui monte vers le NE (LiDAR 2021).\n- Pas d'orniérage mesurable (moins d'environ 8 mm), aucun nid-de-poule ni faïençage visible à 5 cm en 2022.\n\nFissuration : les photos Panoramax 2023-2024 montrent un réseau dense de fissures pontées en mailles, posé après mai 2022. La fissuration fine existait probablement déjà en 2022 mais reste invisible sur l'ortho.\n\nRéparations et réseaux :\n- Grande réfection d'≈170 m² sous l'arrêt SO (s 27,4 → 71,6, t −7,85 → −4,0), en enrobé plus sombre et plus lisse, avec joints nets. Elle date de 2018-2021.\n- Probable tranchée transversale oblique refermée vers s −84/−80 dans le sens SO.\n- Taches de réparation au pied de la bordure NO.\n- Trois postes de boucles de détection (saignées noires).\n- Deux regards carrés à tampon rond dans la trace de roue droite de la voie SO, un avaloir côté SE, des avaloirs dans la contre-allée.\n\nAutres revêtements :\n- Piste cyclable : enrobé plus récent et plus sombre (RGB ≈131/138/134), joint transversal à s 17,4, pièce plus sombre à s 52-59.\n- Contre-allée et voie de desserte SE : enrobés plus anciens, lustrés.\n- Plateau de l'arrêt : enrobé gris clair de trottoir, avec des contours de bordures arasées.\n- Hors chaussée : l'ancien parking de la tuile 917100_6460150 (quart NO) est très fissuré en blocs et végétalisé.\n\nBordures : béton clair, sans peinture côté SE, et bordure de quai haute (≈ +0,16 m) le long de l'arrêt SO.",
+  "usure_synthese": "Bon état d'ensemble :\n- L'axe continu, la ligne T3 NE, la ligne continue NE, les passages piétons et dents de requin du plateau, les T de la contre-allée et la ligne de 0,5 m sont en usure 0-1. Sur la contre-allée et le plateau, c'est un effet du faible trafic.\n\nUsure marquée (2) :\n- Ligne T3 SO entre s 0 et 27, juste en aval de l'arrêt : son contraste tombe de +50 à +30. Cause : rabattements après dépassement du bus arrêté et redémarrages des bus.\n- Damier n°2 dans la trace de roue droite. Cause : passage des roues et freinage avant les feux.\n- Flèches de la voie NE droite (s≈12) et de la voie TD (s≈43). Cause : file d'attente et freinage avant les feux, poids lourds.\n- Musoir peint (s 38-51), devenu une bande pâle striée. Cause : véhicules qui coupent vers la voie TAD.\n\nTrès effacé (3) : la rive NO T2. Cause : âge, salissures et balayage du caniveau.\n\nFantômes (F) :\n- Ancienne ligne de voie SO à t −4,2, masquée en noir et qui réapparaît sur s −129 → 0.\n- Ancien zigzag d'arrêt de bus à s 2-13,5.\n\nNon évaluable : le secteur sous les ombres d'arbres des voies NE (s −140 → −60), dont le damier n°1 et les lignes.\n\nLe zigzag jaune actuel (usure 1) a pâli aux UV et sous les roues des bus, mais ses traits restent continus.",
+  "points_adas": "Pièges pour une caméra ou un LiDAR, par ordre de gravité :\n\n1. Ligne de voie absente sur 44 m au droit de l'arrêt SO. La chaussée SO fait alors 5,7 m sans séparation. Le seul repère longitudinal est le joint sombre de la réfection, à t −4,0, soit 0,75 m à côté de l'ancienne ligne. S'y ajoutent des bords d'enrobé très contrastés : clair/sombre en long, et un bord transversal net à s 27,4.\n\n2. Doubles lignes et fantômes :\n- Ancienne ligne masquée 0,5 m à côté de la ligne T3 SO : ambiguïté de 0,5 m sur la limite de voie.\n- Ligne T1 nette à 1,2 m de l'axe, dans la voie NE gauche : un détecteur peut y voir une voie de 1,65 m ou décaler le centre de la voie.\n- Zigzag fantôme sombre à s 2-13,5.\n\n3. Damiers à motif très régulier dans la voie NE droite : risque de fausse détection de passage piéton ou de ligne d'arrêt. Ils sont en plus usés dans la trace de roue.\n\n4. Ligne continue de 0,5 m parallèle à la voie (s −3 → 10) : elle peut être lue comme une rive continue, ou comme une ligne d'arrêt si l'orientation n'est pas contrôlée.\n\n5. Flèches incohérentes : TD+TAD dans la voie gauche à s≈12, puis TD+TAG à s≈43. Cela trompe la logique de choix de voie et de suivi d'itinéraire.\n\n6. Ombres d'arbres très contrastées sur 80 m des voies NE (jusqu'à 99 % de la surface) : lignes perdues, forte dynamique d'éclairage, et transitions ombre/soleil qui créent de faux bords.\n\n7. Rive NO T2 quasi effacée : la rive réellement détectée sera la bordure et le caniveau en béton clair, 0,1-0,2 m plus loin.\n\n8. Musoir peint très usé, devenu une bande pâle uniforme, suivi d'un séparateur étroit à barrières : on peut le confondre avec une ligne large ou mal localiser le nez d'îlot.\n\n9. Zigzags jaunes pâles : un détecteur insensible à la couleur peut les prendre pour des lignes de voie.\n\n10. Saignées noires des boucles et regards carrés : rectangles sombres qui ressemblent à des réparations, et variations d'intensité LiDAR. Les regards sont dans la trace de roue.\n\n11. Depuis 2023-2024, réseau dense de pontages noirs en mailles : énormément de faux bords pour la détection de lignes. Absent en 2022.\n\n12. Pour une carte HD tirée de l'ortho :\n- les lanternes surplombantes apparaissent comme des ovales blancs sur la voie SO (déport des objets hauts) ;\n- les ombres de mâts barrent la contre-allée et la piste ;\n- la géométrie de 2022 (voie TAD, arrêts, flèches, zigzags) est obsolète depuis les travaux de 2025 (voir GAM et OSM).\n\n13. LiDAR 2021 peu dense (environ 24 points/m², 26 % des cellules de 15 cm remplies) : seuls l'axe, les passages piétons, la flèche TD+TAG et la ligne de 0,5 m ressortent en intensité. Le jaune ressort mal.",
+  "pourquoi_cette_conception": "Ancienne RN90 en milieu urbain : l'avenue doit garder 2+2 voies pour le trafic Grenoble ↔ Grésivaudan dans une emprise déjà occupée par plusieurs fonctions séparées par des haies et des îlots :\n- une contre-allée de desserte et de stationnement côté NO, pour qu'aucun accès riverain ne débouche sur l'axe ;\n- une piste cyclable bidirectionnelle structurante ;\n- une boucle de desserte des équipements côté SE.\n\nChoix de détail :\n- Voies étroites (2,8-3,0 m) et axe continu : tenir les vitesses à 50 km/h et interdire le dépassement par la gauche.\n- Desserte SE en sens unique, avec une seule entrée et une seule sortie : un minimum de conflits. Îlots en galets aux nez, qui résistent au chevauchement par les véhicules qui tournent. Damiers pour avertir le trafic de transit des zones d'échange, et ligne de STOP pour la sortie.\n- Approche du carrefour à feux : on passe de 2 à 3 voies par un élargissement à droite pour stocker les véhicules qui tournent vers le Vercors (voie TAD supprimée en 2025). Lignes T3 d'annonce, ligne continue sur les 30 derniers mètres, présélection par flèches.\n- Arrêt SO sur la voie de droite, sans encoche : la voie de gauche reste libre pour le transit, le bus repart sans avoir à se réinsérer, et le quai haut rend l'accès accessible aux PMR. Le quai est refait en pleine voie (2018-2021) et il est intégré à un plateau surélevé qui ralentit la contre-allée.\n- Contre-allée : stationnement alterné en chicane et triangles hachurés, pour modérer les vitesses.",
+  "incertitudes": "Interprétations à confirmer :\n- Sens réglementaire des damiers : marquage local hors IISR à ma connaissance.\n- Rôle exact de la ligne continue de 0,5 m : STOP probable ; le panneau est invisible d'en haut.\n- Origine et fonction de la ligne T1 à t −0,65 : persistante de 2015 à 2024, inexpliquée.\n- Nature de l'effacement de l'ancienne ligne à t −4,2 : masquage noir déduit visuellement, non confirmé par la mesure de halo.\n- Origine du zigzag fantôme : arrêt provisoire ?\n- Les dents de requin du plateau sont lues comme des marques de rampes ; c'est cohérent avec le relief LiDAR, mais la convention n'est pas vérifiée.\n- Sens de circulation de la contre-allée en 2022 : déduit d'OSM 2026 et des rampes.\n- L'arrêt NE double et le séparateur à barrières sont hors tuiles et peu vérifiés.\n- La tranchée oblique a un contraste faible.\n\nLimites des données :\n- Les ombres d'arbres empêchent d'évaluer les voies NE sur s −140 → −60.\n- Mesures de largeur à ±0,05-0,10 m (pixel de 5 cm, flou JPEG) ; modulations de tirets à ±0,1 m.\n- Couleurs du jaune pâle et des tirets d'axe de la piste estimées sur RGB compressé.\n- Orthos IGN 20 cm : alignement vérifié sur l'axe, résolution faible pour les tirets.\n- Panoramax : GPS du téléphone imprécis (2023), donc positions des photos approximatives. La fissuration de 2022 est déduite des photos 2023-2024.\n- Le levé GAM correspond à l'état après travaux et ne vérifie que les éléments inchangés.\n\nToutes les mesures ont été faites dans le scratchpad. Aucun fichier du dépôt n'a été modifié."
+ },
+ "verify-reobs:verdun_so": {
+  "verdicts": [
+   {
+    "id": "verdun_so-01",
+    "verdict": "corrige",
+    "justification": "Re-mesuré sur une bande redressée refaite par moi (profils moyennés à s −47, −45, −44, −35 et −30). Lignes à t −4,70 / −1,80 / +1,07 (±0,05) et bord SE à +4,0 : conforme. Chaussée unique 2+2 sans séparateur : conforme. Mais côté NO, la face de bordure (fin de la haie) est à t ≈ −8,05. Entre −8,05 et −7,5, on voit une bande claire de béton à niveau de la chaussée : c'est un caniveau, le LiDAR 2021 ne montre aucune marche à −7,9. Le chiffre 2,75-2,80 m est donc mesuré HORS caniveau, pas « caniveau compris ».",
+    "correction": "Voie SO droite : 2,8 m hors caniveau (−7,5 → −4,70), 3,35 m caniveau compris. Largeur roulable 11,5 m (−7,5 → +4,0) ; de face de bordure à bord SE ≈ 12,05 m. Autres voies : SO gauche 2,90 m, NE gauche 2,87 m, NE droite 2,92 m.",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-02",
+    "verdict": "confirme",
+    "justification": "Ligne continue suivie le long de la bande : t −1,80 de s −66 à +9, puis −2,0 de s 10 à 28, puis −2,26 de s 25 à 72 (le rapport dit −2,35, écart de 0,1 m sans importance). Quasi sans lacune de s −90 à +72 ; les « lacunes » relevées avant s −90 tombent dans l'ombre des arbres. Pic de contraste +36 à +41, largeur à mi-hauteur 0,25 m. Le levé GAM place bien l'axe à t −1,78/−1,93 de s −85 à 21,8.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-03",
+    "verdict": "confirme",
+    "justification": "Tirets suivis un à un de s −138,5 à 27,4 : longueur 3,0-3,15 m, intervalles 1,15-1,35 m, position t −4,80 → −4,70 puis −5,00 à s 25. Le dernier tiret (25,8 → 27,4, soit 1,6 m) est bien coupé au joint de la réfection à s 27,4. Le contraste moyen baisse nettement entre s 4 et 27 (≈ 17-22 contre 24-39 ailleurs, avec ma mesure) : l'usure 2 locale est plausible. La cause (rabattements après dépassement du bus) reste une hypothèse.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-04",
+    "verdict": "corrige",
+    "justification": "La ligne existe bien à t −4,15 (de 0,55 à 0,6 m de la T3). En revanche, de s −129 à −47, ses tirets sont CLAIRS (blanc passé, contraste +15 à +26, soit environ 60 % de la T3), et non sombres. Tirets relevés : −129/−126, −116/−112,8, −103,4/−100,5, −90,5/−87,4, −75,7/−73, −63,1/−60,1, −50/−47. Ils ont 3,0 m de long avec une période régulière d'environ 13 m (intervalles ≈ 10 m, pas « 6,5-10 m »). Seule la portion s −42 → −15 n'est plus qu'une trace sombre fine. Un léger liseré sombre existe par endroits (ex. s −64/−60).",
+    "correction": "Ancienne ligne T1 (3 m / 10 m) à t −4,15. Elle est restée blanche et bien visible de s −129 à −47 (tirets clairs, contraste ≈ 60 % de la ligne active) et ne subsiste qu'en trace sombre de s −42 à −15. Pour une caméra, c'est une vraie double ligne et non un fantôme noir.",
+    "usure_verifiee": "F"
+   },
+   {
+    "id": "verdun_so-05",
+    "verdict": "confirme",
+    "justification": "T3 régulière : tirets 3,05-3,20 m, intervalles 1,10-1,20 m. Position t +1,10 jusqu'à s 0, puis +0,85 vers s 30-40. Dernier tiret à s 36,65-39,85. Petite nuance : les tirets sont nets dès s −62,7 (et non −58). Avant, ombre d'arbres. Pic de contraste +35 à +42.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-06",
+    "verdict": "corrige",
+    "justification": "Ligne continue confirmée à partir de s 40,8, à t +0,72 → +0,59. Mais en ouvrant le strip jusqu'à s 125, on voit qu'elle continue jusqu'au passage piéton du carrefour à s ≈ 100, soit environ 59 m, et non « les ~30 derniers mètres ».",
+    "correction": "Ligne continue de s 40,8 à s ≈ 100 (passage piéton) : changement de voie interdit sur environ 59 m.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-07",
+    "verdict": "corrige",
+    "justification": "Existence, position et dimensions confirmées : t −0,6 (−0,4 à s −26, −0,15 à s −12) ; tirets de 2,9 à 3,05 m (jusqu'à 4,1 m à s −82) ; période 13,7 m ; largeur à mi-hauteur 0,10 m ; pic de contraste +51 à +62, plus fort que l'axe et la T3 NE (+35 à +42). Elle est aussi visible sur la photo Panoramax 2024-08-24. Mais l'affirmation « sans halo sombre » est fausse : chaque tiret est encadré à ses deux bouts par une tache sombre de 0,5-0,6 m (s −56/−55,4 et −52,4/−51,8 ; −42/−41,4 et −38,4/−37,7 ; −28,6/−28,1 et −25/−24,5). Cela fait penser à un tiret plus ancien et plus long, masqué aux extrémités. On ne peut donc pas exclure un marquage ancien.",
+    "correction": "Ligne T1 étroite et contrastée, avec des taches sombres aux extrémités de chaque tiret. Son statut (marquage actif ou vestige partiellement masqué) reste indéterminé.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-08",
+    "verdict": "corrige",
+    "justification": "Ligne T2 confirmée à t −7,65/−7,7 (tirets ≈ 3,1 m, intervalles ≈ 3,6 m). Elle est peinte SUR le caniveau béton clair (−8,05 → −7,5), à environ 0,35 m de la face de bordure, d'où un contraste très faible. Avec un étirement de contraste, elle se suit bien au-delà de s −24 → +16 : tirets nets de s ≈ −60 à +23 et fragments jusqu'à s −130. Elle reste à la limite de la détection.",
+    "correction": "T2 à t −7,7 sur le caniveau béton, à 0,35 m de la bordure. Lisible faiblement de s ≈ −60 à +23, en fragments au-delà. La faible visibilité vient autant du fond clair que de l'usure.",
+    "usure_verifiee": "3"
+   },
+   {
+    "id": "verdun_so-09",
+    "verdict": "corrige",
+    "justification": "Les îlots en galets bordés de blanc sont confirmés : îlot A de s −57,75 à −49,25 (nez arrondi), îlot B de s −18,9 à −3,3, t +4,15 → +6,0. Le bord SE est bien à t +4,0. Mais le LiDAR 2021, recalé par rapport à la chaussée de s −46 à −24, ne montre AUCUNE bordure haute le long du terre-plein enherbé : le bord est arasé et l'herbe descend en pente douce (−5 cm à t 4,6, −13 cm à t 5,4), comme une noue. Sur l'ortho, aucun trait d'ombre de bordure le long de l'enrobé. Seuls les îlots sont surélevés (≈ +10 cm pour l'îlot B). Par ailleurs, la rive SE n'est pas sans peinture partout : un trait blanc fin (≈ 0,15 m) longe t +4,1 de s ≈ −69,5 à −61,5, au débouché de l'entrée de la desserte.",
+    "correction": "Bord SE arasé (sans bordure haute) le long du terre-plein enherbé, qui est plus bas que la chaussée. Seuls les îlots A et B sont surélevés. Trait blanc fin à t +4,1 au droit de l'entrée de la desserte (s −69,5 → −61,5).",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-10",
+    "verdict": "confirme",
+    "justification": "Zoom ×10. Les deux flèches ont la tête vers +s, avec la tige de 10,45 à 12,5 et la tête de 12,5 à 14,35. Leur branche part de la queue de la tige vers +t, c'est-à-dire vers la droite du conducteur. Elle est l'image miroir exacte de la branche de la flèche TD+TAG de s 43. Lecture TD+TAD confirmée dans les deux voies. Flèche de droite très pâle (branche presque effacée). L'incohérence avec la voie gauche TD+TAG à s 43 est réelle. Longueur ≈ 3,9 m.",
+    "usure_verifiee": "2"
+   },
+   {
+    "id": "verdun_so-11",
+    "verdict": "confirme",
+    "justification": "Zoom ×10 de s 41 à 46,5. Voie gauche à t −0,6 : flèche TD+TAG, branche vers −t (gauche). Voie médiane à t +2,3 : flèche TD pâle. Voie TAD à t +6,0/+7,0 : tige qui s'infléchit vers +t, tête déportée à droite. Petite nuance : les longueurs mesurées sont de 3,8 à 4,5 m, pas 4,5-5 m.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-12",
+    "verdict": "corrige",
+    "justification": "Le biseau pâle strié en long et son nez maçonné semi-circulaire avec poteau (s ≈ 51,5-53) sont confirmés. Mais le biseau commence à s ≈ 41,1 et non à 38,5, déjà large d'environ 0,45 m (t 3,6-4,1). Il atteint ≈ 1,6 m (t 3,6-5,2) à s 51,5. Le LiDAR le montre plat (marquage peint), alors que le séparateur en aval est surélevé.",
+    "correction": "Musoir peint de s 41,1 à 51,5, de 0,45 à 1,6 m de large, précédé de s 15,8 à 37,8 par une ligne discontinue à t +3,9 (voir oublis).",
+    "usure_verifiee": "2"
+   },
+   {
+    "id": "verdun_so-13",
+    "verdict": "corrige",
+    "justification": "J'ai relevé l'ombre fine de la bordure SE (et le début de l'herbe) tous les 3 m. t vaut 4,3 à s 16, 4,75 à s 19, 5,6 à s 25, 6,45 à s 31, 7,25 à s 37, 7,65 à s 40, 8,05 à s 43 et 8,5 à s 46, puis reste stable à 8,55. Le biseau fait donc environ 4,2 m sur ~30 m (s 16 → 46), et non « 4 m sur 18-20 m ». À s 40, la bordure est à +7,65 et non +8,4. Le séparateur surélevé est confirmé par le LiDAR : +12 cm, de t 3,7 à 5,2, de s 55 à 65. Voie TAD ≈ 3,3 m et décalage de l'axe de 0,46 m également confirmés.",
+    "correction": "Bordure SE de t +4,3 (s 16) à +8,5 (s 46), soit un biseau d'environ 4,2 m sur ~30 m. Séparateur surélevé de ≈ 1,5 m (+0,12 m) à partir du nez (s ≈ 52).",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-14",
+    "verdict": "corrige",
+    "justification": "Le damier (carrés de 0,5 m, t +1,25 → +3,9) est confirmé de s ≈ −79 à −58,6, à la fois par l'énergie périodique à 1 m et par la vue étirée. Sa partie éclairée (s −63 → −58,6) est peu usée. Le début à s −83,5 correspond en fait au bord de l'ombre : rien n'est visible dans la partie au soleil juste avant (s −88 → −83,5), et le motif n'apparaît nettement qu'à partir de s ≈ −79. Un trait blanc fin le longe à t +4,1 (s −69,5 → −61,5).",
+    "correction": "Damier n°1 d'environ s −79 (±2) à −58,6, soit ≈ 20 m × 2,65 m. Son début exact est masqué par l'ombre.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-15",
+    "verdict": "confirme",
+    "justification": "Damier de s −3,5 à +10,0, t +1,25 → +3,75 (période 1,0 m), confirmé par la vue et par l'énergie périodique. Mon centile 90 par bande de t donne 170 à t 3,17 contre 181-195 ailleurs : l'usure dans la trace de roue droite est bien réelle.",
+    "usure_verifiee": "2"
+   },
+   {
+    "id": "verdun_so-16",
+    "verdict": "confirme",
+    "justification": "Profils à s −1, 3 et 7 : trait de t 4,03 à 4,56 (0,52 m à mi-hauteur), niveau 215-222 contre 165-170 pour l'enrobé. Il va de s −3,3 (nez de l'îlot B) à +10,1 (bordure de l'îlot enherbé) ; un poteau est visible sur ce nez à s 9,7. Le GAM contient bien deux traits à t 4,07-4,14 et 4,57-4,64 de s −3,2 à 10,2. Lecture en ligne d'effet de STOP (0,5 m continue) plausible, mais non prouvée.",
+    "usure_verifiee": "0"
+   },
+   {
+    "id": "verdun_so-17",
+    "verdict": "confirme",
+    "justification": "Desserte de t ≈ 6,2 à 9,4-10,0 (≈ 3,2-3,8 m), avec un tireté court à t +8,65 et une rangée de blocs à t ≈ 9,7. Revêtement strié et lustré. Petite correction : les blocs sont espacés d'environ 3,1-3,2 m (s −56,2, −53,2, −50,0, −46,8, −43,6…). Le sens unique et les équipements desservis viennent d'OSM et ne sont pas vérifiables sur l'ortho.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-18",
+    "verdict": "corrige",
+    "justification": "Le reste est confirmé : zigzag de s 30,9 à 65,9 (7 périodes de 5,0 m, amplitude 2,4-2,45 m, t −7,8 → −5,3, fermé à chaque bout) ; abri de s 33,25 à 38,9 (t −12,7 → −9,2) ; poubelle à s 40,8 ; rectangles clairs en bord de quai ; aucune encoche. Deux corrections. (1) D'après le LiDAR 2021, l'arête du quai (t −8,4) est à 216,14-216,15 m contre 215,92-215,95 m pour la voie, soit ≈ +0,20 m (le +0,16 m correspond plutôt à l'intérieur du plateau). (2) Le zigzag est net en 2015 et 2021, mais pas vraiment lisible sur mon recadrage IGN 2018.",
+    "correction": "Quai ≈ +0,20 m au-dessus de la voie SO. Zigzag attesté en 2015 et 2021, douteux en 2018.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-19",
+    "verdict": "confirme",
+    "justification": "Bande sombre de s 27,4 à 71,65, de t −8,0 à −3,9/−4,2 (joint légèrement oblique), soit ≈ 170 m². Absente sur l'IGN 2018 et présente sur l'IGN 2021 (recadrages redressés). Nota : sur l'IGN 2024, c'est toute la voie SO droite qui paraît assombrie, ce qui suggère une nouvelle reprise après 2022.",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-20",
+    "verdict": "confirme",
+    "justification": "Profils à s 33, 36, 40, 47, 55, 62 et 68 : aucun pic clair entre t −5,6 et −4,4 (niveaux plats 145-154) ; seul ressort le creux sombre du joint, à t −3,9/−4,2. Visuellement, la T3 s'arrête net à s 27,4.",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-21",
+    "verdict": "corrige",
+    "justification": "Zigzag sombre bien présent de s 2,0 à ≈ 13,3, entre t −7,55 et −5,05, terminé par un trait perpendiculaire, avec le regard carré dans son emprise. Mais sommets relevés à s 2,0 / 4,08 / 6,0 / 8,33 / 10,4 / ≈ 12,6 : demi-période de 2,1 m, période ≈ 4,2 m (et non 4,6). Et pour la circulation SO, qui va vers les s décroissants, il se trouve environ 17 m EN AVAL de l'arrêt actuel (côté Grenoble), pas en amont.",
+    "correction": "Ancien zigzag d'arrêt effacé, de période ≈ 4,2 m, à environ 17 m en aval (côté Grenoble) de l'arrêt actuel.",
+    "usure_verifiee": "F"
+   },
+   {
+    "id": "verdun_so-22",
+    "verdict": "confirme",
+    "justification": "Six bandes (deux courtes) de s 17,75 à 21,7, t −17,3 → −11,3. Quatre dents de s 14,75 à 17,4, t −13,9 → −11, base côté SO et pointe vers +s (NE). Aucun podotactile visible. Le LiDAR montre la rampe à s 14-18 (+0,12 m).",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-23",
+    "verdict": "confirme",
+    "justification": "Cinq bandes (quatre longues et une courte) de s 45,8 à 49,75, t −17,4 → −11,9. Quatre dents de s 49,5 à 52,2, t −15,2 → −12,25, pointe vers −s (SO). Le mât et son ombre traversent le motif. Le LiDAR montre la rampe à s 50-52 (−0,13 à −0,16 m).",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-24",
+    "verdict": "corrige",
+    "justification": "Profil LiDAR à t −13/−11 : 215,63 m à s 12, rampe à s 14-18, montée régulière jusqu'à 216,09 m à s 44-48, puis 215,93 m après s 52. Cela confirme les cotes du rapport. Il faut toutefois noter que la surface monte d'environ 0,3 m sur 28 m : ce n'est pas un plateau horizontal. Quant à la « marque blanche en T » à s 34,2, t −14,7, elle se prolonge par une fine tige d'environ 3 m et s'accompagne d'une tache sombre ovale à s 34,9, t −13,2. C'est très probablement un candélabre à double crosse vu d'en haut avec son ombre, pas de la peinture.",
+    "correction": "Plateau en pente montante vers le NE (+0,45 m de s 12 à 46). La « marque en T » est probablement un mât d'éclairage.",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-25",
+    "verdict": "confirme",
+    "justification": "Piste de t −21,4 à −18,6 (≈ 2,8 m), rives jaunâtres (indice de jaune ≈ +20 sur la rive NO), axe en tirets courts d'environ 1 m alternés de points. Pictogrammes vus à s −114, −62, 25,8, 36,3 et 56,8. Bord SE souvent sous l'ombre de la haie. « Chronovélo » reste une interprétation.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-26",
+    "verdict": "confirme",
+    "justification": "Joint transversal net à s 17,4 (t −20,7 → −17,8). Pièce plus sombre de s 52,5 à 58,8 (t −21,2 → −17,8) et trois barres jaunes de s 52,75 à 54,6 (t −20,6 → −19,75). Fonction non identifiée.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-27",
+    "verdict": "corrige",
+    "justification": "Cinq arceaux confirmés de s 54,8 à 60, t −17,5 → −16,5. Flèche double à s 58-61, t −13,1. Mais l'aire jaune avec les engins garés se trouve à s ≈ 61,5-66,8, t −17,5 → −15 : c'est cohérent avec les pixels de preuve du rapport (917200_6460250 px 600-720 / 800-910 → s ≈ 64, t ≈ −16), mais pas avec la localisation annoncée (s 55-61, t −15 → −12,5).",
+    "correction": "Aire de stationnement jaune ≈ 5,3 × 2,5 m à s 61,5-66,8, t −17,5 → −15 (L93 ≈ 917233, 6460257).",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-28",
+    "verdict": "confirme",
+    "justification": "Marques en T espacées de 5,3 m (tige de 2,0 m, barre d'environ 1 m). Côté NO pour s < −97 et s > −26, côté SE de s −88 à −35. Triangles hachurés à s −97,3/−91,3 (NO), −93/−88 (SE), −35,2/−30,5 (SE) et −32/−26,3 (NO). Avaloirs à s −110 et −73. Largeur entre haies ≈ 6,4 m. Le sens de circulation vient d'OSM.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-29",
+    "verdict": "confirme",
+    "justification": "Zooms ×5. SO droite : s −122,4 → −120,6, t −7,1 → −5,3, trois saignées (la T3 voisine est interrompue). SO droite : s −24,3 → −22,5, t −6,4 → −5,25, deux saignées. NE droite : s −22,3 → −20,6, t +1,7 → +3,4, trois saignées. La paire NE/SO au même s, à environ 140 m du carrefour (centre à s ≈ 120), fait plutôt penser à un poste de comptage.",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-30",
+    "verdict": "confirme",
+    "justification": "Regards à cadre carré (≈ 1,1 × 1,05 m) et tampon rond à s −28,3 et +11,2/12,3, t −7,75 → −6,7. Avaloir à grille à s −20,1/−19,3, t +4,1/+4,6, contre le nez de l'îlot B. Les pixels de preuve correspondent. Il manque l'objet de caniveau à s ≈ −108 (voir oublis).",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-31",
+    "verdict": "corrige",
+    "justification": "Les deux joints obliques parallèles (≈ 2,4 m d'écart) et la tache de réparation au pied de la bordure NO (s −80,9/−80,4) sont confirmés. Mais en zoom égalisé, les joints traversent TOUTE la chaussée : on les voit au soleil dans les voies NE, de (s −87, t +4,0) et (s −84,6, t +4,0) jusqu'à (s −82,5, t −7,7) et (s −80,2, t −7,6).",
+    "correction": "Tranchée oblique refermée sur les 4 voies, de bordure à bordure, entre s −87 et −80,2. Contraste faible.",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-32",
+    "verdict": "confirme",
+    "justification": "Texture fine et homogène ; aucun nid-de-poule ni faïençage sur le passe-haut. Le LiDAR montre une pente en long d'environ +0,13 m sur 60 m (0,22 %) en montant vers le NE dans la voie SO. Je n'ai pas refait le dévers ni l'orniérage en détail.",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-33",
+    "verdict": "confirme",
+    "justification": "Le filtre passe-haut sur s −40 → 0 ne montre aucun réseau de fissures en 2022. La photo Panoramax 2024-08-24_ab5fa4d3 (r01_c02) montre bien un réseau dense de pontages noirs en mailles ; on y revoit aussi la ligne T1 entre l'axe et la T3 NE.",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-34",
+    "verdict": "corrige",
+    "justification": "Mâts confirmés à s −97,3, −67,9, −38,6, −10,2 et ≈ +19,7, avec des lanternes ovales sur la voie SO droite (t −6,2 à −6,4). La liste est toutefois incomplète dans l'emprise s −140 → +70 : un mât à s ≈ −127 (lanterne à t ≈ −7,3) et un autre à s ≈ 51-52,5 sur le plateau (lanternes à t −7,8 et −11,5). La seconde crosse côté contre-allée est vue vers t −10,1 (et non −11,2). Le tag OSM n'a pas été vérifié.",
+    "correction": "Sept mâts dans la zone, à s −127, −97,3, −67,9, −38,6, −10,2, +19,7 et ≈ +52 (espacement de 29 à 33 m).",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-35",
+    "verdict": "confirme",
+    "justification": "L'ombre des arbres SE couvre bien les voies NE de s −140 à −60 (et le damier n°1), ainsi que la voie SO gauche par endroits. Elle couvre aussi les voies NE et le TAD de s 55 à 70. Je n'ai pas recalculé les pourcentages.",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-36",
+    "verdict": "confirme",
+    "justification": "Haies continues à t −10,5 → −8 et −18 → −16,5 sur toutes les bandes vues de s −140 à +16 ; aucun accès revêtu ne traverse. Les bordures NO sont basses (≈ +0,05 à +0,12 m d'après le LiDAR).",
+    "usure_verifiee": "NA"
+   },
+   {
+    "id": "verdun_so-37",
+    "verdict": "confirme",
+    "justification": "Strip de s 55 à 100. Zigzag jaune dans la voie TAD (s 67 → 87, t +6 → +8,5), abri SE (s 81 → 86), second zigzag dans la voie TD (s 81,5 → 96, t +1,25 → +3,25), barrières sur le séparateur (s 82 → 95, t ≈ +5). Interprétation en quai central : plausible, confiance faible.",
+    "usure_verifiee": "1"
+   },
+   {
+    "id": "verdun_so-38",
+    "verdict": "confirme",
+    "justification": "J'ai relu le GAM signalisation_horizontale_lin dans le repère s/t. Axe à t −1,78/−1,93 de s −85 à 21,8 ; ligne de 0,5 m de s −3,2 à 10,2 (t 4,07-4,64) ; zigzag NO de s 16,7 à 89 ; zigzag SE de s 13,1 à 48 ; zone centrale hachurée de s 27,2 à 49,6 (t −4,41/−2,07). Le GAM montre en plus des marques de stationnement de la contre-allée jusqu'à s 31, alors qu'en 2022 le plateau commence à s 15.",
+    "usure_verifiee": "NA"
+   }
+  ],
+  "oublis": [
+   "Ligne discontinue de type T2 (tirets ≈ 3 m, intervalles ≈ 3,3-3,5 m) à t ≈ +3,9, de s 15,8 (après le nez de l'îlot enherbé) à 37,8. Elle délimite l'amorce de la voie TAD avant le musoir, qui ne commence qu'à s 41,1. Elle prolonge l'ancienne ligne de bordure et peut être prise pour une rive (pdf 917200_6460200, zone px ≈ 330-600 / 520-560).",
+   "Trait blanc fin (≈ 0,15 m) le long de la rive SE à t +4,1, de s ≈ −69,5 à −61,5, au droit de l'entrée de la desserte et du damier n°1. Il contredit « rive SE sans ligne peinte ».",
+   "Absence de bordure haute le long du terre-plein enherbé SE (s −49 → −19) : le LiDAR montre un bord arasé et l'herbe descend de 5 à 15 cm (noue). Seuls les îlots A et B sont surélevés. Côté NO, le caniveau béton clair d'environ 0,5 m (t −8,05 → −7,5) est une bande claire longitudinale continue qui portera la détection de rive.",
+   "La ligne continue NE va jusqu'au passage piéton du carrefour (s ≈ 100), soit environ 59 m d'interdiction de changer de voie.",
+   "Mâts d'éclairage supplémentaires dans l'emprise, à s ≈ −127 (lanterne sur la voie SO à t −7,3) et à s ≈ 51-52,5 (plateau).",
+   "Objet de caniveau à cadre clair (regard ou bouche) au pied de la bordure NO à s ≈ −108 (t −8,3 → −7,6), plus une petite forme carrée possible à s ≈ −83.",
+   "Faibles restes de marquages anciens (fragments blancs dans des plages un peu plus sombres) dans la voie SO gauche, à s ≈ 10-13,5 (t −3,7/−3,1) et s ≈ 23,5-26 (t −3,05/−2,75). Confiance faible.",
+   "Pour l'ADAS, le rapport sous-estime la ligne fantôme à t −4,15 : de s −129 à −47, ses tirets sont blancs et lisibles (contraste ≈ 60 % de la T3), donc une double ligne réelle à 0,55 m d'écart. Les tirets T1 à t −0,6 présentent des taches sombres à chaque extrémité, ce qui pose la question d'un tiret plus ancien en partie masqué.",
+   "Sur l'ortho IGN 2024, toute la voie SO droite paraît assombrie entre s −5 et 75 : probable reprise d'enrobé après 2022, à rapprocher de la photo Panoramax 2024 où la voie SO droite est plus sombre."
+  ],
+  "fiabilite_globale": "Bonne dans l'ensemble. J'ai revérifié chaque constat moi-même : mosaïque redressée refaite indépendamment à partir des six tuiles et de leurs voisines, zooms ×4 à ×10, suivi des tirets, profils, LiDAR COPC 2021, levé GAM, orthos IGN de 2015 à 2024 et une photo Panoramax 2024. Sur 38 constats, 24 sont confirmés et 14 corrigés ; aucun n'est réfuté. Les mesures géométriques principales sont exactes à ±0,1 m : positions des lignes (−4,70 / −1,80 / +1,07), modulations T3 et T1, réfection de s 27,4 à 71,6 sans ligne de voie, zigzag de 35 m de période 5 m, damier n°2, ligne de 0,5 m, passages piétons et dents de requin, boucles. Les flèches TD+TAD à s 12 puis TD+TAG à s 43 sont bien lues, l'incohérence est réelle. Les erreurs portent sur six points. (1) La nature de la ligne fantôme à t −4,2 : ses tirets sont surtout blancs, ce qui en fait un piège ADAS plus grave qu'annoncé. (2) Des positions secondaires : début du musoir (41,1 et non 38,5), longueur du biseau (≈ 4,2 m sur 30 m), longueur de la ligne continue NE (≈ 59 m), début du damier n°1, emplacement de l'aire vélos jaune. (3) La « bordure haute » SE, absente le long du terre-plein. (4) L'étendue de la tranchée, qui traverse les 4 voies. (5) La période du zigzag fantôme (4,2 m) et le sens « amont », qui est en fait l'aval. (6) La largeur de la voie SO droite, qui exclut le caniveau. Oublis notables : ligne discontinue à t +3,9 avant la voie TAD, trait blanc à l'entrée de la desserte, deux mâts. Les interprétations (fonction de la T1, STOP, rôle des damiers, Chronovélo) restent des hypothèses, à juste titre signalées comme telles. Fichiers de travail : /tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_ortho/vsoK9q/ (le dossier verif_vso est partagé avec un autre agent). Rien n'a été modifié dans le dépôt."
+ }
+}

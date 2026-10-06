@@ -1,0 +1,441 @@
+{
+ "load-obs:reviree_no": {
+  "zone": "Chemin de la Revirée, branche nord-ouest (environ 166 m d'axe, du bord nord de la couverture y=6460450 jusqu'à l'entrée du carrefour) et accès Paquet Jardin (ouverture de 23,5 m côté ouest vers le parking client et les dessertes arrière). Source : ortho PCRS 5 cm du 10/05/2022, donc état AVANT les travaux de 2025. REPÈRE utilisé dans tout le rapport : s = abscisse curviligne en mètres le long de l'axe marqué, avec s=0 en (917175.9, 6460449.7), au bord nord de la tuile 917150_6460400, croissante vers le carrefour (sud-est, azimut ≈145°) ; o = décalage latéral en mètres, + côté est/nord-est et − côté ouest/sud-ouest. Les conversions s/o vers L93 et vers les pixels des tuiles ont été calculées sur une bande redressée (mosaïque 3×3 tuiles rééchantillonnée le long d'une spline de l'axe).",
+  "tuiles_vues": [
+   "data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917200_6460300.jpg (ouverte entière + recadrages natifs ×2 à ×8)",
+   "data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917200_6460350.jpg (entière + recadrages)",
+   "data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917250_6460350.jpg (entière : aucune chaussée circulée)",
+   "data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917200_6460400.jpg (entière + recadrage)",
+   "data/raw/pcrs5cm/tiles/paquet_jardin/pcrs5cm_917150_6460400.jpg (entière + recadrages)",
+   "voisines vues via la mosaïque 3×3 (917150..917250 × 6460300..6460400) : pcrs5cm_917150_6460350, pcrs5cm_917150_6460300, pcrs5cm_917250_6460400, pcrs5cm_917250_6460300 (recadrage natif du marquage « 30 »)",
+   "analysis/paquet_jardin/carte_assemblage_pcrs.jpg",
+   "contrôles croisés : LiDAR HD 2021 (dtm_15cm, height_above_ground_15cm, intensity_enhanced_15cm, nuage COPC classé), vecteurs OSM 2026 (roads, crossings, street_lamps), BD TOPO tronçons, levé GAM signalisation horizontale"
+  ],
+  "constats": [
+   {
+    "id": "reviree_no-01",
+    "categorie": "marquage_longitudinal",
+    "description": "Queue d'un fuseau peint au nord : deux lignes blanches continues convergent jusqu'à une pointe à s=10,9. À l'intérieur, une seule hachure oblique courte (s 5,5–6,3), sans doute la dernière hachure d'un zébra situé plus au nord. La ligne ouest est un peu moins contrastée que la ligne est.",
+    "localisation": "s 0–10,9, o −1,8..+1,6 ; pointe en L93 (917180.3, 6460439.7). Le prolongement nord sort de la couverture, faute de tuile au-delà de y=6460450.",
+    "mesure": "Écart entre les bords extérieurs : 1,95 m à s=0,5, puis 1,75 m à s=4,5 et 1,0 m à s=7,5. Largeur à mi-hauteur (FWHM) 0,165 m (ouest) et 0,184 m (est). Contraste de 61 (ouest) et 68 (est) niveaux sur un enrobé à ≈154.",
+    "cause_usure": "Usure légère de la ligne ouest, côté intérieur du virage, où passent les roues qui coupent la courbe ; vieillissement.",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(484-635, 0-222) ; hachure px(545-560, 115-130)",
+    "usure": "1",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-02",
+    "categorie": "marquage_longitudinal",
+    "description": "Ligne axiale irrégulière au débouché de la branche ouest de la Revirée et du parvis commercial (OSM w1095687258). Trois traits seulement : 5,35 m (s 11,95–17,25), 2,95 m (s 22,05–24,95) et 4,30 m (s 25,60–29,85), séparés par des vides de 4,8 m (patch reviree_no-03), 0,65 m et 3,55 m. Les vides ne contiennent aucune trace de peinture (contraste ≈10, égal au fond) : ce ne sont pas des zones d'usure. Les bords des traits sont nets.",
+    "localisation": "s 12–30, o −0,5..+0,6 ; de (917180.7, 6460438.8) à (917189.7, 6460423.3)",
+    "mesure": "FWHM 0,187 m, soit une largeur réelle ≈0,15–0,18 m après correction du flou de l'ortho (σ ≈ 4,6 cm). Contraste 70–75. Longueurs mesurées deux fois, sur la bande redressée et par composantes connexes sur la mosaïque brute (5,44 / 2,94 / 4,31 m).",
+    "cause_usure": "La peinture existante est peu usée. Les manques viennent de réfections non re-marquées (patch à s 18–22) et/ou d'une discontinuité voulue pour les mouvements de tourne-à-gauche vers la branche ouest. Le type de modulation (T1, T'1…) n'est pas identifiable.",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(606-805, 219-541)",
+    "usure": "1",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-03",
+    "categorie": "degradation",
+    "description": "Patch d'enrobé noir récent, à bords nets, posé sur l'axe et plus sombre que l'enrobé voisin (niveau 121 contre ≈150), avec un petit appendice au sud. L'axe n'a pas été re-marqué dessus : la ligne s'arrête à s 17,3 et reprend à s 22,05. Un joint ou une fissure transversale part du patch vers le bord ouest (s ≈19,8). Le patch apparaît déjà dans l'intensité LiDAR d'août–sept. 2021.",
+    "localisation": "s 18,4–21,6 (+ appendice s 21,5–22,3), o −1,2..+1,2 ; centre (917184.6, 6460431.7)",
+    "mesure": "≈2,4 m × 3,2 m",
+    "cause_usure": "Réfection de chaussée (regard ou branchement de réseau) postérieure au dernier marquage de l'axe.",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(654-735, 325-417) ; LiDAR intensity_enhanced_15cm (tache sombre au même endroit)",
+    "usure": "NA",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-04",
+    "categorie": "degradation",
+    "description": "Tranchée transversale refermée sur la voie est, de l'axe jusqu'au fil d'eau est, prolongée côté ouest par un joint fin jusqu'au bord de chaussée (s ≈29,5). Le tiret d'axe se poursuit sur la reprise, ce qui montre que la tranchée est antérieure au marquage. Également visible dans le LiDAR 2021.",
+    "localisation": "s 28,4–30,6, o −1,2..+4,4 ; centre (917191, 6460424)",
+    "mesure": "≈5,6 m × 2,2 m",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(758-875, 462-559)",
+    "usure": "NA",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-05",
+    "categorie": "degradation",
+    "description": "Reprise carrée claire autour d'un tampon rond sur la voie ouest, limitée par un joint transversal rectiligne à s 7,2. S'y ajoute une petite réparation sombre (nid-de-poule rebouché ?) sur la voie est près du caniveau, à s ≈1,5.",
+    "localisation": "Reprise : s 7,0–8,3, o −4,6..−1,4, tampon en (917177.2, 6460441.5). Petite réparation : s 1–2,2, o +2,0..+3,0, vers (917179, 6460449).",
+    "mesure": "Reprise ≈1,6 × 3 m ; tampon de diamètre ≈0,6 m",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(488-557, 146-197) et px(562-589, 2-31)",
+    "usure": "NA",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-06",
+    "categorie": "marquage_longitudinal",
+    "description": "Ligne axiale continue de 26,8 m, qui traverse le fuseau à balises (reviree_no-07). Blanc franc et bords nets. Le levé GAM (Meylan_Topo.dwg) la dessine de s 20,4 à s 50,1 avec une largeur de 0,10 m.",
+    "localisation": "s 33,4–60,15 ; de (917191.6, 6460420.3) à (917206.9, 6460398.4)",
+    "mesure": "FWHM 0,185–0,193 m, soit une largeur réelle estimée à ≈0,15–0,18 m (le levé GAM indique 0,10 m, largeur conventionnelle ou re-marquage plus récent). Pic 227–229, contraste ≈70.",
+    "cause_usure": "Pratiquement aucune usure. Elle est peu roulée grâce à l'interdiction de dépasser et au fuseau.",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(829-974, 584-785) ; pcrs5cm_917200_6460400.jpg px(2-106, 836-972) ; pcrs5cm_917200_6460350.jpg px(134-151, 24-35)",
+    "usure": "0",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-07",
+    "categorie": "marquage_longitudinal",
+    "description": "Îlot peint en fuseau (lentille), à niveau. Il est bordé de deux lignes blanches incurvées et traversé par une ligne centrale plus fine qui relie deux balises. Aucun relief : le gradient du MNT LiDAR ne montre rien et la hauteur au sol est inférieure à 0,1 m.",
+    "localisation": "s 39,3–51,5 ; de (917195.2, 6460415.7) à (917202.2, 6460405.7)",
+    "mesure": "Longueur ≈12,2 m. Largeur hors tout maximale 2,0 m à s 45,5 (o −0,55..+1,45). Contours : FWHM 0,183–0,186 m, contraste 72–74. Ligne centrale : FWHM 0,127 m et contraste 50, soit une largeur réelle ≈0,08–0,10 m. Voies restantes : 2,9 m à l'ouest, 3,05 m à l'est.",
+    "cause_usure": "Contours quasi neufs. Ligne centrale légèrement moins contrastée, essentiellement parce qu'elle est plus fine.",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(888-987, 674-841) ; pcrs5cm_917200_6460400.jpg px(1-62, 788-898) ; LiDAR intensity_enhanced_15cm (lentille visible en 2021)",
+    "usure": "0",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-08",
+    "categorie": "signalisation_verticale_feux",
+    "description": "Deux balises ou potelets sombres à tête blanche, plantés sur la ligne centrale du fuseau. Chacun repose sur une embase ou une reprise rectangulaire plus claire. Leurs ombres partent vers le NNO. Il s'agit probablement de balises de type J11.",
+    "localisation": "s 43,6 en (917197.7, 6460412.2) et s 47,0 en (917199.7, 6460409.4)",
+    "mesure": "Ombre ≈0,6 m pour un soleil à ≈55–60°, soit une hauteur ≈1 m. LiDAR clairsemé : 0,2 et 0,5 m. Embases ≈0,8 × 0,6 m.",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(945-1000, 745-825)",
+    "usure": "NA",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-09",
+    "categorie": "bordure_ilot_trottoir",
+    "description": "Îlot séparateur n°1, à niveau, à surface colorée ocre-orangé (résine ou peinture colorée ; écart R−B de +27 contre ≈+1 sur l'enrobé) et contour blanc. Aux deux pointes, un double trait (contour + chevron) se raccorde à l'axe. Petits carrés blancs (≈0,15 m) aux angles : peut-être des plots rétroréfléchissants (confiance faible). La moitié ouest est à l'ombre de l'arbre. Plat au LiDAR (+0,03 m).",
+    "localisation": "s 61,05–72,05 ; centre (917210.3, 6460393.6) ; pointes (917207.4, 6460397.6) et (917213.7, 6460388.6)",
+    "mesure": "Longueur totale 11,0 m, corps coloré ≈6,9 m (s 62,3–69,2). Largeur maximale 2,45 m (o −1,25..+1,20). Contours ≈0,15–0,2 m. Voies restantes ≈2,7 m (ouest) et ≈2,8–3,0 m (est).",
+    "cause_usure": "Couleur nettement délavée, avec beaucoup de gris apparent (perte estimée 30–50 %) : îlot franchissable, mordu par les poids lourds et les cars, et vieillissement. Contours en usure 1.",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(126-296, 31-242)",
+    "usure": "2",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-10",
+    "categorie": "marquage_longitudinal",
+    "description": "Un tiret d'axe isolé entre l'îlot 1 et le passage piéton. Il passe sur la tranchée oblique reviree_no-11.",
+    "localisation": "s 73,05–76,45 ; de (917214.3, 6460387.8) à (917216.3, 6460385.0)",
+    "mesure": "Longueur 3,4 m ; vides de 1,0 m avant et de 1,5 m après ; contraste 64",
+    "cause_usure": "Usure légère due au freinage et au redémarrage devant le passage piéton.",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(280-329, 240-303)",
+    "usure": "1",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-11",
+    "categorie": "degradation",
+    "description": "Tranchée refermée oblique, en bande sombre, qui traverse toute la chaussée juste en amont du passage piéton : du bord ouest vers s≈73 jusqu'au bord est vers s≈77,5. S'y ajoute une fissure ou un joint transversal rectiligne à s 73,9 (o 0..+2,5).",
+    "localisation": "s 73–77,6, o −3,5..+3 ; centre (917215, 6460386)",
+    "mesure": "Largeur de la bande ≈0,8–1,2 m ; longueur ≈7 m",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(228-387, 208-357)",
+    "usure": "NA",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-12",
+    "categorie": "passage_pieton",
+    "description": "Passage piéton zébré qui traverse la Revirée sur une chaussée rétrécie par l'avancée de trottoir est. On compte 6 bandes ; la plus à l'ouest est en partie sous la frondaison, donc son moindre contraste vient de l'ombre et non de l'usure. Bordures abaissées des deux côtés (aucune marche au MNT). Aucune bande podotactile visible, ce que confirme OSM (tactile_paving=no). Correspond au nœud OSM 4419895296 (917217.6, 6460382.3). Pas de refuge.",
+    "localisation": "s 77,95–80,95, o −3,2..+2,7 ; centre (917218, 6460382)",
+    "mesure": "6 bandes, FWHM 0,44–0,54 m, centres à −2,85 / −1,65 / −0,85 / +0,15 / +1,40 / +2,40, soit un pas ≈1,0 m (vides ≈0,5 m). Longueur des bandes, donc largeur du passage : 2,7–3,0 m. Chaussée traversée ≈6,35 m. Pic 212–231 sur une chaussée à 145.",
+    "cause_usure": "Film moucheté : passage des roues dans les deux sens et vieillissement. Le marquage reste très lisible.",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(289-421, 292-410) ; LiDAR intensity_enhanced_15cm (bandes visibles en 2021)",
+    "usure": "1",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-13",
+    "categorie": "bordure_ilot_trottoir",
+    "description": "Avancée de trottoir côté est (oreille) autour du passage piéton : le fil d'eau passe de +4,0 à ≈+2,95/+3,2 entre s≈70 et s≈90, avec des transitions courbes à s 69–72 et s 90–96. Le trottoir est y fait ≈3 m de large, en enrobé. Bordures abaissées aux extrémités du passage.",
+    "localisation": "s 69–96, o +2,8..+4,1 ; centre (917223, 6460382)",
+    "mesure": "Rétrécissement ≈1,0 m ; chaussée de 6,35 m au passage contre 8,0 m en section courante",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(285-613, 129-590) ; MNT LiDAR (fil d'eau à +3,0 pour s 74–88)",
+    "usure": "NA",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-14",
+    "categorie": "mobilier_vegetation",
+    "description": "Deux potelets noirs à tête blanche au droit du bord de chaussée est, aux deux extrémités du passage piéton, et un potelet ou une borne à tête blanche à l'extrémité ouest, sous l'arbre.",
+    "localisation": "Est : s 78,2 et s 81,2, o +2,95, vers (917219.7, 6460385.3) et (917221.4, 6460382.8). Ouest : s 80,9, o −3,6, vers (917215.8, 6460379.3).",
+    "mesure": "Hauteur ≈0,6–0,8 m d'après le LiDAR",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(389-432, 289-348) et px(310-320, 405-415)",
+    "usure": "NA",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-15",
+    "categorie": "marquage_transversal",
+    "description": "Bande transversale légèrement ocre et tachetée, juste en aval du zébra, sur toute la largeur. Sa teinte est mesurée à R−B = +8 contre +1 sur l'enrobé. Il s'agit probablement d'un résidu de résine colorée ou de la trace d'une ancienne position du marquage : un candidat fantôme.",
+    "localisation": "s 81,2–82,0, o −2,5..+2,7 ; vers (917219.2, 6460380.8)",
+    "mesure": "Largeur ≈0,7 m",
+    "cause_usure": "Ancien marquage coloré effacé ou usé par le trafic (hypothèse).",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(338-433, 346-418)",
+    "usure": "F",
+    "confiance": "faible"
+   },
+   {
+    "id": "reviree_no-16",
+    "categorie": "marquage_longitudinal",
+    "description": "Deux tirets d'axe entre le passage piéton et l'îlot 2, séparés par un vide court.",
+    "localisation": "s 82,05–85,10 et s 85,75–88,70 ; de (917219.5, 6460380.4) à (917223.2, 6460374.9)",
+    "mesure": "Longueurs 3,05 et 2,95 m ; vides de 0,65 m entre eux et de 0,75 m avant l'îlot. FWHM 0,178 m ; contraste 59 (le plus faible de l'axe).",
+    "cause_usure": "Freinage et accélération de part et d'autre du passage piéton ; ombre partielle des arbres.",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(381-465, 389-505)",
+    "usure": "1",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-17",
+    "categorie": "bordure_ilot_trottoir",
+    "description": "Îlot séparateur n°2, à niveau, en forme de goutte allongée (partie large au nord), surface ocre (R−B = +36) et contour blanc. Le côté ouest est rectiligne entre s 93 et s 97. Pointe nord à double trait et longue queue de raccord à l'axe au sud. Plat au LiDAR (+0,03 m). Côté ouest sous l'ombre des arbres. Il protège le passage piéton et l'accès Paquet Jardin.",
+    "localisation": "s 89,45–105,8 ; centre (917227, 6460368) ; pointes (917223.6, 6460374.3) et (917232.7, 6460360.7)",
+    "mesure": "Longueur totale 16,4 m, corps ≈10 m (s 91,5–101,5). Largeur maximale 2,3 m (o −1,45..+0,85 à s 94–95). Contours : contraste 72. Voies restantes ≈2,3–3,0 m à l'ouest (bord sous frondaison, incertain) et ≈2,9 m à l'est.",
+    "cause_usure": "Couleur plus homogène que sur l'îlot 1, mais légèrement délavée (empiètement des véhicules, vieillissement).",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(447-669, 502-801)",
+    "usure": "1",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-18",
+    "categorie": "marquage_longitudinal",
+    "description": "Ligne axiale discontinue de type T3 (ligne d'avertissement), entre la queue de l'îlot 2 et le début de la ligne continue d'approche du carrefour.",
+    "localisation": "s 106,9–122,85 ; de (917233.3, 6460359.8) à (917242.2, 6460346.5)",
+    "mesure": "4 tirets de 3,35 / 3,35 / 3,15 / 3,25 m, vides de 0,95–1,05 m, période 4,25 m (la T3 réglementaire fait 3 m + 1,33 m = 4,33 m). FWHM 0,165 m, soit ≈0,15 m réels. Contraste 62–64. Contrôle par composantes connexes sur la mosaïque brute : 3,31 / 3,30 / 3,20 / 3,20 m.",
+    "cause_usure": "Usure légère dans les traces de roues des véhicules qui tournent vers le parking Paquet Jardin.",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(660-795, 802-998) ; pcrs5cm_917200_6460300.jpg px(811-845, 30-74)",
+    "usure": "1",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-19",
+    "categorie": "marquage_longitudinal",
+    "description": "Ligne axiale continue d'approche du carrefour à feux. Elle se poursuit au-delà de la tuile 917200_6460300 vers la ligne d'effet des feux (tuile 917250_6460300). Elle passe sans interruption sur le patch reviree_no-23, qui est donc antérieur au marquage. Ombre d'un conifère sur s 147–166.",
+    "localisation": "Début à s 123,9 en (917242.7, 6460345.7), suivie jusqu'à s 166,3 en (917266.4, 6460310.5) et au-delà",
+    "mesure": "Au moins 42,4 m dans la bande analysée ; FWHM 0,186 m ; pic 223, contraste 70",
+    "cause_usure": "Néant notable.",
+    "preuve": "pcrs5cm_917200_6460300.jpg px(851-991, 84-290) ; pcrs5cm_917250_6460300.jpg (suite)",
+    "usure": "0",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-20",
+    "categorie": "passage_pieton",
+    "description": "Long zébra posé le long du bord ouest de la Revirée, à niveau, en travers de l'ouverture d'accès au parking Paquet Jardin et aux dessertes arrière (OSM : crossing node 9592546348, service w1489365927 / w156707051, BD TOPO accès vers l'ouest). Les bandes sont perpendiculaires à la Revirée : les piétons longent la Revirée et les véhicules qui entrent ou sortent coupent les bandes. Aucune bordure (MNT plat) : l'ouverture est arasée. Au sud, les bandes sont raccourcies par la bordure courbe de l'îlot planté du parking. Une voiture blanche est arrêtée sur le zébra (s 119,7–122,7) au moment de la prise de vue.",
+    "localisation": "s 102,8–126,3, o −6,8..−4,1 ; de (917226.9, 6460360.5) à (917240.2, 6460341.1)",
+    "mesure": "Longueur 23,5 m, ≈23 bandes (21 détectées par pics), FWHM 0,42–0,50 m, pas ≈1,0 m. Longueur des bandes 2,0 m (jusqu'à 2,6 m le long de la barre reviree_no-21 ; 1,1 m au nord sous la frondaison). Pic 200–221 au centre.",
+    "cause_usure": "Film moucheté par le passage des roues des véhicules qui entrent ou sortent. Au nord (s 103–107), le moindre contraste vient de l'ombre, pas de l'usure.",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(508-664, 780-977) ; pcrs5cm_917200_6460300.jpg px(656-812, 4-201) ; LiDAR intensity 2021 (bandes visibles)",
+    "usure": "1",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-21",
+    "categorie": "marquage_transversal",
+    "description": "Barre blanche continue et large le long du bord du zébra côté parking. Elle est perpendiculaire à la trajectoire des véhicules qui sortent du parking : probablement une ligne d'effet de STOP ou une ligne d'arrêt de sortie (aucun panneau identifiable vu du ciel). Une partie est masquée par la voiture.",
+    "localisation": "s 115,7 à ≥123, o ≈−6,6 ; de (917232.7, 6460348.9) à (917236.2, 6460343.6) et au-delà",
+    "mesure": "FWHM 0,42 m (cohérent avec une ligne de 0,50 m) ; longueur visible ≥7 m",
+    "cause_usure": "Film moucheté sous l'effet des roues des véhicules qui sortent en tournant.",
+    "preuve": "pcrs5cm_917200_6460300.jpg px(650-745, 19-150)",
+    "usure": "1",
+    "confiance": "faible"
+   },
+   {
+    "id": "reviree_no-22",
+    "categorie": "marquage_longitudinal",
+    "description": "Ligne courbe fine et très effacée qui part de l'extrémité nord de la barre reviree_no-21 et s'incurve vers le sud-ouest puis le sud, dans l'allée du parking, sur ≈10 m. Une fissure courbe la suit en parallèle. C'est peut-être l'ancienne délimitation d'un rayon d'entrée devenue obsolète (fantôme possible).",
+    "localisation": "De (917232.6, 6460348.8) à ≈(917229.0, 6460342.5) puis (917228.8, 6460338.8)",
+    "mesure": "Largeur ≈0,10 m ; pic de 220 au départ, puis 164–172 sur un fond de 150–162",
+    "cause_usure": "Vieillissement et absence d'entretien ; giration des véhicules à l'entrée du parking.",
+    "preuve": "pcrs5cm_917200_6460300.jpg px(575-655, 20-230)",
+    "usure": "3",
+    "confiance": "faible"
+   },
+   {
+    "id": "reviree_no-23",
+    "categorie": "degradation",
+    "description": "Patch rectangulaire sur l'axe, complété par une tranchée transversale sur toute la voie ouest (du fil d'eau ouest à l'axe), juste au sud de l'accès Paquet Jardin. La ligne continue d'axe passe dessus, donc la réfection est antérieure au dernier marquage.",
+    "localisation": "s 125,5–130,5, o −4,3..+0,9 ; centre (917244, 6460341)",
+    "mesure": "Patch ≈1,1 × 2,6 m ; bande ≈4,5 × 2 m",
+    "preuve": "pcrs5cm_917200_6460300.jpg px(800-942, 103-244)",
+    "usure": "NA",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-24",
+    "categorie": "geometrie_voies",
+    "description": "Section courante à 1 voie par sens, chaussée bombée (profil en toit), sans ligne de rive. Seuls les bordures basses et les caniveaux délimitent la chaussée. Pas d'orniérage mesurable : sur des profils LiDAR moyennés sur 20–35 m, l'écart à la parabole reste sous ±5–7 mm dans les voies.",
+    "localisation": "Tout le linéaire (s 12–166)",
+    "mesure": "Entre fils d'eau : 7,9–8,3 m (s 36–60 : −3,5/+4,5 ; s 128–164 : −3,9..−4,3/+3,85..+4,15), soit ≈4,0 m par voie. Dévers 2,4–3,4 % de chaque côté. Vue de bordure 10–14 cm.",
+    "preuve": "Bande redressée de la mosaïque ; MNT LiDAR 15 cm (gradients et profils transversaux) ; pcrs5cm_917200_6460300.jpg px(800-1000, 80-300)",
+    "usure": "NA",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-25",
+    "categorie": "bordure_ilot_trottoir",
+    "description": "Trottoirs en enrobé. À l'est, ≈2,0–2,3 m entre la bordure (+4,0) et une haie ou clôture (+6,2), avec mâts d'éclairage en fond de trottoir. À l'ouest, entre s 33 et 62, ≈2,0–2,3 m entre la bordure de chaussée (−3,5) et une bordure haute qui domine le parking commercial, plus bas de 0,35 à 0,55 m d'après le MNT.",
+    "localisation": "Est : s 10–60, o +4,0..+6,3. Ouest : s 33–62, o −5,8..−3,5, centre (917196, 6460406).",
+    "mesure": "Dénivelé trottoir ouest / parking : 0,35–0,55 m",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(669-994, 133-633) (est) et px(727-965, 623-996) (ouest) ; MNT LiDAR",
+    "usure": "NA",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-26",
+    "categorie": "bordure_ilot_trottoir",
+    "description": "Débouché de la branche ouest de la Revirée et du parvis commercial. L'ouverture est arasée, et seul un caniveau marque la limite de chaussée. On y trouve un musoir planté arrondi, bordé, et un rectangle à croix de Saint-André (zone de stationnement interdit ou de livraison). Aucune ligne de cédez-le-passage ni de STOP observée en sortie.",
+    "localisation": "s ≈12–33, côté ouest (o −12..−4). Musoir ≈(917166–917176, 6460431–6460434). Rectangle en X ≈(917169–917173, 6460424–6460429).",
+    "mesure": "Ouverture ≈20 m ; rectangle en X ≈4,3 × 5,2 m",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(320-530, 310-380) (musoir), px(380-465, 415-520) (croix), px(401-761, 260-718) (parvis)",
+    "usure": "1",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-27",
+    "categorie": "assainissement_reseaux",
+    "description": "Tampons et grilles. Tampons ronds sur la chaussée : s 7,9 (o −2,0) dans une reprise ; s 24 (−2,9) ; s 31 (−3,2) ; s 66,5 (+3,5) ; s 111,2 (−3,4) ; s 114,4 (−6,5), ce dernier sur le zébra. Grilles ou regards rectangulaires au fil d'eau ou en rive de trottoir : s 12 (+4,0) ; s 37 (−3,5), probablement une grille avaloir ; s 82,5 (+4,0) ; s 100 (+4,2), avec un tampon rond à +4,7. Le drainage se fait par les caniveaux des deux côtés (profil en toit).",
+    "localisation": "(917177.2, 6460441.5) ; (917184.1, 6460426.8) ; (917187.6, 6460420.6) ; (917213.4, 6460395.2) ; (917232.9, 6460354.4) ; (917232.1, 6460350.0) ; grilles (917184.3, 6460440.6) ; (917190.7, 6460415.4) ; (917223.0, 6460382.3) ; (917233.0, 6460367.9)",
+    "mesure": "Tampons de diamètre ≈0,6 m ; grilles ≈0,5–0,7 m",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(544,169), (682,464), (752,587), (686,188), (814,692) ; pcrs5cm_917200_6460350.jpg px(268,95), (657,912), (460,353), (660-668, 636-641) ; pcrs5cm_917200_6460300.jpg px(641,0)",
+    "usure": "NA",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-28",
+    "categorie": "signalisation_verticale_feux",
+    "description": "Mâts d'éclairage en fond de trottoir est, que confirment OSM (relevé 2022-02) et la hauteur LiDAR. Un mât supplémentaire est probable à s 132 (+6,0). Un poteau fin, sans doute un panneau, se trouve à s ≈90,5 (+6,2) avec une ombre de ≈1,5 m. Leurs ombres partent vers le NNO (azimut ≈334°), presque parallèles à l'axe (325°), et forment de longues lignes sombres droites sur le trottoir est. Aucun feu tricolore dans ces tuiles. Aucun câble aérien ni ombre de câble détecté au-dessus de la chaussée.",
+    "localisation": "(917191.7, 6460430.8) à s 24,5 ; (917214.1, 6460398.8) à s 63,5 ; (917234.2, 6460369.7) à s 99,5 ; (917252.2, 6460342.2) à s 132",
+    "mesure": "Hauteurs LiDAR ≈5,5 m (mêlée à la végétation), 8,2 m, 7,9 m et ≈9,8 m (végétation). Ombres de 5 à 6 m.",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(257-302, 0-36) et px(574-701, 444-615) ; pcrs5cm_917200_6460400.jpg px(195-277, 900-987) ; osm_street_lamps.geojson ; nuage COPC",
+    "usure": "NA",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-29",
+    "categorie": "mobilier_vegetation",
+    "description": "Grands arbres côté ouest dont la couronne surplombe le trottoir ouest et le bord de la voie ouest entre s 60 et s 110. Ils masquent la bande ouest du zébra 1, la moitié ouest de l'îlot 1, le bord ouest de l'îlot 2 et le nord du zébra 2, et créent une ombre pommelée. Un conifère ombre la voie ouest et l'axe sur s 147–166 (tuile 917250_6460300). Haies côté est.",
+    "localisation": "Couronne ouest : s 60–110, o −12..−3, vers (917215, 6460374). Conifère : s 147–166.",
+    "mesure": "Soleil estimé à un azimut ≈154° et une élévation ≈55–60° (ombre d'un bâtiment de 19,6 m longue de ≈13,6 m)",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(22-651, 64-987)",
+    "usure": "NA",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-30",
+    "categorie": "revetement_texture",
+    "description": "Enrobé bitumineux, probablement un BBSG de granulométrie fine, gris moyen clair (RGB ≈148–160) et oxydé, à texture homogène. Granulats non discernables à 5 cm. Pas de ressuage visible. Des bandes longitudinales légèrement plus sombres correspondent aux traces de roues : elles se voient sur l'ortho à o ≈±1,0–2,5 et nettement dans l'intensité LiDAR 2021. Pas de faïençage sur la chaussée de la Revirée ; fissures uniquement aux joints des tranchées. Trottoirs en enrobé plus sombre et rugueux.",
+    "localisation": "Chaussée de la Revirée, s 0–166",
+    "mesure": "Orniérage inférieur à ≈5–7 mm (sous la résolution du LiDAR)",
+    "preuve": "Bande redressée (filtre passe-haut) ; LiDAR intensity_enhanced_15cm ; pcrs5cm_917200_6460350.jpg px(380-800, 400-1000)",
+    "usure": "NA",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-31",
+    "categorie": "fleche_symbole",
+    "description": "Marquage « 30 » dans un cercle sur la voie est (sortante vers le nord), lisible par les conducteurs qui quittent le carrefour vers la Revirée : entrée de zone ou de limitation à 30. Hors des 5 tuiles, mais en bout de la branche. OSM 2026 indique maxspeed=50 sur ce tronçon (w185326638) : incohérence à signaler.",
+    "localisation": "s ≈164,5, o +1,5..+3 ; (917267, 6460313)",
+    "mesure": "Cercle de diamètre ≈2,2 m",
+    "cause_usure": "Usure légère (bords nets, quelques manques).",
+    "preuve": "pcrs5cm_917250_6460300.jpg px(310-370, 700-770)",
+    "usure": "1",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-32",
+    "categorie": "autre",
+    "description": "Parking client Paquet Jardin, accessible par le zébra reviree_no-20 puis un portail. Places en épi des deux côtés, délimitées par des lignes blanches terminées en T. L'allée fait ≈7,2 m entre extrémités de places. Lignes en partie effacées.",
+    "localisation": "Allée de (917229, 6460339) à (917248, 6460300) ; tuile 917200_6460300 (zone 400-1000, 150-1000)",
+    "mesure": "Allée ≈7,2 m ; lignes de ≈0,10 m",
+    "cause_usure": "Manœuvres de stationnement, vieillissement, absence de re-marquage.",
+    "preuve": "pcrs5cm_917200_6460300.jpg px(430-950, 180-1000)",
+    "usure": "2",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-33",
+    "categorie": "fleche_symbole",
+    "description": "Flèches directionnelles très effacées dans l'allée du parking Paquet Jardin. Deux flèches au sud du portail pointent vers le SSE (sens unique vers le sud probable). Au nord du portail, des restes de flèches dont le sens n'est pas lisible.",
+    "localisation": "Flèches SSE en (917239.5–917240.8, 6460311.8–6460314.8) et (917245.7–917246.8, 6460300–6460302.5). Restes au nord en (917228.8–917233, 6460331.5–6460336.5).",
+    "mesure": "Longueur ≈3 m",
+    "cause_usure": "Âge et passage des roues dans l'allée, sans entretien.",
+    "preuve": "pcrs5cm_917200_6460300.jpg px(790-815, 705-765), px(913-935, 950-1000), px(575-660, 270-370)",
+    "usure": "3",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-34",
+    "categorie": "degradation",
+    "description": "Fissuration de l'enrobé du parking Paquet Jardin : une fissure longitudinale le long de l'allée, des fissures transversales et ramifiées (faïençage naissant), et des joints de reprise courbes près de l'entrée.",
+    "localisation": "(917221.5–917232.5, 6460337–6460342.5) et (917235–917247.5, 6460300–6460320)",
+    "mesure": "Fissures fines (moins de 1 cm à l'image)",
+    "preuve": "pcrs5cm_917200_6460300.jpg px(430-650, 150-260), px(700-950, 600-1000)",
+    "usure": "NA",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-35",
+    "categorie": "mobilier_vegetation",
+    "description": "Portail métallique de l'allée Paquet Jardin, ouvert, à cadre et contreventement en diagonale. Son ombre forme une grille de lignes sombres sur l'enrobé. Îlot planté bordé (nez arrondi) entre le parking et le trottoir de la Revirée.",
+    "localisation": "Portail ≈(917231.5–917241, 6460317.5–6460328.3). Nez de l'îlot ≈(917233–917240, 6460337.5–6460342.5).",
+    "mesure": "Portail ≈9–10 m",
+    "preuve": "pcrs5cm_917200_6460300.jpg px(630-820, 435-650), px(660-800, 150-250)",
+    "usure": "NA",
+    "confiance": "haute"
+   },
+   {
+    "id": "reviree_no-36",
+    "categorie": "fleche_symbole",
+    "description": "Parking commercial de la Revirée : pictogramme PMR (fauteuil) récent, deux autres pictogrammes (forme prise ou cercle à tige, nature indéterminée), lignes de places voisines nettes. Marquage récent.",
+    "localisation": "≈(917173.5–917177, 6460414–6460418)",
+    "mesure": "Pictogramme ≈1,2 m",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(470-545, 640-715)",
+    "usure": "0",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-37",
+    "categorie": "fleche_symbole",
+    "description": "Ancien pictogramme PMR très effacé dans une place au nord du parking commercial, sous un arbre. Les lignes de places de la rangée nord sont grisées.",
+    "localisation": "≈(917161.5–917163, 6460421.5–6460423)",
+    "cause_usure": "Âge et manœuvres ; pas de re-marquage, contrairement à la place PMR récente reviree_no-36.",
+    "preuve": "pcrs5cm_917150_6460400.jpg px(220-290, 520-600)",
+    "usure": "3",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-38",
+    "categorie": "bordure_ilot_trottoir",
+    "description": "Entrée du parking résidentiel est (privé), arasée sur le trottoir est : longrine béton de bord de parking à s 82,5–84. Bande plantée (haie) entre le trottoir est et l'allée du parking sur s 99–120. Seconde ouverture, côté sud, sur s ≈121–127. Lignes de places du parking faibles.",
+    "localisation": "Entrée : s 83–91, o +5,8..+12, centre (917229, 6460382). Haie : (917240, 6460361). Sortie sud : ≈(917250, 6460350).",
+    "mesure": "Ouverture ≈8 m ; haie ≈1,1 m de large",
+    "cause_usure": "Lignes de places en usure 2–3 (âge).",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(489-688, 262-474), px(672-923, 597-959)",
+    "usure": "2",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "reviree_no-39",
+    "categorie": "autre",
+    "description": "La jonction de la voie de desserte arrière (OSM w167225846) avec la Revirée, côté ouest vers s 62–75, est entièrement cachée par la couronne des arbres. On n'y observe aucun marquage. Au nord, une armoire ou un totem sombre (≈0,6 × 1,5 m) avec une barre verte lumineuse, et un court trait blanc (≈1,8 m) le long de la bordure ouest à s 62,3–64.",
+    "localisation": "Armoire ≈(917203, 6460392). Trait ≈(917205.4, 6460393.9).",
+    "preuve": "pcrs5cm_917200_6460350.jpg px(39-81, 135-183), px(100-125, 110-140)",
+    "usure": "NA",
+    "confiance": "faible"
+   },
+   {
+    "id": "reviree_no-40",
+    "categorie": "autre",
+    "description": "La tuile 917250_6460350 ne contient aucune chaussée circulée : seulement des cheminements piétons en enrobé de ≈1,8–2 m, une aire de jeux sablée, des espaces verts et un bâtiment avec son ombre. Seul son coin sud-ouest touche la sortie du parking résidentiel est. La tuile 917200_6460400 montre surtout des jardins, un chemin piéton courbe et un accès résidentiel ; la Revirée n'y apparaît que dans le coin sud-ouest (fuseau, trottoir est).",
+    "localisation": "Tuiles 917250_6460350 et 917200_6460400",
+    "preuve": "pcrs5cm_917250_6460350.jpg (entière) ; pcrs5cm_917200_6460400.jpg px(620-1000, 0-1000)",
+    "usure": "NA",
+    "confiance": "haute"
+   }
+  ],
+  "configuration_voies": "Chaussée bidirectionnelle à 1 voie par sens, sans ligne de rive, sans aménagement cyclable (OSM : cycleway:both=no), sans arrêt de bus ni flèche de présélection dans l'emprise des 5 tuiles. Voie ouest = sens entrant vers le carrefour et l'avenue de Verdun ; voie est = sens sortant vers le nord.\n\nLargeurs, mesurées entre fils d'eau (bordures détectées au MNT LiDAR 2021 et recoupées avec les bords visibles sur l'ortho) :\n- section courante : 7,9–8,3 m, soit ≈4,0 m par voie (s 36–60 : −3,5/+4,5 ; s 128–164 : ≈−4,0/+4,0) ;\n- au fuseau à balises (s 39–51,5) : 2,9 m à l'ouest et 3,05 m à l'est ;\n- à l'îlot 1 (s 61–72) : ≈2,7 m et ≈2,8–3,0 m ;\n- au passage piéton (s 78–81) : chaussée de ≈6,35 m, réduite par l'avancée de trottoir est ;\n- à l'îlot 2 (s 89–106) : ≈2,3–3,0 m à l'ouest (bord sous les arbres, incertain) et ≈2,9 m à l'est.\n\nMarquage d'axe, du nord au carrefour :\n- queue de fuseau (s 0–11) ;\n- axe irrégulier au débouché de la branche ouest (s 12–30) ;\n- ligne continue (s 33,4–60,2) traversant le fuseau à 2 balises ;\n- îlot peint ocre n°1, un tiret, le zébra, deux tirets, puis l'îlot peint ocre n°2 ;\n- 4 tirets T3 (3,15–3,35 m de trait, vides de ≈1 m) ;\n- ligne continue d'approche des feux dès s 123,9 (917242.7, 6460345.7), sur au moins 42 m.\n\nMarquage « 30 » sur la voie est à s≈164,5, dans la tuile voisine. Profil en toit à 2,4–3,4 %. Bordures basses de 10–14 cm de vue, abaissées au zébra 1 et arasées sur trois ouvertures latérales : parvis commercial et branche ouest (s 12–33), accès Paquet Jardin (s 103–126, zébra de 23,5 m) et parking résidentiel est (s 83–91).",
+  "revetement_synthese": "Chaussée : enrobé bitumineux, probablement un BBSG fin, gris moyen clair (luminance ≈150–160), vieilli et oxydé, à texture homogène et fine (granulats non résolus à 5 cm). Pas de ressuage, pas de faïençage sur la Revirée, pas de nid-de-poule ouvert. L'orniérage n'est pas mesurable : sur les profils LiDAR moyennés, l'écart reste sous ±5–7 mm. Des traces de roues apparaissent en bandes légèrement plus sombres (nettes dans l'intensité LiDAR 2021).\n\nDéfauts principaux, tous des réfections de réseaux :\n- s 7–8,3 : reprise carrée autour d'un tampon sur la voie ouest ;\n- s 18,4–21,6 : patch noir récent sur l'axe (≈2,4 × 3,2 m), qui coupe le marquage, plus un joint transversal ;\n- s 28,4–30,6 : tranchée transversale de l'axe au bord est, prolongée par un joint vers l'ouest ;\n- s 73–77,6 : tranchée oblique sur toute la largeur, juste avant le zébra, avec une fissure transversale à s 73,9 ;\n- s 81,2–82 : bande ocre résiduelle ;\n- s 125,5–130,5 : patch sur l'axe et tranchée sur la voie ouest ;\n- s ≈158,5 : bande transversale sur la voie est (tuile voisine).\n\nChronologie déduite : les patchs de s 28 et s 125 sont recouverts par le marquage, donc antérieurs à lui ; celui de s 18–22 n'est pas re-marqué, donc postérieur au marquage mais antérieur au LiDAR d'août–sept. 2021.\n\nÎlots 1 et 2 et fuseau : à niveau (+0,03 m au LiDAR) ; surface colorée ocre-orangé, délavée sur l'îlot 1.\n\nTrottoirs : enrobé plus sombre et rugueux. Parkings (commercial et Paquet Jardin) : enrobé fissuré, avec fissures longitudinales le long des allées et faïençage naissant dans l'allée Paquet Jardin.\n\nAssainissement : caniveaux des deux côtés, grilles et regards à s 12, 37, 82,5 et 100, une dizaine de tampons ronds.",
+  "usure_synthese": "Les marquages de la Revirée sont globalement en bon état, ce qui suggère un re-marquage peu avant 2021–2022 :\n- lignes continues, contours du fuseau et des îlots : usure 0, pic 223–229 pour une chaussée à ≈155, contraste ≈70 ;\n- tirets T3 et tirets courts : usure 1, contraste 59–64. Le minimum se situe autour du passage piéton (freinage, redémarrage, ombre) ;\n- zébras : usure 1, film moucheté par le passage des roues. Le zébra d'accès Paquet Jardin est roulé à chaque entrée ou sortie de véhicule.\n\nLes manques de l'axe ne viennent pas de l'usure. Entre s 17,3 et s 22,05 (et entre s 12 et 30 en général), les vides sont propres (contraste ≈10) : ce sont des réfections non re-marquées et/ou une discontinuité voulue au débouché de la branche ouest.\n\nSurfaces colorées : usure 2 sur l'îlot 1 (perte de couleur estimée 30–50 %, îlot franchissable mordu par les véhicules lourds), usure 1 sur l'îlot 2.\n\nMarquages secondaires, souvent faute de re-marquage :\n- parking Paquet Jardin : places en usure 2, flèches en usure 3 ;\n- arc d'entrée : usure 3, peut-être un fantôme ;\n- parking commercial : place PMR récente en usure 0, ancien pictogramme PMR en usure 3 ;\n- parking résidentiel est : usure 2–3.\n\nFantôme possible (F) : bande ocre en aval du zébra 1 (confiance faible).\n\nAucun marquage jaune provisoire : une recherche colorimétrique sur les 5 tuiles ne trouve rien, ce qui est cohérent avec la date de 2022, antérieure aux travaux.",
+  "points_adas": "1) Fuseau à balises (s 39–51,5). L'axe continu se dédouble en deux lignes courbes écartées de 2,0 m, avec une ligne centrale plus fine. Un suivi de voie risque de s'accrocher au contour du fuseau, soit un décalage latéral jusqu'à ≈1 m, et les voies n'y font plus que 2,9–3,05 m. Les deux balises sombres d'environ 1 m, posées dans l'axe, sont des petits obstacles verticaux, difficiles à voir pour un radar et peu échantillonnés par le LiDAR.\n\n2) Îlots ocre (1 et 2) entièrement à niveau. Le LiDAR ne voit aucun relief et la caméra ne les distingue que par leur contour blanc. En niveaux de gris, l'ocre (luminance ≈160–175) se confond presque avec l'enrobé (≈150). La couleur délavée de l'îlot 1 ajoute du gris. Les doubles traits en chevron aux pointes (convergence contour + chevron) et les bascules répétées axe continu / tirets / îlot créent des transitions de type de ligne tous les 10–15 m.\n\n3) Axe irrégulier à s 12–30 (5,35 / 2,95 / 4,30 m, avec des vides de 4,8 / 0,65 / 3,55 m), coupé par un patch noir aux bords nets. Le type de ligne (continue ou discontinue) devient ambigu, ce qui gêne la logique de dépassement et la mise en correspondance avec une carte HD.\n\n4) Réparations très contrastées et rectilignes :\n- patch noir sur l'axe (s 18–22) ;\n- tranchées transversales (s 28–30, s 125–130) ;\n- tranchée oblique sur toute la largeur juste avant le zébra 1 (s 73–77,6) ;\n- bande ocre transversale juste après ce zébra (s 81,2–82).\nCes bords peuvent être pris pour des lignes transversales, des ombres ou un changement de revêtement juste aux abords d'un passage piéton.\n\n5) Zébra de 23,5 m le long du bord ouest (accès Paquet Jardin). Vues de face, ses bandes courtes au pas de 1 m ressemblent à une ligne de rive pointillée ou à un passage piéton qui traverserait la Revirée. Elles peuvent donc déclencher à tort la détection d'un passage piéton sur la trajectoire. Une voiture garée dessus et une barre blanche de 0,42 m (STOP probable) complètent le motif.\n\n6) Aucune ligne de rive. La limite de chaussée tient à des bordures basses (10–14 cm), abaissées au zébra 1 et arasées sur trois ouvertures larges (parvis commercial ≈20 m, accès Paquet Jardin 23,5 m, parking est ≈8 m). L'espace roulable perçu « déborde » sur les parvis et parkings. Côté ouest, entre s 33 et 62, le parking se trouve 0,35–0,55 m plus bas que le trottoir (dénivelé à signaler).\n\n7) Ombres :\n- mâts d'éclairage de 8 m sur le trottoir est (et, plus au sud, un conifère) : leurs ombres partent vers le NNO, presque parallèles à la route (9° d'écart), et dessinent de longues lignes sombres droites à 1,5–2,5 m du fil d'eau, candidates à de fausses limites de voie (cas d'un soleil d'azimut ≈154° et d'élévation ≈55–60°) ;\n- couronne d'arbres ouest (s 60–110) : ombre pommelée à haute fréquence et occultation de la bande ouest du zébra 1, de la moitié de l'îlot 1 et du nord du zébra 2, avec des transitions soleil/ombre difficiles pour l'exposition caméra ;\n- portail du parking : son ombre dessine une grille de lignes sur l'enrobé.\n\n8) Rétrécissements brusques : on passe de 8,0 m à 6,35 m au passage piéton (avancée est, potelets sur la bordure), et de voies de 4 m à 2,3–3,0 m le long des îlots.\n\n9) Le marquage « 30 » en entrée de branche contredit OSM 2026 (maxspeed=50), d'où un conflit possible dans la fusion carte / lecture de vitesse.\n\n10) Débouchés latéraux sans aucune ligne de cédez-le-passage ou de STOP observée (branche ouest, desserte arrière cachée sous les arbres) : les règles de priorité ne se lisent pas au sol.\n\n11) Le levé GAM dessine l'axe avec une largeur de 0,10 m, alors que l'ortho 2022 mesure ≈0,15–0,18 m, et il ne contient ni fuseau, ni îlots, ni zébras sur ce tronçon. Il ne faut pas s'en servir comme vérité terrain pour l'état de 2022.",
+  "pourquoi_cette_conception": "La Revirée est une voie de desserte et de collecte : lycée Louis Terray, commerces, résidences, parking Paquet Jardin. Elle hérite d'une chaussée large de ≈8 m (deux voies de 4 m), qui pousse à la vitesse.\n\nLa géométrie de 2022 la modère sans gros travaux, par une succession de dispositifs peints et à niveau :\n- un fuseau à balises en sortie de courbe ;\n- deux îlots ocre encadrant le passage piéton, qui réduisent les voies à ≈2,7–3,0 m, interdisent le dépassement à l'approche du passage et des accès, et jouent un rôle de protection sans constituer un refuge ;\n- une avancée de trottoir est (chaussée de 6,35 m), qui raccourcit la traversée piétonne, améliore la covisibilité et empêche le stationnement ; les potelets complètent ce dernier point.\n\nLes îlots sont franchissables et non bordurés, pour laisser passer les cars scolaires, les livraisons des commerces et de la jardinerie et les véhicules de secours, et pour ne pas gêner l'écoulement vers les caniveaux du profil en toit.\n\nLes tirets T3 servent de lignes d'avertissement avant chaque ligne continue. La longue ligne continue d'approche interdit de doubler ou de déboîter dans la file d'attente du feu de l'avenue de Verdun.\n\nLe marquage « 30 » en entrée de branche signale une zone apaisée, accès d'établissement scolaire.\n\nLe long zébra posé le long de la chaussée, à travers l'ouverture de 23,5 m (accès Paquet Jardin et dessertes arrière), assure la continuité et la priorité du cheminement piéton sur une sortie large et non régulée. La barre de 0,42 m impose probablement l'arrêt aux véhicules qui sortent.\n\nL'axe irrégulier au nord (s 12–30) reflète le débouché de la branche ouest et du parvis commercial (tourne-à-gauche autorisés) et des reprises de tranchées non re-marquées.",
+  "incertitudes": "- Aucune tuile au nord de y=6460450 : le fuseau ou zébra dont la queue apparaît à s 0–11 n'a pas pu être vu en entier.\n- Bord ouest de chaussée et jonction de la desserte arrière (OSM w167225846) cachés sous les arbres entre s 60 et 110 : la largeur de la voie ouest à l'îlot 2 (2,3–3,0 m) est incertaine à ±0,5 m.\n- Largeurs de ligne déduites de la FWHM corrigée du flou de l'ortho (σ ≈4,6 cm, mesuré sur les bords des bandes de zébra) : ±0,02–0,03 m. Le levé GAM indique 0,10 m, soit une largeur conventionnelle, soit un re-marquage plus récent.\n- Modulation T3 déduite de la période (4,25 m contre 4,33 m réglementaires). Le type de la ligne irrégulière de s 12–30 n'est pas déterminable.\n- Non vérifiables depuis le ciel : nature exacte des balises (J11 ?), petits carrés blancs aux angles de l'îlot 1 (plots ?), fonction de la barre de 0,42 m (STOP ou arrêt, aucun panneau lisible), sens des flèches au nord du parking Paquet Jardin, nature des deux pictogrammes du parking commercial, bande ocre « fantôme ».\n- Les contrôles de relief (îlots à niveau, bordures, absence d'orniérage) reposent sur le LiDAR d'août–sept. 2021, huit mois avant l'ortho. Les patchs de s 18 et s 29, les zébras et le fuseau sont bien visibles en intensité LiDAR 2021 ; on suppose une géométrie identique en mai 2022.\n- Hauteurs d'objets (balises, potelets) estimées à partir de LiDAR clairsemé et d'ombres (soleil estimé à un azimut ≈154° et une élévation ≈55–60°).\n- Le « 30 » (s 164,5) et la suite de la ligne continue se trouvent dans la tuile 917250_6460300, hors des 5 tuiles assignées, et n'ont été vus que pour le contexte.\n- Les positions s/o viennent d'une spline ajustée sur l'axe marqué ; précision de conversion en L93 ≈0,1–0,2 m. Rappel : OSM et les levés GAM peuvent être postérieurs aux travaux de 2025."
+ }
+}

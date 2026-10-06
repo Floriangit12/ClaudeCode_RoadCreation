@@ -1,0 +1,826 @@
+{
+ "observe:contexte_securite": {
+  "theme": "Fonction, conception et sécurité du carrefour Verdun / Vercors / Revirée (« Paquet Jardin », Meylan) : rôle de chaque branche, justification des choix d'aménagement (avant et après les travaux C1 de 2025), accidentologie BAAC 2010-2024 vérifiée plusieurs fois, scénarios ADAS",
+  "constats": [
+   {
+    "id": "ctx-01",
+    "sujet": "Hiérarchie et identité du carrefour",
+    "enonce": "Carrefour à feux à 4 branches. L'avenue de Verdun (RD1090, ex-RN90) est une route intercommunale gérée par Grenoble-Alpes Métropole (importance BD TOPO 2, axe structurant). Elle croise deux voies de desserte : l'avenue du Vercors au sud (voie communale, importance 4) et le chemin de la Revirée au nord-nord-ouest (importance 4 près du carrefour, 5 au-delà), dont l'entrée et la sortie sont séparées par un îlot. Dans le référentiel départemental, le carrefour se trouve au PR 5+265 de la RD1090 : c'est la limite de sections de comptage, à environ 25 m du centre.",
+    "preuve": "bdtopo_troncon_de_route.geojson (cpx_numero D1090, cpx_gestionnaire « Grenoble Alpes Métropole », importance 2/4/5) ; osm_roads.geojson (ref D 1090, old_ref N 90) ; API opendata.isere.fr d38_reseau_routier_trafic : la section PR 4+160→5+265 se termine en (-15,-21) m du centre (wf_d/web/isere_d1090.json).",
+    "confiance": "haute"
+   },
+   {
+    "id": "ctx-02",
+    "sujet": "Volumes de trafic VL (TMJA)",
+    "enonce": "Sur la RD1090 au carrefour, le TMJA 2022 (Métropole) est de 7 800 véh/j tous sens, sur la section PR 4+163→5+1510 (2,3 km) qui inclut le carrefour. Une étude Métropole plus ancienne (cartes 2012 à 2018) donne 16 500 véh/j sur PR 4+160→5+265, juste au sud-ouest. Côté nord-est : 10 500 véh/j (2022, PR 5+1510→6+476). Pour comparaison : 36 200 véh/j (2019) sur la RD1090 côté La Tronche (PR 2+276→4+160), environ 83 000 à 86 000 véh/j sur l'A41 parallèle et 74 200 véh/j sur la N87. L'essentiel du trafic d'échange quitte donc la RD1090 à La Carronnerie (PR 4+160, environ 1,05 km au sud-ouest). Au carrefour, la RD1090 n'écoule plus que 8 000 à 16 500 véh/j : la 2×2 voies est héritée de la RN90. Aucun comptage trouvé pour Vercors, la Revirée, les piétons ni les vélos.",
+    "preuve": "opendata.isere.fr (jeu « Trafics routiers sur la voirie départementale de l'Isère », data.gouv.fr), requêtes géographiques et par route (wf_d/web/isere_near.json, isere_d1090.json). Recherches web sans résultat pour les autres branches. Un portail eco-counter Métropole existe, mais aucun compteur n'est identifié au carrefour.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-03",
+    "sujet": "Régime de vitesse",
+    "enonce": "Observé sur l'ortho 5 cm du 10/05/2022 : marquage « 50 » au sol sur les voies sortantes de Verdun (SO et NE) ; « 30 » d'entrée de zone sur la sortie vers Vercors et sur l'entrée de la Revirée. Meylan a adhéré à « Métropole apaisée » le 24/03/2022 : 30 km/h généralisé, sauf quelques axes maintenus à 50. Le plan 2025 conserve « 50 » sur Verdun et « 30 » sur Vercors et la Revirée. OSM 2026 indique pourtant maxspeed=50 partout, avec source:maxspeed=FR:urban (valeur par défaut, obsolète pour Vercors et la Revirée). Vitesses moyennes BD TOPO : 45 km/h sur Verdun près du carrefour (35 km/h plus au SO), 40 sur Vercors et la Revirée, 15 dans le carrefour. Le champ vma du BAAC est incohérent sur Vercors (50 en 2023 et 2024, 30 en 2022).",
+    "preuve": "Tuile pcrs5cm_917250_6460250, px (128,610) et (172,652) « 50 », px (783,790) « 30 » ; tuile pcrs5cm_917250_6460300, px (340,740) « 30 ». Panneau 72 dpi r00_c02 et r01_c03. Magazine « Meylan ma ville » n°148 p.4 (« Meylan, commune apaisée… le 24 mars »). osm_roads (maxspeed, source:maxspeed).",
+    "confiance": "haute"
+   },
+   {
+    "id": "ctx-04",
+    "sujet": "Profil en travers réel de Verdun (« 2×2 voies séparées » à nuancer)",
+    "enonce": "Près du carrefour, avant les travaux, Verdun était une chaussée unique d'environ 15 m (4 voies, 2 par sens) avec une séparation centrale peinte (hachures). Il n'y avait pas de terre-plein continu : seuls des îlots refuges porte-feux existaient au droit des traversées. Le plan 2025 crée un terre-plein planté (arbres) entre les deux sens sur l'approche SO. La branche NE reste séparée par marquage.",
+    "preuve": "Transects sur les bordures du levé GAM (gam_topo_sol_bordure_lin) : à (-60,-62), (-40,-42) et (-20,-22) m, bordures à -9,1/-10,1 et +5,9/+6,5, sans bordure intermédiaire (15 à 16 m). BD TOPO SO : « Route à 1 chaussée, 4 voies, 14 m ». Tuile pcrs5cm_917300_6460300 : hachures centrales. Panneau 150 dpi r02_c04 : terre-plein vert planté.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-05",
+    "sujet": "Topologie et mouvements",
+    "enonce": "Les deux branches secondaires sont décalées. Le carrefour fonctionne donc comme deux demi-carrefours dans la trouée centrale. Au nœud ouest, la sortie de la Revirée rejoint Verdun, et les véhicules de Verdun vers le SO peuvent tourner vers Vercors par une liaison d'environ 8 m. Au nœud est, l'arrivée de Vercors rejoint Verdun vers le NE, et une liaison mène vers Verdun SO et la Revirée. Les tourne-à-gauche Verdun SO→Vercors et Verdun NE→Revirée se croisent dans la trouée. OSM compte 4 lignes de feux : approche NE-bound (-10,-19), Vercors (+12,-15), SW-bound (+13,+15) et Revirée (-9,+11, avec red_turn:right:bicycle=yes, c'est-à-dire un cédez-le-passage cycliste au feu). Affectation des voies selon le plan 2025 : sur Verdun NE-bound, voie gauche « tout droit + gauche » et voie droite « tout droit + droite » ; sur Vercors, voie gauche « gauche » seule et voie droite « tout droit + droite ». Aucun couloir bus au carrefour.",
+    "preuve": "API OSM : ways 168644602, 1488785302, 40994097, 185326634, 169866973, 185326635 et leurs nœuds 787121172, 787121265, 1959011169, 1959011172 ; aucune relation de restriction sur ces nœuds. osm_traffic_signals. Panneau 150 dpi r02_c04 (crop wf_d/panel_arrows_ne.png) et 72 dpi r01_c03. Les tronçons « réservé aux bus » de BD TOPO (créés le 19/04/2024) ne sont confirmés ni par OSM ni par le plan.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-06",
+    "sujet": "Rôle bus : pivot de la Chrono C1",
+    "enonce": "La C1 (Grenoble Cité Jean Macé ↔ Montbonnot Pré de l'Eau) quitte ici l'avenue de Verdun pour l'avenue du Vercors (Buclos, Mairie, Hexagone, Inovallée). Sens Montbonnot : Verdun NE-bound, arrêt La Revirée, puis tourne-à-droite vers Vercors. Sens Grenoble : Vercors, puis tourne-à-gauche sur Verdun SW-bound, puis arrêt. Autres lignes : 42 (Verdun→Vercors, et Vercors→Revirée tout droit, avec un arrêt sur la Revirée) ; 80, 82 et 164 (tout droit sur Verdun, arrêt La Revirée) ; 162 (Verdun↔Vercors) ; scolaires 133 et 233 (Revirée→Verdun NE via la liaison) et 221/222 (Revirée→Vercors). La « ligne 21 » citée dans CONTEXT correspond très probablement au code de quai ref:FR:TAG=21 : aucune relation de ligne 21 n'utilise ces quais.",
+    "preuve": "API OSM, relations parentes des nœuds 498507091, 514050476, 1959011184 et des ways 63600584, 169866973, 185326635, 1488785302, 168644602, 40994097, 1275266692 (wf_d/net/*.json). inovallee.com (arrêts Buclos et Mairie de la C1) ; magazine n°163 p.16 ; AHCM (« C1 (avenue du Vercors) »).",
+    "confiance": "haute"
+   },
+   {
+    "id": "ctx-07",
+    "sujet": "Fréquence, fréquentation et matériel C1",
+    "enonce": "La C1 transporte environ 12 000 voyageurs/j (objectif 14 000). Elle passe toutes les 5 à 10 min du lundi au samedi (7 h-19 h), toutes les 20 min le dimanche, de 5 h 30 à 0 h 30. Depuis septembre 2025, le terminus est unique au Pré de l'Eau (fin du double terminus, cadence doublée Béalières↔Pré de l'Eau). Le matériel est articulé, 18 m (Citelis 18, Scania Citywide LFA, MAN Lion's City G ; la photo du panneau montre un articulé Chrono). En semaine, environ 6 à 12 C1 par heure et par sens effectuent donc un tourne-à-droite (Verdun→Vercors) ou un tourne-à-gauche (Vercors→Verdun) dans ce carrefour. Projet C1+ : 8,4 M€ (50 % Métropole, 43 % SMMAG, 7 % Meylan).",
+    "preuve": "tgplus.fr (08/09/2025) ; reso-m.fr/865 ; fr.wikipedia « Lignes de bus Chrono de Grenoble » ; panneau 72 dpi r00_c00 (photo) ; magazine n°163 p.16.",
+    "confiance": "haute"
+   },
+   {
+    "id": "ctx-08",
+    "sujet": "Arrêts « La Revirée » et P+R",
+    "enonce": "Les arrêts sont en ligne : le bus s'arrête dans la voie de droite (zigzag jaune), sans encoche. Il y a un quai par sens sur la branche SO. Sens NE (C1 vers Vercors) : quai en amont de la ligne de feux (arrêt avant carrefour). Sens SO (vers Grenoble) : quai en aval de la traversée (arrêt après carrefour). Un quai supplémentaire existe sur la Revirée (ligne 42). Le projet 2025 regroupe les arrêts en un quai unique par sens, légèrement décalé, et déplace l'entrée du P+R La Revirée (36 places, gratuit avec titre M réso, avenue de Verdun).",
+    "preuve": "Panneau 72 dpi r01_c00 et r01_c01, 150 dpi r02_c04 (zigzag sur la voie de droite). Tuile pcrs5cm_917200_6460200 (2022 : zigzag jaune et abri). Magazine n°163 (« création d'un quai de bus unique… son pendant nord seront décalés »). OSM : quais 185326913 (v12, 21/09/2025), 185326915 (v15, 01/04/2026), 1445374292. grenoble-tourisme.com et meylan.fr/435 (36 places).",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-09",
+    "sujet": "Rôle vélo : Chronovélo 1",
+    "enonce": "La Chronovélo 1 (relation OSM 9709977, opérateur GAM) arrive de Grenoble par la piste bidirectionnelle du côté NO de Verdun (3 m de large). Au carrefour, elle franchit la branche SO de Verdun par une traversée cyclable bidirectionnelle d'environ 16 m, perpendiculaire à Verdun et accolée au passage piéton. Elle continue sur environ 17 m en biais dans l'angle sud, puis repart en piste bidirectionnelle de 4 m le long de Vercors (vers Buclos et Béalières). L'itinéraire « Grenoble–Meylan–Montbonnot » continue lui sur la piste de 4 m côté NO de Verdun NE et franchit la bouche de la Revirée à feux. Avant 2025, la Chronovélo traversait aussi la bretelle de tourne-à-droite vers Vercors. Marquage des traversées cyclables : damiers jaune-ocre en 2022, orange avec doubles chevrons ⇕ sur le plan 2025. La « traversée en diagonale » n'est diagonale que sur une carte orientée au nord : elle est perpendiculaire à Verdun (azimut 135-142°), mais l'itinéraire forme une baïonnette Verdun-NO → Vercors-S.",
+    "preuve": "API OSM, relations des ways 385035086, 398052317, 54585242, 398052219. Géométrie OSM : 398052317, L = 34,2 m, nœuds (-17,-4)→(-6,-16)→(+4,-31). osm_cycleways (width 3/4). Tuile pcrs5cm_917250_6460250 (damiers). Plan (wf_d/img/planGAM_mid.jpg, produit par un autre agent).",
+    "confiance": "haute"
+   },
+   {
+    "id": "ctx-10",
+    "sujet": "Piétons, scolaires, générateurs",
+    "enonce": "L'établissement s'appelle « collège Lionel Terray » et non « lycée Louis Terray » : 1 rue des Peupliers, environ 190 à 260 m au NO, 537 élèves, UAI 0381777A. C'est le terminus des lignes scolaires 133, 233, 221 et 222 qui passent par le carrefour. Autres écoles : école Mi-Plaine (~450 m O), écoles des Buclos (~660-740 m E-SE) et lycée du Grésivaudan (1,1-1,4 km NE). ERP proches : Paquet Jardin (catégorie 2, 699 personnes, 48 m), gymnase de la Revirée (catégorie 3, 117 m), centre commercial des Nénuphars (149 m), centre des finances publiques (92 m), ZA des Sources, domaine des Saules Blancs et immeubles neufs de 2024 à l'est. Le magazine qualifie les traversées de « très empruntées par les scolaires ». Le tag destination OSM « Lycée L.Terray » est probablement une erreur de panneau ou de saisie.",
+    "preuve": "bdtopo_zone_d_activite_ou_d_interet (« Collège Lionel Terray », 1 rue des Peupliers) ; bdtopo_erp ; OSM buildings school (-209,+106) et (-161,+207) ; noms des lignes OSM 133/233/221/222 (« Collège Lionel Terray ») ; magazine n°163 p.16 et p.23 ; annuaire Éducation nationale (537 élèves) ; osm_roads way/185326634 (destination).",
+    "confiance": "haute"
+   },
+   {
+    "id": "ctx-11",
+    "sujet": "Équipement des traversées (OSM 2026)",
+    "enonce": "Toutes les branches ont des traversées à feux. Vercors : traversée en deux temps (2 nœuds vérifiés les 27/02 et 07/03/2026, bande podotactile sur 1 des 2). Verdun SO : 2 nœuds avec bouton d'appel, tags de 2021 donc antérieurs aux travaux. Verdun NE : 2 nœuds vérifiés en 2023, podotactiles. Revirée : 4 nœuds. Sur les 4 traversées où l'information existe, traffic_signals:sound=no : pas de répétiteur sonore, ce qui constitue une lacune d'accessibilité pour les non-voyants.",
+    "preuve": "osm_crossings.geojson ; historique API OSM (nœuds 1959022961 v8 2026-03-07, 1959022964 v8 2026-02-27, 1722505398/99 v5/v7 2021-06-25, 1959022973/76 2023-08-26).",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-12",
+    "sujet": "Travaux 2025 « amélioration C1 » : contenu et objectifs déclarés",
+    "enonce": "Le carrefour est « compacté » : suppression de la voie de tourne-à-droite Verdun→Vercors, quai de bus unique (et quai nord) décalés, entrée du P+R déplacée, traversées piétonnes et cycles « reprises et sécurisées (notamment pour les scolaires) », plantations et gestion alternative des eaux pluviales, cheminement piéton le long des Saules Blancs. Objectifs déclarés : temps de parcours et régularité de la C1, sécurité des piétons et cycles, intermodalité, végétalisation et désimperméabilisation. Calendrier : été 2025 au carrefour, Vercors jusqu'en novembre ou décembre, fin annoncée en décembre 2025 (magazine n°166), finitions jusqu'au 30/01/2026 (CONTEXT).",
+    "preuve": "Panneau PDF (texte extrait) ; magazine n°163 p.16 ; magazine n°166 (point H) ; recherche web (meylan.fr actualités 1129/1227, inaccessibles directement : redirection vers l'accueil).",
+    "confiance": "haute"
+   },
+   {
+    "id": "ctx-13",
+    "sujet": "BAAC : méthode et contrôles croisés (vérification multiple)",
+    "enonce": "15 millésimes ont été traités : 2010-2024, avec les 4 fichiers par an ; les fichiers 2010-2014 et ceux manquants de 2021-2024 ont été téléchargés. Le millésime 2025 n'est pas publié : le jeu data.gouv « 2005 à 2024 » a été mis à jour pour la dernière fois le 29/12/2025. Cinq contrôles indépendants :\n(1) filtre commune (38229 depuis 2019, dep 380 + com 229 avant), qui donne 65 accidents à Meylan en 2015-2024 ;\n(2) balayage brut ligne à ligne des fichiers France sans filtre commune, rayon 300 m : même et unique résultat ;\n(3) recherche par adresse (Verdun, Vercors, Revirée, Paquet, Terray) ;\n(4) relocalisation par PR sur la RD1090 (PR 5+265 = carrefour) : PR et coordonnées concordent à 20-90 m près dans 6 cas sur 7 ;\n(5) cohérence entre adresses BAAC et numéros OSM sur Vercors (27, 31 et 37 donnent 275-410 m, cohérent).\nPièges identifiés : lat/long ×1e5 avant 2019 et virgule décimale ensuite ; en-tête Accident_Id en 2022 ; séparateurs ',' ou ';' ; encodages ; libellés « (1) » dans les PR ; deux accidents 2018 sur un même point par défaut ; un géocodage faux de 1,3 km (2024-03-27, « 1 rue des Peupliers »).",
+    "preuve": "Scripts wf_d/scripts/baac_pj.py, baac_check.py, baac_old.py, baac_table.py. Sorties wf_d/out/*.csv et baac_2010_2014.txt. Nombres de lignes contrôlés (ex. 2023 : 54 822 accidents en France).",
+    "confiance": "haute"
+   },
+   {
+    "id": "ctx-14",
+    "sujet": "Seul accident corporel à 150 m ou moins (2010-2024)",
+    "enonce": "Accident 202300015141 du dimanche 17/09/2023 à 10 h 59, à 37 m du centre (+15,-34), à l'entrée de l'avenue du Vercors. De jour, temps normal, chaussée sèche, hors intersection, « autre collision ». Véhicule unique : un autobus (4 occupants TC) « en s'insérant », choc avant gauche contre un « autre obstacle fixe sur trottoir ou accotement », situé « sur piste cyclable », dans une courbe à droite. Voie communale bidirectionnelle à 3 voies, piste cyclable présente, vma codée 50. Bilan : un passager de 70 ans blessé léger ; le conducteur (trajet professionnel) et 2 passagers indemnes. Aucun autre accident géolocalisé à moins de 300 m sur 2010-2024.",
+    "preuve": "caract-2023, lieux-2023, vehicules-2023 et usagers-2023 (data.gouv) ; wf_d/out/accidents_paquet_jardin_2010_2024.csv ; image wf_d/img/pcrs5cm_917250_6460250_osm2026_baac2023.jpg.",
+    "confiance": "haute"
+   },
+   {
+    "id": "ctx-15",
+    "sujet": "Interprétation de l'accident 2023 (hypothèse)",
+    "enonce": "Le point (+15,-34) se trouve à environ 6 m en aval du point où l'ancienne bretelle de tourne-à-droite Verdun→Vercors (contournant l'îlot triangulaire, visible sur l'ortho 2022) rejoignait Vercors. La manœuvre « en s'insérant » correspond à ce raccordement : il n'y a pas d'arrêt de bus à cet endroit. Hypothèse : un bus, probablement de la C1 (seule ligne dominicale identifiée sur ce mouvement), s'est inséré depuis la bretelle et a heurté un obstacle de bordure avec son angle avant gauche ; le passager âgé a pu chuter à bord. Cette bretelle a été supprimée en 2025.",
+    "preuve": "Tuile pcrs5cm_917250_6460250 : îlot triangulaire px (700-820,520-750), point accident px (888,879) ; géométrie OSM 2026 du tourne-à-droite (way 169866973) traversant l'emprise de l'ancien îlot. La précision des coordonnées BAAC est de l'ordre de 10 à 30 m.",
+    "confiance": "faible"
+   },
+   {
+    "id": "ctx-16",
+    "sujet": "Accidents non localisables pouvant concerner le carrefour",
+    "enonce": "Quatre accidents n'ont pas de localisation exploitable :\n- 19/08/2010 à 23 h 30, « chemin de la Revirée », intersection en X, cyclomoteur seul de nuit, passager hospitalisé (pas de coordonnées) ;\n- 12/10/2013 à 17 h 45 (crépuscule, pluie), « avenue de Verdun », ni PR ni coordonnées : VL tournant à gauche contre une moto 50-125, motard hospitalisé ;\n- 2013 : accident sur voie communale sans adresse ;\n- 12/10/2018 à 19 h 35 : cyclomoteur dépassant à gauche, sans collision, conducteur hospitalisé, au PR 5+500 soit environ 235 m au NE ; ses coordonnées correspondent à un point par défaut.\nAu total, 1 accident certain et au plus 3 possibles dans ou près du carrefour en 15 ans.",
+    "preuve": "wf_d/out/baac_2010_2014.txt et accidents_paquet_jardin_2010_2024.csv ; caracteristiques/lieux 2010, 2013 et 2018.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-17",
+    "sujet": "Accidents entre 150 et 520 m (contexte proche)",
+    "enonce": "- 2010-08-09, 37 av. du Vercors : scooter <50 faisant demi-tour heurté par une moto >125, jeune de 17 ans hospitalisé.\n- 2011-02-08, Verdun/Aiguinards (PR 4+937, 330-350 m SO) : VL tournant à gauche contre scooter, collégien ou lycéen de 17-18 ans en trajet domicile-école, hospitalisé.\n- 2012-10-07 à 4 h 45, Verdun (274-410 m NE) : choc arrière sur un VL arrêté, 3 blessés légers.\n- 2016-12-06 à 19 h 15 (nuit), Verdun/Aiguinards (365-381 m SO) : piéton de 14 ans sur passage sans feux.\n- 2018-03-27, rue des Aiguinards : piéton de 93 ans hospitalisé.\n- 2018-09-18 à l'aube, Verdun PR 5+0 (265-354 m SO) : collision frontale entre un PL 3,5-7,5 t « changeant de file à gauche » et un VL, conducteur VL hospitalisé.\n- 2019-06-18, Verdun : moto seule contre une bordure, motard hospitalisé.\n- 2021-03-23 : cycliste seul hospitalisé.\n- 2021-05-07 : enfant de 8 ans traversant à moins de 50 m d'un passage.\n- 2022-06-28, Revirée × D590 (511 m) : VL tournant à gauche contre un VAE (trajet domicile-travail, hospitalisé).\n- 2022-12-09 à 17 h 35, nuit et pluie, 31 av. du Vercors : piéton traversant à moins de 50 m d'un passage.\n- 2024-01-27, 27 av. du Vercors (407 m) : VL en dépassement à gauche heurtant un piéton de 16 ans en trajet domicile-école, à moins de 50 m d'un passage, hospitalisé.",
+    "preuve": "wf_d/out/accidents_paquet_jardin_2010_2024.csv (champs décodés) ; carte wf_d/img/baac_2010_2024_rayon600m.png.",
+    "confiance": "haute"
+   },
+   {
+    "id": "ctx-18",
+    "sujet": "Portée statistique et contexte communal",
+    "enonce": "Un seul accident en 10 ans correspond, en loi de Poisson, à un intervalle de confiance à 95 % de 0,0025 à 0,56 accident par an. Le carrefour n'était pas un point noir BAAC, et l'effet des travaux 2025 ne peut pas être mesuré par le BAAC (données 2025-2026 absentes, trop peu d'événements). Meylan 2015-2024 : 65 accidents corporels et 138 usagers impliqués, dont 5 tués (aucun près du carrefour ; le plus proche : 13/03/2015, Verdun PR 5+1000, environ 720 m NE, scooter percuté par l'arrière par un PL, conducteur de 19 ans tué), 37 hospitalisés et 33 blessés légers. 16 accidents sur la RD1090, 15 impliquant des piétons (16 victimes, dont 12 en traversée, 3 mineurs et 7 de 65 ans ou plus), 9 des vélos, VAE ou EDP, 26 des 2RM.",
+    "preuve": "Calcul sur wf_d/out/baac_meylan_*.csv ; IC exact par chi² (scipy).",
+    "confiance": "haute"
+   },
+   {
+    "id": "ctx-19",
+    "sujet": "Mécanismes récurrents locaux",
+    "enonce": "(a) Tourne-à-gauche d'un VL coupant un 2RM ou un vélo venant en face : 9 cas à Meylan en 2015-2024 et 5 en 2010-2014 (Verdun/Aiguinards 2011, Verdun 2013, 7 Laux, Grésivaudan, boulevard des Alpes, Revirée 2022 avec un VAE).\n(b) Piéton traversant à moins de 50 m d'un passage, souvent jeune, parfois masqué par un véhicule arrêté et heurté par un véhicule qui dépasse (2024-01-27).\n(c) Collision frontale par franchissement d'une séparation seulement peinte (2018-09-18).\n(d) Choc arrière sur un véhicule arrêté ou un 2RM (2012, 2015 mortel).\n(e) Pertes de contrôle de 2RM et de bus sur bordures et obstacles (2019, 2023).",
+    "preuve": "Requête manœuvres sur vehicules (manv=15 + catégorie 2RM ou vélo) ; liste décodée wf_d/out/accidents_paquet_jardin_2010_2024.csv.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-20",
+    "sujet": "Justification : 2×2 voies sur Verdun",
+    "enonce": "(Déduit) La 2×2 voies hérite de l'ex-RN90, l'axe Grenoble–Grésivaudan d'avant l'A41. Elle reste utile pour la capacité aux feux (deux voies de stockage par sens), pour les lignes interurbaines (80, 82, 164) et la C1, et pour l'accès à La Carronnerie (A41/N87). Avec 8 000 à 16 500 véh/j, elle dispose d'une réserve de capacité qui permet de prélever de l'espace (bretelle, terre-plein planté) sans saturer le carrefour. L'absence de séparateur physique avant 2025 permettait des franchissements de la ligne centrale (frontale PL contre VL en 2018 à environ 300 m). Le terre-plein planté de l'approche SO réduit ce risque et sert de refuge.",
+    "preuve": "ctx-02, ctx-04, ctx-17 ; panneau 150 dpi r02_c04.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-21",
+    "sujet": "Justification : traversées en deux temps avec refuges",
+    "enonce": "(Déduit, avec appui des guides) Traverser Verdun représente environ 15 m de chaussée et 4 voies. À environ 1 m/s, cela demande 15 s de dégagement d'un seul trait, trop pour des collégiens en groupe ou des personnes âgées : 7 des 16 piétons victimes à Meylan avaient 65 ans ou plus. Le refuge coupe la traversée en deux demi-traversées d'environ 7 m. Le piéton ne gère qu'un sens à la fois et le cycle de feux devient plus court. Les guides français recommandent un refuge au-delà d'environ 8 m de traversée, d'au moins 2 m de large (idéalement 2,5 m). Le projet a ajouté un refuge en goutte d'eau sur Vercors (2 voies en approche et 1 en sortie, traversée en deux temps confirmée par OSM 2026).",
+    "preuve": "Transects GAM (ctx-04) ; panneau 72 dpi r01_c02 et r01_c03 (îlot en pointillés violets) ; OSM nœuds 1959022961/64 ; fiches « îlot refuge central » (securite-routiere-plus) et recherche web Cerema.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-22",
+    "sujet": "Justification : traversées cyclables colorées",
+    "enonce": "(Déduit) La traversée cyclable colorée (damiers jaune-ocre en 2022, orange sur le plan, doubles chevrons indiquant le double sens) assure la continuité visible de la Chronovélo, sa voie express cyclable. Elle sépare le flux vélos du passage piéton et réduit les conflits entre piétons et cyclistes rapides (VAE à 25 km/h). Elle signale aux conducteurs tournants un flux bidirectionnel : des cyclistes peuvent arriver du côté qu'ils ne regardent pas. Marquer explicitement la traversée aide aussi les systèmes de détection (caméras) à anticiper une zone de conflit.",
+    "preuve": "Tuile pcrs5cm_917250_6460250 ; wf_d/img/planGAM_mid.jpg (produit par un autre agent) ; relation OSM Chronovélo 1.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-23",
+    "sujet": "Justification : carrefour compact (2025)",
+    "enonce": "Le compactage (moins de surface de chaussée, rayons plus serrés, îlots plantés) réduit les longueurs de traversée et la surface de conflit, abaisse la vitesse des véhicules tournants et améliore la covisibilité. Il raccourcit aussi les temps de dégagement, ce qui laisse plus de vert utile, y compris pour la C1. Il libère de la place pour les arbres et l'infiltration des eaux pluviales, en cohérence avec « Métropole apaisée » et la réserve de capacité constatée. Contrepartie : un bus articulé de 18 m tourne plus serré. Le balayage de l'angle et le dépassement sur la voie adjacente sont à vérifier.",
+    "preuve": "Panneau (« Un carrefour plus compact permettant une végétalisation et une sécurisation des traversées piétonnes (notamment pour les scolaires) ») ; magazine n°163 et n°166 ; ctx-02 et ctx-07.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-24",
+    "sujet": "Justification : suppression du tourne-à-droite Verdun→Vercors",
+    "enonce": "Avant 2025, la bretelle permettait un tourne-à-droite rapide hors feux principaux. Elle était traversée par la Chronovélo 1 et un passage piéton (damiers et zébra, tuile 917250_6460250 px 450-630 / 680-790), puis s'insérait dans Vercors à l'endroit du seul accident corporel recensé (bus, 2023). Sa suppression supprime ce point de conflit et cette insertion. Les tournants (dont la C1) passent désormais sous le feu principal, depuis la voie de droite « tout droit + droite », à vitesse réduite. Elle libère aussi la place de l'îlot planté et du quai. Contrepartie (à vérifier selon le plan de feux) : un conflit permissif possible entre les tournants à droite et les piétons qui traversent Vercors.",
+    "preuve": "Panneau (« Suppression de la voie tourne à droite vers Vercors ») ; ortho 2022 ; ctx-14 et ctx-15 ; panneau 150 dpi r02_c04 (flèches).",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-25",
+    "sujet": "Justification : arrêts en ligne et regroupement des quais",
+    "enonce": "Le Cerema préconise en agglomération des arrêts en ligne plutôt qu'en encoche. L'accostage est simple, ce qui permet une lacune réduite et l'accessibilité PMR, et l'insertion est rapide : pas de reprise de file, donc un temps de parcours C1 réduit. L'arrêt consomme peu d'espace, ce qui va dans le sens du compactage. Le quai unique par sens évite les correspondances dispersées et rend le cheminement lisible (P+R, Chronovélo). Côté NE (avant carrefour), le bus termine sa montée de voyageurs puis tourne : ce fonctionnement est compatible avec une priorité aux feux, qui n'a pas été vérifiée. Côté SO (après carrefour), les voyageurs descendus traversent derrière le bus, conformément à la recommandation Cerema. Contreparties : sur une 2×2, un véhicule peut dépasser le bus à l'arrêt par la voie de gauche, d'où un risque de piéton masqué ; et une file se forme derrière le bus.",
+    "preuve": "Recherche web Cerema (arrêts en ligne, traversée derrière le bus) ; plan (zigzags) ; magazine n°163.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-26",
+    "sujet": "Scénario ADAS 1 : piéton masqué par un bus à l'arrêt en ligne",
+    "enonce": "Quai NE-bound sur la branche SO, juste en amont de la ligne de feux et de la traversée. Un bus articulé de 18 m (environ 3 m de haut) est arrêté dans la voie de droite. Un piéton, souvent un collégien, sort devant l'avant du bus pour traverser, éventuellement au rouge piéton. Le véhicule testé circule dans la voie de gauche à 30-50 km/h en dépassant le bus (équivalent Euro NCAP CPNCO/CPNA, cible enfant 5 km/h ou adolescent courant 8-12 km/h). Variante côté SO : un voyageur descendu traverse derrière le bus hors passage. Le cas réel du 27/01/2024 (Vercors 27 : lycéen de 16 ans heurté par un VL en dépassement) confirme ce mécanisme localement.",
+    "preuve": "ctx-08, ctx-10, ctx-17, ctx-19.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-27",
+    "sujet": "Scénario ADAS 2 : cycliste sur la traversée Chronovélo",
+    "enonce": "Traversée cyclable bidirectionnelle d'environ 16 m sur la branche SO, puis environ 17 m en biais dans l'angle sud. Conflits potentiels : véhicules qui gagnent Verdun SO depuis Vercors (tourne-à-gauche, dont la C1) ou depuis la Revirée (tourne-à-droite), si la traversée est au vert en même temps (plan de feux inconnu). Le cycliste peut arriver dans les deux sens, y compris du côté non surveillé, en VAE à 20-25 km/h. Paramètres : véhicule tournant à 10-20 km/h, cycliste 15-25 km/h, masquage par la file de la voie voisine ou par le terre-plein planté. Côté Revirée : cycliste effectuant un tourne-à-droite au rouge (cédez-le-passage cycliste au feu). Type de scénario : virage croisant la trajectoire d'un cycliste, ou cycliste en traversée côté proche ou côté lointain.",
+    "preuve": "ctx-05, ctx-09 ; OSM nœud 1959022958 (red_turn:right:bicycle=yes).",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-28",
+    "sujet": "Scénario ADAS 3 : tourne-à-gauche conflictuel",
+    "enonce": "(i) Depuis Vercors vers Grenoble (voie de gauche dédiée, C1 articulée et VL) : traversée de la chaussée NE-bound dans la trouée centrale. (ii) Tourne-à-gauche opposés dans la trouée, Verdun SO→Vercors et Verdun NE→Revirée : chaque véhicule masque les véhicules venant en face. Un 2RM ou un VAE arrivant dans la seconde voie opposée n'est pas vu. Cette combinaison est le mécanisme d'accident le plus fréquent localement (14 cas « tourne-à-gauche contre 2RM ou vélo » à Meylan en 2010-2024). Équivalents Euro NCAP : CCFtap et CMFtap, avec une vitesse opposée de 30-50 km/h et une vitesse en virage de 10-20 km/h.",
+    "preuve": "ctx-05, ctx-19.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-29",
+    "sujet": "Scénario ADAS 4 : tourne-à-droite d'un bus articulé ou d'un VL vers Vercors (après 2025)",
+    "enonce": "Le tourne-à-droite se fait depuis la voie de droite partagée, avec un rayon serré. Conflits : piétons sur la traversée de Vercors (bande refuge), cyclistes à l'angle sud ; pour le bus, porte-à-faux avant qui balaie l'angle et angle mort à droite. Équivalent Euro NCAP : virage croisant un piéton (type CPTA). Pour les bus et poids lourds, cela teste l'information d'angle mort (règlement ONU R151, BSIS) et la détection au démarrage (R159, MOIS), en particulier quand le bus repart de son arrêt NE juste avant le feu, avec des collégiens devant.",
+    "preuve": "ctx-07, ctx-08, ctx-24.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-30",
+    "sujet": "Scénario ADAS 5 : bus arrêté en voie et « cut-out »",
+    "enonce": "Le véhicule suiveur roule à 50 km/h dans la voie de droite derrière un VL. Le VL change de voie (« cut-out ») et révèle un bus arrêté au quai en ligne, ou une file au feu (Euro NCAP CCRs, scénario de type cut-out). Ce scénario repose sur les chocs arrière locaux (2012 de nuit, 2015 mortel contre un scooter).",
+    "preuve": "ctx-08, ctx-17, ctx-18.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-31",
+    "sujet": "Scénario ADAS 6 : cartes et marquages après travaux (ISA, LKA)",
+    "enonce": "(a) ISA et cartes : OSM 2026 porte 50 km/h sur Vercors et la Revirée, alors que le marquage et la zone indiquent 30. L'assistance à la vitesse doit s'appuyer sur la reconnaissance des panneaux d'entrée de zone 30 (B30) dès la sortie du carrefour. (b) Les cartes antérieures à 2026 montrent encore la bretelle de tourne-à-droite et les anciens quais. (c) Lignes fantômes : bretelle, zigzags déplacés, damiers ocres en partie conservés (« underlay » du plan) et marquage provisoire jaune du chantier (août 2025). Risque de mauvaise détection de voie (LKA/LDW) et d'erreur de guidage de trajectoire.",
+    "preuve": "ctx-03, ctx-08, ctx-12 ; CONTEXT (Panoramax 2025-08-31).",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "ctx-32",
+    "sujet": "Scénario ADAS 7 : piéton de nuit sous la pluie et traversée au rouge en deux temps",
+    "enonce": "Pics scolaires vers 7 h 45-8 h 15 et 16 h 30-17 h 30, de nuit en hiver (cas du 09/12/2022 à 17 h 35 sous la pluie, et du 06/12/2016 à 19 h 15). Sur une traversée en deux temps, un piéton présent sur le refuge peut lire le vert de l'autre moitié et s'engager au rouge devant un véhicule qui démarre au vert. Cible : adulte ou enfant de 5 à 8 km/h, véhicule à 0-30 km/h au démarrage ; chaussée mouillée et éblouissement.",
+    "preuve": "ctx-17, ctx-21 ; usages scolaires (magazine n°163).",
+    "confiance": "faible"
+   }
+  ],
+  "synthese": "À quoi sert ce carrefour. C'est le point où la Chrono C1 (environ 12 000 voyageurs/j, un bus articulé de 18 m toutes les 5 à 10 min) et la Chronovélo 1 quittent ensemble l'avenue de Verdun (RD1090, ex-RN90, 50 km/h) pour l'avenue du Vercors (30 km/h). Il dessert aussi la Revirée : collège Lionel Terray (537 élèves, lignes scolaires 133, 233, 221 et 222), Paquet Jardin, gymnase et commerces. Il porte l'arrêt « La Revirée » des lignes C1, 42, 80, 82 et 164, ainsi que le P+R de 36 places.\n\nVolumes de trafic. Verdun n'écoule plus que 7 800 véh/j (TMJA 2022) à 16 500 véh/j (étude antérieure), contre 36 000 côté La Tronche et environ 85 000 sur l'A41 parallèle. La 2×2 voies est donc un héritage RN90 avec de la réserve de capacité.\n\nProfil réel avant travaux. Verdun était une chaussée unique d'environ 15 m avec une séparation centrale peinte, et non deux chaussées séparées par un terre-plein. Les branches sont décalées, si bien que le carrefour fonctionne en deux demi-carrefours dans la trouée centrale.\n\nCe que changent les travaux de 2025. Le carrefour est compacté : suppression de la bretelle de tourne-à-droite vers Vercors, quai unique en ligne par sens, refuge en goutte d'eau sur Vercors, terre-plein planté à l'approche sud-ouest, traversées piétons et cycles reprises, végétalisation et gestion des eaux pluviales. Ces choix visent quatre objectifs :\n- raccourcir et scinder les traversées, très fréquentées par les scolaires ;\n- supprimer les conflits non maîtrisés de la bretelle, qui était traversée par la Chronovélo et le seul point accidenté recensé ;\n- faire tourner la C1 sous le feu, depuis des arrêts en ligne plus rapides et accessibles ;\n- réaffecter l'espace au végétal.\n\nSécurité (BAAC). L'analyse a été vérifiée cinq fois : filtre commune, balayage brut des fichiers, adresses, PR et numéros de rue. Sur 15 ans (2010-2024), un seul accident corporel a eu lieu à 150 m ou moins (et même à 300 m) : le 17/09/2023, un autobus « en s'insérant » à la sortie de l'ancienne bretelle vers Vercors, un passager de 70 ans blessé léger. S'y ajoutent au plus 3 accidents non localisables. Le carrefour n'était pas un point noir, et l'effet des travaux n'est pas mesurable : 2025 n'est pas publié et un seul événement ne permet aucune statistique.\n\nÀ l'échelle de la commune, les mécanismes récurrents sont :\n- le tourne-à-gauche qui coupe un 2RM ou un vélo venant en face ;\n- des piétons jeunes ou âgés heurtés en traversant, dont un lycéen de 16 ans percuté par un VL en dépassement en 2024 à 400 m, sur Vercors ;\n- des frontales par franchissement d'une séparation peinte ;\n- des chocs arrière.\n\nScénarios ADAS proposés : piéton masqué par un bus à l'arrêt en ligne ; cycliste bidirectionnel sur la traversée Chronovélo ; tourne-à-gauche opposés dans la trouée ; tourne-à-droite d'un bus articulé ; « cut-out » révélant un bus arrêté ; cartes et lignes fantômes après travaux (dont OSM à 50 au lieu de 30) ; piétons de nuit et traversées au rouge en deux temps.",
+  "implications_simulateur": "1) Modéliser deux états distincts.\n- État AVANT : ortho 2022 et 2024, GAM. Bretelle de tourne-à-droite NE→Vercors autour d'un îlot triangulaire, traversée zébra et damiers sur la bretelle, Verdun en chaussée unique d'environ 15 m (4 voies) avec hachures centrales, damiers jaune-ocre, quais séparés.\n- État APRÈS (2026) : plan projet et OSM 2026. Pas de bretelle. Verdun NE-bound à 2 voies (gauche « tout droit + gauche », droite « tout droit + droite »). Vercors en approche à 2 voies (gauche « gauche », droite « tout droit + droite ») et 1 voie en sortie, avec refuge en goutte d'eau. Terre-plein planté et refuge sur la branche SO. Traversée cyclable bidirectionnelle orange accolée au zébra. Arrêts en ligne avec zigzags : quai NE en amont de la ligne de feux, quai SO en aval de la traversée.\n\n2) Topologie : deux nœuds de conflit dans la trouée centrale. Les liaisons d'environ 7-8 m (OSM 168644602 et 1488785302) servent aux tourne-à-gauche opposés et aux échanges Vercors↔Revirée. Quatre lignes de feux (OSM) ; le plan de feux est inconnu. Prévoir des variantes : piétons et cycles en conflit permissif avec les tournants, ou bien protégés.\n\n3) Vitesses : Verdun 50 km/h (vitesse moyenne BD TOPO 45 ; aucune V85 disponible), Vercors et Revirée 30 km/h (marqués), environ 15 km/h dans le carrefour. Ne pas reprendre maxspeed=50 d'OSM pour Vercors et la Revirée.\n\n4) Demande. Verdun : 8 000 à 16 500 véh/j au total. En pointe, avec l'hypothèse d'un facteur de 10 %, cela donne environ 800 à 1 650 véh/h deux sens, soit 400 à 800 par sens. Proportion de PL inconnue ; prendre 1,5 à 3 % par analogie avec les sections voisines. Bus :\n- C1 : 6 à 12 par heure et par sens (5-10 min), avec deux mouvements tournants (NE→Vercors à droite, Vercors→SO à gauche) ;\n- 42, 80, 82, 162, 164 : quelques passages par heure ;\n- scolaires 133, 233, 221, 222 aux heures d'entrée et de sortie.\nUtiliser un bus articulé de 18 m, 2,55 m de large, environ 3 m de haut (porte-à-faux, balayage). Pointes piétonnes et cyclistes scolaires vers 7 h 45-8 h 15 et 16 h 30-17 h 30 (hypothèse) ; flux Chronovélo bidirectionnel avec des VAE à 25 km/h.\n\n5) Scénarios prioritaires et paramètres.\n- S1 : piéton (enfant ou adolescent, 5-12 km/h) émergeant devant un bus arrêté au quai NE en amont du feu ; véhicule testé dans la voie de gauche à 30-50 km/h (type CPNCO).\n- S2 : cycliste bidirectionnel (15-25 km/h) sur la traversée Chronovélo contre un véhicule tournant à 10-20 km/h venant de Vercors ou de la Revirée.\n- S3 : tourne-à-gauche opposés dans la trouée, avec un 2RM ou un VAE masqué à 30-50 km/h (CCFtap/CMFtap).\n- S4 : bus articulé ou VL tournant à droite vers Vercors avec un piéton ou un cycliste à l'angle (type CPTA ; R151 et R159 pour le bus).\n- S5 : « cut-out » révélant un bus arrêté en voie (CCRs).\n- S6 : ISA et LKA avec cartes obsolètes et lignes fantômes (bretelle, anciens quais, marquage jaune de chantier 2025).\n- S7 : piéton de nuit sous la pluie sur une traversée en deux temps, s'engageant au rouge depuis le refuge.\n\n6) Calibrage et validation : le BAAC n'apporte pas de statistique exploitable au carrefour (1 accident en 15 ans). Utiliser plutôt les mécanismes communaux (tourne-à-gauche contre 2RM, piéton masqué, frontale, choc arrière) pour pondérer les scénarios.\n\n7) Géoréférence : centre L93 (917279,43 ; 6460289,98) ; accident 2023 en (+15 ; -34) m ; PR 5+265 de la RD1090 à environ 25 m du centre.",
+  "description_par_branche": "Branche SO – avenue de Verdun vers Grenoble et La Tronche (RD1090, importance 2, 50 km/h)\n- Rôle : artère principale, 7 800 à 16 500 véh/j.\n- Profil avant travaux : 2×2 voies sur chaussée unique d'environ 15 m, avec hachures centrales. Après 2025 : terre-plein planté et refuge à l'approche du carrefour.\n- Bus : arrêts « La Revirée » en ligne. Quai NE-bound en amont des feux (C1 vers Vercors, 42, 80, 82, 164) ; quai SW-bound en aval de la traversée (C1 vers Grenoble, 80, 82, 164).\n- Vélos : piste bidirectionnelle de 3 m côté NO (Chronovélo 1 et itinéraire Grenoble–Meylan–Montbonnot), traversée cyclable bidirectionnelle d'environ 16 m.\n- Piétons : traversée à feux en deux temps.\n- Riverains : P+R La Revirée (36 places, entrée déplacée), Paquet Jardin et centre des finances publiques à proximité.\n- Sécurité : seul accident proche, 2023, sur la sortie vers Vercors. Plus loin : frontale PL contre VL (2018, PR 5+0), accidents de piétons et de 2RM au carrefour des Aiguinards, à 330-380 m.\n\nBranche NE – avenue de Verdun vers Montbonnot et Inovallée (RD1090, 50 km/h)\n- Rôle : 10 500 véh/j (2022) sur la section suivante.\n- Profil : 2×2 voies séparées par hachures, réduites à 1 voie par sens au-delà d'environ 150 m.\n- Bus : lignes 80, 82, 164 et scolaires 133/233. La C1 n'y passe pas.\n- Vélos : piste bidirectionnelle de 4 m côté NO (Grenoble–Meylan–Montbonnot, pas la Chronovélo 1), qui franchit la bouche de la Revirée à feux.\n- Piétons : traversée à feux avec podotactile, sans signal sonore.\n- Riverains : immeubles neufs (2024) côté SE.\n- Sécurité : choc arrière de nuit en 2012 (270-410 m) ; cyclomoteur en 2018 (PR 5+500, environ 235 m).\n\nBranche S – avenue du Vercors (voie communale, importance 4, 30 km/h)\n- Rôle : axe bus et vélo plus que de transit ; dessert les Buclos, la mairie, la ZA des Sources, les Saules Blancs et des logements neufs.\n- Bus : itinéraire de la C1 dans les deux sens, plus 42, 162 et 222.\n- Profil : approche à 2 voies (gauche réservée vers Grenoble, droite « tout droit + droite »), sortie à 1 voie. Depuis 2025 : refuge en goutte d'eau, traversée en deux temps, cheminement piéton le long des Saules Blancs, plus de bretelle d'entrée.\n- Vélos : piste bidirectionnelle de 4 m de la Chronovélo 1 côté ouest.\n- Sécurité : accident de bus du 17/09/2023 (37 m) ; piétons heurtés à 340-410 m (2022 de nuit sous la pluie ; 2024, lycéen de 16 ans, véhicule en dépassement) ; 2RM en 2010 (275 m).\n\nBranche NNO – chemin de la Revirée (desserte, importance 4-5, 30 km/h)\n- Rôle : desserte de quartier ; ligne 42 (quai sur la Revirée, sens Pré de l'Eau→Louisiane) et sortie des cars scolaires du collège Lionel Terray (133, 233, 221, 222).\n- Profil : entrée (1 voie, 4 m) et sortie (1 voie, 3 m) séparées par un îlot sur environ 40 m, puis voie à double sens. Feu avec cédez-le-passage cycliste pour tourner à droite.\n- Riverains : Paquet Jardin (ERP catégorie 2), gymnase de la Revirée, centre commercial des Nénuphars, collège Lionel Terray (190-260 m), école Mi-Plaine (450 m O).\n- Sécurité : accident de cyclomoteur non localisé en 2010 (« chemin de la Revirée », en X) ; VAE heurté par un VL tournant à gauche en 2022, au carrefour Revirée × D590 (511 m).",
+  "incertitudes": "Points de méthode et de données qui limitent la portée des conclusions :\n- Plan de feux (phases, conflits permissifs, priorité bus) inconnu.\n- État 2026 reconstitué à partir du plan projet et d'OSM 2026. Certains tags OSM sont antérieurs aux travaux (nœuds de traversée Verdun SO de 2021). OSM maxspeed=50 sur Vercors et la Revirée est une valeur par défaut. Les tronçons « réservé aux bus » de BD TOPO (2024) ne sont pas confirmés.\n- BAAC : seuls les accidents corporels connus des forces de l'ordre sont recensés (sous-déclaration, surtout pour les cyclistes seuls). Millésime 2025 non publié au 06/10/2026, donc aucune donnée après travaux.\n- Géolocalisation BAAC imprécise : environ 10 à 30 m, points par défaut, une erreur de 1,3 km constatée. 4 accidents de 2010-2018 ne sont pas localisables. Le champ vma est incohérent.\n- Interprétation de l'accident de bus 2023 : hypothèse (ligne et obstacle inconnus).\n- TMJA de la RD1090 discordant (7 800 en 2022 contre 16 500 dans l'étude antérieure, méthodes et années différentes). Aucun comptage pour Vercors, la Revirée, les piétons ni les vélos. Les débits horaires du simulateur sont donc des hypothèses.\n- Fréquences des lignes autres que la C1 non vérifiées. L'affectation des lignes aux mouvements repose sur les relations OSM, qui peuvent retarder sur le réseau de septembre 2025.\n- Matériel C1 et dimensions du bus (environ 3 m de haut) de source secondaire.\n- Profil en travers mesuré sur le levé GAM non daté et sur l'ortho 2022. Le terre-plein planté SO vient du plan, pas d'une observation.\n- Les articles meylan.fr dédiés (actualités 1129 et 1227) redirigent vers l'accueil : contenu connu seulement par extrait de recherche et par les magazines.\n- Corrections apportées aux consignes : « lycée Louis Terray » est en réalité le collège Lionel Terray ; « ligne 21 » est sans doute un code de quai ; « 2×2 voies séparées » correspond à une séparation peinte avant 2025 ; la « traversée en diagonale » est perpendiculaire à Verdun, l'itinéraire seul étant en baïonnette.\n\nAucun fichier du dépôt git n'a été modifié.",
+  "fichiers_produits": [
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/out/accidents_paquet_jardin_2010_2024.csv",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/out/baac_meylan_caract.csv",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/out/baac_meylan_lieux.csv",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/out/baac_meylan_vehicules.csv",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/out/baac_meylan_usagers.csv",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/out/baac_2010_2014.txt",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/pcrs5cm_917250_6460250_osm2026_baac2023.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/fonction_reseau_2024ortho_osm2026.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/baac_2010_2024_rayon600m.png",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/baac_2015_2024_rayon600m.png",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/scripts/baac_pj.py",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/scripts/baac_check.py",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/scripts/baac_old.py",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/scripts/baac_table.py",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/scripts/map_baac.py",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/scripts/overlay5cm.py",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/scripts/overlay_func.py",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/web/isere_near.json",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/web/isere_d1090.json",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/net/cv1.json",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/magazine163.txt",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/magazine166.txt",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/magazine148.txt",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/baac_dl",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/baac_old"
+  ]
+ },
+ "verify-reobs:contexte_securite": {
+  "verdicts": [
+   {
+    "id": "ctx-01",
+    "verdict": "corrige",
+    "justification": "BD TOPO confirmé : Verdun importance 2, D1090, gestionnaire Grenoble Alpes Métropole, route intercommunale ; Vercors importance 4 ; OSM ref D 1090 et old_ref N 90 ; Revirée en entrée et sortie séparées (ways 185326634 et 40994097, à sens unique). Section D38 PR 4+160→5+265 qui se termine en (-15,-21), soit 26 m du centre : confirmé dans data/context/trafic_d38.geojson. Seule erreur : l'axe principal de la Revirée reste en importance 4 au moins jusqu'à 166 m ; l'importance 5 ne concerne que des tronçons annexes portant le même nom.",
+    "correction": "Revirée : importance 4 sur l'axe principal, au moins jusqu'à environ 170 m ; importance 5 seulement sur des antennes latérales. Le reste est exact."
+   },
+   {
+    "id": "ctx-02",
+    "verdict": "corrige",
+    "justification": "7 800 véh/j (Carte 2022, METRO, PR 4+163→5+1510, 2 306 m), 10 500 (PR 5+1510→6+476), 36 200 (2019, PR 2+276→4+160) et 74 200 (N87, 2022) : confirmés. Trois corrections. (1) Les 16 500 véh/j figurent sur les cartes 2011 à 2018, pas 2012 à 2018. (2) Le tronçon A41 en face du carrefour (PR 0→1+878, à 582 m) porte 47 700 à 52 800 véh/j ; les 82 800 à 86 800 ne valent qu'à l'est de l'échangeur N87 (PR 1+878→5+361, à plus de 1,1 km). (3) « Aucun comptage » est faux. Le jeu Métropole comptages_directionnels.csv (dans le dépôt) recense deux comptages directionnels au carrefour même : 02/10/2012, poste 149 « Revirée / Verdun / Vercors », et 06/05/2021, OPE 291-C3 « Avenue du Vercors / Avenue de Verdun ». Le fichier ne donne que les métadonnées, pas les volumes. De plus, le compteur vélo permanent « (Meylan) Mairie / Afficheur » est sur la même Chronovélo, environ 0,9 km en aval par Vercors (segments chronovelo.geojson 1630→2232→…→1628) : TMJ 375 (2020), 412 (2021), 486 (2022) ; TMJO 2022 = 601 vélos/j.",
+    "correction": "Étude Métropole : 16 500 véh/j (cartes 2011-2018). A41 au droit du carrefour : environ 48 000 à 53 000 véh/j (83 000 à 87 000 seulement après la N87). Comptages directionnels existants au carrefour : 2012 et 2021 (volumes à demander à la Métropole). Proxy vélo Chronovélo : environ 490 vélos/j en 2022 (600 en jour ouvré)."
+   },
+   {
+    "id": "ctx-03",
+    "verdict": "corrige",
+    "justification": "Confirmé sur l'ortho 2022 : « 50 » en px (128,610) et (172,652) sur la tuile 917250_6460250, ainsi que sur les voies NE-bound de la tuile 917300_6460300 ; « 30 » en (783,790) sur la sortie vers Vercors, au droit des voies OSM, et en (340,740) sur l'entrée de la Revirée, tuile 917250_6460300. Magazine n°148 (avril-mai 2022) : « Meylan a rejoint… le 24 mars dernier… 30 km/h, à l'exception de quelques axes maintenus à 50 ». OSM : maxspeed=50 avec source:maxspeed=FR:urban sur Vercors et Revirée. Vitesses moyennes BD TOPO : 45 / 40 / 15. vma du BAAC : 30 en 2022, 50 en 2023 et 2024. Point non démontré : « le plan 2025 conserve 50 et 30 ». Les cercles 50 et 30 visibles sur le panneau appartiennent à l'ortho de fond, pas au dessin du projet.",
+    "correction": "Remplacer « le plan 2025 conserve… » par : marquage post-travaux non documenté. Les « 50 » et « 30 » du panneau proviennent de l'ortho de fond."
+   },
+   {
+    "id": "ctx-04",
+    "verdict": "confirme",
+    "justification": "J'ai refait les transects GAM perpendiculaires à Verdun (azimut 43,5°) à s = -40, -60, -80 et -100 m : bordures à -9,1/-10,6 (SE) et +5,8/+6,7 (NO), sans bordure intermédiaire, soit 15 à 16 m. BD TOPO SO : « 1 chaussée, 4 voies, 14 m ». Les hachures centrales de la branche NE sont visibles sur la tuile 917300_6460300. Panneau 150 dpi r02_c04 : terre-plein vert planté (arbres Alc, Aa) entre les deux sens, avec refuge podotactile ; une seconde bande plantée longe le trottoir SE. Deux nuances. CONTEXT présume que le levé GAM est un récolement postérieur à 2025 au cœur du carrefour : s'il l'était aussi sur la branche SO, l'absence de bordure centrale contredirait le terre-plein du plan. Il faut donc soit dater GAM, soit observer le terre-plein (Panoramax 2026). Par ailleurs, BD TOPO code la branche NE en « 2 chaussées » à 1 voie de 3,5 m, ce que contredit l'ortho."
+   },
+   {
+    "id": "ctx-05",
+    "verdict": "corrige",
+    "justification": "Topologie OSM vérifiée : liaison 168644602 (7,7 m) de (-4,-2.8) à (-0.8,-9.8) et liaison 1488785302 (7,4 m). Affectation des voies NE-bound (TD+G / TD+D) confirmée sur le panneau r02_c04. Il y a bien 4 nœuds traffic_signals aux positions indiquées. En revanche, les branches secondaires ne sont pas décalées : le milieu entrée-sortie de la Revirée et celui de Vercors ne diffèrent que d'environ 2,4 m le long de Verdun. Les deux nœuds correspondent aux deux chaussées de Verdun, chaque branche secondaire étant elle-même divisée en entrée et sortie. Les 4 feux et le tag red_turn:right:bicycle portent survey:date 2022-01-27/28 : ce sont des données d'avant travaux. Deux relations no_u_turn de 2021 (13382855 et 13382856) existent tout près, avec pour nœuds via 137699 et 1959011184. Enfin, la géométrie OSM et le panneau placent le tourne-à-gauche SW-bound→Vercors à l'ouest et le NE-bound→Revirée à l'est : chacun dépasse le point de tourne de l'autre (configuration « hooking »), ce qui limite le masquage mutuel.",
+    "correction": "Carrefour en X classique, avec route principale divisée et deux liaisons de 7 à 8 m (pas de branches décalées). Signaux OSM relevés en 2022. Tourne-à-gauche opposés en configuration hooking (masquage mutuel à vérifier sur place)."
+   },
+   {
+    "id": "ctx-06",
+    "verdict": "corrige",
+    "justification": "Le GTFS SEM d'octobre 2026 (data/context/gtfs_SEM.zip) confirme : C1 vers Pré de l'Eau, entrée SO puis sortie Vercors (tourne-à-droite) ; C1 vers Grenoble, de Vercors vers le SO (tourne-à-gauche) ; 42 vers Pré de l'Eau, Verdun→Vercors ; 42 vers Louisiane, Vercors→Revirée, arrêt 0397 sur la Revirée puis arrêt « Lionel Terray ». Le code d'arrêt GTFS 0021 « Meylan, La Revirée » confirme que la « ligne 21 » est un code de quai ; la ligne GTFS 21 est Seyssins–Claix. Les relations OSM confirment 80, 82, 164 (tout droit), 162 (Verdun↔Vercors), 133/233 (Revirée→Verdun NE par 168644602) et 222 (Revirée→Vercors). Exception : la relation 221 (19172237, « Lionel Terray -> Détourbe », 2025-07-12) n'a aucun way à moins de 120 m du carrefour, donc son passage n'est pas confirmé.",
+    "correction": "221 : passage par le carrefour non confirmé. Le reste est confirmé par le GTFS (C1, 42) et par OSM (autres lignes)."
+   },
+   {
+    "id": "ctx-07",
+    "verdict": "corrige",
+    "justification": "tgplus.fr (08/09/2025) : 12 000 voyageurs/j, objectif 14 000 ; 8,4 M€ (50 % Métropole, 43 % SMMAG, 7 % Meylan) ; 5 à 10 min en semaine de 7 h à 19 h, 20 min le dimanche, 5 h 30-0 h 30. reso-m.fr/865 : terminus unique au Pré de l'Eau. Wikipédia : Citelis 18, Citywide LFA GNV, Lion's City G. Mais le GTFS d'octobre 2026 à La Revirée donne 105-106 C1 par sens en semaine, 6/h en heure creuse et au plus 10/h (8 h et 17 h), jamais 12 ; 4 à 6/h le samedi ; 3/h le dimanche. « Cadence doublée Béalières↔Pré de l'Eau » n'est pas sourcé : le magazine n°163 parle du secteur Maupertuis / Pré de l'Eau. Wikipédia donne aussi 2 454 000 voyageurs/an, soit environ 6 700/j en moyenne annuelle ; ce chiffre est à concilier avec les 12 000/j.",
+    "correction": "C1 au carrefour : 6 à 10 bus/h/sens en semaine (GTFS 2026), 105-106 par sens et par jour ; 3/h le dimanche. Doublement de cadence : secteur Maupertuis–Pré de l'Eau, pas Béalières."
+   },
+   {
+    "id": "ctx-08",
+    "verdict": "confirme",
+    "justification": "GTFS : quai 0396 (NE-bound, C1 et 42) en (-56,-73), côté SE, environ 70 m en amont de la ligne de feux ; quai 0021 (SW-bound, C1) en (-52,-42), côté NO, en aval de la traversée ; quai 0397 sur la Revirée (42). Ortho 2022 : zigzag jaune et abri côté NO (tuile 917200_6460200), zigzag côté SE (tuile 917250_6460200, coin haut-gauche). Magazine n°163 : « création d'un quai de bus unique… Ce quai ainsi que son pendant nord seront décalés… (tout comme l'entrée du P+R) ». GAM intermodalité : P+R « MEYLAN - LA REVIREE », 36 places, avenue de Verdun. Les versions et dates OSM des quais sont exactes. Remarque : les ref:FR:TAG d'OSM (21 sur le quai SE, 396 sur le quai NO) sont inversés par rapport aux positions GTFS. La gratuité du P+R n'est pas vérifiée."
+   },
+   {
+    "id": "ctx-09",
+    "verdict": "confirme",
+    "justification": "Relation OSM 9709977 « Chronovélo 1 » (GAM) : ways 385035086 (côté NO, width 3), 398052317 et 54585242 (width 4). 398052317 mesure 34,2 m : 15,8 m à l'azimut 134-136° (perpendiculaire à Verdun, 43,5°), puis 18,3 m à 146-147°. La relation 2808111 « Grenoble - Meylan - Montbonnot » continue par 398052219 (width 4) jusqu'à la bouche de la Revirée. L'ortho 2022 montre deux bandes de damiers jaune-ocre et un zébra sur la bretelle, et un plan orange avec doubles chevrons. Nuance : en 2022, la traversée cyclable de la bouche de la Revirée était peinte en vert (tuiles 917250_6460300 et 917250_6460250), pas en damier ocre."
+   },
+   {
+    "id": "ctx-10",
+    "verdict": "corrige",
+    "justification": "Confirmé : collège Lionel Terray, UAI 0381777A, 1 rue des Peupliers ; distances 241 m (annuaire), 261 m (entrée BAN) et 194 m (centroïde de la zone BD TOPO). ERP : Paquet Jardin catégorie 2, 699 personnes ; gymnase de la Revirée catégorie 3. Zones : centre commercial des Nénuphars 149 m, zone administrative 92 m, ZA des Sources. Destination OSM « Lycée L.Terray » présente. Corrections. L'effectif de 537 élèves correspond à la rentrée 2024 ; la rentrée 2025 compte 469 élèves (data.education.gouv.fr, fr-en-college-effectifs). Le collège des Buclos (UAI 0382492C, environ 717 m) n'est pas mentionné. Le lycée du Grésivaudan est à 1,45 km. Pour la ligne 221, voir ctx-06.",
+    "correction": "Collège Lionel Terray : 469 élèves à la rentrée 2025 (537 en 2024). Ajouter le collège des Buclos à environ 0,7 km."
+   },
+   {
+    "id": "ctx-11",
+    "verdict": "corrige",
+    "justification": "Nœuds confirmés. Vercors : 1959022961 (podotactile non, contrôlé le 07/03/2026) et 1959022964 (podotactile oui, 27/02/2026). Verdun SO : 1722505398/99, avec bouton d'appel. Verdun NE : 1959022973/76 (2023-08-26). Revirée : 514050471, 1959011177, 6569623985 et 6569623986. Le tag traffic_signals:sound=no porte sur 6 nœuds répartis sur 3 branches (Vercors, Verdun NE, Revirée), pas sur « 4 traversées ». Sur ces 6 nœuds, 4 ont été relevés en 2023, donc avant les travaux ; seuls les 2 nœuds de Vercors sont postérieurs.",
+    "correction": "Absence de répétiteur sonore relevée sur 6 nœuds et 3 branches ; constat post-travaux seulement pour Vercors (2026)."
+   },
+   {
+    "id": "ctx-12",
+    "verdict": "confirme",
+    "justification": "Texte du panneau PDF : « Suppression de la voie tourne à droite vers Vercors », « Déplacement et mutualisation des quais de bus La Revirée », « Sécurisation de la traversée piétonne et cycle », « Un carrefour plus compact… (notamment pour les scolaires) », « Déplacement de l'entrée du Parking relais P+R », plantations et eaux pluviales, cheminement le long des Saules Blancs. Magazine n°163 p.16 : objectifs (temps de parcours, sécurité piétons et cycles, intermodalité, végétalisation, désimperméabilisation), carrefour « cet été », Vercors d'avril à novembre. Magazine n°166, point H : « Fin des travaux en décembre 2025 ». Les pages meylan.fr enregistrées font 101 112 octets et correspondent à la page d'accueil."
+   },
+   {
+    "id": "ctx-13",
+    "verdict": "corrige",
+    "justification": "Recalcul indépendant (wf_d/verif_v2/scan.py) sur les 15 millésimes, France entière, en EPSG:2154. Effectifs nationaux exacts : 2023 = 54 822 accidents, 2010 = 69 379. Meylan : 65 accidents en 2015-2024 et 37 en 2010-2014. Pièges de format confirmés (×1e5, virgule décimale, Accident_Id 2022, encodages). Trois erreurs. (2) Le balayage brut à 300 m ne donne pas un résultat unique sur 2010-2024 mais trois : 202300015141 (37 m), 201200027885 (274 m), 201000018527 (275 m). Le résultat n'est unique que sur 2015-2024. (4) Concordance PR/coordonnées, avec la même convention (distance au PR 5+265) : 2011 21 m, 2016 16 m, 2017 21 m, 2015 13 m, 2018-09 89 m, mais 2012 136 m et 2019 316 m. Cela fait au mieux 5 cas sur 7, et 3 sur 5 parmi les accidents à PR de leur propre tableau, pas 6 sur 7. (5) Numéros sur Vercors : écart BAAC/BAN de 13 à 48 m, exact. Par ailleurs, le « géocodage faux de 1,3 km » du 27/03/2024 n'est pas démontré : les coordonnées tombent à environ 100 m du Rond-Point du Lycée et le BAAC code int=6 (giratoire). Ces deux éléments concordent, alors qu'il n'y a aucun giratoire près du 1 rue des Peupliers. C'est peut-être l'adresse qui est fausse.",
+    "correction": "À 300 m ou moins sur 2010-2024 : 3 accidents (37, 274 et 275 m). PR et coordonnées concordent dans au mieux 5 cas sur 7, avec deux écarts de 136 et 316 m. L'accident du 27/03/2024 est ambigu : adresse du collège (261 m) ou coordonnées près du Rond-Point du Lycée."
+   },
+   {
+    "id": "ctx-14",
+    "verdict": "corrige",
+    "justification": "Vérifié dans les fichiers bruts de 2023. Caractéristiques : 17/09/2023 10:59, lum=1, agg=2, int=1, atm=1, col=6, en (+15,-34), à 37 m. Lieux : catr=4, circ=2, nbv=3, vosp=1, plan=3, surf=1, situ=5, vma=50. Véhicule : catv=37 (autobus), occutc=4, obs=15, choc=3 (avant gauche), manv=9 (en s'insérant). Usagers : conducteur né en 1972, indemne, trajet 4 ; passagers nés en 1980 et 2009 indemnes ; passager né en 1953 blessé léger. Erreurs : la victime a 69 ou 70 ans (année de naissance seule). Surtout, « aucun autre accident géolocalisé à moins de 300 m » est faux : 07/10/2012 à 274 m (choc arrière, 3 blessés légers) et 09/08/2010 à 275 m (37 avenue du Vercors, 2RM, 1 hospitalisé et 2 blessés légers).",
+    "correction": "Seul accident à 270 m ou moins ; deux autres entre 274 et 275 m (2010-08-09 et 2012-10-07). Passager âgé de 69-70 ans."
+   },
+   {
+    "id": "ctx-15",
+    "verdict": "incertain",
+    "justification": "Hypothèse plausible : courbe à droite et choc avant gauche, compatibles avec un bus en giration ; aucun arrêt à cet endroit. Mais ce n'est pas démontré. Sur l'ortho 2022, le point (889,880) px se trouve à environ 7-8 m de la pointe de l'îlot et du côté des voies d'approche de Vercors (environ 0,9 m à l'est de la ligne continue qui sépare la sortie de l'approche), dans l'incertitude BAAC. « C1 seule ligne dominicale sur ce mouvement » est contredit par le GTFS 2026 : la ligne 42 roule le dimanche (12 courses par sens), y compris Verdun→Vercors ; la desserte de 2023 n'est pas vérifiée. Enfin, situ=5 (sur piste cyclable) désigne le côté ouest, à plus de 10 m du point géocodé.",
+    "correction": "Hypothèse faible. La ligne n'est pas identifiable ; C1 et 42 sont possibles le dimanche."
+   },
+   {
+    "id": "ctx-16",
+    "verdict": "corrige",
+    "justification": "Les 4 cas cités sont exacts. 2010-08-19 : scooter de moins de 50 cm³ (catv 30), obstacle bordure de trottoir, int=2. 2013-10-12 : VL tournant à gauche contre une moto 50-125, motard hospitalisé, mais int=1 (hors intersection), 4 voies et terre-plein de 2,0 m codés, donc peu probablement dans le carrefour. 2018-10-12 : PR 5+500, coordonnées par défaut. La liste est toutefois incomplète. Manquent : (a) le 06/11/2011 13:30, voie communale sans adresse ni coordonnées, VL contre scooter à contresens, frontale, conducteur du scooter (17-18 ans) hospitalisé ; (b) le 18/02/2018 04:00, « avenue de verdun », catr=5 (hors réseau public), au même point par défaut que le 12/10/2018, nuit sans éclairage, piéton de 24-25 ans hospitalisé ; (c) le 27/03/2024, « 1 rue des Peupliers » (adresse du collège, à 261 m), VL tournant à droite heurtant une piétonne sur passage à feux, si l'adresse est juste. Le 2013-04-09 (« voie communale sans adresse ») concerne une piétonne de 38-39 ans hospitalisée sur un passage à feux. Enfin, « au plus 3 possibles » contredit la liste de 4.",
+    "correction": "1 accident certain à 150 m ou moins, 2 autres à 274-275 m, et jusqu'à 7 non localisables pouvant concerner le carrefour : 2010-08-19, 2011-11-06, 2013-04-09, 2013-10-12, 2018-02-18, 2018-10-12 (environ 260 m par le PR) et 2024-03-27 (ambigu)."
+   },
+   {
+    "id": "ctx-17",
+    "verdict": "confirme",
+    "justification": "Les 12 cas ont été recontrôlés : catv, manv, grav, locp, actp, distances. Les âges ne se déduisent que de l'année de naissance. 2010 : 16-17 ans. 2011 : 17-18 ans, une conductrice. 2018-03-27 : 92-93 ans. 2021-05-07 : 7-8 ans. 2024-01-27 : 15-16 ans. 2016 : passage sans feux, blessé léger. Aucun autre accident géolocalisé entre 150 et 520 m. Incohérence interne du rapport : les cas 2010-08-09 (275 m) et 2012-10-07 (274 m) contredisent « unique à 300 m » de ctx-14."
+   },
+   {
+    "id": "ctx-18",
+    "verdict": "corrige",
+    "justification": "Recalculé sur 2015-2024 : 65 accidents, 138 usagers, 5 tués, 37 hospitalisés, 33 blessés légers ; piétons dans 15 accidents (16 victimes, 12 en traversée, 3 mineurs, 7 de 65 ans ou plus) ; vélos et VAE 9 (7 vélos, 2 VAE, aucun EDP) ; 2RM 26. L'IC exact [0,0025 ; 0,56]/an pour 1 événement en 10 ans est correct. Corrections. Accidents « sur la RD1090 » : 13 avec voie=1090, 14 en ajoutant voie=90, 18 en ajoutant l'adresse seule ; « 16 » n'a pas de critère reproductible. Accident mortel du 13/03/2015 : la victime est une conductrice (sexe=2) de 18-19 ans ; l'autre véhicule est un PL de plus de 7,5 t (catv 14).",
+    "correction": "RD1090 : 13 à 18 accidents selon le critère. Accident mortel de 2015 : conductrice de scooter de 18-19 ans, PL de plus de 7,5 t."
+   },
+   {
+    "id": "ctx-19",
+    "verdict": "corrige",
+    "justification": "(a) Recomptage (VL manv=15 avec un 2RM ou un vélo) : 8 cas en 2015-2024 et 6 en 2010-2014, et non 9 + 5. Le cas manquant est le 17/05/2011, avenue du Grésivaudan / Plaine Fleurie, VL contre moto 50-125. Le 17/01/2022 (D1090) est une moto qui tourne à gauche contre un VL « en s'insérant ». « Venant en face » n'est pas établi : 2015-12-08 et 2021-02-26 sont des 2RM qui dépassent à gauche (même sens) ; 2011-09-21 est une moto à contresens. (b) Le cas du 27/01/2024 est codé actp=3 (traversant), pas 4 (masqué). Le seul piéton « masqué » est bd des Alpes, 2015. (c) La frontale de 2018 est codée circ=2, nbv=2, infra=5 (carrefour aménagé) : le franchissement d'une séparation peinte est une hypothèse. (d) et (e) sont exacts.",
+    "correction": "14 cas de VL tournant à gauche impliquant un 2RM ou un vélo en 2010-2024 (8 + 6), dont au moins 3 qui ne viennent pas d'en face."
+   },
+   {
+    "id": "ctx-20",
+    "verdict": "incertain",
+    "justification": "Déduction cohérente avec les TMJA, mais non démontrable. Le lien avec la frontale PL contre VL de 2018 est fragile : BAAC nbv=2, circ=2, infra=5, PL « changeant de file à gauche », point à 265-354 m près du carrefour des Aiguinards."
+   },
+   {
+    "id": "ctx-21",
+    "verdict": "incertain",
+    "justification": "La base est exacte : environ 15 m et 4 voies ; 7 des 16 piétons victimes avaient 65 ans ou plus. Le refuge en goutte d'eau de Vercors (pointillés violets sur le panneau 72 dpi r01_c02) est nouveau par rapport à 2022, où le zébra principal de Vercors était continu. Guides : le minimum de 2 m pour un refuge est confirmé (Cerema). Le seuil de « environ 8 m » et le « 2,5 m idéal » n'ont pas été retrouvés ; 2,50 m est la longueur minimale des bandes de zébra en agglomération. Enfin, la traversée de Verdun SO avait déjà un îlot porte-feux en 2022 : le gain porte sur la qualité du refuge, pas sur la création d'une traversée en deux temps."
+   },
+   {
+    "id": "ctx-22",
+    "verdict": "incertain",
+    "justification": "Déduction. Les marquages existent (damiers ocres en 2022, orange avec chevrons sur le plan), mais la traversée de la Revirée était verte en 2022. L'effet sur la détection par caméra n'est pas étayé."
+   },
+   {
+    "id": "ctx-23",
+    "verdict": "incertain",
+    "justification": "Les citations du panneau et des magazines (« compacté », végétalisation, sécurisation scolaires) sont exactes. Les bénéfices (vitesses de giration, temps de dégagement, vert utile pour la C1) restent des déductions non mesurées ; le plan de feux est inconnu."
+   },
+   {
+    "id": "ctx-24",
+    "verdict": "corrige",
+    "justification": "Confirmé : la bretelle était traversée par deux bandes de damiers ocres et un zébra (tuile 917250_6460250, px 450-630 / 680-790) ; sa suppression figure sur le panneau ; les voies NE-bound sont TD+G et TD+D. Exagéré : « s'insérait dans Vercors à l'endroit du seul accident ». Le point BAAC est à environ 7-8 m de la pointe de l'îlot et du côté des voies d'approche, dans une incertitude de 10 à 30 m. Ce n'est qu'une proximité.",
+    "correction": "La bretelle débouchait à environ 8 m du point géocodé de l'accident de bus de 2023. Le lien reste hypothétique."
+   },
+   {
+    "id": "ctx-25",
+    "verdict": "incertain",
+    "justification": "Les recommandations Cerema invoquées ne sont pas citées précisément (« recherche web »). Les positions des quais sont confirmées par le GTFS (NE-bound en amont, SW-bound en aval). La priorité bus aux feux n'est pas vérifiée."
+   },
+   {
+    "id": "ctx-26",
+    "verdict": "corrige",
+    "justification": "Scénario plausible (quai NE-bound environ 70 m en amont des feux ; CPNCO pertinent). Mais le cas du 27/01/2024 ne « confirme » pas le mécanisme : BAAC actp=3 (traversant, pas masqué), locp=2, VL « dépassant à gauche » sans précision sur ce qui est dépassé, piéton de 15-16 ans (« lycéen » est déduit de trajet=2), et lieu à 407 m sur Vercors.",
+    "correction": "Le cas de 2024 est seulement compatible avec le mécanisme (piéton traversant hors passage, heurté par un véhicule en dépassement) ; le masquage n'est pas codé."
+   },
+   {
+    "id": "ctx-27",
+    "verdict": "incertain",
+    "justification": "La géométrie de la traversée (15,8 m perpendiculaire, puis 18,3 m) est confirmée. Le tag red_turn:right:bicycle=yes du nœud 1959022958 date d'un relevé de 2022, avant travaux. Le plan de feux est inconnu : les conflits sont hypothétiques."
+   },
+   {
+    "id": "ctx-28",
+    "verdict": "corrige",
+    "justification": "(1) Il y a 14 cas de VL tournant à gauche impliquant un 2RM ou un vélo en 2010-2024 (voir ctx-19), dont au moins 3 qui ne viennent pas d'en face. (2) « Mécanisme le plus fréquent localement » est faux : les accidents de piéton sont plus nombreux (23 accidents en 2010-2024, dont 15 en 2015-2024), de même que les 2RM. (3) Le masquage mutuel des tourne-à-gauche opposés n'est pas établi : OSM et le panneau placent les zones de stockage en configuration hooking (SW-bound→Vercors à l'ouest, NE-bound→Revirée à l'est).",
+    "correction": "TAG contre 2RM ou vélo : 14 cas en 15 ans, deuxième ou troisième mécanisme après les piétons. Masquage à vérifier sur le terrain."
+   },
+   {
+    "id": "ctx-29",
+    "verdict": "incertain",
+    "justification": "Les références réglementaires sont correctes (R151 BSIS, R159 MOIS, Euro NCAP CPTA). Le conflit au tourne-à-droite dépend du plan de feux, qui est inconnu. Un cas local existe pourtant : le 27/03/2024 (localisation ambiguë), VL tournant à droite heurtant une piétonne sur un passage à feux. Le rapport ne l'utilise pas."
+   },
+   {
+    "id": "ctx-30",
+    "verdict": "incertain",
+    "justification": "Déduction. Le choc arrière mortel de 2015 implique un PL de plus de 7,5 t contre un scooter, pas un véhicule léger testé ; à 720 m."
+   },
+   {
+    "id": "ctx-31",
+    "verdict": "corrige",
+    "justification": "(a) OSM maxspeed=50 avec FR:urban : exact. Aucun panneau de zone 30 (B30) n'est cartographié dans OSM près du carrefour (osm_road_signs : seulement un stop et un cédez-le-passage), donc leur présence n'est pas établie. (b) Plausible. (c) « Damiers ocres en partie conservés (underlay) » n'est pas démontré : l'underlay est l'ortho de fond du plan, pas un relevé de marquages conservés. Le marquage jaune de chantier (Panoramax du 31/08/2025) est cité par CONTEXT.",
+    "correction": "Supprimer « damiers conservés ». Présence des panneaux B30 à vérifier (Panoramax 2026)."
+   },
+   {
+    "id": "ctx-32",
+    "verdict": "incertain",
+    "justification": "Les horaires scolaires sont une hypothèse. Les cas cités existent : 09/12/2022 17:35, piéton de 27 ans, nuit et pluie ; 06/12/2016 19:15, 14 ans, passage sans feux. Le scénario de la traversée au rouge depuis le refuge n'est pas étayé."
+   }
+  ],
+  "oublis": [
+   "Accidents à moins de 300 m : 3 et non 1 (2023-09-17 à 37 m ; 2012-10-07 à 274 m ; 2010-08-09 à 275 m). La synthèse (« et même à 300 m ») et le contrôle (2) de ctx-13 sont faux sur 2010-2024. Recalcul dans wf_d/verif_v2/scan.py et near600.csv.",
+   "Accidents non localisables oubliés. 2011-11-06 (201100017575) : voie communale, VL contre scooter à contresens, conducteur de 17-18 ans hospitalisé. 2018-02-18 (201800014973) : « avenue de verdun », hors réseau public, point par défaut, piéton de 24-25 ans hospitalisé à 4 h. Détail du 2013-04-09 : piétonne hospitalisée sur un passage à feux.",
+   "2024-03-27 (202400033324) : adresse « 1 rue des Peupliers » = collège Terray, à 261 m (BAN). VL tournant à droite (manv 16) heurtant une piétonne sur un passage à feux (locp 4), pluie. Si l'adresse est juste, c'est un cas réel du scénario S4 à 260 m. Mais les coordonnées et int=6 (giratoire) pointent vers le Rond-Point du Lycée. Le rapport tranche sans justification (« géocodage faux »).",
+   "Comptages existants. data/context/comptages_directionnels.csv recense deux comptages directionnels au carrefour même : 02/10/2012, poste 149, et 06/05/2021, OPE 291-C3 ; les volumes sont à demander à la Métropole. Le compteur vélo permanent Chronovélo « (Meylan) Mairie / Afficheur », sur le même itinéraire environ 0,9 km en aval, donne TMJ 486 et TMJO 601 en 2022 (375 en 2020, 412 en 2021).",
+   "Le GTFS SEM du dépôt (data/context/gtfs_SEM.zip, octobre 2026) n'a pas été exploité. Il donne les fréquences exactes : C1 à 6-10/h/sens en semaine, 105-106 courses par jour ; 42 à 28-30 par sens en semaine et 12 le dimanche, y compris Verdun→Vercors. Il confirme le code d'arrêt 0021 et l'arrêt 42 « Lionel Terray ».",
+   "A41 : le tronçon au droit du carrefour (PR 0→1+878) porte 47 700 à 52 800 véh/j ; les 83 000 à 87 000 ne valent qu'à l'est de la N87. Le BAAC n'indique pas de PL ; la RD1090 côté La Tronche en compte 1,1 à 1,7 % (SRDT).",
+   "Collège Lionel Terray : 469 élèves à la rentrée 2025 (537 en 2024). Le collège des Buclos (UAI 0382492C, environ 0,7 km) est absent du rapport.",
+   "Données OSM d'avant travaux présentées comme l'état 2026 : les 4 feux et red_turn:right:bicycle portent survey:date 2022 ; 4 des 6 nœuds sound=no datent de 2023. Deux relations no_u_turn de 2021 (13382855 et 13382856) ne sont pas mentionnées.",
+   "Contradiction non traitée : CONTEXT présume que le levé GAM est postérieur à 2025 au cœur du carrefour, or les transects GAM de la branche SO ne montrent aucune bordure centrale, alors que le plan prévoit un terre-plein planté. Il faut dater GAM sur la branche SO ou vérifier le terre-plein sur Panoramax 2026.",
+   "Mécanisme piétons sous-estimé : 23 accidents de piéton à Meylan en 2010-2024, plus que les 14 tourne-à-gauche contre 2RM ou vélo. Le rapport cite le tourne-à-gauche comme le mécanisme le plus fréquent. Il y a aussi un piéton de 84 ans heurté par un vélo sur Verdun (2017-10-24, 619 m), utile pour le conflit Chronovélo / piétons."
+  ],
+  "fiabilite_globale": "Moyenne. Le socle BAAC est exact et reproductible : j'ai refait indépendamment les 15 millésimes, France entière, en Lambert-93, et retrouvé l'accident du bus de 2023 champ par champ ainsi que les statistiques Meylan 2015-2024 (65 accidents, 138 usagers, 5 tués, 37 hospitalisés, 33 blessés légers ; piétons 15/16/12/3/7 ; vélos 9 ; 2RM 26). Les faits sur le projet sont exacts (panneau, magazines 148/163/166, tgplus, reso-m) ; les mouvements bus sont confirmés par OSM et le GTFS ; la géométrie Chronovélo et les ERP aussi. Mais plusieurs affirmations clés de la synthèse sont fausses ou surévaluées :\n- « unique à 300 m » : il y a en fait 3 accidents à 275 m ou moins ;\n- la liste des accidents non localisables est incomplète (2011-11-06, 2018-02-18, plus le cas ambigu du 2024-03-27 près du collège) ;\n- la concordance PR/coordonnées « 6 sur 7 » est en réalité au mieux 5 sur 7, avec des écarts de 136 et 316 m ;\n- les comptes de tourne-à-gauche (9 + 5) sont faux et l'affirmation « mécanisme le plus fréquent » aussi (les piétons sont plus nombreux) ;\n- la C1 passe 6 à 10 fois par heure et par sens, pas 12 ;\n- l'A41 au droit du carrefour porte environ 50 000 véh/j, pas 85 000 ;\n- « aucun comptage » est faux : des comptages directionnels existent au carrefour (2012, 2021), ainsi qu'un compteur Chronovélo à environ 490 vélos/j ;\n- la configuration « branches décalées » est inexacte ;\n- plusieurs tags OSM présentés comme 2026 datent de 2022-2023.\nLes justifications de conception et les scénarios ADAS sont des déductions raisonnables mais non démontrées. Scripts de contrôle : /tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/verif_v2/ (load.py, scan.py, lvu.py, stats.py, near600.csv, meylan_all.csv, m_lieux.csv, m_veh.csv, m_usa.csv). Aucun fichier du dépôt n'a été modifié."
+ },
+ "observe:etat_actuel": {
+  "theme": "Configuration actuelle (oct. 2026) du carrefour Verdun / Vercors / Revirée après les travaux C1 de 2025, et nature/date des levés GAM (PLAN_GLOBAL, Meylan_Topo.dwg)",
+  "constats": [
+   {
+    "id": "actuel-01",
+    "sujet": "Nature des levés GAM : état d'avant 2022 ou postérieur ?",
+    "enonce": "Au cœur du carrefour, PLAN_GLOBAL décrit un état POSTÉRIEUR aux travaux, pas un état ancien. 62 objets de marquage (447 m sur 1232 m à moins de 60 m du centre) n'existaient pas en mai 2022. À l'inverse, des marquages bien présents en 2022 manquent dans le GAM.",
+    "preuve": "Trois contrôles indépendants. (1) Couverture de peinture mesurée sur l'ortho 2022 (contraste_marquages_gam, même ordre que la couche GAM, vérifié objet par objet) : 62 objets ont une couverture inférieure à 0,15. (2) Détection automatique des bandes de zébra sur l'ortho 5 cm 2022, faite par moi (bandes de 0,3 à 0,75 m sur 2 à 4,2 m). 21 bandes de 2022 n'ont pas d'équivalent GAM à moins de 0,7 m : les 11 de l'ancien passage piéton SW (u = -18,6) et les 5 du passage de la bretelle SE (u -24 à -22, v -17 à -14). 21 bandes GAM n'ont pas d'équivalent en 2022 : 12 au nouveau passage SW (u = -27,75), 5 sur l'extension ouest du passage Vercors, 2 sur la Revirée. (3) Superpositions sur 10 tuiles 5 cm, vérifiées visuellement (ov_*.jpg, ovplain_*.jpg).",
+    "confiance": "haute"
+   },
+   {
+    "id": "actuel-02",
+    "sujet": "Le GAM est-il conforme à l'ortho IGN 2024, à l'ortho ASP PAC 2025 et à Pléiades 2025 ?",
+    "enonce": "Non. Ces trois images montrent encore l'état d'avant travaux : ancien passage SW à u ≈ -18 et zèbre de la bretelle SE. L'ortho ASP PAC 2025 est la même image que l'IGN 2024 (mêmes véhicules). L'image SPOT 2025 est trop grossière pour conclure.",
+    "preuve": "Profils de luminance le long de Verdun SW, pour v entre -9,5 et +5. Pic à u = -18,25 en 2022, -18,5 en 2024 et -17,0 sur Pléiades 2025. Aucun pic à -27,75 (+3,5 et +3,7). Le géoréférencement de Pléiades a été contrôlé sur trois traversées inchangées : NE à 13,0 pour 12,6 attendu, Vercors -16,0 pour -15,9, Revirée 13,25 pour 12,3. Contraste de la zone du zèbre de la bretelle : +39 en 2022, +46 en 2024, +31 sur Pléiades 2025. SPOT a été écarté car son pic de contrôle NE tombe à +27. Vérification visuelle : o2024_917250_6460250_gam.jpg.",
+    "confiance": "haute"
+   },
+   {
+    "id": "actuel-03",
+    "sujet": "Correspondance entre le GAM et le panneau projet (avril 2025)",
+    "enonce": "Au cœur, les levés GAM reproduisent la géométrie du projet à 0,1 à 0,5 m près : passages piétons, passage cyclable, refuge, zigzags de bus, zone hachurée, lignes de guidage centrales et nouvelle bordure SE. Le GAM n'est pas pour autant une copie du panneau. Bandes du passage SW : 3,5 m dans le GAM contre environ 3,0 m sur le panneau. Bandes de la Revirée : 2,8 m contre 2,5 m. Le GAM contient aussi des chevrons, des symboles vélo et des chartières que le panneau ne montre pas.",
+    "preuve": "L'image du plan est extraite du PDF (3738 × 2640 px). Recalage SIFT sur la mosaïque 5 cm : 500 points homologues retenus, 4,09 cm/px, rotation -46°, résidu médian 1,3 cm. Le fond du panneau est donc l'ortho PCRS 2022 elle-même (la même voiture sombre apparaît à u ≈ -32). Appariement automatique des bandes, panneau contre GAM : passage SW u -27,3/-27,5 contre -27,7/-27,8, v identique ; Vercors v -15,5/-15,9 contre -15,8/-16,0 ; Revirée v 12,0 contre 12,3. Bords du terre-plein central (segmentation des pixels verts) : v -3,75/-1,75 à u = -30, contre le refuge GAM à -3,9/-1,5. Zigzags de bus : NW GAM u -66,4 à -36,5 contre panneau -64 à -36 ; SE GAM -106,6 à -71,7 contre -102 à -74. Superpositions visuelles : planGAM_r1c2.jpg, planGAM_r2c2.jpg, planGAM_r1c3.jpg.",
+    "confiance": "haute"
+   },
+   {
+    "id": "actuel-04",
+    "sujet": "Le GAM est incomplet et mélange ancien et nouveau",
+    "enonce": "Plusieurs éléments manquent dans le GAM : les bordures longitudinales et les arbres du terre-plein central planté (u de -69,5 à -17 sur le panneau), la queue de l'îlot Vercors au sud du passage, les nouvelles flèches (Verdun SW entrant, Vercors), la traversée « ||| » du cheminement SE et toutes les lignes d'arrêt, y compris celles de 2022. Le GAM omet donc les lignes d'arrêt en général. D'autres éléments de 2022 y sont conservés alors qu'ils sont probablement obsolètes : flèches de Vercors à 33-53 m (voie gauche : tourne-à-gauche ; voie droite : « trident » gauche + tout droit + droite, codé par deux blocs DROIT_GAUCHE superposés à ±18,9°), et double ligne à u -92/-80.",
+    "preuve": "Requête WFS en direct le 06/10/2026 sur l'emprise 917200-917360 × 6460200-6460370 : 271 bordures et 330 marquages, tous présents dans l'extraction locale (aucun manquant). Toutes ces entités proviennent du seul fichier Meylan_Topo.dwg, avec Z = 0. Les autres couches topo (limite_cultures, talus_barbule, mur_hachure, seuil, limite_jeux) ne contiennent rien dans la zone du terre-plein. La recherche de segments transversaux de plus de 1,2 m (hors zébras) ne trouve aucune ligne d'arrêt. Tous les zébras, anciens comme nouveaux, sont dessinés en rectangles de 0,500 m au pas exact de 1,000 m : c'est une convention de dessin, ce critère ne permet pas de distinguer relevé et projet.",
+    "confiance": "haute"
+   },
+   {
+    "id": "actuel-05",
+    "sujet": "Conclusion sur la nature et la date du cœur GAM",
+    "enonce": "Le cœur de PLAN_GLOBAL est une mise à jour postérieure au projet d'avril 2025, qui intègre la géométrie des travaux C1. Il s'agit très probablement d'un récolement partiel de géomètre, ou du plan d'exécution. Ce n'est ni un état ancien ni le panneau lui-même. C'est la meilleure source géométrique pour les marquages et bordures après travaux, à compléter par le panneau (terre-plein, flèches, lignes d'arrêt, queue d'îlot) et par OSM (topologie, voies, arrêts).",
+    "preuve": "Les métadonnées de la couche WFS disent « issu des relevés de géomètres ». Le GAM est cohérent avec le projet (actuel-03) mais n'en est pas une copie : longueurs de bandes différentes, détails supplémentaires. Ses éléments déplacés sont confirmés sur le terrain par OSM (actuel-06). Il lui manque en revanche des éléments construits (actuel-04). Aucune date de mise à jour n'est publiée, et l'identifiant numérique des objets ne sert pas de date (les séquences sont propres à chaque couche).",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "actuel-06",
+    "sujet": "Réalisation confirmée par des relevés terrain OSM, indépendants du GAM",
+    "enonce": "Plusieurs changements du GAM et du projet sont bien réalisés. Bretelle bus / tourne-à-droite Verdun → Vercors : supprimée. Contre-allée de service côté NW : supprimée. Arrêts « La Revirée » : déplacés aux positions des zigzags GAM, à 5 m près.",
+    "preuve": "Historique de l'API OSM (osm_hist.json, oscs/*.osc, deleted_ways.json). Changeset 169917587 du 2025-08-03 (Virgile1994, « Travaux C1 Meylan », relevé terrain) : suppression des voies 168730949 (voie bus SE à v ≈ -13,8) et 312004805 (bretelle vers Vercors). Changeset 173828030 du 2025-10-27 (relevé terrain) : suppression de la contre-allée 185326637 et déplacement du quai ref 21 (sens Montbonnot) de u -52,9/-32,4 vers u -101,4/-65,6 ; GAM : -106,6/-71,7. Changeset 179848574 du 2026-03-14 (« survey; panoramax ») : quai ref 396 (sens Grenoble) déplacé de u -88,8/-55,1 vers u -70,7/-36,9 (+18 m) ; GAM : -66,4/-36,5. Ce changeset supprime aussi une contre-allée recréée à tort le 2026-01-06 d'après la BD Ortho. Panoramax du 2025-08-31 : angle SE fermé par des séparateurs avec zone gravillonnée, côté NW en chantier.",
+    "confiance": "haute"
+   },
+   {
+    "id": "actuel-07",
+    "sujet": "Point non confirmé : déplacement des traversées SW",
+    "enonce": "Le panneau et le GAM indiquent tous deux que le passage piéton et la traversée cyclable de Verdun SW ont été reculés d'environ 9,2 m vers Grenoble. Piéton : de u = -18,6 à -27,75. Cyclable : du damier jaune (u -18 à -14) vers u -25,9 à -22,3. Le tout avec un refuge dans le nouveau terre-plein. Aucune source de terrain postérieure aux travaux ne le confirme.",
+    "preuve": "Arguments pour : panneau et GAM concordants ; sur le panneau, l'extrémité plantée du terre-plein (u -21,9 à -17) recouvre l'ancien zèbre. Arguments contre ou neutres : OSM 2026 conserve les nœuds de 2021 (traversée cyclable 1722505398/9 à u ≈ -15, bordures 6569621806/7 à u ≈ -19), alors que Virgile1994 a modifié les chemins voisins le 2026-03-14 sans les déplacer. Les dernières images (Panoramax du 2025-08-31, photo 4e7211a3 ; Pléiades 2025) montrent encore l'ancien passage en service. Elles datent du chantier ou d'avant.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "actuel-08",
+    "sujet": "Verdun SW, sens entrant (vers le NE)",
+    "enonce": "Deux voies. Voie gauche, côté terre-plein : tout droit + tourne-à-gauche (vers la Revirée), environ 3,5-3,6 m. Voie droite : tout droit + tourne-à-droite (vers Vercors), 3,25 m. Ligne d'arrêt à u ≈ -32,3, environ 2,8 m avant le passage. L'arrêt de bus sens Montbonnot est sur la voie de droite (zigzag de u -106,6 à -71,7), sans encoche. Nez hachuré du terre-plein de u -92,6 à -70,2, puis terre-plein planté de 2,0-2,4 m de large.",
+    "preuve": "Coupes GAM : bordure SE à v = -10,67 (u = -40) et -10,94 (u = -55) ; ligne de voie 2646533960 à v = -7,42 et -7,67. Bord du terre-plein d'après le panneau : v -3,9 à -4,05. Flèches et ligne d'arrêt : panneau uniquement (flèches à u ≈ -60 et -36), aucune dans le GAM. Zigzag GAM 2646533969 ; hachures 2646533972 et 2646534016 à 025.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "actuel-09",
+    "sujet": "Verdun SW, sens sortant (vers Grenoble), et côté NW",
+    "enonce": "Deux voies d'environ 3,3-3,5 m (gauche) et 3,2 m (droite). L'arrêt « La Revirée » sens Grenoble (ref 396) est sur la voie de droite (zigzag de u -66,4 à -36,5), quai de v +4,8 à +7,7. Il n'y a plus de contre-allée. Une encoche avec autopartage et 2 places PMR se trouve vers u -97 à -82 (bordure à v +9,5). La piste cyclable bidirectionnelle est entre v +7,8 et +11,2 (environ 3,4 m).",
+    "preuve": "Coupes GAM : ligne 2646533962 à v +1,56 et +1,26 ; bordure 2646533138 à v +4,78 et +4,49 ; quai 2646533127/129. À u = -85 : bordure 2646533114 à v +9,46. Symboles GAM SYMBOLE_PMR entre u -91 et -85, panneau : AUTOPARTAGE + 2 PMR. Piste : OSM 385035086 (largeur 3) et bordures GAM 2646533129/133. Quai : OSM 185326915, déplacé le 2026-03-14 lors d'un relevé terrain.",
+    "confiance": "haute"
+   },
+   {
+    "id": "actuel-10",
+    "sujet": "Traversées de la branche SW (état GAM / projet)",
+    "enonce": "Passage piéton de u -29,5 à -26,0 (3,5 m), 12 bandes (6 par chaussée), avec refuge dans le terre-plein (u -29,6 à -22,3, v -3,9 à -1,5, chartières aux angles). Juste à côté, côté carrefour, traversée cyclable bidirectionnelle de u -25,9 à -22,3 (environ 3,6 m) : chevrons dans les deux sens, 8 symboles vélo (4 par sens), bordure en damier de carrés de 0,5 m à u -25,9. Elle relie la piste bidirectionnelle NW au cheminement de l'angle SE.",
+    "preuve": "Rectangles GAM 2646533248 à 264 (cov 0 à 0,39) ; bordures transversales 2646533305/300/307 à u -29,6/-25,9/-22,3 ; chevrons 2646533899 à 928 ; damier 2646533932 à 959 ; SYMBOLE_VELO (rotations 44° et 228°) ; chartières 2645495448 à 485. Vérifié sur le panneau (planGAM_r1c2). Position réelle non confirmée sur le terrain (voir actuel-07).",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "actuel-11",
+    "sujet": "Verdun NE (branche inchangée)",
+    "enonce": "Entrant (vers le SW) : deux voies d'environ 3,0 et 2,9-3,0 m. Voie gauche (SE) : tout droit + gauche (vers Vercors). Voie droite (NW) : tout droit + droite (vers la Revirée). Flèches de 2022 à u 19-23, ligne d'arrêt à u ≈ 17,2. Passage piéton inchangé à u 11,1-14,1 : 6 + 6 bandes de 3,0 m avec refuge sur l'îlot central, plus 3 bandes sur la piste cyclable. Sortant : deux voies de 2,95 et 3,1 m.",
+    "preuve": "Coupe GAM à u = 22 : îlot 2646533178 à v -0,82/-3,29, ligne 2646523611 à +2,19, ligne de rive 2646518512 à +5,05, bordure 2646524311 à +5,18, ligne 2646523614 à -6,24, bordure 2646529664 à -9,33. Bandes à u = 12,6 avec cov 0,62-0,70, retrouvées par la détection 2022. Flèches 2645127xxx (cov environ 0,45), lues sur l'ortho 2022 (arrows_check.jpg). Ligne d'arrêt : panneau uniquement.",
+    "confiance": "haute"
+   },
+   {
+    "id": "actuel-12",
+    "sujet": "Avenue du Vercors",
+    "enonce": "Entrant (vers le N) : deux voies d'environ 3,0 et 2,7-3,1 m. Le panneau indique pour la voie gauche « tourne-à-gauche seul » et pour la voie droite « tout droit + tourne-à-droite ». Le GAM garde les flèches de 2022 (le « trident » autorisait aussi le tourne-à-gauche depuis la voie de droite). Ligne d'arrêt à v ≈ -20,6. Sortant : une voie large d'environ 4,5-5,1 m. Passage piéton à v -17,4/-14,4 sur toute la largeur : 8 bandes à l'ouest, dont 5 nouvelles sur l'ancienne zone de bretelle, puis le refuge de l'îlot, puis 7 bandes à l'est (inchangées). L'îlot séparateur en goutte d'eau occupe l'emprise de l'ancien îlot triangulaire.",
+    "preuve": "Coupes GAM le long d'OSM 185326635 à 25 et 35 m : bordure E -1,63/-1,75, ligne 2646589169 à +1,3, axe 2646589117. OSM : 185326635 (2 voies, 6 m) et 169866973 (1 voie). Flèches GAM 2645620456/466/467/469 situées sur les flèches visibles en 2022. Flèches et ligne d'arrêt du panneau : plan_arrows_zoom.jpg, cellule C. Tête d'îlot GAM 2646533212 ; queue : panneau uniquement.",
+    "confiance": "moyenne"
+   },
+   {
+    "id": "actuel-13",
+    "sujet": "Angle SE : suppression du tourne-à-droite Verdun → Vercors",
+    "enonce": "La voie bus / tourne-à-droite le long du côté SE (v ≈ -13,8, de u -101 jusqu'à Vercors) et son zèbre (5 bandes) ont disparu. Une nouvelle bordure de chaussée (rayon d'environ 13 m) coupe l'ancienne bretelle vers u -17,3, v -20,0 (L93 ≈ 917281, 6460264). Derrière : bande plantée / noue de v -10,8 à -15,4, puis cheminement piétons-cycles jusqu'à la piste vers les Mitaillères.",
+    "preuve": "La bordure GAM 2646533206 (63 m) est jusqu'à 5,5 m à l'intérieur de la chaussée du PCRS vecteur 2019 (59 bordures anciennes concordent avec ce PCRS, médiane 4 cm). Intersection calculée avec le tracé OSM supprimé. OSM 2025-08-03 (actuel-06). Panneau : « Suppression de la voie tourne à droite vers Vercors ». Panoramax du 2025-08-31.",
+    "confiance": "haute"
+   },
+   {
+    "id": "actuel-14",
+    "sujet": "Chemin de la Revirée",
+    "enonce": "Une voie entrante d'environ 3,5-4,0 m et une voie sortante d'environ 4,0-4,5 m, séparées par une double ligne axiale continue (existante). Le passage piéton reste au même endroit (v 11,0-13,75, 9 bandes de 2,8 m) ; il a été repeint avec un décalage d'environ un demi-pas. Ligne d'arrêt à v ≈ 16,6 (panneau). Nouveaux arrêts Flexo 42 à environ 43-54 m au NNW.",
+    "preuve": "Coupes GAM à 20, 25 et 30 m : bordure W -2,6 à -3,7 ; axe 2646523628/629 (cov 0,81-0,84) ; bordure E +4,4 à +6,1. Bandes GAM à v 12,35 (cov 0,05-0,43) contre détection 2022 à v 12,0-12,3. OSM : quai 1445374292 créé le 2025-10-27 (« Arrêts Flexo 42 ») et déplacé le 2026-05-22.",
+    "confiance": "haute"
+   },
+   {
+    "id": "actuel-15",
+    "sujet": "Entrée du P+R et cheminement des Saules Blancs",
+    "enonce": "Le panneau déplace l'entrée du P+R « Meylan – La Revirée » (36 places). Son trait de rappel pointe côté NW, environ 95-110 m au SW du centre. L'ancienne desserte par la contre-allée a disparu. Un cheminement piéton longe désormais les Saules Blancs, à l'est de Vercors.",
+    "preuve": "Positions des libellés du PDF reportées en L93 : « Déplacement de l'entrée du P+R » vers u -92, v +36 ; trait de rappel jusqu'à u -110/-105, v +38/+27 (plan_PR.jpg). Couche GAM intermodalite_parkings_relais : 36 places. Cheminement : OSM footway 1530751498 (relevé du 2026-06-19).",
+    "confiance": "faible"
+   },
+   {
+    "id": "actuel-16",
+    "sujet": "BD TOPO et OSM : limites",
+    "enonce": "Sur le carrefour, la BD TOPO décrit encore l'état d'avant travaux : Verdun SW en chaussée unique de 4 voies sur 14 m, bretelle réservée aux bus créée le 2024-04-19 et jamais supprimée. OSM est à jour pour la topologie, les arrêts, les sens et le nombre de voies, mais n'a pas d'affectation de voies (turn:lanes). Ses positions de traversées et de feux datent de 2021-2022.",
+    "preuve": "TRONROUT0000000008028422 et 2345142768 : 4 voies, 14 m, modifiés le 2024-10-06 ; 2345142769 (réservé bus) ; dates de modification jusqu'au 2026-01-31 sur d'autres tronçons seulement. OSM : aucune clé turn:lanes ; feux 1959022958/72/75/79 avec survey:date 2022-01-27/28.",
+    "confiance": "haute"
+   }
+  ],
+  "synthese": "C'est le GAM qui décrit le mieux la configuration actuelle du carrefour, à condition de le compléter par le panneau projet et par OSM. Au cœur du carrefour, les levés GAM (PLAN_GLOBAL, Meylan_Topo.dwg) ne sont ni un état ancien ni le panneau : c'est une mise à jour postérieure au projet d'avril 2025, très probablement un récolement partiel ou le plan d'exécution des travaux C1.\n\nCe qui fonde cette conclusion :\n- **Le GAM ne correspond à aucune image antérieure.** 62 objets de marquage n'existaient pas en mai 2022. L'IGN 2024, l'ASP PAC 2025 (même image) et Pléiades 2025 montrent encore l'ancien passage SW à u ≈ -18,6 et le zèbre de la bretelle.\n- **Le GAM correspond au projet.** Après recalage du panneau (son fond est l'ortho PCRS 2022 elle-même), les deux concordent à 0,1-0,5 m.\n- **Les déplacements d'arrêts et suppressions de voies du GAM ont été confirmés sur le terrain par OSM** :\n  - suppression du tourne-à-droite et de la voie bus SE le 2025-08-03 ;\n  - suppression de la contre-allée NW le 2025-10-27 et le 2026-03-14 ;\n  - quais de bus déplacés le 2025-10-27 et le 2026-03-14, à moins de 5 m des zigzags GAM.\n\nLe GAM est toutefois incomplet et mélange ancien et nouveau :\n- il ne contient ni le terre-plein central planté, ni les arbres, ni la queue de l'îlot Vercors ;\n- il ne contient aucune ligne d'arrêt, ni les nouvelles flèches ;\n- il garde les flèches de 2022 sur Vercors.\n\n**Configuration actuelle (la plus probable) :**\n- **Verdun SW :** 2 × 2 voies séparées par un terre-plein planté de 2,0-2,4 m.\n  - Entrant : voie gauche tout droit + gauche, 3,5 m ; voie droite tout droit + droite, 3,25 m.\n  - Sortant : 3,3-3,5 m et 3,2 m.\n  - Arrêts « La Revirée » sur voie, aux deux sens (u -106,6 à -71,7 et -66,4 à -36,5).\n  - Passage piéton (3,5 m, 12 bandes) et traversée cyclable bidirectionnelle (3,6 m) reculés d'environ 9 m vers Grenoble (u -29,5 à -22,3), avec refuge.\n- **Verdun NE :** inchangé. 2 voies entrantes d'environ 3,0 m (gauche : tout droit + gauche ; droite : tout droit + droite), passage piéton à u 12,6 avec refuge.\n- **Vercors :**\n  - 2 voies entrantes d'environ 3 m (panneau : gauche seul / tout droit + droite) et 1 voie sortante large.\n  - Passage piéton prolongé vers l'ouest, îlot en goutte d'eau.\n  - Le tourne-à-droite Verdun → Vercors a disparu : nouvelle bordure de rayon environ 13 m, noue et cheminement à la place.\n- **Revirée :** inchangée. 1 + 1 voie, passage repeint au même endroit, arrêts Flexo 42 au nord.\n\n**Point principal non confirmé :** la position réelle des traversées SW. Le panneau et le GAM sont concordants, mais OSM n'a pas été mis à jour et aucune image postérieure aux travaux n'est disponible.",
+  "implications_simulateur": "1) **Géométrie de référence du cœur (environ 60 m, et Verdun SW jusqu'à u ≈ -110) : utiliser le GAM 2026**, et non les orthos 2022, 2024 ou 2025. Celles-ci montrent l'ancienne configuration : passage SW à u = -18,6, bretelle bus/tourne-à-droite, contre-allée NW, anciens arrêts. Si une ortho sert de texture, il faut y masquer ou repeindre les marquages du cœur. Repère utile : x = 917279,43 + 0,7071(u − v), y = 6460289,98 + 0,7071(u + v), avec u selon l'axe de Verdun vers le NE.\n\n2) **Compléter le GAM avec le panneau (recalé, précision de l'ordre du centimètre)** pour ce qui manque :\n   - terre-plein planté de Verdun SW (v environ -4,2/-3,6 à -1,9/-1,55 ; u -69,5 à -29,6 et -21,9 à -17) ;\n   - flèches des voies entrantes (SW : tout droit + gauche / tout droit + droite ; Vercors : gauche / tout droit + droite) ;\n   - lignes d'arrêt (SW u -32,3 ; NE u 17,2 ; Vercors v -20,6 ; Revirée v 16,6) ;\n   - queue de l'îlot Vercors.\n\n   Ne pas reprendre les flèches de Vercors du GAM : ce sont celles de 2022.\n\n3) **Topologie** (sens uniques, nombre de voies, arrêts) : OSM 2026 convient. En revanche, ses nœuds de traversée et de feux datent de 2021-2022 : ne pas les utiliser pour positionner les traversées SW.\n\n4) **Prévoir deux variantes paramétrables** pour les éléments non confirmés :\n   - position des traversées SW : u = -27,75 par défaut (GAM/projet), ou u = -18,6 (ancien/OSM) ;\n   - affectation de la voie droite de Vercors : avec ou sans tourne-à-gauche.\n\n5) **Scénarios ADAS :**\n   - Les marquages neufs (automne 2025 – janvier 2026) sont probablement en classe d'usure 0-1 en octobre 2026.\n   - Risque de marquages fantômes (classe F) à modéliser à l'emplacement de l'ancien passage SW (u ≈ -18,6) et du zèbre de bretelle (u -24/-22, v -17/-14), s'ils ont été grenaillés ou rabotés.\n   - Possibles flèches contradictoires sur Vercors si les anciennes subsistent.\n   - Les arrêts sont désormais sur voie (pas d'encoche) : un bus à l'arrêt bloque la voie de droite sur Verdun SW, dans les deux sens.",
+  "description_par_branche": "Repère : u le long de Verdun, positif vers le NE (Montbonnot) ; v positif vers le NW ; origine au centre L93 (917279,43 ; 6460289,98). Largeurs mesurées sur les coupes GAM ; quand le bord du terre-plein intervient, il vient du panneau.\n\n**BRANCHE SW – Avenue de Verdun, côté Grenoble**\n\nEntrant (sens NE), chaussée SE :\n- **Voies :** 2 voies. Bordure SE à v ≈ -10,7/-10,9, ligne de voie à v ≈ -7,4/-7,7, bord du terre-plein à v ≈ -3,9/-4,05.\n  - voie droite : 3,25 m, tout droit + tourne-à-droite vers Vercors ;\n  - voie gauche : environ 3,5-3,6 m, tout droit + tourne-à-gauche vers la Revirée.\n  - Flèches visibles sur le panneau à u ≈ -60 et -36 ; absentes du GAM.\n- **Ligne d'arrêt :** u ≈ -32,3 (panneau).\n- **Arrêt « La Revirée » sens Montbonnot (ref 21) :** sur la voie de droite, zigzag de u -106,6 à -71,7, quai côté SE. Avant 2025, il était à u -52,9/-32,4, le long de la voie bus.\n- **Terre-plein central :** nez hachuré de u -92,6 à -70,2 ; partie plantée (environ 2,0-2,4 m, arbres) de u -69,5 à -29,6, puis refuge de u -29,6 à -22,3, puis extrémité plantée de -21,9 à -17. Seuls le refuge et le nez hachuré figurent dans le GAM.\n\nSortant (sens SW), chaussée NW :\n- **Voies :** 2 voies. Bord du terre-plein à v ≈ -1,9/-1,55, ligne à v ≈ +1,3/+1,6, bordure à v ≈ +4,5/+4,8 ; voie gauche 3,3-3,5 m, voie droite environ 3,2 m.\n- **Arrêt « La Revirée » sens Grenoble (ref 396) :** sur la voie de droite, zigzag de u -66,4 à -36,5, quai de v +4,8 à +7,7. Avant : u -88,8/-55,1.\n- **Côté NW :** encoche autopartage + 2 PMR vers u -97/-82 ; piste cyclable bidirectionnelle à v +7,8/+11,2 (environ 3,4 m). La contre-allée de service a été supprimée.\n\nTraversées (nouvelles) :\n- passage piéton de u -29,5 à -26,0 (3,5 m), 12 bandes (6 + 6), refuge de 2,4 m ;\n- traversée cyclable bidirectionnelle de u -25,9 à -22,3 : chevrons dans les deux sens, 8 symboles vélo, damier côté SW, chartières ;\n- les anciens passages piéton (u -18,6) et cyclable à damier jaune (u -18/-14) ont disparu : leur emplacement est occupé par l'extrémité plantée du terre-plein. Ce déplacement n'est pas confirmé sur le terrain.\n\n**CENTRE**\n\nLignes de guidage des tourne-à-gauche (GAM 2646518554), avec flèches à u ≈ -7,8 (SW → Vercors) et u ≈ +4,9 (NE → Revirée). Panneau et GAM concordent.\n\n**BRANCHE NE – Avenue de Verdun, côté Montbonnot (inchangée)**\n\n- **Entrant (sens SW) :** 2 voies. Bordure de l'îlot central à v -0,8, ligne à +2,2, rive à +5,05 ; voies de 3,0 et 2,9-3,0 m.\n  - flèches existantes de 2022 (u 19-23) : voie gauche (SE) tout droit + gauche vers Vercors, voie droite (NW) tout droit + droite vers la Revirée ;\n  - ligne d'arrêt à u ≈ 17,2 (panneau).\n- **Passage piéton :** inchangé, de u 11,1 à 14,1 ; 6 + 6 bandes de 3,0 m avec refuge sur le nez de l'îlot central (u ≈ 8-26), plus 3 bandes sur la piste cyclable (v 8,5-10,4).\n- **Sortant (sens NE) :** 2 voies de 2,95 et 3,1 m (îlot -3,3, ligne -6,2, bordure -9,3).\n\n**BRANCHE S – Avenue du Vercors**\n\n- **Entrant (sens N) :** 2 voies d'environ 3,0 et 2,7-3,1 m.\n  - Panneau : voie gauche tourne-à-gauche seul (vers Grenoble), voie droite tout droit + droite.\n  - Le GAM garde les flèches de 2022 à 33-53 m : voie gauche tourne-à-gauche, voie droite « trident » gauche + tout droit + droite.\n  - Ligne d'arrêt à v ≈ -20,6 (panneau).\n- **Sortant (sens S) :** 1 voie large d'environ 4,5-5,1 m.\n- **Passage piéton :** à v -17,4/-14,4. 8 bandes à l'ouest, dont 5 nouvelles là où se trouvaient la bretelle et la pointe de l'ancien îlot ; refuge sur l'îlot en goutte d'eau (tête GAM 2646533212, queue panneau jusqu'à v ≈ -24) ; 7 bandes à l'est, inchangées.\n- **Angle SE :** le tourne-à-droite Verdun → Vercors et la voie bus SE (v ≈ -13,8) ont disparu, ainsi que le zèbre de la bretelle. Nouvelle bordure de chaussée de rayon environ 13 m (GAM 2646533206) ; bande plantée / noue de v -10,8 à -15,4 ; cheminement piétons-cycles vers la piste des Mitaillères.\n- **Est de Vercors :** cheminement piéton le long des Saules Blancs (OSM 2026-06).\n\n**BRANCHE N – Chemin de la Revirée (inchangée pour l'essentiel)**\n\n- **Voies :** 1 voie entrante d'environ 3,5-4,0 m et 1 voie sortante d'environ 4,0-4,5 m, séparées par une double ligne continue.\n- **Ligne d'arrêt :** v ≈ 16,6 (panneau).\n- **Passage piéton :** même emplacement (v 11,0-13,75), 9 bandes de 2,8 m, repeintes avec un décalage d'environ un demi-pas.\n- **Traversée cyclable :** celle de la piste bidirectionnelle à l'embouchure, existante.\n- **Arrêts :** nouveaux arrêts Flexo 42 à environ 43-54 m au NNW.\n\n**P+R « La Revirée » (36 places)**\n\nEntrée déplacée selon le panneau, côté NW, à environ 95-110 m au SW du centre. L'ancienne desserte par la contre-allée a été supprimée. Confiance faible.",
+  "incertitudes": "1) **Position réelle des traversées SW** (u -27,75 / -24,1 contre l'ancienne -18,6 / -16) **et existence du terre-plein planté et du refuge.** Seuls le panneau et le GAM les attestent ; OSM 2026 n'a pas été mis à jour ; Panoramax du 2025-08-31 et Pléiades 2025 sont antérieurs au déplacement. Pour lever le doute : une capture de rue Panoramax ou une photo sur Verdun SW, dans les deux sens, entre u -40 et -10. À défaut, l'ortho IGN RVB-EXPRESS 2026 quand l'Isère sera publiée (couche existante mais vide ici aujourd'hui), ou le plan de récolement (DOE) auprès de Grenoble-Alpes Métropole.\n\n2) **Affectation et position des flèches.**\n   - Vercors : le panneau dit gauche seul / tout droit + droite, le GAM garde le trident de 2022.\n   - Verdun SW entrant : panneau uniquement.\n   - Verdun NE : flèches de 2022 lues à 5 cm, lecture assez sûre.\n   Une photo de rue à chaque approche suffit.\n\n3) **Lignes d'arrêt :** elles n'existent dans aucune couche GAM, même les anciennes ; positions tirées du panneau uniquement. Les positions des têtes de feux dans OSM datent de 2022.\n\n4) **Îlots :** la queue de l'îlot Vercors et les éventuelles retouches de l'îlot central NE ne sont pas confirmées. Les bordures GAM 2646518479/80 et 2646533178 sont absentes du PCRS 2019 alors qu'un refuge existait en 2022.\n\n5) **Entrée du P+R :** déduite seulement de la position du libellé et du trait de rappel du panneau ; une visite ou une photo est nécessaire.\n\n6) **État des anciens marquages :** les anciens zébras (SW et bretelle) et les flèches Vercors ont-ils été effacés ? Grenaillage (risque de marquage fantôme) ou rabotage et réfection d'enrobé ? Reste-t-il du marquage jaune provisoire du chantier ? À vérifier par photo de rue.\n\n7) **Nature exacte du GAM (récolement ou plan d'exécution) et date de sa mise à jour :** aucune date n'est publiée. On peut la demander à GAM (Planothèque, Meylan_Topo.dwg), ou surveiller une prochaine mise à jour du WFS qui ajouterait le terre-plein (signe d'une intégration progressive).\n\n8) **Date d'acquisition de Pléiades 2025 :** inconnue (couche non interrogeable). L'image montre l'état d'avant le déplacement des traversées, avec le zèbre de la bretelle encore visible. Métadonnées à demander à l'IGN ou au CNES.\n\n9) **Largeurs** des voies gauches de Verdun SW et des voies Vercors : elles dépendent du bord du terre-plein et de l'îlot, tirés du panneau (marge de ±0,3-0,5 m).",
+  "fichiers_produits": [
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/etat_actuel.geojson",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/ovplain_917250_6460250.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/ovplain_917200_6460250.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/ovplain_917250_6460300.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/ovplain_917300_6460250.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/ovplain_917250_6460200.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/ovplain_917300_6460200.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/ov_917250_6460250.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/ov_917200_6460200.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/osm_917250_6460250.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/o2024_917250_6460250_gam.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/planGAM_r1c2.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/planGAM_r2c2.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/planGAM_r1c3.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/plan_arrows_zoom.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/arrows_check.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/approaches_2022_gam.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/uv_strips_verdun.png",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/gam_core_50m.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/gam_vs_pcrs2019_100m.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/etat_actuel_917250_6460250.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/etat_actuel_917200_6460200.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/img/plan_PR.jpg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/plan/im34.jpeg",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/plan/georef.json",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/osm_hist.json",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/osm_cs.json",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/deleted_ways.json",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/inventory_marq.csv",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/wfs/topo_sol_bordure_lin.json",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/scripts/build_geojson.py",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/scripts/georef_plan.py",
+   "/tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/scripts/overlay.py"
+  ]
+ },
+ "verify-cross:contexte_securite": {
+  "verdicts": [
+   {
+    "id": "ctx-01",
+    "verdict": "confirme",
+    "justification": "BD TOPO : AV DE VERDUN, cpx_numero D1090, gestionnaire « Grenoble Alpes Métropole », importance 2. Vercors et Revirée ont l'importance 4. OSM API : ref « D 1090 », old_ref « N 90 ». Le BAAC 2011-2012 code d'ailleurs encore la route en « catr=2 voie 90 ». J'ai relancé l'API opendata.isere.fr : la section PR 4+160→5+265 se termine en (-15,-21), soit 26 m du centre.",
+    "correction": "Détail : la Revirée garde l'importance 4 sur au moins 166 m. Les tronçons d'importance 5 nommés « Revirée » forment une autre branche, qui rejoint Verdun à environ 85 m au NE."
+   },
+   {
+    "id": "ctx-02",
+    "verdict": "confirme",
+    "justification": "Valeurs relues dans l'API : 7 800 véh/j (2022, METRO) sur PR 4+163→5+1510, longueur géométrique 2 266 m, qui passe à 4,6 m du centre ; 16 500 (« Etude METRO », sans année de référence) ; 10 500 (2022) sur PR 5+1510→6+476 ; 36 200 (réf. 2019) ; A41 de 83 900 à 86 800 ; N87 74 200 (2022). La section des 7 800 se termine au Rond-Point du Lycée (896,761).",
+    "correction": "Le 16 500 apparaît identique sur les cartes 2011 à 2018 (et non 2012-2018) et n'a pas d'année de référence : c'est une valeur figée, à pondérer moins que 7 800 (2022)."
+   },
+   {
+    "id": "ctx-03",
+    "verdict": "confirme",
+    "justification": "Les « 30 » sont bien au sol : en 917250_6460250 px (783,790) et en 917250_6460300 px (~342,740), sur l'entrée de la Revirée (crop natif contrôlé). Les « 50 » sont visibles sur la branche SO (px 128,610 et 172,652) et sur la branche NE (917300_6460300, bas gauche). Le magazine 148 (avril-mai 2022) cite « le 24 mars dernier », 30 km/h généralisé « à l'exception de quelques axes maintenus à 50 ». OSM live : maxspeed=50 et source:maxspeed=FR:urban sur Vercors et la Revirée. vma BAAC sur Vercors : 30 (2022), 50 (2023), 50 (2024).",
+    "correction": "BD TOPO sur la Revirée : 40 km/h sur les 63 premiers mètres, puis 25. Sur Vercors : 40, puis 35 au-delà de 130 m."
+   },
+   {
+    "id": "ctx-04",
+    "verdict": "incertain",
+    "justification": "Mes transects sur gam_topo_sol_bordure_lin donnent les bordures à environ -10 m (NO) et +5,4/+6,0 m (SE), soit 15,5-16 m, sans bordure centrale de s=5 à s=110 m. Près de (-14..-19,-18..-23), seuls de petits éléments de 2 m forment un refuge. BD TOPO SO : 1 chaussée, 4 voies, 14 m. L'ortho 2022 montre bien des hachures (aussi sur la branche NE, en 917300_6460300). En revanche, le levé GAM est probablement postérieur aux travaux : des bordures recoupent l'axe de l'ancienne bretelle en (4,-28), (-5,-30) et (-37,-58). Dans ce cas, il ne montre aucun terre-plein planté continu sur l'approche SO jusqu'à 110 m, ce qui contredit le terre-plein lu sur le plan. Par ailleurs, BD TOPO modélise la branche NE en « Route à 2 chaussées » (1 voie de 3,5 m par sens).",
+    "correction": "Avant travaux, le profil « chaussée unique 15-16 m + séparation peinte » est solide. Le terre-plein planté SO après 2025 reste non démontré : la levée GAM (probable récolement) n'en montre aucun entre 5 et 110 m."
+   },
+   {
+    "id": "ctx-05",
+    "verdict": "confirme",
+    "justification": "OSM live : liaisons 168644602 (7,7 m, de 787121265 (-4,-3) à 787121172 (-1,-10)) et 1488785302 (7,4 m, de 1959011169 (8,-1) à 1959011172 (4,5)). Aucune relation de restriction sur les 4 nœuds centraux. Quatre nœuds traffic_signals en (-10,-19), (12,-15), (13,15) et (-9,11). L'affectation des voies vient du plan : non revérifiée.",
+    "correction": "Les 4 nœuds de feux portent survey:date de janvier 2022 : ils sont antérieurs aux travaux et ne valent pas confirmation de l'état 2026. Le tag red_turn:right:bicycle=yes vient d'un relevé du 28/01/2022. Il existe deux restrictions no_u_turn (2021) sur la Revirée et sur Vercors (via 137699), hors des nœuds centraux."
+   },
+   {
+    "id": "ctx-06",
+    "verdict": "corrige",
+    "justification": "Relations OSM live par way : C1 (Verdun→arrêt 498507091→169866973 ; 185326635→1488785302→514050476) ✓ ; 42 (Verdun→Vercors ; Vercors→1488785302→185326634→arrêt 1959011184) ✓ ; 80, 82 et 164 tout droit ✓ ; 162 Verdun↔Vercors ✓ ; 133 et 233 sur 40994097→168644602→1275266692 ✓ ; 222 sur 40994097→168644602→169866973 ✓. En revanche, la relation 221 (19172237, « Lionel Terray -> Détourbe ») n'emprunte AUCUNE des ways du carrefour. Les variantes 133 et 233 qui passent par le carrefour partent du « Collège des Buclos » (from=...). Le GTFS SEM d'oct. 2026 confirme : seuls C1 et 42 desservent les quais 0396, 0021 et 0397 « La Revirée ». La ligne PROXIMO 21 existe mais ne passe pas là, et « 0021 » est un stop_id.",
+    "correction": "Scolaires au carrefour : 133 et 233 (Revirée→Verdun NE ; variantes au départ du Collège des Buclos, une 133 au départ de Terray) et 222 (Revirée→Vercors). La 221 ne passe pas par le carrefour (OSM). Ligne 21 : code de quai (stop_id 0021), confirmé par le GTFS."
+   },
+   {
+    "id": "ctx-07",
+    "verdict": "corrige",
+    "justification": "tgplus.fr (08/09/2025) cité mot pour mot : 12 000 voy./j, objectif 14 000, 8,4 M€ (50/43/7 %), « 5 à 10 minutes en semaine de 7h à 19h ». reso-m.fr/865 : terminus unique Pré de l'Eau, 5-10 min du lundi au samedi, 20 min le dimanche, de 5 h 30 à 0 h 30. Wikipédia : Citelis 18, Citywide LFA, Lion's City G (articulés de 18 m). Mais le GTFS SEM (service du 06/10/2026) donne au quai 0396 (vers Vercors) et au quai 0021 entre 6 et 10 C1 par heure et par sens de 7 h à 19 h (10 en pointe), 105-106 par jour et par sens. Le samedi : 4 à 6 par heure. Le dimanche : 3 par heure.",
+    "correction": "En semaine, 6 à 10 C1 (et non 6 à 12) par heure et par sens effectuent le tourne-à-droite ou le tourne-à-gauche. Le samedi, 4 à 6 par heure (10-15 min, contrairement à reso-m). Le coût de 8,4 M€ vient de tgplus, pas du magazine 163. Wikipédia indique 2 454 000 voy./an, soit environ 6 700/j en moyenne : à mettre en regard des 12 000/j de la presse."
+   },
+   {
+    "id": "ctx-08",
+    "verdict": "corrige",
+    "justification": "GTFS : quai 0396 à environ (-58,-71) m, côté SE (vers NE, en amont) ; 0021 à environ (-53,-40), côté NO (vers SO, en aval) ; 0397 sur la Revirée (ligne 42 vers Louisiane). GAM P+R : « MEYLAN - LA REVIREE », avenue de Verdun, 36 places. Le magazine 163 confirme le quai unique, « son pendant nord » et l'entrée du P+R. Sur un crop natif 5 cm en mosaïque (917230-917280 / 6460220-6460270), le quai NE-bound de 2022 (zigzag jaune et abri) se trouvait dans la voie de droite qui devenait la bretelle de tourne-à-droite vers Vercors, séparée des voies directes par un îlot à garde-corps. Ce n'était donc pas un arrêt en ligne avant la ligne de feux.",
+    "correction": "Avant travaux, le quai NE-bound était à l'entrée de la bretelle Verdun→Vercors : le bus s'arrêtait, puis franchissait le zébra et les damiers de la bretelle et s'insérait dans Vercors. Le schéma « arrêt en ligne avant la ligne de feux » ne décrit que l'état après travaux, d'après le plan."
+   },
+   {
+    "id": "ctx-09",
+    "verdict": "confirme",
+    "justification": "OSM live : la relation 9709977 (Chronovélo 1, opérateur GAM) contient 385035086 (largeur 3), 398052317 et 54585242 (largeur 4). La relation 2808111 contient en plus 398052219 (largeur 4, côté NO vers le NE). Way 398052317 : L = 34,2 m, nœuds (-17,-4)→(-12,-10)→(-6,-16)→(-2,-21)→(4,-31). Le premier tronçon mesure 16,3 m (azimut 134-136°, perpendiculaire à Verdun), le second environ 18 m (azimut 146-147°). Les damiers ocres de 2022 sont visibles.",
+    "correction": "Le tronçon « en biais » mesure environ 18 m plutôt que 17."
+   },
+   {
+    "id": "ctx-10",
+    "verdict": "corrige",
+    "justification": "BD TOPO : « Collège Lionel Terray », MEN:0381777A, 1 rue des Peupliers, de 177 à 212 m du centre (bords de la zone). Le jeu fr-en-college-effectifs donne 537 élèves à la rentrée 2024, mais 469 à la rentrée 2025. ERP : Paquet Jardin (catégorie 2, 699 personnes, 48 m), gymnase (catégorie 3, 117 m). Lignes OSM : 221 (de Terray) ne passe pas par le carrefour ; les 233 qui y passent partent du Collège des Buclos ; les variantes « → Terray » des 133 et 233 n'empruntent pas les ways du carrefour.",
+    "correction": "469 élèves (rentrée 2025 ; 537 en 2024). Le collège est à environ 180-260 m. Parmi les lignes de Terray, seules la 133 (variante Terray) et la 222 traversent le carrefour ; la 233 traversante vient des Buclos ; la 221 ne passe pas. Distances BD TOPO : finances publiques environ 60 m, Nénuphars environ 126 m (et non 92 et 149)."
+   },
+   {
+    "id": "ctx-11",
+    "verdict": "corrige",
+    "justification": "API OSM : 1959022961 (v8, 2026-03-07, tactile=no) et 1959022964 (v8, 2026-02-27, tactile=yes) sur Vercors ; 1722505398/99 (2021-06-25, button_operated=yes) sur Verdun SO ; 1959022973/76 (2023-08-26, tactile=yes) sur Verdun NE ; sur la Revirée, 4 nœuds : 514050471 et 1959011177 (2021, sans info sonore), 6569623985/86 (2023-10-22, sound=no).",
+    "correction": "traffic_signals:sound=no est renseigné sur 3 branches (Vercors, Verdun NE, Revirée, et seulement 2 des 4 nœuds de la Revirée), pas 4. Rien sur Verdun SO. Le tag signale une absence de répétiteur, à confirmer sur place."
+   },
+   {
+    "id": "ctx-12",
+    "verdict": "confirme",
+    "justification": "Texte du panneau PDF (pymupdf) : « Suppression de la voie tourne à droite vers Vercors », « Déplacement et mutualisation des quais de bus », « Sécurisation de la traversée piétonne et cycle », « Un carrefour plus compact permettant une végétalisation et une sécurisation des traversées piétonnes (notamment pour les scolaires) », P+R. Magazine 163 p.16 : Vercors depuis le 7 avril « jusqu'à novembre », carrefour l'été, traversées « très empruntées par les scolaires ». Magazine 166 point H : « Fin des travaux en décembre 2025 ».",
+    "correction": "La citation mêle le panneau (« piétonne et cycle ») et le magazine (« reprises et sécurisées ») : à présenter comme deux sources distinctes."
+   },
+   {
+    "id": "ctx-13",
+    "verdict": "corrige",
+    "justification": "J'ai refait le traitement de façon indépendante (verif_v3/baac_v3.py, 2010-2024, 4 fichiers par an). Le filtre commune donne bien 65 accidents en 2015-2024, et 54 822 accidents en 2023. data.gouv : dernière modification du jeu « 2005 à 2024 » le 2025-12-29 ; le slug « 2005-a-2025 » renvoie 404. MAIS le balayage brut à 300 m sur 2010-2024 (relancé avec leur propre script baac_check.py) trouve 3 accidents, et non un seul : 201000018527 (275 m), 201200027885 (274 m) et 202300015141 (37 m). Comparaison PR/coordonnées : sur les 7 PR de leur table, 2 n'ont pas de coordonnées utilisables (2015-07, 2018-10). Sur les 5 restants, les écarts sont 21, 16 et 89 m (bons), 136 m (2012) et 316 m (2019, PR 4+500). Pour 2024-03-27, les coordonnées tombent à 97 m du Rond-Point du Lycée et le BAAC code int=6 (giratoire), alors que la rue des Peupliers n'a pas de giratoire : c'est plutôt l'adresse qui est fausse. Enfin, lieux 2023 et 2024 comptent plusieurs lignes par accident (70 860 lignes pour 54 822 accidents).",
+    "correction": "Contrôle (2) : « unique résultat à 300 m » est vrai seulement pour 2015-2024. Sur 2010-2024, il y a 3 accidents à 300 m ou moins. Contrôle (4) : 3 PR sur 5 comparables concordent à 16-89 m (et non 6 sur 7). Le piège « 1 rue des Peupliers » est probablement une adresse erronée, pas un géocodage faux. Piège à ajouter : les doublons de lieux 2023-2024."
+   },
+   {
+    "id": "ctx-14",
+    "verdict": "corrige",
+    "justification": "Décodage refait : 17/09/2023 (dimanche) 10:59 ; lum=1, agg=2, int=1, atm=1, col=6 ; catr=4, circ=2, nbv=3, vosp=1, plan=3, surf=1, situ=5, vma=50 ; véhicule catv=37, occutc=4, obs=15, choc=3, manv=9 ; usagers : passager né en 1953 blessé léger, conducteur (trajet 4) et 2 passagers (nés en 1980 et 2009) indemnes ; position (+14,9 ; -33,9), soit 37,1 m. Tout est exact. Seule la dernière phrase est fausse.",
+    "correction": "Remplacer « Aucun autre accident géolocalisé à moins de 300 m sur 2010-2024 » par : deux autres accidents à moins de 300 m, le 09/08/2010 (37 av. du Vercors, 275 m) et le 07/10/2012 (12 av. de Verdun, 274 m). La synthèse (« et même à 300 m ») est à corriger aussi."
+   },
+   {
+    "id": "ctx-15",
+    "verdict": "incertain",
+    "justification": "Hypothèse non démontrable, mais renforcée par deux éléments absents du rapport. (1) Le point BAAC (14,9 ; -33,9) coïncide à 0,35 m près avec le nœud BD TOPO (14,57 ; -33,78) où le tronçon 15, « réservé aux bus, sens direct », c'est-à-dire l'ancienne bretelle, rejoint Vercors. (2) En 2022, le quai NE-bound se trouvait à l'entrée de cette même bretelle (voir ctx-08). L'insertion d'un bus à cet endroit est donc très cohérente. Mais la coïncidence au nœud signale aussi une localisation calée sur le graphe routier : la précision réelle est inconnue. Par ailleurs, le GTFS 2026 montre que la ligne 42 fait aussi Verdun→Vercors le dimanche (12 courses) : la « seule ligne dominicale » n'est pas établie.",
+    "correction": "Le point est le nœud de raccordement de la bretelle (et non 6 m en aval de l'îlot). Le bus pouvait être une C1 ou une 42. La chute du passager reste spéculative."
+   },
+   {
+    "id": "ctx-16",
+    "verdict": "corrige",
+    "justification": "19/08/2010 : scooter <50 seul, obstacle = bordure de trottoir, X, passagère hospitalisée ✓. 12/10/2013 : RD1090, nbv=4, VL tournant à gauche contre moto 50-125, motard hospitalisé ✓ (lieux : chaussée 14,0 m, TPC 2,0 m). 12/10/2018 : PR 5+500, cyclomoteur dépassant à gauche, coordonnées par défaut ✓. Deux omissions toutefois. (a) 201800014973 du 18/02/2018 à 04:00, « avenue de verdun », catr=5 (hors réseau public), int=9, nuit sans éclairage : piéton de 25 ans hospitalisé, coordonnées par défaut identiques à celles du 12/10/2018, sans PR. (b) L'accident « VC sans adresse » de 2013 (201300012434, 09/04/2013 à 18:00, pluie) est un piéton de 39 ans hospitalisé sur un passage piéton à feux (locp=4), donc pertinent pour un carrefour à feux sur voie communale. Autre cas sans adresse : 06/11/2011, VC, hors agglomération, peu probable ici.",
+    "correction": "Possibles non localisés : 2010 Revirée, 2013 Verdun, 2013 VC (piéton au feu), 2018-02-18 Verdun (piéton, hors réseau public). Le 12/10/2018 est relocalisé à environ 235 m. Bilan : 1 accident certain et au plus 4 possibles."
+   },
+   {
+    "id": "ctx-17",
+    "verdict": "confirme",
+    "justification": "Les 12 accidents entre 150 et 520 m sont retrouvés à l'identique : distances 274-511 m, PR et champs vérifiés (2010 manv 10/01, 2011 PR 4+937 TAG, 2012 PR 5+675 col=2 manv 23, 2016 locp=3, 2018-03 piéton né en 1925, 2018-09 catv 13 manv 11 col=1 lum=2, 2019 obs=12, 2021 cycliste seul, 2021 enfant né en 2013 locp=2, 2022 VL TAG contre VAE trajet 1, 2022-12 lum=5 atm=2, 2024 manv=17 locp=2 trajet=2). La liste est complète pour 2010-2024.",
+    "correction": "Nuances : 2011, la victime est une femme de 18 ans (convention BAAC), pas un « collégien ». 2024, le piéton est noté « traversant » (actp=3) et non « masqué », et « lycéen » est une supposition. L'accident 2022-12 concerne un adulte de 27 ans."
+   },
+   {
+    "id": "ctx-18",
+    "verdict": "confirme",
+    "justification": "Recalcul indépendant (meylan_stats_v3.py) : 65 accidents, 138 usagers, 5 tués, 37 hospitalisés, 33 blessés légers ; 16 accidents sur la RD1090 (voie 1090 ou adresse Verdun) ; 15 accidents piétons et 16 victimes (12 actp=3, 3 mineurs, 7 de 65 ans ou plus) ; 9 vélo/VAE ; 26 2RM. Tué le plus proche : 201500012277, PR 5+1000, 722 m. IC exact chi² pour 1 accident en 10 ans : 0,00253-0,557 par an.",
+    "correction": "La victime de 2015 est une conductrice de 19 ans. Sur 15 ans (1 accident en 15 ans), l'IC est de 0,0017 à 0,37 par an."
+   },
+   {
+    "id": "ctx-19",
+    "verdict": "corrige",
+    "justification": "Avec la même requête (manv=15 et 2RM ou vélo), je trouve 9 cas en 2015-2024 mais 6 en 2010-2014 : deux à Grésivaudan (2011 Plaine Fleurie et 2012 n°77), non un seul. Les champs senc et manv contredisent « venant en face » pour au moins 4 des 9 cas récents : 2015 et 2021-02, 2RM en dépassement (manv=17) ; 2022 Revirée, VAE et VL de même sens (senc 2/2) ; 2022-01, c'est la moto qui tourne à gauche. Le sens opposé n'est établi que pour 2017, 2019 (34 av. Verdun) et 2024. (b) Pour 2024-01-27, actp=3 « traversant » : le masquage n'est pas codé. (c) La frontale de 2018 est à environ 350 m (Aiguinards, infra=5) : la « séparation seulement peinte » est une déduction.",
+    "correction": "(a) 15 cas « VL tourne-à-gauche contre 2RM ou vélo » en 2010-2024, dont 3 seulement avec un 2RM venant en face démontré. (b) Le masquage n'est pas établi. (c) Ce point est une déduction."
+   },
+   {
+    "id": "ctx-20",
+    "verdict": "incertain",
+    "justification": "La déduction est plausible (héritage RN90 confirmé, réserve de capacité). Mais la frontale de 2018 s'est produite au carrefour des Aiguinards (≈ 350 m, infra=5), hors du périmètre des travaux. Et le levé GAM (probable récolement) ne montre pas de terre-plein continu sur l'approche SO.",
+    "correction": "Ne pas utiliser l'accident de 2018 comme justification du terre-plein du carrefour. Confirmer l'existence de ce terre-plein (photo 2026)."
+   },
+   {
+    "id": "ctx-21",
+    "verdict": "incertain",
+    "justification": "La largeur d'environ 15-16 m est confirmée (transects), ainsi que 7 piétons victimes sur 16 âgés de 65 ans ou plus, et deux nœuds de traversée sur Vercors à 8,5 m d'écart (OSM 2026). Les seuils « refuge au-delà de 8 m, 2-2,5 m de large » viennent d'un site non institutionnel et ne sont pas vérifiés dans un guide Cerema.",
+    "correction": "Citer un guide Cerema ou Certu précis, ou présenter ces seuils comme indicatifs."
+   },
+   {
+    "id": "ctx-22",
+    "verdict": "incertain",
+    "justification": "Le marquage est observé (damiers ocres en 2022, relation Chronovélo). La justification est déduite, et l'effet sur la détection ADAS est spéculatif, sans source.",
+    "correction": "Présenter ce point comme une hypothèse."
+   },
+   {
+    "id": "ctx-23",
+    "verdict": "incertain",
+    "justification": "Le texte du panneau est confirmé mot pour mot. Les autres effets (vitesse en virage, vert utile pour la C1) sont des principes généraux non mesurés ici ; le plan de feux est inconnu.",
+    "correction": "Seuls les objectifs déclarés (compacité, végétalisation, sécurisation des traversées) sont sourcés."
+   },
+   {
+    "id": "ctx-24",
+    "verdict": "confirme",
+    "justification": "Suppression confirmée (panneau, magazine 163). En 2022, la bretelle était franchie par un zébra et les damiers de la Chronovélo (tuile 917250_6460250, px 450-630 / 680-790). Elle aboutissait exactement au nœud BD TOPO où est placé l'accident de 2023. Ajout : le quai NE-bound de 2022 était situé sur cette bretelle.",
+    "correction": "« Hors feux principaux » n'est pas démontré (aucun nœud de feu OSM sur la bretelle, mais pas de preuve d'absence). Le conflit permissif entre tournants à droite et piétons de Vercors après travaux reste à vérifier."
+   },
+   {
+    "id": "ctx-25",
+    "verdict": "incertain",
+    "justification": "Les recommandations Cerema sont citées de seconde main. La priorité bus aux feux n'est pas vérifiée. De plus, avant travaux, l'arrêt NE n'était pas en ligne : il était situé sur la bretelle (voir ctx-08).",
+    "correction": "Décrire l'arrêt en ligne comme l'état d'après travaux (plan) et citer la fiche Cerema exacte."
+   },
+   {
+    "id": "ctx-26",
+    "verdict": "corrige",
+    "justification": "Le scénario est raisonnable, mais le cas du 27/01/2024 ne le « confirme » pas. Il a eu lieu à 407 m sur Vercors, sans bus impliqué, avec un piéton codé « traversant » (actp=3) et non « masqué » ; le VL dépassait à gauche (manv=17). Le statut de lycéen est supposé (16 ans, trajet domicile-école, un samedi).",
+    "correction": "Écrire « compatible avec » plutôt que « confirme ». Le masquage par un bus n'est attesté par aucun accident BAAC local."
+   },
+   {
+    "id": "ctx-27",
+    "verdict": "incertain",
+    "justification": "La géométrie est confirmée (16,3 m puis environ 18 m). Les conflits dépendent d'un plan de feux inconnu. Le tag red_turn:right:bicycle=yes (nœud 1959022958) provient d'un relevé du 28/01/2022, antérieur aux travaux.",
+    "correction": "Vérifier le cédez-le-passage cycliste sur place après travaux."
+   },
+   {
+    "id": "ctx-28",
+    "verdict": "corrige",
+    "justification": "Ma requête donne 15 cas, pas 14, dont 3 seulement avec un 2RM venant en face démontré. Ce n'est pas le mécanisme le plus fréquent localement : 23 accidents impliquent un piéton à Meylan en 2010-2024 (8 + 15). Le masquage mutuel n'est pas codé dans le BAAC.",
+    "correction": "Le mécanisme « tourne-à-gauche contre 2RM ou vélo » est récurrent (15 cas), mais moins fréquent que les accidents de piétons (23). Le masquage relève de l'hypothèse de scénario."
+   },
+   {
+    "id": "ctx-29",
+    "verdict": "confirme",
+    "justification": "Les références sont exactes : ONU R151 (BSIS, angle mort des véhicules lourds M2/M3/N2/N3), R159 (MOIS, détection au démarrage), Euro NCAP CPTA (piéton en virage). Les prémisses tiennent : tourne-à-droite de la C1 et de la 42 vers Vercors (GTFS et OSM), bus articulés de 18 m.",
+    "correction": "Il s'agit d'une proposition de scénario. En 2026 et en semaine, le flux est de 6 à 10 C1 par heure dans ce mouvement."
+   },
+   {
+    "id": "ctx-30",
+    "verdict": "incertain",
+    "justification": "Le CCRs existe bien, mais le « cut-out » relève plutôt des essais d'aide à la conduite d'Euro NCAP que du protocole AEB C2C. L'accident 2012 (choc arrière sur un VL arrêté, PR 5+675) est confirmé, de même que celui de 2015 (PL percutant un scooter par l'arrière, 722 m). Aucun des deux ne fait intervenir un bus.",
+    "correction": "Préciser le protocole Euro NCAP de référence."
+   },
+   {
+    "id": "ctx-31",
+    "verdict": "confirme",
+    "justification": "(a) OSM live : maxspeed=50 FR:urban sur Vercors et la Revirée, alors que le marquage indique 30 en 2022. (b) BD TOPO (modifiée en 2024) contient encore la bretelle (tronçons 40 et 15 « réservés aux bus »). (c) Le marquage jaune de chantier est documenté dans CONTEXT (Panoramax du 31/08/2025).",
+    "correction": "Les « damiers ocres conservés » et les lignes fantômes après travaux ne sont pas observés : à vérifier."
+   },
+   {
+    "id": "ctx-32",
+    "verdict": "corrige",
+    "justification": "Les exemples cités ne correspondent pas à des « pics scolaires ». Le 09/12/2022 à 17:35 concerne un piéton de 27 ans (trajet non renseigné, blessé léger). Le 06/12/2016 à 19:15 concerne un jeune de 14 ans sur un passage sans feux, aux Aiguinards. Aucune traversée au rouge depuis un refuge n'est codée dans le BAAC.",
+    "correction": "Garder le scénario (nuit, pluie) comme hypothèse, sans s'appuyer sur ces deux cas pour les pics scolaires. Les horaires de pointe scolaire ne sont pas sourcés."
+   }
+  ],
+  "oublis": [
+   "Synthèse fausse : « un seul accident à 150 m ou moins (et même à 300 m) ». Sur 2010-2024, il y a 3 accidents à 300 m ou moins : 202300015141 (37 m), 201200027885 (274 m, choc arrière nocturne, 3 blessés légers) et 201000018527 (275 m, scooter faisant demi-tour contre une moto, jeune de 17 ans hospitalisé). Le résultat « unique » ne vaut que pour 2015-2024.",
+   "Accident non localisable omis : 201800014973 du 18/02/2018 à 04:00, « avenue de verdun », catr=5 (hors réseau public, peut-être un parking), nuit sans éclairage, piéton de 25 ans hospitalisé, coordonnées par défaut, sans PR. À ajouter aux « possibles ».",
+   "Le « 2013 VC sans adresse » (201300012434) n'est pas décrit. Il s'agit d'un piéton hospitalisé sur un passage piéton à feux (locp=4), sous la pluie, à 18:00 : pertinent pour un carrefour à feux sur voie communale.",
+   "Avant travaux (ortho 5 cm 2022, mosaïque native), le quai NE-bound « La Revirée » se trouvait dans la voie de droite qui devenait la bretelle Verdun→Vercors, séparée des voies directes par un îlot à garde-corps. BD TOPO code cette bretelle « réservée aux bus » (tronçons 40 et 15). Son nœud d'arrivée sur Vercors (14,57 ; -33,78) coïncide à 0,35 m près avec la position BAAC de l'accident de bus 2023. C'est un argument fort pour l'interprétation de ctx-15, mais aussi le signe que la position BAAC est calée sur un nœud.",
+   "Le GTFS SEM d'octobre 2026 (dossier verif_v2/gtfs) n'est pas exploité. Il donne les fréquences C1 réelles au quai : 6-10 par heure en semaine de 7 h à 19 h, 4-6 le samedi, 3 le dimanche, environ 105 par jour et par sens. Il identifie les quais 0396 (vers NE), 0021 (vers SO) et 0397 (Revirée, ligne 42), et montre que la ligne 42 roule aussi le dimanche sur le mouvement Verdun→Vercors.",
+   "Le levé GAM est probablement un récolement après travaux (des bordures recoupent l'ancienne bretelle). Or il ne montre aucun terre-plein central continu sur l'approche SO entre 5 et 110 m : seulement un petit refuge d'environ 2 m près de (-16,-20). Le « terre-plein planté » repris dans les implications pour le simulateur n'est donc pas confirmé.",
+   "BD TOPO modélise la branche NE près du centre en « Route à 2 chaussées » (1 voie de 3,5 m par sens), en contradiction avec l'ortho 2022 (hachures peintes). Cette divergence n'est pas signalée.",
+   "Les tags OSM de feux et le red_turn:right:bicycle datent de relevés de janvier 2022 (avant travaux) : l'état « OSM 2026 » des feux n'est pas fiable.",
+   "Accident 202400033324 (27/03/2024, piéton blessé léger sur un passage à feux, heurté par un VL tournant à droite) : ses coordonnées tombent à 97 m du Rond-Point du Lycée et le BAAC code int=6 (giratoire). C'est l'adresse « 1 rue des Peupliers » qui est probablement fausse, pas le géocodage. Il ne concerne vraisemblablement pas le carrefour.",
+   "Piège de jointure non signalé : les fichiers lieux 2023 et 2024 contiennent plusieurs lignes par accident (70 860 et 70 248 lignes pour 54 822 et 54 402 accidents).",
+   "L'effectif du collège Lionel Terray est de 469 élèves à la rentrée 2025 (537 en 2024).",
+   "Fréquentation de la C1 : Wikipédia indique 2 454 000 voyageurs par an (environ 6 700/j en moyenne), à rapprocher des 12 000/j de la presse (tgplus).",
+   "Sur l'ortho 2022, l'entrée et la sortie de la Revirée sont séparées par une ligne continue, et non par un îlot sur 40 m. L'îlot décrit vient probablement d'OSM ou BD TOPO après travaux : à dater.",
+   "Accident 201100017575 (06/11/2011) : voie communale sans adresse ni coordonnées, scooter à contresens, frontale, conducteur de 18 ans hospitalisé, hors agglomération (peu probable au carrefour, mais non mentionné)."
+  ],
+  "fiabilite_globale": "Fiabilité moyenne à bonne : le résultat central BAAC résiste à la double vérification, mais plusieurs affirmations annexes sont fausses ou trop fortes.\n\nCe qui est confirmé par un recalcul indépendant (verif_v3/baac_v3.py, detail_v3.py, meylan_stats_v3.py, fichiers 2010-2024 relus ligne à ligne) :\n- Un seul accident corporel à 150 m ou moins sur 2010-2024 : l'autobus « en s'insérant » du 17/09/2023, à 37 m, avec un passager de 70 ans blessé léger. Tous les champs ont été vérifiés.\n- Les statistiques communales 2015-2024 sont reproduites à l'identique : 65 accidents, 138 usagers, 5 tués, 37 hospitalisés, 33 blessés légers, 15 accidents piétons pour 16 victimes, 9 vélos, 26 2RM.\n- La liste des accidents entre 150 et 520 m est complète et exacte.\n- Les TMJA Isère ont été revérifiés dans l'API (PR 5+265 à 26 m du centre).\n- La Chronovélo, les relations de bus (sauf la 221) et les traversées OSM sont confirmées par l'API OSM live.\n\nErreurs à corriger :\n- Il y a 3 accidents à 300 m ou moins, et non un seul : 2010 (275 m) et 2012 (274 m) en plus de 2023. Le « balayage brut » ne donne un résultat unique que sur 2015-2024.\n- La concordance PR/coordonnées est de 3 sur 5, pas de 6 sur 7.\n- Tourne-à-gauche contre 2RM : 15 cas, dont 3 seulement « venant en face » démontrés. Ce n'est pas le mécanisme le plus fréquent : les accidents de piétons sont plus nombreux (23).\n- Deux accidents non localisables pertinents sont omis ou mal décrits (piéton 2018-02-18 sur Verdun, piéton au feu en 2013).\n- Lignes scolaires : la 221 ne passe pas par le carrefour, et les 233 qui y passent viennent des Buclos.\n- C1 : 6 à 10 passages par heure et par sens en semaine (GTFS), et non 6 à 12.\n- Avant 2025, le quai NE-bound était sur la bretelle. Cela renforce l'hypothèse de l'accident de bus 2023, dont la position coïncide avec le nœud BD TOPO de la bretelle « réservée aux bus ».\n\nLes justifications de conception et les scénarios ADAS sont pour la plupart des déductions plausibles mais non sourcées. Le terre-plein planté SO n'est pas confirmé par le levé GAM, probablement postérieur aux travaux.\n\nFichiers de vérification : /tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_d/verif_v3/ (baac_v3.py, detail_v3.py, meylan_stats_v3.py, gtfs_v3.py, baac_near_or_meylan.json, meylan_2015_2024.json, meylan_2010_2014.json, osm/*.json, isere_d1090_pr4b.json, isere_d1090_pr5.json, mosaic_sliplane_native.png)."
+ }
+}

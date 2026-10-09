@@ -87,6 +87,14 @@ PEINTURE = {"blanc": (0.88, 0.88, 0.86), "jaune": (0.90, 0.75, 0.10), "ocre": (0
 OPACITE_USURE = {"0": 0.97, "1": 0.88, "2": 0.68, "3": 0.42, "F": 0.15}
 
 
+def rel(p):
+    """Chemin relatif au dépôt si possible (sinon absolu)."""
+    try:
+        return str(Path(p).resolve().relative_to(REPO))
+    except ValueError:
+        return str(p)
+
+
 def log(*a):
     print(time.strftime("%H:%M:%S"), *a, flush=True)
 
@@ -135,7 +143,7 @@ class Surface:
     """Surface composite (altitude finale de chaque classe) + échantillonnage bilinéaire."""
 
     def __init__(self, surfs, dtm_path, road_path):
-        log("surface composite : MNT", dtm_path.relative_to(REPO))
+        log("surface composite : MNT", rel(dtm_path))
         self.dtm = load_grid(dtm_path)
         road = load_grid(road_path, fill=False) if road_path else np.full_like(self.dtm, np.nan)
         cls = np.zeros((NY, NX), np.uint8)
@@ -451,7 +459,7 @@ def bind(prim, material):
     UsdShade.MaterialBindingAPI.Apply(prim).GetDirectBindingRel().SetTargets([Sdf.Path(material)])
 
 
-def write_materials(path, albedo_rel, masks, faces=()):
+def write_materials(path, albedo_rel, masks, faces=(), rough_rel=None):
     """Matériaux UsdPreviewSurface (lisibles par Houdini/Karma et l'import USD d'Unreal)."""
     Gf, Kind, Sdf, Usd, UsdGeom, UsdShade, Vt = usd()
     st = new_layer(path)
@@ -478,6 +486,16 @@ def write_materials(path, albedo_rel, masks, faces=()):
             tx.CreateInput("st", Sdf.ValueTypeNames.Float2).ConnectToSource(rd.ConnectableAPI(), "result")
             tx.CreateOutput("rgb", Sdf.ValueTypeNames.Float3)
             sh.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f).ConnectToSource(tx.ConnectableAPI(), "rgb")
+            if rough_rel and "/textures/panneaux/" not in tex:     # rugosité macro (atelier textures)
+                tr = UsdShade.Shader.Define(st, f"/World/Looks/{name}/Rugosite")
+                tr.CreateIdAttr("UsdUVTexture")
+                tr.CreateInput("file", Sdf.ValueTypeNames.Asset).Set(rough_rel)
+                tr.CreateInput("sourceColorSpace", Sdf.ValueTypeNames.Token).Set("raw")
+                tr.CreateInput("wrapS", Sdf.ValueTypeNames.Token).Set("clamp")
+                tr.CreateInput("wrapT", Sdf.ValueTypeNames.Token).Set("clamp")
+                tr.CreateInput("st", Sdf.ValueTypeNames.Float2).ConnectToSource(rd.ConnectableAPI(), "result")
+                tr.CreateOutput("r", Sdf.ValueTypeNames.Float)
+                sh.GetInput("roughness").ConnectToSource(tr.ConnectableAPI(), "r")
         else:
             sh.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f).Set(Gf.Vec3f(*color))
         m.CreateSurfaceOutput().ConnectToSource(sh.ConnectableAPI(), "surface")
@@ -826,7 +844,7 @@ def make_albedo(out_px, tex_dir, T):
     img = np.zeros((3, out_px, out_px), np.uint8)
     source = None
     if cands:
-        source = [str(p.relative_to(REPO)) for p in cands]
+        source = [rel(p) for p in cands]
         for p in cands:
             with rasterio.open(p) as r:
                 tmp = np.zeros((3, out_px, out_px), np.uint8)
@@ -848,10 +866,22 @@ def make_albedo(out_px, tex_dir, T):
     tex_dir.mkdir(parents=True, exist_ok=True)
     f = tex_dir / f"albedo_macro_{out_px}.jpg"
     Image.fromarray(np.moveaxis(img, 0, -1)).save(f, quality=90, optimize=True)
-    masks = []
+    masks, rough = [], None
     if T.exists():
         for p in sorted(T.rglob("*.tif")):
             n = p.name.lower()
+            if ("rugos" in n or "rough" in n) and rough is None:      # rugosité macro 0-1 (ou 0-255)
+                with rasterio.open(p) as r:
+                    a = np.zeros((4096, 4096), np.float32)
+                    reproject(rasterio.band(r, 1), a, src_transform=r.transform, src_crs=r.crs or "EPSG:2154",
+                              dst_transform=from_origin(BBOX[0], BBOX[3], 300 / 4096, 300 / 4096),
+                              dst_crs="EPSG:2154", resampling=Resampling.average)
+                    mx = float(np.nanmax(a)) or 1.0
+                    q = np.clip(a / mx * 255 if mx > 1.5 else a * 255, 0, 255).astype(np.uint8)
+                    g = tex_dir / "rugosite_macro_4096.png"
+                    Image.fromarray(q).save(g, optimize=True)
+                    rough = f"../textures/{g.name}"
+                continue
             if n.startswith("masque") or "mask" in n:
                 with rasterio.open(p) as r:
                     a = np.zeros((4096, 4096), np.float32)
@@ -863,7 +893,7 @@ def make_albedo(out_px, tex_dir, T):
                     g = tex_dir / f"{p.stem}_4096.png"
                     Image.fromarray(q).save(g, optimize=True)
                     masks.append(f"../textures/{g.name}")
-    return f, source, masks
+    return f, source, masks, rough
 
 
 # --- aperçu glTF -----------------------------------------------------------------------------------
@@ -980,7 +1010,8 @@ def main():
     surf = Surface(surfs, f_dtm, f_road)
 
     tex_dir = pkg / "textures"
-    alb, alb_src, masks = make_albedo(a.albedo_px, tex_dir, IN / "textures")
+    alb, alb_src, masks, rough = make_albedo(a.albedo_px, tex_dir, IN / "textures")
+    rep["rugosite_macro"] = rough
     rep["albedo"] = {"fichier": str(alb.relative_to(pkg)), "sources": alb_src}
     log("albédo :", alb.name, alb_src[0][:60])
     faces = []
@@ -990,7 +1021,7 @@ def main():
             shutil.copy2(f, tex_dir / "panneaux" / f.name)
             faces.append(f.stem)
     rep["faces_panneaux"] = len(faces)
-    write_materials(pkg / "layers" / "materiaux.usda", f"../textures/{alb.name}", masks, faces)
+    write_materials(pkg / "layers" / "materiaux.usda", f"../textures/{alb.name}", masks, faces, rough)
 
     glb, glb_tex = [], []
     # sol

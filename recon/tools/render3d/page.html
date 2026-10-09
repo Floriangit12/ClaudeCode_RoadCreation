@@ -1,0 +1,45 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}</style>
+<script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+const W = 1000, H = 1000;
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, logarithmicDepthBuffer: true });
+renderer.setSize(W, H);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xbfd4e6);
+scene.add(new THREE.HemisphereLight(0xdfeaf5, 0x50483c, 1.4));
+const sun = new THREE.DirectionalLight(0xffffff, 2.2);
+sun.position.set(-80, 120, 60);              // soleil au sud-ouest (repère three : x=E, y=haut, z=-N)
+scene.add(sun);
+const camera = new THREE.PerspectiveCamera(60, W / H, 0.05, 2000);
+// repère local Z-up (x=E, y=N, z=haut) -> three Y-up
+const T = (p) => new THREE.Vector3(p[0], p[2], -p[1]);
+window.loadModel = async (url) => {
+  const g = await new GLTFLoader().loadAsync(url);
+  let tris = 0;
+  g.scene.traverse((o) => {
+    if (o.isMesh) {
+      tris += o.geometry.index ? o.geometry.index.count / 3 : o.geometry.attributes.position.count / 3;
+      const m = o.material;
+      if (m) { m.side = THREE.FrontSide; m.metalness = 0; if (m.map) { m.map.anisotropy = 8; } }
+    }
+  });
+  scene.add(g.scene);
+  return { triangles: tris };
+};
+window.renderView = (eye, target, fov) => {
+  camera.fov = fov || 60;
+  camera.position.copy(T(eye));
+  camera.up.set(0, 1, 0);
+  camera.lookAt(T(target));
+  camera.updateProjectionMatrix();
+  renderer.render(scene, camera);
+  return renderer.domElement.toDataURL('image/png');
+};
+window.ready = true;
+</script></body></html>

@@ -1117,6 +1117,17 @@ def main():
                 d = pkg / p.relative_to(SRC)
                 d.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(p, d)
+    # look-dev (atelier lookdev) : scripts de matériaux Houdini/Unreal, cartes de détail CC0
+    LD = IN / "lookdev"
+    if LD.exists():
+        for sub, dst in (("houdini", "houdini"), ("unreal", "unreal"), ("textures_detail", "textures/detail")):
+            if (LD / sub).exists():
+                shutil.copytree(LD / sub, pkg / dst, dirs_exist_ok=True)
+        for f in LD.glob("*.json"):
+            shutil.copy2(f, pkg / f.name)
+        for f in LD.glob("*.md"):
+            shutil.copy2(f, pkg / f.name)
+        rep["lookdev"] = True
     if not a.no_glb and (glb or glb_tex):
         (pkg / "preview").mkdir(exist_ok=True)
         tex_part = None

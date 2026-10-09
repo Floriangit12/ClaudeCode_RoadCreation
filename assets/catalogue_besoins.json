@@ -1,0 +1,3660 @@
+{
+ "meta": {
+  "site": "paquet_jardin (Meylan, Isère) — carrefour avenue de Verdun RD1090 / chemin de la Revirée / avenue du Vercors",
+  "emprise": "carré de 300 m centré sur O = (917279.43, 6460289.98) L93 (x 917129.43 → 917429.43, y 6460139.98 → 6460439.98)",
+  "etat_modelise": "octobre 2026 (après travaux C1 2025) ; à défaut, état le plus récent observé (photos 2025-05, 2025-08, 2026-07)",
+  "date_inventaire": "2026-10-09",
+  "conventions": "assets/CONVENTIONS.md (mètres, Z-up, pivot au pied, face avant +Y, snake_case, panneau_<code>, feu_<code>, arbre_<genre>_<espece>_<classe>)",
+  "classes_taille_arbres": {
+   "jeune": "< 5 m",
+   "petit": "5-10 m",
+   "moyen": "10-20 m",
+   "grand": "20-30 m"
+  },
+  "echelle_confiance": {
+   "haute": "vu sur photo et recoupé (OSM, annotations Panoramax, analyse ou plan)",
+   "moyenne": "une source directe ou lecture partielle",
+   "faible": "déduction ou lecture incertaine"
+  },
+  "priorite": {
+   "1": "indispensable (visible depuis les voies du carrefour, ADAS)",
+   "2": "utile",
+   "3": "optionnel"
+  },
+  "sources": [
+   "Panoramax : 204 photos du site (2020-2026), tuiles 1000×1000 natives (data/raw/panoramax/paquet_jardin/tiles) + 1 photo complémentaire 2025-08-31 (data/raw/panoramax/complements)",
+   "annotations automatiques Panoramax (meylan_panoramax_raw.ndjson.gz) : 120 détections à ±200 m, dont B2b ×12, C113 ×9, B2a ×8, AB4 ×9, B6a1 ×5, B1 ×5, A17 ×5, J5 ×3, AB3a ×3, AB3 ×4, B21a1 ×2, C114 ×2, C13a ×1",
+   "OSM 2026 (osm_road_signs, traffic_signals, crossings, barriers, public_transport, street_lamps, kerbs)",
+   "inventaire des arbres de la Métropole (68 fiches dans l’emprise dont 52 présentes, 16 abattues)",
+   "levés GAM post-travaux (etat_2026 : arbres 284 symboles, bordures 6,85 km, chartières 21, caniveaux 139 m)",
+   "plan projet 2025 géoréférencé (plantations, noue, abris, corbeilles, stationnement vélos)",
+   "analyses analysis/paquet_jardin/observations_initiales/*.json"
+  ],
+  "recon_objets": "recon/out/paquet_jardin/objets/ absent au moment de l’inventaire"
+ },
+ "categories": {
+  "signalisation_verticale": [
+   {
+    "id": "panneau_B21a1",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panneau",
+    "code": "B21a1",
+    "libelle": "Contournement obligatoire par la droite (disque bleu, flèche blanche oblique vers le bas à droite)",
+    "quantite": {
+     "estimation": 4,
+     "min": 3,
+     "max": 5,
+     "methode": "3 vus en 2025 (nez du TPC NE, petit îlot rond SO, îlot au droit de 734a) ; le nouveau TPC planté SO (2025) en porte probablement un"
+    },
+    "gamme": "miniature (Ø 450 mm) — mesuré ≈ 0,42-0,45 m sur 119d r01_c00",
+    "dimensions_observees": "disque Ø ≈ 0,45 m ; bas du disque ≈ 0,5-0,8 m au-dessus de l’îlot",
+    "dimensions_reference": "IISR art. 5 : disques miniature 450 / petite 650 / normale 850 mm",
+    "support": "mât rond acier galvanisé Ø 60 mm, court (≈ 1,0-1,3 m hors sol), scellé dans l’îlot ; 2 colliers",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "bleu (arrêté de 1967, RAL 5017 env.), flèche et liseré blancs rétroréfléchissants classe 1",
+    "sources": [
+     "Panoramax annotations FR:B21a1 ×2",
+     "analyse p2025_05_360-17",
+     "photos 2023-2025"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c00.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2023-03-18_e2574612-b380-4cb2-918e-d5506aff8145_hd/2023-03-18_e2574612-b380-4cb2-918e-d5506aff8145_hd_r01_c01.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison (SVG Wikimedia Commons, domaine public)",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "panneau_J5",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "balise",
+    "code": "J5",
+    "libelle": "Balise de tête d’îlot (plaque bleue rectangulaire, flèche blanche oblique)",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 3,
+     "methode": "musoir de l’îlot Revirée (2025-08) et îlot côté P+R (734a 2025-05) ; Panoramax FR:J5 ×3"
+    },
+    "gamme": "modèle courant (≈ 0,50 × 0,45 m observé ; dimensions IISR J5 à confirmer par le lot signalisation)",
+    "dimensions_observees": "plaque ≈ 0,5 m de large, bas à ≈ 0,3-0,5 m de l’îlot, légèrement inclinée sur fdc59178",
+    "support": "mât rond acier galvanisé Ø 60 mm, court (≈ 1,0-1,3 m hors sol), scellé dans l’îlot ; 2 colliers",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "fond bleu, flèche blanche rétroréfléchissante",
+    "sources": [
+     "Panoramax FR:J5 ×3",
+     "analyse p2025_08_travaux-16"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_fdc59178-d148-43e0-a307-4742929b45a2_hd/2025-08-31_fdc59178-d148-43e0-a307-4742929b45a2_hd_r01_c00.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c00.jpg"
+    ],
+    "confiance": "moyenne",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "panneau_C113",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panneau",
+    "code": "C113",
+    "libelle": "Piste ou bande cyclable conseillée et réservée aux cycles (carré bleu, vélo blanc)",
+    "quantite": {
+     "estimation": 2,
+     "min": 1,
+     "max": 3,
+     "methode": "côté Revirée (angle NO) ; 9 annotations Panoramax d’un même petit groupe de panneaux"
+    },
+    "gamme": "petite (carré 500 mm) probable",
+    "dimensions_observees": "carré ≈ 0,5 m vu en biais, bas ≈ 2,0-2,3 m sur accotement enherbé",
+    "support": "mât rond acier galvanisé Ø 60 mm (Ø 76 mm si 3 panneaux), 2,8-3,5 m hors sol, platine ou scellement ; colliers à brides",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "bleu, pictogramme blanc",
+    "sources": [
+     "Panoramax FR:C113 ×9",
+     "analyse p2025_05_360-17"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "panneau_C114",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panneau",
+    "code": "C114",
+    "libelle": "Fin de piste ou bande cyclable conseillée (carré bleu, vélo barré rouge)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "débouché du chemin du Ruisseau sur la Revirée, au-dessus d’un AB3a et d’un panonceau"
+    },
+    "gamme": "petite (500 mm) ou miniature (350 mm) — rapport au triangle AB3a voisin ≈ 0,85",
+    "dimensions_observees": "carré ≈ 0,45-0,5 m, haut du mât ≈ 3 m",
+    "support": "mât rond acier galvanisé Ø 60 mm (Ø 76 mm si 3 panneaux), 2,8-3,5 m hors sol, platine ou scellement ; colliers à brides ; 3 panneaux superposés (C114 / AB3a / panonceau)",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "bleu, vélo blanc, barre rouge",
+    "sources": [
+     "Panoramax FR:C114 ×2",
+     "analyse p2024_05_360-24"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "panneau_AB3a",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panneau",
+    "code": "AB3a",
+    "libelle": "Cédez le passage à l’intersection (triangle pointe en bas)",
+    "quantite": {
+     "estimation": 4,
+     "min": 3,
+     "max": 5,
+     "methode": "chemin du Ruisseau (avec C114) ; contre-allée NE (avec B2a) ; jonction allée de L’Horloge / traversée cyclable Vercors (2026) ; panonceau triangulaire sous un feu du Vercors (AB3a ou M12, 2025-01)"
+    },
+    "gamme": "petite (côté 700 mm) le plus souvent ; miniature (500 mm) possible sur le mât de la Revirée",
+    "dimensions_observees": "triangle ≈ 0,6-0,7 m de côté, bas ≈ 1,9-2,2 m",
+    "dimensions_reference": "IISR : triangles miniature 500 / petite 700 / normale 1000 mm",
+    "support": "mât rond acier galvanisé Ø 60 mm (Ø 76 mm si 3 panneaux), 2,8-3,5 m hors sol, platine ou scellement ; colliers à brides",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "fond blanc, bordure rouge",
+    "sources": [
+     "Panoramax FR:AB3a ×3, FR:AB3 ×2",
+     "analyse p2026_07_ign-14",
+     "OSM give_way (node 12184212277)"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd/2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "panneau_M9c",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panonceau",
+    "code": "M9c (code à confirmer)",
+    "libelle": "Panonceau à inscription « CÉDEZ LE PASSAGE » sous AB3a",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 2,
+     "methode": "sous les AB3a du chemin du Ruisseau et de la contre-allée NE"
+    },
+    "gamme": "petite",
+    "dimensions_observees": "≈ 0,45 × 0,20 m, lettres bleu foncé/noires sur fond blanc, coins arrondis",
+    "support": "sur le mât de l’AB3a, colliers",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "fond blanc, texte foncé",
+    "sources": [
+     "photos 2025-08"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd/2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd_r01_c03.jpg"
+    ],
+    "confiance": "moyenne (présence haute, code M9c probable)",
+    "lot": "signalisation",
+    "source_recommandee": "maison (texte vectoriel)",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "panneau_AB4",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panneau",
+    "code": "AB4",
+    "libelle": "STOP (octogone rouge)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "sortie de l’allée de L’Horloge sur l’avenue du Vercors (≈ 130-136 m au sud)"
+    },
+    "gamme": "petite (650 mm) probable",
+    "dimensions_observees": "octogone ≈ 0,6 m, bas ≈ 1,8-2,0 m (vu à ≈ 25 m)",
+    "support": "mât rond acier galvanisé Ø 60 mm (Ø 76 mm si 3 panneaux), 2,8-3,5 m hors sol, platine ou scellement ; colliers à brides",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "rouge, inscription STOP blanche",
+    "sources": [
+     "OSM highway=stop (node 12167664505)",
+     "Panoramax FR:AB4 ×2",
+     "analyse p2026_07_ign-15"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute (présence) / faible (implantation exacte)",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "panneau_B1",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panneau",
+    "code": "B1",
+    "libelle": "Sens interdit",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 3,
+     "methode": "mât de la contre-allée/accès NE (avec B2b) ; sortie du parking de L’Horloge (2026)"
+    },
+    "gamme": "petite (Ø 650 mm)",
+    "dimensions_observees": "disque ≈ 0,6 m, bas ≈ 2,0-2,2 m",
+    "support": "mât rond acier galvanisé Ø 60 mm (Ø 76 mm si 3 panneaux), 2,8-3,5 m hors sol, platine ou scellement ; colliers à brides",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "rouge, barre blanche",
+    "sources": [
+     "Panoramax FR:B1 ×4",
+     "photos 2025-05, 2025-08, 2026-07"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "panneau_B2b",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panneau",
+    "code": "B2b",
+    "libelle": "Interdiction de tourner à droite à la prochaine intersection",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "au-dessus du B1 de l’accès NE (permanent, fond blanc)"
+    },
+    "gamme": "petite (Ø 650 mm)",
+    "dimensions_observees": "disque ≈ 0,6 m, haut du mât ≈ 3,2 m",
+    "support": "mât rond acier galvanisé Ø 60 mm (Ø 76 mm si 3 panneaux), 2,8-3,5 m hors sol, platine ou scellement ; colliers à brides",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "fond blanc, bordure et barre rouges, flèche noire",
+    "sources": [
+     "Panoramax FR:B2b, no_right_turn",
+     "photos 2025-05 et 2025-08"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd_r00_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "notes": "Une variante TEMPORAIRE sur fond carré jaune (chantier 2025-08, fermeture du tourne-à-droite vers le P+R) est listée dans la catégorie chantier.",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "panneau_B2a",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panneau",
+    "code": "B2a",
+    "libelle": "Interdiction de tourner à gauche à la prochaine intersection",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "deuxième mât de l’accès NE, au-dessus d’un AB3a + panonceau"
+    },
+    "gamme": "petite (Ø 650 mm)",
+    "dimensions_observees": "disque ≈ 0,6 m",
+    "support": "mât rond acier galvanisé Ø 60 mm (Ø 76 mm si 3 panneaux), 2,8-3,5 m hors sol, platine ou scellement ; colliers à brides",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "fond blanc, bordure et barre rouges, flèche noire",
+    "sources": [
+     "Panoramax FR:B2a ×5",
+     "photos 2025-08"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd/2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd_r00_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_b536a4a0-72c8-4d78-ac7d-fe7d65b98d91_hd/2025-08-31_b536a4a0-72c8-4d78-ac7d-fe7d65b98d91_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "panneau_B6a1",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panneau",
+    "code": "B6a1",
+    "libelle": "Stationnement interdit",
+    "quantite": {
+     "estimation": 4,
+     "min": 3,
+     "max": 5,
+     "methode": "candélabre n° 0456 (Vercors sud) ; parking de L’Horloge (avec panonceau privé) ; portail P+R (2020) ; B6 avec panonceau vert côté est du Vercors (2025-01)"
+    },
+    "gamme": "miniature (Ø 450 mm) sur candélabre",
+    "dimensions_observees": "disque ≈ 0,43 m (rapport au fût du candélabre)",
+    "support": "colliers sur candélabre ou mât Ø 60 mm",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "bleu, bordure et barre rouges",
+    "sources": [
+     "Panoramax FR:B6a1 ×5",
+     "analyse p2026_07_ign-16, p2025_01_vercors-25"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c04.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c01.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "panneau_C13a",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panneau",
+    "code": "C13a",
+    "libelle": "Impasse (rectangle bleu, T blanc à barre rouge)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": ""
+    },
+    "gamme": "miniature",
+    "dimensions_observees": "≈ 0,25 × 0,40 m sous le B6a1 du candélabre n° 0456",
+    "support": "colliers sur candélabre",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "bleu, blanc, rouge",
+    "sources": [
+     "Panoramax FR:C13a",
+     "analyse p2026_07_ign-16"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c04.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "panneau_A17",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panneau",
+    "code": "A17",
+    "libelle": "Annonce de feux tricolores (triangle de danger, fond blanc)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "approche NE de Verdun (sens Montbonnot → Grenoble), fixé sur un candélabre à ≈ 150 m du centre (bord de l’emprise)"
+    },
+    "gamme": "petite (700 mm) probable",
+    "dimensions_observees": "triangle ≈ 0,7 m (≈ 4 fois le diamètre du fût), bas ≈ 2,3 m",
+    "support": "colliers sur candélabre gris-bleu Ø ≈ 0,17 m",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "fond blanc, bordure rouge, feux rouge/jaune/vert",
+    "sources": [
+     "Panoramax FR:A17 ×5 (photos 2025-08-31 hors jeu local)",
+     "tuile 1000×1000 native extraite de la photo f6297e9f"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/complements/tiles/2025-08-31_f6297e9f-f229-45c1-bc88-c902fa605716_hd_x2100_y500.jpg"
+    ],
+    "confiance": "haute (permanent, pas AK17)",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "panneau_M12a",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "panonceau",
+    "code": "M12a (probable)",
+    "libelle": "Cédez-le-passage cycliste au feu rouge, tourne-à-droite (petit triangle sous la tête de feu)",
+    "quantite": {
+     "estimation": 1,
+     "min": 0,
+     "max": 2,
+     "methode": "OSM red_turn:right:bicycle=yes (Revirée, relevé 2022) ; panonceau triangulaire sous un feu vu en 2025-01 (AB3a ou M12)"
+    },
+    "gamme": "panonceau M12 (triangle ≈ 0,25-0,30 m)",
+    "dimensions_observees": "petit triangle sous la tête R11v, ≈ 0,3 m",
+    "support": "colliers sur le mât de feu",
+    "recto_verso": "dos gris (aluminium/acier galvanisé brut) avec 2 colliers et rail de fixation ; marquage propriétaire possible",
+    "couleurs": "fond blanc, bordure rouge, vélo et flèche jaunes/noirs (IISR)",
+    "sources": [
+     "OSM node 1959022958",
+     "analyse p2025_01_vercors-23"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd_r01_c00.jpg"
+    ],
+    "confiance": "faible",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "panneau_D21a_la_reviree_college",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "direction",
+    "code": "D21a (famille D21)",
+    "libelle": "Panneau de direction en flèche, fond blanc : « LA REVIRÉE / Collège L. Terray » (flèche à droite)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": ""
+    },
+    "gamme": "composition locale (2 lignes)",
+    "dimensions_observees": "≈ 1,1 × 0,35 m ; bas ≈ 2,2 m ; flèche vers la droite",
+    "support": "un seul mât rond galvanisé Ø 60-76 mm sur le refuge de la Revirée, portant les 2 panneaux D21",
+    "recto_verso": "dos gris, rails et colliers",
+    "couleurs": "fond blanc, liseré et texte noirs (police L1/L4 de l’IISR)",
+    "sources": [
+     "analyses p2024_05_360-24, p2025_08_travaux-20"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd/2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison (texte vectoriel)",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "panneau_D21a_commerces_reviree",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "direction",
+    "code": "D21a (famille D21)",
+    "libelle": "Panneau de direction en flèche : « Commerces de LA REVIRÉE »",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": ""
+    },
+    "gamme": "composition locale (1 ligne)",
+    "dimensions_observees": "≈ 1,1 × 0,22 m sous le précédent",
+    "support": "même mât que panneau_D21a_la_reviree_college",
+    "recto_verso": "dos gris",
+    "couleurs": "fond blanc, texte noir",
+    "sources": [
+     "idem"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd/2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "plaque_rue_avenue_de_verdun",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "plaque de rue",
+    "code": "plaque de rue",
+    "libelle": "« AVENUE DE VERDUN », lettres blanches sur fond bleu, coins arrondis",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 2,
+     "methode": ""
+    },
+    "dimensions_observees": "≈ 0,55 × 0,25 m, à ≈ 2,8 m sur un mât de feux (n° 3150)",
+    "support": "colliers sur mât de feux",
+    "recto_verso": "dos gris",
+    "couleurs": "bleu RAL 5003 env., blanc",
+    "sources": [
+     "photo 2024-08"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "priorite": 3,
+    "etat_2026": "present"
+   },
+   {
+    "id": "mat_panneau_d60",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "support",
+    "code": "support",
+    "libelle": "Mât rond galvanisé Ø 60 mm, bouchon, 3,0 / 3,5 m (variantes de longueur par échelle Z)",
+    "quantite": {
+     "estimation": 12,
+     "min": 10,
+     "max": 16,
+     "methode": "un par groupe de panneaux listés ci-dessus"
+    },
+    "dimensions_observees": "Ø 60-76 mm ; gris galvanisé clair ; scellé dans trottoir/accotement",
+    "dimensions_reference": "hauteur sous panneau 2,30 m en agglomération sur trottoir (IISR) ; observé 1,9-2,3 m",
+    "support": "—",
+    "couleurs": "acier galvanisé",
+    "sources": [
+     "photos"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "mat_panneau_ilot_court",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "support",
+    "code": "support",
+    "libelle": "Mât court Ø 60 mm (1,0-1,3 m) pour B21a1 / J5 sur îlot",
+    "quantite": {
+     "estimation": 6,
+     "min": 5,
+     "max": 8,
+     "methode": ""
+    },
+    "dimensions_observees": "Ø 60 mm, 1,0-1,3 m hors sol",
+    "couleurs": "galvanisé",
+    "sources": [
+     "photos"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c00.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_fdc59178-d148-43e0-a307-4742929b45a2_hd/2025-08-31_fdc59178-d148-43e0-a307-4742929b45a2_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "feu_R11v",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "feu",
+    "code": "R11v",
+    "libelle": "Signal tricolore circulaire véhicules (3 feux, rouge en haut)",
+    "quantite": {
+     "estimation": 14,
+     "min": 10,
+     "max": 18,
+     "methode": "4 approches × 2 têtes principales (accotement + TPC/refuge) + têtes « de sortie » protégeant les traversées (≥ 2 vues de dos sur les refuges SO et NE) ; ≥ 14 supports de feux identifiés sur l’ortho 2022 (coeur-40), 14 nœuds OSM"
+    },
+    "dimensions_observees": "feux Ø 200 mm (urbain) ; corps ≈ 0,30 × 0,95 m avec visières ; tête basse à ≈ 2,5-3,5 m ; montage latéral sur bras court ou en tête de mât ; plusieurs têtes par mât (dos à dos)",
+    "dimensions_reference": "NF EN 12368 / arrêté du 24 nov. 1967 (R11v)",
+    "support": "mât rond Ø 100-114 mm, 3,0-4,0 m ; gris galvanisé clair ou gris anthracite (gris-bleu foncé en 2020) ; certains avec fourreau jaune de repérage en pied",
+    "recto_verso": "face noire mat avec 3 visières noires ; DOS GRIS CLAIR (corps polycarbonate) très visible sur les photos ; pas de plaque de contraste observée",
+    "couleurs": "noir (face), gris clair RAL 7035 env. (dos), lentilles rouge/jaune/vert",
+    "sources": [
+     "OSM traffic_signals ×14",
+     "analyses coeur-40, p2025_05_360-14/15, p2025_08_travaux"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison (CARLA : feux US à éviter)",
+    "notes": "Prévoir 3 états d’allumage (rouge/orange/vert) par matériau émissif commutable ; potence au-dessus de la chaussée NON observée.",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "feu_R11v_repetiteur",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "feu",
+    "code": "R11v (répétiteur)",
+    "libelle": "Petit répétiteur tricolore à hauteur d’yeux, sous la tête principale",
+    "quantite": {
+     "estimation": 5,
+     "min": 4,
+     "max": 8,
+     "methode": "au moins 1 par approche (vu à l’angle Revirée et à l’approche NE)"
+    },
+    "dimensions_observees": "feux Ø ≈ 100 mm, corps noir ≈ 0,15 × 0,45 m, bas à ≈ 1,8-2,2 m",
+    "support": "même mât",
+    "recto_verso": "corps noir",
+    "couleurs": "noir",
+    "sources": [
+     "analyse p2025_05_360-14",
+     "photo 2025-05"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "feu_R12",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "feu",
+    "code": "R12",
+    "libelle": "Signal piétons (bonhomme rouge / vert), 2 feux",
+    "quantite": {
+     "estimation": 14,
+     "min": 12,
+     "max": 16,
+     "methode": "4 traversées à feux (Verdun SO et NE et Vercors en deux temps, Revirée) × 2 extrémités × demi-traversées ; OSM : 10 nœuds crossing=traffic_signals"
+    },
+    "dimensions_observees": "pictogrammes Ø 200 mm ; boîtier vertical noir ≈ 0,30 × 0,70 m à ≈ 2,3-2,8 m ; une variante en boîtier HORIZONTAL à 2 pictogrammes côte à côte observée (angle Revirée)",
+    "support": "mât de feux commun ou mât piéton Ø 90-114 mm",
+    "recto_verso": "noir / dos gris",
+    "couleurs": "noir ; pictogrammes rouge et vert",
+    "sources": [
+     "OSM",
+     "analyses p2024_05_360-23, p2025_08_travaux-20"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "notes": "Prévoir la variante horizontale (feu_R12_horizontal) en option ; pas de répétiteur sonore (OSM traffic_signals:sound=no).",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "feu_R12_horizontal",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "feu",
+    "code": "R12 (variante)",
+    "libelle": "Boîtier horizontal à 2 pictogrammes piétons",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 2,
+     "methode": ""
+    },
+    "dimensions_observees": "≈ 0,55 × 0,30 m, noir, sur bras latéral à ≈ 2,5 m",
+    "support": "mât de feux",
+    "recto_verso": "noir",
+    "couleurs": "noir",
+    "sources": [
+     "photo 2025-05"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg"
+    ],
+    "confiance": "moyenne",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "feu_R13c",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "feu",
+    "code": "R13c",
+    "etat_2026": "possible",
+    "libelle": "Signal cycles (pictogramme vélo) — NON confirmé",
+    "quantite": {
+     "estimation": 0,
+     "min": 0,
+     "max": 4,
+     "methode": "deuxième tête masquée sur le mât ouest de la traversée Revirée en 2024 (cycle ou répétiteur) ; traversée Chronovélo à feux probable mais aucun feu vélo lisible"
+    },
+    "dimensions_observees": "—",
+    "support": "mât de feux",
+    "recto_verso": "—",
+    "couleurs": "noir",
+    "sources": [
+     "analyse p2024_05_360-22 (confiance moyenne)"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd_r01_c03.jpg"
+    ],
+    "confiance": "faible",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "priorite": 3,
+    "notes": "À fabriquer seulement en variante (même corps que feu_R11v, pictogrammes vélo). R14/R15 (bus) : non observés, ne pas fabriquer."
+   },
+   {
+    "id": "boitier_bouton_appel",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "équipement de feux",
+    "code": "—",
+    "libelle": "Boîtier noir de bouton d’appel piéton / répétiteur, sur le mât à ≈ 1,1-1,3 m",
+    "quantite": {
+     "estimation": 4,
+     "min": 3,
+     "max": 8,
+     "methode": "OSM button_operated=yes sur 3 traversées ; boîtiers vus sur plusieurs mâts"
+    },
+    "dimensions_observees": "≈ 0,12 × 0,10 × 0,25 m, noir",
+    "support": "collier sur mât",
+    "recto_verso": "—",
+    "couleurs": "noir",
+    "sources": [
+     "OSM",
+     "photos 2020, 2025"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c02.jpg"
+    ],
+    "confiance": "moyenne",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "mat_feu_d114",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "support",
+    "code": "support",
+    "libelle": "Mât de feux rond Ø ≈ 114 mm, 3,5 m, gris galvanisé ; variante anthracite ; fourreau jaune de pied en option",
+    "quantite": {
+     "estimation": 16,
+     "min": 14,
+     "max": 20,
+     "methode": "≥ 14 supports sur l’ortho 2022 (coeur-40)"
+    },
+    "dimensions_observees": "Ø 100-114 mm ; 3,0-4,0 m ; fourreau jaune ≈ 0,4 m vers 0,5-0,9 m ; numéro d’inventaire peint (ex. 3150)",
+    "support": "—",
+    "couleurs": "galvanisé clair / gris anthracite RAL 7016 env. / jaune (fourreau)",
+    "sources": [
+     "photos"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "mat_feu_crosse_camera",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "support",
+    "code": "support",
+    "libelle": "Mât anthracite à crosse « col de cygne » portant une caméra dôme de vidéoprotection et une tête R11v",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 2,
+     "methode": "îlot refuge SO"
+    },
+    "dimensions_observees": "≈ 5,5-6 m, crosse ≈ 0,4 m, dôme Ø ≈ 0,2 m ; tête R11v à ≈ 3 m",
+    "support": "—",
+    "couleurs": "gris anthracite, dôme blanc/fumé",
+    "sources": [
+     "analyses p2025_05_360-15, p2025_08_travaux-18"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2023-03-18_a275b2ea-ca5a-4224-b4ad-f335ddbfe981_hd/2023-03-18_a275b2ea-ca5a-4224-b4ad-f335ddbfe981_hd_r00_c01.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "signalisation",
+    "source_recommandee": "maison",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "panneau_B2b_temporaire",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "chantier (temporaire)",
+    "code": "B2b",
+    "libelle": "B2b sur fond carré jaune (signalisation temporaire 2025-08)",
+    "etat_2026": "absent (travaux terminés jan. 2026) — scénarios travaux uniquement",
+    "quantite": {
+     "estimation": 0,
+     "min": 0,
+     "max": 0,
+     "methode": "aucun en 2026"
+    },
+    "dimensions_observees": "voir photos",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_1d999186-824b-4ec7-8b52-0402511307a3_hd/2025-08-31_1d999186-824b-4ec7-8b52-0402511307a3_hd_r01_c00.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_81882270-2b91-457a-a7c9-4f955319ea22_hd/2025-08-31_81882270-2b91-457a-a7c9-4f955319ea22_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute (observé 2020-2025)",
+    "priorite": 3,
+    "lot": "signalisation",
+    "source_recommandee": "maison / CARLA (cônes, barrières : proches)",
+    "sources": [
+     "analyses p2024_05, p2025_08_travaux"
+    ]
+   },
+   {
+    "id": "panneau_AK5",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "chantier (temporaire)",
+    "code": "AK5",
+    "libelle": "AK5 Travaux (triangle fond jaune) sur chevalet",
+    "etat_2026": "absent (travaux terminés jan. 2026) — scénarios travaux uniquement",
+    "quantite": {
+     "estimation": 0,
+     "min": 0,
+     "max": 0,
+     "methode": "aucun en 2026"
+    },
+    "dimensions_observees": "voir photos",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c01.jpg"
+    ],
+    "confiance": "haute (observé 2020-2025)",
+    "priorite": 3,
+    "lot": "signalisation",
+    "source_recommandee": "maison / CARLA (cônes, barrières : proches)",
+    "sources": [
+     "analyses p2024_05, p2025_08_travaux"
+    ]
+   },
+   {
+    "id": "balise_chevrons_chantier",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "chantier (temporaire)",
+    "code": "—",
+    "libelle": "Panneau à chevrons rouges/blancs de déport sur pied",
+    "etat_2026": "absent (travaux terminés jan. 2026) — scénarios travaux uniquement",
+    "quantite": {
+     "estimation": 0,
+     "min": 0,
+     "max": 0,
+     "methode": "aucun en 2026"
+    },
+    "dimensions_observees": "voir photos",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute (observé 2020-2025)",
+    "priorite": 3,
+    "lot": "signalisation",
+    "source_recommandee": "maison / CARLA (cônes, barrières : proches)",
+    "sources": [
+     "analyses p2024_05, p2025_08_travaux"
+    ]
+   },
+   {
+    "id": "mat_feu_provisoire",
+    "categorie": "signalisation_verticale",
+    "sous_categorie": "chantier (temporaire)",
+    "code": "—",
+    "libelle": "Mât de feu provisoire lesté de parpaings",
+    "etat_2026": "absent (travaux terminés jan. 2026) — scénarios travaux uniquement",
+    "quantite": {
+     "estimation": 0,
+     "min": 0,
+     "max": 0,
+     "methode": "aucun en 2026"
+    },
+    "dimensions_observees": "voir photos",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_1d999186-824b-4ec7-8b52-0402511307a3_hd/2025-08-31_1d999186-824b-4ec7-8b52-0402511307a3_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute (observé 2020-2025)",
+    "priorite": 3,
+    "lot": "signalisation",
+    "source_recommandee": "maison / CARLA (cônes, barrières : proches)",
+    "sources": [
+     "analyses p2024_05, p2025_08_travaux"
+    ]
+   }
+  ],
+  "transport": [
+   {
+    "id": "totem_pr_smmag",
+    "categorie": "transport",
+    "sous_categorie": "signalétique",
+    "code": "totem SMMAG",
+    "libelle": "Totem « P+R PARKING RELAIS → / M » (réseau M, SMMAG)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "îlot entre piste et chaussée SO (2025) ; entrée du P+R déplacée par les travaux 2025 → position 2026 à confirmer"
+    },
+    "dimensions_observees": "≈ 0,9 m × 0,2 m × 3,6 m ; fond noir, bandeau « P+R » bleu en tête, arc bleu/jaune/vert/violet, « M » blanc, logo SMMAG ; platine boulonnée sur dalle",
+    "support": "platine acier sur massif",
+    "recto_verso": "double face probable",
+    "couleurs": "noir, blanc, bleu, jaune, vert",
+    "sources": [
+     "analyses p2024_05_360-24, p2025_05_360-17"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd/2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison (texture depuis la photo)",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "abri_bus_m_reso",
+    "categorie": "transport",
+    "sous_categorie": "abri voyageurs",
+    "code": "—",
+    "libelle": "Abri voyageurs du réseau M : ossature métallique anthracite, parois vitrées, toit plat débordant, banc, MUPI publicitaire en bout, plan/horaires, écran d’information",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 3,
+     "methode": "un abri par sens sur Verdun SO (quais déplacés et mutualisés en 2025 : abri figuré sur le plan projet aux 2 quais) ; quai Revirée (Flexo 42) sans abri"
+    },
+    "dimensions_observees": "≈ 4,0 × 1,5 × 2,5 m ; MUPI ≈ 1,2 × 1,75 m ; quai haut ≈ +0,16-0,18 m",
+    "support": "platines sur quai",
+    "couleurs": "gris anthracite, verre, toit gris clair",
+    "sources": [
+     "OSM platforms ×3 (shelter, bench, bin, departures_board=realtime)",
+     "plan projet 2025 (« Abri Bus », « Corbeille »)",
+     "analyses verdun_so-18, p2025_05_360-29"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute (présence) / moyenne (modèle 2026 identique)",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "poteau_arret_m_reso",
+    "categorie": "transport",
+    "sous_categorie": "poteau d’arrêt",
+    "code": "—",
+    "libelle": "Poteau d’arrêt M réso : mât anthracite ≈ 3 m, drapeau rond « M », plaque « La Revirée », plaques de lignes (C1, …)",
+    "quantite": {
+     "estimation": 3,
+     "min": 2,
+     "max": 3,
+     "methode": "1 intégré à chaque abri + 1 poteau seul (OSM public_transport=pole, quai Revirée)"
+    },
+    "dimensions_observees": "drapeau Ø ≈ 0,35 m ; plaque nom ≈ 0,6 × 0,15 m ; plaques de lignes ≈ 0,5 × 0,2 m",
+    "support": "platine",
+    "couleurs": "anthracite, blanc, jaune (C1)",
+    "sources": [
+     "OSM",
+     "photo 2025-05"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   }
+  ],
+  "mobilier": [
+   {
+    "id": "armoire_commande_feux",
+    "categorie": "mobilier",
+    "sous_categorie": "équipement technique",
+    "code": "—",
+    "libelle": "Armoire métallique grise de contrôleur de feux (souvent taguée)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 2,
+     "methode": ""
+    },
+    "dimensions_observees": "≈ 0,8 × 0,4 × 1,4 m",
+    "support": "socle béton",
+    "couleurs": "gris clair RAL 7035 env., tags",
+    "sources": [
+     "analyse p2025_01_vercors-24",
+     "ortho 2022"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison (ou CARLA « traffic light box », adéquation proche)",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "barriere_croix_saint_andre",
+    "categorie": "mobilier",
+    "sous_categorie": "barrière",
+    "code": "—",
+    "libelle": "Barrière de ville à croisillons (croix de Saint-André), tube gris",
+    "quantite": {
+     "estimation": 15,
+     "min": 10,
+     "max": 20,
+     "methode": "≈ 9 éléments sur ≈ 12 m sur l’îlot séparateur du couloir bus (2022) + ≥ 6 le long du quai SO ; à reconfirmer après les travaux"
+    },
+    "dimensions_observees": "module ≈ 1,5-2,0 m × 1,0 m, tubes Ø ≈ 40-50 mm",
+    "support": "scellement",
+    "couleurs": "gris anthracite",
+    "sources": [
+     "analyses coeur-33, p2024_05_360-29"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "potelet_noir",
+    "categorie": "mobilier",
+    "sous_categorie": "potelet",
+    "code": "—",
+    "libelle": "Potelet anti-stationnement noir/anthracite à tête blanche réfléchissante",
+    "quantite": {
+     "estimation": 8,
+     "min": 5,
+     "max": 12,
+     "methode": "Revirée (3 aux extrémités du passage, 2 balises du fuseau), surface centrale sud, OSM bollard ×3"
+    },
+    "dimensions_observees": "Ø ≈ 90-100 mm, 0,8-1,1 m",
+    "support": "scellé",
+    "couleurs": "noir, bande blanche",
+    "sources": [
+     "analyses reviree_no-08/14, p2025_01_vercors-23",
+     "OSM barrier=bollard ×3"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd_r01_c00.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c03.jpg"
+    ],
+    "confiance": "moyenne",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "banc_bois_metal",
+    "categorie": "mobilier",
+    "sous_categorie": "banc",
+    "code": "—",
+    "libelle": "Banc à lattes de bois, piétement métal",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 3,
+     "methode": ""
+    },
+    "dimensions_observees": "≈ 1,8 × 0,6 × 0,8 m",
+    "support": "posé/scellé",
+    "couleurs": "bois brun, métal gris",
+    "sources": [
+     "OSM bench",
+     "photos"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c01.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "CC0 (Poly Haven) ou maison",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "corbeille_cylindrique",
+    "categorie": "mobilier",
+    "sous_categorie": "corbeille",
+    "code": "—",
+    "libelle": "Corbeille cylindrique à lames métalliques grises, couvercle jaune",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 3,
+     "methode": "photo 2025-05 + plan projet (« Corbeille » aux 2 quais)"
+    },
+    "dimensions_observees": "Ø ≈ 0,4 m, h ≈ 0,9 m",
+    "support": "scellée",
+    "couleurs": "gris acier, jaune",
+    "sources": [
+     "OSM bin",
+     "plan projet"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "arceau_velo",
+    "categorie": "mobilier",
+    "sous_categorie": "stationnement vélo",
+    "code": "—",
+    "libelle": "Arceau vélo en U renversé, tube gris",
+    "quantite": {
+     "estimation": 6,
+     "min": 5,
+     "max": 8,
+     "methode": "5-6 arceaux près du quai SO (photo 2025, plan projet « Stationnement vélos »)"
+    },
+    "dimensions_observees": "≈ 0,8 × 0,8 m, tube Ø 50-60 mm",
+    "support": "scellé",
+    "couleurs": "gris galvanisé / anthracite",
+    "sources": [
+     "analyse verdun_so-27",
+     "plan projet"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "barriere_levante",
+    "categorie": "mobilier",
+    "sous_categorie": "barrière",
+    "code": "—",
+    "libelle": "Barrière levante de parking (fût bleu, lisse blanche)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 2,
+     "methode": "parking de L’Horloge ; OSM lift_gate ×2"
+    },
+    "dimensions_observees": "fût ≈ 0,3 × 0,3 × 1,0 m ; lisse ≈ 4 m à 0,9 m",
+    "support": "platine",
+    "couleurs": "bleu, blanc",
+    "sources": [
+     "OSM",
+     "analyse p2026_07_ign-16"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "priorite": 3,
+    "etat_2026": "present"
+   },
+   {
+    "id": "poteau_incendie",
+    "categorie": "mobilier",
+    "sous_categorie": "réseau",
+    "code": "—",
+    "libelle": "Poteau d’incendie rouge",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 2,
+     "methode": ""
+    },
+    "dimensions_observees": "≈ Ø 0,2 × 0,9 m",
+    "support": "—",
+    "couleurs": "rouge RAL 3000",
+    "sources": [
+     "analyse p2025_01_vercors-24"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd_r01_c01.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "CARLA (« fire hydrant » US : à éviter) → maison",
+    "priorite": 3,
+    "etat_2026": "present"
+   },
+   {
+    "id": "armoire_technique",
+    "categorie": "mobilier",
+    "sous_categorie": "équipement technique",
+    "code": "—",
+    "libelle": "Armoire technique beige (réseaux)",
+    "quantite": {
+     "estimation": 2,
+     "min": 1,
+     "max": 3,
+     "methode": ""
+    },
+    "dimensions_observees": "≈ 0,7 × 0,3 × 1,2 m",
+    "support": "socle",
+    "couleurs": "beige",
+    "sources": [
+     "analyse p2025_01_vercors-24"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd_r01_c01.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "priorite": 3,
+    "etat_2026": "present"
+   },
+   {
+    "id": "ganivelle_bois",
+    "categorie": "mobilier",
+    "sous_categorie": "protection de plantation",
+    "code": "—",
+    "libelle": "Ganivelle en lattes de châtaignier (protection des jeunes plantations 2025)",
+    "etat_2026": "present (temporaire)",
+    "quantite": {
+     "estimation": 40,
+     "min": 20,
+     "max": 80,
+     "methode": "mètres linéaires, rive est du Vercors (2026)"
+    },
+    "dimensions_observees": "h ≈ 1,0-1,2 m",
+    "support": "piquets bois",
+    "couleurs": "bois gris-brun",
+    "sources": [
+     "analyse p2026_07_ign-20"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg"
+    ],
+    "confiance": "moyenne",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "priorite": 3
+   },
+   {
+    "id": "cloture_grillage_rigide",
+    "categorie": "mobilier",
+    "sous_categorie": "clôture",
+    "code": "—",
+    "libelle": "Clôture en panneaux de grillage rigide (limites de propriétés)",
+    "quantite": {
+     "estimation": 900,
+     "min": 600,
+     "max": 950,
+     "methode": "mètres ; GAM SOL_CLOTURES ≈ 913 m dans l’emprise ; OSM fence metal"
+    },
+    "dimensions_observees": "h ≈ 1,2-2,0 m",
+    "support": "poteaux",
+    "couleurs": "vert RAL 6005 ou gris",
+    "sources": [
+     "GAM",
+     "OSM"
+    ],
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "lot": "mobilier",
+    "source_recommandee": "CARLA/CC0 (proche)",
+    "priorite": 3,
+    "etat_2026": "present"
+   },
+   {
+    "id": "separateur_modulaire_K16",
+    "categorie": "mobilier",
+    "sous_categorie": "chantier (temporaire)",
+    "code": "—",
+    "libelle": "Séparateurs modulaires de voie plastique rouges/blancs lestés (K16)",
+    "etat_2026": "absent (travaux terminés jan. 2026) — scénarios travaux uniquement",
+    "quantite": {
+     "estimation": 0,
+     "min": 0,
+     "max": 0,
+     "methode": "aucun en 2026"
+    },
+    "dimensions_observees": "voir photos",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_a83dae90-c92a-472e-8d22-2e8863c47968_hd/2025-08-31_a83dae90-c92a-472e-8d22-2e8863c47968_hd_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_1d999186-824b-4ec7-8b52-0402511307a3_hd/2025-08-31_1d999186-824b-4ec7-8b52-0402511307a3_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute (observé 2020-2025)",
+    "priorite": 3,
+    "lot": "mobilier",
+    "source_recommandee": "maison / CARLA (cônes, barrières : proches)",
+    "sources": [
+     "analyses p2024_05, p2025_08_travaux"
+    ]
+   },
+   {
+    "id": "barriere_chantier_rouge_blanc",
+    "categorie": "mobilier",
+    "sous_categorie": "chantier (temporaire)",
+    "code": "—",
+    "libelle": "Barrière de chantier métallique rouge/blanc et clôture mobile",
+    "etat_2026": "absent (travaux terminés jan. 2026) — scénarios travaux uniquement",
+    "quantite": {
+     "estimation": 0,
+     "min": 0,
+     "max": 0,
+     "methode": "aucun en 2026"
+    },
+    "dimensions_observees": "voir photos",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c01.jpg"
+    ],
+    "confiance": "haute (observé 2020-2025)",
+    "priorite": 3,
+    "lot": "mobilier",
+    "source_recommandee": "maison / CARLA (cônes, barrières : proches)",
+    "sources": [
+     "analyses p2024_05, p2025_08_travaux"
+    ]
+   }
+  ],
+  "eclairage": [
+   {
+    "id": "candelabre_double_crosse",
+    "categorie": "eclairage",
+    "sous_categorie": "candélabre",
+    "code": "—",
+    "libelle": "Candélabre de l’avenue de Verdun : mât cylindro-conique ≈ 10-12 m, double crosse en T (bras opposés), 2 lanternes plates",
+    "quantite": {
+     "estimation": 12,
+     "min": 10,
+     "max": 14,
+     "methode": "OSM lamp_mount=bent_mast ×13 le long de Verdun (réf. 2341-2358, pas ≈ 29 m), certains à crosse simple"
+    },
+    "dimensions_observees": "hauteur de feu ≈ 10-11 m (ombre 7,9 m, soleil ≈ 55-60°) ; bras ≈ 1,5-2 m ; lanterne plate ≈ 0,8 × 0,35 m ; décors de Noël fixés sur certains mâts",
+    "support": "massif béton, platine",
+    "couleurs": "gris galvanisé / gris-bleu ; lanterne gris clair",
+    "sources": [
+     "OSM street_lamp ×39 dans l’emprise",
+     "analyses verdun_so-34, coeur-40, p2024_05_360-30"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd/2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2023-03-18_a275b2ea-ca5a-4224-b4ad-f335ddbfe981_hd/2023-03-18_a275b2ea-ca5a-4224-b4ad-f335ddbfe981_hd_r00_c01.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison (CARLA : lampadaires proches en silhouette)",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "candelabre_crosse_simple",
+    "categorie": "eclairage",
+    "sous_categorie": "candélabre",
+    "code": "—",
+    "libelle": "Candélabre à crosse simple (bras ≈ 1,5 m), lanterne plate, ≈ 8-10 m",
+    "quantite": {
+     "estimation": 4,
+     "min": 2,
+     "max": 6,
+     "methode": "Verdun côté SE et Vercors (OSM bent_mast réf. 3153 ; 2025-06 nouveaux mâts près du P+R)"
+    },
+    "dimensions_observees": "≈ 8-10 m, bras incliné ≈ 1,5 m",
+    "support": "massif",
+    "couleurs": "gris galvanisé",
+    "sources": [
+     "OSM",
+     "photos"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd_r01_c00.jpg"
+    ],
+    "confiance": "moyenne",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "candelabre_mat_droit_led",
+    "categorie": "eclairage",
+    "sous_categorie": "candélabre",
+    "code": "—",
+    "libelle": "Mât droit ≈ 6-8 m, lanterne LED plate en tête (légèrement inclinée), plaque de numéro (ex. « 0456 »)",
+    "quantite": {
+     "estimation": 20,
+     "min": 16,
+     "max": 22,
+     "methode": "OSM straight_mast ×19 + 3 inconnus (Vercors, allées, P+R, cheminements, Revirée)"
+    },
+    "dimensions_observees": "fût Ø ≈ 0,15 m en pied, 6-8 m ; lanterne ≈ 0,6 × 0,3 m ; supports de B6a1/C13a sur certains",
+    "support": "massif",
+    "couleurs": "gris galvanisé clair, numéro bleu",
+    "sources": [
+     "OSM (lamp_type=led ×3)",
+     "analyse p2026_07_ign-16"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c04.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c01.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "candelabre_mat_droit_shp",
+    "categorie": "eclairage",
+    "sous_categorie": "candélabre",
+    "code": "—",
+    "libelle": "Variante Revirée : mât droit ≈ 8 m, lanterne sodium haute pression (SHP)",
+    "quantite": {
+     "estimation": 3,
+     "min": 3,
+     "max": 4,
+     "methode": "OSM lamp_type=high_pressure_sodium ×3 (Revirée) ; LiDAR 7,9-8,2 m"
+    },
+    "dimensions_observees": "≈ 8 m",
+    "support": "massif",
+    "couleurs": "gris",
+    "sources": [
+     "OSM",
+     "analyse reviree_no-28"
+    ],
+    "tuiles_reference": [],
+    "confiance": "faible (modèle de lanterne non vu de près)",
+    "lot": "mobilier",
+    "source_recommandee": "variante de candelabre_mat_droit_led (lumière orangée 2000 K)",
+    "priorite": 3,
+    "etat_2026": "present"
+   },
+   {
+    "id": "poteau_bois_reseau",
+    "categorie": "eclairage",
+    "sous_categorie": "réseau aérien",
+    "code": "—",
+    "libelle": "Poteau bois (réseau aérien télécom/électrique), brun, ≈ 9-11 m, avec câbles",
+    "quantite": {
+     "estimation": 5,
+     "min": 3,
+     "max": 8,
+     "methode": "angle Revirée, branche NE, Vercors ; câbles aériens au-dessus des voies (ombres linéaires)"
+    },
+    "dimensions_observees": "Ø ≈ 0,2-0,25 m, 9-11 m, affiches et étiquettes",
+    "support": "enterré",
+    "couleurs": "bois brun-orangé",
+    "sources": [
+     "analyses p2024_05_360-30, p2025_05_360-32"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c00.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison (CARLA : poteaux électriques, adéquation proche)",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "mat_illumination_cable",
+    "categorie": "eclairage",
+    "sous_categorie": "réseau aérien",
+    "code": "—",
+    "libelle": "Mât métallique brun avec bras porte-câbles (guirlandes et câbles aériens transversaux)",
+    "quantite": {
+     "estimation": 2,
+     "min": 1,
+     "max": 4,
+     "methode": ""
+    },
+    "dimensions_observees": "≈ 9-10 m, bras horizontal ≈ 4-5 m",
+    "support": "massif",
+    "couleurs": "brun-orangé",
+    "sources": [
+     "analyses p2025_01_vercors-30, verdun_so-34 (catenary_mast OSM)"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd_r01_c01.jpg"
+    ],
+    "confiance": "moyenne",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "priorite": 3,
+    "etat_2026": "present"
+   }
+  ],
+  "bordures": [
+   {
+    "id": "bordure_T2",
+    "categorie": "bordures",
+    "sous_categorie": "bordure de trottoir",
+    "code": "T2",
+    "libelle": "Bordure de trottoir béton T2 (profil à chanfrein), gris clair",
+    "quantite": {
+     "estimation": 4500,
+     "min": 3500,
+     "max": 5500,
+     "methode": "m ; GAM SOL_BORDURE 6,85 km de traits dans l’emprise (deux arêtes par bordure souvent) ; libellé « T2 » dans le levé GAM"
+    },
+    "dimensions_observees": "vue 14-17 cm (îlots +0,17-0,21 m, quai +0,16 m au LiDAR) ; tête ≈ 15 cm",
+    "dimensions_reference": "NF EN 1340 + NF P98-340/CN (T2 : 15 × 25 cm, à confirmer par le lot)",
+    "support": "—",
+    "couleurs": "béton gris clair, épaufrures, mousses",
+    "sources": [
+     "GAM",
+     "LiDAR 2021",
+     "analyses"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison (profil extrudé)",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "bordure_T2_peinte_blanc",
+    "categorie": "bordures",
+    "sous_categorie": "bordure de refuge",
+    "code": "T2 peinte",
+    "libelle": "Bordure T2 de refuge en D peinte en blanc (refuges SO)",
+    "quantite": {
+     "estimation": 30,
+     "min": 20,
+     "max": 50,
+     "methode": "m"
+    },
+    "dimensions_observees": "refuges ≈ 2,7 × 2,5 m, vue ≈ 15 cm",
+    "couleurs": "blanc sur béton (peinture usée)",
+    "sources": [
+     "analyse coeur-30"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c01.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "variante matériau",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "bordure_quai_bus",
+    "categorie": "bordures",
+    "sous_categorie": "bordure de quai",
+    "code": "bordure de quai haute",
+    "libelle": "Bordure de quai bus accessible (face inclinée), bande claire en tête",
+    "quantite": {
+     "estimation": 60,
+     "min": 40,
+     "max": 80,
+     "methode": "m (2 quais)"
+    },
+    "dimensions_observees": "vue ≈ 16-18 cm (2021) ; quais 2025 probablement 18-21 cm",
+    "couleurs": "béton clair",
+    "sources": [
+     "analyses verdun_so-18/24",
+     "plan projet"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd_r01_c03.jpg"
+    ],
+    "confiance": "moyenne",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "bordure_A2",
+    "categorie": "bordures",
+    "sous_categorie": "bordure franchissable",
+    "code": "A2",
+    "libelle": "Bordure arrondie franchissable (piste cyclable / accotements / nez d’îlots)",
+    "quantite": {
+     "estimation": 800,
+     "min": 400,
+     "max": 1200,
+     "methode": "m"
+    },
+    "dimensions_observees": "vue ≈ 5-10 cm, profil arrondi",
+    "couleurs": "béton gris",
+    "sources": [
+     "analyses p2024_05_360-09, p2025_01_vercors-26"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd_r01_c00.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd_r01_c00.jpg"
+    ],
+    "confiance": "moyenne (type exact)",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "bordure_P1",
+    "categorie": "bordures",
+    "sous_categorie": "bordure de jardin",
+    "code": "P1",
+    "libelle": "Bordure de jardin béton (espaces verts, faible vue)",
+    "quantite": {
+     "estimation": 600,
+     "min": 300,
+     "max": 900,
+     "methode": "m"
+    },
+    "dimensions_observees": "vue 0-5 cm, largeur ≈ 5-8 cm",
+    "couleurs": "béton gris",
+    "sources": [
+     "analyse p2026_07_ign-17"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd_r01_c02.jpg"
+    ],
+    "confiance": "moyenne",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "caniveau_cs",
+    "categorie": "bordures",
+    "sous_categorie": "caniveau",
+    "code": "CS1/CS2",
+    "libelle": "Caniveau béton à joints transversaux (fil d’eau) ; variante caniveau à fente le long du quai SE",
+    "quantite": {
+     "estimation": 140,
+     "min": 100,
+     "max": 300,
+     "methode": "m ; GAM SOL_CANIVEAU 139 m"
+    },
+    "dimensions_observees": "largeur 25-50 cm",
+    "couleurs": "béton gris",
+    "sources": [
+     "GAM",
+     "analyses p2025_05_360-29/30"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c03.jpg"
+    ],
+    "confiance": "moyenne",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "bordure_paves_granit",
+    "categorie": "bordures",
+    "sous_categorie": "bordure d’îlot",
+    "code": "—",
+    "libelle": "Anneau de pavés de granit clairs sertis autour des petits îlots ronds (porte-B21a1)",
+    "quantite": {
+     "estimation": 2,
+     "min": 1,
+     "max": 3,
+     "methode": "îlots"
+    },
+    "dimensions_observees": "pavés ≈ 0,10-0,15 m, îlot Ø ≈ 2 m",
+    "couleurs": "granit gris clair",
+    "sources": [
+     "photos 2023, 2025"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c00.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2023-03-18_e2574612-b380-4cb2-918e-d5506aff8145_hd/2023-03-18_e2574612-b380-4cb2-918e-d5506aff8145_hd_r01_c01.jpg"
+    ],
+    "confiance": "moyenne",
+    "lot": "mobilier",
+    "source_recommandee": "maison + CC0",
+    "priorite": 2,
+    "etat_2026": "present"
+   },
+   {
+    "id": "abaisse_chartiere",
+    "categorie": "bordures",
+    "sous_categorie": "abaissé",
+    "code": "bateau / chartières",
+    "libelle": "Abaissé de trottoir aux traversées (bordure abaissée vue 0-2 cm + chartières droite/gauche)",
+    "quantite": {
+     "estimation": 21,
+     "min": 16,
+     "max": 30,
+     "methode": "GAM blocs CHARTIERE_GAUCHE ×11 / DROITE ×10"
+    },
+    "dimensions_observees": "vue 0-2 cm, rampants ≈ 1 m",
+    "couleurs": "béton",
+    "sources": [
+     "GAM etat_2026/bordure_pct",
+     "OSM kerb=lowered"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c04.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison",
+    "etat_2026": "present",
+    "priorite": 1
+   },
+   {
+    "id": "bev_podotactile",
+    "categorie": "bordures",
+    "sous_categorie": "bande d’éveil de vigilance",
+    "code": "BEV (NF P98-351)",
+    "libelle": "Dalles podotactiles à plots (40 × 40 cm), gris clair ou blanches, en tête des traversées",
+    "quantite": {
+     "estimation": 18,
+     "min": 12,
+     "max": 24,
+     "methode": "extrémités de traversées ; OSM tactile_paving=yes ×7 nœuds ; refuges"
+    },
+    "dimensions_observees": "bandes ≈ 0,4-0,45 × 1,5-2,3 m",
+    "dimensions_reference": "NF P98-351 : profondeur 0,40-0,42 m, plots tronconiques en quinconce",
+    "couleurs": "gris clair / blanc",
+    "sources": [
+     "OSM",
+     "analyses coeur-22, p2025_05_360-07"
+    ],
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c04.jpg"
+    ],
+    "confiance": "haute",
+    "lot": "mobilier",
+    "source_recommandee": "maison (géométrie) + matériau",
+    "etat_2026": "present",
+    "priorite": 1
+   }
+  ],
+  "materiaux": [
+   {
+    "id": "enrobe_bbsg_ancien",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Enrobé BBSG ancien gris clair oxydé, texture fermée, fissures pontées au bitume (réseau dense)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "luminance 150-165/255 sur l’ortho ; RVB ≈ 155-160 neutre ; bandes de gomme sombres dans les traces ; pontages = décalque séparé",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c00.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "enrobe_bbsg_neuf",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Enrobé neuf 2025 (réfection travaux C1 : centre du carrefour, avenue du Vercors probable), sombre et homogène",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "nettement plus sombre que l’allée voisine, granulats fins",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg"
+    ],
+    "confiance": "moyenne",
+    "priorite": 1,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": "Le centre du carrefour est déjà en enrobé neuf sombre sur l’ortho IGN 2024.",
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "enrobe_reprise_tranchee",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Reprise d’enrobé (tranchées, rapiéçages) plus sombre et plus lisse, joints nets",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "bandes 1-3 m et plaques ≈ 170 m² (arrêt SO)",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 2,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "enrobe_piste_cyclable",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Enrobé de la piste bidirectionnelle (Chronovélo), plus récent et plus sombre, plumage par endroits",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "RVB ≈ 131/138/134 ; largeur 3,0-3,4 m",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd_r01_c00.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "enrobe_trottoir",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Enrobé de trottoir, plus sombre et rugueux",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "trottoirs et cheminements 1,8-3 m",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 2,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "enrobe_clair_granulats",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Surface centrale / refuges : enrobé clair grenaillé ou béton désactivé à granulats apparents",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "gris très clair, gravillons visibles (2020)",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c02.jpg"
+    ],
+    "confiance": "moyenne",
+    "priorite": 2,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": "Probablement refait en 2025 au centre (à confirmer).",
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "enrobe_colore_ocre",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Enrobé ou résine coloré ocre-orangé délavé (îlots à niveau de la Revirée)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "R−B ≈ +27 à +36",
+    "tuiles_reference": [],
+    "confiance": "moyenne (ortho seule)",
+    "priorite": 2,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses reviree_no-09/17 (ortho 5 cm)"
+    ]
+   },
+   {
+    "id": "resine_verte",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Résine verte délavée des traversées cyclables de la Revirée",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "RVB ≈ 150/162/151 (presque gris)",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c04.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 2,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "resine_cyan",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Résine/peinture cyan pâle (rectangles de la traversée de piste NO, tirets turquoise d’axe)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "RVB ≈ 164/181/180",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c03.jpg"
+    ],
+    "confiance": "moyenne",
+    "priorite": 3,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "beton_bordure",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Béton gris clair des bordures, caniveaux et dalles (vieilli, épaufrures, mousses)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "—",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "paves_granit",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Pavés de granit gris clair (anneaux d’îlots, rangée de pavés affleurants de l’allée sud)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "pavés 10-15 cm",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 2,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "beton_galets",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Galets sertis dans le béton (îlots du raccordement SE de Verdun)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "≈ 2 m de large",
+    "tuiles_reference": [],
+    "confiance": "moyenne (ortho)",
+    "priorite": 3,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyse verdun_so-09"
+    ]
+   },
+   {
+    "id": "gravillons_ilot",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Gravillons clairs des îlots du Vercors",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "—",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 2,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "stabilise_beige",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Sable stabilisé / grave fine beige (cheminements, abords est)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "RVB ≈ 153/148/135",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 3,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyse abords_est-22"
+    ]
+   },
+   {
+    "id": "gazon_tondu",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Gazon tondu (îlots engazonnés, accotements)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "—",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_26ea5f01-166c-4871-8dba-660e5dd56686_hd/2024-05-01_26ea5f01-166c-4871-8dba-660e5dd56686_hd_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "herbe_haute",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Herbe haute non tondue (accotements NE, bande piste/chaussée)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "0,3-0,6 m",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 + cartes d’herbe (instances)",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "gazon_sec",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Gazon grillé d’été (juillet 2026) avec feuilles mortes",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "—",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd_r01_c02.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 2,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "noue_plantee",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Noue / bande plantée de gestion des eaux pluviales (terre, prairie, jeunes arbres)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "bande ≈ 4,6 m (v −10,8 à −15,4) côté SE",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r01_c01.jpg"
+    ],
+    "confiance": "moyenne (plan projet, non vue en photo)",
+    "priorite": 2,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "plan projet 2025",
+     "analyse actuel-13"
+    ]
+   },
+   {
+    "id": "paillage_mineral",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Paillage minéral (galets/gravier) au pied des jeunes arbres",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "—",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd_r01_c00.jpg"
+    ],
+    "confiance": "moyenne",
+    "priorite": 3,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyses observations_initiales",
+     "ortho 5 cm 2022",
+     "photos"
+    ]
+   },
+   {
+    "id": "terre_nue",
+    "categorie": "materiaux",
+    "sous_categorie": "revêtement",
+    "code": "—",
+    "libelle": "Terre nue remaniée (bandes en attente de plantation)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "voir couches voirie (recon)"
+    },
+    "dimensions_observees": "—",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 3,
+    "lot": "materiaux",
+    "source_recommandee": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm",
+    "notes": null,
+    "etat_2026": "present",
+    "sources": [
+     "analyse p2025_01_vercors-20"
+    ]
+   },
+   {
+    "id": "peinture_blanche",
+    "categorie": "materiaux",
+    "sous_categorie": "peinture / décalque",
+    "code": "—",
+    "libelle": "Peinture blanche rétroréfléchissante (lignes, zébras, flèches, symboles vélo/PMR, « 30 », « 50 »)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "marquages de recon/out/paquet_jardin/marquages"
+    },
+    "dimensions_observees": "usure 0 (marquages 2025) à 3 et fantômes F ; billes de verre ; couverture 0,7-0,95 sur les zébras anciens",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2023-03-18_e2574612-b380-4cb2-918e-d5506aff8145_hd/2023-03-18_e2574612-b380-4cb2-918e-d5506aff8145_hd_r01_c01.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "materiaux",
+    "source_recommandee": "maison (masques d’usure procéduraux 0-3 + F)",
+    "notes": null,
+    "sources": [
+     "analyses observations_initiales",
+     "photos"
+    ],
+    "etat_2026": "present"
+   },
+   {
+    "id": "peinture_jaune_chronovelo",
+    "categorie": "materiaux",
+    "sous_categorie": "peinture / décalque",
+    "code": "—",
+    "libelle": "Jaune Chronovélo (lignes de rive de piste, blocs des traversées cyclables, points d’axe) : jaune vif neuf / ocre-kaki délavé",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "marquages de recon/out/paquet_jardin/marquages"
+    },
+    "dimensions_observees": "blocs ≈ 0,45 × 0,6 m, joints 0,10 m",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "materiaux",
+    "source_recommandee": "maison (masques d’usure procéduraux 0-3 + F)",
+    "notes": null,
+    "sources": [
+     "analyses observations_initiales",
+     "photos"
+    ],
+    "etat_2026": "present"
+   },
+   {
+    "id": "peinture_jaune_zigzag",
+    "categorie": "materiaux",
+    "sous_categorie": "peinture / décalque",
+    "code": "—",
+    "libelle": "Jaune des zigzags d’arrêt de bus (trait 0,10-0,12 m, pâle)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "marquages de recon/out/paquet_jardin/marquages"
+    },
+    "dimensions_observees": "RVB ≈ 171/172/156",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd_r01_c02.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "materiaux",
+    "source_recommandee": "maison (masques d’usure procéduraux 0-3 + F)",
+    "notes": null,
+    "sources": [
+     "analyses observations_initiales",
+     "photos"
+    ],
+    "etat_2026": "present"
+   },
+   {
+    "id": "peinture_verte",
+    "categorie": "materiaux",
+    "sous_categorie": "peinture / décalque",
+    "code": "—",
+    "libelle": "Vert des surfaces cyclables (voir resine_verte)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "marquages de recon/out/paquet_jardin/marquages"
+    },
+    "dimensions_observees": "délavé",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c04.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 2,
+    "lot": "materiaux",
+    "source_recommandee": "maison (masques d’usure procéduraux 0-3 + F)",
+    "notes": null,
+    "sources": [
+     "analyses observations_initiales",
+     "photos"
+    ],
+    "etat_2026": "present"
+   },
+   {
+    "id": "pontage_fissures",
+    "categorie": "materiaux",
+    "sous_categorie": "peinture / décalque",
+    "code": "—",
+    "libelle": "Pontage de fissures au bitume (traits sombres sinueux, brillants à contre-jour)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "marquages de recon/out/paquet_jardin/marquages"
+    },
+    "dimensions_observees": "largeur 3-6 cm",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_a83dae90-c92a-472e-8d22-2e8863c47968_hd/2025-08-31_a83dae90-c92a-472e-8d22-2e8863c47968_hd_r01_c01.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "materiaux",
+    "source_recommandee": "maison (masques d’usure procéduraux 0-3 + F)",
+    "notes": null,
+    "sources": [
+     "analyses observations_initiales",
+     "photos"
+    ],
+    "etat_2026": "present"
+   },
+   {
+    "id": "decal_tampon_fonte",
+    "categorie": "materiaux",
+    "sous_categorie": "peinture / décalque",
+    "code": "—",
+    "libelle": "Tampons de regards en fonte (ronds Ø 0,6-0,8 m, carrés) et grilles d’avaloirs",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "marquages de recon/out/paquet_jardin/marquages"
+    },
+    "dimensions_observees": "dizaines dans l’emprise",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 2,
+    "lot": "materiaux",
+    "source_recommandee": "maison (masques d’usure procéduraux 0-3 + F)",
+    "notes": null,
+    "sources": [
+     "analyses observations_initiales",
+     "photos"
+    ],
+    "etat_2026": "present"
+   },
+   {
+    "id": "decal_boucle_detection",
+    "categorie": "materiaux",
+    "sous_categorie": "peinture / décalque",
+    "code": "—",
+    "libelle": "Saignées de boucles de détection (traits noirs rectangulaires)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "marquages de recon/out/paquet_jardin/marquages"
+    },
+    "dimensions_observees": "3 postes au moins (Verdun SO)",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 3,
+    "lot": "materiaux",
+    "source_recommandee": "maison (masques d’usure procéduraux 0-3 + F)",
+    "notes": null,
+    "sources": [
+     "analyses verdun_so, coeur"
+    ],
+    "etat_2026": "present"
+   }
+  ],
+  "vegetation": [
+   {
+    "id": "arbre_populus_nigra_moyen",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Populus nigra",
+    "libelle": "Populus nigra — classe moyen, port semi-libre",
+    "quantite": {
+     "estimation": 4,
+     "min": 4,
+     "max": 4,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 10-20 m ; circonférence 145-195 cm",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd_r00_c02.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "alignement « Avenue de Verdun/Schneider » côté SE de la branche NE",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_populus_nigra_grand",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Populus nigra",
+    "libelle": "Populus nigra — classe grand, port libre",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 20-30 m ; circonférence 145 cm",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd_r01_c01.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "même alignement",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_populus_sp_tetard_moyen",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Populus sp.",
+    "libelle": "Populus sp. — classe moyen, port têtard",
+    "quantite": {
+     "estimation": 4,
+     "min": 4,
+     "max": 4,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 10-20 m ; circonférence 118-280 cm",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "alignement NE côté NO ; têtes de saule/peuplier taillées",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_populus_nigra_italica_grand",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Populus nigra « Italica »",
+    "libelle": "Populus nigra « Italica » — classe grand, port architecturé (fastigié)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 20-30 m ; circonférence 210 cm",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 2,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "parc NO",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_cedrus_atlantica_grand",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Cedrus atlantica",
+    "libelle": "Cedrus atlantica — classe grand, port libre",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 2,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 20-30 m (inventaire 10-20 m pour l’angle Revirée, visiblement > 15 m) ; circonférence 120-165 cm",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "grand cèdre de l’angle Revirée (repère visuel majeur, ombre sur la chaussée) + 1 au NE",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_tilia_cordata_moyen",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Tilia cordata",
+    "libelle": "Tilia cordata — classe moyen, port libre",
+    "quantite": {
+     "estimation": 6,
+     "min": 6,
+     "max": 6,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 10-20 m ; circonférence 95-184 cm",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c04.jpg"
+    ],
+    "confiance": "moyenne",
+    "priorite": 1,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "groupement NO (parc de la Revirée)",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_quercus_robur_moyen",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Quercus robur",
+    "libelle": "Quercus robur — classe moyen, port libre / semi-libre",
+    "quantite": {
+     "estimation": 5,
+     "min": 5,
+     "max": 5,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 10-20 m ; circonférence 110-165 cm",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c04.jpg"
+    ],
+    "confiance": "moyenne",
+    "priorite": 1,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "groupements NO et sud",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_quercus_robur_petit",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Quercus robur",
+    "libelle": "Quercus robur — classe petit, port libre / semi-libre",
+    "quantite": {
+     "estimation": 3,
+     "min": 3,
+     "max": 3,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 5-10 m ; circonférence 65-110 cm",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 2,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_quercus_robur_grand",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Quercus robur",
+    "libelle": "Quercus robur — classe grand, port libre",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 20-30 m ; circonférence 129 cm",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 2,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_acer_campestre_jeune",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Acer campestre",
+    "libelle": "Acer campestre — classe jeune, port semi-libre (1 têtard)",
+    "quantite": {
+     "estimation": 7,
+     "min": 7,
+     "max": 7,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 0-5 m ; circonférence 35-60 cm",
+    "tuiles_reference": [],
+    "confiance": "haute (inventaire)",
+    "priorite": 1,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "alignement « Avenue de Verdun nord » (haie séparative NO, branche SO) ; + « Ac » du plan projet 2025",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_fraxinus_excelsior_moyen",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Fraxinus excelsior",
+    "libelle": "Fraxinus excelsior — classe moyen, port libre",
+    "quantite": {
+     "estimation": 4,
+     "min": 4,
+     "max": 4,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 5-20 m ; circonférence 83-85 cm",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 2,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "angle NE éloigné",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_carpinus_betulus_moyen",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Carpinus betulus",
+    "libelle": "Carpinus betulus — classe moyen, port libre",
+    "quantite": {
+     "estimation": 4,
+     "min": 4,
+     "max": 4,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 5-20 m ; circonférence 64-123 cm",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 2,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "+ 1 Carpinus betulus « Pyramidalis » jeune",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_betula_pendula_moyen",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Betula pendula",
+    "libelle": "Betula pendula — classe moyen, port semi-libre",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 2,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 10-30 m ; circonférence 65-80 cm",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 2,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "parc NO",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_corylus_colurna_petit",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Corylus colurna",
+    "libelle": "Corylus colurna — classe petit, port libre",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 2,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 5-10 m ; circonférence 45-85 cm",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 3,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "alignement ouest",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_magnolia_grandiflora_jeune",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Magnolia grandiflora",
+    "libelle": "Magnolia grandiflora — classe jeune, port libre",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 2,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 0-5 m ; circonférence 35 cm",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 3,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "sud (allée de L’Horloge)",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_crataegus_laevigata_jeune",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Crataegus laevigata",
+    "libelle": "Crataegus laevigata — classe jeune, port libre",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 0-5 m ; circonférence 50 cm",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 3,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_sorbus_sp_jeune",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Sorbus sp.",
+    "libelle": "Sorbus sp. — classe jeune, port libre",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 0-5 m ; circonférence 25 cm",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 3,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_salix_babylonica_tetard_petit",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (inventaire Métropole)",
+    "code": "Salix babylonica",
+    "libelle": "Salix babylonica — classe petit, port têtard",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "inventaire arbres Métropole (état « Présent ») dans le carré de 300 m"
+    },
+    "dimensions_observees": "hauteur 5-10 m ; circonférence 220 cm",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 3,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree",
+    "sources": [
+     "data/context/arbres_metropole.geojson"
+    ],
+    "notes": "NE éloigné",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_cupressus_sempervirens_grand",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (hors inventaire / privé)",
+    "code": "Cupressus sempervirens (cyprès d’Italie)",
+    "libelle": "Cupressus sempervirens (cyprès d’Italie)",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 2,
+     "methode": "photos + levé GAM etat_2026/arbre_pct (284 symboles dans l’emprise)"
+    },
+    "dimensions_observees": "fastigié, 15-20 m",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 1,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison / Megascans",
+    "sources": [
+     "GAM",
+     "photos"
+    ],
+    "notes": "jardinerie Paquet Jardin (privé, repère visuel fort)",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_pinus_sylvestris_moyen",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (hors inventaire / privé)",
+    "code": "Pinus sp. (pin sylvestre probable)",
+    "libelle": "Pinus sp. (pin sylvestre probable)",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 2,
+     "methode": "photos + levé GAM etat_2026/arbre_pct (284 symboles dans l’emprise)"
+    },
+    "dimensions_observees": "12-18 m, houppier clair en tête",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd_r01_c02.jpg"
+    ],
+    "confiance": "faible (espèce)",
+    "priorite": 2,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison / Megascans",
+    "sources": [
+     "GAM",
+     "photos"
+    ],
+    "notes": "abords sud (privé)",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_cedrus_deodara_grand",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (hors inventaire / privé)",
+    "code": "Cedrus (deodara ou atlantica) — grand conifère à branches retombantes",
+    "libelle": "Cedrus (deodara ou atlantica) — grand conifère à branches retombantes",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "photos + levé GAM etat_2026/arbre_pct (284 symboles dans l’emprise)"
+    },
+    "dimensions_observees": "15-20 m",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd_r01_c01.jpg"
+    ],
+    "confiance": "moyenne",
+    "priorite": 2,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison / Megascans",
+    "sources": [
+     "GAM",
+     "photos"
+    ],
+    "notes": "rive est du Vercors, devant le local technique (privé)",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_feuillu_generique_moyen",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (hors inventaire / privé)",
+    "code": "Feuillu générique (essence non renseignée)",
+    "libelle": "Feuillu générique (essence non renseignée)",
+    "quantite": {
+     "estimation": 200,
+     "min": 200,
+     "max": 200,
+     "methode": "photos + levé GAM etat_2026/arbre_pct (284 symboles dans l’emprise)"
+    },
+    "dimensions_observees": "5-20 m (échelle GAM)",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd_r01_c03.jpg"
+    ],
+    "confiance": "moyenne",
+    "priorite": 1,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison / Megascans",
+    "sources": [
+     "GAM",
+     "photos"
+    ],
+    "notes": "levé GAM : 270 symboles ARBRE_FEUILLU dans l’emprise dont ≈ 50 de l’inventaire public ; variantes petit/moyen/grand par échelle",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_conifere_generique_moyen",
+    "categorie": "vegetation",
+    "sous_categorie": "arbre (hors inventaire / privé)",
+    "code": "Conifère générique",
+    "libelle": "Conifère générique",
+    "quantite": {
+     "estimation": 10,
+     "min": 10,
+     "max": 10,
+     "methode": "photos + levé GAM etat_2026/arbre_pct (284 symboles dans l’emprise)"
+    },
+    "dimensions_observees": "10-20 m",
+    "tuiles_reference": [],
+    "confiance": "moyenne",
+    "priorite": 2,
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison / Megascans",
+    "sources": [
+     "GAM",
+     "photos"
+    ],
+    "notes": "levé GAM : 13 ARBRE_CONIFERE",
+    "etat_2026": "present"
+   },
+   {
+    "id": "arbre_alnus_cordata_jeune",
+    "categorie": "vegetation",
+    "sous_categorie": "jeune sujet (plantations 2025)",
+    "code": "Alnus cordata (code « Alc »)",
+    "libelle": "Alnus cordata (code « Alc ») — jeune sujet tuteuré (tige 16/18 à 20/25, ≈ 3-5 m)",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 2,
+     "methode": "symboles d’arbres plantés (carré rouge barré) et codes d’essence lus sur le plan projet 2025 géoréférencé ; 14-15 jeunes arbres au total (dont 2-3 « Ac »)"
+    },
+    "dimensions_observees": "TPC planté SO ; hauteur 3-5 m, houppier Ø 1,5-2,5 m ; tuteur tripode bois + collier ; paillage",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c02.jpg"
+    ],
+    "confiance": "faible à moyenne (projet, essences déduites des abréviations ; aucune photo postérieure aux plantations au cœur)",
+    "priorite": 1,
+    "etat_2026": "probable",
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (un même générateur « jeune sujet » paramétré par essence)",
+    "sources": [
+     "plan projet 2025 (data/sites/paquet_jardin/plan_projet_2025)"
+    ]
+   },
+   {
+    "id": "arbre_alnus_spaethii_jeune",
+    "categorie": "vegetation",
+    "sous_categorie": "jeune sujet (plantations 2025)",
+    "code": "Alnus × spaethii (code « As », lecture probable)",
+    "libelle": "Alnus × spaethii (code « As », lecture probable) — jeune sujet tuteuré (tige 16/18 à 20/25, ≈ 3-5 m)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "symboles d’arbres plantés (carré rouge barré) et codes d’essence lus sur le plan projet 2025 géoréférencé ; 14-15 jeunes arbres au total (dont 2-3 « Ac »)"
+    },
+    "dimensions_observees": "TPC planté SO ; hauteur 3-5 m, houppier Ø 1,5-2,5 m ; tuteur tripode bois + collier ; paillage",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c02.jpg"
+    ],
+    "confiance": "faible à moyenne (projet, essences déduites des abréviations ; aucune photo postérieure aux plantations au cœur)",
+    "priorite": 2,
+    "etat_2026": "probable",
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (un même générateur « jeune sujet » paramétré par essence)",
+    "sources": [
+     "plan projet 2025 (data/sites/paquet_jardin/plan_projet_2025)"
+    ]
+   },
+   {
+    "id": "arbre_cercis_siliquastrum_jeune",
+    "categorie": "vegetation",
+    "sous_categorie": "jeune sujet (plantations 2025)",
+    "code": "Cercis siliquastrum (code « Cs », lecture probable)",
+    "libelle": "Cercis siliquastrum (code « Cs », lecture probable) — jeune sujet tuteuré (tige 16/18 à 20/25, ≈ 3-5 m)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "symboles d’arbres plantés (carré rouge barré) et codes d’essence lus sur le plan projet 2025 géoréférencé ; 14-15 jeunes arbres au total (dont 2-3 « Ac »)"
+    },
+    "dimensions_observees": "TPC planté SO ; hauteur 3-5 m, houppier Ø 1,5-2,5 m ; tuteur tripode bois + collier ; paillage",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c02.jpg"
+    ],
+    "confiance": "faible à moyenne (projet, essences déduites des abréviations ; aucune photo postérieure aux plantations au cœur)",
+    "priorite": 2,
+    "etat_2026": "probable",
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (un même générateur « jeune sujet » paramétré par essence)",
+    "sources": [
+     "plan projet 2025 (data/sites/paquet_jardin/plan_projet_2025)"
+    ]
+   },
+   {
+    "id": "arbre_ulmus_hybride_jeune",
+    "categorie": "vegetation",
+    "sous_categorie": "jeune sujet (plantations 2025)",
+    "code": "Ulmus (orme hybride résistant, code « Ul »)",
+    "libelle": "Ulmus (orme hybride résistant, code « Ul ») — jeune sujet tuteuré (tige 16/18 à 20/25, ≈ 3-5 m)",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 2,
+     "methode": "symboles d’arbres plantés (carré rouge barré) et codes d’essence lus sur le plan projet 2025 géoréférencé ; 14-15 jeunes arbres au total (dont 2-3 « Ac »)"
+    },
+    "dimensions_observees": "noue plantée SE ; hauteur 3-5 m, houppier Ø 1,5-2,5 m ; tuteur tripode bois + collier ; paillage",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c02.jpg"
+    ],
+    "confiance": "faible à moyenne (projet, essences déduites des abréviations ; aucune photo postérieure aux plantations au cœur)",
+    "priorite": 1,
+    "etat_2026": "probable",
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (un même générateur « jeune sujet » paramétré par essence)",
+    "sources": [
+     "plan projet 2025 (data/sites/paquet_jardin/plan_projet_2025)"
+    ]
+   },
+   {
+    "id": "arbre_quercus_cerris_jeune",
+    "categorie": "vegetation",
+    "sous_categorie": "jeune sujet (plantations 2025)",
+    "code": "Quercus cerris (code « Qc », lecture probable)",
+    "libelle": "Quercus cerris (code « Qc », lecture probable) — jeune sujet tuteuré (tige 16/18 à 20/25, ≈ 3-5 m)",
+    "quantite": {
+     "estimation": 2,
+     "min": 2,
+     "max": 2,
+     "methode": "symboles d’arbres plantés (carré rouge barré) et codes d’essence lus sur le plan projet 2025 géoréférencé ; 14-15 jeunes arbres au total (dont 2-3 « Ac »)"
+    },
+    "dimensions_observees": "noue plantée SE ; hauteur 3-5 m, houppier Ø 1,5-2,5 m ; tuteur tripode bois + collier ; paillage",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c02.jpg"
+    ],
+    "confiance": "faible à moyenne (projet, essences déduites des abréviations ; aucune photo postérieure aux plantations au cœur)",
+    "priorite": 2,
+    "etat_2026": "probable",
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (un même générateur « jeune sujet » paramétré par essence)",
+    "sources": [
+     "plan projet 2025 (data/sites/paquet_jardin/plan_projet_2025)"
+    ]
+   },
+   {
+    "id": "arbre_gleditsia_triacanthos_jeune",
+    "categorie": "vegetation",
+    "sous_categorie": "jeune sujet (plantations 2025)",
+    "code": "Gleditsia triacanthos (code « Gt »)",
+    "libelle": "Gleditsia triacanthos (code « Gt ») — jeune sujet tuteuré (tige 16/18 à 20/25, ≈ 3-5 m)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "symboles d’arbres plantés (carré rouge barré) et codes d’essence lus sur le plan projet 2025 géoréférencé ; 14-15 jeunes arbres au total (dont 2-3 « Ac »)"
+    },
+    "dimensions_observees": "bande plantée NO le long de la piste ; hauteur 3-5 m, houppier Ø 1,5-2,5 m ; tuteur tripode bois + collier ; paillage",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c02.jpg"
+    ],
+    "confiance": "faible à moyenne (projet, essences déduites des abréviations ; aucune photo postérieure aux plantations au cœur)",
+    "priorite": 2,
+    "etat_2026": "probable",
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (un même générateur « jeune sujet » paramétré par essence)",
+    "sources": [
+     "plan projet 2025 (data/sites/paquet_jardin/plan_projet_2025)"
+    ]
+   },
+   {
+    "id": "arbre_celtis_australis_jeune",
+    "categorie": "vegetation",
+    "sous_categorie": "jeune sujet (plantations 2025)",
+    "code": "Celtis australis (code « Ca », lecture probable)",
+    "libelle": "Celtis australis (code « Ca », lecture probable) — jeune sujet tuteuré (tige 16/18 à 20/25, ≈ 3-5 m)",
+    "quantite": {
+     "estimation": 1,
+     "min": 1,
+     "max": 1,
+     "methode": "symboles d’arbres plantés (carré rouge barré) et codes d’essence lus sur le plan projet 2025 géoréférencé ; 14-15 jeunes arbres au total (dont 2-3 « Ac »)"
+    },
+    "dimensions_observees": "bande plantée NO, angle Revirée ; hauteur 3-5 m, houppier Ø 1,5-2,5 m ; tuteur tripode bois + collier ; paillage",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r01_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c01.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c02.jpg"
+    ],
+    "confiance": "faible à moyenne (projet, essences déduites des abréviations ; aucune photo postérieure aux plantations au cœur)",
+    "priorite": 2,
+    "etat_2026": "probable",
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison (un même générateur « jeune sujet » paramétré par essence)",
+    "sources": [
+     "plan projet 2025 (data/sites/paquet_jardin/plan_projet_2025)"
+    ]
+   },
+   {
+    "id": "arbre_jeune_tuteure_generique",
+    "categorie": "vegetation",
+    "sous_categorie": "jeune sujet (plantations 2025)",
+    "code": "—",
+    "libelle": "Jeune arbre générique tuteuré (tripode bois, ganivelle optionnelle) — repli si l’essence n’est pas confirmée",
+    "quantite": {
+     "estimation": 15,
+     "min": 13,
+     "max": 20,
+     "methode": ""
+    },
+    "dimensions_observees": "3-5 m",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd_r01_c00.jpg"
+    ],
+    "confiance": "haute (besoin)",
+    "priorite": 1,
+    "etat_2026": "probable",
+    "lot": "vegetation_carla",
+    "source_recommandee": "procédural maison",
+    "sources": [
+     "plan projet",
+     "photos 2026"
+    ]
+   },
+   {
+    "id": "haie_taillee_persistante",
+    "categorie": "vegetation",
+    "sous_categorie": "haie",
+    "code": "—",
+    "libelle": "Haie taillée persistante (laurier-cerise / photinia probables), 1,2-2,5 m",
+    "quantite": {
+     "estimation": 650,
+     "min": 500,
+     "max": 900,
+     "methode": "m ; BD TOPO haie 646 m + zones « Haie » ; haies séparatives de Verdun SO (2 lignes)"
+    },
+    "dimensions_observees": "h 1,2-2,5 m, épaisseur 1,0-2,5 m",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute (présence) / faible (essence)",
+    "priorite": 1,
+    "lot": "vegetation_carla",
+    "source_recommandee": "module extrudable maison (boîte + cartes de feuillage)",
+    "sources": [
+     "BD TOPO",
+     "GAM SOL_VEGETATION 2,2 km",
+     "photos"
+    ],
+    "etat_2026": "present"
+   },
+   {
+    "id": "massif_arbustif",
+    "categorie": "vegetation",
+    "sous_categorie": "massif",
+    "code": "—",
+    "libelle": "Massif arbustif libre / buissons (îlots, bandes plantées, sous-bois)",
+    "quantite": {
+     "estimation": "surface",
+     "min": "surface",
+     "max": "surface",
+     "methode": "BD TOPO zone de végétation 9 900 m²"
+    },
+    "dimensions_observees": "0,5-3 m",
+    "tuiles_reference": [
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c03.jpg",
+     "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd_r01_c03.jpg"
+    ],
+    "confiance": "haute",
+    "priorite": 2,
+    "lot": "vegetation_carla",
+    "source_recommandee": "CC0 / Megascans",
+    "sources": [
+     "BD TOPO",
+     "photos"
+    ],
+    "etat_2026": "present"
+   }
+  ]
+ },
+ "non_retenus": [
+  {
+   "type": "B14 (limitation de vitesse)",
+   "raison": "aucun panneau vu dans l’emprise ; seule une annotation FR:B14[30] à ≈ 265 m au NE (hors emprise) ; « 50 » et « 30 » peints au sol"
+  },
+  {
+   "type": "B30 / B51 (zone 30)",
+   "raison": "non observé ; l’analyse contexte_securite le recommande pour l’ISA mais aucune photo ne le montre — à vérifier sur le terrain"
+  },
+  {
+   "type": "C12, C20a, CE",
+   "raison": "non observés (traversées à feux, pas de C20a vu) — ne pas fabriquer pour ce site"
+  },
+  {
+   "type": "R13c / R14 / R15 / feux bus",
+   "raison": "aucun feu vélo ou bus lisible ; R13c laissé en variante facultative"
+  },
+  {
+   "type": "B21-1, B22a",
+   "raison": "non observés (C113 utilisé pour la piste)"
+  },
+  {
+   "type": "Potence de feux au-dessus de la chaussée",
+   "raison": "non observée"
+  },
+  {
+   "type": "Bornes (borne fontaine, borne de recharge)",
+   "raison": "non observées"
+  },
+  {
+   "type": "Signalisation privée (L’Horloge : « Réservé », « Parking privé », « Cabinet kinésithérapie », « → ACCÈS »)",
+   "raison": "présente à ≈ 130-145 m au sud ; texte propre au site : un panneau texte générique suffit (priorité 3)"
+  },
+  {
+   "type": "AK3, A17 et B2a/AB4 hors emprise",
+   "raison": "annotations Panoramax à > 150 m (NE et SO) ; seul l’A17 de l’approche NE est retenu (bord d’emprise)"
+  }
+ ],
+ "incertitudes": [
+  "Aucune photo de rue n’est postérieure aux travaux C1 au cœur du carrefour (dernières : 2025-08-31 en travaux ; 2026-07-28 seulement à ≈ 130 m au sud) : les modèles de mobilier 2026 (abris, feux, panneaux) sont supposés identiques aux modèles d’avant travaux.",
+  "Essences des plantations 2025 lues sur les abréviations du plan projet (Alc, As, Cs, Ul, Qc, Ac, Gt, Ca) : interprétation probable, à confirmer sur place.",
+  "Codes de panonceaux : M9c (« CÉDEZ LE PASSAGE ») et M12a probables ; gamme exacte des C113/C114/J5 à confirmer.",
+  "Feux : nombre exact de têtes et de répétiteurs non dénombrable sur les photos (beaucoup de têtes vues de dos) — fourchettes données.",
+  "Lanternes SHP de la Revirée et type exact des bordures franchissables (A2) non vus de près."
+ ],
+ "noms_assets": [
+  "panneau_B21a1",
+  "panneau_J5",
+  "panneau_C113",
+  "panneau_C114",
+  "panneau_AB3a",
+  "panneau_M9c",
+  "panneau_AB4",
+  "panneau_B1",
+  "panneau_B2b",
+  "panneau_B2a",
+  "panneau_B6a1",
+  "panneau_C13a",
+  "panneau_A17",
+  "panneau_M12a",
+  "panneau_D21a_la_reviree_college",
+  "panneau_D21a_commerces_reviree",
+  "plaque_rue_avenue_de_verdun",
+  "totem_pr_smmag",
+  "mat_panneau_d60",
+  "mat_panneau_ilot_court",
+  "feu_R11v",
+  "feu_R11v_repetiteur",
+  "feu_R12",
+  "feu_R12_horizontal",
+  "feu_R13c",
+  "boitier_bouton_appel",
+  "mat_feu_d114",
+  "mat_feu_crosse_camera",
+  "armoire_commande_feux",
+  "candelabre_double_crosse",
+  "candelabre_crosse_simple",
+  "candelabre_mat_droit_led",
+  "candelabre_mat_droit_shp",
+  "poteau_bois_reseau",
+  "mat_illumination_cable",
+  "abri_bus_m_reso",
+  "poteau_arret_m_reso",
+  "barriere_croix_saint_andre",
+  "potelet_noir",
+  "banc_bois_metal",
+  "corbeille_cylindrique",
+  "arceau_velo",
+  "barriere_levante",
+  "poteau_incendie",
+  "armoire_technique",
+  "ganivelle_bois",
+  "cloture_grillage_rigide",
+  "bordure_T2",
+  "bordure_T2_peinte_blanc",
+  "bordure_quai_bus",
+  "bordure_A2",
+  "bordure_P1",
+  "caniveau_cs",
+  "bordure_paves_granit",
+  "abaisse_chartiere",
+  "bev_podotactile",
+  "enrobe_bbsg_ancien",
+  "enrobe_bbsg_neuf",
+  "enrobe_reprise_tranchee",
+  "enrobe_piste_cyclable",
+  "enrobe_trottoir",
+  "enrobe_clair_granulats",
+  "enrobe_colore_ocre",
+  "resine_verte",
+  "resine_cyan",
+  "beton_bordure",
+  "paves_granit",
+  "beton_galets",
+  "gravillons_ilot",
+  "stabilise_beige",
+  "gazon_tondu",
+  "herbe_haute",
+  "gazon_sec",
+  "noue_plantee",
+  "paillage_mineral",
+  "terre_nue",
+  "peinture_blanche",
+  "peinture_jaune_chronovelo",
+  "peinture_jaune_zigzag",
+  "peinture_verte",
+  "pontage_fissures",
+  "decal_tampon_fonte",
+  "decal_boucle_detection",
+  "arbre_populus_nigra_moyen",
+  "arbre_populus_nigra_grand",
+  "arbre_populus_sp_tetard_moyen",
+  "arbre_populus_nigra_italica_grand",
+  "arbre_cedrus_atlantica_grand",
+  "arbre_tilia_cordata_moyen",
+  "arbre_quercus_robur_moyen",
+  "arbre_quercus_robur_petit",
+  "arbre_quercus_robur_grand",
+  "arbre_acer_campestre_jeune",
+  "arbre_fraxinus_excelsior_moyen",
+  "arbre_carpinus_betulus_moyen",
+  "arbre_betula_pendula_moyen",
+  "arbre_corylus_colurna_petit",
+  "arbre_magnolia_grandiflora_jeune",
+  "arbre_crataegus_laevigata_jeune",
+  "arbre_sorbus_sp_jeune",
+  "arbre_salix_babylonica_tetard_petit",
+  "arbre_cupressus_sempervirens_grand",
+  "arbre_pinus_sylvestris_moyen",
+  "arbre_cedrus_deodara_grand",
+  "arbre_feuillu_generique_moyen",
+  "arbre_conifere_generique_moyen",
+  "arbre_alnus_cordata_jeune",
+  "arbre_alnus_spaethii_jeune",
+  "arbre_cercis_siliquastrum_jeune",
+  "arbre_ulmus_hybride_jeune",
+  "arbre_quercus_cerris_jeune",
+  "arbre_gleditsia_triacanthos_jeune",
+  "arbre_celtis_australis_jeune",
+  "arbre_jeune_tuteure_generique",
+  "haie_taillee_persistante",
+  "massif_arbustif",
+  "panneau_B2b_temporaire",
+  "panneau_AK5",
+  "separateur_modulaire_K16",
+  "balise_chevrons_chantier",
+  "barriere_chantier_rouge_blanc",
+  "mat_feu_provisoire"
+ ],
+ "tuiles_examinees": [
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd/2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd_r01_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd_r01_c00.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c04.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd_r01_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd_r01_c01.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd_r01_c03.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd_r01_c01.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd_r01_c00.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c03.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd_r01_c03.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd_r01_c03.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd_r01_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c01.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c00.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd_r01_c03.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-05-01_26ea5f01-166c-4871-8dba-660e5dd56686_hd/2024-05-01_26ea5f01-166c-4871-8dba-660e5dd56686_hd_r01_c01.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd_r01_c03.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_fdc59178-d148-43e0-a307-4742929b45a2_hd/2025-08-31_fdc59178-d148-43e0-a307-4742929b45a2_hd_r01_c00.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd_r00_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd_r01_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd/2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd_r00_c03.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd/2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd_r01_c03.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd_r01_c03.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_b536a4a0-72c8-4d78-ac7d-fe7d65b98d91_hd/2025-08-31_b536a4a0-72c8-4d78-ac7d-fe7d65b98d91_hd_r01_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_81882270-2b91-457a-a7c9-4f955319ea22_hd/2025-08-31_81882270-2b91-457a-a7c9-4f955319ea22_hd_r01_c00.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_a83dae90-c92a-472e-8d22-2e8863c47968_hd/2025-08-31_a83dae90-c92a-472e-8d22-2e8863c47968_hd_r01_c01.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd_r01_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c01.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c04.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c00.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd_r01_c00.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c03.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c03.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c01.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_1d999186-824b-4ec7-8b52-0402511307a3_hd/2025-08-31_1d999186-824b-4ec7-8b52-0402511307a3_hd_r01_c00.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd_r01_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r01_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r00_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2023-03-18_e2574612-b380-4cb2-918e-d5506aff8145_hd/2023-03-18_e2574612-b380-4cb2-918e-d5506aff8145_hd_r01_c01.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/paquet_jardin/tiles/2023-03-18_a275b2ea-ca5a-4224-b4ad-f335ddbfe981_hd/2023-03-18_a275b2ea-ca5a-4224-b4ad-f335ddbfe981_hd_r00_c01.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/raw/panoramax/complements/tiles/2025-08-31_f6297e9f-f229-45c1-bc88-c902fa605716_hd_x2100_y500.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c01.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r00_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r01_c00.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r01_c01.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r01_c02.jpg",
+  "/home/user/ClaudeCode_RoadCreation/data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r02_c02.jpg"
+ ]
+}

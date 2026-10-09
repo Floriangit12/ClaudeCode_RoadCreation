@@ -1,0 +1,856 @@
+{
+ "version": 1,
+ "description": "Correspondances classes du paquet -> textures City Sample (Epic Games) pour le look-dev optionnel Karma/MaterialX (recon/pc/houdini/lookdev_citysample.usda).",
+ "licence": "Contenu City Sample / Megascans sous EULA Unreal Engine : NON redistribuable. Les fichiers image ne sont jamais versionnés (recon/pc/.gitignore) ; ce JSON ne contient que des chemins.",
+ "projet_source": "C:/Users/flori/Documents/Unreal Projects/CitySample/CitySample.uproject (Unreal Engine 5.7)",
+ "dossier_textures": "recon/pc/citysample/textures (2048 px max ; brut/ = export Unreal pleine résolution)",
+ "regeneration": [
+  "UnrealEditor-Cmd.exe <CitySample.uproject> -run=pythonscript -script=<depot>/recon/pc/citysample/exporter_textures_citysample.py -unattended -nop4 -nosplash -NullRHI",
+  "hython recon/pc/citysample/preparer_lookdev_citysample.py"
+ ],
+ "conventions": {
+  "uv_detail": "primvar st1 (mètres du repère local) × 1/tile_m ; bordures : projection triplanaire de la position objet (faces verticales, st1 dégénérée)",
+  "uv_macro": "primvar st (0-1 sur l'emprise), ../../out/paquet_jardin/package/textures/albedo_macro_8192.jpg",
+  "couleur": "base = ancre × mix(1, détail / moyenne_lineaire_du_détail, force_grain) ; ancre = macro (ortho) ou couleur unie du paquet (zones 2025) ou albédo mesurée sur photos (assets/manifeste_cc0.json : enrobé neuf, béton de bordure)",
+  "normales": "tangentes OpenGL (+Y). Les sources Unreal marquées flip_green_channel sont déjà en OpenGL (Unreal les retourne à la compilation) ; les autres sont en DirectX et ont le vert inversé. Vérifié par corrélation normale / carte de hauteur sur 3 textures.",
+  "rangement_canaux": {
+   "AOMRD": "R=AO G=métal B=rugosité A=hauteur",
+   "AORMD": "R=AO G=rugosité B=métal A=hauteur",
+   "RAODM": "R=rugosité G=AO B=hauteur (A non utilisé, =1)"
+  }
+ },
+ "details": {
+  "enrobe_ancien": {
+   "libelle": "Enrobé ancien gris clair à granulats apparents (Asphalt_Road_2x2_M_03)",
+   "tile_m": 2.0,
+   "tile_m_source": "nom Megascans Asphalt_Road_2x2_M_03",
+   "albedo": {
+    "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_03/th5kfebew_8K_Albedo",
+    "fichier": "textures/asphalt_road_03_albedo.png",
+    "espace": "sRGB",
+    "moyenne_lineaire": [
+     0.1659,
+     0.1566,
+     0.1358
+    ]
+   },
+   "normale": {
+    "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_03/th5kfebew_8K_Normal",
+    "fichier": "textures/asphalt_road_03_normal.png",
+    "espace": "données (raw)",
+    "convention_sortie": "OpenGL (+Y)",
+    "source": "OpenGL (+Y), inchangée",
+    "flip_green_unreal": true
+   },
+   "rugosite": {
+    "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_03/th5kfebew_8K_Roughness",
+    "fichier": "textures/asphalt_road_03_roughness.png",
+    "canal_source": "R",
+    "espace": "données (raw)",
+    "moyenne": 0.926,
+    "p05_p95": [
+     0.875,
+     0.961
+    ]
+   }
+  },
+  "enrobe_piste": {
+   "libelle": "Enrobé plus fermé et homogène (Asphalt_Road_2x2_M_02, enrobé de référence de City Sample)",
+   "tile_m": 2.0,
+   "tile_m_source": "nom Megascans Asphalt_Road_2x2_M_02",
+   "albedo": {
+    "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_02/tiggcjdo_8K_Albedo",
+    "fichier": "textures/asphalt_road_02_albedo.png",
+    "espace": "sRGB",
+    "moyenne_lineaire": [
+     0.0964,
+     0.0897,
+     0.0818
+    ]
+   },
+   "normale": {
+    "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_02/tiggcjdo_8K_Normal",
+    "fichier": "textures/asphalt_road_02_normal.png",
+    "espace": "données (raw)",
+    "convention_sortie": "OpenGL (+Y)",
+    "source": "OpenGL (+Y), inchangée",
+    "flip_green_unreal": true
+   },
+   "rugosite": {
+    "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_02/tiggcjdo_8K_Roughness",
+    "fichier": "textures/asphalt_road_02_roughness.png",
+    "canal_source": "R",
+    "espace": "données (raw)",
+    "moyenne": 0.874,
+    "p05_p95": [
+     0.847,
+     0.894
+    ]
+   }
+  },
+  "enrobe_trottoir": {
+   "libelle": "Enrobé fin de trottoir (Asphalt_Dried01_2x2)",
+   "tile_m": 2.0,
+   "tile_m_source": "nom Megascans Asphalt_Dried01_2x2",
+   "albedo": {
+    "asset_ue": "/Game/Megascans/Surfaces/Asphalt_Dried01_2x2/Asphalt_Dried01_C",
+    "fichier": "textures/asphalt_dried01_albedo.png",
+    "espace": "sRGB",
+    "moyenne_lineaire": [
+     0.137,
+     0.1269,
+     0.113
+    ]
+   },
+   "normale": {
+    "asset_ue": "/Game/Megascans/Surfaces/Asphalt_Dried01_2x2/Asphalt_Dried01_N",
+    "fichier": "textures/asphalt_dried01_normal.png",
+    "espace": "données (raw)",
+    "convention_sortie": "OpenGL (+Y)",
+    "source": "DirectX (-Y), vert inversé",
+    "flip_green_unreal": false
+   },
+   "rugosite": {
+    "asset_ue": "/Game/Megascans/Surfaces/Asphalt_Dried01_2x2/Asphalt_Dried01_AOMRD",
+    "fichier": "textures/asphalt_dried01_aomrd_rugosite.png",
+    "canal_source": "B",
+    "espace": "données (raw)",
+    "moyenne": 0.653,
+    "p05_p95": [
+     0.631,
+     0.675
+    ]
+   }
+  },
+  "enrobe_neuf": {
+   "libelle": "Enrobé neuf sombre (albédo Asphalt_Fresh_2x2_M_00 ; relief et rugosité d'Asphalt_Road_2x2_M_02, seule l'albédo existe dans City Sample)",
+   "tile_m": 2.0,
+   "tile_m_source": "nom Megascans Asphalt_Fresh_2x2_M_00",
+   "albedo": {
+    "asset_ue": "/Game/Megascans/Surfaces/Asphalt_Fresh_2x2_M_00/sfrofg0a_8K_Albedo",
+    "fichier": "textures/asphalt_fresh_00_albedo.png",
+    "espace": "sRGB",
+    "moyenne_lineaire": [
+     0.0206,
+     0.0175,
+     0.0137
+    ]
+   },
+   "normale": {
+    "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_02/tiggcjdo_8K_Normal",
+    "fichier": "textures/asphalt_road_02_normal.png",
+    "espace": "données (raw)",
+    "convention_sortie": "OpenGL (+Y)",
+    "source": "OpenGL (+Y), inchangée",
+    "flip_green_unreal": true
+   },
+   "rugosite": {
+    "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_02/tiggcjdo_8K_Roughness",
+    "fichier": "textures/asphalt_road_02_roughness.png",
+    "canal_source": "R",
+    "espace": "données (raw)",
+    "moyenne": 0.874,
+    "p05_p95": [
+     0.847,
+     0.894
+    ]
+   }
+  },
+  "beton_clair": {
+   "libelle": "Béton rugueux clair à pores (Concrete_Rough_2x2_M_00) : îlots, quais",
+   "tile_m": 2.0,
+   "tile_m_source": "nom Megascans Concrete_Rough_2x2_M_00",
+   "albedo": {
+    "asset_ue": "/Game/Megascans/Surfaces/FRACTURES/Concrete_Rough_2x2_M_00/Concrete_Rough_2x2_M_C",
+    "fichier": "textures/concrete_rough_2x2_albedo.png",
+    "espace": "sRGB",
+    "moyenne_lineaire": [
+     0.3393,
+     0.302,
+     0.2483
+    ]
+   },
+   "normale": {
+    "asset_ue": "/Game/Megascans/Surfaces/FRACTURES/Concrete_Rough_2x2_M_00/Concrete_Rough_2x2_M_N",
+    "fichier": "textures/concrete_rough_2x2_normal.png",
+    "espace": "données (raw)",
+    "convention_sortie": "OpenGL (+Y)",
+    "source": "OpenGL (+Y), inchangée",
+    "flip_green_unreal": true
+   },
+   "rugosite": {
+    "asset_ue": "/Game/Megascans/Surfaces/FRACTURES/Concrete_Rough_2x2_M_00/Concrete_Rough_2x2_M_AOMRD",
+    "fichier": "textures/concrete_rough_2x2_aomrd_rugosite.png",
+    "canal_source": "B",
+    "espace": "données (raw)",
+    "moyenne": 0.578,
+    "p05_p95": [
+     0.51,
+     0.651
+    ]
+   }
+  },
+  "beton_bordure": {
+   "libelle": "Béton fin un peu sale (T_ConcreteDirty, Building) : bordures",
+   "tile_m": 2.0,
+   "tile_m_source": "estimée (pas de taille dans le nom de l'asset)",
+   "albedo": {
+    "asset_ue": "/Game/Building/Texture/ConcreteDirty/T_ConcreteDirty_C",
+    "fichier": "textures/concrete_dirty_albedo.png",
+    "espace": "sRGB",
+    "moyenne_lineaire": [
+     0.2429,
+     0.2222,
+     0.1972
+    ]
+   },
+   "normale": {
+    "asset_ue": "/Game/Building/Texture/ConcreteDirty/T_ConcreteDirty_N",
+    "fichier": "textures/concrete_dirty_normal.png",
+    "espace": "données (raw)",
+    "convention_sortie": "OpenGL (+Y)",
+    "source": "DirectX (-Y), vert inversé",
+    "flip_green_unreal": false
+   },
+   "rugosite": {
+    "asset_ue": "/Game/Building/Texture/ConcreteDirty/T_ConcreteDirty_AORMD",
+    "fichier": "textures/concrete_dirty_aormd_rugosite.png",
+    "canal_source": "G",
+    "espace": "données (raw)",
+    "moyenne": 0.603,
+    "p05_p95": [
+     0.592,
+     0.612
+    ]
+   }
+  }
+ },
+ "usure_peinture": {
+  "asset_ue": "/Game/Megascans/Surfaces/Grunge_00/uh4uabdc_8K_Roughness",
+  "fichier": "textures/usure_peinture_citysample.png",
+  "tile_m": 3.0,
+  "traitement": "canal R égalisé (rang) en 16 bits : opacité = smoothstep(1-c±0,04, bruit), moyenne = couverture c (primvar uniforme « couverture » des marquages)"
+ },
+ "looks": {
+  "sol_chaussee_macro": {
+   "detail": "enrobe_ancien",
+   "ancre": "macro",
+   "couleur_ancre_lineaire": "macro (st)",
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_parking_macro": {
+   "detail": "enrobe_ancien",
+   "ancre": "macro",
+   "couleur_ancre_lineaire": "macro (st)",
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_acces_riverain_macro": {
+   "detail": "enrobe_ancien",
+   "ancre": "macro",
+   "couleur_ancre_lineaire": "macro (st)",
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_piste_cyclable_macro": {
+   "detail": "enrobe_piste",
+   "ancre": "macro",
+   "couleur_ancre_lineaire": "macro (st)",
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_trottoir_macro": {
+   "detail": "enrobe_trottoir",
+   "ancre": "macro",
+   "couleur_ancre_lineaire": "macro (st)",
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_ilot_macro": {
+   "detail": "beton_clair",
+   "ancre": "macro",
+   "couleur_ancre_lineaire": "macro (st)",
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_quai_bus_macro": {
+   "detail": "beton_clair",
+   "ancre": "macro",
+   "couleur_ancre_lineaire": "macro (st)",
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_parking": {
+   "detail": "enrobe_ancien",
+   "ancre": "paquet",
+   "couleur_ancre_lineaire": [
+    0.27,
+    0.27,
+    0.27
+   ],
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_acces_riverain": {
+   "detail": "enrobe_ancien",
+   "ancre": "paquet",
+   "couleur_ancre_lineaire": [
+    0.33,
+    0.32,
+    0.3
+   ],
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_piste_cyclable": {
+   "detail": "enrobe_piste",
+   "ancre": "paquet",
+   "couleur_ancre_lineaire": [
+    0.3,
+    0.24,
+    0.22
+   ],
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_trottoir": {
+   "detail": "enrobe_trottoir",
+   "ancre": "paquet",
+   "couleur_ancre_lineaire": [
+    0.52,
+    0.51,
+    0.48
+   ],
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_ilot": {
+   "detail": "beton_clair",
+   "ancre": "paquet",
+   "couleur_ancre_lineaire": [
+    0.58,
+    0.57,
+    0.54
+   ],
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_quai_bus": {
+   "detail": "beton_clair",
+   "ancre": "paquet",
+   "couleur_ancre_lineaire": [
+    0.62,
+    0.61,
+    0.58
+   ],
+   "force_grain": 1.0,
+   "normale": 1.0,
+   "rugosite_sortie": null,
+   "projection": "st1 / tile_m"
+  },
+  "sol_chaussee_2025": {
+   "detail": "enrobe_neuf",
+   "ancre": "manifeste:enrobe_bbsg_neuf",
+   "couleur_ancre_lineaire": [
+    0.135,
+    0.14,
+    0.134
+   ],
+   "force_grain": 0.45,
+   "normale": 0.6,
+   "rugosite_sortie": [
+    0.62,
+    0.86
+   ],
+   "projection": "st1 / tile_m"
+  },
+  "bordure": {
+   "detail": "beton_bordure",
+   "ancre": "manifeste:beton_bordure",
+   "couleur_ancre_lineaire": [
+    0.354,
+    0.369,
+    0.336
+   ],
+   "force_grain": 1.0,
+   "normale": null,
+   "rugosite_sortie": null,
+   "projection": "triplanaire"
+  },
+  "peinture_blanc_u0": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.97
+  },
+  "peinture_blanc_u1": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.88
+  },
+  "peinture_blanc_u2": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.68
+  },
+  "peinture_blanc_u3": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.42
+  },
+  "peinture_blanc_uF": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.15
+  },
+  "peinture_bleu_u0": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.97
+  },
+  "peinture_bleu_u1": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.88
+  },
+  "peinture_bleu_u2": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.68
+  },
+  "peinture_bleu_u3": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.42
+  },
+  "peinture_bleu_uF": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.15
+  },
+  "peinture_jaune_u0": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.97
+  },
+  "peinture_jaune_u1": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.88
+  },
+  "peinture_jaune_u2": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.68
+  },
+  "peinture_jaune_u3": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.42
+  },
+  "peinture_jaune_uF": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.15
+  },
+  "peinture_ocre_u0": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.97
+  },
+  "peinture_ocre_u1": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.88
+  },
+  "peinture_ocre_u2": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.68
+  },
+  "peinture_ocre_u3": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.42
+  },
+  "peinture_ocre_uF": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.15
+  },
+  "peinture_rouge_u0": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.97
+  },
+  "peinture_rouge_u1": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.88
+  },
+  "peinture_rouge_u2": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.68
+  },
+  "peinture_rouge_u3": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.42
+  },
+  "peinture_rouge_uF": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.15
+  },
+  "peinture_vert_u0": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.97
+  },
+  "peinture_vert_u1": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.88
+  },
+  "peinture_vert_u2": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.68
+  },
+  "peinture_vert_u3": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.42
+  },
+  "peinture_vert_uF": {
+   "detail": "usure_peinture",
+   "couverture_defaut": 0.15
+  }
+ },
+ "essais_rendu": [
+  "v1 : réglages par défaut (grain 1, normale 1, rugosité brute). Teinte du site conservée (moyenne du sol rendu à ±5 % du rendu sans couche, vue d'ensemble à ±1 %). Enrobés anciens, trottoirs, îlots crédibles à 1,3-1,6 m ; peinture usée par plaques selon la couverture. Défaut : enrobé neuf trop moucheté (albédo Asphalt_Fresh d'écart-type relatif 0,9).",
+  "v2 : enrobé neuf grain 0,45 -> enrobé noir fermé homogène ; pas de répétition visible des tuiles de 2 m (basse fréquence des détails < 5 %) ni à 60 m ni au sol."
+ ],
+ "absents_de_city_sample": {
+  "gazon / pelouse": "aucune texture d'herbe dans City Sample (ville minérale) : sol_espace_vert* et sol_terre_plein_vegetal* gardent l'UsdPreviewSurface (CC0 Grass004 : assets/manifeste_cc0.json)",
+  "piste cyclable colorée": "aucun enrobé rouge/ocre : la teinte vient de l'ortho ou de la couleur du paquet",
+  "enrobé neuf": "albédo seule (Asphalt_Fresh_2x2_M_00) : relief et rugosité empruntés à Asphalt_Road_2x2_M_02"
+ },
+ "remarques_export": {
+  "sidewalk_concrete_nolines_aor": "export vide (tous les canaux à 0) : non utilisée",
+  "bordures_city_sample": "le kit Small_Curb_A utilise des textures propres aux maillages (UV non tuilables) : béton tuilable T_ConcreteDirty retenu à la place"
+ },
+ "textures_exportees": [
+  {
+   "nom": "asphalt_road_01_albedo",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_01/th5ldh0cw_8K_Albedo",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "asphalt_road_01_normal",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_01/th5ldh0cw_8K_Normal",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": true
+  },
+  {
+   "nom": "asphalt_road_01_roughness",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_01/th5ldh0cw_8K_Roughness",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_ALPHA: 8>",
+   "flip_green": false
+  },
+  {
+   "nom": "asphalt_road_02_albedo",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_02/tiggcjdo_8K_Albedo",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "asphalt_road_02_ao",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_02/tiggcjdo_8K_AO",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "asphalt_road_02_normal",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_02/tiggcjdo_8K_Normal",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": true
+  },
+  {
+   "nom": "asphalt_road_02_roughness",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_02/tiggcjdo_8K_Roughness",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "asphalt_road_03_albedo",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_03/th5kfebew_8K_Albedo",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "asphalt_road_03_normal",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_03/th5kfebew_8K_Normal",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": true
+  },
+  {
+   "nom": "asphalt_road_03_roughness",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Asphalt_Road_2x2_M_03/th5kfebew_8K_Roughness",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_ALPHA: 8>",
+   "flip_green": false
+  },
+  {
+   "nom": "coarse_road_01_albedo",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Coarse_Road_2x2_M_01/se0oeima_8K_Albedo",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "coarse_road_01_normal",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Coarse_Road_2x2_M_01/se0oeima_8K_Normal",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": true
+  },
+  {
+   "nom": "coarse_road_01_roughness",
+   "asset_ue": "/Game/Megascans/Surfaces/Cast_In_Situ_Concrete_Wall_vcfice0/Coarse_Road_2x2_M_01/se0oeima_8K_Roughness",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_ALPHA: 8>",
+   "flip_green": false
+  },
+  {
+   "nom": "asphalt_dried01_albedo",
+   "asset_ue": "/Game/Megascans/Surfaces/Asphalt_Dried01_2x2/Asphalt_Dried01_C",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "asphalt_dried01_normal",
+   "asset_ue": "/Game/Megascans/Surfaces/Asphalt_Dried01_2x2/Asphalt_Dried01_N",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": false
+  },
+  {
+   "nom": "asphalt_dried01_aomrd",
+   "asset_ue": "/Game/Megascans/Surfaces/Asphalt_Dried01_2x2/Asphalt_Dried01_AOMRD",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "asphalt_fresh_00_albedo",
+   "asset_ue": "/Game/Megascans/Surfaces/Asphalt_Fresh_2x2_M_00/sfrofg0a_8K_Albedo",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "cracked_asphalt_00_normal",
+   "asset_ue": "/Game/Megascans/Surfaces/Cracked_Asphalt_2x2_M_00/Cracked_Asphalt_2x2_M_tlomaeady_4K_Normal",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": true
+  },
+  {
+   "nom": "dirty_sidewalk_00_albedo_noedge",
+   "asset_ue": "/Game/Megascans/Surfaces/Dirty_Sidewalk_2x2_M_00/ugxjcdpn_4K_Albedo_noEdge",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "dirty_sidewalk_00_albedo",
+   "asset_ue": "/Game/Megascans/Surfaces/Dirty_Sidewalk_2x2_M_00/ugxjcdpn_4K_Albedo",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "dirty_sidewalk_00_normal",
+   "asset_ue": "/Game/Megascans/Surfaces/Dirty_Sidewalk_2x2_M_00/ugxjcdpn_4K_Normal",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": true
+  },
+  {
+   "nom": "dirty_sidewalk_00_roughness",
+   "asset_ue": "/Game/Megascans/Surfaces/Dirty_Sidewalk_2x2_M_00/ugxjcdpn_4K_Roughness",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_ALPHA: 8>",
+   "flip_green": false
+  },
+  {
+   "nom": "dirty_sidewalk_00_ao",
+   "asset_ue": "/Game/Megascans/Surfaces/Dirty_Sidewalk_2x2_M_00/ugxjcdpn_4K_AO",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_ALPHA: 8>",
+   "flip_green": false
+  },
+  {
+   "nom": "concrete_castinsitu_albedo",
+   "asset_ue": "/Game/Megascans/Surfaces/Concrete_Castinsitu_uflnbcofw/uflnbcofw_8K_Albedo",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+   "flip_green": false
+  },
+  {
+   "nom": "concrete_castinsitu_normal",
+   "asset_ue": "/Game/Megascans/Surfaces/Concrete_Castinsitu_uflnbcofw/uflnbcofw_8K_Normal",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": false
+  },
+  {
+   "nom": "concrete_castinsitu_roughness",
+   "asset_ue": "/Game/Megascans/Surfaces/Concrete_Castinsitu_uflnbcofw/uflnbcofw_8K_Roughness",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+   "flip_green": false
+  },
+  {
+   "nom": "rough_concrete_floor_albedo",
+   "asset_ue": "/Game/Megascans/Surfaces/Rough_Concrete_Floor_2x2/Rough_Concrete_Floor_2x2_C",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+   "flip_green": false
+  },
+  {
+   "nom": "rough_concrete_floor_normal",
+   "asset_ue": "/Game/Megascans/Surfaces/Rough_Concrete_Floor_2x2/Rough_Concrete_Floor_2x2_N",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": true
+  },
+  {
+   "nom": "sidewalk_concrete_nolines_albedo",
+   "asset_ue": "/Game/Road/Textures/Sidewalks/T_sidewalk_concreteNoLines_Color",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+   "flip_green": false
+  },
+  {
+   "nom": "sidewalk_concrete_nolines_normal",
+   "asset_ue": "/Game/Road/Textures/Sidewalks/T_sidewalk_concreteNoLines_Normal",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": false
+  },
+  {
+   "nom": "sidewalk_concrete_nolines_aor",
+   "asset_ue": "/Game/Road/Textures/Sidewalks/T_sidewalk_concreteNoLines_AOR",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_MASKS: 2>",
+   "flip_green": false
+  },
+  {
+   "nom": "concrete_rough_2x2_albedo",
+   "asset_ue": "/Game/Megascans/Surfaces/FRACTURES/Concrete_Rough_2x2_M_00/Concrete_Rough_2x2_M_C",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "concrete_rough_2x2_normal",
+   "asset_ue": "/Game/Megascans/Surfaces/FRACTURES/Concrete_Rough_2x2_M_00/Concrete_Rough_2x2_M_N",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": true
+  },
+  {
+   "nom": "concrete_rough_2x2_aomrd",
+   "asset_ue": "/Game/Megascans/Surfaces/FRACTURES/Concrete_Rough_2x2_M_00/Concrete_Rough_2x2_M_AOMRD",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "concrete_dirty_albedo",
+   "asset_ue": "/Game/Building/Texture/ConcreteDirty/T_ConcreteDirty_C",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "concrete_dirty_normal",
+   "asset_ue": "/Game/Building/Texture/ConcreteDirty/T_ConcreteDirty_N",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": false
+  },
+  {
+   "nom": "concrete_dirty_aormd",
+   "asset_ue": "/Game/Building/Texture/ConcreteDirty/T_ConcreteDirty_AORMD",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "white_road_line_00_albedo",
+   "asset_ue": "/Game/Megascans/Atlases/White_Road_Line_00/sejqvcl_4K_Albedo",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "white_road_line_00_opacity",
+   "asset_ue": "/Game/Megascans/Atlases/White_Road_Line_00/sejqvcl_4K_Opacity",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_ALPHA: 8>",
+   "flip_green": false
+  },
+  {
+   "nom": "white_road_line_00_normal",
+   "asset_ue": "/Game/Megascans/Atlases/White_Road_Line_00/sejqvcl_4K_Normal",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>",
+   "flip_green": true
+  },
+  {
+   "nom": "road_dust_00_albedo",
+   "asset_ue": "/Game/Megascans/Atlases/Road_Dust_2x2_M_00/Road_Dust_2x2_M_sg1no3n_8K_Albedo",
+   "srgb": true,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "road_dust_00_opacity",
+   "asset_ue": "/Game/Megascans/Atlases/Road_Dust_2x2_M_00/Road_Dust_2x2_M_sg1no3n_8K_Opacity",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_ALPHA: 8>",
+   "flip_green": false
+  },
+  {
+   "nom": "road_dust_00_raodm",
+   "asset_ue": "/Game/Megascans/Atlases/Road_Dust_2x2_M_00/Road_Dust_2x2_M_sg1no3n_8K_RAODM",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_BC7: 11>",
+   "flip_green": false
+  },
+  {
+   "nom": "grunge_00_roughness",
+   "asset_ue": "/Game/Megascans/Surfaces/Grunge_00/uh4uabdc_8K_Roughness",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_ALPHA: 8>",
+   "flip_green": false
+  },
+  {
+   "nom": "imperfection_sdnqcbnc_roughness",
+   "asset_ue": "/Game/Megascans/Imperfections/sdnqcbnc_4K_Roughness",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_ALPHA: 8>",
+   "flip_green": false
+  }
+ ]
+}

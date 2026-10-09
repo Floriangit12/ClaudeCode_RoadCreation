@@ -1,0 +1,196 @@
+#usda 1.0
+(
+    customLayerData = {
+        string crs = "EPSG:2154 (Lambert-93), altitudes NGF-IGN69"
+        string etat_modelise = "octobre 2026 (après travaux ligne C1 2025)"
+        string opendrive = "paquet_jardin_2026.xodr"
+        string origine_locale_L93_NGF = "917279.43 6460289.98 216.3"
+        string site = "Meylan (38) — carrefour Paquet Jardin (av. de Verdun / ch. de la Revirée / av. du Vercors)"
+        string unites = "mètres, Z vers le haut"
+    }
+    defaultPrim = "World"
+    endTimeCode = 1
+    framesPerSecond = 24
+    metersPerUnit = 1
+    renderSettingsPrimPath = "/Render/rendersettings"
+    startTimeCode = 1
+    subLayers = [
+        @./cameras.usda@,
+        @../../out/paquet_jardin/package/paquet_jardin_2026.usda@
+    ]
+    timeCodesPerSecond = 24
+    upAxis = "Z"
+)
+
+over "World"
+{
+    def Xform "Lumieres"
+    {
+        def DistantLight "soleil" (
+            prepend apiSchemas = ["HoudiniViewportLightAPI", "HoudiniViewportGuideAPI"]
+        )
+        {
+            float2 houdini:clippingRange = (0.001, 10000)
+            float houdini:guidescale = 1
+            bool houdini:inviewermenu = 1
+            float inputs:angle = 0.53
+            color3f inputs:color = (1, 0.95, 0.88)
+            float inputs:diffuse = 1
+            bool inputs:enableColorTemperature = 0
+            float inputs:exposure = 1.6
+            float inputs:intensity = 1
+            bool inputs:normalize = 1
+            float inputs:specular = 1
+            rel light:filters = None
+            float3 xformOp:rotateXYZ = (40, 0, -40)
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            float3 xformOp:translate:pivot = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:translate:pivot", "xformOp:rotateXYZ", "xformOp:scale", "!invert!xformOp:translate:pivot"]
+        }
+
+        def DomeLight_1 "ciel" (
+            prepend apiSchemas = ["HoudiniViewportGuideAPI", "KarmaLightAPI"]
+        )
+        {
+            custom rel filters = None
+            float houdini:guidescale = 1
+            bool houdini:inviewermenu = 0
+            color3f inputs:color = (0.7, 0.8, 1)
+            float inputs:diffuse = 1
+            bool inputs:enableColorTemperature = 0
+            float inputs:exposure = -1.95
+            float inputs:intensity = 1
+            bool inputs:karma:light:renderlightgeo = 1
+            bool inputs:normalize = 0
+            float inputs:specular = 1
+            token inputs:texture:format = "automatic"
+            rel light:filters = None
+            token poleAxis = "scene"
+            rel portals = None
+            float3 xformOp:rotateXYZ = (0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 0, 0)
+            float3 xformOp:translate:pivot = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:translate:pivot", "xformOp:rotateXYZ", "xformOp:scale", "!invert!xformOp:translate:pivot"]
+        }
+    }
+}
+
+def Scope "Render"
+{
+    def Scope "Products"
+    {
+        def Scope "Vars"
+        {
+            def RenderVar "Beauty" (
+                prepend apiSchemas = ["KarmaRenderVarAPI"]
+            )
+            {
+                token dataType = "color4f"
+                custom int driver:parameters:aov:clearValue = 0
+                custom token driver:parameters:aov:format = "color4h"
+                string driver:parameters:aov:karma:filter = '["ubox",{}]'
+                custom bool driver:parameters:aov:multiSampled = 1
+                custom string driver:parameters:aov:name = "C"
+                string sourceName = "C.*[LO]"
+                token sourceType = "lpe"
+            }
+        }
+
+        def RenderProduct "renderproduct" (
+            prepend apiSchemas = ["HuskRenderProductAPI"]
+        )
+        {
+            string driver:parameters:husk:artist = ""
+            string driver:parameters:husk:comment = ""
+            string driver:parameters:husk:hostname = ""
+            string driver:parameters:husk:OpenEXR:compression = "zips"
+            rel orderedVars = </Render/Products/Vars/Beauty>
+            token productName = "rendu_controle.png"
+            token productType = "raster"
+        }
+    }
+
+    def RenderSettings "rendersettings" (
+        prepend apiSchemas = ["KarmaRenderSettingsAPI"]
+    )
+    {
+        token aspectRatioConformPolicy = "expandAperture"
+        rel camera = </World/Cameras/cam1_ensemble_sud>
+        float4 dataWindowNDC = (0, 0, 1, 1)
+        bool disableDepthOfField = 0
+        bool disableMotionBlur = 0
+        token[] includedPurposes = ["default", "render"]
+        bool karma:global:abortmissingtexture = 0
+        bool karma:global:abortnogpudevice = 0
+        bool karma:global:autoraybias = 1
+        token karma:global:bucketorder = "Middle"
+        int karma:global:bucketsize = 32
+        float karma:global:cacheratio = 0.25
+        int karma:global:cachesize = 1000
+        float karma:global:colorlimit = 10
+        float karma:global:colorlimitindirect = 10
+        bool karma:global:colorlimitindlinked = 1
+        bool karma:global:constrainmaxrough = 1
+        token karma:global:convergence_mode = "Variance"
+        float karma:global:dicingqualityscale = 1
+        string karma:global:diffusecomponents = "diffuse"
+        custom bool karma:global:enable_dof = 1
+        custom string karma:global:engine = "xpu"
+        string karma:global:exportcomponents = "diffuse reflect coat refract volume sss"
+        bool karma:global:guiding_enable = 0
+        int karma:global:guiding_samples = 0
+        string karma:global:imagefilter = '[["denoise", {"engine": "oidn", "use_albedo_input": true, "use_n_input": true, "aovs": ["C"]}]]'
+        token karma:global:imagemode = "Progressive"
+        token karma:global:light_sampling_mode = "Light Tree"
+        float karma:global:light_sampling_quality = 1
+        float karma:global:offscreenquality = 0.1
+        int karma:global:pathtracedsamples = 64
+        string karma:global:pixelfilter = "gauss"
+        custom float karma:global:pixelfiltersize = 2
+        string karma:global:pixeloracle = '["variance", {"variance": 0.01, "plane": "C", "minrays": -1, "ociomode": 0, "ociodisplay": "sRGB - Display", "ocioview": "", "ociocolorspace": "default"}]'
+        float karma:global:raybias = 0.001
+        string karma:global:refractcomponents = "refract"
+        int karma:global:russianroulette_cutoff = 2
+        int karma:global:samplesperpixel = 9
+        int karma:global:screendoorlimit = 4
+        string karma:global:ssscomponents = "sss"
+        bool karma:global:usecacheratio = 1
+        string karma:global:volumecomponents = "volume"
+        custom token karma:object:blurstyle = "Rotation Blur"
+        custom bool karma:object:causticsenable = 0
+        custom float karma:object:causticsroughnessclamp = 0.2
+        custom token karma:object:cull_backface = "Off"
+        custom int karma:object:curve_basis = 0
+        custom token karma:object:curve_style = "Rounded Curves"
+        custom float karma:object:diffuselimit = 1
+        custom float karma:object:diffusequality = 1
+        custom int karma:object:geosamples = 2
+        custom int karma:object:instance_samples = 2
+        custom token karma:object:instance_vblur = "No Velocity Blur"
+        custom bool karma:object:mblur = 1
+        custom token karma:object:point_style = "Spheres"
+        custom float karma:object:reflectlimit = 4
+        custom float karma:object:reflectquality = 1
+        custom float karma:object:refractlimit = 4
+        custom float karma:object:refractquality = 1
+        custom bool karma:object:samplesfromstage = 1
+        custom float karma:object:ssslimit = 0
+        custom float karma:object:sssquality = 1
+        custom int karma:object:varianceaa_maxsamples = 9
+        custom int karma:object:varianceaa_minsamples = 1
+        custom float karma:object:varianceaa_thresh = 0.01
+        custom token karma:object:vblur = "No Velocity Blur"
+        custom float karma:object:volumelimit = 0
+        custom float karma:object:volumequality = 1
+        custom float karma:object:volumesteprate = 0.25
+        custom float karma:object:volumevblurscale = 1
+        custom int karma:object:xformsamples = 2
+        token[] materialBindingPurposes = ["full", ""]
+        float pixelAspectRatio = 1
+        rel products = </Render/Products/renderproduct>
+        int2 resolution = (1000, 1000)
+    }
+}
+

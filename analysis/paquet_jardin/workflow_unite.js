@@ -21,7 +21,7 @@ const NOTE_GAM = `ATTENTION (vérifié) : au cœur du carrefour, les levés topo
 const COMMON_ORTHO = `Lis d'abord la fiche de contexte ${ROOT}/analysis/paquet_jardin/CONTEXT.md (Read) : elle donne la localisation, la chronologie (ortho 5 cm = 10 mai 2022, AVANT les travaux de 2025), les conventions de coordonnées des tuiles et l'échelle d'usure 0/1/2/3/F.
 Carte d'assemblage des tuiles (vue d'ensemble 350 m, grille et noms des tuiles) : ${ROOT}/analysis/paquet_jardin/carte_assemblage_pcrs.jpg .
 Toutes les images sont des tuiles 1000x1000 px : ouvre-les avec l'outil Read telles quelles, sans les redimensionner. Tu peux ouvrir des tuiles voisines (même dossier, nommées par le coin bas-gauche, pas de 50 m) si un objet déborde.
-Tu peux exécuter du python (numpy, PIL, shapely, pyproj, rasterio, geopandas, laspy installés) pour mesurer (ex. compter des pixels, mesurer une largeur de voie en pixels × 0.05 m, lire des vecteurs). Écris tout fichier temporaire dans ${SCR}/wf_ortho/ . Ne modifie RIEN dans le dépôt git.
+Tu peux exécuter du python (numpy, PIL, shapely, pyproj, rasterio, geopandas, laspy installés) pour mesurer (ex. compter des pixels, mesurer une largeur de voie en pixels × 0.05 m, lire des vecteurs). Écris tout fichier temporaire dans ${SCR}/wf_ortho/ (disque limité : moins de 200 Mo, supprime les gros fichiers à la fin). Ne modifie RIEN dans le dépôt git.
 Réponds en français.`
 
 const COMMON_STREET = `Lis d'abord la fiche de contexte ${ROOT}/analysis/paquet_jardin/CONTEXT.md (Read) : localisation, chronologie (travaux C1 en 2025), échelle d'usure 0/1/2/3/F.
@@ -29,7 +29,7 @@ Les photos sont découpées en tuiles 1000x1000 px dans ${PX}/tiles/<photo>_hd/ 
 Pour une photo 360° (5760x2880), le centre horizontal (x=2880) regarde l'azimut indiqué ; x=0 et x=5760 regardent vers l'arrière ; la chaussée est dans la moitié basse (rangées r01 et r02) ; le bas extrême est le toit/capot du véhicule ou le porteur. Pour une photo « flat », toute l'image regarde vers l'azimut.
 Ouvre les tuiles avec l'outil Read, telles quelles (aucun redimensionnement). Choisis les tuiles utiles (chaussée, carrefour) — inutile d'ouvrir le ciel.
 Carte d'assemblage aérienne (pour te repérer) : ${ROOT}/analysis/paquet_jardin/carte_assemblage_pcrs.jpg ; ortho 5 cm 2022 : ${ROOT}/data/raw/pcrs5cm/tiles/paquet_jardin/ (tuiles 50 m nommées par le coin bas-gauche L93).
-Tu peux exécuter du python. Fichiers temporaires : ${SCR}/wf_street/ . Ne modifie RIEN dans le dépôt git. Réponds en français.`
+Tu peux exécuter du python. Fichiers temporaires : ${SCR}/wf_street/ (disque limité : moins de 200 Mo, supprime les gros fichiers à la fin). Ne modifie RIEN dans le dépôt git. Réponds en français.`
 
 const COMMON = kind === 'ortho' ? COMMON_ORTHO : COMMON_STREET
 

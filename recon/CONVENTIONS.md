@@ -1,7 +1,7 @@
 # Reconstruction 3D — conventions communes (carrefour Paquet Jardin, puis Meylan)
 
 Cible : simulateur ADAS sous **Unreal Engine 5.8**, préparation et raffinement procédural sous
-**Houdini 21**. Chaîne retenue :
+**Houdini 22**. Chaîne retenue :
 
 ```
 données ouvertes (GeoJSON, rasters, LiDAR)                       [cloud, ce dépôt]
@@ -12,7 +12,7 @@ données ouvertes (GeoJSON, rasters, LiDAR)                       [cloud, ce dé
          └─► textures/masques   : macro-albédo enrobé (ortho 5 cm nettoyée), masques d'usure,
                                   rapiéçages, fissures (GeoTIFF/PNG 16 bits, 5 cm)
                                                                   [PC de l'utilisateur]
-   Houdini 21 (Solaris/SOP) : import USD + scripts → raffinement (biseaux, décals, scatter)
+   Houdini 22 (Solaris/SOP) : import USD + scripts → raffinement (biseaux, décals, scatter)
    Unreal 5.8               : import USD (ou Houdini Engine) + matériaux + OpenDRIVE
 ```
 
@@ -53,3 +53,26 @@ Usure : `usure` ∈ {0,1,2,3,F} (cf. analysis/paquet_jardin/CONTEXT.md) + `couve
 ## Contrôle qualité (obligatoire)
 Chaque couche est rendue en **tuiles 1000×1000 px à 5 cm** sur l'ortho 2022, le plan projet
 et/ou les levés GAM (`recon/qa_render.py`) et examinée visuellement ; écarts listés et corrigés.
+
+## Paquet final (assemblage)
+```
+recon/out/paquet_jardin/package/
+  paquet_jardin_2026.usda        scène racine (sous-couches ci-dessous), upAxis Z, metersPerUnit 1
+  layers/terrain.usdc            maillage du terrain naturel (hors voirie)
+  layers/voirie.usdc             chaussée, pistes, trottoirs, îlots, quais (un Mesh par classe,
+                                 UV en mètres pour matériaux tuilables + UV « macro » 0-1 sur l'emprise)
+  layers/bordures.usdc           bordures extrudées (hauteur mesurée), abaissés aux traversées
+  layers/marquages.usdc          décalques de peinture (maillages fins +1 cm au-dessus de la chaussée),
+                                 primvars : type, couleur, usure, couverture
+  layers/vegetation.usdc         arbres (PointInstancer, prototypes génériques remplaçables)
+  layers/mobilier.usdc           feux, panneaux, lampadaires, abris (PointInstancer / Xform + attributs)
+  layers/batiments.usdc          bâtiments LoD1 (extrusion, hauteurs LiDAR)
+  textures/                      macro-albédo et masques (liens relatifs)
+  paquet_jardin_2026.xodr        OpenDRIVE (copie)
+  preview/paquet_jardin_2026.glb aperçu glTF
+  houdini/charger_paquet_jardin.py   script Houdini 22 (Solaris + SOP)
+  unreal/importer_paquet_jardin.py   script Unreal 5.8 (import USD + matériaux)
+  GUIDE_PC.md                    procédure pas à pas sur le PC
+```
+Matériaux USD : UsdPreviewSurface (lisibles par Houdini et Unreal), remplaçables par des
+matériaux Unreal (enrobé, béton, peinture) via le script d'import.

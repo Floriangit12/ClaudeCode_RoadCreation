@@ -51,6 +51,7 @@ from shapely.geometry import MultiPolygon, Polygon, box, shape
 from shapely.geometry.polygon import orient
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import prototypes as PR  # noqa: E402
 from common_recon import BBOX, DTM15, O, OUT, ORTHO5, REPO, read_layer  # noqa: E402
 
 PKG = OUT / "package"
@@ -450,7 +451,7 @@ def bind(prim, material):
     UsdShade.MaterialBindingAPI.Apply(prim).GetDirectBindingRel().SetTargets([Sdf.Path(material)])
 
 
-def write_materials(path, albedo_rel, masks):
+def write_materials(path, albedo_rel, masks, faces=()):
     """Matériaux UsdPreviewSurface (lisibles par Houdini/Karma et l'import USD d'Unreal)."""
     Gf, Kind, Sdf, Usd, UsdGeom, UsdShade, Vt = usd()
     st = new_layer(path)
@@ -492,64 +493,15 @@ def write_materials(path, albedo_rel, masks):
     for coul, rgb in PEINTURE.items():
         for u, op in OPACITE_USURE.items():
             mat(f"peinture_{coul}_u{u}", rgb, rough=0.6, opacity=op)
+    for k, rgb in PR.COULEURS_PROTO.items():
+        if not st.GetPrimAtPath(f"/World/Looks/{k}"):
+            mat(k, rgb, rough=0.35 if k.startswith("feu_") or k == "galva" else 0.7,
+                metal=0.5 if k == "galva" else 0.0)
+    for stem in faces:                                    # faces officielles des panneaux
+        mat(f"face_{stem}", (0.8, 0.8, 0.8), rough=0.45, tex=f"../textures/panneaux/{stem}.png")
     lay = st.GetRootLayer()
     lay.customLayerData = {"masques": ";".join(masks)}
     st.GetRootLayer().Save()
-
-
-# --- prototypes d'instances ------------------------------------------------------------------
-def proto_meshes():
-    """Prototypes génériques (repère local du prototype, Z vers le haut, face avant vers +Y)."""
-    P = {}
-
-    def cyl(r, h, z0=0.0, sections=12):
-        m = trimesh.creation.cylinder(radius=r, height=h, sections=sections)
-        m.apply_translation([0, 0, z0 + h / 2])
-        return m
-
-    def boxm(sx, sy, sz, c):
-        m = trimesh.creation.box([sx, sy, sz])
-        m.apply_translation(c)
-        return m
-
-    crown = trimesh.creation.icosphere(subdivisions=2, radius=0.5)
-    crown.apply_scale([1, 1, 0.75])
-    crown.apply_translation([0, 0, 0.62])
-    P["arbre_feuillu"] = [("tronc", cyl(0.035, 0.40)), ("feuillage", crown)]
-    cone = trimesh.creation.cone(radius=0.5, height=0.8, sections=12)
-    cone.apply_translation([0, 0, 0.2])
-    P["arbre_conifere"] = [("tronc", cyl(0.035, 0.25)), ("feuillage", cone)]
-    young = trimesh.creation.icosphere(subdivisions=1, radius=0.5)
-    young.apply_scale([1, 1, 1.2])
-    young.apply_translation([0, 0, 0.62])
-    P["arbre_jeune"] = [("tronc", cyl(0.05, 0.45)), ("feuillage", young)]
-    P["feu_tricolore"] = [("metal", cyl(0.06, 3.2)), ("signal", boxm(0.32, 0.25, 0.95, [0, 0.18, 2.75]))]
-    P["feu_pieton"] = [("metal", cyl(0.06, 2.6)), ("signal", boxm(0.25, 0.22, 0.60, [0, 0.16, 2.25]))]
-    P["feu_velo"] = [("metal", cyl(0.06, 2.6)), ("signal", boxm(0.22, 0.20, 0.55, [0, 0.15, 1.7]))]
-    P["panneau"] = [("metal", cyl(0.03, 2.6)), ("panneau", boxm(0.70, 0.03, 0.70, [0, 0.05, 2.25]))]
-    P["lampadaire"] = [("metal", cyl(0.08, 8.0)), ("metal", boxm(0.12, 1.6, 0.10, [0, 0.8, 7.95])),
-                       ("verre", boxm(0.35, 0.6, 0.12, [0, 1.5, 7.85]))]
-    P["abri_bus"] = [("verre", boxm(4.0, 0.04, 2.3, [0, -0.7, 1.15])), ("metal", boxm(4.2, 1.6, 0.08, [0, 0, 2.4])),
-                     ("verre", boxm(0.04, 1.4, 2.3, [-2.0, 0, 1.15])), ("verre", boxm(0.04, 1.4, 2.3, [2.0, 0, 1.15]))]
-    P["poteau_arret"] = [("metal", cyl(0.04, 2.8)), ("panneau", boxm(0.45, 0.04, 0.6, [0, 0, 2.4]))]
-    P["potelet"] = [("metal", cyl(0.07, 1.0))]
-    P["barriere"] = [("metal", boxm(1.5, 0.05, 1.0, [0, 0, 0.5]))]
-    P["borne"] = [("metal", boxm(0.4, 0.3, 1.2, [0, 0, 0.6]))]
-    P["autre"] = [("metal", cyl(0.05, 1.5))]
-    return P
-
-
-def proto_for(t):
-    t = str(t or "").lower()
-    rules = [("pieton", "feu_pieton"), ("velo", "feu_velo"), ("cycl", "feu_velo"), ("feu", "feu_tricolore"),
-             ("signal", "feu_tricolore"), ("lamp", "lampadaire"), ("eclair", "lampadaire"),
-             ("abri", "abri_bus"), ("arret", "poteau_arret"), ("bus", "poteau_arret"), ("panneau", "panneau"),
-             ("sign", "panneau"), ("potelet", "potelet"), ("bollard", "potelet"), ("borne", "borne"),
-             ("barri", "barriere"), ("garde", "barriere")]
-    for k, v in rules:
-        if k in t:
-            return v
-    return "autre"
 
 
 # --- librairie graphique (assets/lib) ------------------------------------------------------------
@@ -630,6 +582,7 @@ def resolve_items(items, lib):
 
 
 def point_instancer(st, path, protos, items, lib=None):
+    """protos : fonction nom_generique -> parties (materiau, trimesh, uv|None)."""
     """items : liste (proto, x, y, z_abs, yaw_deg, (sx, sy, sz), attrs)."""
     Gf, Kind, Sdf, Usd, UsdGeom, UsdShade, Vt = usd()
     used = sorted({it[0] for it in items})
@@ -647,7 +600,7 @@ def point_instancer(st, path, protos, items, lib=None):
             continue
         gen = next((it[6].get("_generique") for it in items if it[0] == name and it[6].get("_generique")), name)
         x.GetPrim().SetCustomDataByKey("volume_provisoire", gen)
-        for k, (matname, tm) in enumerate(protos[gen]):
+        for k, (matname, tm, uv) in enumerate(protos(gen)):
             V = np.asarray(tm.vertices, np.float32)
             F = np.asarray(tm.faces, np.int32)
             m = UsdGeom.Mesh.Define(st, f"{path}/Prototypes/{name}/part{k}_{matname}")
@@ -656,6 +609,9 @@ def point_instancer(st, path, protos, items, lib=None):
             m.CreateFaceVertexIndicesAttr(Vt.IntArray.FromNumpy(F.ravel()))
             m.CreateSubdivisionSchemeAttr(UsdGeom.Tokens.none)
             m.CreateExtentAttr(Vt.Vec3fArray([Gf.Vec3f(*map(float, V.min(0))), Gf.Vec3f(*map(float, V.max(0)))]))
+            if uv is not None:
+                UsdGeom.PrimvarsAPI(m).CreatePrimvar("st", Sdf.ValueTypeNames.TexCoord2fArray, UsdGeom.Tokens.vertex).Set(
+                    Vt.Vec2fArray.FromNumpy(np.asarray(uv, np.float32)))
             bind(m.GetPrim(), f"/World/Looks/{matname}")
     pi.CreatePrototypesRel().SetTargets(rel)
     idx = np.array([used.index(it[0]) for it in items], np.int32)
@@ -742,12 +698,19 @@ def build_markings(marks, surf, ground):
 
 
 def build_buildings(bats, surf):
+    """Bâtiments LoD1 : pied = sol 2026 mesuré (z_sol_ngf), hauteur = faîte pour un toit plat,
+    mi-hauteur égout/faîte pour un toit en pentes (enveloppe moyenne)."""
     mesh_w, mesh_r = Mesh(), Mesh()
     n = 0
     for g, p in bats:
+        if p.get("extruder") is False:
+            continue
         h_eg = fnum(getp(p, ["hauteur_egout_m", "h_egout", "hauteur_egout"]))
         h_f = fnum(getp(p, ["hauteur_faite_m", "h_faite", "hauteur_faite", "hauteur_m", "hauteur"]))
-        h = h_eg or h_f or 3.0 * (fnum(getp(p, ["nb_etages", "etages"]), 2) or 2)
+        if h_eg and h_f and str(p.get("toit", "")).startswith("pente"):
+            h = (h_eg + h_f) / 2
+        else:
+            h = h_f or h_eg or 3.0 * (fnum(getp(p, ["nb_etages", "etages"]), 2) or 2)
         for poly in clean_poly(g):
             if not poly.intersects(EMPRISE):
                 continue
@@ -756,8 +719,9 @@ def build_buildings(bats, surf):
                 continue
             V, F, rings = T
             ex = V[: rings[0][1]]
-            zb = float(np.nanmin(surf.sample(ex[:, 0], ex[:, 1]))) - 0.2
-            ztop = zb + 0.2 + h
+            zs = fnum(p.get("z_sol_ngf"))
+            zb = (zs if zs else float(np.nanmin(surf.sample(ex[:, 0], ex[:, 1])))) - 0.3   # fondation sous le sol
+            ztop = zb + 0.3 + h
             mesh_r.add(np.c_[V, np.full(len(V), ztop)], F)
             for (a, b) in rings:
                 P = V[a:b]
@@ -770,63 +734,87 @@ def build_buildings(bats, surf):
     return mesh_w, mesh_r, n
 
 
-def items_trees(trees, surf, ground):
-    items = []
-    for g, p in trees:
-        pt = g.centroid if g.geom_type != "Point" else g
-        if not EMPRISE.contains(pt):
-            continue
-        h = fnum(getp(p, ["hauteur_m", "hauteur", "h"]), 8.0) or 8.0
-        d = fnum(getp(p, ["diametre_couronne_m", "couronne_m", "diametre_m", "couronne"]), max(2.0, h * 0.6)) or 4.0
-        ess = str(getp(p, ["essence", "espece", "genre"], "")).lower()
-        jeune = str(getp(p, ["jeune", "plante_2025", "statut", "etat"], "")).lower()
-        proto = "arbre_conifere" if any(k in ess for k in ("pin", "cèdre", "cedre", "sapin", "épicéa", "if ")) \
-            else "arbre_jeune" if ("jeune" in jeune or "2025" in jeune or "true" in jeune) else "arbre_feuillu"
-        z = float(ground([pt.x], [pt.y], surf.sample([pt.x], [pt.y]))[0])
-        sp = "_".join(ess.replace("'", " ").replace("×", " ").split()[:2]) if ess else ""
-        taille = "jeune" if proto == "arbre_jeune" else "petit" if h < 8 else "moyen" if h < 15 else "grand"
-        ordre = {"jeune": ["jeune", "petit", "moyen", "grand"], "petit": ["petit", "moyen", "jeune", "grand"],
-                 "moyen": ["moyen", "grand", "petit", "jeune"], "grand": ["grand", "moyen", "petit", "jeune"]}[taille]
-        cands = [f"arbre_{sp}_{t}" for t in ordre] + [f"arbre_{sp.split('_')[0]}_{t}" for t in ordre] if sp else []
-        items.append((proto, pt.x, pt.y, z, (hash((pt.x, pt.y)) % 360), (d, d, h),
-                      {"hauteur_m": h, "couronne_m": d, "essence": ess or None, "_candidats": cands, "_h": h}))
-    return items
+# --- objets instanciés (atelier objets : instances.json) -------------------------------------------
+SUPPORTS = ("arbre", "souche", "feu_mat", "poteau", "lampadaire", "abri", "totem", "mat_", "banc", "corbeille",
+            "stationnement", "distributeur", "conteneur", "fontaine", "boite", "panneau_information",
+            "mobilier_publicitaire", "armoire", "potelet", "portail", "barriere", "chicane", "balise", "arbuste")
 
 
-def items_furniture(mob, inst_json, surf, ground):
-    items = []
-    src = []
-    if inst_json:
-        for e in inst_json:
-            x = fnum(e.get("x")); y = fnum(e.get("y"))
-            if x is None or y is None:
-                continue
-            if abs(x) < 1000 and abs(y) < 1000:                    # repère local
-                x, y = x + O[0], y + O[1]
-            src.append((e.get("type"), x, y, fnum(e.get("yaw"), 0.0), fnum(e.get("echelle") or e.get("scale"), 1.0), e))
-    else:
-        for g, p in mob:
-            pt = g.centroid if g.geom_type != "Point" else g
-            az = fnum(getp(p, ["orientation", "azimut", "orientation_deg", "azimut_deg"]), 0.0)
-            src.append((getp(p, ["type", "categorie"]), pt.x, pt.y, -az, 1.0, p))
-    for t, x, y, yaw, s, p in src:
-        if not EMPRISE.contains(shapely.Point(x, y)) or str(t).lower().startswith("arbre"):
-            continue
-        proto = proto_for(t)
-        z = float(ground([x], [y], surf.sample([x], [y]))[0])
-        s = s if isinstance(s, (int, float)) and s > 0 else 1.0
-        attrs = {"type": str(t)}
-        code = getp(p, ["code_panneau", "code", "panneau"]) if isinstance(p, dict) else None
-        asset = getp(p, ["asset", "prototype", "modele"]) if isinstance(p, dict) else None
-        cands = [str(asset)] if asset else []
-        if code:
-            attrs["code_panneau"] = str(code)
-            c = str(code).replace(" ", "").replace("-", "")
-            cands += [f"panneau_{c}", f"panneau_{c.split('_')[0]}"]
+def nom_usd(s):
+    """Nom de prim USD valide (ASCII, [A-Za-z0-9_], ne commence pas par un chiffre)."""
+    import re
+    import unicodedata
+    s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
+    s = re.sub(r"[^A-Za-z0-9_]+", "_", s).strip("_")
+    return s if s and not s[0].isdigit() else f"n_{s}"
+
+
+def categorie(proto):
+    if proto.startswith(("arbre", "arbuste", "souche")):
+        return "vegetation"
+    if proto.startswith(("feu_", "panonceau_")):
+        return "feux"
+    if proto.startswith("panneau_") and proto != "panneau_information" or proto == "poteau_panneau":
+        return "panneaux"
+    if proto.startswith("lampadaire"):
+        return "eclairage"
+    if proto.startswith(("abri_bus", "poteau_arret", "totem")):
+        return "transport"
+    return "divers"
+
+
+def items_from_instances(inst, ground, surf):
+    """instances.json -> items (proto, x, y, z_abs, rotation_usd_deg, (sx, sy, sz), attrs).
+    Les prototypes de instances.json regardent +X (yaw trigonométrique depuis l'Est) ; ceux de la
+    scène regardent +Y : rotation = yaw - 90. Les pieds des supports sont recalés sur le maillage de
+    sol (écart toléré 0,25 m ; au-delà : dalle, on garde z), les têtes suivent leur support."""
+    items, dz_parent = [], {}
+    rows = inst["instances"]
+    for e in rows:
+        proto = e["prototype"]
+        x, y, z = e["x"] + O[0], e["y"] + O[1], e["z"] + O[2]
+        if proto.startswith(SUPPORTS) and categorie(proto) != "feux" or proto in ("feu_mat", "poteau_panneau"):
+            zg = float(ground([x], [y], [z])[0])
+            dz = zg - z if abs(zg - z) < 0.25 else 0.0
+            dz_parent[e["id"]] = dz
+    for e in rows:
+        proto = e["prototype"]
+        x, y, z = e["x"] + O[0], e["y"] + O[1], e["z"] + O[2]
+        z += dz_parent.get(e["id"], dz_parent.get(e.get("parent"), 0.0))
+        sc = e.get("scale", [1, 1, 1])
+        sc = tuple(float(v) for v in (sc if isinstance(sc, (list, tuple)) else [sc, sc, sc]))
+        attrs = {"id": e["id"], "statut": e.get("statut"), "categorie": categorie(proto)}
+        if e.get("essence"):
+            attrs["essence"] = e["essence"]
+        hn = PR.HAUTEUR_NOMINALE.get(proto)
+        cands = []
+        if hn:
+            attrs["hauteur_cible_m"] = round(hn * sc[2], 2)
+            attrs["_h"] = hn * sc[2]
+        if proto.startswith("arbre") and e.get("essence"):
+            sp = nom_usd("_".join(str(e["essence"]).lower().replace("'", " ").replace("×", " ").split()[:2]))
+            h = attrs.get("_h", 8.0)
+            taille = "jeune" if proto == "arbre_jeune_tuteure" else "petit" if h < 8 else "moyen" if h < 15 else "grand"
+            cands.append(f"arbre_{sp}_{taille}")
         cands.append(proto)
         attrs["_candidats"] = cands
-        items.append((proto, x, y, z, yaw, (s, s, s), attrs))
+        items.append((proto, x, y, z, float(e.get("yaw_deg", 0.0)) - 90.0, sc, attrs))
     return items
+
+
+def fences(lignes, ground, surf):
+    m = Mesh()
+    for l in lignes:
+        P = np.array(l["points"], float) + np.array(O[:2])
+        if len(P) < 2:
+            continue
+        h = float(l.get("hauteur_m", 1.5))
+        zs = ground(P[:, 0], P[:, 1], surf.sample(P[:, 0], P[:, 1]))
+        for i in range(len(P) - 1):
+            a, b = P[i], P[i + 1]
+            q = np.array([[*a, zs[i]], [*b, zs[i + 1]], [*b, zs[i + 1] + h], [*a, zs[i] + h]])
+            m.add(q, np.array([[0, 1, 2], [0, 2, 3], [0, 2, 1], [0, 3, 2]]))      # double face
+    return m
 
 
 # --- textures ------------------------------------------------------------------------------------
@@ -914,34 +902,49 @@ def to_trimesh_tex(V, F, image):
     return trimesh.Trimesh(VL, F, visual=trimesh.visual.TextureVisuals(uv=uv, material=mat), process=False)
 
 
-def preview_instances(items, protos, lib, glb, glb_inst):
-    """Aperçu : prototypes génériques fusionnés ; assets de la librairie instanciés (glb)."""
-    for proto, x, y, z, yaw, s, at in items:
-        if not at.get("_lib"):
-            for matname, tm in protos[at.get("_generique", proto)]:
-                t = tm.copy()
-                t.apply_scale(s)
-                t.apply_transform(trimesh.transformations.rotation_matrix(math.radians(yaw), [0, 0, 1]))
-                t.apply_translation([x, y, z])
-                glb.append(to_trimesh(np.asarray(t.vertices), np.asarray(t.faces), COULEUR[matname]))
-        elif lib and lib.glb(proto):
-            glb_inst.append((lib.glb(proto), x, y, z, yaw, s))
-
-
-def add_instances(scene, inst):
-    """Ajoute les assets glb (Y-up) en instances : translation (x, z, -y) locale, rotation autour de +Y."""
+def preview_instances(scene, items, protos, lib):
+    """Aperçu glTF : chaque prototype (générique ou glb de la librairie) est un maillage unique,
+    instancié par des nœuds (translation locale Y-up, rotation autour de +Y, échelle)."""
     cache = {}
-    for k, (f, x, y, z, yaw, s) in enumerate(inst):
-        if f not in cache:
-            cache[f] = trimesh.load(f, force="scene")
-        sub = cache[f]
-        T = trimesh.transformations.rotation_matrix(math.radians(yaw), [0, 1, 0])
+
+    def parts_of(name, gen):
+        if name in cache:
+            return cache[name]
+        out = []
+        if lib and name in lib.idx and lib.glb(name):
+            sub = trimesh.load(lib.glb(name), force="scene")
+            for node in sub.graph.nodes_geometry:
+                M, gname = sub.graph[node]
+                out.append((f"{name}__{gname}", sub.geometry[gname], M))
+        else:
+            for k, (matname, tm, uv) in enumerate(protos(gen)):
+                V = np.asarray(tm.vertices)
+                g = trimesh.Trimesh(np.c_[V[:, 0], V[:, 2], -V[:, 1]], tm.faces, process=False)
+                if uv is not None and matname.startswith("face_"):
+                    img = Image.open(PR.FACES / f"{matname[5:]}.png").convert("RGBA")
+                    mat = trimesh.visual.material.PBRMaterial(baseColorTexture=img, metallicFactor=0.0,
+                                                              roughnessFactor=0.5, alphaMode="MASK")
+                    g.visual = trimesh.visual.TextureVisuals(uv=uv, material=mat)
+                else:
+                    rgb = COULEUR.get(matname) or PR.COULEURS_PROTO.get(matname) or (0.5, 0.5, 0.5)
+                    mat = trimesh.visual.material.PBRMaterial(
+                        baseColorFactor=[int(round(c * 255)) for c in rgb] + [255], metallicFactor=0.0, roughnessFactor=0.8)
+                    g.visual = trimesh.visual.TextureVisuals(material=mat)
+                out.append((f"{name}__{k}_{matname}", g, np.eye(4)))
+        for gname, g, _ in out:
+            if gname not in scene.geometry:
+                scene.add_geometry(g, geom_name=gname, node_name=f"{gname}__proto",
+                                   transform=np.diag([0.0, 0.0, 0.0, 1.0]))   # prototype masqué
+        cache[name] = out
+        return out
+
+    for k, (proto, x, y, z, rot, s, at) in enumerate(items):
+        T = trimesh.transformations.rotation_matrix(math.radians(rot), [0, 1, 0])
         T = T @ np.diag([s[0], s[2], s[1], 1.0])
         T[:3, 3] = [x - O[0], z - O[2], -(y - O[1])]
-        for node in sub.graph.nodes_geometry:
-            M, gname = sub.graph[node]
-            scene.add_geometry(sub.geometry[gname], node_name=f"inst{k}_{node}", geom_name=f"{f.stem}_{gname}",
-                               transform=T @ M)
+        for gname, g, M in parts_of(proto, at.get("_generique", proto)):
+            scene.graph.update(frame_to=f"i{k}_{gname}", frame_from=scene.graph.base_frame, matrix=T @ M,
+                               geometry=gname)
 
 
 # --- main ----------------------------------------------------------------------------------------
@@ -964,10 +967,8 @@ def main():
 
     f_surf = need("surfaces/surfaces_2026.geojson")
     f_marq = need("marquages/marquages_2026.geojson")
-    f_dtm = need("relief/dtm_sol_10cm.tif") or DTM15
+    f_dtm = need("relief/dtm_2026_10cm.tif") or need("relief/dtm_sol_10cm.tif") or DTM15
     f_road = need("relief/chaussee_lisse_10cm.tif")
-    f_arb = need("objets/arbres.geojson")
-    f_mob = need("objets/mobilier.geojson")
     f_bat = need("objets/batiments.geojson")
     f_inst = need("objets/instances.json")
     f_xodr = need("opendrive/paquet_jardin_2026.xodr")
@@ -982,9 +983,16 @@ def main():
     alb, alb_src, masks = make_albedo(a.albedo_px, tex_dir, IN / "textures")
     rep["albedo"] = {"fichier": str(alb.relative_to(pkg)), "sources": alb_src}
     log("albédo :", alb.name, alb_src[0][:60])
-    write_materials(pkg / "layers" / "materiaux.usda", f"../textures/{alb.name}", masks)
+    faces = []
+    if PR.FACES.exists():
+        (tex_dir / "panneaux").mkdir(parents=True, exist_ok=True)
+        for f in sorted(PR.FACES.glob("*.png")):
+            shutil.copy2(f, tex_dir / "panneaux" / f.name)
+            faces.append(f.stem)
+    rep["faces_panneaux"] = len(faces)
+    write_materials(pkg / "layers" / "materiaux.usda", f"../textures/{alb.name}", masks, faces)
 
-    glb, glb_tex, glb_inst = [], [], []
+    glb, glb_tex = [], []
     # sol
     groups, kerbs, skirt, stats = build_ground(surfs, surf, albedo=True)
     ground = GroundZ([m.arrays() for m in groups.values() if m.V])
@@ -1033,30 +1041,38 @@ def main():
         rep["comptes"]["marquages_polygones"] = nm
     st.GetRootLayer().Save()
 
-    protos = proto_meshes()
+    protos_cache = {}
+
+    def protos(gen):
+        if gen not in protos_cache:
+            protos_cache[gen] = PR.build(gen)
+        return protos_cache[gen]
+
     lib = Librairie(pkg)
     rep["librairie_assets_disponibles"] = len(lib.idx)
-    # végétation
-    st = new_layer(pkg / "layers" / "vegetation.usdc")
-    if f_arb:
-        it = items_trees(read_layer(f_arb), surf, ground)
-        it = resolve_items(it, lib)
-        point_instancer(st, "/World/Vegetation/arbres", protos, it, lib)
-        rep["comptes"]["arbres"] = len(it)
-        preview_instances(it, protos, lib, glb, glb_inst)
-    st.GetRootLayer().Save()
-    # mobilier
-    st = new_layer(pkg / "layers" / "mobilier.usdc")
-    if f_mob or f_inst:
-        inst = json.loads(f_inst.read_text()) if f_inst else None
-        if isinstance(inst, dict):
-            inst = inst.get("instances") or next((v for v in inst.values() if isinstance(v, list)), None)
-        it = items_furniture(read_layer(f_mob) if f_mob else [], inst, surf, ground)
-        it = resolve_items(it, lib)
-        point_instancer(st, "/World/Mobilier/objets", protos, it, lib)
-        rep["comptes"]["mobilier"] = len(it)
-        preview_instances(it, protos, lib, glb, glb_inst)
-    st.GetRootLayer().Save()
+    obj_items = []
+    st_v = new_layer(pkg / "layers" / "vegetation.usdc")
+    st_m = new_layer(pkg / "layers" / "mobilier.usdc")
+    if f_inst:
+        inst = json.loads(f_inst.read_text())
+        items = resolve_items(items_from_instances(inst, ground, surf), lib)
+        obj_items = items
+        bycat = defaultdict(list)
+        for it in items:
+            bycat[it[6]["categorie"]].append(it)
+        for cat, its in sorted(bycat.items()):
+            stx = st_v if cat == "vegetation" else st_m
+            root = "/World/Vegetation" if cat == "vegetation" else "/World/Mobilier"
+            point_instancer(stx, f"{root}/{cat}", protos, its, lib)
+            rep["comptes"][f"instances/{cat}"] = len(its)
+        fm = fences(inst.get("lignes", []), ground, surf)
+        V, F = fm.arrays()
+        if V is not None:
+            define_mesh(st_m, "/World/Mobilier/clotures", V, F, material="/World/Looks/galva", smooth=False, uv_macro=False)
+            glb.append(to_trimesh(V, F, PR.COULEURS_PROTO["galva"]))
+            rep["comptes"]["clotures_triangles"] = int(len(F))
+    st_v.GetRootLayer().Save()
+    st_m.GetRootLayer().Save()
     # bâtiments
     st = new_layer(pkg / "layers" / "batiments.usdc")
     if f_bat:
@@ -1117,9 +1133,9 @@ def main():
             img = Image.open(io.BytesIO(buf.getvalue()))                 # format JPEG conservé dans le glb
             tex_part = to_trimesh_tex(V, F, img)
         scene = glb_scene(glb, tex_part)
-        add_instances(scene, glb_inst)
+        preview_instances(scene, obj_items, protos, lib)
         scene.export(pkg / "preview" / "paquet_jardin_2026.glb")
-        rep["comptes"]["glb_triangles"] = int(sum(len(g.faces) for g in scene.geometry.values()))
+        rep["comptes"]["glb_maillages"] = len(scene.geometry)
     rep["stats_sol"] = {k: round(v, 1) for k, v in stats.items()}
     (pkg / "rapport_assemblage.json").write_text(json.dumps(rep, ensure_ascii=False, indent=1))
     log("paquet écrit :", pkg)

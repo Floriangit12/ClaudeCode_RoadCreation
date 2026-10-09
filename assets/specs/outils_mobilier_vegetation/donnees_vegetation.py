@@ -226,11 +226,15 @@ ESSENCES = [
      "port": "fastigié : colonne très étroite et dense, pointe effilée", "tronc": "non visible",
      "feuillage": feuillage("persistant", "#2E4A28", "#2E4A28", "inchangé (vert très sombre)", "inchangé"),
      "gabarit": {"hauteur": 16.0, "fut_nu": 0.5, "couronne_diametre": 2.5, "forme_couronne": "colonne fusiforme (rapport h/l ≈ 6-8)"},
-     "positions_note": ("V2 : HORS EMPRISE. Relèvements de la colonne sombre sur 3 photos (2025-05-18 bc579b89 r01_c03 x≈910 → az 289° depuis (−54, −55) ; "
-                        "2025-05-18 2374105b r01_c03 x≈655 → az 273° depuis (−40, −40) ; 2024-08-24 2ab4efbc r01_c03 x≈585 → az 272° depuis (−11, −6)) "
-                        "quasi parallèles : sujets à ≥ 120-150 m vers l'ouest, au-delà de la limite x = −150 m. Les candidats V1 (arbre_108, 139, 140, 143, 164 ; "
-                        "x −104…−115) sont à 20-25° de ces directions : ce sont des conifères génériques (groupe de cimes coniques privé). "
-                        "Asset utile comme décor lointain / extension de l'emprise"),
+     "positions_note": ("V2 : 2 sujets. N° 1 DANS l'emprise, triangulé par moindres carrés sur 3 photos (colonne sombre : 2025-05-18 bc579b89 r01_c03 x≈910, "
+                        "az 289,4° ; 2025-05-18 2374105b r01_c03 x≈655, az 273,4° ; 2024-08-24 2ab4efbc r01_c03 x≈325, az 255,8°) → (−116,6 ; −33,6) m ± 4 m, "
+                        "écarts d'azimut < 1°, hauteur déduite des élévations 12,5-15,4 m (≈ 14,5 m) ; ABSENT de l'atelier objets (arbre le plus proche : "
+                        "arbre_178, feuillu LiDAR 10 m, à ≈ 12,7 m) → instance à ajouter à la scène (voir instances_a_ajouter). N° 2 : colonne haute devant les "
+                        "tentes de la jardinerie (2ab4efbc r01_c03 x≈585, az 272,1°), aucun arbre de l'atelier sur ce rayon dans l'emprise → au-delà de la "
+                        "limite ouest (≥ 140 m de la photo), décor lointain. Les candidats V1 (arbre_108, 139, 140, 143, 164 ; x −104…−115, y −51…−66) sont "
+                        "à 17-26 m au sud du point triangulé : conifères génériques"),
+     "instances_a_ajouter": [{"id": "cypres_1_v2", "x": -116.6, "y": -33.6, "hauteur_m": 14.5, "precision_m": 4.0,
+                              "source": "triangulation de 3 photos Panoramax (V2)", "statut_2026": "existant (vu 2024-08, 2025-05)"}],
      "production": {"principale": SPT, "alternatives": ["fab", "carla static.prop.cypresstree (silhouette proche, à mettre à l'échelle)"]},
      "photos_reference": [tuile(T_2AB4, "r01_c03"), tuile(T_BC579, "r01_c03"), tuile(T_2374, "r01_c03")]},
     {"asset": "arbre_pinus_sylvestris_moyen", "nom_latin": "Pinus sylvestris (probable)", "nom_francais": "pin sylvestre", "nom_anglais": "Scots pine",

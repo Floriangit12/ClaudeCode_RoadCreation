@@ -180,7 +180,7 @@ def p3_mobilier(mob):
     ]
     cells += [gab(mob, "barriere_croix_saint_andre", cw, chh, 120, h0=-1.0, titre="spec barrière 1,5 x 1,0 m"),
               dessiner_gabarit(fiche(mob, "arceau_velo")["gabarit_2d"]["elements"] + [dict(e, h0=e["h0"] if "h0" in e else 0) for e in []],
-                               cw, chh, 120, h0=-0.9, titre="spec arceau 0,8 x 0,85 m"),
+                               cw, chh, 120, h0=-0.9, titre="spec arceau 0,65 x 0,82 m (V2)"),
               gab(mob, "barriere_levante", cw, chh, 48, h0=-0.5, titre="spec barrière levante 4,4 m"),
               None]
     # dernière cellule : armoire technique + poteau d'incendie + armoire des feux
@@ -308,23 +308,29 @@ def _plan_cypres(w, h):
         X, Y = P(q["x_local"], q["y_local"])
         r = 5 if q["id"] in v1 else 3
         d.ellipse([X - r, Y - r, X + r, Y + r], fill=(200, 40, 40) if q["id"] in v1 else (40, 120, 40))
-    rayons = [((-53.94, -54.79), 289.4, "bc579b89"), ((-39.59, -39.60), 273.4, "2374105b"), ((-11.13, -6.19), 272.1, "2ab4efbc")]
-    for (px, py), az, nom in rayons:
+    rayons = [((-53.94, -54.79), 289.4, "bc579b89", (30, 60, 200)), ((-39.59, -39.60), 273.4, "2374105b", (30, 60, 200)),
+              ((-11.13, -6.19), 255.8, "2ab4efbc", (30, 60, 200)), ((-11.13, -6.19), 272.1, "", (230, 140, 0))]
+    for (px, py), az, nom, col in rayons:
         a = math.radians(az)
-        d.line([P(px, py), P(px + 420 * math.sin(a), py + 420 * math.cos(a))], fill=(30, 60, 200), width=2)
+        d.line([P(px, py), P(px + 420 * math.sin(a), py + 420 * math.cos(a))], fill=col, width=2)
         X, Y = P(px, py)
         d.ellipse([X - 4, Y - 4, X + 4, Y + 4], fill=(30, 60, 200))
-        d.text((X + 4, Y + 2), nom, fill=(30, 60, 200), font=font(10))
-    d.text((4, 4), "rayons : relèvements du cyprès (photos)\nrouge : candidats V1 ; vert : conifères atelier", fill=(40, 40, 40), font=font(11))
-    return legende(im, "cyprès d'Italie : rayons quasi parallèles vers\nl'ouest → hors emprise (V1 corrigée)")
+        if nom:
+            d.text((X + 4, Y + 2), nom, fill=(30, 60, 200), font=font(10))
+    X, Y = P(-116.6, -33.6)
+    d.ellipse([X - 7, Y - 7, X + 7, Y + 7], outline=(0, 0, 0), width=3)
+    d.text((X - 60, Y - 22), "cyprès n°1 (14,5 m)", fill=(0, 0, 0), font=font(11))
+    d.text((4, 4), "bleu : relèvements du cyprès n°1 ; orange : n°2\nrouge : candidats V1 ; vert : conifères atelier", fill=(40, 40, 40), font=font(11))
+    return legende(im, "cyprès : n°1 triangulé (−117 ; −34) dans l'emprise,\nn°2 au-delà de la limite ouest (V1 corrigée)")
 
 
 def p9_v2(mob):
     """Planche V2 : corrections et ajouts vérifiés sur photos natives."""
     cw, chh = 330, 318
     arceau_gab = dessiner_gabarit(fiche(mob, "arceau_velo")["gabarit_2d"]["elements"] + [
-        {"t": "circ", "h": 1.2, "z": 0.34, "r": 0.34, "c": "noir_9005"}], cw, chh, 260, h0=-0.55, personne=False,
-        titre="V2 : arceau 0,65 x 0,82 anthracite + roue 0,68", cote="grille 1 m")
+        {"t": "line", "p": [[0.70 + 0.34 * __import__("math").cos(t / 12 * 6.2832), 0.34 + 0.34 * __import__("math").sin(t / 12 * 6.2832)] for t in range(13)],
+         "w": 0.02, "c": "noir_9005"}], cw, chh, 225, h0=-0.42, personne=False,
+        titre="V2 : arceau 0,65 x 0,82 + roue de vélo 0,68", cote="grille 1 m")
     cells = [
         legende(extrait(T_DD2A, "r01_c00", 300, 330, cw, chh), "2024-05-01 dd2a9c8c r01_c00 : arceaux\nanthracite, l/h ≈ 0,72 (ciel couvert)"),
         arceau_gab,
@@ -332,8 +338,8 @@ def p9_v2(mob):
         legende(extrait(T_5C0D, "r01_c04", 600, 200, cw, chh), "2024-08 5c0d1d39 : arbre pourpre (arbre_273)\n→ arbre_prunus_cerasifera_pissardii_moyen"),
         legende(extrait(T_9834, "r01_c04", 90, 160, cw, chh), "2025-05 9834f494 r01_c04 : même arbre\npourpre derrière la haie"),
         legende(extrait(T_7A18, "r00_c05", 0, 380, cw, chh), "2025-05 7a182db7 r00_c05 : houppier haut\nà l'emplacement du Populus alba (424)"),
-        legende(extrait(T_B401, "r01_c04", 300, 300, cw, chh), "2024-05 b4013696 : haie = laurier-cerise\n(grandes feuilles vernissées)"),
-        legende(extrait(T_0508, "r01_c04", 520, 120, cw, chh), "2026-07 05089869 : grand feuillu voisin des\nmagnolias → hauteurs 8-9 m rejetées (5 m)"),
+        legende(extrait(T_B401, "r01_c04", 40, 560, cw, chh), "2024-05 b4013696 : haie = laurier-cerise\n(grandes feuilles vernissées)"),
+        legende(extrait(T_0508, "r01_c04", 560, 320, cw, chh), "2026-07 05089869 : grand feuillu voisin des\nmagnolias → hauteurs 8-9 m rejetées (5 m)"),
         _plan_cypres(cw, chh),
     ]
     return planche("QA 09 — V2 : corrections vérifiées sur photos (arceaux, T3, essences, hauteurs, cyprès)", cells, 3, 3, "qa_09_v2_corrections.jpg")

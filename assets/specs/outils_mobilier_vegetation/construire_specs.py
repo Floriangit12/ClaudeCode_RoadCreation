@@ -35,7 +35,7 @@ HISTORIQUE = [
     {"version": 1, "date": "2026-10-09", "contenu": "première version (fiches, profils, essences, correspondances CARLA)"},
     {"version": 2, "date": DATE, "contenu": ("contrôle visuel des 8 planches V1 et recoupements photo/normes : correspondance prototypes de la scène → "
                                               "noms du catalogue (+ script noms_catalogue_scene.py), hauteurs d'arbres aberrantes corrigées, 2 essences "
-                                              "ajoutées (arbre pourpre, peuplier blanc), cyprès hors emprise, arceaux anthracite 0,65 x 0,82 m, positions des BEV, "
+                                              "ajoutées (arbre pourpre, peuplier blanc), cyprès n°1 triangulé dans l'emprise (instance à ajouter), arceaux anthracite 0,65 x 0,82 m, positions des BEV, "
                                               "profils de bordures vérifiés sur les plans cotés Celtys, bordure_T3 explicite, identifiants CARLA revérifiés")},
 ]
 
@@ -254,7 +254,8 @@ def construire_mobilier():
             "sources_donnees": ["recon/out/paquet_jardin/objets/mobilier.geojson (positions, hauteurs LiDAR, OSM)", "data/raw/panoramax/paquet_jardin/tiles (photos)",
                                 "data/sites/paquet_jardin/vector/osm_*.geojson", "data/raw/docs/panneau_150dpi.png (plan projet 2025)"],
             "controle_visuel": ["assets/qa/mobilier_vegetation_carla/qa_01_eclairage.jpg", "assets/qa/mobilier_vegetation_carla/qa_02_transport.jpg",
-                                "assets/qa/mobilier_vegetation_carla/qa_03_mobilier.jpg", "assets/qa/mobilier_vegetation_carla/qa_08_carla_vs_reel.jpg"],
+                                "assets/qa/mobilier_vegetation_carla/qa_03_mobilier.jpg", "assets/qa/mobilier_vegetation_carla/qa_08_carla_vs_reel.jpg",
+                                "assets/qa/mobilier_vegetation_carla/qa_09_v2_corrections.jpg"],
             "hors_lot": "feux, mâts de feux, mât à crosse caméra et panneaux : assets/specs/feux.json et panneaux.json (la correspondance avec la scène les inclut pour être complète)",
             "version": VERSION, "historique": HISTORIQUE,
         },
@@ -381,7 +382,8 @@ def construire_bordures():
             "longueur_element": "1,00 m (joints de 3-5 mm, éléments de 0,50 m en courbe serrée ; éléments courbes R 25 en nez d'îlot)",
             "tolerances_nf": "faces vues : ± 3 mm (< 100 mm), ± 3 % (100-170 mm), ± 5 mm (> 170 mm) ; longueur ± 1 %",
             "sources": DB.SOURCES,
-            "controle_visuel": ["assets/qa/mobilier_vegetation_carla/qa_04_bordures_profils.jpg", "assets/qa/mobilier_vegetation_carla/qa_05_bordures_site.jpg"],
+            "controle_visuel": ["assets/qa/mobilier_vegetation_carla/qa_04_bordures_profils.jpg", "assets/qa/mobilier_vegetation_carla/qa_05_bordures_site.jpg",
+                                "assets/qa/mobilier_vegetation_carla/qa_09_v2_corrections.jpg (bordure_T3)"],
             "verification_v2": DB.VERIFICATION_V2,
             "version": VERSION, "historique": HISTORIQUE,
         },
@@ -482,7 +484,8 @@ def construire_vegetation():
                  "sources": ["data/context/arbres_metropole.geojson (68 fiches dans l'emprise : 52 présentes, 16 abattues)",
                              "recon/out/paquet_jardin/objets/arbres.geojson (470 arbres : GAM, LiDAR, inventaire, plan projet)",
                              "plan projet 2025 (data/raw/docs/panneau_150dpi.png, codes d'essences relus à 150 dpi)", "photos Panoramax 2023-2026"],
-                 "controle_visuel": ["assets/qa/mobilier_vegetation_carla/qa_06_vegetation.jpg", "assets/qa/mobilier_vegetation_carla/qa_07_plan_jeunes_sujets.jpg"],
+                 "controle_visuel": ["assets/qa/mobilier_vegetation_carla/qa_06_vegetation.jpg", "assets/qa/mobilier_vegetation_carla/qa_07_plan_jeunes_sujets.jpg",
+                                     "assets/qa/mobilier_vegetation_carla/qa_09_v2_corrections.jpg"],
                  "version": VERSION, "historique": HISTORIQUE,
                  "classes_scene_v1": ("attention : recon/assemble.py (paquet v1) nomme les prototypes d'arbres avec ses propres classes (petit < 8 m, moyen < 15 m, "
                                       "grand au-delà) et l'essence brute : voir correspondance_scene_v1 pour la table prototype de scène → asset"),
@@ -493,7 +496,8 @@ def construire_vegetation():
         "generateur_jeune_sujet": {"hda_propose": "jeune_sujet.hda (Houdini 22) : tronc conique + 5-8 charpentières + rameaux (Labs Tree Branch Generator) + cartes de feuilles par essence + tripode bois",
                                    "parametres": ["essence (atlas de feuilles, couleur été/automne)", "hauteur 3,5-5 m", "Ø tige 0,05-0,08 m", "Ø couronne 1,5-2,5 m",
                                                   "état saisonnier 0-1 (vert → coloré → chute)", "tuteurage on/off (tripode 3 x Ø 0,08 x 2,2 m + demi-rondins)", "paillage Ø 1,5-2 m"]},
-        "correspondance_scene_v1": correspondance(True, SPECS / "vegetation.json"),
+        "correspondance_scene_v1": dict(correspondance(True, SPECS / "vegetation.json") or {},
+                                        instances_a_ajouter=[dict(i, asset=e["asset"]) for e in ess_out for i in e.get("instances_a_ajouter", [])]),
         "essences": ess_out,
         "synthese": {"arbres_inventaire_presents": sum(1 for a, v in par.items() if "generique" not in a and a != "arbre_prunus_cerasifera_pissardii_moyen"
                                                        for p in v if "planté 2025" not in str(p.get("statut_2026")) and "vérifier" not in str(p.get("statut_2026"))),

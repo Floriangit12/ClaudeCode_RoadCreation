@@ -5743,6 +5743,1655 @@
   "usure": "NA"
  },
  {
+  "id": "vercors_s-01",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "geometrie_voies",
+  "statut": "verifie_x2",
+  "texte": "Le tronçon se découpe en 5 séquences, du nord au sud :\n1. convergence de l'ancien tourne-à-droite dans la voie descendante, avec 2 voies d'approche montantes (y 6460262 → 6460236) ;\n2. section courante à 2×1 voies, plus une bande latérale est revêtue (6460236 → 6460166) ;\n3. carrefour de l'allée des Mitaillères (ouest) et de la voie de chantier A (est), vers 6460150-6460166 ;\n4. terre-plein central peint et passage piéton sud (6460146 → 6460118) ;\n5. double ligne axiale et couloir bus montant (6460119 → 6460100).\nL'axe tourne : azimut ≈163° au nord, ≈170° au centre, puis ≈145-150° au sud, où la chaussée s'oriente vers le SE.",
+  "texte_initial": "Le tronçon se découpe en 5 séquences, du nord au sud :\n1. convergence de l'ancien tourne-à-droite dans la voie descendante, avec 2 voies d'approche montantes (y 6460262 → 6460236) ;\n2. section courante à 2×1 voies, plus une bande latérale est revêtue (6460236 → 6460166) ;\n3. carrefour de l'allée des Mitaillères (ouest) et de la voie de chantier A (est), vers 6460150-6460166 ;\n4. terre-plein central peint et passage piéton sud (6460146 → 6460118) ;\n5. double ligne axiale et couloir bus montant (6460119 → 6460100).\nL'axe tourne : azimut ≈163° au nord, ≈170° au centre, puis ≈145-150° au sud, où la chaussée s'oriente vers le SE.",
+  "localisation": "Axe de L93 917291,6460262 à 917345,6460100",
+  "preuve": "Mosaïque des 5 tuiles. Axe tracé point par point par détection top-hat : 917300,2/6460236 ; 917305,05/6460214 ; 917308,9/6460192 ; 917312,75/6460170 ; 917319,3/6460146 ; 917328/6460125.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10 ; MNT LiDAR 2021",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-01",
+   "verdict": "confirme",
+   "justification": "J'ai rouvert les 5 tuiles et suivi l'axe pic par pic : 917300,3/6460236 ; 917305,05/6460214 ; ≈917308,9/6460192 ; ≈917312,7/6460170. Les 5 séquences sont bien présentes. Largeurs mesurées perpendiculairement à l'axe, bordures repérées par les marches du MNT et l'axe par l'ortho : ≈10,0 m à 6460245 (bordures 917293,9 et 917304,5), 9,25 m à 6460208 (917303,2 et 917312,6), 10,1 m à 6460176 (917307,5 et 917317,8), ≈12-12,5 m au passage sud.",
+   "usure_verifiee": "NA",
+   "correction": "Nuance : au bas de la tuile (6460113 → 6460101), l'azimut de l'axe est ≈141°, pas 145-150°."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-01",
+   "verdict": "confirme",
+   "justification": "J'ai recoupé avec le MNT LiDAR 2021 en détectant les bordures sur des profils. Largeur entre bordures : 917294,1→917304,55 à y 6460245, soit 9,9 m perpendiculaires ; 917303,3→917312,6 à 6460208, soit 9,1 m ; 917307,6→917317,95 à 6460176, soit 10,1 m. Au passage sud, un transect perpendiculaire sur l'ortho donne ≈12,5 m. Les points d'axe du rapport coïncident avec l'axe GAM (ligne 401, état antérieur aux travaux sur le Vercors) à ±0,1 m : 917305,1 à 6460214 et 917309,0 à 6460192. Azimuts mesurés : 161° au nord de 6460236, 168-170° au centre, ≈146-158° au sud. Le découpage en 5 séquences est cohérent avec les orthos IGN 2015, 2018, 2021 et 2024.",
+   "usure_verifiee": "NA"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-02",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "geometrie_voies",
+  "statut": "corrige",
+  "texte": "Ancienne voie de tourne-à-droite (couloir bus venant de Verdun, BD TOPO : 1 voie de 3,5 m, réservée aux bus, « restreint aux ayants droit »). Elle longe la bordure de la bande séparative ouest et rejoint la voie descendante qui sort du carrefour par un simple entonnoir, sans aucun marquage de convergence (ni ligne, ni flèche de rabattement, ni cédez-le-passage). Largeur perpendiculaire de la voie unique, mesurée de la bordure (MNT et ortho) au centre de l'axe, à ±0,2 m : ≈5-5,5 m à 6460256, ≈3,9-4,0 m à 6460252, puis ≈3,2-3,5 m de 6460248 à 6460240, au lieu de 3,3/3,1/3,0 m. Le rayon de ≈21 m n'est pas confirmé : l'ajustement d'un cercle sur la bordure entre 6460238 et 6460254 donne 27 à 57 m selon les points retenus, donc mal contraint. Résidus :\n- un trait blanc net et isolé de ≈1,2-1,3 × 0,12 m à 917288,1-917288,8 × 6460264,3-6460265,4, à ≈0,5 m de la bordure ouest de l'îlot et parallèle à elle. Luminance ≈200, max 212-220, top-hat ≈40, contre ≈205-209 pour le contour de l'îlot et le « 30 ». C'est un vrai marquage peu usé (usure ≈1), d'origine inconnue, pas un fantôme ;\n- un point blanc vers 917285,0/6460263,0.",
+  "texte_initial": "Ancienne voie de tourne-à-droite, à l'aval du passage qui la traverse dans le cœur du carrefour. C'est le couloir bus venant de Verdun, à accès restreint selon la BD TOPO. Il longe la bordure de la bande séparative ouest et rejoint la voie descendante qui sort du carrefour, sans aucun marquage de convergence : ni ligne de voie, ni flèche de rabattement, ni cédez-le-passage. La convergence se fait par un simple entonnoir. La voie unique se rétrécit de 5,5 m à 3,0 m sur ≈18 m. Deux petits résidus de traits blancs se trouvent dans cette zone : ≈1,1 × 0,15 m vers 917288,4/6460264,9 et un point vers 917285,1/6460263,9. Ce sont probablement d'anciens marquages.",
+  "localisation": "917281-917298 × 6460243-6460266 (entrée à l'ouest vers 917281,6460261)",
+  "preuve": "Tuile 917250_6460250, px (600-900, 700-1000), et tuile 917250_6460200, px (700-1000, 0-200). Zooms 2,5x avec grille. Largeurs tirées des profils de brillance entre la bordure ouest et le pic de l'axe, corrigés du cos de l'azimut.",
+  "usure": "1",
+  "cause_usure": "Les résidus sont d'anciens traits effacés, ou des restes de l'ancienne délimitation du couloir.",
+  "date_source": "ortho PCRS 2022-05-10 ; BD TOPO (couloir restreint)",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-02",
+   "verdict": "corrige",
+   "justification": "Le fond est confirmé :\n- La BD TOPO contient un tronçon « reserve_aux_bus = Sens direct, Restreint aux ayants droit », de 3,5 m, entre 917279,3/6460261,6 et 917294,0/6460256,2.\n- L'entonnoir longe la bordure de la bande séparative et n'a aucun marquage de convergence.\n- Largeurs perpendiculaires : 4,9 m (6460256) et 3,9 m (6460252) sont retrouvées.\n\nLes largeurs plus au sud sont un peu sous-estimées : ≈3,45-3,7 m à 6460248 et ≈3,25-3,3 m vers 6460244-6460240 (MNT et pic de l'axe). Surtout, le « résidu » à 917288,15-917288,75 × 6460264,3-6460265,5 est un trait net de 1,3 × 0,12 m : blanc 213, contraste 49, autant qu'un marquage courant. Ce n'est pas un fantôme.",
+   "usure_verifiee": "1",
+   "correction": "- Voie descendante ≈3,3-3,5 m entre 6460248 et 6460240, au lieu de 3,3/3,1/3,0 m.\n- Le trait de 1,3 m près de l'îlot est un marquage blanc net, isolé, d'origine inconnue (usure 0-1), pas un fantôme F.\n- Le point vers 917285 se situe plutôt vers 6460263,0."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-02",
+   "verdict": "confirme",
+   "justification": "La BD TOPO confirme les tronçons 40 et 15 : 1 voie de 3,5 m, accès « restreint aux ayants droit », reserve_aux_bus = « sens direct ». Sur l'ortho, aucun marquage de convergence entre le nez de l'îlot et l'îlot vert. Le Panoramax 2025-01-12 a1ffea74 montre encore le « 30 », toujours sans ligne. Largeurs perpendiculaires mesurées de la bordure LiDAR à l'axe : 4,0 m (6460252), 3,6 m (6460248), 3,1 m (6460244), 3,2 m (6460240). À 6460256, j'obtiens ≈5,2 m, une valeur sensible à la courbure de la bordure. Les deux petits résidus blancs sont visibles. Le rayon de ≈21 m n'est pas vérifié. Les levés GAM « bordure » (post-travaux) et le plan projet montrent une bordure et un îlot vert sur cette ancienne voie."
+  },
+  "arbitrage": {
+   "id": "vercors_s-02",
+   "decision": "retenu_corrige",
+   "usure_finale": "1",
+   "texte_final": "Ancienne voie de tourne-à-droite (couloir bus venant de Verdun, BD TOPO : 1 voie de 3,5 m, réservée aux bus, « restreint aux ayants droit »). Elle longe la bordure de la bande séparative ouest et rejoint la voie descendante qui sort du carrefour par un simple entonnoir, sans aucun marquage de convergence (ni ligne, ni flèche de rabattement, ni cédez-le-passage). Largeur perpendiculaire de la voie unique, mesurée de la bordure (MNT et ortho) au centre de l'axe, à ±0,2 m : ≈5-5,5 m à 6460256, ≈3,9-4,0 m à 6460252, puis ≈3,2-3,5 m de 6460248 à 6460240, au lieu de 3,3/3,1/3,0 m. Le rayon de ≈21 m n'est pas confirmé : l'ajustement d'un cercle sur la bordure entre 6460238 et 6460254 donne 27 à 57 m selon les points retenus, donc mal contraint. Résidus :\n- un trait blanc net et isolé de ≈1,2-1,3 × 0,12 m à 917288,1-917288,8 × 6460264,3-6460265,4, à ≈0,5 m de la bordure ouest de l'îlot et parallèle à elle. Luminance ≈200, max 212-220, top-hat ≈40, contre ≈205-209 pour le contour de l'îlot et le « 30 ». C'est un vrai marquage peu usé (usure ≈1), d'origine inconnue, pas un fantôme ;\n- un point blanc vers 917285,0/6460263,0.",
+   "justification": "J'ai mesuré moi-même la bordure ouest (pas MNT tous les 1 m, plus lecture visuelle sur zoom 2,5x) et la position de l'axe (pic de brillance). Les largeurs perpendiculaires à la ligne d'axe (az ≈160,5°) valent 3,1-3,6 m entre 6460240 et 6460248 ; un ajustement linéaire de la bordure donne ≈3,2 m. Le rapport sous-estime donc légèrement les largeurs au sud, comme le disent les deux vérificateurs (3,25-3,7 m). Le trait est détecté en composante connexe avec un contraste proche des marquages courants, ce qui exclut l'usure F. Le point se trouve bien à y ≈6460263,0 (composante à 917284,9-917285,1 × 6460262,9-6460263,1). L'absence de marquage de convergence est confirmée par les deux avis et par l'ortho."
+  }
+ },
+ {
+  "id": "vercors_s-03",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "fleche_symbole",
+  "statut": "verifie_x2",
+  "texte": "Rappel de vitesse « 30 » dans une ellipse blanche, au centre de la convergence. Il se lit dans le sens sortant (vers le sud) et annonce la zone 30. La photo Panoramax 2020 montre un panneau rond « 30 » sur l'accotement ouest. Les chiffres sont nets, avec quelques manques.",
+  "texte_initial": "Rappel de vitesse « 30 » dans une ellipse blanche, au centre de la convergence. Il se lit dans le sens sortant (vers le sud) et annonce la zone 30. La photo Panoramax 2020 montre un panneau rond « 30 » sur l'accotement ouest. Les chiffres sont nets, avec quelques manques.",
+  "localisation": "917289,2 ; 6460260,4",
+  "preuve": "Tuile 917250_6460250, px (783,792). Zoom 2,5x.",
+  "usure": "1",
+  "cause_usure": "Passage des roues des véhicules qui convergent (bus du tourne-à-droite et sortie du carrefour), plus l'âge.",
+  "date_source": "ortho PCRS 2022-05-10 ; Panoramax 2020-05-21",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-03",
+   "verdict": "confirme",
+   "justification": "Ellipse centrée vers 917289,2/6460260,4, d'environ 1,54 × 2,3 m. Les chiffres sont nets, avec quelques manques. Sur Panoramax 2020 (6d32fc64, r01_c01), un panneau rond « 30 » est visible sur la bande séparative, entre la piste et la chaussée.",
+   "usure_verifiee": "1"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-03",
+   "verdict": "confirme",
+   "justification": "Vu au zoom 8x, le texte apparaît comme « 0Ɛ » en vue nord en haut. Il se lit donc correctement pour un conducteur qui roule vers le sud. Ellipse ≈1,53 × 2,25 m. Top-hat médian 55 (le plus élevé des symboles de la zone), luminance 199. La carte de contraste le classe en jaune. Le marquage est toujours présent en janvier 2025 (Panoramax a1ffea74, tuile r01_c00). En revanche, je n'ai pas pu confirmer le panneau rond « 30 » sur les photos 2020 : leur géolocalisation paraît douteuse (620524a2 ne montre pas le carrefour).",
+   "usure_verifiee": "1"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-04",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "verifie_x2",
+  "texte": "Le nez de l'îlot effilé est prolongé par un marquage peint : deux traits convergents avec un remplissage grisé. Il se continue par l'axe continu qui sépare la voie descendante des voies d'approche. L'axe est blanc franc, à bords nets et sans lacune entre 6460252 et 6460236.",
+  "texte_initial": "Le nez de l'îlot effilé est prolongé par un marquage peint : deux traits convergents avec un remplissage grisé. Il se continue par l'axe continu qui sépare la voie descendante des voies d'approche. L'axe est blanc franc, à bords nets et sans lacune entre 6460252 et 6460236.",
+  "localisation": "Nez à 917290,8/6460262,6. Axe jusqu'à 917300,2/6460236.",
+  "preuve": "Tuile 917250_6460250, px (816,748). Composante top-hat de 21 m de long (az 161°) dans les tuiles 917250_6460200 et 917300_6460200. Profil de largeur à mi-hauteur (FWHM).",
+  "usure": "1",
+  "cause_usure": "Remplissage du nez grisé (usure 2) : les roues mordent le nez lors des girations, surtout les bus du tourne-à-droite et les véhicules qui coupent la courbe. Le trait d'axe lui-même ne présente qu'une usure d'âge.",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-04",
+   "verdict": "confirme",
+   "justification": "- Nez de l'îlot gravillonné à 917290,75/6460262,6.\n- Le coin peint, à bords blancs et intérieur grisé, mesure ≈1,0 m de large en tête et s'effile jusqu'à la largeur de l'axe vers 6460256,5. Sa longueur est d'environ 6,5-6,8 m.\n- Axe de 6460257 à 6460236 : blanc médian 219-224, contraste 64-65, FWHM 0,15-0,18 m, continuité 1,00.",
+   "usure_verifiee": "1"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-04",
+   "verdict": "confirme",
+   "justification": "Le levé GAM enregistre le nez peint (ligne 402, 917290,5/6460262,3 → 917293,1/6460257,5, soit 5,4 m, un peu moins que les 6,8 m du rapport) et l'axe continu (ligne 401). Les deux coïncident avec l'ortho à ±0,1 m. Sur l'axe entre 6460252 et 6460240 : top-hat 65, luminance 212, continuité 1,0. Le constat d'usure 1 tient. La carte de contraste ne colore ni cet axe ni le nez, sans doute parce que le filtre des taches de plus de 3 m² élimine les longues composantes continues : elle ne peut donc ni confirmer ni infirmer ce point.",
+   "usure_verifiee": "1"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-05",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "corrige",
+  "texte": "Interruption locale de l'axe continu sur ≈2,9 m, de 6460236,3 à 6460233,45 (et non ≈5 m). Séquence : vide de 0,4-0,45 m ; trait de ≈0,7 m (6460235,8 → 6460235,1) ; vide de 0,4-0,5 m ; trait de ≈0,6-0,65 m (6460234,65 → 6460234,0) ; vide de ≈0,5 m ; puis reprise de la ligne continue. Le « trait 2 » du rapport (6460233,4-6460232,1) est en fait le début de la reprise. Les traits sont aussi blancs que l'axe (≈210-223), à bords nets, et le motif est régulier : c'est plutôt un motif peint, non conforme à un type T normalisé, qu'une perte de peinture. Il fait face à l'accès est. Une fine ligne sombre transversale (vercors_s-15) passe à ≈6460234,6-6460234,7, entre les deux traits et au contact du second. Sur la photo Panoramax du 12/01/2025 (4d9fa65d), l'axe paraît continu dans cette zone, ce qui suggère un remarquage entre 2022 et 2025 (position GPS de la photo à ±4 m). Le levé GAM contient un segment 399 qui couvre exactement la zone des traits (917300,34/6460235,68 → 917300,89/6460233,73).",
+  "texte_initial": "Interruption locale de l'axe continu sur ≈5 m : la ligne y est remplacée par 2 traits courts. Deux hypothèses :\n- une ouverture voulue en face de l'accès est (abaissé de bordure et place d'autopartage signalés en 2025 vers 917308,6460238) ;\n- une perte de peinture.\nUne ombre de câble et une ligne sombre traversent la chaussée exactement à cet endroit. Le motif ne correspond à aucun type T normalisé.",
+  "localisation": "917300,3-917301,6 × 6460231-6460236,5",
+  "preuve": "Tuile 917300_6460200, px (0-30, 270-380). Zoom 4,5x avec grille de 0,5 m : trait 1 de 6460235,8 à 6460234,3, trait 2 de 6460233,4 à 6460232,1, ligne continue au-delà.",
+  "usure": "1",
+  "cause_usure": "Si c'est de l'usure : écaillage au droit d'une ligne transversale (fissure pontée ou joint) et franchissements vers l'accès est. Si c'est voulu : le motif est non réglementaire.",
+  "date_source": "ortho PCRS 2022-05-10 ; Panoramax 2025-01-12 (accès est)",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-05",
+   "verdict": "corrige",
+   "justification": "L'interruption existe mais les mesures sont fausses. En échantillonnant tous les 0,1 m le long de l'axe :\n- ligne continue jusqu'à 6460236,3 ;\n- vide de 0,4 m ;\n- trait de ≈0,75 m (6460235,8 → 6460235,1) ;\n- vide de 0,4 m ;\n- trait de ≈0,65 m (6460234,6 → 6460234,0) ;\n- vide de 0,5 m ;\n- reprise de la ligne continue à 6460233,45.\n\nLe « trait 2 » du rapport (6460233,4-6460232,1) est en fait le début de la ligne continue. La ligne sombre transversale passe à ≈6460234,7, exactement entre les deux traits (ce point est confirmé).",
+   "usure_verifiee": "2",
+   "correction": "Interruption d'environ 2,9 m (et non ≈5 m), de 6460236,3 à 6460233,45. Deux traits de 0,65-0,75 m (et non 1,3 et 1,5 m), séparés par des vides de 0,35-0,5 m. La peinture des traits reste vive (210-223)."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-05",
+   "verdict": "corrige",
+   "justification": "Les mesures du rapport sont fausses. J'ai échantillonné le profil le long de l'axe tous les 0,1 m et zoomé à 8x. L'axe s'arrête à y 6460236,3, puis on trouve : un vide de 0,45 m, un trait (6460235,8 → 6460235,15, ≈0,7 m), un vide de 0,4 m, un trait (6460234,65 → 6460234,05, ≈0,6 m), un vide de 0,5 m. La ligne reprend dès 6460233,4. L'interruption fait donc ≈3 m et non 5 m, avec des traits de 0,6-0,7 m et non de 1,3-1,5 m ; le début du « trait 2 » du rapport est en fait la reprise de la ligne. Les traits sont aussi blancs que l'axe (210-223) et les vides sont propres et réguliers : cela plaide pour un motif peint volontairement plutôt que pour de l'usure. L'ombre de câble passe bien sur le 2e trait. Évolution : sur le Panoramax du 12/01/2025 (4d9fa65d, à 7 m, gaps attendus ≈57 px), l'axe paraît continu à cet endroit, ce qui suggère un remarquage entre 2022 et 2025. Dans le levé GAM, l'axe 401 est continu, avec deux segments superposés (399 de 6460233,7 à 6460235,7 et 406 de 6460225 à 6460233,4) dont le sens reste ambigu.",
+   "correction": "Interruption de ≈3 m (6460236,3 → 6460233,4) formée de 2 traits de ≈0,6-0,7 m séparés par des vides de 0,4-0,55 m. Motif régulier, peinture en bon état. Absente (axe continu) sur la photo de janvier 2025.",
+   "usure_verifiee": "1"
+  },
+  "arbitrage": {
+   "id": "vercors_s-05",
+   "decision": "retenu_corrige",
+   "usure_finale": "1",
+   "texte_final": "Interruption locale de l'axe continu sur ≈2,9 m, de 6460236,3 à 6460233,45 (et non ≈5 m). Séquence : vide de 0,4-0,45 m ; trait de ≈0,7 m (6460235,8 → 6460235,1) ; vide de 0,4-0,5 m ; trait de ≈0,6-0,65 m (6460234,65 → 6460234,0) ; vide de ≈0,5 m ; puis reprise de la ligne continue. Le « trait 2 » du rapport (6460233,4-6460232,1) est en fait le début de la reprise. Les traits sont aussi blancs que l'axe (≈210-223), à bords nets, et le motif est régulier : c'est plutôt un motif peint, non conforme à un type T normalisé, qu'une perte de peinture. Il fait face à l'accès est. Une fine ligne sombre transversale (vercors_s-15) passe à ≈6460234,6-6460234,7, entre les deux traits et au contact du second. Sur la photo Panoramax du 12/01/2025 (4d9fa65d), l'axe paraît continu dans cette zone, ce qui suggère un remarquage entre 2022 et 2025 (position GPS de la photo à ±4 m). Le levé GAM contient un segment 399 qui couvre exactement la zone des traits (917300,34/6460235,68 → 917300,89/6460233,73).",
+   "justification": "Mon zoom 6x avec grille de 0,5 m reproduit exactement les mesures concordantes des deux vérificateurs : fin de ligne à 6460236,3, traits de 0,65-0,7 m, reprise à 6460233,45. La peinture des traits est vive. L'usure 2 n'est donc pas justifiée et je retiens 1, comme le recoupement. J'ai examiné la photo Panoramax 4d9fa65d (tuile r01_c01, zoom) : la ligne d'axe la plus proche paraît continue sur tout le secteur de relèvements 50-113°, où l'interruption devrait apparaître."
+  }
+ },
+ {
+  "id": "vercors_s-06",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "verifie_x2",
+  "texte": "Ligne de type T3 entre la voie de tourne-à-gauche et la voie de droite de l'approche du Vercors. Elle commence à la traversée (hors zone, au nord) et finit vers y 6460236, là où l'approche passe de 2 voies à 1. Traits blancs, nets et complets.",
+  "texte_initial": "Ligne de type T3 entre la voie de tourne-à-gauche et la voie de droite de l'approche du Vercors. Elle commence à la traversée (hors zone, au nord) et finit vers y 6460236, là où l'approche passe de 2 voies à 1. Traits blancs, nets et complets.",
+  "localisation": "De 917293,4/6460265 à 917303,4/6460236,3",
+  "preuve": "Tuiles 917250_6460250 px (868,700) et 917300_6460200 px (68,274). Composantes top-hat : traits de 3,11, 3,40, 3,26 et 3,19 m.",
+  "usure": "1",
+  "cause_usure": "Âge et franchissements lors des changements de voie en approche du feu.",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-06",
+   "verdict": "confirme",
+   "justification": "- Traits mesurés le long du tracé : 3,1 / 3,4 / 3,3 / 3,7 / 3,45 / 3,3 / 3,25 m.\n- Vides de 1,1 à 1,5 m, dont un de 1,85 m.\n- Largeur 0,15 m, blanc ≈213.\n- La T3 s'arrête à 917303,4/6460236,3, comme annoncé.",
+   "usure_verifiee": "1"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-06",
+   "verdict": "confirme",
+   "justification": "Le levé GAM trace la T3 (lignes 408 et 398) de 6460267,7 à 6460236,2. Elle coïncide avec les tirets de l'ortho à ±0,1 m (917299,2 contre 917299,35 à 6460248). Mes zooms donnent des traits de ≈3,1 m en y, soit 3,3 m le long de la ligne, et des intervalles un peu plus longs que dans le rapport (≈1,4-1,5 m). Top-hat 39-52, carte de contraste en jaune : usure 1 conforme.",
+   "usure_verifiee": "1"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-07",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "fleche_symbole",
+  "statut": "corrige",
+  "texte": "Deux jeux de flèches de sélection, espacés d'environ 22 m, sur les voies montantes :\n- tourne-à-gauche dans la voie de gauche ;\n- flèche triple (tout droit, gauche, droite) dans la voie de droite.\nPositions : jeu nord vers 917292,3-917294,2 × 6460258,5-6460262 (tourne-à-gauche) et 917295,6-917297,3 × 6460258-6460263,3 (triple). Jeu sud vers 917300-917301,8 × 6460237,1-6460240,6 et 917303,3-917305 × 6460236-6460241. Les deux jeux sont en usure 1 : luminance identique (≈202-205) et contraste comparable. Seul le fût du tourne-à-gauche nord est aminci et grisé, avec une surface peinte moindre (localement usure 2). Tourne-à-gauche sud ≈3,5-3,9 m ; flèche triple sud ≈5,4-5,8 m, fût compris. Aucune ligne d'effet des feux ni ligne d'arrêt n'est visible sur ce tronçon.",
+  "texte_initial": "Deux jeux de flèches de sélection, espacés d'environ 22 m, sur les voies montantes :\n- jeu nord : tourne-à-gauche dans la voie de gauche et flèche triple (tout droit, gauche, droite) dans la voie de droite ; le fût du tourne-à-gauche est grisé ;\n- jeu sud : même dessin, peinture blanche légèrement grenue, contours nets.\nAucune ligne d'effet des feux ni ligne d'arrêt n'est visible.",
+  "localisation": "Nord : tourne-à-gauche 917293/6460261, triple 917296,5/6460262. Sud : tourne-à-gauche 917300,5/6460239,7, triple 917304,2/6460238,5.",
+  "preuve": "Tuiles 917250_6460250 px (860,780) et (930,760) ; tuile 917300_6460200 px (10,206) et (84,230). Zooms 2x à 4x.",
+  "usure": "1",
+  "cause_usure": "Jeu nord en usure 2 : freinages et démarrages de la file d'attente au feu, plus girations. Jeu sud : âge.",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-07",
+   "verdict": "confirme",
+   "justification": "Les deux jeux de flèches sont bien là, à 22 m d'écart : tourne-à-gauche plus flèche triple (tout droit, gauche, droite), vérifiés au zoom 6x. Le jeu nord est plus gris et plus grenu. Tourne-à-gauche sud : ≈3,9 m. Flèche triple sud : ≈5,8 m.",
+   "usure_verifiee": "1"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-07",
+   "verdict": "corrige",
+   "justification": "Les formes sont confirmées au zoom 4x : tourne-à-gauche dans la voie de gauche et flèche en trident (3 pointes) dans la voie de droite, pour les deux jeux. Le levé GAM place 2 blocs « FLECHE_DROIT_GAUCHE » symétriques (±18,9°) au jeu nord, cohérents avec une flèche triple, et « FLECHE_GAUCHE » aux deux tourne-à-gauche. Au jeu sud, il ne pose qu'un libellé « A » à 917303,97/6460241,33. En revanche, l'écart d'usure entre le nord et le sud n'est pas significatif. Top-hat médian : 42-45 au nord contre 48 au sud. Luminance identique : 203-205 contre 202-205. La carte de contraste est jaune ou orange pour les deux jeux. Seul le tourne-à-gauche nord a moins de surface peinte (1,0 contre 1,4 m²), ce qui confirme un fût dégradé.",
+   "correction": "Les deux jeux sont en usure 1. Seul le fût du tourne-à-gauche nord atteint localement 2. Le classement « jeu nord = usure 2 » est exagéré.",
+   "usure_verifiee": "1"
+  },
+  "arbitrage": {
+   "id": "vercors_s-07",
+   "decision": "retenu_corrige",
+   "usure_finale": "1",
+   "texte_final": "Deux jeux de flèches de sélection, espacés d'environ 22 m, sur les voies montantes :\n- tourne-à-gauche dans la voie de gauche ;\n- flèche triple (tout droit, gauche, droite) dans la voie de droite.\nPositions : jeu nord vers 917292,3-917294,2 × 6460258,5-6460262 (tourne-à-gauche) et 917295,6-917297,3 × 6460258-6460263,3 (triple). Jeu sud vers 917300-917301,8 × 6460237,1-6460240,6 et 917303,3-917305 × 6460236-6460241. Les deux jeux sont en usure 1 : luminance identique (≈202-205) et contraste comparable. Seul le fût du tourne-à-gauche nord est aminci et grisé, avec une surface peinte moindre (localement usure 2). Tourne-à-gauche sud ≈3,5-3,9 m ; flèche triple sud ≈5,4-5,8 m, fût compris. Aucune ligne d'effet des feux ni ligne d'arrêt n'est visible sur ce tronçon.",
+   "justification": "Au zoom 4x, les deux jeux ont un aspect très proche ; seul le fût du tourne-à-gauche nord paraît nettement plus fin et gris. Cela concorde avec les mesures du recoupement : top-hat 42-45 contre 48, luminance identique, surface de 1,0 m² contre 1,4 m² pour le seul tourne-à-gauche nord. Le classement « jeu nord en usure 2 » de la cause d'usure est donc exagéré. Les formes et les longueurs sont confirmées par les deux avis et par mon zoom."
+  }
+ },
+ {
+  "id": "vercors_s-08",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "geometrie_voies",
+  "statut": "corrige",
+  "texte": "Largeurs de l'approche montante à 2 voies. La rive est (B, puis liseré) reste à peu près droite (az ≈175-177°). L'axe, lui, tourne progressivement de ≈170° (vers 6460210) à ≈161° (au nord de 6460240) ; l'angle entre l'axe et B atteint ≈14° au droit de l'approche. Cet évasement donne d'abord une voie montante unique élargie (≈4,4-4,7 m vers 6460233-6460234), puis la voie de tourne-à-gauche à partir du début de la T3 (≈917303,3/6460236,5). Mesures perpendiculaires :\n- tourne-à-gauche : 2,70 m (6460256), 2,69 m (6460248), 2,8 m (6460243-6460245), 2,9 m (6460241) ;\n- voie de droite : ≈3,85-4,1 m de la T3 à la bordure basse (marche de ≈7-11 cm à 917304,5) à 6460245 ;\n- voie descendante à 6460245 : ≈3,2-3,4 m (±0,2 m), de la bordure MNT (≈917293,9-917294,5) au centre de l'axe (917297,6).",
+  "texte_initial": "Largeurs de l'approche montante à 2 voies. La chaussée s'évase vers l'ouest : l'axe dévie d'environ 14° sur 20 m pendant que la rive est reste à peu près droite. Cet évasement crée la voie de tourne-à-gauche. Au nord du liseré-damier est, la voie de droite s'élargit jusqu'à la bordure basse (marche de ≈11 cm au MNT).",
+  "localisation": "y 6460236-6460262",
+  "preuve": "Lignes détectées par profils en lignes horizontales à y 6460256/248/246/243/241 (axe, T3, liseré). Profil MNT à y 6460245 : bordure ouest 917294,1, marche est à 917304,6.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10 ; MNT LiDAR 2021",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-08",
+   "verdict": "corrige",
+   "justification": "Ce qui est confirmé :\n- Largeurs du tourne-à-gauche, retrouvées exactement : 2,69 m (6460248), 2,79 m (6460243).\n- Le principe de l'évasement : la rive B reste droite (az ≈175°) pendant que l'axe s'oriente à ≈161°, soit ≈14° entre les deux.\n\nCe qui est faux : « Voie descendante 2,95 m à 6460245 ». Avec la bordure MNT à 917293,9 et l'axe à 917297,55, on trouve ≈3,3-3,4 m perpendiculaires. Le rapport se contredit d'ailleurs lui-même : 3,1 m en s-02 et 3,45 m en s-13. La voie de droite jusqu'à la bordure (marche de 10 cm à 917304,5) fait ≈3,9-4,1 m.",
+   "usure_verifiee": "NA",
+   "correction": "- Voie descendante ≈3,3-3,4 m à 6460245.\n- Voie de droite ≈3,9-4,1 m jusqu'à la bordure à 6460245.\n- Les 14° sont l'angle entre l'axe et la rive B, et non une déviation absolue de l'axe : celui-ci passe de ≈161° à ≈168°."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-08",
+   "verdict": "corrige",
+   "justification": "Le principe est confirmé. Entre 6460230 et 6460240, l'axe se déporte de 917302,0 à 917299,2, tandis que la ligne est (liseré puis B) reste vers 917305,3. Le tourne-à-gauche mesure 2,77 m perpendiculaires à 6460245, ce qui confirme les 2,7-2,9 m. La marche est de 10-11 cm à 917304,55 (LiDAR) est confirmée. Mais deux chiffres sont faux à 6460245. La voie de droite, de la T3 (917300,47) à la bordure, fait 4,08 m horizontaux, soit 3,85 m perpendiculaires, et non 4,2 m. La voie descendante, de la bordure LiDAR (917294,1) à l'axe (917297,55), fait 3,45 m horizontaux, soit ≈3,25 m perpendiculaires, et non 2,95 m. Le rapport donne d'ailleurs trois valeurs différentes pour ce même point : 2,95 (s-08), 3,1 (s-02) et 3,45 (s-13).",
+   "correction": "À y 6460245 : tourne-à-gauche ≈2,8 m, voie de droite ≈3,85 m jusqu'à la bordure, voie descendante ≈3,2-3,25 m (perpendiculaire, ±0,2 m)."
+  },
+  "arbitrage": {
+   "id": "vercors_s-08",
+   "decision": "retenu_corrige",
+   "usure_finale": "NA",
+   "texte_final": "Largeurs de l'approche montante à 2 voies. La rive est (B, puis liseré) reste à peu près droite (az ≈175-177°). L'axe, lui, tourne progressivement de ≈170° (vers 6460210) à ≈161° (au nord de 6460240) ; l'angle entre l'axe et B atteint ≈14° au droit de l'approche. Cet évasement donne d'abord une voie montante unique élargie (≈4,4-4,7 m vers 6460233-6460234), puis la voie de tourne-à-gauche à partir du début de la T3 (≈917303,3/6460236,5). Mesures perpendiculaires :\n- tourne-à-gauche : 2,70 m (6460256), 2,69 m (6460248), 2,8 m (6460243-6460245), 2,9 m (6460241) ;\n- voie de droite : ≈3,85-4,1 m de la T3 à la bordure basse (marche de ≈7-11 cm à 917304,5) à 6460245 ;\n- voie descendante à 6460245 : ≈3,2-3,4 m (±0,2 m), de la bordure MNT (≈917293,9-917294,5) au centre de l'axe (917297,6).",
+   "justification": "Je confirme avec mes propres profils l'axe à 917297,6 et la bordure MNT entre 917293,9 et 917294,5 à 6460244-6460245. La voie descendante y mesure 3,2-3,45 m perpendiculaires, et non 2,95 m : le chiffre du rapport est faux, comme le disent les deux vérificateurs. La marche est se trouve à 917304,5 (+0,076 m), ce qui donne 3,85-4,1 m pour la voie de droite, et non 4,2 m. Pour l'angle de 14°, mes positions d'axe (917306,15 à 6460208 ; 917303,1 à 6460225 ; 917299,2 à 6460240 ; 917293,65 à 6460256) donnent une rotation absolue de ≈9° : les 14° sont l'angle entre l'axe et B, comme le précise la réobservation."
+  }
+ },
+ {
+  "id": "vercors_s-09",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "verifie_x2",
+  "texte": "Liseré blanc en blocs, comparable à une échelle ou à un damier usé, en rive est de la voie de droite. Il se prolonge vers le sud par la fine ligne de rive B. Il marque probablement la fin, ou le franchissement, de la bande latérale est en face d'un accès. La photo Panoramax 2025 n'a pas permis de trancher.",
+  "texte_initial": "Liseré blanc en blocs, comparable à une échelle ou à un damier usé, en rive est de la voie de droite. Il se prolonge vers le sud par la fine ligne de rive B. Il marque probablement la fin, ou le franchissement, de la bande latérale est en face d'un accès. La photo Panoramax 2025 n'a pas permis de trancher.",
+  "localisation": "917304,4-917306 × 6460238,1-6460242,5",
+  "preuve": "Tuile 917300_6460200, px (90-120, 150-240). Zoom 3,4x : blocs incomplets, grenus.",
+  "usure": "2",
+  "cause_usure": "Âge (marquage non renouvelé) et passages de roues des véhicules qui serrent la rive ou rejoignent l'accès est. Localement proche de 3.",
+  "date_source": "ortho PCRS 2022-05-10 ; Panoramax 2025-01-12",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-09",
+   "verdict": "confirme",
+   "justification": "Bande blanche en blocs grenus, de 0,3-0,4 m de large, vers 917304,5-917306 × 6460238,1-6460242,5. Elle prolonge au nord la ligne fine B (vue au zoom 5,6x). Son interprétation reste incertaine.",
+   "usure_verifiee": "2"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-09",
+   "verdict": "confirme",
+   "justification": "Le liseré grenu en blocs est bien présent (917304,4-917306 × 6460236,5-6460242,6) : top-hat médian 36, luminance 193. La carte de contraste l'affiche en orange-jaune fragmenté, ce qui confirme une usure 2. Sur le top-hat, la ligne B continue bien dans son alignement : 917305,1-917305,7 vers 6460230-6460233, puis 917306 à 6460225. Point à signaler : le levé GAM ne trace pas ce liseré. Il relie au contraire la fin de la T3 (917303,3/6460236,2) à B (ligne 407) et pose un libellé « A » à 917303,97/6460241,33. La zone entre la T3 et B est masquée par une voiture sur l'ortho 2022 : la topologie T3/B reste à lever.",
+   "usure_verifiee": "2"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-10",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "corrige",
+  "texte": "Ligne de rive est de la voie montante (B), continue et fine (0,10-0,15 m). Entre ≈6460225 et 6460165, elle est à 3,0-3,05 m de l'axe ; positions : 917309,15 (6460208), 917312,0 (6460192), 917313,35 (6460184), 917315,75 (6460170). Au nord de 6460225, B reste rectiligne (≈917305,8 de 6460228 à 6460237) alors que l'axe s'en écarte. La voie montante unique s'élargit donc : ≈3,35 m à 6460228, ≈3,7 m à 6460230, ≈4,4-4,7 m à 6460233-6460234. Au nord de 6460237, B se prolonge par le liseré grenu (917305,7/6460237 → 917304,4/6460243,5). Elle est très ombragée, voire masquée par la canopée, entre 6460205 et 6460237 (contraste 15-45), avec de nombreux manques. Elle est coupée par la tranchée de la voie A (≈6460164,5 → 6460162) puis reprend vers le sud. Usure 2.",
+  "texte_initial": "Ligne de rive est de la voie montante (B), continue et fine. Elle part du liseré nord et descend jusqu'au débouché de la voie A, à environ 3,0 m de l'axe. Elle est souvent dans l'ombre des arbres de l'est, avec des manques nombreux. Elle est coupée par la tranchée de la voie A, puis reprend vers le sud jusqu'au carrefour.",
+  "localisation": "De 917305,8/6460235 à 917316,9/6460165, puis 917319,5/6460153",
+  "preuve": "Tuiles 917300_6460200 px (116,300) → 917300_6460150 px (330,700). Positions mesurées : 917309,15 (6460208), 917311,95 (6460192), 917313,3 (6460184), 917315,78 (6460170). Continuité calculée en échantillonnant tous les 0,1 m le long du tracé.",
+  "usure": "2",
+  "cause_usure": "Roues des bus et PL qui chevauchent la rive dans une voie de 3 m ; humidité et mousse sous les arbres ; âge. La ligne n'a pas été refaite sur la tranchée.",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-10",
+   "verdict": "corrige",
+   "justification": "Le tracé est confirmé, avec la coupure sur la tranchée de 6460164 à 6460162,4. Distance axe-rive mesurée de 6460208 à 6460168 : 3,0-3,05 m, ce qui est juste.\n\nMais au nord, B est rectiligne (917305,7 à 6460233 → 917306,1 à 6460225) alors que l'axe s'en écarte vers l'ouest. L'écart axe-B vaut 3,05 m à 6460225, 3,4 m à 6460228, 3,8 m à 6460230 et ≈4,5 m à 6460233. Sur cette portion très ombragée, le contraste de B tombe à 15-50.",
+   "usure_verifiee": "2",
+   "correction": "La voie montante ne mesure ≈3,0 m qu'au sud de 6460225. Elle s'élargit à ≈4,4-4,9 m entre 6460228 et 6460236, juste avant le début de la T3."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-10",
+   "verdict": "confirme",
+   "justification": "Les positions de B coïncident avec la ligne GAM 403 à ±0,1 m (917309,2 à 6460208, 917312,0 à 6460192, 917315,9 à 6460170). Le pic du profil transversal est centré, avec un décalage de 0,00 à 0,05 m. Top-hat médian 30-35 et luminance 183-195 entre 6460170 et 6460208, plus bas que l'axe nord (65 et 212) : l'usure 2 est cohérente. La continuité dépend du seuil : 0,78-0,91 au-dessus de 35, 0,11-0,74 au-dessus de 45. B est bien coupée par la tranchée sur l'ortho (≈6460164,8 → 6460161,9), alors que le levé GAM, antérieur ou généralisé, la trace continue.",
+   "usure_verifiee": "2"
+  },
+  "arbitrage": {
+   "id": "vercors_s-10",
+   "decision": "retenu_corrige",
+   "usure_finale": "2",
+   "texte_final": "Ligne de rive est de la voie montante (B), continue et fine (0,10-0,15 m). Entre ≈6460225 et 6460165, elle est à 3,0-3,05 m de l'axe ; positions : 917309,15 (6460208), 917312,0 (6460192), 917313,35 (6460184), 917315,75 (6460170). Au nord de 6460225, B reste rectiligne (≈917305,8 de 6460228 à 6460237) alors que l'axe s'en écarte. La voie montante unique s'élargit donc : ≈3,35 m à 6460228, ≈3,7 m à 6460230, ≈4,4-4,7 m à 6460233-6460234. Au nord de 6460237, B se prolonge par le liseré grenu (917305,7/6460237 → 917304,4/6460243,5). Elle est très ombragée, voire masquée par la canopée, entre 6460205 et 6460237 (contraste 15-45), avec de nombreux manques. Elle est coupée par la tranchée de la voie A (≈6460164,5 → 6460162) puis reprend vers le sud. Usure 2.",
+   "justification": "Mes profils par ligne (top-hat) donnent B à 917306,1 (6460225), 917305,85 (6460228-6460229), 917305,75-917305,8 (6460232-6460238), et l'axe à 917303,1 → 917301,2. L'écart passe de 3,0 m à 4,85 m horizontaux : l'élargissement signalé par la réobservation est confirmé. Il contredit la formule « à environ 3,0 m de l'axe » appliquée à tout le tracé. Les positions au sud et l'usure 2 sont confirmées par les deux avis et par mes mesures (luminance 182-196, contraste inférieur à celui de l'axe)."
+  }
+ },
+ {
+  "id": "vercors_s-11",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "geometrie_voies",
+  "statut": "corrige",
+  "texte": "Bande latérale est revêtue, entre la rive B et la bordure est, au niveau de la chaussée, avec le fil d'eau (-6 à -10 cm). Largeur : ≈5,9-6,1 m à 6460225 (bordure à ≈917312,0-917312,1), 3,45 m à 6460208, 3,1-3,25 m entre 6460202 et 6460176. Elle porte un damier au débouché de la voie A et se trouve dans l'alignement du couloir bus marqué au sud. Sur l'ortho 2022, l'absence de légende (BUS, vélo, case de stationnement) n'est vérifiable qu'entre ≈6460166 et 6460205, où elle est confirmée. Entre ≈6460205 et 6460237, la frondaison des arbres de l'est recouvre physiquement la bande au-delà de ≈917307-917310, presque jusqu'à B, et l'ombre couvre le reste : une légende n'y est pas observable. La photo Panoramax de janvier 2025 (b48e2561) ne montre aucune légende entre B et la bordure. Au nord de 6460237, B se poursuit par le liseré jusqu'à la bordure : la bande ne se prolonge pas en voie de droite. Le statut de la bande reste incertain : surlargeur ou accotement, ou prolongement non légendé du couloir bus.",
+  "texte_initial": "Bande latérale est revêtue, entre la rive B et la bordure est. Elle est au niveau de la chaussée et porte le fil d'eau. Sa largeur varie de ≈3 m à ≈6 m (6 m vers 6460225). Aucune légende n'y est visible : ni BUS, ni vélo, ni case de stationnement. Elle est en grande partie à l'ombre en 2022, et la photo Panoramax de janvier 2025 n'y montre pas de marquage non plus. Elle porte un damier au débouché de la voie A et se trouve dans l'alignement du couloir bus marqué au sud. Son statut reste incertain : accotement ou surlargeur hors circulation, ou prolongement non légendé du couloir bus montant.",
+  "localisation": "Est de B, de y 6460236 à 6460146",
+  "preuve": "Profils MNT 2021 : à y 6460225, chaussée de 917300,4 à 917312,0 (fil d'eau −6 à −8 cm, bordure +7 cm à 917312,1) ; à y 6460208, bordure est à 917312,6. Ortho rehaussée en gamma (ombres). Panoramax 2025-01-12 b48e2561, tuile r01_c02.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10 ; MNT LiDAR 2021 ; Panoramax 2025-01-12",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-11",
+   "verdict": "corrige",
+   "justification": "Les largeurs sont confirmées (bordure est par marche MNT) :\n- ≈5,9 m à 6460225 (B 917306,1, bordure 917312,0) ;\n- 3,45 m à 6460208 ;\n- 3,1-3,25 m entre 6460202 et 6460176.\n\nEn revanche, entre ≈6460205 et 6460237, la bande n'est pas seulement à l'ombre : la frondaison des arbres la recouvre physiquement, au-delà de ≈917307-917310, presque jusqu'à B (vue en gamma 0,45). Une légende éventuelle n'y est donc pas observable. L'absence de légende n'est vérifiable qu'entre 6460166 et 6460205, où elle est confirmée.",
+   "usure_verifiee": "NA",
+   "correction": "« Aucune légende visible » ne vaut que pour 6460166-6460205. Entre 6460205 et 6460237, la bande est masquée par la canopée sur l'ortho 2022 : on ne peut ni confirmer ni exclure une légende."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-11",
+   "verdict": "confirme",
+   "justification": "Largeurs mesurées entre B et la bordure est (LiDAR 2021) : 6,1 m à 6460225 (bordure à 917312,1, +11 cm), 3,45 m à 6460208, ≈3,2 m à 6460176. Les fils d'eau sont à -7/-10 cm. Les Panoramax 2025 b48e2561 (tuiles r01_c01 et r01_c02) ne montrent aucune légende BUS, vélo ou stationnement dans la bande. Le statut reste incertain, comme le dit le rapport. Indice complémentaire : au nord de 6460236, cette bande devient la voie de droite de l'approche (flèche triple)."
+  },
+  "arbitrage": {
+   "id": "vercors_s-11",
+   "decision": "retenu_corrige",
+   "usure_finale": "NA",
+   "texte_final": "Bande latérale est revêtue, entre la rive B et la bordure est, au niveau de la chaussée, avec le fil d'eau (-6 à -10 cm). Largeur : ≈5,9-6,1 m à 6460225 (bordure à ≈917312,0-917312,1), 3,45 m à 6460208, 3,1-3,25 m entre 6460202 et 6460176. Elle porte un damier au débouché de la voie A et se trouve dans l'alignement du couloir bus marqué au sud. Sur l'ortho 2022, l'absence de légende (BUS, vélo, case de stationnement) n'est vérifiable qu'entre ≈6460166 et 6460205, où elle est confirmée. Entre ≈6460205 et 6460237, la frondaison des arbres de l'est recouvre physiquement la bande au-delà de ≈917307-917310, presque jusqu'à B, et l'ombre couvre le reste : une légende n'y est pas observable. La photo Panoramax de janvier 2025 (b48e2561) ne montre aucune légende entre B et la bordure. Au nord de 6460237, B se poursuit par le liseré jusqu'à la bordure : la bande ne se prolonge pas en voie de droite. Le statut de la bande reste incertain : surlargeur ou accotement, ou prolongement non légendé du couloir bus.",
+   "justification": "Les largeurs sont confirmées par les deux avis. Ma vue rehaussée en gamma montre des houppiers éclairés (feuillage vert) au-dessus de la bande entre 6460217 et 6460231 pour x > ≈917307,5, et une ombre dense entre 6460231 et 6460237. Il ne s'agit donc pas que d'ombre portée, ce qui justifie la restriction de la réobservation. J'ai vérifié b48e2561 (r01_c01) : rien n'est visible entre B et la bordure. En revanche, l'indice du recoupement (la bande « devient la voie de droite ») ne correspond pas à l'ortho : B, rectiligne, rejoint le liseré qui borde la voie de droite à l'est."
+  }
+ },
+ {
+  "id": "vercors_s-12",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "corrige",
+  "texte": "Axe continu de la section courante, de 917300,2/6460236 à ≈917314,7/6460158, en courbe à large rayon, largeur ≈0,15 m.\n- Au nord (≥6460222) : bien blanc, luminance ≈210-224, top-hat ≈50-65.\n- Vers le sud : progressivement grisé, ≈197-202 et top-hat ≈20-40 entre 6460212 et 6460165. Ce contraste est proche de celui de la rive B, mais la ligne reste continue (0,96-1,00) et plus large et nette que B.\n- Tranchée de la voie A : coupure de 6460164 à 6460162, puis un fragment à peine perceptible (6460161,5-6460160,5), aucune trace de 6460160 à 6460158,5, et reprise nette à 6460158. La perte de continuité effective est donc d'environ 6 m et non 2 m.\nUsure 1 au nord, 1 à 2 au sud (grisé mais sans manque important) ; absence locale au droit de la tranchée.",
+  "texte_initial": "Axe continu de la section courante. Il est bien blanc au nord et devient plus terne vers le sud. Quelques lacunes apparaissent avant le carrefour des Mitaillères, et l'axe est coupé sur environ 2 m par la tranchée de la voie A. Il suit une courbe à large rayon.",
+  "localisation": "De 917300,2/6460236 à 917314,7/6460161",
+  "preuve": "Tuiles 917300_6460200 et 917300_6460150. Échantillonnage le long du tracé de l'axe (fenêtre ±0,25 m).",
+  "usure": "1",
+  "cause_usure": "Âge ; roues des véhicules qui coupent la courbe ; marquage interrompu sur la tranchée (absence locale).",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-12",
+   "verdict": "confirme",
+   "justification": "- Gradient de blanc retrouvé : 219-224 (6460257-6460236) → 212 (6460233-6460220) → 202 (6460220-6460202) → 200 (6460202-6460176) → 197 (6460176-6460165).\n- Continuité de 0,96 à 1,00 et FWHM de 0,15 m.\n\nComplément : après la tranchée, l'axe reste à peine perceptible de 6460161,5 à 6460158,5 (contraste inférieur à 20). L'absence effective dépasse donc 2 m.",
+   "usure_verifiee": "1"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-12",
+   "verdict": "corrige",
+   "justification": "Les positions et la coupure à la tranchée sont confirmées. Mais la dégradation vers le sud est plus forte que ne le dit l'usure 1. Mesures sur le cœur de la ligne : top-hat 65 et luminance 212 entre 6460240 et 6460252 ; 58 et 199 entre 6460222 et 6460232 ; 41 et 194 entre 6460202 et 6460212 ; 37 et 190 entre 6460166 et 6460180. Au sud, ces valeurs rejoignent presque celles de la rive B (30-35), classée en usure 2. La carte de contraste montre d'ailleurs l'axe et B dans la même teinte orange entre 6460175 et 6460190. La continuité reste de 0,97-1,0 au-dessus du seuil 35.",
+   "correction": "Usure 1 au nord de y ≈6460222, usure 2 entre 6460212 et 6460163.",
+   "usure_verifiee": "2"
+  },
+  "arbitrage": {
+   "id": "vercors_s-12",
+   "decision": "retenu_corrige",
+   "usure_finale": "1",
+   "texte_final": "Axe continu de la section courante, de 917300,2/6460236 à ≈917314,7/6460158, en courbe à large rayon, largeur ≈0,15 m.\n- Au nord (≥6460222) : bien blanc, luminance ≈210-224, top-hat ≈50-65.\n- Vers le sud : progressivement grisé, ≈197-202 et top-hat ≈20-40 entre 6460212 et 6460165. Ce contraste est proche de celui de la rive B, mais la ligne reste continue (0,96-1,00) et plus large et nette que B.\n- Tranchée de la voie A : coupure de 6460164 à 6460162, puis un fragment à peine perceptible (6460161,5-6460160,5), aucune trace de 6460160 à 6460158,5, et reprise nette à 6460158. La perte de continuité effective est donc d'environ 6 m et non 2 m.\nUsure 1 au nord, 1 à 2 au sud (grisé mais sans manque important) ; absence locale au droit de la tranchée.",
+   "justification": "Le gradient de luminance est retrouvé par les deux avis et par mes profils. Mon zoom 4x compare le nord et le sud : l'axe sud est plus gris mais continu, et nettement plus franc que B. Il ne présente pas les « manques importants » qui définissent l'usure 2. Je ne retiens donc pas l'usure 2 franche proposée par le recoupement, mais une transition de 1 à 2. Les profils tous les 0,5 m à travers la tranchée confirment le complément de la réobservation et l'oubli correspondant."
+  }
+ },
+ {
+  "id": "vercors_s-13",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "geometrie_voies",
+  "statut": "corrige",
+  "texte": "Voie descendante étroite dans la section courante, alors qu'elle porte les bus venus de Verdun. Un bus articulé d'environ 18 m (6460180,7 → 6460198,5), avant jaune au sud donc roulant vers le sud, y occupe toute la largeur jusqu'à l'axe. La voie n'a pas de ligne de rive ouest : la bordure est la seule limite. Largeurs perpendiculaires, de la bordure MNT 2021 au centre de l'axe (±0,2 m, décalage possible entre ortho et LiDAR) :\n- ≈3,2-3,4 m à 6460244 (et non 3,45 m, valeur horizontale haute) ;\n- ≈3,0 m à 6460228 ;\n- ≈2,75-2,95 m de 6460222 à 6460200 ;\n- ≈3,3-3,6 m vers 6460184-6460180 ;\n- ≈4,0-4,15 m à 6460176, en approche des Mitaillères.\nLe minimum mesuré est ≈2,75-2,9 m. La borne « 2,6 m » de la synthèse n'est étayée par aucune mesure.",
+  "texte_initial": "Voie descendante étroite dans la section courante, alors qu'elle porte les bus venus de Verdun. Un bus articulé d'environ 18-20 m, dont l'avant (jaune) est au sud, y roule entre 6460181 et 6460200 et occupe toute la voie. La voie n'a pas de ligne de rive ouest : la bordure est la seule limite. Elle s'élargit à ≈4,2 m en approche des Mitaillères.",
+  "localisation": "Voie descendante de 6460236 à 6460170",
+  "preuve": "Profils de brillance (montée de 80 à 140 au bord) et MNT 2021 (bordure ouest à 917303,3 pour y 6460208 et 917307,4 pour y 6460176). Bus visible dans la tuile 917300_6460150, px (110-210, 30-385).",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10 ; MNT LiDAR 2021",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-13",
+   "verdict": "confirme",
+   "justification": "Largeurs mesurées entre la bordure MNT et l'axe : 3,0-3,1 m de 6460228 à 6460190, 3,4-3,7 m vers 6460184-6460180, 4,15 m à 6460176.\n\nLe bus articulé occupe 6460198,5 → 6460180,75 (≈18 m), avant jaune au sud, dans la voie descendante. Aucune ligne de rive ouest. Seule la borne basse « 2,6 m » reprise dans la synthèse ne correspond à aucune mesure : le minimum mesuré est ≈2,85-2,9 m.",
+   "usure_verifiee": "NA"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-13",
+   "verdict": "corrige",
+   "justification": "Le bus est confirmé : articulé, ≈17,5-18 m, entre y 6460180,7 et 6460198. L'avant, à bandeau jaune et rétroviseurs, est au sud, donc il roule vers le sud. Il occupe toute la voie jusqu'à l'axe. Pas de rive ouest. Élargissement confirmé : bordure LiDAR à 917307,6 et axe à ≈917311,7 à 6460176, soit ≈4,0 m perpendiculaires. Valeurs ≈2,9 m à 6460228 et ≈2,9-3,0 m à 6460220-208 : correctes. En revanche, les 3,45 m à 6460244 sont la largeur horizontale non corrigée. En perpendiculaire, c'est ≈3,1-3,25 m, ce qui contredit aussi s-02 (3,1) et s-08 (2,95).",
+   "correction": "Voie descendante à y 6460244 : ≈3,1-3,25 m perpendiculaires (et non 3,45 m)."
+  },
+  "arbitrage": {
+   "id": "vercors_s-13",
+   "decision": "retenu_corrige",
+   "usure_finale": "NA",
+   "texte_final": "Voie descendante étroite dans la section courante, alors qu'elle porte les bus venus de Verdun. Un bus articulé d'environ 18 m (6460180,7 → 6460198,5), avant jaune au sud donc roulant vers le sud, y occupe toute la largeur jusqu'à l'axe. La voie n'a pas de ligne de rive ouest : la bordure est la seule limite. Largeurs perpendiculaires, de la bordure MNT 2021 au centre de l'axe (±0,2 m, décalage possible entre ortho et LiDAR) :\n- ≈3,2-3,4 m à 6460244 (et non 3,45 m, valeur horizontale haute) ;\n- ≈3,0 m à 6460228 ;\n- ≈2,75-2,95 m de 6460222 à 6460200 ;\n- ≈3,3-3,6 m vers 6460184-6460180 ;\n- ≈4,0-4,15 m à 6460176, en approche des Mitaillères.\nLe minimum mesuré est ≈2,75-2,9 m. La borne « 2,6 m » de la synthèse n'est étayée par aucune mesure.",
+   "justification": "La présence et la position du bus sont confirmées par les deux avis et sur la tuile 917300_6460150. Mes profils tous les 2 m donnent 2,71-3,04 m entre 6460200 et 6460228 et 3,85-4,2 m entre 6460170 et 6460178. À 6460244, un ajustement linéaire de la bordure MNT donne ≈3,2 m et la mesure point à point 3,4 m. La valeur de 3,45 m du rapport est donc au mieux la borne haute ; elle est incohérente avec s-02 et s-08. La correction combine les deux avis."
+  }
+ },
+ {
+  "id": "vercors_s-14",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "revetement_texture",
+  "statut": "corrige",
+  "texte": "Sur l'ortho de mai 2022, la voie descendante est nettement plus sombre que la voie montante entre y 6460202 et 6460250. Médianes à 0,9/1,5/2,1 m de l'axe : ≈141-155 contre ≈161-166, soit un écart de 11 à 20 niveaux. Les creux se situent dans les bandes de roulement (≈-2,3 m et ≈-0,7 m de l'axe), de part et d'autre d'un centre de voie plus clair. Aucun joint longitudinal net n'est visible à l'axe. L'écart existe aussi sur l'ortho IGN 2024 (≈13 niveaux, surtout près de la bordure), mais pas sur l'ortho IGN 2021 (≈179 des deux côtés), alors que le trafic de bus existait déjà. Un ressuage ou un gommage durable par les bus et les PL reste donc une hypothèse non démontrée ; l'éclairage, la réflectance directionnelle ou l'humidité peuvent expliquer une partie de l'écart. Orniérage non mesurable.",
+  "texte_initial": "La voie descendante est nettement plus sombre que la voie montante, surtout dans les bandes de roulement. Ces bandes plus sombres sont à environ 0,6-0,9 m du centre de la voie, tandis que l'entre-roues est plus clair. Cela évoque un ressuage ou un gommage dû aux bus et aux PL. Aucun joint longitudinal net n'est visible à l'axe, donc rien n'indique une couche de roulement différente. L'orniérage n'est pas mesurable sur l'ortho.",
+  "localisation": "Voie descendante, y 6460202-6460250",
+  "preuve": "Moyennes RVB sur des fenêtres de 1,9 m de part et d'autre de l'axe, tous les 6-10 m. Profils transverses : creux de 137-143 à −2,4/−2,0 m de l'axe, contre 154-164 au centre de la voie.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-14",
+   "verdict": "confirme",
+   "justification": "Brillance médiane de la voie descendante 144-152, contre 158-166 pour la voie montante, de 6460250 à 6460208. L'écart diminue à ≈6 niveaux vers 6460202. Les profils transverses montrent des creux à ≈-2,3 m et ≈-0,7 m de l'axe, de part et d'autre d'un centre de voie plus clair (≈155-157).",
+   "usure_verifiee": "NA"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-14",
+   "verdict": "incertain",
+   "justification": "J'ai mesuré la luminance médiane de part et d'autre de l'axe GAM, à 0,9, 1,5 et 2,1 m, sur 85 m. Sur l'ortho 2022, la voie descendante est à 147 contre 164 pour la montante, ce qui reproduit le constat. Mais sur l'ortho IGN 2021, recalée à 0,2 m près, les deux voies sont identiques (180 contre 179). Sur l'ortho IGN 2024, l'écart n'est que de 9 niveaux (166 contre 175). Le trafic de bus existait déjà en 2021. Un ressuage ou gommage durable n'est donc pas démontré : l'écart de 2022 peut tenir pour partie à l'éclairage, à la réflectance directionnelle ou à l'humidité."
+  },
+  "arbitrage": {
+   "id": "vercors_s-14",
+   "decision": "retenu_corrige",
+   "usure_finale": "NA",
+   "texte_final": "Sur l'ortho de mai 2022, la voie descendante est nettement plus sombre que la voie montante entre y 6460202 et 6460250. Médianes à 0,9/1,5/2,1 m de l'axe : ≈141-155 contre ≈161-166, soit un écart de 11 à 20 niveaux. Les creux se situent dans les bandes de roulement (≈-2,3 m et ≈-0,7 m de l'axe), de part et d'autre d'un centre de voie plus clair. Aucun joint longitudinal net n'est visible à l'axe. L'écart existe aussi sur l'ortho IGN 2024 (≈13 niveaux, surtout près de la bordure), mais pas sur l'ortho IGN 2021 (≈179 des deux côtés), alors que le trafic de bus existait déjà. Un ressuage ou un gommage durable par les bus et les PL reste donc une hypothèse non démontrée ; l'éclairage, la réflectance directionnelle ou l'humidité peuvent expliquer une partie de l'écart. Orniérage non mesurable.",
+   "justification": "J'ai refait la comparaison sur les trois millésimes avec la même géométrie : 2022 (141/155/150 contre 161/166/161), 2024 (148/166/169 contre 179/181/177), 2021 (175/179/179 contre 178/179/177). L'observation de 2022 est solide, ce que confirme la réobservation. L'interprétation causale est fragilisée par l'absence d'écart en 2021, ce que relève le recoupement. Je retiens donc le constat et requalifie la cause en hypothèse."
+  }
+ },
+ {
+  "id": "vercors_s-15",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "autre",
+  "statut": "corrige",
+  "texte": "Fines lignes sombres transversales (1-2 px), rectilignes ou légèrement arquées, parallèles entre elles, sans relief :\n- ≈6460234,6-6460235,3 (917299,3-917303,6), ponctuée de petits points sombres, au contact du 2e trait de l'interruption vercors_s-05 ;\n- ≈6460205,4-6460206,3 (917304,8-917308,6), légèrement arquée, semblant se prolonger faiblement sur la piste vers 917299-917301 ;\n- ≈6460175,3-6460176, alignement de points sombres réguliers ;\n- ≈6460170-6460171.\nAu filtre black-hat, plusieurs de ces lignes sont parfaitement droites et traversent toute la chaussée jusqu'à la végétation. La forme en chaînette, le parallélisme et le prolongement hors chaussée plaident pour des ombres de câbles aériens plutôt que pour des fissures. Des câbles tendus au-dessus du Vercors, avec des pièces de suspension, sont visibles sur les photos Panoramax de 2020 (e04fd774) et de 2025 (ec850130, 4d9fa65d, b48e2561). Les points sombres réguliers évoquent des éléments suspendus ; la présence de guirlandes ou d'ampoules reste une hypothèse.",
+  "texte_initial": "Fines lignes sombres parfaitement rectilignes qui traversent toute la chaussée, ponctuées de points sombres réguliers tous les 0,5 à 1 m. Ce sont des ombres de câbles aériens portant des guirlandes ou des ampoules, et non des fissures. Le Panoramax 2025 montre des câbles et des guirlandes au-dessus du Vercors, et celui de 2020 des illuminations au-dessus du carrefour. Une de ces ombres coïncide avec l'interruption d'axe vercors_s-05.",
+  "localisation": "y ≈6460234,6 (917299-917306) ; ≈6460205,5 ; ≈6460175,8 (917309-917315) ; ≈6460171,5 (917307,5-917316,5)",
+  "preuve": "Tuile 917300_6460200, px (0-120, 300-320). Tuile 917300_6460150, px (180-300, 470-500) et (150-330, 560-590). Zooms 3,5x et 4,5x, plus un filtre black-hat qui fait ressortir les traits sombres fins.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10 ; Panoramax 2025-01-12",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-15",
+   "verdict": "incertain",
+   "justification": "Les lignes sombres fines existent bien à ≈6460234,6, 6460205,5 et 6460175,8. Mais au zoom 4x, celle de 6460205,5 n'est pas « parfaitement rectiligne » :\n- elle est légèrement courbe ;\n- son épaisseur est irrégulière (≈5-10 cm) ;\n- elle porte des renflements et de courts appendices vers le sud à ses deux extrémités.\n\nCet aspect convient à l'ombre d'un câble qui pend, avec des éléments suspendus, mais aussi à une fissure transversale pontée au bitume. La photo 2025 (b48e2561) montre à la fois des câbles aériens au-dessus du Vercors et des fissures transversales. Les guirlandes ne sont pas démontrées.",
+   "usure_verifiee": "NA",
+   "correction": "Il s'agit de lignes sombres transversales fines, d'origine indéterminée : ombres de câbles aériens ou fissures pontées. Elles ne sont pas parfaitement rectilignes."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-15",
+   "verdict": "confirme",
+   "justification": "L'ombre rectiligne ponctuée traverse bien l'axe à y ≈6460234,5-6460235, sur le 2e trait de l'interruption. Des câbles aériens tendus au-dessus du Vercors sont visibles en 2020 (Panoramax e04fd774) et en 2025 (4d9fa65d tuile r01_c01, b48e2561 tuile r01_c02, ec850130 tuile r01_c02). Les photos de 2025 montrent des câbles avec des pièces de suspension. La présence de guirlandes ou d'ampoules n'est en revanche pas démontrée : c'est une hypothèse."
+  },
+  "arbitrage": {
+   "id": "vercors_s-15",
+   "decision": "retenu_corrige",
+   "usure_finale": "NA",
+   "texte_final": "Fines lignes sombres transversales (1-2 px), rectilignes ou légèrement arquées, parallèles entre elles, sans relief :\n- ≈6460234,6-6460235,3 (917299,3-917303,6), ponctuée de petits points sombres, au contact du 2e trait de l'interruption vercors_s-05 ;\n- ≈6460205,4-6460206,3 (917304,8-917308,6), légèrement arquée, semblant se prolonger faiblement sur la piste vers 917299-917301 ;\n- ≈6460175,3-6460176, alignement de points sombres réguliers ;\n- ≈6460170-6460171.\nAu filtre black-hat, plusieurs de ces lignes sont parfaitement droites et traversent toute la chaussée jusqu'à la végétation. La forme en chaînette, le parallélisme et le prolongement hors chaussée plaident pour des ombres de câbles aériens plutôt que pour des fissures. Des câbles tendus au-dessus du Vercors, avec des pièces de suspension, sont visibles sur les photos Panoramax de 2020 (e04fd774) et de 2025 (ec850130, 4d9fa65d, b48e2561). Les points sombres réguliers évoquent des éléments suspendus ; la présence de guirlandes ou d'ampoules reste une hypothèse.",
+   "justification": "La réobservation a raison sur deux points : la ligne de 6460205,5 est arquée et d'épaisseur irrégulière, et le texte « parfaitement rectilignes » est inexact. Mais mon filtre black-hat sur 917304-917318 × 6460168-6460180 montre 3-4 lignes droites et parallèles qui traversent toute la chaussée, dont une ponctuée de points réguliers. Une fissure pontée ne se présente pas ainsi. La ligne de 6460205 se devine aussi au-delà de la bande séparative. J'ai vu sur ec850130 (r01_c02) un réseau de câbles avec entretoises au-dessus de la voie. L'interprétation en ombres de câbles est donc la mieux étayée ; seules les guirlandes restent non démontrées."
+  }
+ },
+ {
+  "id": "vercors_s-16",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "degradation",
+  "statut": "corrige",
+  "texte": "La fissuration n'est pas résolue sur l'ortho de 2022 (fissures de moins de 1 px). Les photos Panoramax du 12/01/2025 montrent des fissures longitudinales et transversales ramifiées, qui annoncent un faïençage, sur les deux voies entre y ≈6460210 et 6460236 :\n- voie descendante au premier plan (b48e2561 r01_c01, 4d9fa65d r01_c01) ;\n- voie montante, et bande est.\nIl est probable qu'elles existaient en partie dès 2022, mais ce n'est pas démontré. Confiance faible.",
+  "texte_initial": "La fissuration n'est pas résolue sur l'ortho de 2022 : les fissures font moins de 1 px. La photo Panoramax du 12/01/2025, prise depuis la piste, montre sur la voie montante et la bande est des fissures longitudinales et transversales ramifiées, qui annoncent un faïençage. Il est probable qu'elles existaient déjà en partie en 2022.",
+  "localisation": "Voie montante et bande est, vers y 6460210-6460225",
+  "preuve": "Panoramax 2025-01-12 b48e2561, tuile r01_c01 (bas de l'image). Aucun équivalent mesurable sur les tuiles 917300_6460200 et 917300_6460150.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "Panoramax 2025-01-12 (déduit pour 2022)",
+  "confiance_initiale": "faible",
+  "verif_reobservation": {
+   "id": "vercors_s-16",
+   "verdict": "confirme",
+   "justification": "Panoramax b48e2561 (2025-01-12, L93 ≈917297,9/6460216,3), tuile r01_c01 tournée vers l'est : on voit des fissures ramifiées, longitudinales et transversales, sur la chaussée du Vercors. Rien de résolu sur l'ortho de 2022. Confiance « faible » adaptée.",
+   "usure_verifiee": "NA"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-16",
+   "verdict": "corrige",
+   "justification": "Le Panoramax 2025 b48e2561 (tuile r01_c01) montre bien des fissures ramifiées sur la voie montante. Mais il en montre aussi sur la voie descendante, au premier plan. Le Panoramax 4d9fa65d (vers y 6460232-6460236) montre lui aussi des fissures longitudinales et transversales dans la voie descendante. La localisation « voie montante et bande est » est donc incomplète.",
+   "correction": "En janvier 2025, des fissures ramifiées sont visibles sur les deux voies (descendante et montante) entre y ≈6460210 et 6460236, et pas seulement sur la voie montante et la bande est."
+  },
+  "arbitrage": {
+   "id": "vercors_s-16",
+   "decision": "retenu_corrige",
+   "usure_finale": "NA",
+   "texte_final": "La fissuration n'est pas résolue sur l'ortho de 2022 (fissures de moins de 1 px). Les photos Panoramax du 12/01/2025 montrent des fissures longitudinales et transversales ramifiées, qui annoncent un faïençage, sur les deux voies entre y ≈6460210 et 6460236 :\n- voie descendante au premier plan (b48e2561 r01_c01, 4d9fa65d r01_c01) ;\n- voie montante, et bande est.\nIl est probable qu'elles existaient en partie dès 2022, mais ce n'est pas démontré. Confiance faible.",
+   "justification": "J'ai examiné b48e2561 (r01_c01) et le zoom de 4d9fa65d (r01_c01). Les fissures ramifiées sont visibles au premier plan, donc côté descendant, sous la ligne d'axe la plus proche, ainsi qu'entre l'axe et B. La localisation « voie montante et bande est » est donc incomplète, comme le dit le recoupement. Le reste (non résolu en 2022, confiance faible) est confirmé par les deux avis."
+  }
+ },
+ {
+  "id": "vercors_s-17",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "degradation",
+  "statut": "verifie_x2",
+  "texte": "Tranchée refermée qui traverse tout le Vercors dans l'alignement du débouché de la voie A. C'est une bande d'enrobé de teinte différente, bordée de joints sciés sombres. Elle se prolonge par une bande plus sombre le long du débouché (déjà relevée dans abords_est-15). L'axe et la rive B n'ont pas été remarqués dessus : ils manquent sur environ 2 m. Il s'agit probablement du raccordement aux réseaux du nouveau quartier.",
+  "texte_initial": "Tranchée refermée qui traverse tout le Vercors dans l'alignement du débouché de la voie A. C'est une bande d'enrobé de teinte différente, bordée de joints sciés sombres. Elle se prolonge par une bande plus sombre le long du débouché (déjà relevée dans abords_est-15). L'axe et la rive B n'ont pas été remarqués dessus : ils manquent sur environ 2 m. Il s'agit probablement du raccordement aux réseaux du nouveau quartier.",
+  "localisation": "917310-917331 × 6460161,5-6460164,5",
+  "preuve": "Tuile 917300_6460150, px (200-620, 710-770). Zooms 2,4x et 4x : B est coupée de 6460164 à 6460162,4.",
+  "usure": "3",
+  "cause_usure": "Marquage absent, car non reconstitué après la tranchée.",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-17",
+   "verdict": "confirme",
+   "justification": "Une bande d'enrobé plus sombre, bordée de joints, traverse la chaussée de 917310 à 917320, sur ≈6460161,6-6460164,1 (≈2-2,5 m de large). Elle se prolonge à l'est par la bande sombre de la voie A, d'où les ≈21 m. L'axe et B sont interrompus dessus. L'axe reste quasi invisible jusqu'à ≈6460158,5.",
+   "usure_verifiee": "3"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-17",
+   "verdict": "confirme",
+   "justification": "La bande sombre est confirmée sur l'ortho 2022 (y ≈6460162-6460164). Sur la voie descendante, la luminance tombe à 137-140 contre 145-152 autour. B et l'axe sont interrompus sur ≈2 m. Évolution : la tranchée n'apparaît pas sur l'ortho IGN 2021, où le profil est lisse (181-191). À la même époque, la voie A n'existait pas et l'est était une plate-forme claire. La tranchée a donc été ouverte entre 2021 et mai 2022, ce qui est cohérent avec le raccordement du nouveau quartier. En 2024, la surface change de teinte au même niveau.",
+   "usure_verifiee": "3"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-18",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "revetement_texture",
+  "statut": "corrige",
+  "texte": "Reprises irrégulières plus sombres autour du carrefour Mitaillères / voie A.\n- La grande plaque irrégulière se trouve dans la voie descendante, face au débouché des Mitaillères et à cheval sur l'axe : ≈917309,5-917315 × 6460159,5-6460165, de part et d'autre de la tranchée transversale. Elle n'est pas à l'angle SO du débouché de la voie A.\n- Distinctement, côté voie A, on voit des traînées sombres marbrées (traces de pneus, huile ou salissures de chantier) en rive de la voie montante et au débouché : ≈917319,5-917323,2 × 6460150,4-6460158.\nCes taches n'existent pas sur l'ortho 2021, avant la création de la voie A. Leur nature (petites reprises ou salissures) reste une hypothèse. Plaques de 2 à 6 m.",
+  "texte_initial": "Reprises irrégulières plus sombres autour du carrefour Mitaillères / voie A. On distingue une grande plaque à l'angle SO du débouché de la voie A, de part et d'autre de la tranchée. On voit aussi des taches sombres marbrées en rive de la voie montante, face au débouché : salissures ou huile laissées par les engins de chantier, ou petites reprises.",
+  "localisation": "917307-917327 × 6460150-6460166",
+  "preuve": "Tuile 917300_6460150, px (140-540, 600-1000). Zooms 2,4x avec grille.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-18",
+   "verdict": "corrige",
+   "justification": "Les reprises existent, mais leur attribution est inexacte.\n- La grande plaque irrégulière se trouve dans la voie descendante, en face du débouché des Mitaillères et à cheval sur l'axe : 917309,8-917315 × 6460159,8-6460164,8, de part et d'autre de la tranchée.\n- Elle ne se trouve pas à l'angle SO du débouché de la voie A.\n- Côté voie A, on voit seulement des traînées sombres marbrées, du type traces de pneus ou d'huile, à ≈1 m à l'est de B : 917321,1-917323,2 × 6460150,4-6460156,8.",
+   "usure_verifiee": "NA",
+   "correction": "La grande plaque est dans la voie descendante face aux Mitaillères. Les traînées sombres en rive de la voie montante (917321-917323 × 6460150-6460157) sont distinctes."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-18",
+   "verdict": "confirme",
+   "justification": "Les plaques et traînées sombres autour du débouché de la voie A sont bien visibles sur l'ortho 2022. Elles n'existent pas en 2021, avant la création de la voie A. Leur nature (reprises ou salissures) reste une hypothèse."
+  },
+  "arbitrage": {
+   "id": "vercors_s-18",
+   "decision": "retenu_corrige",
+   "usure_finale": "NA",
+   "texte_final": "Reprises irrégulières plus sombres autour du carrefour Mitaillères / voie A.\n- La grande plaque irrégulière se trouve dans la voie descendante, face au débouché des Mitaillères et à cheval sur l'axe : ≈917309,5-917315 × 6460159,5-6460165, de part et d'autre de la tranchée transversale. Elle n'est pas à l'angle SO du débouché de la voie A.\n- Distinctement, côté voie A, on voit des traînées sombres marbrées (traces de pneus, huile ou salissures de chantier) en rive de la voie montante et au débouché : ≈917319,5-917323,2 × 6460150,4-6460158.\nCes taches n'existent pas sur l'ortho 2021, avant la création de la voie A. Leur nature (petites reprises ou salissures) reste une hypothèse. Plaques de 2 à 6 m.",
+   "justification": "Mon zoom 1,6x avec grille montre la plaque sombre à l'ouest et sur l'axe, entre 917309,5 et 917315 environ. Les traînées marbrées sont plus à l'est, à 917319,5-917323. La localisation précise de la réobservation est donc la bonne. Le recoupement confirme l'existence et la chronologie de ces taches."
+  }
+ },
+ {
+  "id": "vercors_s-19",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "corrige",
+  "texte": "Damier blanc en quinconce qui couvre la largeur de la bande est au débouché de la voie A : ≈917316-917320 × 6460164,5-6460170, carreaux de ≈0,8-1,0 m, 3 dans la largeur, gris et lacunaires (usure 2). Il signale une zone franchissable au droit de l'accès. Il existe déjà sur les orthos IGN 2015 et 2021, avant la voie A : c'est un ancien accès réutilisé par la voie de chantier. Le long de la rive est du débouché, dans un même alignement (az ≈158-160°, ≈3-3,5 m à l'est de B) :\n- des tirets très pâles (usure 3) à 917320,5-917322,5 × 6460157,5-6460162 ;\n- plus au sud, un tiret large et net, non décrit jusqu'ici : ≈0,5 × 3,2 m, luminance ≈202, top-hat ≈52, usure 0-1, à 917323,7-917325,1 × 6460150,9-6460153,9.\nCause d'usure : âge, girations des PL de chantier, boue et graviers du chantier.",
+  "texte_initial": "Damier blanc qui couvre toute la largeur de la bande est au débouché de la voie de chantier A. Il est formé de carreaux en quinconce, à raison de 3 carreaux dans la largeur. Il signale une zone franchissable ou à dégager au droit de l'accès. Plus au sud, le long de la rive est du débouché, on devine des tirets très effacés : une ligne de rive discontinue, déjà relevée dans abords_est-08.",
+  "localisation": "Damier : 917316-917319,75 × 6460164,5-6460170. Tirets : 917320,5-917322,5 × 6460157,5-6460162.",
+  "preuve": "Tuile 917300_6460150, px (320-395, 600-710). Zoom 4x avec grille de 0,5 m.",
+  "usure": "2",
+  "cause_usure": "Girations des poids lourds de chantier qui entrent dans la voie A ou en sortent ; boue et graviers apportés par le chantier. Les tirets sont en usure 3.",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-19",
+   "verdict": "corrige",
+   "justification": "Le damier est confirmé : 917316-917320 × 6460165-6460170, carreaux de 0,8-1,0 m, 3 dans la largeur, gris et lacunaire.\n\nEn revanche, la ligne discontinue le long du débouché n'est pas uniformément « très effacée ».\n- Le tiret 917321,6-917322,4 × 6460158-6460160 est bien très pâle (contraste 27).\n- Mais dans le même alignement, un tiret large et net existe à 917323,7-917325,1 × 6460150,9-6460153,8 : ≈0,48 × 3,2 m, blanc 213, contraste 55. Le rapport ne le signale pas.",
+   "usure_verifiee": "2",
+   "correction": "Il faut ajouter le tiret large et bien conservé (usure 0-1) à 917323,7-917325,1 × 6460150,9-6460153,8. Seuls les tirets nord de cette ligne sont en usure 3."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-19",
+   "verdict": "confirme",
+   "justification": "Le damier en quinconce est confirmé à 917316-917319,75 × 6460164,5-6460170. Top-hat médian 38, luminance 179, carte de contraste en orange : usure 2. Les tirets effacés (917321-917322,5 × 6460158-6460161) sont visibles. Nuance temporelle : ce damier existe déjà sur les orthos IGN 2015 et 2021, alors que la voie A n'est apparue qu'entre 2021 et 2022. Il correspond donc à un ancien accès, réutilisé par la voie de chantier. Son usure par les poids lourds de chantier reste plausible.",
+   "usure_verifiee": "2"
+  },
+  "arbitrage": {
+   "id": "vercors_s-19",
+   "decision": "retenu_corrige",
+   "usure_finale": "2",
+   "texte_final": "Damier blanc en quinconce qui couvre la largeur de la bande est au débouché de la voie A : ≈917316-917320 × 6460164,5-6460170, carreaux de ≈0,8-1,0 m, 3 dans la largeur, gris et lacunaires (usure 2). Il signale une zone franchissable au droit de l'accès. Il existe déjà sur les orthos IGN 2015 et 2021, avant la voie A : c'est un ancien accès réutilisé par la voie de chantier. Le long de la rive est du débouché, dans un même alignement (az ≈158-160°, ≈3-3,5 m à l'est de B) :\n- des tirets très pâles (usure 3) à 917320,5-917322,5 × 6460157,5-6460162 ;\n- plus au sud, un tiret large et net, non décrit jusqu'ici : ≈0,5 × 3,2 m, luminance ≈202, top-hat ≈52, usure 0-1, à 917323,7-917325,1 × 6460150,9-6460153,9.\nCause d'usure : âge, girations des PL de chantier, boue et graviers du chantier.",
+   "justification": "Le damier est confirmé par les deux avis. Sur mes extraits IGN 2015/2021, un motif en damier est visible au même endroit, ce qui donne raison au recoupement sur l'antériorité. Mon extraction de composantes confirme le tiret large (917323,72-917325,12 × 6460150,92-6460153,88, luminance 202, top-hat 52), dans l'alignement des tirets pâles, que ma détection ne trouve pas au même seuil. La réobservation a donc raison d'ajouter ce tiret."
+  }
+ },
+ {
+  "id": "vercors_s-20",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "fleche_symbole",
+  "statut": "verifie_x2",
+  "texte": "Flèche « tout droit » dans la voie montante, entre l'axe et la rive B, en face du débouché des Mitaillères.",
+  "texte_initial": "Flèche « tout droit » dans la voie montante, entre l'axe et la rive B, en face du débouché des Mitaillères.",
+  "localisation": "917317,5-917318,6 × 6460153-6460156,8",
+  "preuve": "Tuile 917300_6460150, px (350-372, 865-940)",
+  "usure": "1",
+  "cause_usure": "Passage des roues et âge",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-20",
+   "verdict": "confirme",
+   "justification": "Flèche « tout droit » pointant au nord, à 917317,4-917318,6 × 6460152,9-6460156,8, entre l'axe et B. Longueur ≈3,9-4,0 m.",
+   "usure_verifiee": "1"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-20",
+   "verdict": "confirme",
+   "justification": "Le levé GAM place un bloc « SYMBOLE_FLECHE_DROIT » à 917318,6/6460153,0, à l'endroit de la flèche (917317,4-917318,6 × 6460153-6460156,75). La carte de contraste l'affiche en jaune.",
+   "usure_verifiee": "1"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-21",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "verifie_x2",
+  "texte": "Deux traits longitudinaux pâles, non normalisés, dans la voie descendante face au débouché des Mitaillères :\n- une barre large à bords flous ;\n- un trait pâle, situé dans le prolongement rectiligne de l'axe avant qu'il ne dévie.\nCe sont probablement les vestiges d'un ancien marquage : ancien axe, ancien îlot peint, ou rive discontinue large au droit du débouché. La barre large est encore visible sur le Panoramax 2025.",
+  "texte_initial": "Deux traits longitudinaux pâles, non normalisés, dans la voie descendante face au débouché des Mitaillères :\n- une barre large à bords flous ;\n- un trait pâle, situé dans le prolongement rectiligne de l'axe avant qu'il ne dévie.\nCe sont probablement les vestiges d'un ancien marquage : ancien axe, ancien îlot peint, ou rive discontinue large au droit du débouché. La barre large est encore visible sur le Panoramax 2025.",
+  "localisation": "Barre : 917311,3-917312,9 × 6460152,7-6460157,3. Trait : 917314,2-917315,3 × 6460152,5-6460156,5.",
+  "preuve": "Tuile 917300_6460150, px (226-258, 854-946) et (284-306, 870-950). Composantes top-hat de 0,32-0,63 m de large, blanc 181-193.",
+  "usure": "F",
+  "cause_usure": "Marquage ancien effacé ou partiellement grenaillé lors d'une reprise du schéma de marquage",
+  "date_source": "ortho PCRS 2022-05-10 ; Panoramax 2025-01-12",
+  "confiance_initiale": "faible",
+  "verif_reobservation": {
+   "id": "vercors_s-21",
+   "verdict": "confirme",
+   "justification": "Au zoom 5x :\n- barre pâle large d'environ 0,5-0,6 m, à 917311,4-917312,7 × 6460153-6460157,2 ;\n- trait pâle en 2 segments, à 917314,4-917315,3 × 6460152,5-6460156,1.\n\nTous deux sont flous et de faible contraste. L'hypothèse de vestiges reste plausible, avec une confiance faible.",
+   "usure_verifiee": "F"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-21",
+   "verdict": "confirme",
+   "justification": "La barre pâle (917311,3-917312,3 × 6460153-6460157,5) et le trait pâle (917314,3-917315,3 × 6460152,5-6460156) sont visibles au zoom. Le levé GAM n'enregistre aucun marquage à ces endroits, ce qui est cohérent avec des vestiges. Leur origine n'est pas démontrée.",
+   "usure_verifiee": "F"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-22",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "verifie_x2",
+  "texte": "Début du terre-plein central peint. Juste après la tranchée, l'axe continue sous la forme d'un marquage hachuré et marbré, en coin. Ce coin s'élargit jusqu'à environ 0,9 m, puis se dédouble à y ≈6460145,5 en deux lignes neuves, P et Q.",
+  "texte_initial": "Début du terre-plein central peint. Juste après la tranchée, l'axe continue sous la forme d'un marquage hachuré et marbré, en coin. Ce coin s'élargit jusqu'à environ 0,9 m, puis se dédouble à y ≈6460145,5 en deux lignes neuves, P et Q.",
+  "localisation": "De 917315,6/6460158 à 917318,4/6460145,5",
+  "preuve": "Tuile 917300_6460150, px (312-368, 840-1000), puis tuile 917300_6460100, px (360-370, 0-90). Zoom 2,4x.",
+  "usure": "2",
+  "cause_usure": "Âge et roues des véhicules qui coupent la courbe. Localement 3 : peinture grenue et lacunaire. Le marquage n'a pas été refait lors du remarquage du terre-plein.",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-22",
+   "verdict": "confirme",
+   "justification": "L'axe réapparaît à 917315,6/6460158. Il devient un coin à bords blancs et intérieur marbré, de ≈1 m au maximum. Celui-ci se termine en pointe vers 6460145,3, d'où partent P et Q.",
+   "usure_verifiee": "2"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-22",
+   "verdict": "confirme",
+   "justification": "Les lignes GAM 400 et 405 partent ensemble de 917315,7/6460157,9 et divergent jusqu'à ≈1,1 m à 6460146,6. Cela reproduit le coin hachuré qui s'élargit (≈0,9 m selon le rapport). L'overlay sur l'ortho montre une bande hachurée qui se dédouble vers 6460146. La carte de contraste l'affiche en orange-jaune : usure 2 cohérente.",
+   "usure_verifiee": "2"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-23",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "corrige",
+  "texte": "Terre-plein central peint, à niveau et sans bordure, qui sert de refuge au passage piéton sud. Il est délimité par deux lignes continues de ≈0,18-0,20 m, P à l'ouest et Q à l'est, écartées de ≈2,45-2,5 m perpendiculairement au droit du passage (2,65-2,7 m horizontalement).\n- Au nord, un nez arrondi ∩ (917319-917321 × 6460140,2-6460141,7) relie P à une ligne intérieure parallèle, située à ≈0,6 m à l'ouest de Q, à ≈4,5 m au sud de la séparation.\n- Au milieu, un ∪ intérieur (917328,3-917330 × 6460120,3-6460121,8).\n- Au sud, P et Q convergent en un biseau rempli (≈1,0 m perpendiculaire vers 6460118-6460119) qui se réduit à une ligne simple vers 6460113-6460112. Il n'existe pas de double ligne axiale de 0,8 m se poursuivant vers le SE : au-delà, l'axe est simple.\nLa luminance (P ≈202-221, Q ≈217-224) est comparable à celle de l'axe nord et des autres lignes, pas « la plus blanche ». L'aménagement est déjà visible sur les orthos IGN 2015, 2018 et 2021 : la datation d'un remarquage en 2021-2022 n'est pas étayée. Usure 0-1, retenue à 1. Les mentions de la synthèse sur la « double ligne » (section 5, point ADAS) sont à corriger.",
+  "texte_initial": "Terre-plein central peint, à niveau, qui sert de refuge au passage piéton sud. Il est délimité par deux lignes continues, P à l'ouest et Q à l'est. Ce sont les marquages les plus blancs de la zone, ce qui indique un remarquage récent, probablement en 2021-2022.\n- Au nord, un nez arrondi ∩ ferme l'espace entre P et l'axe.\n- Au milieu se trouve un ∪ intérieur.\n- Au sud, P et Q convergent en une double ligne axiale d'environ 0,8 m (deux traits avec remplissage), qui se poursuit vers le SE.\nLe terre-plein est sans bordure.",
+  "localisation": "P/Q de 6460146 à 6460118. Nez ∩ : 917319-917321 × 6460140,9-6460141,7. ∪ : 917328,3-917330 × 6460120,3-6460121,7.",
+  "preuve": "Tuile 917300_6460100 : nez ∩ à px (400,174), ∪ à px (584,580), lignes à px (380-700, 60-700). Zooms 3x et 6x. Pas d'ombre de bordure.",
+  "usure": "1",
+  "cause_usure": "Marquage récent",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-23",
+   "verdict": "corrige",
+   "justification": "Confirmé : P et Q (FWHM 0,18 m), écart de 2,5 m perpendiculaires au passage, ∩ à 917319-917320,9 × 6460140,2-6460141,7, ∪ à 917328,4-917329,9 × 6460120,3-6460121,8, absence d'ombre de bordure.\n\nTrois erreurs :\n- P et Q (P 202-221, Q 222-224) ne sont pas « les plus blancs » : l'axe nord fait 219-224 et la ligne large 225, avec les mêmes contrastes. La datation 2021-2022 et l'usure 0 ne sont donc pas étayées.\n- Le ∩ ne ferme pas l'espace « entre P et l'axe ». Il relie P à une ligne intérieure située à ≈0,6 m de Q, environ 4,5 m au sud de la séparation.\n- Au sud du ∪, P et Q se rejoignent avec remplissage : ≈1,1 m à 6460119, une seule ligne vers 6460114. Plus au sud, l'axe est simple et continu, puis montre un vide suivi d'un tiret vers 6460103-6460101. Il n'y a pas de double ligne de 0,8 m qui se poursuit vers le SE.",
+   "usure_verifiee": "1",
+   "correction": "- Usure 0-1, au même niveau que l'axe nord.\n- Le terre-plein se termine au sud en biseau rempli et redevient un axe simple vers 6460114.\n- La synthèse (section 5, ADAS, « double ligne interdit les dépassements ») est à corriger en conséquence."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-23",
+   "verdict": "corrige",
+   "justification": "La géométrie est confirmée. P et Q sont deux lignes écartées de 2,65-2,7 m horizontalement (≈2,45 m perpendiculaires) ; il y a un ∩ vers 917319-917321/6460141,5 et un ∪ vers 917328,3-917330/6460120,5-6460121,7 ; aucune ombre de bordure. En revanche, la mention « les plus blancs de la zone » et le diagnostic de remarquage récent ne tiennent pas. Q mesure top-hat 68 et luminance 217, à peine plus que l'axe nord (65 et 212). P mesure 54 et 205, soit moins que l'axe nord. Surtout, le même terre-plein peint, avec ses lignes, le passage, le BUS et le damier, est déjà visible sur les orthos IGN 2015, 2018 et 2021. La carte de contraste et le LiDAR ne couvrent pas ce secteur. En janvier 2025 (Panoramax ec850130), le refuge est toujours peint, et une barrière y est posée.",
+   "correction": "Usure 0 à 1 : comparable à l'axe nord, pas nettement plus neuve. Aménagement présent depuis au moins 2015. La date de remarquage 2021-2022 n'est pas étayée.",
+   "usure_verifiee": "1"
+  },
+  "arbitrage": {
+   "id": "vercors_s-23",
+   "decision": "retenu_corrige",
+   "usure_finale": "1",
+   "texte_final": "Terre-plein central peint, à niveau et sans bordure, qui sert de refuge au passage piéton sud. Il est délimité par deux lignes continues de ≈0,18-0,20 m, P à l'ouest et Q à l'est, écartées de ≈2,45-2,5 m perpendiculairement au droit du passage (2,65-2,7 m horizontalement).\n- Au nord, un nez arrondi ∩ (917319-917321 × 6460140,2-6460141,7) relie P à une ligne intérieure parallèle, située à ≈0,6 m à l'ouest de Q, à ≈4,5 m au sud de la séparation.\n- Au milieu, un ∪ intérieur (917328,3-917330 × 6460120,3-6460121,8).\n- Au sud, P et Q convergent en un biseau rempli (≈1,0 m perpendiculaire vers 6460118-6460119) qui se réduit à une ligne simple vers 6460113-6460112. Il n'existe pas de double ligne axiale de 0,8 m se poursuivant vers le SE : au-delà, l'axe est simple.\nLa luminance (P ≈202-221, Q ≈217-224) est comparable à celle de l'axe nord et des autres lignes, pas « la plus blanche ». L'aménagement est déjà visible sur les orthos IGN 2015, 2018 et 2021 : la datation d'un remarquage en 2021-2022 n'est pas étayée. Usure 0-1, retenue à 1. Les mentions de la synthèse sur la « double ligne » (section 5, point ADAS) sont à corriger.",
+   "justification": "J'ai mesuré tous les 1 m la largeur des plages blanches à l'extrémité sud : 1,4 m horizontaux à 6460118 (≈1,0 m perpendiculaire), 0,85 à 6460116, 0,5 à 6460114, 0,25-0,2 à partir de 6460112. Le biseau se termine donc en ligne simple. La réobservation est confirmée et la « double ligne de 0,8 m » est réfutée. Les maxima de luminance (215-225) sont du même ordre que l'axe nord. L'antériorité (2015/2021) se voit sur mes extraits IGN. Les deux vérificateurs concordent sur la blancheur et la datation."
+  }
+ },
+ {
+  "id": "vercors_s-24",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "verifie_x2",
+  "texte": "La rive B se prolonge par une bande sombre étroite, puis par une ligne large blanche qui s'effile et se termine par un nez ∪ juste au nord du passage piéton. Cette ligne large marque le début du séparateur de la bande est pour le flux montant. La bande sombre a le même tracé et un contraste inversé : il peut s'agir d'un masquage à la peinture noire, d'un effacement, ou d'un joint bitumé.",
+  "texte_initial": "La rive B se prolonge par une bande sombre étroite, puis par une ligne large blanche qui s'effile et se termine par un nez ∪ juste au nord du passage piéton. Cette ligne large marque le début du séparateur de la bande est pour le flux montant. La bande sombre a le même tracé et un contraste inversé : il peut s'agir d'un masquage à la peinture noire, d'un effacement, ou d'un joint bitumé.",
+  "localisation": "Bande sombre : 917320,6-917322,3 × 6460146,8-6460151,8. Ligne large et ∪ : 917322,1-917324,4 × 6460142,3-6460146,8.",
+  "preuve": "Tuile 917300_6460100, px (412-490, 0-120). Zoom 3,4x avec grille de 0,5 m.",
+  "usure": "F",
+  "cause_usure": "La bande sombre serait un ancien prolongement effacé ou masqué. La ligne large elle-même est en usure 0-1 (marquage récent).",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "faible",
+  "verif_reobservation": {
+   "id": "vercors_s-24",
+   "verdict": "confirme",
+   "justification": "B reste blanche jusqu'à ≈917320,2/6460152. Elle se prolonge par une trace sombre et étroite à 917320,4-917322,1 × 6460146,9-6460151,7, puis par la ligne large (FWHM 0,48 m, blanc 225) jusqu'au nez ∪ vers 6460142,3. C'est exactement l'enchaînement décrit.",
+   "usure_verifiee": "F"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-24",
+   "verdict": "confirme",
+   "justification": "La ligne large (917322,1-917324,4 × 6460142,3-6460146,8) est classée jaune-vert sur la carte de contraste, ce qui confirme une usure 0-1. La bande sombre dans l'alignement de B, entre 6460146,8 et 6460151,8, est visible sur l'overlay. Appui à l'hypothèse « ancien prolongement effacé ou masqué » : le levé GAM, ancien sur cette section, trace B en continu jusqu'à 917322,4/6460146,7 (lignes 403 et 404), c'est-à-dire à travers la bande sombre, jusqu'au départ de la ligne large.",
+   "usure_verifiee": "F"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-25",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "passage_pieton",
+  "statut": "verifie_x2",
+  "texte": "Passage piéton sud, d'environ 4 m de large, qui traverse toute la chaussée (≈12,5 m) en 3 groupes de 3 bandes.\n- Groupe O, sur la voie descendante, entre la rive et P : la bande la plus à l'ouest est presque effacée.\n- Refuge sur le terre-plein peint, sans bandes.\n- Groupes M et E, sur l'espace montant indivis.\nLes groupes sont décalés pour suivre la courbe, et une bande manque entre M et E. Les bandes M et E sont franches, sauf la 2e de M, tachée d'une souillure sombre. Aucun mât de feu n'a été identifié au droit du passage.",
+  "texte_initial": "Passage piéton sud, d'environ 4 m de large, qui traverse toute la chaussée (≈12,5 m) en 3 groupes de 3 bandes.\n- Groupe O, sur la voie descendante, entre la rive et P : la bande la plus à l'ouest est presque effacée.\n- Refuge sur le terre-plein peint, sans bandes.\n- Groupes M et E, sur l'espace montant indivis.\nLes groupes sont décalés pour suivre la courbe, et une bande manque entre M et E. Les bandes M et E sont franches, sauf la 2e de M, tachée d'une souillure sombre. Aucun mât de feu n'a été identifié au droit du passage.",
+  "localisation": "O : 917318,5-917322,4 × 6460129-6460136. M : 917325,5-917329,3 × 6460126-6460132. E : 917329,5-917333,5 × 6460127-6460133.",
+  "preuve": "Tuile 917300_6460100, px (360-660, 300-470). Composantes : bandes de L = 4,0-4,05 m, l = 0,49-0,62 m, taux de remplissage 0,92-0,96 (0,50 pour la bande tachée).",
+  "usure": "1",
+  "cause_usure": "La bande ouest (usure 3) est usée par les roues qui serrent la bordure dans la courbe. La tache vient d'huile ou de boue de chantier. Le reste n'a qu'une usure d'âge.",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-25",
+   "verdict": "confirme",
+   "justification": "- 9 bandes en 3 groupes (O, M, E), chacune ≈4,0 × 0,5 m, période ≈0,9-1,0 m.\n- La bande ouest de O est très pâle.\n- Q est interrompue au droit de M ; la tache sur la 2e bande de M est bien visible.\n\nNuance : le vide d'environ 1,8 m entre M et E (x ≈917329-917330) tombe dans le prolongement de la ligne large du couloir bus et de la bande est. La bande « manquante » pourrait donc être volontaire.",
+   "usure_verifiee": "1"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-25",
+   "verdict": "confirme",
+   "justification": "Trois groupes de 3 bandes de ≈4,1 × 0,5 m sont confirmés. L'écart entre le dernier centre de M et le premier de E est de ≈1,75 m contre 0,92 m entre bandes voisines : il manque une bande. Top-hat médian : 43 pour le groupe O, 47 pour M, 56 pour E. La bande la plus à l'ouest est la plus pâle. La configuration est identique sur les orthos IGN 2015, 2018, 2021 et 2024. La photo ec850130 de 2025 ne montre aucun feu au droit du passage.",
+   "usure_verifiee": "1"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-26",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "passage_pieton",
+  "statut": "retenu_arbitre",
+  "texte": "Extrémité ouest du passage sud : un parvis clair, à teinte légèrement bleu-vert, porte deux barres claires parallèles à la bordure, vers 917315,5-917317,9 × 6460129,4-6460133. Ce sont probablement des bandes d'éveil de vigilance sur un abaissé de trottoir ; aucune autre source ne permet de le vérifier. Une grille d'avaloir se trouve au pied de la bordure, juste au nord (≈917316,0-917316,7 × 6460133-6460133,7). Le côté est n'est pas résolu. Confiance moyenne.",
+  "texte_initial": "Extrémité ouest du passage sud : un parvis clair, à teinte légèrement bleu-vert, porte deux barres claires parallèles à la bordure. Ce sont probablement des bandes d'éveil de vigilance (BEV) sur un abaissé de trottoir. Une grille d'avaloir se trouve au pied de la bordure, juste au nord. Le côté est n'est pas résolu.",
+  "localisation": "Parvis : 917315-917317,9 × 6460129,4-6460133. Avaloir : 917316,3/6460133,7.",
+  "preuve": "Tuile 917300_6460100, px (300-360, 330-420). Zoom 3,4x.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-26",
+   "verdict": "confirme",
+   "justification": "Parvis à teinte bleu-vert portant deux barres claires vers 917315,5-917317,4 × 6460129,6-6460132. Grille d'avaloir à 917316,05-917316,7 × 6460133-6460133,6. L'interprétation en bandes d'éveil de vigilance est plausible (confiance moyenne).",
+   "usure_verifiee": "NA"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-26",
+   "verdict": "incertain",
+   "justification": "Le parvis clair bleuté avec ses barres claires et l'avaloir (≈917316,3/6460133,4) sont visibles sur l'ortho. Aucune autre source ne couvre ce point : le LiDAR s'arrête à y > 6460140 et aucune photo n'est exploitable. L'identification comme bandes d'éveil de vigilance n'est donc pas vérifiable."
+  },
+  "arbitrage": {
+   "id": "vercors_s-26",
+   "decision": "retenu",
+   "usure_finale": "NA",
+   "texte_final": "Extrémité ouest du passage sud : un parvis clair, à teinte légèrement bleu-vert, porte deux barres claires parallèles à la bordure, vers 917315,5-917317,9 × 6460129,4-6460133. Ce sont probablement des bandes d'éveil de vigilance sur un abaissé de trottoir ; aucune autre source ne permet de le vérifier. Une grille d'avaloir se trouve au pied de la bordure, juste au nord (≈917316,0-917316,7 × 6460133-6460133,7). Le côté est n'est pas résolu. Confiance moyenne.",
+   "justification": "L'observation (parvis, barres, avaloir) est confirmée par les deux vérificateurs et sur l'ortho. L'interprétation est déjà présentée comme probable, avec une confiance moyenne. L'avis « incertain » du recoupement ne porte que sur l'impossibilité de la recouper, ce que la confiance moyenne traduit déjà. Je garde donc le constat en l'état, avec des coordonnées précisées."
+  }
+ },
+ {
+  "id": "vercors_s-27",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "signalisation_verticale_feux",
+  "statut": "corrige",
+  "texte": "Obstacle physique posé au milieu du refuge peint à niveau, entre P et Q. En 2022 : un cadre rectangulaire à croisillon en X, de teinte rouille, à 917325,1-917326,5 × 6460125,8-6460127,1. De son angle NO part un élément linéaire fin de ≈3 m vers le NNO (mât et son ombre, ou mât incliné par l'effet de relief), qui se termine par une tache sombre à 917322,9-917324,3 × 6460128,6-6460130,2 (panneau ou ombre de panneau, non certain). Le 12/01/2025 (Panoramax ec850130, tuile r01_c02), une barrière rouge-brun à croisillons en X (≈1,2 × 1 m) se trouve toujours au même endroit, avec un petit objet sombre sur poteau près du nez du couloir bus. L'objet est donc resté en place au moins 2,5 ans : c'est un obstacle fixe ou semi-fixe, pas une simple signalisation provisoire de chantier. La présence d'un panneau sur piètement en 2022 n'est ni exclue ni confirmée.",
+  "texte_initial": "Panneau sur support mobile au milieu du refuge peint. Le pied est un cadre rectangulaire à croisillon en X, de teinte rouille. L'ombre fine d'un mât part vers le NNO et se termine par une tache, qui est l'ombre du panneau. Il s'agit probablement d'une signalisation provisoire (chantier ou traversée). C'est un obstacle physique posé sur une zone peinte à niveau.",
+  "localisation": "Pied : 917325,2-917326,45 × 6460125,8-6460126,9. Ombre du panneau vers 917323,7/6460129.",
+  "preuve": "Tuile 917300_6460100, px (504-529, 462-484). Zoom 5x avec grille de 0,5 m.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-27",
+   "verdict": "confirme",
+   "justification": "Cadre à croisillon en X, de teinte rouille, à 917325,1-917326,4 × 6460125,8-6460126,9, entre P et Q. Une ombre fine de ≈2,9 m part vers le NNO et se termine par une tache sombre à 917322,9-917324,2 × 6460128,6-6460129,9.",
+   "usure_verifiee": "NA"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-27",
+   "verdict": "corrige",
+   "justification": "Il y a bien un obstacle au milieu du refuge peint, entre P et Q : le motif en X teinte rouille est à 917325,1-917326,5 × 6460125,8-6460126,9. Mais les Panoramax du 12/01/2025 (ec850130 tuile r01_c02, b482b367 tuile r01_c02) montrent au même endroit une barrière rouge-brun debout, à croisillons en X (≈1,2 m × 1 m), et aucun panneau ni mât. Le motif rouille de 2022 est compatible avec cette barrière et son ombre. L'objet est donc resté en place au moins 2,5 ans : il n'est pas « provisoire de chantier » au sens strict. Le fin trait sombre de ≈3,4 m qui se termine par une tache reste inexpliqué (mât, ou autre objet).",
+   "correction": "Obstacle fixe ou semi-fixe : barrière rouge à croisillons posée sur le refuge peint, attestée en 2022 et en 2025. Un panneau sur piètement en 2022 n'est pas exclu, mais n'est pas confirmé."
+  },
+  "arbitrage": {
+   "id": "vercors_s-27",
+   "decision": "retenu_corrige",
+   "usure_finale": "NA",
+   "texte_final": "Obstacle physique posé au milieu du refuge peint à niveau, entre P et Q. En 2022 : un cadre rectangulaire à croisillon en X, de teinte rouille, à 917325,1-917326,5 × 6460125,8-6460127,1. De son angle NO part un élément linéaire fin de ≈3 m vers le NNO (mât et son ombre, ou mât incliné par l'effet de relief), qui se termine par une tache sombre à 917322,9-917324,3 × 6460128,6-6460130,2 (panneau ou ombre de panneau, non certain). Le 12/01/2025 (Panoramax ec850130, tuile r01_c02), une barrière rouge-brun à croisillons en X (≈1,2 × 1 m) se trouve toujours au même endroit, avec un petit objet sombre sur poteau près du nez du couloir bus. L'objet est donc resté en place au moins 2,5 ans : c'est un obstacle fixe ou semi-fixe, pas une simple signalisation provisoire de chantier. La présence d'un panneau sur piètement en 2022 n'est ni exclue ni confirmée.",
+   "justification": "Mon zoom 6x montre le cadre en X et l'élément linéaire terminé par une tache, comme le décrivent le rapport et la réobservation. J'ai vu sur ec850130 (r01_c02) la barrière rouge à croisillons et le petit objet sur poteau, ce qui confirme le recoupement. Le caractère « provisoire » est contredit par la durée de présence. La nature de l'élément linéaire reste ambiguë."
+  }
+ },
+ {
+  "id": "vercors_s-28",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "arret_bus",
+  "statut": "verifie_x2",
+  "texte": "Couloir bus montant au sud du passage piéton. La légende « BUS » se lit dans le sens montant. Il est séparé de la voie générale par une ligne large double avec remplissage, qui commence ou finit au nord par un nez ∪. Un objet carré presque noir, sans ombre portée, se trouve devant ce nez : regard, balise basse ou plot (indéterminé). Il n'y a ni quai ni arrêt de bus dans la zone ; l'arrêt « La Revirée » est sur Verdun.",
+  "texte_initial": "Couloir bus montant au sud du passage piéton. La légende « BUS » se lit dans le sens montant. Il est séparé de la voie générale par une ligne large double avec remplissage, qui commence ou finit au nord par un nez ∪. Un objet carré presque noir, sans ombre portée, se trouve devant ce nez : regard, balise basse ou plot (indéterminé). Il n'y a ni quai ni arrêt de bus dans la zone ; l'arrêt « La Revirée » est sur Verdun.",
+  "localisation": "BUS : 917343,5/6460111,2. Nez ∪ : 917334,3/6460119,3. Objet : 917333,7/6460121,5. Couloir de 6460119 à 6460100 et au-delà vers le sud.",
+  "preuve": "Tuile 917300_6460100 : BUS à px (870,776), nez à px (686,614), objet à px (674,570). Profil perpendiculaire en (917337, 6460111), az 146°.",
+  "usure": "1",
+  "cause_usure": "Âge ; roues des bus sur la ligne large en sortie de couloir",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-28",
+   "verdict": "confirme",
+   "justification": "- Légende « BUS » à 917342,2-917344,4 × 6460110-6460112, lisible dans le sens montant.\n- Ligne large d'environ 0,6-0,7 m perpendiculaires.\n- Nez ∪ à 917334,4-917335 × 6460119,7-6460120,1.\n- Objet sombre à bord clair, ≈0,6 × 0,7 m, à 917333,35-917334 × 6460121,1-6460121,9.\n- Couloir ≈3,5 m ; voie générale ≈3,1 m.",
+   "usure_verifiee": "1"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-28",
+   "verdict": "confirme",
+   "justification": "Les positions du « BUS » (917342,2-917344,3 × 6460110-6460111,5), du nez ∪ et de l'objet noir sont confirmées au zoom. La légende se lit pour le flux montant. L'aménagement est déjà présent sur les orthos IGN 2015 à 2024. OSM ne signale aucun arrêt dans la zone. Probable : sur les photos 2025 (ec850130, b482b367), l'objet noir ressemble à un petit élément sombre sur poteau bas (balise ou panneau vu de dos), donc un objet en relief plutôt qu'un regard. Top-hat de la légende BUS : médian 40, luminance 178.",
+   "usure_verifiee": "1"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-29",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "fleche_symbole",
+  "statut": "corrige",
+  "texte": "Flèches de sens de part et d'autre de l'axe simple qui suit le terre-plein peint :\n- flèche vers le SE dans la voie descendante, ≈917335,6-917338 × 6460106,7-6460109,8 ;\n- flèche vers le NO dans la voie générale montante, ≈917338,4-917340,7 × 6460108,5-6460111,6.\nElles rappellent le sens de circulation après le refuge. Longueur ≈3,8-4,0 m chacune, et non ≈3 m. Usure 1 (âge). Elles figurent aussi sur les orthos IGN 2021 et 2024.",
+  "texte_initial": "Flèches de sens de part et d'autre de la double ligne axiale sud : une flèche vers le SE dans la voie descendante, une flèche vers le NO dans la voie générale montante. Elles rappellent le sens de circulation après le terre-plein peint.",
+  "localisation": "Descendante : 917336,5/6460108. Montante : 917339/6460111.",
+  "preuve": "Tuile 917300_6460100, px (730,840) et (780,780)",
+  "usure": "1",
+  "cause_usure": "Âge",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-29",
+   "verdict": "corrige",
+   "justification": "Positions et sens confirmés :\n- flèche vers le SE dans la voie descendante, à 917335,7-917338 × 6460106,6-6460109,6 ;\n- flèche vers le NO dans la voie générale montante, à 917338,3-917339,7 × 6460110-6460111,7.\n\nEn revanche, au zoom 3x, les longueurs mesurées sont d'environ 3,8 m et 4,0 m.",
+   "usure_verifiee": "1",
+   "correction": "Longueurs ≈3,8-4,0 m, et non ≈3 m."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-29",
+   "verdict": "confirme",
+   "justification": "Deux flèches sont visibles au zoom : vers le SE vers 917337/6460107,7, vers le NO vers 917339/6460111. Elles figurent aussi sur les orthos IGN 2021 et 2024."
+  },
+  "arbitrage": {
+   "id": "vercors_s-29",
+   "decision": "retenu_corrige",
+   "usure_finale": "1",
+   "texte_final": "Flèches de sens de part et d'autre de l'axe simple qui suit le terre-plein peint :\n- flèche vers le SE dans la voie descendante, ≈917335,6-917338 × 6460106,7-6460109,8 ;\n- flèche vers le NO dans la voie générale montante, ≈917338,4-917340,7 × 6460108,5-6460111,6.\nElles rappellent le sens de circulation après le refuge. Longueur ≈3,8-4,0 m chacune, et non ≈3 m. Usure 1 (âge). Elles figurent aussi sur les orthos IGN 2021 et 2024.",
+   "justification": "Ma composante connexe donne 3,82 m pour la flèche NO ; la flèche SE mesure ≈3,9 m entre la pointe et la queue au zoom 2,8x. La réobservation a donc raison sur la longueur. Positions et sens sont confirmés par les deux avis. Comme établi pour s-23, la « double ligne axiale » n'existe pas : il s'agit d'un axe simple."
+  }
+ },
+ {
+  "id": "vercors_s-30",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "verifie_x2",
+  "texte": "Damier en quinconce qui traverse le couloir bus au droit d'un accès ou d'une voie latérale à l'est. Il se poursuit dans la tuile voisine. Une tranchée oblique refermée le recoupe. C'est le même principe qu'au débouché de la voie A.",
+  "texte_initial": "Damier en quinconce qui traverse le couloir bus au droit d'un accès ou d'une voie latérale à l'est. Il se poursuit dans la tuile voisine. Une tranchée oblique refermée le recoupe. C'est le même principe qu'au débouché de la voie A.",
+  "localisation": "917345-917350 × 6460100-6460106 (déborde sur 917350_6460100)",
+  "preuve": "Tuile 917300_6460100, px (900-1000, 860-1000). Recadrage de 917330-917370 × 6460100-6460125.",
+  "usure": "1",
+  "cause_usure": "Franchissements par les véhicules qui accèdent à la voie latérale. Usure 2 dans la tranchée.",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-30",
+   "verdict": "confirme",
+   "justification": "Damier en quinconce à 917345,3-917352,6 × 6460100,2-6460106,6, carreaux de ≈0,7-0,85 m. Il est recoupé par une bande sombre oblique, de type tranchée refermée.",
+   "usure_verifiee": "1"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-30",
+   "verdict": "confirme",
+   "justification": "Le damier sud a un top-hat médian de 48 et une luminance de 190 (usure 1). Il est présent sur les orthos IGN 2015, 2018, 2021 et 2024. La tranchée oblique qui le recoupe est déjà visible sur l'ortho IGN 2021.",
+   "usure_verifiee": "1"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-31",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "amenagement_cyclable",
+  "statut": "verifie_x2",
+  "texte": "Piste bidirectionnelle Chronovélo 1, côté ouest (BD TOPO « Chronovélo 1 » ; GAM : piste bidirectionnelle de 300 cm). Elle est en enrobé plus sombre que la chaussée et séparée de celle-ci par une bande enherbée bordée de bordures béton claires. Elle se poursuit au sud du passage. Aucune bande cyclable, aucun sas vélo ni aucun pictogramme vélo n'existe sur la chaussée du Vercors.",
+  "texte_initial": "Piste bidirectionnelle Chronovélo 1, côté ouest (BD TOPO « Chronovélo 1 » ; GAM : piste bidirectionnelle de 300 cm). Elle est en enrobé plus sombre que la chaussée et séparée de celle-ci par une bande enherbée bordée de bordures béton claires. Elle se poursuit au sud du passage. Aucune bande cyclable, aucun sas vélo ni aucun pictogramme vélo n'existe sur la chaussée du Vercors.",
+  "localisation": "De 917280/6460258 à 917316/6460131",
+  "preuve": "Tuiles 917250_6460200 px (700-1000, 0-700), 917300_6460150 px (0-160, 0-850) et 917300_6460100 px (220-330, 0-380). Profil de couleur à y 6460220 : piste de 917296,0 à 917298,9.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10 ; BD TOPO ; GAM",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-31",
+   "verdict": "confirme",
+   "justification": "Piste en enrobé sombre (RVB ≈115-134), mesurée par profils couleur : 917296,0-917298,9 à 6460220 ; ≈917299,8-917302,4 à 6460200. Bande enherbée de ≈2 m entre la piste et la chaussée. La piste continue au sud du passage.",
+   "usure_verifiee": "NA",
+   "correction": "La largeur visible descend localement à ≈2,5-2,6 m vers 6460190-6460200, la végétation débordant sur le bord ouest."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-31",
+   "verdict": "confirme",
+   "justification": "Le levé GAM donne une piste bidirectionnelle de 300 cm, et son axe (ligne 397) coïncide avec les tirets. Ortho : 2,9 m. Bande séparative ≈2,15 m à 6460220 (bordure LiDAR à 917301,05). Les Panoramax 2020 et 2025 montrent la piste en enrobé sombre, séparée par une bande plantée. Note sur l'état actuel : OSM 2026 donne une piste cyclable de 4 m de large, ce qui suggère qu'elle a pu être modifiée depuis."
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-32",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "corrige",
+  "texte": "Marquages d'identité Chronovélo sur la piste :\n- une seule ligne de rive jaune ocre, côté est, le long de la bordure de la bande séparative (RVB ≈155-164/153-162/126-145). Côté ouest, entre ≈6460190 et 6460240, l'enrobé touche directement la haie, sans rive jaune. Une ligne jaune ouest n'apparaît qu'à l'entrée nord de la piste, vers 6460252-6460262 ;\n- un axe en tirets turquoise pâle (≈1 × 0,15-0,2 m), alternés avec des pastilles jaunes (ex. 917301,0/6460200,5 et 917302,25/6460192,75).\nLa photo Panoramax 2020 (6d32fc64 r01_c01) montre nettement ces marquages, avec la rive jaune d'un seul côté (côté chaussée). Sur l'ortho de 2022, leur contraste est faible. Usure 2 (âge, feuilles, terre et mousse sous les arbres). La largeur revêtue visible (≈2,4 m vers 6460200) est inférieure aux 4 m déclarés dans OSM : la haie déborde probablement sur la piste.",
+  "texte_initial": "Marquages d'identité Chronovélo sur la piste :\n- des lignes de rive jaune ocre des deux côtés ;\n- un axe en tirets turquoise pâle, d'environ 1 × 0,15-0,2 m, alternés avec des pastilles jaunes.\nLa photo Panoramax 2020 les montre clairement. Sur l'ortho de 2022, leur contraste est très faible.",
+  "localisation": "Toute la piste, par exemple tirets à 917301,0/6460200,5 et 917302,25/6460192,75",
+  "preuve": "Échantillons RVB : rive jaune 164/162/145 (R−B ≈19), tirets 156-167/167-174/161-168, enrobé de la piste 127/131/125. Panoramax 2020-05-21 6d32fc64, tuile r01_c01.",
+  "usure": "2",
+  "cause_usure": "Âge ; feuilles, terre et mousse sous les arbres ; peinture couleur moins rétroréfléchissante. Sur la reprise transversale, le jaune n'a pas été refait (usure 3).",
+  "date_source": "ortho PCRS 2022-05-10 ; Panoramax 2020-05-21",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-32",
+   "verdict": "corrige",
+   "justification": "La rive jaune n'existe que côté est, le long de la bordure de la bande séparative : RVB ≈155/153/126 à 6460240, 159/157/135 à 6460190, et visible au zoom. Côté ouest, l'enrobé touche directement la végétation, sans aucune ligne jaune, à 6460190, 6460200, 6460220 et 6460240. La photo Panoramax 2020 (6d32fc64, r01_c01) le confirme : rive jaune à gauche seulement, côté chaussée.\n\nL'axe est conforme : tirets cyan pâle (pixels les plus clairs ≈171/175/168) alternés avec des pastilles.",
+   "usure_verifiee": "2",
+   "correction": "Une seule ligne de rive jaune, côté est. Il n'y en a pas côté ouest."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-32",
+   "verdict": "confirme",
+   "justification": "Le Panoramax 2020 e04fd774 (tuile r01_c01) montre nettement les rives jaunes, les tirets turquoise d'≈1 m et les pastilles jaunes. Ces marquages sont encore visibles en janvier 2025 (a1ffea74, b48e2561, ec850130). Sur l'ortho 2022, leur contraste est faible, comme le dit le rapport."
+  },
+  "arbitrage": {
+   "id": "vercors_s-32",
+   "decision": "retenu_corrige",
+   "usure_finale": "2",
+   "texte_final": "Marquages d'identité Chronovélo sur la piste :\n- une seule ligne de rive jaune ocre, côté est, le long de la bordure de la bande séparative (RVB ≈155-164/153-162/126-145). Côté ouest, entre ≈6460190 et 6460240, l'enrobé touche directement la haie, sans rive jaune. Une ligne jaune ouest n'apparaît qu'à l'entrée nord de la piste, vers 6460252-6460262 ;\n- un axe en tirets turquoise pâle (≈1 × 0,15-0,2 m), alternés avec des pastilles jaunes (ex. 917301,0/6460200,5 et 917302,25/6460192,75).\nLa photo Panoramax 2020 (6d32fc64 r01_c01) montre nettement ces marquages, avec la rive jaune d'un seul côté (côté chaussée). Sur l'ortho de 2022, leur contraste est faible. Usure 2 (âge, feuilles, terre et mousse sous les arbres). La largeur revêtue visible (≈2,4 m vers 6460200) est inférieure aux 4 m déclarés dans OSM : la haie déborde probablement sur la piste.",
+   "justification": "Ma vue étirée de 917294-917304 × 6460190-6460204 montre une seule rive jaune, à l'est. J'ai examiné 6d32fc64 (r01_c01) : rive jaune à gauche uniquement (côté route), haie en contact direct à droite. Cela confirme la réobservation. Sur la vue de l'entrée nord, une seconde ligne jaune borde la piste à l'ouest : la correction est donc limitée à la section courante. Le recoupement confirme les tirets et les pastilles."
+  }
+ },
+ {
+  "id": "vercors_s-33",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "fleche_symbole",
+  "statut": "verifie_x2",
+  "texte": "Pictogrammes vélo blancs en paires orientées tête-bêche, ce qui rappelle le double sens de la piste. Deux flèches blanches pointent vers le SE à l'entrée nord de la piste ; la flèche nord n'a qu'une demi-pointe.",
+  "texte_initial": "Pictogrammes vélo blancs en paires orientées tête-bêche, ce qui rappelle le double sens de la piste. Deux flèches blanches pointent vers le SE à l'entrée nord de la piste ; la flèche nord n'a qu'une demi-pointe.",
+  "localisation": "Logos : 917300,9/6460205,4, 917300,4/6460199,9, 917313,8/6460139. Flèches : 917280,5/6460255,6 et 917282,2/6460253,8.",
+  "preuve": "Tuiles 917300_6460200 px (18,892), 917300_6460150 px (8,2), 917300_6460100 px (276,220), 917250_6460250 px (600-660, 880-930)",
+  "usure": "1",
+  "cause_usure": "Logos : âge. La flèche à demi-pointe (usure 2) a probablement été tronquée lors d'une reprise ou d'un repeint partiel.",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-33",
+   "verdict": "confirme",
+   "justification": "- Logos vélo à ≈917300,5-917301,3/6460205-6460205,8, à 917300-917300,8/6460199-6460200,2 et vers 917313,8/6460139.\n- Deux flèches blanches pointant au SE à l'entrée nord de la piste, à 917280-917281,2 × 6460254-6460255 et 917281,75-917282,5 × 6460252,9-6460253,55.",
+   "usure_verifiee": "1"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-33",
+   "verdict": "confirme",
+   "justification": "La flèche à demi-pointe et la flèche complète vers le SE à l'entrée de la piste sont visibles au zoom. Le Panoramax 2025 b48e2561 (tuile r01_c02) montre un logo vélo blanc sur la piste. Les logos du sud correspondent aux symboles vélo du levé GAM (917305,85/6460154,4 et 917306,5/6460158,6)."
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-34",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "degradation",
+  "statut": "retenu_arbitre",
+  "texte": "Reprise transversale de type tranchée, sur toute la largeur de la piste : enrobé plus sombre (≈12-20 niveaux de moins que l'enrobé voisin) entre deux joints droits, vers 917285,5-917289,3 × 6460247,6-6460250,3 (≈2,5-3 m). Contraste modéré, en partie perturbé par l'ombre des arbres à l'ouest. Un regard rond (≈0,7 m) est intégré dans la piste plus au sud, vers 917297,5/6460224,0.",
+  "texte_initial": "Reprise transversale de type tranchée, sur toute la largeur de la piste : enrobé plus sombre, joints droits nets. Un regard rond est intégré dans la piste plus au sud.",
+  "localisation": "Reprise : 917286,5-917288,2 × 6460248-6460250,7. Regard : 917297,4/6460224.",
+  "preuve": "Tuile 917250_6460200, px (720-770, 0-40) et (949,520). Cohérent avec p2025_01_vercors-15 et -18.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-34",
+   "verdict": "confirme",
+   "justification": "Reprise transversale plus sombre entre deux joints droits, à 917285,5-917289,3 × 6460247,6-6460250,3, et regard rond vers 917297,4/6460224. En revanche, l'absence de jaune sur la reprise n'est pas nette : la bordure claire semble continue (affirmation incertaine).",
+   "usure_verifiee": "NA"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-34",
+   "verdict": "incertain",
+   "justification": "Au zoom 3x, on ne voit sur la piste qu'un changement de teinte et un joint très discrets vers 6460248-6460251. Aucune autre source (LiDAR, orthos 20 cm) ne permet de confirmer une reprise transversale nette. Le regard n'a pas été vérifié."
+  },
+  "arbitrage": {
+   "id": "vercors_s-34",
+   "decision": "retenu",
+   "usure_finale": "NA",
+   "texte_final": "Reprise transversale de type tranchée, sur toute la largeur de la piste : enrobé plus sombre (≈12-20 niveaux de moins que l'enrobé voisin) entre deux joints droits, vers 917285,5-917289,3 × 6460247,6-6460250,3 (≈2,5-3 m). Contraste modéré, en partie perturbé par l'ombre des arbres à l'ouest. Un regard rond (≈0,7 m) est intégré dans la piste plus au sud, vers 917297,5/6460224,0.",
+   "justification": "Mon profil de luminance le long de la piste, à +0,6 m du centre, donne 126-133 au nord de 6460250,4, 109-119 entre 6460250 et 6460247,7, puis 126-130 au sud. Il y a donc une bande plus sombre et bornée, cohérente avec la réobservation. Au zoom 4x, les joints droits sont visibles mais discrets, ce qui explique la réserve du recoupement. Le regard rond est visible sur mon zoom à ≈917297,1-917297,9 × 6460223,6-6460224,5."
+  }
+ },
+ {
+  "id": "vercors_s-35",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "passage_pieton",
+  "statut": "retenu_arbitre",
+  "texte": "Passage piéton qui traverse l'embouchure de l'allée des Mitaillères, le long du cheminement ouest. Il compte 8 bandes : 7 nettes et 1 très pâle au sud, sous l'ombre. Chaque bande mesure ≈2,0-2,3 × 0,55-0,65 m, avec une période de ≈0,96-1 m, à 917300-917304 × 6460150,9-6460158,8 ; les bandes sont courtes, la traversée est donc plus étroite que les 2,5 m usuels. Le blanc est grisé et marbré, y compris sur les bandes nord, en plein soleil : luminance médiane ≈165-182, contre ≈180-216 pour les bandes du passage sud. Les ombres des branches d'un arbre caduc couvrent la moitié sud du passage. Usure 2 en 2022 (girations vers et depuis les Mitaillères, âge). En janvier 2025 (Panoramax aee63b08), les bandes paraissent franches et blanches : un remarquage a probablement eu lieu depuis.",
+  "texte_initial": "Passage piéton qui traverse l'embouchure de l'allée des Mitaillères, le long du cheminement ouest du Vercors. Il compte 8 bandes, dont la plus au sud est presque effacée. Les bandes sont courtes, ce qui donne une traversée plus étroite que les 2,5 m usuels. Le blanc est grisé et marbré. Les ombres des branches d'un arbre caduc couvrent une grande partie du passage.",
+  "localisation": "917300-917304 × 6460150,5-6460158,5",
+  "preuve": "Tuile 917300_6460150, px (0-90, 760-1000). Composantes : L = 2,2 m, l = 0,55-0,6 m, blanc 165-171.",
+  "usure": "2",
+  "cause_usure": "Girations des véhicules qui entrent dans les Mitaillères ou en sortent, à l'angle de la courbe ; âge",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-35",
+   "verdict": "confirme",
+   "justification": "8 bandes (7 nettes et 1 très pâle au sud), chacune ≈2,0-2,3 × 0,55-0,65 m, période ≈0,96 m, à 917300-917303,8 × 6460150,9-6460158,6. Blanc grisé, réseau d'ombres de branches.",
+   "usure_verifiee": "2"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-35",
+   "verdict": "corrige",
+   "justification": "Le passage de ≈8 bandes est confirmé. Le levé GAM en enregistre une sous forme de rectangle de ≈2,2 × 0,5 m (objet 359), ce qui confirme la faible longueur des bandes. Mais l'usure 2 repose sur un blanc de 165-171 mesuré sous l'ombre portée des branches, qui abaisse la luminance (médiane 145 dans la boîte). La carte de contraste objective classe ces bandes en vert-jaune, signe d'un bon contraste. En janvier 2025 (Panoramax b482b367, tuile r01_c04), les bandes sont franches et très blanches, peut-être remarquées depuis.",
+   "correction": "Usure plutôt 1 en 2022 : le grisé vient surtout des ombres de branches. Bandes nettes en 2025.",
+   "usure_verifiee": "1"
+  },
+  "arbitrage": {
+   "id": "vercors_s-35",
+   "decision": "retenu",
+   "usure_finale": "2",
+   "texte_final": "Passage piéton qui traverse l'embouchure de l'allée des Mitaillères, le long du cheminement ouest. Il compte 8 bandes : 7 nettes et 1 très pâle au sud, sous l'ombre. Chaque bande mesure ≈2,0-2,3 × 0,55-0,65 m, avec une période de ≈0,96-1 m, à 917300-917304 × 6460150,9-6460158,8 ; les bandes sont courtes, la traversée est donc plus étroite que les 2,5 m usuels. Le blanc est grisé et marbré, y compris sur les bandes nord, en plein soleil : luminance médiane ≈165-182, contre ≈180-216 pour les bandes du passage sud. Les ombres des branches d'un arbre caduc couvrent la moitié sud du passage. Usure 2 en 2022 (girations vers et depuis les Mitaillères, âge). En janvier 2025 (Panoramax aee63b08), les bandes paraissent franches et blanches : un remarquage a probablement eu lieu depuis.",
+   "justification": "Le recoupement attribue le grisé aux ombres de branches. Or mes mesures sur les bandes nord, hors ombre, donnent une luminance médiane de 171 (p90 187), nettement sous les ≈195-216 du passage sud mesuré de la même façon. Le grisé est donc réel et l'usure 2 se justifie pour 2022, comme le confirme la réobservation. Le fort top-hat (51-60) vient du fond assombri par l'ombre et n'indique pas une peinture vive. Le passage clair de 2025 est visible sur aee63b08 (r01_c03)."
+  }
+ },
+ {
+  "id": "vercors_s-36",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "amenagement_cyclable",
+  "statut": "verifie_x2",
+  "texte": "Traversée cyclable Chronovélo de l'allée des Mitaillères, accolée à l'est du passage piéton. Elle est formée de deux bandes de 11 blocs jaunes rectangulaires et porte 2 pictogrammes vélo blancs tête-bêche. Elle se distingue du damier blanc réglementaire. Le jaune est pâle en 2022, mais paraît vif sur la photo de janvier 2025.",
+  "texte_initial": "Traversée cyclable Chronovélo de l'allée des Mitaillères, accolée à l'est du passage piéton. Elle est formée de deux bandes de 11 blocs jaunes rectangulaires et porte 2 pictogrammes vélo blancs tête-bêche. Elle se distingue du damier blanc réglementaire. Le jaune est pâle en 2022, mais paraît vif sur la photo de janvier 2025.",
+  "localisation": "Bande ouest : 917303,3-917305,5. Bande est : 917306,8-917309. y 6460152,7-6460160. Logos : 917306,1/6460159,7 et 917305,6/6460155,2.",
+  "preuve": "Tuile 917300_6460150, px (60-180, 760-1000). Bloc RVB ≈191/186/157. Panoramax 2025-01-12 aee63b08, tuile r01_c02.",
+  "usure": "1",
+  "cause_usure": "Girations des véhicules qui tournent dans les Mitaillères ; âge. Localement usure 2.",
+  "date_source": "ortho PCRS 2022-05-10 ; Panoramax 2025-01-12",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-36",
+   "verdict": "confirme",
+   "justification": "Deux bandes de 11 blocs jaunes à 917303,3-917305,4 et 917306,8-917308,8, sur 6460152,8-6460159,2, avec deux logos vélo entre elles.",
+   "usure_verifiee": "1"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-36",
+   "verdict": "confirme",
+   "justification": "Les deux bandes d'≈11 blocs jaunes et les 2 logos sont visibles au zoom. Les logos correspondent aux symboles vélo du levé GAM. La carte de contraste les affiche en jaune-vert. En janvier 2025 (aee63b08, b482b367), les blocs sont d'un jaune vif et chacun est fendu par un joint fin.",
+   "usure_verifiee": "1"
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-37",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_transversal",
+  "statut": "corrige",
+  "texte": "Trois groupes de 3 barres jaunes transversales, chacun sur la demi-piste de droite du sens concerné, avant chaque traversée cyclable : 917304,0-917305,0 × 6460160,1-6460161,9 (au nord des Mitaillères, sens descendant) ; 917307,4-917308,4 × 6460151,1-6460153 (au sud, sens montant) ; 917279,4-917280,4 × 6460258,4-6460260,1 (entrée nord de la piste). C'est un préavis non réglementaire, en usure 1 (localement 2). En janvier 2025 (Panoramax aee63b08, tuile r01_c02), un STOP avec une plaque « Allée des Mitaillères » se trouve sur l'îlot SUD du débouché, juste après la traversée cyclable et au pied du grand candélabre (≈917313,7/6460149,3). Il est vu de biais depuis la piste et vise très probablement les véhicules qui sortent de l'allée ; OSM 2026 place un nœud stop vers 917311/6460157. Aucune ligne d'arrêt n'est marquée, ni pour les cyclistes ni à la sortie des Mitaillères (2022 et 2025).",
+  "texte_initial": "Trois barres jaunes transversales, sur la demi-piste de droite, avant chaque traversée cyclable :\n- au nord des Mitaillères, pour les cyclistes qui descendent ;\n- au sud des Mitaillères, pour ceux qui montent ;\n- à l'entrée nord de la piste.\nC'est un préavis non réglementaire. Sur la photo de janvier 2025, un panneau STOP (AB4) avec une plaque « Allée des Mitaillères » est posé sur l'îlot nord du débouché. Sa face est visible depuis la piste au nord, ce qui suggère qu'il s'adresse aux cyclistes, mais c'est à confirmer. Aucune ligne d'arrêt n'est marquée, ni pour les cyclistes, ni à la sortie des Mitaillères.",
+  "localisation": "917304,2 × 6460160-6460162 ; 917307,6 × 6460151-6460155 ; 917279,6 × 6460257,6-6460259,4",
+  "preuve": "Tuile 917300_6460150, px (84,780) et (152,940) ; tuile 917250_6460250, px (592,830). Panoramax 2025-01-12 aee63b08, tuile r01_c02.",
+  "usure": "1",
+  "cause_usure": "Passage des vélos ; feuilles et salissures. Localement usure 2.",
+  "date_source": "ortho PCRS 2022-05-10 ; Panoramax 2025-01-12",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-37",
+   "verdict": "corrige",
+   "justification": "Les 3 groupes de 3 barres jaunes sont confirmés, chacun sur la demi-piste de droite du sens concerné :\n- 917304,0-917305,0 × 6460160,1-6460161,9 ;\n- 917307,4-917308,4 × 6460151,1-6460153 ;\n- 917279,4-917280,4 × 6460258,4-6460260,1.\n\nPhoto aee63b08 : prise depuis L93 ≈917305,3/6460165,2, cap 175°. Le STOP y apparaît à un azimut d'environ 152°, au-delà de la traversée jaune et à côté du candélabre de 917313,7/6460149,3. Il se trouve donc sur l'îlot SUD du débouché, pas sur l'îlot nord. À droite de la voie de sortie de l'allée, il vise très probablement les véhicules qui sortent des Mitaillères ; sa face est seulement visible depuis la piste.",
+   "usure_verifiee": "1",
+   "correction": "STOP (2025) sur l'îlot sud du débouché, probablement destiné aux véhicules sortant de l'allée."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-37",
+   "verdict": "corrige",
+   "justification": "Les trois groupes de barres jaunes sont visibles : vers 917304-917305 × 6460159-6460161 et à l'entrée nord de la piste. Mais le STOP de 2025 n'est pas sur l'îlot nord. Sur le Panoramax aee63b08 (pris de 6460165, regard vers le sud), il est sur l'îlot situé au sud du débouché, juste après la traversée jaune, à côté du grand candélabre (≈917313,7/6460149,3). Son azimut, ≈152°, correspond à cet îlot. Par ailleurs, OSM 2026 place un nœud stop sur l'approche de l'allée des Mitaillères (917311/6460157). Cela plaide pour un STOP destiné aux véhicules qui sortent de l'allée, plutôt qu'aux cyclistes.",
+   "correction": "STOP (avec plaque « Allée des Mitaillères ») sur l'îlot SUD du débouché, au pied du candélabre. Usagers visés probablement : les véhicules sortant de l'allée, à confirmer."
+  },
+  "arbitrage": {
+   "id": "vercors_s-37",
+   "decision": "retenu_corrige",
+   "usure_finale": "1",
+   "texte_final": "Trois groupes de 3 barres jaunes transversales, chacun sur la demi-piste de droite du sens concerné, avant chaque traversée cyclable : 917304,0-917305,0 × 6460160,1-6460161,9 (au nord des Mitaillères, sens descendant) ; 917307,4-917308,4 × 6460151,1-6460153 (au sud, sens montant) ; 917279,4-917280,4 × 6460258,4-6460260,1 (entrée nord de la piste). C'est un préavis non réglementaire, en usure 1 (localement 2). En janvier 2025 (Panoramax aee63b08, tuile r01_c02), un STOP avec une plaque « Allée des Mitaillères » se trouve sur l'îlot SUD du débouché, juste après la traversée cyclable et au pied du grand candélabre (≈917313,7/6460149,3). Il est vu de biais depuis la piste et vise très probablement les véhicules qui sortent de l'allée ; OSM 2026 place un nœud stop vers 917311/6460157. Aucune ligne d'arrêt n'est marquée, ni pour les cyclistes ni à la sortie des Mitaillères (2022 et 2025).",
+   "justification": "J'ai examiné aee63b08 (r01_c02) : le STOP et sa plaque sont plantés sur l'îlot engazonné au-delà de la traversée jaune, à côté du candélabre. Le panneau apparaît fortement en biais (environ deux fois plus haut que large), donc orienté vers l'allée et non vers la piste. Les deux vérificateurs concordent. Le nœud OSM highway=stop (917311,3/6460156,7) est confirmé dans osm_road_signs."
+  }
+ },
+ {
+  "id": "vercors_s-38",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "marquage_longitudinal",
+  "statut": "corrige",
+  "texte": "Axe discontinu de l'allée des Mitaillères : traits de ≈2,4-2,9 m, période ≈4,2-4,4 m, proche d'une T3. Aucune ligne d'arrêt ni de cédez-le-passage au débouché sur le Vercors ; le passage piéton est la seule marque transversale (le STOP vertical n'est attesté qu'en 2025, voir s-37). Côté nord, des places de stationnement en bataille, quasi perpendiculaires à l'allée (≈70-90°), et non en épi, sont délimitées par des lignes blanches usées (≈4,5 m de long, entraxe ≈2,3 m). Chaussée ≈5-6 m près du débouché. Usure 1 pour l'axe, 2 pour les lignes de stationnement (manœuvres).",
+  "texte_initial": "Axe discontinu de l'allée des Mitaillères, à traits courts et intervalles courts, proche d'une T3. Aucune ligne d'arrêt ni de cédez-le-passage n'est marquée à son débouché sur le Vercors (le passage piéton est la seule marque transversale). Des places de stationnement en épi, à lignes blanches usées, bordent le côté nord de l'allée.",
+  "localisation": "917270-917300 × 6460151-6460156",
+  "preuve": "Tuile 917250_6460150, px (540-1000, 900-960). Composantes de 2,38-2,89 m × 0,11-0,12 m, blanc 176-189.",
+  "usure": "1",
+  "cause_usure": "Âge ; lignes de stationnement en usure 2 (manœuvres)",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-38",
+   "verdict": "corrige",
+   "justification": "Axe discontinu confirmé : traits de ≈2,7 m, période ≈4,2 m, chaussée de ≈5-6 m. Aucune marque d'arrêt.\n\nEn revanche, les places du côté nord sont perpendiculaires à l'allée (lignes verticales sur l'ortho) et se trouvent dans une aire de stationnement séparée par une bordure.",
+   "usure_verifiee": "1",
+   "correction": "Stationnement en bataille, et non en épi, sur une aire séparée par une bordure."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-38",
+   "verdict": "confirme",
+   "justification": "Le levé GAM confirme l'axe discontinu de l'allée : traits de 2,7-2,9 m avec une période de 4,3 m (lignes 347 à 357). Il enregistre aussi les lignes de stationnement : 4,5 m de long, ≈2,3 m d'entraxe. Nuance : ces lignes font ≈70° avec l'axe de l'allée, ce qui est plus proche d'un stationnement en bataille légèrement incliné que d'un stationnement en épi. Aucune ligne d'arrêt n'est visible en 2022 ni en 2025."
+  },
+  "arbitrage": {
+   "id": "vercors_s-38",
+   "decision": "retenu_corrige",
+   "usure_finale": "1",
+   "texte_final": "Axe discontinu de l'allée des Mitaillères : traits de ≈2,4-2,9 m, période ≈4,2-4,4 m, proche d'une T3. Aucune ligne d'arrêt ni de cédez-le-passage au débouché sur le Vercors ; le passage piéton est la seule marque transversale (le STOP vertical n'est attesté qu'en 2025, voir s-37). Côté nord, des places de stationnement en bataille, quasi perpendiculaires à l'allée (≈70-90°), et non en épi, sont délimitées par des lignes blanches usées (≈4,5 m de long, entraxe ≈2,3 m). Chaussée ≈5-6 m près du débouché. Usure 1 pour l'axe, 2 pour les lignes de stationnement (manœuvres).",
+   "justification": "Sur mon zoom, les lignes de stationnement sont orientées à ≈170°/350° alors que l'axe de l'allée est à ≈81°, soit un angle d'environ 85-90°. Le levé GAM donne ≈70°. Dans les deux cas, il s'agit de bataille et non d'épi, ce que disent les deux vérificateurs. Je n'ai pas retenu « aire séparée par une bordure » : le MNT ne montre qu'une marche ou un caniveau partiel."
+  }
+ },
+ {
+  "id": "vercors_s-39",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "bordure_ilot_trottoir",
+  "statut": "verifie_x2",
+  "texte": "Côté ouest, une bordure béton continue, claire et arrondie, sert de seule limite à la voie descendante : il n'y a pas de ligne de rive. La bande séparative enherbée commence par une pointe nord avec candélabre. Elle porte l'armoire de commande des feux, sur un socle béton, avec son ombre portée. Les îlots verts des angles des Mitaillères portent un candélabre et un panneau.",
+  "texte_initial": "Côté ouest, une bordure béton continue, claire et arrondie, sert de seule limite à la voie descendante : il n'y a pas de ligne de rive. La bande séparative enherbée commence par une pointe nord avec candélabre. Elle porte l'armoire de commande des feux, sur un socle béton, avec son ombre portée. Les îlots verts des angles des Mitaillères portent un candélabre et un panneau.",
+  "localisation": "Pointe : 917281,6/6460260,4. Armoire : 917286,2-917287,8 × 6460253-6460255,6. Îlots des Mitaillères : 917307-917316 × 6460144-6460166.",
+  "preuve": "Tuile 917250_6460250, px (676,802) et (740,940). Zoom 2,5x : ombre de l'armoire d'environ 1,2 m vers le NNO. Tuile 917300_6460150, px (100-330, 600-1000).",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-39",
+   "verdict": "confirme",
+   "justification": "- Bordure claire continue côté ouest.\n- Pointe nord de la bande séparative vers 917280,7/6460260, avec un candélabre dont la tête est à 917283,85/6460259,1.\n- Armoire : le caisson lui-même est à 917286,4-917287,9 × 6460251,9-6460253,4, avec une ombre vers le NNO. La plage en y du rapport inclut l'ombre.\n- Îlots verts des Mitaillères confirmés.",
+   "usure_verifiee": "NA"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-39",
+   "verdict": "confirme",
+   "justification": "Le Panoramax 2025 a1ffea74 (tuile r01_c01) montre l'armoire de commande, une grosse armoire grise taguée au bord de la piste, la bande enherbée et le candélabre de pointe. La bordure ouest sans ligne de rive est confirmée par les profils LiDAR (marche de 8-14 cm)."
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-40",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "bordure_ilot_trottoir",
+  "statut": "verifie_x2",
+  "texte": "Côté est, au nord :\n- une bordure basse (marche d'environ 11 cm au MNT 2021) longe la voie de droite ;\n- derrière, une surlargeur ou un trottoir en enrobé porte 2 tampons de chambre rectangulaires, une tache sombre d'environ 2,5 × 3 m (reprise ou huile) et un regard rond ;\n- une clôture de chantier ferme l'emprise du chantier immobilier.\nVers y 6460236-6460238, la bordure se décale vers l'est (accès, abaissé), ce qui ouvre la bande latérale est.",
+  "texte_initial": "Côté est, au nord :\n- une bordure basse (marche d'environ 11 cm au MNT 2021) longe la voie de droite ;\n- derrière, une surlargeur ou un trottoir en enrobé porte 2 tampons de chambre rectangulaires, une tache sombre d'environ 2,5 × 3 m (reprise ou huile) et un regard rond ;\n- une clôture de chantier ferme l'emprise du chantier immobilier.\nVers y 6460236-6460238, la bordure se décale vers l'est (accès, abaissé), ce qui ouvre la bande latérale est.",
+  "localisation": "Bordure : 917304,6/6460245. Chambres : 917302,2-917303,5 × 6460248,6-6460252,5. Tache : 917299,1-917301,9 × 6460255,6-6460259. Regard : 917307,5/6460242,5. Clôture : 917307-917312,5 × 6460247,5-6460249.",
+  "preuve": "Tuile 917300_6460200, px (44-70, 0-28), (150,150) et (140-250, 20-50) ; tuile 917300_6460250, px (0-70, 820-1000). Profil MNT à y 6460245.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10 ; MNT LiDAR 2021",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-40",
+   "verdict": "confirme",
+   "justification": "- Marche MNT d'environ 10 cm à 917304,5 (y 6460245).\n- Bordure à 917302,2 vers 6460250 ; les 2 chambres sont juste derrière, à 917302,2-917303,3 × 6460247,7-6460251,4, soit environ 1 m plus au sud qu'indiqué.\n- Tache, regard (≈917307,3/6460241,4) et clôture confirmés.",
+   "usure_verifiee": "NA"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-40",
+   "verdict": "confirme",
+   "justification": "LiDAR 2021 : marche de +10-11 cm à 917304,55 (y 6460245). Les deux chambres et la tache sombre sont visibles sur l'ortho. L'overlay montre que la bordure GAM ancienne suit à peu près ce décrochement."
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-41",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "assainissement_reseaux",
+  "statut": "verifie_x2",
+  "texte": "La chaussée a un profil en toit, bombé à l'axe, avec des fils d'eau le long des deux bordures. Des grilles d'avaloir sont posées en pied de bordure.",
+  "texte_initial": "La chaussée a un profil en toit, bombé à l'axe, avec des fils d'eau le long des deux bordures. Des grilles d'avaloir sont posées en pied de bordure.",
+  "localisation": "Avaloirs : ouest 917308,5/6460170,2 et 917316,3/6460133,7 ; est 917342,3/6460115,2",
+  "preuve": "MNT 2021 à y 6460208 : −10/−12 cm au pied ouest, 0 à l'axe, −13 cm au pied est (917311,9). Tuiles 917300_6460150 px (170,596) et 917300_6460100 px (326,326) et (846,696).",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "MNT LiDAR 2021 ; ortho PCRS 2022-05-10",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-41",
+   "verdict": "confirme",
+   "justification": "Avaloirs visibles aux positions données : vers 917308,5/6460170,2, 917316,3/6460133,7 et 917342,3/6460115,2. La bordure ouest et la bordure est présentent des marches cohérentes. Le profil en toit n'a pas été remesuré en détail ; la confiance moyenne est adaptée.",
+   "usure_verifiee": "NA"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-41",
+   "verdict": "confirme",
+   "justification": "Profils MNT 2021. À 6460208 : fil d'eau ouest à -11 cm, sommet vers 917307,5-917308,4 (à 1,5-2 m à l'est de l'axe), fil d'eau est à -13 cm. À 6460190 : -19 à l'ouest, -10 à l'axe, -20 à l'est. Profil en toit et dévers de 2-4 % confirmés. L'avaloir ouest sud (917316,3/6460133,5) est visible."
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-42",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "mobilier_vegetation",
+  "statut": "verifie_x2",
+  "texte": "Candélabres sur la bande séparative ouest et aux angles, repérés par leur tête blanche et leur ombre longue (≈7-8 m vers le NNO). Un mât haut se trouve côté est au sud, avec une ombre d'environ 6,9 m. Aucun mât de feux n'est identifié au sud de l'îlot effilé : les feux sont regroupés dans le cœur du carrefour.",
+  "texte_initial": "Candélabres sur la bande séparative ouest et aux angles, repérés par leur tête blanche et leur ombre longue (≈7-8 m vers le NNO). Un mât haut se trouve côté est au sud, avec une ombre d'environ 6,9 m. Aucun mât de feux n'est identifié au sud de l'îlot effilé : les feux sont regroupés dans le cœur du carrefour.",
+  "localisation": "Têtes de candélabres : 917283,8/6460259,9 ; 917298,9/6460227,5 ; 917306,3/6460188,6 ; 917305,2/6460172,4 ; 917313,7/6460149,3 ; 917331/6460113. Mât est : base ≈917342,3/6460119,6.",
+  "preuve": "Tuiles 917250_6460250 px (676,802) ; 917250_6460200 px (978,450) ; 917300_6460150 px (126,228) et (104,552) ; 917300_6460100 px (620,740) et (846,608).",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-42",
+   "verdict": "confirme",
+   "justification": "Têtes de candélabres retrouvées :\n- 917283,85/6460259,1 ;\n- 917298,8/6460227,5 ;\n- 917306,25/6460188,75 ;\n- ≈917314/6460149,2 ;\n- 917331/6460113.\n\nLa grande ombre de mât côté est part d'une base vers 917342,1/6460119,9. Aucune tête de feu n'est visible au sud.",
+   "usure_verifiee": "NA"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-42",
+   "verdict": "confirme",
+   "justification": "La tête de candélabre vers 917299/6460227,5 et le candélabre de l'îlot sud des Mitaillères sont vérifiés, ce dernier aussi sur le Panoramax 2025 aee63b08. Aucun feu n'apparaît sur le Vercors sud sur les photos de 2025 (b48e2561, ec850130)."
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-43",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "mobilier_vegetation",
+  "statut": "corrige",
+  "texte": "Végétation et ombres portées :\n- entre ≈6460205 et 6460237, la frondaison des arbres de l'est recouvre physiquement la bande est (au-delà de ≈917307-917310) et masque en partie B, sous une ombre dense jusqu'à B ;\n- de 6460170 à 6460205, ce sont surtout des ombres franches sur la bande est, B et parfois l'axe ;\n- les arbres de l'ouest ombragent la piste ;\n- au sud (917318-917335 × 6460100-6460125), une frondaison surplombe la voie descendante et masque la bordure et la moitié de la voie ;\n- un arbre caduc, presque sans feuilles, projette un réseau de branches sur le passage et la traversée cyclable des Mitaillères (917300-917310 × 6460145-6460160).\nSoleil au SSE, ombres vers le NNO (≈330-345°). Mêmes masses d'arbres sur les orthos IGN 2021 et 2024.",
+  "texte_initial": "Végétation et ombres portées :\n- la rangée d'arbres de l'est (y 6460170-6460240) projette des ombres franches sur la bande est, sur la rive B et parfois jusqu'à l'axe ;\n- les arbres de l'ouest ombragent la piste ;\n- au sud, une frondaison surplombe la voie descendante et masque sur l'ortho la bordure et la moitié de la voie ;\n- un arbre caduc, presque sans feuilles, projette un réseau de branches sur le passage et la traversée cyclable des Mitaillères.",
+  "localisation": "Est : 917305-917325 × 6460170-6460240. Sud : 917318-917335 × 6460100-6460125. Mitaillères : 917300-917310 × 6460145-6460160.",
+  "preuve": "Tuiles 917300_6460200 (moitié droite), 917300_6460100 (quart SO) et 917300_6460150 px (0-200, 760-1000). Vue rehaussée en gamma.",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-43",
+   "verdict": "corrige",
+   "justification": "Les ombres d'arbres, la frondaison au sud et l'arbre caduc des Mitaillères sont bien là. Mais entre ≈6460205 et 6460237, c'est la frondaison des arbres de l'est elle-même qui surplombe et masque la bande est jusqu'à B. Il ne s'agit pas seulement d'ombres portées.",
+   "usure_verifiee": "NA",
+   "correction": "Entre 6460205 et 6460237, la canopée de l'est recouvre physiquement la bande est sur l'ortho ; plus au sud, ce sont surtout des ombres."
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-43",
+   "verdict": "confirme",
+   "justification": "Les ombres et frondaisons décrites sont visibles sur l'ortho 2022. Les orthos IGN 2021 et 2024 montrent les mêmes masses d'arbres, à l'est comme au sud."
+  },
+  "arbitrage": {
+   "id": "vercors_s-43",
+   "decision": "retenu_corrige",
+   "usure_finale": "NA",
+   "texte_final": "Végétation et ombres portées :\n- entre ≈6460205 et 6460237, la frondaison des arbres de l'est recouvre physiquement la bande est (au-delà de ≈917307-917310) et masque en partie B, sous une ombre dense jusqu'à B ;\n- de 6460170 à 6460205, ce sont surtout des ombres franches sur la bande est, B et parfois l'axe ;\n- les arbres de l'ouest ombragent la piste ;\n- au sud (917318-917335 × 6460100-6460125), une frondaison surplombe la voie descendante et masque la bordure et la moitié de la voie ;\n- un arbre caduc, presque sans feuilles, projette un réseau de branches sur le passage et la traversée cyclable des Mitaillères (917300-917310 × 6460145-6460160).\nSoleil au SSE, ombres vers le NNO (≈330-345°). Mêmes masses d'arbres sur les orthos IGN 2021 et 2024.",
+   "justification": "Ma vue gamma confirme des houppiers éclairés au-dessus de la bande est, et pas seulement leur ombre, comme le dit la réobservation. Le reste est confirmé par les deux avis."
+  }
+ },
+ {
+  "id": "vercors_s-44",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "arret_bus",
+  "statut": "verifie_x2",
+  "texte": "En amont de l'ancienne voie de tourne-à-droite, dans le coin NO de la tuile 917250_6460200 : le couloir bus de Verdun porte le zigzag jaune de l'arrêt « La Revirée » le long de la bordure sud. Deux traces sombres parallèles, dans les bandes de roulement, viennent des bus à l'arrêt (gomme, huile). Cet élément relève du cœur du carrefour et n'est rappelé ici que pour la continuité.",
+  "texte_initial": "En amont de l'ancienne voie de tourne-à-droite, dans le coin NO de la tuile 917250_6460200 : le couloir bus de Verdun porte le zigzag jaune de l'arrêt « La Revirée » le long de la bordure sud. Deux traces sombres parallèles, dans les bandes de roulement, viennent des bus à l'arrêt (gomme, huile). Cet élément relève du cœur du carrefour et n'est rappelé ici que pour la continuité.",
+  "localisation": "917251-917262 × 6460244-6460251,5",
+  "preuve": "Tuile 917250_6460200, px (0-240, 0-120). Zoom 2x.",
+  "usure": "2",
+  "cause_usure": "Âge et passage des roues des bus à l'accostage. Le jaune est pâle mais continu (entre 1 et 2).",
+  "date_source": "ortho PCRS 2022-05-10",
+  "confiance_initiale": "moyenne",
+  "verif_reobservation": {
+   "id": "vercors_s-44",
+   "verdict": "confirme",
+   "justification": "Un zigzag jaune longe le couloir bus de Verdun au droit de l'abri, dans les coins NO des tuiles 917250_6460200 et 917250_6460250. Cet élément est hors zone et sert seulement de rappel. Les traces sombres n'ont pas été remesurées.",
+   "usure_verifiee": "2"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-44",
+   "verdict": "confirme",
+   "justification": "Le zigzag jaune est visible dans le coin NO de la tuile 917250_6460200. La BD TOPO confirme le couloir réservé aux bus dans le sens direct (tronçons 40 et 15)."
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-45",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "autre",
+  "statut": "verifie_x2",
+  "texte": "Contexte 2022 à l'est : chantier du nouveau quartier, avec bassin d'eau, plates-formes en grave et voie A provisoire non marquée qui débouche sur le Vercors par un entonnoir d'environ 6,5 m (voir abords_est). Les travaux de 2025 ont ensuite supprimé le tourne-à-droite, repris le Vercors (phase 2) et déplacé les traversées. L'état de 2022 n'est donc plus l'état actuel, surtout dans la zone de convergence, où le levé GAM montre une bordure nouvelle sur l'ancienne voie.",
+  "texte_initial": "Contexte 2022 à l'est : chantier du nouveau quartier, avec bassin d'eau, plates-formes en grave et voie A provisoire non marquée qui débouche sur le Vercors par un entonnoir d'environ 6,5 m (voir abords_est). Les travaux de 2025 ont ensuite supprimé le tourne-à-droite, repris le Vercors (phase 2) et déplacé les traversées. L'état de 2022 n'est donc plus l'état actuel, surtout dans la zone de convergence, où le levé GAM montre une bordure nouvelle sur l'ancienne voie.",
+  "localisation": "Tuiles 917300_6460200 et 917300_6460150 (moitié est) ; convergence 917281-917298 × 6460243-6460266",
+  "preuve": "Tuiles 917300_6460200 et 917300_6460150. Fiche CONTEXT.md (chronologie, levés GAM postérieurs).",
+  "usure": "NA",
+  "cause_usure": null,
+  "date_source": "ortho PCRS 2022-05-10 ; CONTEXT.md",
+  "confiance_initiale": "haute",
+  "verif_reobservation": {
+   "id": "vercors_s-45",
+   "verdict": "confirme",
+   "justification": "Le chantier de 2022 à l'est (bassin, grave, voie A non marquée) est visible sur les tuiles 917300_6460200 et 917300_6460150. La chronologie est conforme à CONTEXT.md.",
+   "usure_verifiee": "NA"
+  },
+  "verif_recoupement": {
+   "id": "vercors_s-45",
+   "verdict": "confirme",
+   "justification": "L'overlay confirme qu'une bordure GAM (post-travaux) traverse l'ancienne voie de tourne-à-droite, et le plan projet y place un îlot vert. Sur le Vercors sud, en revanche, le marquage GAM (axe, T3, flèches) correspond encore à 2022 : levé antérieur à la phase 2. L'ortho IGN 2021 confirme que la voie A n'existait pas encore. OSM 2026 décrit l'état actuel : Vercors en deux chaussées à sens unique près du carrefour (1 voie vers le sud, 2 vers le nord)."
+  },
+  "arbitrage": null
+ },
+ {
+  "id": "vercors_s-ajout-01",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Ligne blanche fine en pointillés (≈3 m, largeur ≈0,08-0,10 m, discontinue, luminance ≈196, top-hat ≈36) dans la voie de droite de l'approche montante, ≈1,4 m à l'est de la T3 et ≈1 m à l'ouest de la bordure de l'îlot. Elle n'est pas signalée et peut tromper un détecteur de lignes : ancien marquage, fantôme ou prémarquage.",
+  "localisation": "917293,8-917294,9 × 6460265,8-6460268,7",
+  "preuve": "Zoom 4x avec grille de 0,5 m : tracé pointillé visible de 917293,8/6460268,7 à 917294,85/6460265,8 ; composante détectée à 917293,82-917294,18 × 6460267,68-6460268,68 (luminance 196).",
+  "usure": "F"
+ },
+ {
+  "id": "vercors_s-ajout-02",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Tiret blanc large et net (≈0,5 × 3,2 m), dans l'alignement des tirets pâles de la rive est du débouché de la voie A, ≈3-3,5 m à l'est de B. Non décrit, c'est un candidat de ligne pour l'ADAS : début du séparateur de couloir bus ou ligne de rive du débouché. Les oublis n°2 et n°11 décrivent le même objet.",
+  "localisation": "917323,7-917325,1 × 6460150,9-6460153,9",
+  "preuve": "Composante connexe : 917323,72-917325,12 × 6460150,92-6460153,88, luminance 202, top-hat 52. Les tirets pâles de 917320,5-917322,5 × 6460157,5-6460162 ne sont pas détectés au même seuil. Visible sur zoom 1,6x.",
+  "usure": "0-1"
+ },
+ {
+  "id": "vercors_s-ajout-03",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Élargissement de la voie montante unique avant le début de la T3. B reste rectiligne (≈917305,8) alors que l'axe s'en écarte. La largeur entre l'axe et B passe de ≈2,9-3,0 m (6460225) à ≈3,35 m (6460228), ≈3,7 m (6460230), puis ≈4,4-4,7 m (6460233-6460234). La valeur « montante 3,0 m » de la synthèse ne vaut qu'au sud de ≈6460226.",
+  "localisation": "y 6460225-6460237, x 917300-917306",
+  "preuve": "Pics top-hat par ligne : B à 917306,1 (6460225), 917305,85 (6460228-6460229), 917305,75 (6460232-6460234) ; axe à 917303,1, 917302,4, 917301,95, 917301,2, 917300,9.",
+  "usure": "NA"
+ },
+ {
+  "id": "vercors_s-ajout-04",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Sur l'ortho 2022, la canopée des arbres de l'est masque physiquement la bande est, et en partie B (pas seulement leur ombre). Le statut de la bande et l'absence de légende y sont invérifiables. Ce point est intégré aux corrections de s-11 et s-43.",
+  "localisation": "x > ≈917307-917310, y 6460205-6460237",
+  "preuve": "Vue rehaussée en gamma 0,6 : houppiers éclairés au-dessus de la bande entre 6460217 et 6460231, ombre dense entre 6460231 et 6460237.",
+  "usure": "NA"
+ },
+ {
+  "id": "vercors_s-ajout-05",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Fin sud du terre-plein peint : P et Q convergent en un biseau rempli (≈1,0 m perpendiculaire vers 6460118-6460119) qui se réduit à une ligne simple vers 6460113-6460112. La « double ligne axiale de 0,8 m qui se poursuit vers le SE » (s-23, synthèse, point ADAS) n'existe pas. L'axe est ensuite simple, encadré par les flèches de sens. Le vide suivi d'un tiret vers 6460103-6460101 n'a pas pu être vérifié (zone d'ombre en bord de tuile).",
+  "localisation": "917329-917341 × 6460107-6460121",
+  "preuve": "Largeur horizontale des plages blanches : 1,4 m (6460118), 0,85 (6460116), 0,65 (6460115), 0,5 (6460114), 0,35 (6460113), puis 0,2-0,25 m (6460112-6460108). Zoom 2,8x.",
+  "usure": "1"
+ },
+ {
+  "id": "vercors_s-ajout-06",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Après la tranchée de la voie A, l'axe est quasi absent : coupure franche de 6460164 à 6460162, fragment à peine perceptible de 6460161,5 à 6460160,5, aucune trace de 6460160 à 6460158,5, puis reprise nette à 6460158. La perte de continuité effective porte sur ≈6 m, et non sur 2 m.",
+  "localisation": "≈917314-917315,7 × 6460158-6460164",
+  "preuve": "Profils tous les 0,5 m : axe à 917313,95 (6460164, top-hat 47), rien de 6460163,5 à 6460162, faible à 917314,65-917314,9 (6460161,5-6460160,5, top-hat 17-25), absent de 6460160 à 6460158,5, puis 917315,65 (6460158, top-hat 25-34).",
+  "usure": "3"
+ },
+ {
+  "id": "vercors_s-ajout-07",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Incohérences internes sur la largeur de la voie descendante. À y ≈6460244-6460245, le rapport donne 2,95 m (s-08), 3,1 m (s-02) et 3,45 m (s-13) ; la mesure perpendiculaire, de la bordure au centre de l'axe, donne ≈3,2-3,4 m. Dans la section courante, la largeur minimale mesurée est ≈2,75-2,9 m (6460200-6460222). La borne « 2,6 m » de la synthèse n'est étayée par aucune mesure.",
+  "localisation": "Voie descendante, y 6460200-6460248",
+  "preuve": "Bordure MNT (pas tous les 1-2 m) et pic de l'axe sur l'ortho : 3,17 m (ajustement linéaire) à 3,44 m (point à point) à 6460244-6460245 ; 2,71-2,95 m de 6460200 à 6460222.",
+  "usure": "NA"
+ },
+ {
+  "id": "vercors_s-ajout-08",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Le vide entre les groupes M et E du passage piéton sud (≈917328,3-917329,2) tombe exactement dans le prolongement de la ligne de séparation entre la voie générale montante et le couloir bus. Cette ligne se termine en ligne large par un ∪ nord vers 917323,6/6460142,5, se prolonge par une ligne fine jusqu'au passage et reprend en ∪ sud vers 917334,3/6460120,5. La bande « manquante » est donc plausiblement un vide voulu au droit du séparateur, et non une perte par usure.",
+  "localisation": "≈917329/6460130",
+  "preuve": "Zoom 1,5x avec repères : la droite qui joint les deux extrémités du séparateur coupe le passage à ≈917329,2-917329,7/6460130, entre le dernier trait du groupe M et le premier du groupe E.",
+  "usure": "NA"
+ },
+ {
+  "id": "vercors_s-ajout-09",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Évolution de l'interruption d'axe s-05 : sur la photo Panoramax du 12/01/2025, l'axe paraît continu dans la zone de l'interruption de 2022. Le motif de 2022 a donc probablement été recouvert par un remarquage. C'est important pour toute vérité terrain postérieure à 2022.",
+  "localisation": "917300,3-917301,1 × 6460233,4-6460236,3",
+  "preuve": "4d9fa65d (2025-01-12, position 917293,7/6460235,2 ±4 m, az 168°), tuile r01_c01 zoomée : la ligne d'axe la plus proche paraît continue sur les relèvements ≈50-113°, où l'interruption, à ≈7 m de la caméra, devrait apparaître.",
+  "usure": "NA"
+ },
+ {
+  "id": "vercors_s-ajout-10",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Topologie entre la T3 et la rive B non traitée. Sur l'ortho 2022, la T3 commence à ≈917303,3/6460236,5, à ≈3 m à l'est de l'axe, et ne se prolonge pas au sud : aucun tiret à 917304-917304,5 × 6460232-6460234. B reste rectiligne à ≈917305,8 jusqu'à 6460237 et se prolonge par le liseré qui borde la voie de droite. La voie montante unique, élargie, se divise donc en deux : tourne-à-gauche entre l'axe et la T3, voie de droite entre la T3 et B ou le liseré. La bande est ne devient pas la voie de droite. Le levé GAM relie au contraire B à la fin de la T3 (ligne 407 : 917305,96/6460225,71 → 917303,28/6460236,16). Ce tracé n'est pas visible dans les parties non masquées ; une voiture couvre 917301,5-917304,2 × 6460229,5-6460234,6.",
+  "localisation": "917301-917307 × 6460224-6460244",
+  "preuve": "Profils top-hat par ligne et zooms 3,5x (gamma) avec les sommets GAM reportés. Dans le levé GAM, l'axe (401) et la T3 (398) coïncident avec l'ortho à ±0,15 m, ce qui donne du crédit au levé sur ce secteur ; seule la liaison 407 n'est pas observable.",
+  "usure": "NA"
+ },
+ {
+  "id": "vercors_s-ajout-11",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Particularités du levé GAM à lever avant de le réutiliser comme vérité terrain :\n- un libellé « A » est posé à 917303,97/6460241,33, au droit de la flèche triple sud, sans bloc de flèche à cet endroit ;\n- au jeu nord, il y a 2 blocs FLECHE_DROIT_GAUCHE superposés (rotations 18,9° et 341,1°) ;\n- l'axe 401, continu, double les segments 399 (917300,34/6460235,68 → 917300,89/6460233,73, qui correspond exactement à la zone des traits courts de s-05) et 406 (6460233,39 → 6460224,98).",
+  "localisation": "917297-917304 × 6460224-6460258",
+  "preuve": "Lecture de gam_topo_sol_signalisation_horizontale_pct et _lin, reprojetés en L93.",
+  "usure": "NA"
+ },
+ {
+  "id": "vercors_s-ajout-12",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Datation : la configuration sud (terre-plein peint, passage en 3 groupes, damier SE) et le damier du débouché de la voie A existent déjà sur les orthos IGN 2015 et 2021. La voie A (route revêtue) n'existe pas sur l'ortho 2021, où l'emprise est encore un terrain de chantier ; elle est construite avant mai 2022. L'affirmation « la tranchée oblique du damier sud existe dès 2021 » n'a pas été vérifiée.",
+  "localisation": "Branche sud, y 6460095-6460180",
+  "preuve": "Extraits IGN 20 cm 2015/2021/2024 côte à côte, sur l'emprise 917295-917350 × 6460095-6460180.",
+  "usure": "NA"
+ },
+ {
+  "id": "vercors_s-ajout-13",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Obstacles en relief sur le refuge sud, sans bordure. En janvier 2025, une barrière rouge-brun à croisillons en X est toujours posée au même endroit qu'en 2022, et un petit objet sombre sur poteau se trouve près du nez du couloir bus. C'est important pour l'ADAS ; le rapport les jugeait provisoires. Ce point est intégré à la correction de s-27.",
+  "localisation": "≈917325-917326,5 × 6460125,8-6460127 (barrière)",
+  "preuve": "Panoramax ec850130 (2025-01-12), tuile r01_c02 : barrière vers les pixels (690-740, 680-735), objet sur poteau vers (630, 705).",
+  "usure": "NA"
+ },
+ {
+  "id": "vercors_s-ajout-14",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Fissuration de la voie descendante en janvier 2025, en plus de celle de la voie montante : fissures longitudinales et transversales au premier plan des photos. Ce point est intégré à la correction de s-16.",
+  "localisation": "Voie descendante, y ≈6460210-6460236",
+  "preuve": "Panoramax b48e2561 (r01_c01, bas de l'image, sous la ligne d'axe la plus proche) et 4d9fa65d (r01_c01 zoomée, fissures au premier plan et à travers l'axe).",
+  "usure": "NA"
+ },
+ {
+  "id": "vercors_s-ajout-15",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "État actuel selon OSM 2026, à intégrer au point ADAS 14 :\n- Avenue du Vercors en maxspeed = 50 : aucune zone 30 n'est renseignée, alors que le marquage « 30 » existe ;\n- deux chaussées à sens unique près du carrefour (w169866973 à 1 voie ; w185326635 à 2 voies, width 6) ;\n- nœud highway=stop vers 917311,3/6460156,7 (approche des Mitaillères) ;\n- piste cyclable bidirectionnelle déclarée à 4 m de large, bien plus que la largeur revêtue visible en 2022 (≈2,4 m vers 6460200).",
+  "localisation": "Branche Vercors et piste",
+  "preuve": "osm_roads, osm_cycleways et osm_road_signs, reprojetés en L93.",
+  "usure": "NA"
+ },
+ {
+  "id": "vercors_s-ajout-16",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Aux Mitaillères, en janvier 2025, un second panneau sur poteau est visible en plus du STOP de l'îlot sud. Il est vu de profil ou de dos (bord rouge et blanc visible), côté ouest et au sud de la traversée. Son type (triangle de cédez-le-passage) et sa position exacte ne sont pas vérifiables : seule son existence est confirmée.",
+  "localisation": "Côté ouest du débouché des Mitaillères (position imprécise)",
+  "preuve": "Panoramax aee63b08 (2025-01-12), tuile r01_c02, pixels ≈(918-935, 540-700) : panneau étroit vu en biais sur un poteau.",
+  "usure": "NA"
+ },
+ {
+  "id": "vercors_s-ajout-17",
+  "source_analyse": "ortho_vercors_s",
+  "unite": "vercors_s",
+  "unite_label": "Avenue du Vercors (branche sud) + ancienne voie de tourne-à-droite",
+  "categorie": "ajout_verification",
+  "statut": "ajoute",
+  "texte": "Limite méthodologique : la carte de contraste 5 cm ne couvre pas la partie sud de la branche (tuile 917300_6460100 colorée seulement au-dessus de y ≈6460143). L'usure du secteur sud (refuge, flèches, BUS) ne peut donc pas être recoupée par elle. Les valeurs de « blanc médian » sont abaissées par les ombres (Mitaillères, B), d'où la nécessité de comparer sur des parties ensoleillées. En revanche, l'affirmation selon laquelle les longues lignes continues ne seraient pas colorées est inexacte pour la tuile 917300_6460200, où l'axe est coloré.",
+  "localisation": "Tuiles contraste_917300_6460100 et 917300_6460200",
+  "preuve": "Lecture des deux tuiles de contraste : la première est vide sous ≈6460143 ; dans la seconde, l'axe est coloré en jaune-orange.",
+  "usure": "NA"
+ },
+ {
   "id": "verdun_so-01",
   "source_analyse": "ortho_verdun_so",
   "unite": "verdun_so",

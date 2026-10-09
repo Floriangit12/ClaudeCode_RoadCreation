@@ -41,5 +41,37 @@ window.renderView = (eye, target, fov) => {
   renderer.render(scene, camera);
   return renderer.domElement.toDataURL('image/png');
 };
+// Panorama équirectangulaire (comme les photos 360° Panoramax) : centre de l'image = cap (azimut,
+// degrés depuis le nord, sens horaire) ; colonne -> longitude relative, ligne -> latitude.
+const cubes = {};
+const cube = (n) => cubes[n] || (cubes[n] = new THREE.CubeCamera(0.05, 3000, new THREE.WebGLCubeRenderTarget(n)));
+const quadScene = new THREE.Scene();
+const quadCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+const eqMat = new THREE.ShaderMaterial({
+  uniforms: { env: { value: null }, cap: { value: 0 } },
+  vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
+  fragmentShader: `uniform samplerCube env; uniform float cap; varying vec2 vUv;
+    void main(){
+      float lon = (vUv.x - 0.5) * 6.283185307;
+      float lat = (vUv.y - 0.5) * 3.141592654;
+      float A = cap + lon;
+      vec3 enu = vec3(sin(A) * cos(lat), cos(A) * cos(lat), sin(lat));
+      gl_FragColor = textureCube(env, vec3(enu.x, enu.z, -enu.y));
+      #include <colorspace_fragment>
+    }`,
+});
+quadScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), eqMat));
+window.renderEquirect = (eye, capDeg, w, h, n) => {
+  const cubeCam = cube(n || 2048);
+  cubeCam.position.copy(T(eye));
+  cubeCam.update(renderer, scene);
+  eqMat.uniforms.env.value = cubeCam.renderTarget.texture;
+  eqMat.uniforms.cap.value = capDeg * Math.PI / 180;
+  renderer.setSize(w, h);
+  renderer.render(quadScene, quadCam);
+  const url = renderer.domElement.toDataURL('image/png');
+  renderer.setSize(W, H);
+  return url;
+};
 window.ready = true;
 </script></body></html>

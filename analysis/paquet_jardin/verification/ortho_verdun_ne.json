@@ -1,0 +1,1164 @@
+[
+ {
+  "label": "Avenue de Verdun côté Montbonnot (branche nord-est) + piste cyclable",
+  "observation": {
+   "zone": "Avenue de Verdun (RD1090) côté Montbonnot, branche nord-est du carrefour Paquet Jardin, avec la piste cyclable bidirectionnelle côté NO, sur l'ortho PCRS 5 cm du 10 mai 2022, donc avant les travaux C1 de 2025. Repère utilisé partout : u = abscisse le long de Verdun depuis le centre du carrefour (L93 917279,43 ; 6460289,98) vers le NE (azimut 45°) ; v = décalage latéral, positif vers le NO. Conversion : x = 917279,43 + 0,7071·(u − v), y = 6460289,98 + 0,7071·(u + v). La zone analysée va de u ≈ 9 (îlot et passage piéton) à u ≈ 230 (limite de couverture des tuiles).\nMéthode : bande redressée (rééchantillonnée à 5 cm) construite à partir de la mosaïque des tuiles ; profils de luminance, largeurs à mi-hauteur, rapports signal/fond et filtres passe-haut. Recoupements : LiDAR HD 2021 (MNT 15 cm, intensité), vecteurs GAM/PCRS, OSM 2026, orthos IGN 2015/2018/2021/2024.",
+   "tuiles_vues": [
+    "pcrs5cm_917300_6460300",
+    "pcrs5cm_917350_6460300",
+    "pcrs5cm_917350_6460350",
+    "pcrs5cm_917400_6460350",
+    "pcrs5cm_917400_6460400",
+    "pcrs5cm_917250_6460300 (voisine : passage piéton côté NO, flèches jeu 1)",
+    "pcrs5cm_917300_6460350 (voisine : accès privé et piste)",
+    "pcrs5cm_917250_6460250 (voisine, via la bande redressée : moitié SE du passage, nez de l'îlot)",
+    "pcrs5cm_917350_6460400 (voisine, via la bande redressée : piste vers u 150)"
+   ],
+   "constats": [
+    {
+     "id": "verdun_ne-01",
+     "categorie": "geometrie_voies",
+     "description": "Profil en travers près du carrefour, entre le passage piéton et le nez NE de l'îlot. Bordure NO à v +5,2 ; ligne de voie SO à v +2,26 ; îlot central de v −0,85 à −3,1 ; ligne de voie NE à v −6,2 ; bordure SE à v −9,3. On a donc 2 voies entrantes vers le SO (vers le carrefour, Grenoble), l'îlot, puis 2 voies sortantes vers le NE (Montbonnot).",
+     "localisation": "u ≈ 26 ; L93 ≈ (917299, 6460307) ; tuiles 917250_6460300 / 917300_6460300",
+     "preuve": "Profil transversal de luminance (médiane sur 1 m le long de la voie) dans la bande redressée. Les positions concordent à ±0,1 m avec les lignes GAM 2646523611 / 2646523614 et les bordures GAM 2646524311 / 2646529664.",
+     "usure": "NA",
+     "confiance": "haute",
+     "mesure": "Voie SO droite 2,9 m ; voie SO gauche 3,1 m ; îlot 2,25 m (bordures comprises) ; voie NE gauche 3,1 m ; voie NE droite 3,1 m ; 14,45 à 14,55 m de bordure à bordure.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-02",
+     "categorie": "geometrie_voies",
+     "description": "Biseau de la chaussée côté NO. La bordure NO reste à v +5,1/+5,4 de u 17 à 36, puis se rapproche de l'axe jusqu'à v +3,6 à u 69 (1,8 m sur 33 m, soit environ 1/18). Elle s'enroule ensuite dans le bateau de l'accès privé (u 69–81). La bordure SE est presque rectiligne (v −9,4 → −8,95 de u 18 à 75). La chaussée se rétrécit donc de 14,5 m (u 26) à 13,6 m (u 50), 12,3 m (u 70) puis 11,3–11,5 m (u ≥ 100).",
+     "localisation": "u 36 → 69 ; L93 (917301, 6460319) → (917326, 6460341) ; tuile 917300_6460300",
+     "preuve": "Bordure GAM 2646524311 : (16,9 ; 5,11) (35,1 ; 5,37) (47,1 ; 4,79) (61,6 ; 4,01) (69,3 ; 3,61). La ligne de rive continue de l'ortho suit ce tracé.",
+     "usure": "NA",
+     "confiance": "haute",
+     "mesure": "Biseau d'environ 1,8 m sur 33 m.",
+     "date_source": "PCRS 5 cm 2022-05-10 + vecteurs GAM"
+    },
+    {
+     "id": "verdun_ne-03",
+     "categorie": "geometrie_voies",
+     "description": "Section courante à 3 voies, de u ≈ 98 à ≥ 230 : 2 voies sens SO (entrant) et 1 voie sens NE (sortant), séparées par l'axe (ligne mixte puis simple, voir verdun_ne-17). Les lignes ne sont pas parallèles aux bordures : l'axe dérive d'environ 0,9 m vers le SE entre u 100 et 150. Les voies SO s'élargissent donc vers le NE, tandis que la voie NE se rétrécit de 5,6 m à environ 3,9 m.",
+     "localisation": "u 100 : (917352, 6460359), tuile 917350_6460350 ; u 150 : (917388, 6460394), tuile 917350_6460350 ; u 200 : (917423, 6460429), tuile 917400_6460400",
+     "preuve": "Profils d'image dans les zones au soleil, plus les lignes GAM 2646488258 / 2646493236 (ligne SO), 2646488259 / 260 à 2646494670 (axe), la bordure PCRS 4a368_69dc (SE) et la limite de revêtement 2646488271 / 2646493600 (NO).",
+     "usure": "NA",
+     "confiance": "moyenne",
+     "mesure": "u 100 : 2,9 / 2,8 / axe double 0,2 / NE 5,6 m (total 11,5 m). u 150 : 3,5 / 3,5 / 0,2 / 4,0 m (11,2 m). u 200 : 3,7 / 3,65 / — / 3,9 m (11,2 m).",
+     "date_source": "PCRS 5 cm 2022-05-10 + GAM"
+    },
+    {
+     "id": "verdun_ne-04",
+     "categorie": "geometrie_voies",
+     "description": "Passage de 2 à 1 voie dans le sens NE (sortant), sans aucun marquage spécifique. La ligne de voie NE (T1) s'arrête après son dernier tiret (u 94,5–97,6). Au-delà, aucune ligne n'est visible entre l'axe et la bordure SE dans les plages au soleil (u 100–104 et 115–122). Il reste une voie unique de 5,6 m à u 100, qui se réduit progressivement à environ 4 m vers u 150. Aucune flèche de rabattement n'est visible entre u 60 et 98, mais 56 à 69 % de cette demi-chaussée est à l'ombre : ce point n'est pas concluant. Une voiture bleue roule à u 111–115, centrée à v −6 dans la voie élargie.",
+     "localisation": "Fin de la ligne à u ≈ 97,6, v −5,6 ; L93 (917352, 6460355) ; tuile 917350_6460350 (px ≈ 48, 899)",
+     "preuve": "Détection des tirets sur l'image de rapport luminance / fond (insensible à l'ombre) et loupe gamma 0,45. La ligne GAM 2646488621 s'arrête plus tôt, à u 90,3.",
+     "usure": "NA",
+     "confiance": "moyenne",
+     "mesure": "Voie NE unique : 5,6 m à u 100 ; 4,0 m à u 150.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-05",
+     "categorie": "geometrie_voies",
+     "description": "Relief (LiDAR août–sept. 2021). Profil en toit : la crête est près de l'axe (v ≈ −2,5), avec un dévers de 1,1–1,3 % vers le NO et de 1,9–2,0 % vers le SE (à u 50 et 100). Pente en long montante vers le NE (de l'ordre de +0,7 % puis +1 %). Près du carrefour (u 17–35), bordures classiques de 12–15 cm des deux côtés. À partir de u ≈ 50, la chaussée est 25 à 45 cm plus haute que les abords : côté NO, bordure basse (environ 5 cm) suivie d'un talus enherbé (environ 15 %) qui descend vers la piste ; côté SE, ressaut d'environ 18 cm vers le trottoir et la rangée d'arbres.",
+     "localisation": "Profils à u 26, 50, 100, 150, 190",
+     "preuve": "Échantillonnage de data/raw/lidar/paquet_jardin/dtm_15cm.tif le long de profils transversaux (médiane sur 1 m). À u 100, par exemple : chaussée à 0 ± 5 cm ; piste à −32/−44 cm ; trottoir SE à −24/−38 cm.",
+     "usure": "NA",
+     "confiance": "moyenne",
+     "mesure": "Dévers ≈ 1,2 % (côté NO) et ≈ 2 % (côté SE). Chaussée 25 à 45 cm plus haute que les abords. Îlot +13 à +18 cm.",
+     "date_source": "LiDAR HD 2021 (vérifier : les ruptures LiDAR sont 0,6 à 0,8 m à l'extérieur des bords vus sur l'ortho)"
+    },
+    {
+     "id": "verdun_ne-06",
+     "categorie": "bordure_ilot_trottoir",
+     "description": "Îlot central surélevé qui sert à la fois de refuge piéton et de séparateur. Nez arrondi côté SO (rayon d'environ 1,2 m) à u 8,7 ; coupure piétonne au niveau de la chaussée de u 11,2 à 14,1 ; partie NE de u 14,1 à environ 36, terminée par un nez arrondi. Largeur 2,25–2,35 m ; hauteur +13 à +18 cm. Dessus en enrobé de même teinte que la chaussée (RGB ≈ 157/158/151), bordures béton. Le long du bord NO, une ombre noire de 5 à 10 cm (soleil SSE) ; côté SE, un liseré gris. Deux tampons carrés sur le dessus. Un mât de feux à l'extrémité NE de la coupure. Aucune peinture le long des bords ; au-delà du nez NE, le zébra prend le relais.",
+     "localisation": "Nez SO (917287, 6460295), tuile 917250_6460250 ; corps (917296, 6460304), tuile 917250_6460300 ; nez NE (917306, 6460314), tuile 917300_6460300 (px ≈ 126, 720)",
+     "preuve": "Ombre portée continue en U visible sur l'ortho, avec retour arrondi à u 36. MNT LiDAR à u 22 : +13 à +18 cm entre v −1,1 et −2,9. À u 12,5 (coupure) et u 37 : pas de surélévation. Bordures GAM 2646518479 / 480 (nez SO).",
+     "usure": "NA",
+     "confiance": "haute",
+     "mesure": "Longueur ≈ 27 m ; largeur 2,25–2,35 m ; hauteur 13–18 cm ; coupure de 2,9 m.",
+     "date_source": "PCRS 5 cm 2022-05-10 + LiDAR 2021"
+    },
+    {
+     "id": "verdun_ne-07",
+     "categorie": "passage_pieton",
+     "description": "Passage piéton à feux en deux temps sur la bouche NE (tous les détails dans Mesure). 6 bandes côté NO et 6 côté SE, blanc franc, bords nets ; probablement repeint peu avant mai 2022.",
+     "localisation": "u 11,1–14,4 ; centre (917290, 6460298) ; tuiles 917250_6460250 et 917250_6460300",
+     "preuve": "Luminance des bandes 209–224 contre 143–167 pour l'enrobé (rapport 1,34–1,52) ; couverture 98–100 % sauf la dernière bande SE (88 %). Bandes GAM 2646518463 à 567 (u 11,1–14,4). OSM : crossing=traffic_signals, nœuds 1959022973 / 1959022976.",
+     "usure": "1",
+     "confiance": "haute",
+     "cause_usure": "Usure quasi nulle (proche de 0). Léger manque sur la dernière bande SE, côté bordure : roues de la voie droite NE et ruissellement vers le caniveau.",
+     "mesure": "Bandes de 0,56 m (dans le sens de la traversée) × 3,0 m, intervalles ≈ 0,44 m. Traversée : demi-chaussée NO 5,6 m + refuge 2,3 m + demi-chaussée SE 5,5 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-08",
+     "categorie": "passage_pieton",
+     "description": "Deux bandes grisées dans la coupure de l'îlot (v −1,5 et −2,5), nettement plus pâles que les 12 autres. Elles semblent ne pas avoir été repeintes lors de la dernière campagne : marquage résiduel, presque fantôme. Le levé GAM ne les reporte pas.",
+     "localisation": "u 11,5–13,9, v −1,5 / −2,5 ; L93 ≈ (917290, 6460298) ; tuile 917250_6460250",
+     "preuve": "Luminance médiane 174–177 contre un fond de 159 ; seulement 31–42 % des pixels au-dessus de 1,15 × le fond (contre 100 % pour les autres bandes).",
+     "usure": "3",
+     "confiance": "moyenne",
+     "cause_usure": "Âge et encrassement (la coupure n'est pas circulée par les voitures) ; non repeintes. Cela peut être classé F si ces bandes ont été volontairement abandonnées.",
+     "mesure": "2 bandes de ≈ 0,5 × 2,4 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-09",
+     "categorie": "passage_pieton",
+     "description": "Abaissés de trottoir des deux côtés et coupure de l'îlot à niveau. Sur le refuge NO (entre la chaussée et la piste), des éléments blancs rectangulaires en 3 blocs (environ 1,6 × 0,4 m) sont probablement une bande d'éveil de vigilance (bande podotactile). Côté SE, aucune lecture possible (un piéton se tient à u 11,5, v −9,8).",
+     "localisation": "Côté NO : u 11,7–13,3, v ≈ +5,8, L93 (917284, 6460303), tuile 917250_6460300. Côté SE : (917295, 6460292), tuile 917250_6460250.",
+     "preuve": "MNT LiDAR à u 12,5 : rampe continue de 0 à −7 cm côté NO et de −3 à +1 cm côté SE, contre un ressaut de 12–15 cm à u 17. Éléments blancs visibles sur la loupe ×3. OSM : tactile_paving=yes (contrôlé en 2023).",
+     "usure": "NA",
+     "confiance": "moyenne",
+     "mesure": "Abaissés ≤ 2 cm de ressaut (précision LiDAR ±2 cm).",
+     "date_source": "PCRS 5 cm 2022-05-10 + LiDAR 2021"
+    },
+    {
+     "id": "verdun_ne-10",
+     "categorie": "marquage_transversal",
+     "description": "Aucune ligne d'effet des feux sur l'approche SO : on ne voit aucun trait transversal entre le passage et les flèches. L'arrêt se fait au bord NE du passage piéton (u ≈ 14,1–14,4). L'OSM place le nœud des feux à u ≈ 19,7 (relevé du 2022-01-28). Pas de sas vélo.",
+     "localisation": "Voies SO, u 14,1–21 ; L93 ≈ (917289, 6460302) ; tuile 917250_6460300",
+     "preuve": "Profils longitudinaux sur les deux voies SO : luminance plate (147–157) de u 14,3 à 21, sans pic. Loupes ×3 et ×4.",
+     "usure": "NA",
+     "confiance": "haute",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-11",
+     "categorie": "marquage_longitudinal",
+     "description": "Ligne de voie entre les 2 voies SO, en T3 (tirets de 3 m, intervalles courts) : ligne d'approche du carrefour, entre les voies de présélection. Elle part de la limite du passage et suit le biseau.",
+     "localisation": "u 14,3 (917288, 6460302) → u 69,2 (917328, 6460339) ; v +2,2 → +0,2 ; tuiles 917250_6460300 / 917300_6460300",
+     "preuve": "Tirets mesurés : 14,3–17,4 ; 18,6–21,6 ; 22,9–25,9 ; … ; 66,0–69,2. Largeur à mi-hauteur 0,12–0,14 m. Pic 193–195 contre un fond 146–155 (rapport 1,24–1,34). Ligne GAM 2646523611.",
+     "usure": "1",
+     "confiance": "haute",
+     "cause_usure": "Franchissements lors des changements de voie de présélection, freinage et arrêt au feu (débuts de tirets plus grisés).",
+     "mesure": "Tiret 3,0 m, intervalle 1,3–1,5 m, largeur ≈ 0,13 m (≈ 2u).",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-12",
+     "categorie": "fleche_symbole",
+     "description": "Premier jeu de flèches de présélection, près de la limite d'arrêt. Voie droite : tout droit + droite (vers la Revirée). Voie gauche : tout droit + gauche (vers Vercors). Pointes orientées vers le SO, dans le sens entrant.",
+     "localisation": "u 19,3–23,2 ; voie droite v +3,3 à +4,6, voie gauche v −0,2 à +1,0 ; L93 ≈ (917293, 6460306) ; tuile 917250_6460300 (px ≈ 832, 850 et 880, 898)",
+     "preuve": "Loupe ×4 et extraction des zones peintes. Aire peinte : 1,10 m² pour la flèche droite (en 2 morceaux) et 1,36 m² pour la gauche. Blanc médian 188–193 contre 210–224 pour le passage piéton.",
+     "usure": "2",
+     "confiance": "haute",
+     "cause_usure": "Usure 1 à 2 (voie droite la plus usée) : véhicules qui freinent et stationnent au feu juste sur la tête de flèche, roues sur la branche, girations des véhicules (bus compris) vers la Revirée.",
+     "mesure": "Longueur ≈ 3,9 m (gabarit d'agglomération de 4 m).",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-13",
+     "categorie": "fleche_symbole",
+     "description": "Second jeu de flèches de présélection, plus en amont, avec les mêmes fonctions (voie droite : tout droit + droite ; voie gauche : tout droit + gauche). La flèche de la voie droite est fragmentée (3 morceaux séparés au seuil), celle de la voie gauche est d'un tenant. Ce jeu ne figure pas dans le levé GAM.",
+     "localisation": "u 57,4–64 ; L93 ≈ (917321, 6460333) ; tuile 917300_6460300 (px ≈ 416, 331)",
+     "preuve": "Aires peintes : 0,47 + 0,51 + 0,68 m² (droite, fragmentée) ; 1,54 m² (gauche). Blanc 186–197.",
+     "usure": "1",
+     "confiance": "haute",
+     "cause_usure": "Usure 1 (gauche) à 1–2 (droite) : roues de la voie lente (bus 80/82/164, poids lourds), freinage en approche.",
+     "mesure": "Longueur ≈ 4,5–5 m, branche comprise.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-14",
+     "categorie": "fleche_symbole",
+     "description": "Deux marquages « 50 » dans une ellipse (rappel de limitation), un par voie sortante NE, lisibles dans le sens NE. Le « 50 » de la voie droite est plus gris et moins couvrant.",
+     "localisation": "u 24,3–26,1 ; voie gauche v −4,2/−5,15, L93 (917301, 6460304) ; voie droite v −7,25/−8,15, L93 (917303, 6460302) ; tuile 917300_6460300 (px ≈ 11, 910 et 54, 953)",
+     "preuve": "Loupes ×4 et ×8. Blanc 207 (voie gauche) contre 195 (voie droite). Aire peinte 0,87 m² contre 0,67 m².",
+     "usure": "1",
+     "confiance": "haute",
+     "cause_usure": "Usure 1 (gauche) à 1–2 (droite) : roues de la voie droite (trafic lourd), accélération en sortie de carrefour.",
+     "mesure": "Ellipse de 1,85 × 0,95 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-15",
+     "categorie": "marquage_longitudinal",
+     "description": "Ligne de voie entre les 2 voies sortantes NE, en T1 (tirets de 3 m, intervalles longs). 6 tirets, du « 50 » jusqu'à u 97,6, puis plus rien (voir verdun_ne-04).",
+     "localisation": "u 25,8 (917302, 6460304) → 97,6 (917352, 6460355) ; v −6,2 → −5,6 ; tuiles 917300_6460300 / 917350_6460350",
+     "preuve": "Tirets 25,8–28,7 ; ≈ 39,7–42,4 ; 53,6–56,6 ; 67,3–70,2 ; 81,2–84,1 ; 94,5–97,6. Largeur à mi-hauteur 0,13–0,15 m. Pic 193–196 contre un fond 148–155. Lignes GAM 2646523614 et 2646488621.",
+     "usure": "1",
+     "confiance": "haute",
+     "cause_usure": "Passage des roues en changement de voie (insertion depuis la Revirée et Vercors) ; tirets à l'ombre plus difficiles à juger.",
+     "mesure": "Tiret ≈ 3,0 m ; période ≈ 13,9 m ; largeur ≈ 0,14 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-16",
+     "categorie": "marquage_longitudinal",
+     "description": "Zébra (zone hachurée) entre les deux sens, en biseau après le nez NE de l'îlot. Bord haut continu (v −0,9/−1,3, convergeant vers le bas) et bord bas continu (v −3,0). Largeur 2,2 m à u 40, 1,6 m à u 50, nulle vers u 70. Hachures obliques d'environ 0,5 m, au pas d'environ 4,5 m. Les traits sont fragmentés (u 53–56). Le bord haut est grisé par endroits ; le bord bas est interrompu de u ≈ 50,5 à 56,5.",
+     "localisation": "u 35,7 (917306, 6460314) → ≈ 70 (917331, 6460337) ; tuile 917300_6460300 (px 122, 724 → 618, 250)",
+     "preuve": "Loupe ×4. Aire peinte mesurée de 0,14–0,20 m² par fenêtre de 4 m (traits lacunaires) ; bord haut 0,10 m² sur 6 m. Lignes GAM 2646518478, 2646523627 et hachures 26465184xx.",
+     "usure": "2",
+     "confiance": "haute",
+     "cause_usure": "Empiètement des véhicules qui coupent le biseau (voie SO gauche serrant à gauche avant le tourne-à-gauche, poids lourds sortant vers le NE), et zone moins souvent renouvelée.",
+     "mesure": "Largeur 2,2 → 0 m sur environ 34 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-17",
+     "categorie": "marquage_longitudinal",
+     "description": "Axe séparant les deux sens. De u ≈ 60 à 80 : ligne continue simple, qui prolonge le bord bas du zébra. De u ≈ 80/85 à 177 : ligne mixte, continue du côté SO (v −2,6 à u 90 → −3,6 à u 160) et discontinue T1 du côté NE, 0,2 m plus loin. Le sens NE peut donc la franchir, pas le sens SO. De u 177 à ≥ 229 : ligne simple, probablement continue (très ombragée).",
+     "localisation": "Début (917324, 6460330) ; ligne mixte vers (917359, 6460366) ; fin de la ligne mixte (917407, 6460413) ; tuiles 917300_6460300, 917350_6460350, 917400_6460400",
+     "preuve": "Loupes gamma ×4. Exemples de tirets du côté SE : u 107,7–111,1 et 121,4–124,9. Lignes GAM doublées 2646488259 / 260 … 2646493235 / 274, puis ligne simple 2646494670.",
+     "usure": "1",
+     "confiance": "moyenne",
+     "cause_usure": "Trait continu bien blanc (186–195). Tirets usure 1 à 2 : roues des véhicules NE dans la voie unique large qui mordent sur l'axe.",
+     "mesure": "Largeur 0,17–0,21 m ; entraxe des 2 traits 0,2 m ; tirets de 3,3–3,5 m, période ≈ 13,5 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-18",
+     "categorie": "marquage_longitudinal",
+     "description": "Ligne de voie entre les 2 voies SO en section courante, en T1 (période d'environ 13,4 m), à v ≈ 0 ± 0,4.",
+     "localisation": "u ≈ 84 (917339, 6460349) → ≥ 222 (917436, 6460447) ; tuiles 917300_6460300, 917350_6460350, 917400_6460400",
+     "preuve": "Tirets 97,8–100,8 ; 110,8–113,8 ; 123,7–126,7 ; 137,4–140,6 ; … ; 206–209,5. Largeur à mi-hauteur 0,13 m. Pic 192–201 contre un fond 153–157.",
+     "usure": "1",
+     "confiance": "haute",
+     "cause_usure": "Usure normale par le passage des roues (dépassements sur la voie gauche) ; tirets nets.",
+     "mesure": "Tiret 3,0 m, période 13,4 m, largeur 0,13 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-19",
+     "categorie": "marquage_longitudinal",
+     "description": "Ligne de rive NO continue et étroite, collée à la bordure ; elle suit le biseau et s'arrête au bateau de l'accès privé.",
+     "localisation": "u ≈ 14,3 (917286, 6460304) → 69 (917326, 6460341) ; v +5,1 → +3,6",
+     "preuve": "Pic de luminance 172–177 à v +5,10 (u 20–23,5). Lignes GAM 2646518512 et 2646518511.",
+     "usure": "2",
+     "confiance": "moyenne",
+     "cause_usure": "Gravillons et feuilles le long de la bordure, balayage, véhicules serrant à droite dans le biseau.",
+     "mesure": "Largeur ≈ 0,10–0,15 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-20",
+     "categorie": "marquage_longitudinal",
+     "description": "Ligne de rive NO discontinue T2 (tirets de 3 m, intervalles de 3,5 m), large (environ 3u avec u = 7,5 cm), au ras de la bordure. Marquage hérité de la RN90. Le levé GAM ne la porte pas.",
+     "localisation": "u ≈ 80 (917334, 6460349) → ≥ 211 (917426, 6460442) ; v +2,7 → +3,8",
+     "preuve": "Tirets 80,0–82,8 ; 86,2–89,5 ; 93,3–96,3 ; 100,1–103,2 ; … ; 140,7–143,9. Largeur à mi-hauteur 0,23–0,28 m. Blanc 189–191, aspect granuleux sur la loupe ×4.",
+     "usure": "2",
+     "confiance": "haute",
+     "cause_usure": "Usure 1 à 2 : âge, roues de la voie droite SO (bus, poids lourds) qui serrent la bordure, balayage mécanique.",
+     "mesure": "Tiret 3,0–3,3 m, intervalle 3,4–3,6 m, largeur ≈ 0,25 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-21",
+     "categorie": "marquage_transversal",
+     "description": "Ligne de cédez-le-passage (8 carrés) au débouché de la voie privée sortante (résidence côté NO), parallèle à Verdun.",
+     "localisation": "u 72,5–80, v ≈ +3,3 ; L93 (917331, 6460346) ; tuile 917300_6460300 (px ≈ 617, 79)",
+     "preuve": "Loupe ×2. OSM : panneau give_way (nœud 12184212277) à u 75,1 ; voie privée way 457736993, sens unique sortant. Ligne GAM 2646519891.",
+     "usure": "2",
+     "confiance": "haute",
+     "cause_usure": "Usure 1 à 2 : roues des véhicules qui sortent et de ceux de la voie droite SO.",
+     "mesure": "Carrés de ≈ 0,4–0,5 m, au pas de ≈ 1 m, sur 7,5 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-22",
+     "categorie": "fleche_symbole",
+     "description": "Flèche de rabattement courbe, longue d'environ 5,7 m, dans la voie SO gauche (entre la ligne T1 à v ≈ 0 et l'axe à v ≈ −3,3). Elle est orientée vers le NE et s'incurve vers l'axe. Une flèche orientée NE dans une voie SO est anormale. Hypothèse : elle s'adresse aux usagers NE qui dépassent par la voie centrale (ligne mixte de u 85 à 177). Mais elle se trouve après la fin de cette ligne mixte : incohérence ou marquage résiduel. Les orthos IGN 2015/2021/2024 montrent aussi une zone hachurée à u ≈ 250–268 dans la même bande.",
+     "localisation": "u 201,8–207,5, v −1,15 → −1,95 ; L93 (917425, 6460434) ; tuile 917400_6460400 (px ≈ 509, 322)",
+     "preuve": "Loupe ×6 sur la tuile brute. Également présente sur l'ortho IGN 2015 et visible dans l'intensité LiDAR 2021 (tache claire u 202–207).",
+     "usure": "1",
+     "confiance": "faible",
+     "cause_usure": "Partie au soleil bien blanche ; tête à l'ombre, usure 1 à 2 probable. L'existence du marquage est certaine (confiance haute) ; c'est son interprétation qui est faible.",
+     "mesure": "≈ 5,7 m de long ; tige ≈ 0,15 m ; tête ≈ 0,5 m de large.",
+     "date_source": "PCRS 5 cm 2022-05-10 (+ IGN 2015, LiDAR 2021)"
+    },
+    {
+     "id": "verdun_ne-23",
+     "categorie": "marquage_longitudinal",
+     "description": "Limite SO de la zone, dans la boîte du carrefour : ligne de guidage à tirets courts qui prolonge le bord NO de l'îlot, et flèche tout droit + gauche orientée NE (u 4,5–6,9, v −1,9/−2,85), pour le sens NE (tourne-à-gauche vers la Revirée).",
+     "localisation": "u 0–9,3, v ≈ −1,05 ; L93 (917283, 6460292) ; tuile 917250_6460250",
+     "preuve": "Tirets 0,45–0,85 ; 1,55–1,95 ; 2,5–2,9 ; … ; 7,95–9,25. Blanc 200–208.",
+     "usure": "1",
+     "confiance": "moyenne",
+     "cause_usure": "Girations dans le carrefour.",
+     "mesure": "Tirets ≈ 0,4–0,5 m, intervalles ≈ 0,5 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-24",
+     "categorie": "marquage_longitudinal",
+     "description": "Bords non peints. Le long de l'îlot (u 14–36), la voie SO gauche est limitée uniquement par la bordure, sans ligne. Côté SE, aucune ligne de rive sur toute la zone : la limite est donnée par la bordure et, à u 21, par un caniveau clair d'environ 0,4 m (v −8,75 à −9,15).",
+     "localisation": "u 14–230 côté SE et u 14–36 au droit de l'îlot ; L93 ≈ (917296, 6460292)",
+     "preuve": "Profil à u 20–23,5 : caniveau à 155–160, bordure à l'ombre à 120–130, aucun pic au niveau d'une peinture (> 185).",
+     "usure": "NA",
+     "confiance": "moyenne",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-25",
+     "categorie": "amenagement_cyclable",
+     "description": "Piste cyclable bidirectionnelle côté NO, séparée de la chaussée par une bande verte et environ 30 à 45 cm plus basse que celle-ci (LiDAR). De u 15 à 90 : piste de 3,2–3,5 m (v +7,8 à +11,0/11,5), derrière une bande verte de 2,5 m (gazon, regards, mâts d'éclairage). Entre u 90 et 99, le bord côté route se rapproche (v +7,6 → +5,3). De u 100 à 200 : plateforme d'environ 5 m (détail dans Mesure). Enrobé gris (RGB ≈ 144/143/131 au soleil). Côté route : massifs taillés (v +4 à +5,5) et bande verte de 2,2–2,3 m. Pas de ligne axiale continue visible (un seul tiret à v ≈ +6,9, u 99–104). Au carrefour (u 4–8), la traversée de la Revirée est teintée vert pâle (RGB 151/167/154) avec damier blanc (hors zone).",
+     "localisation": "(917287, 6460311) → (917342, 6460362) → (917380, 6460401) ; tuiles 917250_6460300, 917300_6460300, 917300_6460350, 917350_6460350, 917350_6460400, 917400_6460400",
+     "preuve": "Loupes ×2 de la bande élargie. Bordurettes GAM 2646488335 / 595 / 652 / 636 et 2646488173 / 127. OSM cycleway 398052219 (width=4). Couche GAM « Piste bidirectionnelle » de 350 cm.",
+     "usure": "NA",
+     "confiance": "moyenne",
+     "mesure": "De u 100 à 200 : ≈ 2,95 m cyclables (v 5,3–8,2) + séparateur clair de 0,35 m (v 8,2–8,6) + ≈ 1,5 m piétons (v 8,6–10,1).",
+     "date_source": "PCRS 5 cm 2022-05-10 + GAM + LiDAR 2021"
+    },
+    {
+     "id": "verdun_ne-26",
+     "categorie": "amenagement_cyclable",
+     "description": "Croisement de la piste et de la voie privée. Traversée cyclable délimitée (damier ou bordures de traversée, v 7,7 à 10,7) ; passage piéton de 3 bandes sur le cheminement (v ≈ 11,2 à 13,5) ; pictogrammes vélo + flèche dans les deux sens, en aval (u 81,4–87, v 8,6 et 9,8). La zone est en partie sous un houppier.",
+     "localisation": "u 77–87 ; L93 ≈ (917329, 6460353) ; tuile 917300_6460350 (px ≈ 590, 939)",
+     "preuve": "Loupe ×2 et tuile brute 917300_6460350 (damier visible vers les pixels 560–620, 845–890). Lignes GAM 2646519890 et 2645118864. OSM crossing 1785903175.",
+     "usure": "1",
+     "confiance": "moyenne",
+     "cause_usure": "Passages des vélos et des véhicules qui sortent.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-27",
+     "categorie": "arret_bus",
+     "description": "Aucun arrêt de bus dans la zone : pas de quai, pas de zigzag, pas d'inscription BUS ni de marquage jaune (provisoire ou de chantier) sur la chaussée en 2022.",
+     "localisation": "u 10–230 (toute la chaussée)",
+     "preuve": "Comptage des pixels jaunes (R > 150, G > 130, B < 0,75·R) sur la chaussée : 0 pixel. OSM public_transport : aucun arrêt dans la zone.",
+     "usure": "NA",
+     "confiance": "haute",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-28",
+     "categorie": "bordure_ilot_trottoir",
+     "description": "Bateau de l'accès privé côté NO, en revêtement clair. Il s'évase d'environ 9 m au bord de la chaussée à environ 4 m à la piste, avec des bordures courbes, et descend vers la piste qui est plus basse.",
+     "localisation": "u 69–81 ; L93 ≈ (917329, 6460347) ; tuile 917300_6460300",
+     "preuve": "Loupe ×2. Bordure GAM 2646524311 (arc de u 69,3 à 77), 2645241546 / 547 et 2646488516 / 561.",
+     "usure": "NA",
+     "confiance": "haute",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-29",
+     "categorie": "bordure_ilot_trottoir",
+     "description": "Bord SE. Bordure béton et caniveau clair, puis trottoir en béton d'environ 3,5 m (v −9,6 à −13,2) sous la rangée d'arbres. À partir de u ≈ 50, ce trottoir est plus bas que la chaussée. Deux lisières rectilignes claires à v ≈ −10,6 et −13,8 : bords du trottoir ou clôture de chantier. Zone presque entièrement à l'ombre.",
+     "localisation": "u 14–205 ; L93 ≈ (917330, 6460325) ; tuiles 917300_6460300 / 917350_6460350",
+     "preuve": "Couche PCRS « Limite_Revet_Béton » 5ede2_232b (v −13,2 à −9,5). Bordure PCRS 4a368_69dc. Limites GAM 2646488263 / 264. Profil MNT.",
+     "usure": "NA",
+     "confiance": "moyenne",
+     "date_source": "PCRS 5 cm 2022-05-10 + GAM"
+    },
+    {
+     "id": "verdun_ne-30",
+     "categorie": "autre",
+     "description": "Bande blanche très lumineuse au bord SE (environ 0,45 × 14 m), dédoublée par un trait sombre. Derrière, une bande sombre au niveau de la chaussée (v −8,5 à −9,6), puis un portail tubulaire à 2 vantaux ouverts et une clôture. Interprétation : entrée de chantier du programme immobilier, avec bordure neuve ou bateau en béton clair. Visuellement, elle forme une très forte « ligne de rive » de 14 m.",
+     "localisation": "u 95,3–109,3, v −8,0 à −8,5 ; L93 (917357, 6460356) ; tuile 917350_6460350 (px ≈ 148, 875). Portail vers (917359, 6460355).",
+     "preuve": "Loupe ×4. Luminance jusqu'à 195 au milieu des ombres d'arbres (fond 60–80). Rapport de contraste 1,96.",
+     "usure": "NA",
+     "confiance": "moyenne",
+     "mesure": "≈ 0,45 × 14 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-31",
+     "categorie": "revetement_texture",
+     "description": "Couche de roulement en enrobé bitumineux dense à granulats fins (type BBSG/BBM 0/10, non vérifiable à 5 cm), gris clair et oxydé. Aspect homogène, sans ressuage, nid-de-poule ni faïençage visible ; aucune fissure longitudinale ou transversale dans les zones au soleil (u 30–130 côté SO). L'enrobé est âgé mais en bon état. Orniérage non décelable (LiDAR ±2 cm). Les deux tiers environ de la demi-chaussée NE à l'ombre ne sont pas évaluables.",
+     "localisation": "u 20–230 ; exemple (917349, 6460361) ; tuiles 917300_6460300 / 917350_6460350 / 917400_6460400",
+     "preuve": "RGB médian ≈ 155/156/150. Écart-type local (filtre passe-haut, sigma 3 px) de 1,9–2,0 niveaux. Loupe ×4 de u 100–112.",
+     "usure": "NA",
+     "confiance": "moyenne",
+     "date_source": "PCRS 5 cm 2022-05-10 + LiDAR 2021"
+    },
+    {
+     "id": "verdun_ne-32",
+     "categorie": "degradation",
+     "description": "Reprises et joints autour du passage. Lignes sombres fines et rectilignes (joints sciés colmatés, tranchées de réseaux pour les feux) : une longitudinale à v +3,6 (u 6–18,5) ; une transversale sur toute la chaussée à u ≈ 18,5–19,7 (joint de reprise entre l'enrobé du carrefour et celui de la section courante) ; un rectangle de reprise d'environ 4,3 × 2,5 m (u 14,3–18,6, v 1,1–3,6) à cheval sur la ligne de voie SO. Ces lignes s'interrompent sous les bandes blanches : elles sont sous la peinture, ce ne sont pas des ombres. Dans la boîte du carrefour (u 0–10), autres lignes sombres courbes (fissures pontées probables).",
+     "localisation": "(917289, 6460303) et joint vers (917295, 6460301) ; tuile 917250_6460300",
+     "preuve": "Filtre passe-haut (écart à la médiane 9 px) en loupe ×3, plus une fenêtre de tons de 130 à 185.",
+     "usure": "NA",
+     "confiance": "moyenne",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-33",
+     "categorie": "assainissement_reseaux",
+     "description": "Tampons et regards. Un tampon rond d'environ 0,8 m dans le passage piéton. Deux tampons carrés sur l'îlot (environ 0,6 m et 0,35 m). Des regards dans la bande verte NO (u 18,8 v 6,1 ; u 47,8 v 6,3). Aucun avaloir ni grille identifié sur la chaussée dans les zones au soleil (côté SE non lisible). L'écoulement côté NO se fait probablement vers la bande verte en contrebas (déduit, non vérifié).",
+     "localisation": "Passage (917287, 6460300) ; îlot (917294, 6460302) et (917298, 6460305) ; tuile 917250_6460300",
+     "preuve": "Loupes ×2 à ×4 et filtre passe-haut.",
+     "usure": "NA",
+     "confiance": "moyenne",
+     "mesure": "Tampons Ø ≈ 0,8 m ; carrés de ≈ 0,6 et 0,35 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-34",
+     "categorie": "signalisation_verticale_feux",
+     "description": "Mâts de feux. Sur l'îlot (u 14,8, v −2,1) : têtes de feux dont l'ombre tombe sur la voie SO gauche (u 15–16, v −0,5 à +0,4). Côté NO, sur le refuge entre chaussée et piste (u ≈ 15,5, v ≈ +6,5) : ombre portée sur la piste. Sur le trottoir SE (u ≈ 16,5, v ≈ −11) : mât haut (éclairage ou feux) dont l'ombre linéaire traverse en biais les 2 voies NE jusqu'à (u 19,1, v −3,4).",
+     "localisation": "Îlot (917291, 6460299) ; côté NO (917286, 6460306) ; côté SE (917299, 6460294) ; tuiles 917250_6460250 / 917250_6460300",
+     "preuve": "Ombres visibles sur la bande redressée et les loupes. OSM : nœuds de feux 1959022973 / 976 / 979.",
+     "usure": "NA",
+     "confiance": "moyenne",
+     "mesure": "Ombre du mât SE ≈ 7,5 m de long × 0,2 m.",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-35",
+     "categorie": "mobilier_vegetation",
+     "description": "Éclairage : 5 mâts à crosse côté NO, espacés d'environ 40 m. Les luminaires en porte-à-faux apparaissent comme des ovales blancs (environ 0,35 × 0,9 m) au-dessus de la voie SO droite (v ≈ +1 à +4), à cause du déversement radial de l'ortho (pas une vraie orthophoto). Les ombres des mâts (7 à 8 m, vers le NNO) donnent un azimut solaire d'environ 158° : prise de vue vers la mi-journée.",
+     "localisation": "Lampadaires OSM 2349 / 2347 / 2345 / 2343 / 2341 à u 28,8 / 69,6 / 110 / 151,7 / 192,1 ; par exemple (917355, 6460370), tuile 917350_6460350",
+     "preuve": "Ovales blancs visibles sur la bande redressée et la loupe ×4 (u 109,5, v +1,0). Ombres visibles sur la piste. OSM street_lamp (relevé du 2022-04-14).",
+     "usure": "NA",
+     "confiance": "haute",
+     "date_source": "PCRS 5 cm 2022-05-10 + OSM"
+    },
+    {
+     "id": "verdun_ne-36",
+     "categorie": "mobilier_vegetation",
+     "description": "Rangée de grands arbres côté SE (houppiers à v −12 à −27) dont les ombres tachetées couvrent la chaussée, de plus en plus vers le NE. Les tâches de soleil sous les houppiers sont aussi brillantes qu'un marquage.",
+     "localisation": "u 14–225 ; par exemple (917396, 6460400), tuile 917350_6460350",
+     "preuve": "Part des pixels de la chaussée à luminance < 115 : 74 % de la demi-chaussée NE et 32 % de la demi-chaussée SO. Détail : 37 / 56 / 69 / 86 / 95 / 93 % (NE) et 17 / 16 / 15 / 34 / 65 / 46 % (SO) pour les tranches de 40 m entre u 14 et 225.",
+     "usure": "NA",
+     "confiance": "haute",
+     "date_source": "PCRS 5 cm 2022-05-10"
+    },
+    {
+     "id": "verdun_ne-37",
+     "categorie": "autre",
+     "description": "Voie de chantier, future « living street » de l'OSM 2026, à 25–30 m au SE derrière la rangée d'arbres. Enrobé neuf noir (RGB 108/121/116), 4,6 m de large, sans marquage, avec un liseré brun côté SE et des joints transversaux à u ≈ 84 et 90,5. L'enrobé s'arrête vers u 125–130 ; au-delà, piste empoussiérée. Coffret béton blanc avec 2 regards. Autour : emprise de chantier (terrassements, stocks, clôtures, conteneur, ombre de grue) dans les tuiles 917350_6460300 et 917400_6460350.",
+     "localisation": "(917343, 6460311) → (917392, 6460359) ; coffret (917361, 6460334) ; tuiles 917300_6460300, 917350_6460300, 917350_6460350, 917400_6460350",
+     "preuve": "Bande élargie de v −8 à −42 en loupe ×1. OSM way 1305902503 (highway=living_street).",
+     "usure": "NA",
+     "confiance": "haute",
+     "mesure": "Largeur 4,6 m (v −28,2 à −32,8).",
+     "date_source": "PCRS 5 cm 2022-05-10 + OSM 2026"
+    },
+    {
+     "id": "verdun_ne-38",
+     "categorie": "autre",
+     "description": "Écarts avec les sources postérieures, à vérifier. Dans le levé GAM (non daté), l'îlot central s'arrête à u ≈ 23,4 avec un nez arrondi, au lieu de u 36 en 2022 ; le GAM ne contient pas non plus le jeu de flèches 2, les « 50 », la rive T2 ni la flèche de rabattement. Sur l'ortho IGN 2024 (20 cm), une zone sombre apparaît sur l'îlot (u 19,6–23,2). Il est possible que l'îlot ait été modifié après 2022 ; cela ne remet pas en cause l'état de 2022.",
+     "localisation": "u 19–36 ; L93 ≈ (917296, 6460304) → (917306, 6460314)",
+     "preuve": "Bordure GAM 2646533178 : (18,7 ; −0,87) … (23,4 ; −1,9) … (22,9 ; −3,03). Bande redressée IGN 2021 et 2024.",
+     "usure": "NA",
+     "confiance": "faible",
+     "date_source": "GAM (non daté) + IGN 2024 comparés au PCRS 2022"
+    }
+   ],
+   "configuration_voies": "Tous les chiffres viennent de l'ortho 2022, recoupés avec le GAM.\n1) Bouche du carrefour (u 9 → 36), profil de 14,5 m. Côté SO (entrant) : 2 voies de présélection, celle de droite (2,9 m) pour tout droit et la Revirée, celle de gauche (3,1 m) pour tout droit et Vercors. Elles sont séparées par une ligne T3 (tirets de 3 m, intervalles de 1,3–1,5 m). Pas de ligne d'effet des feux : on s'arrête au passage piéton à u 14,1. Ensuite l'îlot surélevé (2,25 m, 13–18 cm), avec une coupure piétonne à u 11,2–14,1. Côté NE (sortant) : 2 voies de 3,1 m séparées par une ligne T1, avec un « 50 » sur chaque voie.\n2) Transition (u 36 → 98). Un zébra en biseau (2,2 m → 0) remplace l'îlot jusqu'à u ≈ 70. La bordure NO se rapproche de l'axe d'environ 1,8 m (de u 36 à 69). Second jeu de flèches à u 57–64. Accès privé sortant à u 72–80, avec ligne de cédez-le-passage. Ligne d'axe continue de u 60 à 80, puis mixte à partir de u 80/85. La ligne T1 du sens NE s'arrête à u 97,6 : le sens NE passe de 2 voies à 1 sans flèche ni marquage.\n3) Section courante (u 98 → ≥ 230), largeur 11,2–11,5 m, 3 voies : 2 voies SO (de 2,9 + 2,8 m à u 100 jusqu'à 3,7 + 3,65 m à u 200), séparées par une ligne T1 ; 1 voie NE (de 5,6 m à u 100 jusqu'à environ 3,9 m à u 150–200). L'axe est une ligne mixte jusqu'à u 177 (continue côté SO, tirets T1 côté NE), puis une ligne simple. Rive NO en T2 (environ 0,25 m), pas de rive côté SE. Flèche de rabattement anormale à u ≈ 205.\n4) Abords. Côté NO : bande verte (2,2–2,5 m, massifs, 5 mâts à crosse), puis piste bidirectionnelle (3,2–3,5 m, puis plateforme de 5 m dont environ 3 m cyclables), 30 à 45 cm plus bas. Côté SE : caniveau, trottoir béton d'environ 3,5 m, rangée de grands arbres, et à 25–30 m la voie de chantier neuve.",
+   "revetement_synthese": "Chaussée en enrobé bitumineux dense gris clair (RGB ≈ 155/156/150), oxydé, au grain fin et homogène (écart-type local d'environ 2 niveaux à 5 cm). Le type exact (BBSG/BBM 0/10) n'est pas vérifiable. En section courante (u 30–230), dans les zones au soleil : aucune fissure, aucun faïençage, nid-de-poule, ressuage ni rapiéçage visible ; orniérage non décelable au LiDAR (précision ±2 cm). La couche est âgée, mais structurellement saine en apparence.\nProfil en toit avec crête près de l'axe : dévers d'environ 1,2 % vers le NO et 2 % vers le SE, pente en long d'environ +0,7 à +1 % vers le NE (LiDAR 2021).\nLes seules marques de travaux sont autour du passage (u 6–20) : joint transversal de reprise à u ≈ 18,5–19,7, rectangle de reprise d'environ 4,3 × 2,5 m, joints sciés colmatés (sous la peinture), probablement liés aux réseaux des feux.\nÎlot revêtu d'enrobé avec bordures béton ; caniveau clair d'environ 0,4 m côté SE ; trottoir SE en béton. Tampons : un rond (Ø 0,8 m) dans le passage, deux carrés sur l'îlot ; aucun avaloir visible sur la chaussée.\nPiste cyclable en enrobé gris, plus sombre et ombragé. Voie de chantier SE en enrobé neuf noir (2021–2022).\nLes ombres masquent environ 74 % de la demi-chaussée NE : l'état de cette moitié reste peu évaluable.",
+   "usure_synthese": "Échelle 0/1/2/3/F, d'après la blancheur (luminance du marquage contre l'enrobé) et la surface peinte mesurée.\n- Passage piéton (12 bandes) : 0 à 1, blanc franc (209–224), probablement repeint récemment.\n- 2 bandes dans la coupure de l'îlot : 3 (31–42 % de couverture), presque fantômes.\n- Flèches jeu 1 (u 19–23) : 1–2. Cause : freinage et arrêt au feu sur les têtes, girations vers la Revirée ; la voie droite est la plus usée.\n- Flèches jeu 2 (u 57–64) : 1 (gauche), 1–2 (droite, fragmentée).\n- « 50 » : 1 (gauche), 1–2 (droite). Cause : roues de la voie lente.\n- Lignes de voie T3 et T1 : 1 (contraste 1,24–1,34).\n- Ligne d'axe : 1 (trait continu), tirets 1–2.\n- Zébra : 2. Traits lacunaires, bord haut 2–3 par endroits, bord bas interrompu sur environ 6 m. Cause : véhicules qui coupent le biseau.\n- Rive NO continue : 2. Cause : gravillons le long de la bordure, balayage.\n- Rive NO T2 : 1–2, aspect granuleux (âge, bus et poids lourds en rive).\n- Ligne de cédez-le-passage : 1–2.\n- Flèche de rabattement : 1–2.\n- Marquages de la piste : 1.\nAucun marquage fantôme de chantier ni marquage jaune en 2022. Usure globale modérée : marquages lisibles, sauf le zébra et les bandes de la coupure.",
+   "points_adas": "Difficultés pour une caméra et un LiDAR embarqués :\n1) Ombres d'arbres. Au moment de la prise de vue, 74 % de la demi-chaussée NE et 32 % de la demi-chaussée SO sont à l'ombre (jusqu'à 95 % vers u 160–200). Les ombres tachetées créent des bords à fort contraste dans toutes les directions, et les taches de soleil sont aussi brillantes qu'une peinture : risque de fausses lignes et de lignes perdues, surtout pour les tirets T1 (10 m d'intervalle) qui tombent à l'ombre.\n2) Ombres linéaires de mâts, de 7 à 8 m. Celle du mât SE traverse les 2 voies NE en biais à u 16–19 ; d'autres tombent sur la piste. Elles peuvent créer de fausses limites pour un détecteur de bords.\n3) Îlot sans peinture. Sa limite n'est donnée que par une bordure de 13–18 cm, avec un dessus en enrobé de même teinte. Par temps couvert (sans l'ombre portée), le contraste est faible. Après le nez (u 36), seul le zébra usé (usure 2) annonce l'îlot au sens SO. Le LiDAR détecte le ressaut ; la caméra seule, mal.\n4) Nombre et largeur des voies ambigus. Le sens NE passe de 2 voies à 1 à u ≈ 98 sans flèche ni marquage (la ligne s'arrête simplement) ; il reste une voie de 5,6 m qui se rétrécit à environ 3,9 m. Les voies SO s'élargissent de 2,8 à 3,7 m. Le maintien dans la voie peut osciller, et une carte HD doit gérer des largeurs variables.\n5) Type de ligne d'axe. La ligne mixte (deux traits à 0,2 m) peut fusionner en un seul trait large à basse résolution ou à l'ombre, ce qui fausse le droit de franchissement (permis au sens NE, interdit au sens SO). Elle passe ensuite en ligne simple à u 177. Les modulations changent aussi : T3 près du carrefour, T1 en section courante, T2 en rive.\n6) Flèche de rabattement orientée NE dans une voie SO (u 205) : un classifieur de flèches ou une carte sémantique peut l'interpréter comme une flèche à contresens.\n7) Pas de ligne d'effet des feux : la position d'arrêt doit être déduite du bord du passage (u 14,1).\n8) Marquages trompeurs : bandes presque fantômes dans la coupure de l'îlot ; bande blanche très lumineuse de 14 m au bord SE (u 95–109), qui ressemble à une rive épaisse ; joints sombres et reprises près du passage, qui créent de faux bords.\n9) Bords de chaussée. À partir de u ≈ 50, pas de bordure haute côté NO : bordure basse puis talus vers une piste 30–45 cm plus bas, et côté SE un ressaut vers le trottoir. Pour le LiDAR, les ruptures sont faibles ou progressives.\n10) Pour qui construit une carte HD à partir de l'ortho : ce n'est pas une vraie orthophoto. Les luminaires apparaissent comme des ovales blancs sur la voie SO droite (faux marquages possibles), et les mâts sont inclinés. Des véhicules (u 111, 180, 222) masquent aussi la chaussée.\n11) En 2022 : accès de chantier côté SE (portail ouvert, sorties de camions) et zone de travaux à 25–30 m. L'aménagement a changé en 2025 (projet C1) : ne pas réutiliser cet état tel quel pour le carrefour.",
+   "pourquoi_cette_conception": "Pourquoi cet aménagement (en partie déduit) :\n- Héritage RN90. Une chaussée de 11,2–11,5 m à 3 voies avec ligne mixte, une rive T2 large (environ 3u avec u = 7,5 cm) et des lignes larges (environ 2u) sont des standards de route nationale, conservés lors du déclassement en RD1090. La ligne mixte permet au sens NE, qui n'a qu'une voie, de franchir l'axe (dépassement ou tourne-à-gauche) tout en l'interdisant au sens SO, qui a 2 voies.\n- Le sens SO, qui entre dans le carrefour, garde 2 voies sur toute la section pour offrir de la capacité d'approche (carrefour à feux). Ces voies deviennent des voies de présélection (droite : tout droit + Revirée ; gauche : tout droit + Vercors), annoncées par deux jeux de flèches et par la ligne T3 entre les voies.\n- L'élargissement côté NO jusqu'à 14,5 m (biseau d'environ 1,8 m sur 33 m) laisse la place à un îlot central de 2,3 m. Cet îlot sert de refuge pour une traversée piétonne en deux temps (environ 5,6 m par demi-chaussée), porte un mât de feux et sépare physiquement les sens au droit du carrefour. Le zébra en biseau fait la transition entre l'axe peint et le nez de l'îlot.\n- Le sens NE sort du carrefour sur 2 voies (il reçoit les flux de Verdun SO, de la Revirée et de Vercors), puis repasse à 1 voie vers u 98. Le trafic est modéré côté NE (environ 10 500 véh/j selon le contexte). Les « 50 » rappellent la limite à la sortie de la zone du carrefour.\n- La piste bidirectionnelle (Chronovélo et itinéraire vers Montbonnot) est séparée de la chaussée par une bande verte, plus bas qu'elle, et éclairée par les mêmes mâts. La seule interruption est l'accès privé sortant, géré par un cédez-le-passage et une traversée marquée.",
+   "incertitudes": "- Les ombres d'arbres (74 % de la demi-chaussée NE) empêchent de vérifier : d'éventuelles flèches de rabattement avant u 98, la continuité de la ligne d'axe après u 177, l'état du revêtement et la présence d'avaloirs côté SE.\n- La flèche à u 205 est bien visible, mais son interprétation n'est pas établie. La couverture PCRS s'arrête vers u 230 ; les orthos IGN montrent une zone hachurée à u 250–268 non vérifiable à 5 cm.\n- L'identification T1/T2/T3 repose sur les mesures de tirets et d'intervalles. La valeur de u (7,5 cm) est déduite des largeurs mesurées à mi-hauteur, qui sont surestimées par le flou de 1 à 2 pixels.\n- La bande d'éveil de vigilance côté NO est probable ; elle n'est pas lisible côté SE.\n- La bande blanche du bord SE (u 95–109) et le portail sont interprétés comme une entrée de chantier, ce qui n'est pas démontré.\n- Les ruptures du LiDAR 2021 sont 0,6 à 0,8 m à l'extérieur des bords de l'ortho sur les côtés en remblai : décalage de calage ou bande de caniveau, à vérifier.\n- Le levé GAM et l'ortho IGN 2024 suggèrent un îlot raccourci après 2022 ; c'est hors état 2022 et non vérifié.\n- Les types d'enrobé (BBSG ou BBM) ne sont pas identifiables par image.\n- Fichiers temporaires dans /tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_ortho/vne/ (gros fichiers supprimés) ; le dépôt git n'a pas été modifié."
+  },
+  "verification_reobservation": {
+   "verdicts": [
+    {
+     "id": "verdun_ne-01",
+     "verdict": "confirme",
+     "justification": "J'ai refait le profil à u 25,5–26,5 sur la bande redressée. Rive NO à v +5,10, bordure vers +5,3/+5,4. Ligne de voie à v +2,3 (pic à 191). Îlot de v −0,75 (ombre portée, pic à 89) à v −3,05. Ligne NE à v −6,15 (pic à 188). Caniveau clair à −8,9, bordure SE à −9,2/−9,4. Cela donne 2 voies SO, l'îlot et 2 voies NE, avec des largeurs d'environ 2,9–3,05 / 3,05 / 2,3 / 3,1 / 3,1 m. Total de 14,5 à 14,7 m selon la façon dont on prend les bordures. Les identifiants GAM cités existent et coïncident."
+    },
+    {
+     "id": "verdun_ne-02",
+     "verdict": "confirme",
+     "justification": "Rive et bordure NO mesurées : v 5,05 à u 18 ; 5,10 à u 26 ; 5,25 à u 36 ; 4,70 à u 47 ; 4,25 à u 55 ; ≈3,5–3,6 à u 69. Le nu de bordure est environ 0,3 m plus loin. C'est conforme à la polyligne GAM 2646524311. Le biseau fait bien environ 1,7–1,8 m sur 33 m, puis la bordure part dans l'arrondi du bateau. Les largeurs annoncées dépendent de la référence de bord, avec un écart de ±0,3 m."
+    },
+    {
+     "id": "verdun_ne-03",
+     "verdict": "confirme",
+     "justification": "La section est bien à 3 voies (2 SO + 1 NE). Avec les bords GAM/PCRS et les lignes vues sur l'ortho : u 100 → NO +2,82, ligne SO 0, axe −2,7/−2,9, SE −8,49 (11,3 m) ; u 150 → 3,26 / −0,1 / −3,6/−3,8 / −7,76 (11,0 m) ; u 200 → 4,04 / +0,4 / −3,23 / −7,13 (11,2 m). L'axe dérive d'environ 0,9–1,1 m vers le SE entre u 100 et 150. La voie NE passe d'environ 5,1–5,6 m à environ 3,9 m. Les largeurs sont justes à ±0,2–0,3 m près. Le type de l'axe après u 177 est faux (voir verdun_ne-17)."
+    },
+    {
+     "id": "verdun_ne-04",
+     "verdict": "confirme",
+     "justification": "Le dernier tiret NE est visible à l'ombre avec la loupe gamma, à u 94,4–97,6 et v −5,4. Au-delà, rien à v −5,5 dans la plage au soleil u 104–110, et rien non plus dans les plages citées par le rapport. Attention : avec la période de 13,9 m, ces plages-là ne contenaient de toute façon aucun tiret attendu, donc leur argument est faible. Mon contrôle de u 104–111 confirme quand même l'arrêt de la ligne. Aucune flèche visible entre u 60 et 98 (moitié à l'ombre). Voiture bleue confirmée à u 111–115, v −5 à −7,3."
+    },
+    {
+     "id": "verdun_ne-05",
+     "verdict": "corrige",
+     "justification": "Le profil en toit avec la crête près de l'axe est juste. Les bordures de 12–15 cm près du carrefour, l'îlot à +15/+18 cm (u 16–35, plat à u 38), le talus NO d'environ 13 % et la piste ou le trottoir SE à −28/−45 cm sont justes aussi. En revanche les pentes sont sous-estimées. Par régression sur le MNT, le dévers NO vaut 1,5–1,7 % (u 50, 100, 150), pas 1,1–1,3 %. Le dévers SE vaut 2,1 % (u 50, 100) et 2,7 % (u 150). La pente en long vaut environ 0,8 % de u 20 à 65, 1,1–1,3 % de u 65 à 140, puis 1,6–1,9 % de u 140 à 200, pas « 0,7 puis 1 % ». À u 50, côté SE, il n'y a pas de ressaut net de 18 cm : l'accotement est presque au niveau puis descend. Le ressaut d'environ 20 cm n'apparaît qu'à u 100 et u 190.",
+     "correction": "Dévers NO ≈ 1,5–1,7 % ; dévers SE ≈ 2,1–2,7 % ; pente en long ≈ 0,8 % → 1,3 % → 1,7–1,9 % vers le NE ; ressaut SE net seulement à partir de u ≈ 90–100."
+    },
+    {
+     "id": "verdun_ne-06",
+     "verdict": "confirme",
+     "justification": "Vu sur les loupes et sur le filtre passe-haut. Nez SO arrondi vers u 8,7–9,5. Coupure de u 11,1 à 14,0, avec des zones brunâtres aux extrémités de bordure. Corps de l'îlot de v −0,85 à −3,1 (2,25 m), avec ombre noire continue côté NO et nez NE arrondi vers u 36. Dessus de même teinte que la chaussée. Deux tampons carrés à u 19 (≈0,6 m) et u 23,7 (≈0,4 m). Mât de feux à u ≈ 15, v −2,1. Le LiDAR 2021 donne +15 à +18 cm de u 16 à u 35 et +1 cm à u 38."
+    },
+    {
+     "id": "verdun_ne-07",
+     "verdict": "corrige",
+     "usure_verifiee": "1",
+     "justification": "Bandes confirmées : 6 côté NO (v +4,45 … −0,5) et 6 côté SE (v −3,8 … −8,8), environ 0,5–0,55 × 3,0 m au pas de 1,0 m. Blanc franc (pics 212–227), bords nets, usure 0 à 1. Le chiffrage de la traversée est faux : il reprend l'emprise des bandes (≈5,5 m), pas la demi-chaussée. Au droit du passage, on a NO : bordure +5,1/+5,3 → îlot −0,85, soit ≈6,0–6,1 m. SE : îlot −3,1 → bordure −9,25, soit ≈6,15 m. C'est d'ailleurs cohérent avec les largeurs de voies que le rapport donne lui-même en verdun_ne-01 (6,0 + 6,2 m).",
+     "correction": "Traversée : demi-chaussée NO ≈ 6,0 m + refuge 2,25 m + demi-chaussée SE ≈ 6,15 m ; les bandes couvrent environ 5,5 m de chaque côté."
+    },
+    {
+     "id": "verdun_ne-08",
+     "verdict": "refute",
+     "usure_verifiee": "NA",
+     "justification": "Ce ne sont pas des bandes de passage usées. La segmentation donne des éléments d'environ 1,5–1,6 × 0,35 m (u 12,0–13,5 ; v −1,40/−1,75 et −2,45/−2,80), découpés en dalles (2 morceaux pour la bande basse). Le rapport annonçait 0,5 × 2,4 m. Ils sont en retrait de 0,3 à 0,6 m de chaque bord de l'îlot. Ils sont identiques aux 2 éléments du refuge NO : u 11,7–13,35 ; v 5,60–6,05 et 7,15–7,55 ; même luminance, 181–194. Leur forme, leur position (une rangée près de chaque bord de refuge) et leur découpage en dalles correspondent à des bandes d'éveil de vigilance (dalles podotactiles) et pas à de la peinture. Il n'y a donc ni usure 3, ni « marquage fantôme ».",
+     "correction": "2 bandes d'éveil de vigilance (≈1,6 × 0,4 m) dans la coupure de l'îlot, une contre chaque bord ; usure sans objet."
+    },
+    {
+     "id": "verdun_ne-09",
+     "verdict": "corrige",
+     "justification": "Les éléments blancs du refuge NO sont bien des bandes podotactiles probables. Mais il y en a deux rangées, pas une : v 5,60–6,05 (côté chaussée) et v 7,15–7,55 (côté piste), chacune d'environ 1,6–1,65 × 0,4–0,45 m (u 11,7–13,35). S'y ajoutent les deux rangées de la coupure de l'îlot, mal lues comme de la peinture en verdun_ne-08. Côté SE (trottoir béton u 11,5–14,5, v −9,3 à −13,8), aucun élément net à la segmentation. L'objet sombre à u 11,5, v −8,7/−11,3 ressemble plutôt à un mât de feu piéton avec son ombre qu'à un piéton. Les abaissés n'ont pas été recontrôlés au LiDAR.",
+     "correction": "Bandes podotactiles : 2 rangées sur le refuge NO (v ≈ 5,8 et 7,35) et 2 dans la coupure de l'îlot (v ≈ −1,6 et −2,6), environ 1,6 × 0,4 m chacune ; côté SE non visible."
+    },
+    {
+     "id": "verdun_ne-10",
+     "verdict": "confirme",
+     "justification": "Profils en long sur les deux voies SO : la luminance est plate (141–158) de u 14,2 à 22, sans aucun pic transversal en dehors du passage piéton (fin des bandes à u 14,1). Pour information, le plan projet 2025 ajoute une ligne d'effet des feux en tirets vers u ≈ 17 sur les voies SO : son absence en 2022 est donc cohérente."
+    },
+    {
+     "id": "verdun_ne-11",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "Tirets suivis le long de la polyligne GAM 2646523611 : 14,3–17,5 ; 18,6–21,8 ; 22,95–26,2 ; 27,25–30,5 ; 31,55–34,8 ; 35,85–39,1 ; … ; 61,65–64,8 ; 65,8–69,25. Tirets d'environ 3,1–3,2 m, intervalles d'environ 1,1–1,3 m, période ≈4,3 m : c'est bien du T3. Largeur à mi-hauteur 0,14 m. Rapport de contraste 1,22–1,33."
+    },
+    {
+     "id": "verdun_ne-12",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "Loupe ×4. Voie droite (v 3,3–4,6, u 19,3–23,3) : flèche tout droit vers le SO plus une branche vers +v (NO), donc tout droit + droite. Voie gauche (v −0,2–1,0) : branche vers −v, donc tout droit + gauche. Longueur 4,0 m. Blanc médian 188 (droite) et 193 (gauche), contre ≈220 pour le passage. Surface peinte 1,0–1,3 et 1,2–1,5 m² selon le seuil. Usure 1–2 plausible."
+    },
+    {
+     "id": "verdun_ne-13",
+     "verdict": "corrige",
+     "usure_verifiee": "1",
+     "justification": "Les fonctions sont confirmées : voie droite (v 2,3–3,3) tout droit + droite, voie gauche (v −0,1/−1,3) tout droit + gauche, pointes vers le SO, absentes du GAM. Mais les flèches vont de u 57,2 à ≈61,8, pas jusqu'à 64, soit environ 4,6 m. Surtout, la fragmentation dépend du seuil : à 1,12 × fond les deux flèches sont d'un seul tenant, à 1,18 × fond les deux se coupent en 2 (tête et tige). On ne retrouve pas « 3 morceaux à droite, gauche d'un tenant ». Le blanc est un peu plus terne à droite (189 contre 201).",
+     "correction": "Jeu 2 de u 57,2 à 61,8 (≈4,6 m) ; les deux flèches ont le même léger décollement tête/tige ; droite un peu plus grisée (usure 1–2), gauche usure 1."
+    },
+    {
+     "id": "verdun_ne-14",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "Loupe ×6 : deux ellipses de 1,8 × 0,9 m (u 24,3–26,1 ; v −4,25/−5,15 et −7,3/−8,15) avec « 50 », lisibles par un conducteur roulant vers le NE (le 5 côté NO). Le « 50 » de droite est un peu plus gris (médiane 202 contre 213). Je ne retrouve pas de différence de couverture : environ 0,55 m² chacun au même seuil, alors que le rapport donne 0,87 contre 0,67."
+    },
+    {
+     "id": "verdun_ne-15",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "Tirets au soleil : 25,75–28,95 ; 40,9–42,5 (partiel) ; 53,5–56,6 ; 67,2–70,3 ; 81,05–84,2. À l'ombre, en gamma : 94,4–97,6. Période ≈13,9 m. Contraste 1,26–1,34. Largeur à mi-hauteur 0,14 m. v passe de −6,15 à −5,4."
+    },
+    {
+     "id": "verdun_ne-16",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "Bord bas continu à v −3,0 de u 38 à 50, puis faible (rapport 1,17) et absent de u ≈52,0 à 54,7, faible jusqu'à 56,5, puis de nouveau net. Bord haut plus gris (rapport 1,11–1,17 au soleil, contre 1,24 pour le bord bas), de v −0,9 à u 41 jusqu'à −2,6 vers u 67. Hachures obliques au pas d'environ 4 m, en fragments à u 53–55. La largeur devient négligeable vers u 67–70 (le GAM donne la jonction à u 76)."
+    },
+    {
+     "id": "verdun_ne-17",
+     "verdict": "corrige",
+     "usure_verifiee": "1",
+     "justification": "De u 56 à environ 80 : ligne simple continue qui prolonge le bord bas du zébra. Confirmé, contraste faible à u 82–84. La ligne mixte est confirmée : trait continu côté NO, tirets côté SE (côté NE, franchissable par le sens NE). Tirets SE vus à 107,8–111 ; 121,4–125 ; 134,5–138 ; 147,3–150,3 ; ≈160,5–163,5 ; 173,5–176,5, période ≈13,4. En revanche, aucun tiret SE n'est visible avant u ≈ 108 (le GAM fait commencer le trait SE à u 90,25) : le début « 80/85 » n'est pas démontré. Après u ≈ 178, la ligne simple n'est pas continue. Sur la trace normalisée, il y a des coupures régulières de 0,6–1 m en ombre homogène (rapport ≈1,0 contre 1,3–1,5 sur le trait) vers u 181,5 ; 185,8 ; 194,3 ; 198,2 ; 207,2 ; 211,1 ; 215,8 ; 220,5. Cela donne une période ≈4,33 m, soit des tirets d'environ 3,3 m : c'est un rythme T3, donc une ligne d'annonce. Confiance moyenne : la zone est très ombragée, mais le rythme est très régulier.",
+     "correction": "Axe : continu de u ≈56 à ≈90 ; ligne mixte (continu côté SO, tirets T1 côté NE) de u ≈90–108 à 177 ; de u ≈178 à ≥229, ligne discontinue au rythme T3 (≈3,3 m / ≈1 m), probablement une ligne d'annonce, et non une ligne continue."
+    },
+    {
+     "id": "verdun_ne-18",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "Tirets suivis : 84,55–87,7 ; 97,85–101 ; 110,65–114 ; 123,65–126,9 ; 137,65–140,7 ; … ; 192,9–196,15 ; 206,1–209,6 ; 219,75–223,1. Période ≈13,4 m, tirets d'environ 3,1–3,35 m, largeur à mi-hauteur 0,125 m, contraste 1,26–1,34. Entre la fin du T3 (u 69,3) et le premier tiret T1 (u 84,5), il n'y a aucune ligne pendant environ 15 m ; le rapport ne le signale pas."
+    },
+    {
+     "id": "verdun_ne-19",
+     "verdict": "corrige",
+     "usure_verifiee": "1",
+     "justification": "L'existence, la position (v 5,05 → 3,5, u 14,2–70) et la largeur (0,14 m à mi-hauteur) sont confirmées. La ligne est presque continue au seuil 1,15, avec un contraste de 1,19–1,38 comparable à celui des lignes de voie. Il n'y a pas de manques importants : l'usure 2 est surestimée, c'est plutôt 1 (1–2 au plus).",
+     "correction": "Usure 1 (au plus 1–2)."
+    },
+    {
+     "id": "verdun_ne-20",
+     "verdict": "corrige",
+     "usure_verifiee": "1",
+     "justification": "Le rythme T2 est confirmé : 79,9–83,4 ; 86,25–89,65 ; 92,75–96,45 ; 100,1–103,4 ; 106,9–110,25 ; 113,65–116,9 ; 120,35–123,6 ; 127,2–130,35 ; 133,95–137,2 ; 140,75–143,95 ; … jusqu'à u ≈211. Tirets d'environ 3,2–3,3 m, intervalles d'environ 3,4–3,5 m. Ligne absente du GAM : confirmé. Mais la largeur à mi-hauteur vaut 0,16–0,19 m (à u 87, 101 et 108), pas 0,23–0,28 m. Elle est plus large que les lignes de voie (0,125–0,14), sans atteindre 0,25. Un tiret existe aussi à u 73,1–75,9 devant l'accès, donc la rive commence vers u 73. Le contraste (1,18–1,38) est équivalent à celui des lignes de voie. L'« héritage RN90 (3u avec u = 7,5 cm) » n'est pas démontré.",
+     "correction": "Rive T2 de u ≈73 à ≥211, largeur ≈0,17 m (mesure à mi-hauteur, flou compris), usure 1 (à 1–2)."
+    },
+    {
+     "id": "verdun_ne-21",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "8 carrés d'environ 0,5 × 0,5 m au pas de 1,0 m, de u 72,35 à 79,75, v ≈2,8–3,6, en bordure du bateau. Luminance 182–188 (rapport ≈1,17–1,2). Les carrés d'extrémité ne couvrent que 0,13 m² environ, contre 0,25 nominal. Usure 1–2 cohérente."
+    },
+    {
+     "id": "verdun_ne-22",
+     "verdict": "corrige",
+     "usure_verifiee": "1",
+     "justification": "L'existence et la forme sont confirmées sur la tuile brute 917400_6460400 (loupe ×4 gamma) et sur la bande redressée : tige à v −1,15 de u 201,5 à 204,4, puis tête de u 205 à 207,4 qui part vers −v (pointe vers v −1,9). C'est bien une flèche orientée NE qui se rabat vers le SE, dans la voie SO gauche. L'interprétation « anomalie, incohérence ou résidu » ne tient pas : l'axe à cet endroit n'est pas une ligne continue mais une ligne discontinue au rythme T3 (voir 17). Une flèche de rabattement posée dans la voie opposée, le long d'une ligne d'annonce T3, est le schéma normal de fin de zone de dépassement pour le sens NE, qui pouvait franchir la ligne mixte jusqu'à u 177.",
+     "correction": "Flèche de rabattement (vers la droite pour le sens NE) associée à la ligne d'annonce T3 de l'axe, et non un marquage incohérent ; existence certaine, interprétation de confiance moyenne."
+    },
+    {
+     "id": "verdun_ne-23",
+     "verdict": "corrige",
+     "usure_verifiee": "1",
+     "justification": "La ligne de guidage en tirets courts à v ≈ −1,05 (tirets d'environ 0,4–0,5 m, u −0,8 à 8,6) est confirmée. La flèche, à la loupe ×10, n'est pas un tout droit + gauche. Sa tige est orientée NE de u 3,1 à 5,4 (v −2,7), puis remonte en oblique jusqu'à une tête unique, large et aplatie (u 5,05–6,85, v −1,85/−2,15), qui pointe vers +v (NO). Il n'y a aucune tête vers l'avant. C'est donc une flèche de tourne-à-gauche seule pour le sens NE, vers la Revirée. Le plan projet 2025 reprend la même forme. Le rapport oublie aussi un trait continu grisé à v ≈ −0,8, parallèle aux tirets, de u −0,5 à 9,3 (médiane 185 contre un fond de 160).",
+     "correction": "Flèche tourne-à-gauche seule (une tête vers le NO), de u 3,1 à 6,9 ; ligne de guidage en tirets à v −1,05 doublée d'un trait continu grisé à v −0,8."
+    },
+    {
+     "id": "verdun_ne-24",
+     "verdict": "confirme",
+     "justification": "Aucune ligne de rive SE ni ligne le long de l'îlot côté SO : confirmé sur les profils et les loupes. Caniveau clair vers v −8,9/−9,0 et bordure à −9,2/−9,4 à u 21–26. La bande blanche de u 95–109 est traitée à part (verdun_ne-30)."
+    },
+    {
+     "id": "verdun_ne-25",
+     "verdict": "corrige",
+     "justification": "Configuration générale confirmée. De u 15 à 90 : piste v ≈8,0–11,0 derrière une bande verte d'environ 2,6 m. Rapprochement entre u 90 et 99. De u 100 à 200, plateforme d'environ 5,0 m (v 5,4–10,4 à u 116), un tiret isolé à v 6,9 (u 99–103) et pictogrammes. Mesures à corriger à u 116 : la séparation est un trait clair fin (0,10–0,15 m à v 8,45), pas une bande de 0,35 m. Partie cyclable v 5,4–8,4 (≈3,0 m), partie piétonne v 8,6–10,35 (≈1,8 m, revêtement un peu plus sombre). Il existe aussi un tronçon de ligne axiale de piste à v 9,25 (u 83–88).",
+     "correction": "De u 100 à 200 : ≈3,0 m cyclables (v 5,4–8,4) + trait séparateur ≈0,12 m (v ≈8,45) + ≈1,8 m piétons (v 8,6–10,4)."
+    },
+    {
+     "id": "verdun_ne-26",
+     "verdict": "incertain",
+     "justification": "Pictogrammes vélo et flèches dans les deux sens confirmés à u 81,6–85,2, v 8,3–10,4, ainsi qu'un tronçon de ligne axiale à v 9,25. Des éléments de passage piéton ou de damier sont visibles à u 80,7–83,6, v 10,9–13,3. Le damier cité par le rapport (pixels 560–620 / 845–890 de la tuile 917300_6460350) est à v ≈11–13, sur le cheminement au-delà de la piste, et non entre v 7,7 et 10,7. La traversée de la piste elle-même (u 77–81) est sous le houppier et n'est pas vérifiable."
+    },
+    {
+     "id": "verdun_ne-27",
+     "verdict": "confirme",
+     "justification": "Aucun quai, zigzag, inscription BUS ni marquage jaune vu sur la chaussée de u 10 à 230 dans toutes les vues."
+    },
+    {
+     "id": "verdun_ne-28",
+     "verdict": "confirme",
+     "justification": "Bateau visible : bordure courbe de u 71,5 (v 3,8) vers u 76,7 (v 7,8), bord droit à u 80. Environ 8,5 m d'ouverture côté chaussée et environ 3,3–4 m côté piste. Cédez-le-passage en bordure de chaussée."
+    },
+    {
+     "id": "verdun_ne-29",
+     "verdict": "corrige",
+     "justification": "Au soleil (u 14,5–28), la bande v −9,5 à −13,2 entre la bordure et l'alignement n'est pas un trottoir en béton : c'est un massif planté ou de la terre (arbustes, sol nu, herbes), avec le mât SE planté dedans. Le trottoir béton est au-delà : v ≈ −13,3 à −14,5, et jusqu'à environ −16 au droit du passage (u 11–18), derrière la bordure GAM 2646529667 à v −13,3. Plus loin (u 60–110), ce sont de l'herbe et de la terre sous les arbres. La lisière claire à v −10,6 (u 78–96) est une clôture rectiligne reliée au poteau du portail, et une autre court à v −13,8. Le PCRS cité (5ede2_232b, u 108–203, v −9,5/−11) est une limite de revêtement, pas une surface béton de 3,5 m.",
+     "correction": "Côté SE : bordure et caniveau, puis bande plantée ou en terre (≈3,7 m, v −9,5 à −13,2), puis trottoir béton (v ≈ −13,3 à −14,5) sous la rangée d'arbres ; clôture de chantier à v ≈ −10,6 (u 78–106)."
+    },
+    {
+     "id": "verdun_ne-30",
+     "verdict": "confirme",
+     "justification": "Bande blanche très lumineuse confirmée de u 95,2 à 109,4 et de v −8,06 à −8,69 (environ 0,6 × 14 m), coupée en deux par un trait sombre à v −8,4. Bande sombre derrière. Portail tubulaire à 2 vantaux ouverts (u ≈96–106, v −9,4 à −11,2) avec traverse. L'interprétation (bordure ou bateau neuf d'une entrée de chantier) est plausible mais non démontrée."
+    },
+    {
+     "id": "verdun_ne-31",
+     "verdict": "corrige",
+     "justification": "Pas de nid-de-poule, de faïençage ni de fissure ouverte visibles au soleil : d'accord. Mais l'affirmation « aucune ligne longitudinale ou transversale » et « marques de travaux seulement à u 6–20 » est fausse. Le filtre passe-haut et la loupe ×4 montrent un joint longitudinal sombre fin, rectiligne, à v ≈ +1,5 (u 23) → +1,9 (u 45–69), dans la demi-chaussée SO au soleil, d'amplitude −5 à −13 niveaux. On voit aussi un joint transversal à u ≈ 32,1 qui part de la bordure NO (v +5,2) et rejoint ce joint longitudinal (v +1,8), en passant sous le tiret T3 : il est donc sous la peinture et ce n'est pas une ombre. Il s'agit de joints de mise en œuvre ou d'élargissement, pas de fissures.",
+     "correction": "Enrobé sans dégradation ouverte au soleil, mais avec un joint longitudinal à v ≈ +1,5→+1,9 (u ≈22–69) et un joint transversal à u ≈32,1 (côté SO)."
+    },
+    {
+     "id": "verdun_ne-32",
+     "verdict": "corrige",
+     "justification": "Confirmé : rectangle de reprise u 14,3–18,4 × v 1,1–3,6 sous le tiret T3 ; joint transversal à u ≈18,4 dans la moitié NO et à u ≈19,7 dans la moitié SE ; ligne sombre à v +3,6. Mais cette ligne ne va pas seulement de u 6 à 18,5 : elle traverse toute la boîte du carrefour, depuis u ≤ −4. Dans la boîte, les « lignes courbes » sont surtout des paires parallèles à 0,6–0,8 m, ce qui évoque les bords de tranchées refermées, plus quelques longues lignes droites fines. Ces dernières passent près des îlots et des refuges et peuvent être des ombres de câbles aériens. L'interprétation « fissures pontées » n'est pas étayée.",
+     "correction": "Joints de reprise ou tranchées confirmés près du passage ; la ligne à v +3,6 traverse toute la boîte ; les lignes de la boîte sont des bords de tranchées probables (paires parallèles) et peut-être des ombres de câbles, pas des fissures pontées démontrées."
+    },
+    {
+     "id": "verdun_ne-33",
+     "verdict": "confirme",
+     "justification": "Tampon rond d'environ 0,75 m dans le passage à u 12,6–12,8, v +1,7. Tampons carrés sur l'îlot à u 19 (≈0,6 m) et u 23,7 (≈0,4 m). Regards dans la bande verte NO à u ≈18,7, 27, 30 et 42,5, v ≈6,0–6,3 : il y en a plus que les deux cités, et je n'en vois pas à 47,8. Il y a aussi un tampon carré sur la piste à u ≈19, v ≈10,2."
+    },
+    {
+     "id": "verdun_ne-34",
+     "verdict": "confirme",
+     "justification": "Feu sur l'îlot (u ≈15, v −2,1), ombre sur la voie SO gauche jusqu'à environ v +0,5. Mât NO sur le refuge (pied vers u 15, v 6,1 ; tête déversée vers v 8). Mât SE dans le massif (u 16,4, v −10,7) dont l'ombre va jusqu'à (u 19,3, v −3,5), soit environ 7,7 m."
+    },
+    {
+     "id": "verdun_ne-35",
+     "verdict": "confirme",
+     "justification": "5 mâts côté NO vers u 28,6 / 69 / 109,5 / 150,5 / 191,5, avec des ovales blancs au-dessus de la voie SO droite. Il y a deux ovales par mât, environ 2,5–3 m l'un de l'autre en v ; le porte-à-faux peut être en partie réel (crosse) et pas seulement dû au déversement. Ombre du mât à u 110 : environ 7,9 m, azimut ≈339°, soit un soleil vers 159°."
+    },
+    {
+     "id": "verdun_ne-36",
+     "verdict": "confirme",
+     "justification": "Mon calcul de la part de pixels sous 115, par tranche de 40 m, donne NE 41/66/74/89/97/85 % et SO 6/21/17/44/69/26 %. C'est du même ordre que le rapport ; les écarts viennent des masques de demi-chaussée."
+    },
+    {
+     "id": "verdun_ne-37",
+     "verdict": "confirme",
+     "justification": "Voie en enrobé noir à v ≈ −28 à −33 (environ 4,6–4,8 m), joint vers u 84, coffret blanc et 2 regards vers u 84–90. Vers u 118–125, l'enrobé devient une surface empoussiérée. Chantier autour."
+    },
+    {
+     "id": "verdun_ne-38",
+     "verdict": "confirme",
+     "justification": "Les faits sont vérifiés. La bordure GAM 2646533178 ferme l'îlot à u 23,4. Le LiDAR 2021 donne l'îlot surélevé (+15/+18 cm) jusqu'à u 35, et plus du tout à u 38 ; l'ortho 2022 le montre jusqu'à u ≈36. Le GAM n'a ni le jeu 2, ni les « 50 », ni la rive T2, ni la flèche de rabattement. Le plan projet 2025 (fond = ortho 2022) ne redessine pas l'îlot, mais ajoute une ligne d'effet des feux vers u 17. Un raccourcissement de l'îlot après 2022 reste possible mais non démontré (confiance faible, comme indiqué)."
+    }
+   ],
+   "oublis": [
+    "Bandes d'éveil de vigilance : 4 rangées d'environ 1,6 × 0,4 m. Deux sur le refuge NO (u 11,7–13,35 ; v 5,60–6,05 et 7,15–7,55) et deux dans la coupure de l'îlot (v −1,40/−1,75 et −2,45/−2,80). Celles de l'îlot ont été prises à tort pour des bandes de passage fantômes ; seule la rangée v ≈ 5,8 est citée.",
+    "Le passage piéton se prolonge à travers la piste cyclable : 3 bandes blanches à u ≈11–14, v ≈8,2–8,75, 9,2–9,75 et 10,2–10,75 (GAM 2646534003/004/005). Non décrites.",
+    "Axe après u ≈178 : ligne discontinue au rythme T3 (tirets ≈3,3 m, coupures ≈1 m, période ≈4,33 m), donc une ligne d'annonce et non une ligne continue. Cela rend la flèche de rabattement de u 202–207 cohérente. Les points ADAS 5 et 6 et la synthèse sont à revoir en conséquence.",
+    "Joint longitudinal sombre et rectiligne à v ≈ +1,5 → +1,95 (u ≈22–69) et joint transversal à u ≈32,1 (v +1,8 → +5,2), dans la demi-chaussée SO au soleil, sous la peinture. Ce sont des lignes sombres parallèles aux marquages, susceptibles de tromper un détecteur de lignes.",
+    "Dans la boîte du carrefour : trait continu grisé à v ≈ −0,8 (u −0,5 à 9,3, médiane 185 contre un fond de 160), parallèle à la ligne de guidage en tirets à v −1,05. Ligne mixte ou ancien marquage, non signalé.",
+    "Abords SE mal décrits : entre la bordure et le trottoir béton (v ≈ −13,3 à −14,5), la bande v −9,5 à −13,2 est un massif planté ou de la terre. Il y a aussi une clôture rectiligne à v ≈ −10,6 (u 78–106) reliée au portail de chantier.",
+    "Aucun marquage entre les deux voies SO sur environ 15 m (de la fin du T3 à u 69,3 au premier tiret T1 à u 84,5), juste après l'accès privé. Point utile pour l'ADAS et la carte HD.",
+    "La rive T2 commence dès u ≈73 (tiret 73,1–75,9 devant l'accès), pas à u 80. Sa largeur mesurée (≈0,17 m) contredit le « ≈0,25 m / 3u = 22,5 cm » utilisé dans « pourquoi_cette_conception ».",
+    "Contexte 2025 : le plan projet ajoute une ligne d'effet des feux en tirets vers u ≈17 sur les deux voies SO. Le point ADAS 7 (arrêt au bord du passage) ne vaut donc que pour l'état 2022.",
+    "Détails mineurs : tampon carré sur la piste (u ≈19, v ≈10,2) ; regards supplémentaires dans la bande verte NO (u ≈27, 30, 42,5) ; tronçon de ligne axiale sur la piste à v 9,25 (u 83–88)."
+   ],
+   "fiabilite_globale": "Fiabilité bonne pour la géométrie, moyenne pour plusieurs identifications et interprétations. Sur 38 constats, j'en confirme 22, j'en corrige 14, j'en réfute 1 et 1 reste incertain.\n\nCe qui tient : la géométrie (profils à 14,5 m puis 11,0–11,3 m, biseau NO, 2+îlot+2 puis 2+1 voies), l'inventaire de la plupart des marquages (passage 6+6 bandes, T3, T1, flèches jeux 1 et 2, « 50 », zébra, ligne mixte jusqu'à u 177, rive T2, cédez-le-passage), le relief général, l'éclairage, les ombres et la voie de chantier. Tout cela est vérifié et le plus souvent précis à ±0,2 m.\n\nErreurs de fond :\n- **verdun_ne-08 (réfuté) :** les « bandes fantômes, usure 3 » de la coupure de l'îlot sont en réalité des bandes d'éveil de vigilance.\n- **verdun_ne-17 et verdun_ne-22 :** l'axe après u ≈178 est probablement une ligne d'annonce au rythme T3 et non une ligne continue ; la flèche de rabattement n'est donc pas une anomalie.\n- **verdun_ne-23 :** la flèche de la boîte du carrefour est un tourne-à-gauche seul, pas un tout droit + gauche.\n- **verdun_ne-29 :** le « trottoir béton de 3,5 m » côté SE est une bande plantée.\n- **verdun_ne-31 :** l'enrobé n'est pas « sans aucune ligne » : un joint longitudinal et un joint transversal sont visibles côté SO.\n\nErreurs de mesure : dévers et pente en long sous-estimés, largeur de la rive T2 surestimée (0,17 et non 0,25 m), demi-chaussées du passage comptées à 5,5–5,6 au lieu d'environ 6,1 m, fragmentation des flèches qui dépend du seuil choisi.\n\nLes identifiants GAM, OSM et PCRS cités existent et coïncident avec ce que je mesure. Le dépôt git n'a pas été modifié. Les fichiers temporaires sont dans /tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_ortho/ctrl_vne_k7/ (14 Mo, gros fichiers supprimés).\n\nAttention : un autre agent utilise simultanément le dossier scratchpad wf_ortho/verif_vne/. J'y ai écrit puis retiré un strip.py et un mosaic.npy. Si un de ces fichiers existait déjà là sous le même nom, il a été écrasé."
+  },
+  "verification_recoupement": {
+   "verdicts": [
+    {
+     "id": "verdun_ne-01",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Profil ortho refait sur u 25,5–26,5 : bordure NO à v +5,1/+5,3, ligne SO à v +2,25 (pic 183), ombre du bord NO de l'îlot à v −0,7, bord SE de l'îlot à v −3,1, ligne NE à v −6,2 (pic 198), bordure SE à v −9,2/−9,3, soit 14,5 m. Le GAM concorde : 2646524311 (v 5,11–5,37), 2646523611 (v 2,31), 2646523614 (v −6,2), 2646529664 (v −9,28 à u 24). LiDAR 2021 : îlot à +12/+19 cm entre v −1,0 et −3,0. À noter : à u 26, les bords de l'îlot viennent de l'ortho et du LiDAR, pas du GAM, car le GAM (2646533178) arrête l'îlot à u 23,4, ce qui correspond à l'état postérieur à 2022 (voir 38)."
+    },
+    {
+     "id": "verdun_ne-02",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Les sommets de la bordure GAM 2646524311 convertis en (u, v) donnent bien (16,9 ; 5,11), (35,1 ; 5,37), (61,6 ; 4,01), (70,0 ; 3,53), puis l'arc du bateau jusqu'à u 77. La bordure SE (GAM 2646529664 puis PCRS 69dc) est quasi rectiligne. Largeurs recalculées : ≈ 13,7 m à u 50 et ≈ 12,5 m à u 70."
+    },
+    {
+     "id": "verdun_ne-03",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Coupes recalculées sur le GAM/PCRS : à u 100, 2,72 / 2,80 / axe / 5,71 m (11,43 m) ; à u 150, 3,34 / 3,42 / 4,04 m (11,0 m) ; à u 200, 3,65 / 3,65 / 3,78 m (11,1 m). L'axe dérive bien de −2,7 à −3,7 entre u 100 et 150. Les photos Panoramax 2023-03-18 (5df8bf6d, 3ff723a9) et 2024-08-24 (97890c75) montrent 2 voies SO, la ligne mixte et 1 voie NE. Attention : l'OSM 2026 indique lanes=2 pour le sens NE jusqu'à u 152,8 et lanes=1 pour le sens SO au-delà de u 153, ce qui contredit l'ortho 2022 et les photos 2024. C'est une imprécision OSM, pas une erreur du rapport."
+    },
+    {
+     "id": "verdun_ne-04",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Sur le zoom gamma 0,5, le dernier tiret NE est à u 94,3–97,6 (v −5,4), puis plus rien dans les plages au soleil. L'intensité LiDAR 2021 montre un tiret faible à u 95–98 et rien au-delà. La photo Panoramax 2024-08-24 (97890c75, vue vers le NE depuis u ≈ 112) montre la demi-chaussée NE sans ligne de voie. La photo 2025-05-18 (5ac7eaaa, vue vers le NE depuis u ≈ 73) montre encore les tirets NE dans la partie proche. Aucune flèche de rabattement n'est visible sur ces photos ni dans l'intensité LiDAR, qui n'est pas gênée par l'ombre : la transition 2 → 1 voie sans marquage spécifique est donc confortée. Le GAM 2646488621 s'arrête bien à u 90,3. Voiture bleue vue à u 111–115."
+    },
+    {
+     "id": "verdun_ne-05",
+     "verdict": "corrige",
+     "usure_verifiee": "NA",
+     "correction": "Dévers côté NO d'environ 1,5 à 2,1 % (et non 1,1–1,3 %) ; côté SE 1,9 à 2,8 %. Pente en long de +0,6 % (u 20–60), +1,2 % (u 60–100), +1,4 % (u 100–150) et +1,8 % (u 150–210). Côté SE, le trottoir est au niveau de la chaussée à u 40–50 (chute seulement à v −13), puis plus bas progressivement à partir de u ≈ 60, avec un ressaut net de 15 à 20 cm à partir de u ≈ 80. Le décalage de 0,6 à 0,8 m des ruptures LiDAR est physique (bordure basse plus bande plate avant le talus) : le calage LiDAR/ortho a été vérifié à ≤ 0,3 m sur le passage piéton et le nez de l'îlot.",
+     "justification": "Ajustements linéaires sur le MNT 15 cm, médiane sur 5 m, à u 50, 75, 100, 125, 150, 175 et 190 : la crête est bien près de l'axe (v −1,8 à −3,4), mais la pente NO vaut 1,50–1,60 % (2,1 % à u 125 et 2,5 % à u 190), et la pente SE 1,92–2,82 %. Bordures de 15–17 cm près du carrefour : confirmé. Le talus NO à partir de u ≈ 50 est confirmé (environ 13 %)."
+    },
+    {
+     "id": "verdun_ne-06",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "LiDAR 2021 : îlot à +12/+24 cm entre v −0,75 et −3,25, de u 22 à 35,5 ; nez arrondi à u 36 (+13 cm au centre), plat à u 36,5. Coupure plate à u 12,5. Ombre en U, dessus de même teinte et 2 tampons carrés (u ≈ 19 et 23,8) confirmés sur l'ortho. La hauteur monte jusqu'à environ 20 cm près de l'extrémité NE. Cette description vaut pour 2021–2022 seulement : l'îlot a été raccourci ensuite (voir 38)."
+    },
+    {
+     "id": "verdun_ne-07",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "correction": "Les valeurs « demi-chaussée NO 5,6 m / SE 5,5 m » sont l'emprise des bandes. Les demi-chaussées réelles, de bordure à îlot, mesurent environ 6,0 et 6,2 m, soit 14,5 m au total, en cohérence avec verdun_ne-01.",
+     "justification": "GAM : 12 bandes à u 11,1–14,4, larges de 0,56 m, au pas de 1,0 m. Sur la carte de contraste, ce sont les marquages les plus contrastés de la zone (teinte 64–71, jaune-vert, contre 49–51 pour les flèches et les lignes) : cela confirme une peinture récente (usure 0–1). La 6e bande SE n'apparaît pas dans la carte de contraste (couverture 0 dans contraste_marquages_gam), mais c'est un artefact de masquage près du caniveau : sur l'ortho, sa médiane vaut 214. Les photos 2023-03 montrent des bandes encore blanches."
+    },
+    {
+     "id": "verdun_ne-08",
+     "verdict": "confirme",
+     "usure_verifiee": "3",
+     "justification": "Les deux bandes grises sont bien visibles au zoom (v −1,5 et −2,5, dans la coupure). Carte de contraste : teinte 37 (orange) et 22 % de pixels colorés, contre 56–57 % pour les autres bandes. Ortho : médiane 168 pour un fond de 159. Le GAM ne les reporte pas, et le LiDAR montre que la coupure est au niveau de la chaussée. Usure 3 cohérente ; le classement F reste possible si elles ont été abandonnées."
+    },
+    {
+     "id": "verdun_ne-09",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "correction": "Côté NO, on voit deux bandes pâles et mouchetées (environ 1,5 × 0,4 m) : l'une à v ≈ 5,9, au bord de la chaussée, l'autre à v ≈ 7,3, avant la piste. Cela correspond à une bande d'éveil de vigilance avant la chaussée et une autre avant la piste. Le passage se prolonge sur la piste par 3 bandes (v 8,5–10,5). La date OSM 2023-08-26 est un check_date de traffic_signals:sound, pas un contrôle du tactile_paving.",
+     "justification": "LiDAR à u 12,5 : aucun ressaut des deux côtés, contre 15 cm à u 22, donc les abaissés sont confirmés. OSM 1959022973 et 976 : tactile_paving=yes. Piéton à u 11,5, v −9,8 confirmé. Le principe d'une bande podotactile côté NO est confirmé, avec les précisions de forme ci-dessus."
+    },
+    {
+     "id": "verdun_ne-10",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Aucune ligne d'effet des feux sur l'ortho 2022, ni sur les photos 2023-03 (911bcb9d, d7279ab8) et 2024-08 (e86aa913). Nœud OSM 1959022979 à u 19,7, survey:date 2022-01-28 : confirmé. Évolution : le plan du projet 2025 ajoute une ligne d'effet des feux tiretée à u ≈ 17,2 sur les deux voies SO."
+    },
+    {
+     "id": "verdun_ne-11",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "Tirets de 3 m avec intervalles courts, visibles sur l'ortho et sur les photos 2023 (911bcb9d, d7279ab8). Largeur à mi-hauteur de 0,10 à 0,15 m. Carte de contraste : teinte 49, comme les autres lignes. Le GAM 2646523611 (u 14,3–69,2) concorde."
+    },
+    {
+     "id": "verdun_ne-12",
+     "verdict": "corrige",
+     "usure_verifiee": "1",
+     "correction": "Usure 1 (1–2 au plus) au lieu de 2. Rien ne permet de distinguer ce jeu du jeu 2 ni des lignes classées 1.",
+     "justification": "Les fonctions des flèches sont confirmées par les photos 2023-03, 2024-08 et 2025-05 (voie droite : tout droit + droite ; voie gauche : tout droit + gauche). Aires peintes remesurées : 1,09 et 1,29 m², conformes au rapport. Mais le contraste objectif est identique à celui du jeu 2 et des lignes T3/T1 : teinte de la carte de contraste 49–51, peinture moyenne 193–197 pour un fond de 154–157. La note 2 n'est pas étayée."
+    },
+    {
+     "id": "verdun_ne-13",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "Le jeu 2 est absent du GAM : confirmé. Carte de contraste : teinte 49–51, peinture 191–198, comme le jeu 1. La flèche droite est fragmentée à la jonction (zoom). La photo 2023-03-18 (39be7e39) montre encore une flèche tout droit + gauche blanche."
+    },
+    {
+     "id": "verdun_ne-14",
+     "verdict": "corrige",
+     "usure_verifiee": "1",
+     "correction": "Les deux « 50 » sont en usure 1, sans différence mesurable. L'écart de blancheur absolue vient du fond (165 contre 154), pas de la peinture.",
+     "justification": "Aires peintes remesurées : 0,79 m² (voie gauche) contre 0,82 m² (voie droite). Contraste peinture − fond de +48 dans les deux cas (213/165 et 202/154). Teinte de la carte de contraste : 56 contre 59. L'existence est confirmée (absents du GAM, encore visibles sur la photo 2025-05-18). L'usure plus forte de la voie droite n'est pas confirmée."
+    },
+    {
+     "id": "verdun_ne-15",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "Tirets à u 53,5–56,5, 67,5–70,5, 81,5–84,5 et 94,3–97,6, vus sur l'ortho redressée. Le GAM 2646523614 et 2646488621 couvre jusqu'à u 90,3. L'intensité LiDAR montre un tiret faible à u 95–98. Carte de contraste : jaune-orange. Les tirets NE sont aussi visibles sur la photo 2025-05-18 (5ac7eaaa)."
+    },
+    {
+     "id": "verdun_ne-16",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "Bords et hachures du GAM conformes : 2,2 m à u 40, 1,55 m à u 50, convergence vers u 70–76, hachures au pas d'environ 4 m. Dans contraste_marquages_gam, le zébra a les valeurs les plus faibles de la zone (couverture 0,12–0,55, indice 0,29–0,36). Le LiDAR 2021 montre les hachures à u 36–45. Évolution : sur la photo 2023-03-18 (39be7e39), le zébra est blanc et prolongé jusqu'à un nez d'îlot plus proche du carrefour. Il a donc été repeint et étendu après mai 2022."
+    },
+    {
+     "id": "verdun_ne-17",
+     "verdict": "corrige",
+     "usure_verifiee": "1",
+     "correction": "Ligne continue simple de u ≈ 59 jusqu'à u ≈ 90 (début du doublement dans le GAM, 2646488259) ou u ≈ 107,7 (premier tiret visible sur l'ortho). Ligne mixte ensuite jusqu'à u 176,8, puis ligne simple, en grande partie continue.",
+     "justification": "Le sens de la ligne mixte est confirmé par la photo 2023-03-18 (5df8bf6d r01_c00 : trait continu côté SO, tirets côté NE) et par la photo 2024-08-24 (97890c75). En revanche, sur les profils transversaux des plages au soleil de u 84 à 106, on ne voit qu'un seul trait (v −2,65, largeur à mi-hauteur 0,2 m) ; le double pic (v −2,8 et −3,05) n'apparaît qu'à partir de u 107,7–111,1. Le début « u 80/85 » est donc trop précoce. Après u 177, la normalisation locale montre des segments longs (u 186–197 sans coupure) : « probablement continue » est plausible."
+    },
+    {
+     "id": "verdun_ne-18",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "Tirets T1 visibles sur l'ortho (largeur à mi-hauteur 0,15 m) et sur les photos 2023, 2024 et 2025. Le GAM 2646488258 et 2646493236 donne v ≈ 0 ± 0,4. Carte de contraste : teinte 51."
+    },
+    {
+     "id": "verdun_ne-19",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "La ligne de rive continue le long de la bordure NO est clairement visible sur la photo Panoramax 2023-03-18 (911bcb9d r01_c02). Le GAM la porte (2646518512 et 511). Sur l'ortho, c'est un liseré clair à v ≈ 5,05. La carte de contraste ne la détecte presque pas (3 à 7 % de pixels colorés ; couverture GAM 0,03 et 0,002) : l'usure est au moins 2 et pourrait aller jusqu'à 3 en 2022."
+    },
+    {
+     "id": "verdun_ne-20",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "Absente du GAM (seule la limite de revêtement 2646488271/493600 y figure) : confirmé. Ses tirets sont environ deux fois plus larges que les lignes de voie (largeur à mi-hauteur ≈ 0,30 m, majorée par le fond végétal, contre 0,15 m), ce qui est compatible avec 3u contre 2u. La photo 2023-03-18 (5df8bf6d r01_c02) montre des tirets larges, granuleux et usés. L'héritage RN90 est une déduction (OSM old_ref=N 90)."
+    },
+    {
+     "id": "verdun_ne-21",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "correction": "La ligne GAM 2646519891 ne correspond pas aux 8 carrés : c'est un trait oblique traversant le bateau, de (u 75,7 ; v 5,56) à (u 79,0 ; v 3,42). Le GAM ne représente pas la ligne de cédez-le-passage.",
+     "justification": "8 carrés à u 72,4–79,8, v 3,3, visibles sur le zoom. Panneau OSM give_way à u 75,1 : confirmé. Carte de contraste : teinte 38 (orange), contraste plus faible que les lignes, donc usure 2 (1–2) cohérente."
+    },
+    {
+     "id": "verdun_ne-22",
+     "verdict": "incertain",
+     "justification": "L'existence et la forme sont confirmées : tige à v −1,2 de u 201,5 à 205, tête à u 205–207,5 orientée NE et déviée vers l'axe (v −1,5/−2,1). Le marquage figure aussi dans l'intensité LiDAR 2021 (tache u 201–206) et une forme courbe blanche est visible au même endroit sur l'IGN 2015. L'interprétation reste ouverte. Les IGN 2015 et 2021 montrent d'autres marques courbes vers u 228–245, avant la zone hachurée de u 250–268 : la flèche fait sans doute partie d'une séquence qui se poursuit hors zone, et l'hypothèse « marquage résiduel » n'est pas établie. Usure non mesurable (tête à l'ombre). Le GAM ne la porte pas : confirmé."
+    },
+    {
+     "id": "verdun_ne-23",
+     "verdict": "corrige",
+     "usure_verifiee": "1",
+     "correction": "La flèche n'a qu'une seule tête. La tige est à v −2,7 (u 3,1–5,4), puis se décale vers le NO jusqu'à une tête unique orientée NE (u 5,4–6,8, v −1,9/−2,4). C'est une flèche de déviation, de type rabattement ou tourne-à-gauche stylisé, et non une flèche double « tout droit + gauche ». La ligne de guidage forme en fait deux rangées de tirets courts, à v ≈ −0,85 et −1,1.",
+     "justification": "Zoom ×4 de l'ortho sur u −2 à 10. Le contour GAM 2646518514 (périmètre de 10 m, u 3,0–6,8) correspond à une flèche à tête unique. La ligne de guidage du GAM (2646518554, jusqu'à u 9,2) est confirmée."
+    },
+    {
+     "id": "verdun_ne-24",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Aucune ligne de rive SE sur l'ortho, ni sur les photos 2024-08 (97890c75 r01_c01) et 2025-05 (5ac7eaaa). Le bord SE est formé d'une bordure et d'un caniveau clair. Il n'y a pas de ligne le long de l'îlot (u 14–36)."
+    },
+    {
+     "id": "verdun_ne-25",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "correction": "De u 15 à 90, le GAM place des pictogrammes piétons à v ≈ 11,8 : il existe un cheminement piéton (v 11,1–12,9) à côté de la piste de 3,1 m (bordurettes v 7,9–8,0 et 11,0–11,1). Le passage piéton se prolonge aussi sur la piste à u 11–14 (3 bandes).",
+     "justification": "Largeurs et altimétrie (piste 30 à 45 cm plus bas que la chaussée) confirmées par le GAM, l'OSM (width=4) et le LiDAR. La couche GAM « Piste bidirectionnelle » de 350 cm est confirmée."
+    },
+    {
+     "id": "verdun_ne-26",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "Pictogrammes vélo + flèche à u 82–87 dans les deux sens, et 3 bandes piétonnes à v 12–13,5 (u 81–83), confirmés par l'ortho et le GAM. Les bords de la traversée cyclable sont deux traits obliques dans le GAM. Le damier n'est pas vérifiable sous le houppier."
+    },
+    {
+     "id": "verdun_ne-27",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "OSM public_transport : 0 objet dans la zone. Aucun marquage BUS ni quai sur l'ortho, et aucun arrêt sur les photos 2023 à 2025."
+    },
+    {
+     "id": "verdun_ne-28",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Arc GAM 2646524311 de u 69,3 à 77. Largeur mesurée : ≈ 8,75 m à v 4 et ≈ 4,75 m à v 7,5. Le LiDAR montre la descente vers la piste."
+    },
+    {
+     "id": "verdun_ne-29",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "correction": "Le trottoir SE n'est plus bas que la chaussée qu'à partir de u ≈ 60–70 (progressivement), avec un ressaut net à partir de u ≈ 80. À u 40–50, il est au niveau de la chaussée.",
+     "justification": "Couche PCRS 232b (v −13,17/−9,51) confirmée. Les photos 2023-03-18 (5df8bf6d, 39be7e39) montrent une clôture de chantier Heras au ras du bord SE, ce qui conforte l'hypothèse « clôture de chantier » pour les lisières."
+    },
+    {
+     "id": "verdun_ne-30",
+     "verdict": "incertain",
+     "usure_verifiee": "NA",
+     "justification": "La bande est confirmée : u 95,3–109,3, v −8,2/−8,7, luminance 180–216 même sous l'ombre des arbres. Le LiDAR 2021 la place au niveau de la chaussée (−3 à −6 cm), sans relief. Le ressaut de bordure (−16 à −22 cm) reste à v −9,5/−9,7 sur u 97–106 en 2021 : il n'y avait donc pas de bateau en 2021. Il peut s'agir d'un caniveau ou d'un liseré béton neuf (très clair) à une entrée de chantier ; la photo 2023 montre un liseré blanc au pied de la clôture Heras. L'interprétation reste non démontrée."
+    },
+    {
+     "id": "verdun_ne-31",
+     "verdict": "corrige",
+     "usure_verifiee": "NA",
+     "correction": "Les photos Panoramax 2023-03-18 (5df8bf6d r01_c01/c02, r02_c01), 2024-08-24 (97890c75) et 2025-05-18 (5ac7eaaa) montrent un réseau dense de fissures pontées (longitudinales, transversales et en blocs) sur les deux demi-chaussées, y compris les voies SO vers u 100–130 et la voie NE. En 2024–2025, on voit aussi une bande d'enrobé neuf sombre le long de l'axe côté NE. L'absence de fissures sur l'ortho 5 cm (passe-haut vérifié sur u 95–145) tient à la résolution, ou au fait que le pontage est postérieur à 2022 : « structurellement saine / en bon état » n'est pas étayé.",
+     "justification": "Le recoupement par les photos de rue contredit la conclusion sur l'état. La description de la teinte et de la texture à 5 cm reste exacte."
+    },
+    {
+     "id": "verdun_ne-32",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Les photos 2023-03-18 (911bcb9d r01_c01, d7279ab8 r01_c01) montrent le rectangle de reprise sombre entre le passage et la ligne T3 dans la voie SO droite, ainsi que des joints transversaux sombres, conformes à l'ortho."
+    },
+    {
+     "id": "verdun_ne-33",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Tampon rond dans le passage (u ≈ 12,7, v 1,7) et deux tampons carrés sur l'îlot (u ≈ 18,8–19,6 et 23,7–24,1) vus au zoom. La partie SE n'est pas lisible."
+    },
+    {
+     "id": "verdun_ne-34",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Mât sur l'îlot vers u 15 avec son ombre sur la voie SO gauche, mât côté NO (pied à u ≈ 15, v 6,2) avec ombre sur la piste, et ombre linéaire du mât SE de (u 16,5 ; v −10,75) à (u 19 ; v −3,5) : tous visibles. L'OSM porte des nœuds de feux."
+    },
+    {
+     "id": "verdun_ne-35",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "OSM : 5 lampadaires bent_mast à u 28,8 / 69,6 / 110 / 151,7 / 192,1 (survey 2022-04-14), tous retrouvés sur l'ortho avec leur ovale blanc. Ombre du mât de u 109,5 : 7,5 m vers l'azimut ≈ 341°, soit un soleil à ≈ 161°, cohérent avec les 158° du rapport."
+    },
+    {
+     "id": "verdun_ne-36",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Recalcul (luminance < 115 entre les bords GAM et l'axe) : 66 % à l'ombre côté NE et 38 % côté SO. Par tranche de 40 m : 45/60/70/95/97 % (NE) et 18/38/13/49/74 % (SO). Même ordre de grandeur que le rapport ; l'écart vient de la façon de délimiter les demi-chaussées."
+    },
+    {
+     "id": "verdun_ne-37",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Enrobé noir à v −28/−33 (luminance 119–124) jusqu'à u ≈ 125–130, puis bande empoussiérée plus claire (138–172) jusqu'à u ≈ 200. L'OSM porte la voie 1305902503 (living_street). Coffret vers u 85."
+    },
+    {
+     "id": "verdun_ne-38",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "correction": "L'hypothèse est vérifiée. L'îlot a été raccourci (nez de u 36 ramené à u ≈ 23,4, avec un nouveau nez portant un panneau B21 et un dessus en enrobé neuf sombre) et le zébra a été prolongé, entre mai 2022 et août 2024, probablement dès mars 2023. Ce n'est pas lié aux travaux C1 de 2025 : ici, le GAM décrit un état intermédiaire 2023–2025 (il n'a pas la ligne d'effet des feux à u 17,2 du plan 2025).",
+     "justification": "Le LiDAR 2021 et le PCRS 2022 montrent un îlot jusqu'à u 36. L'IGN 2024 montre l'îlot à u 14–23 avec un dessus sombre, puis des lignes blanches de u 23 à 36. Les photos Panoramax 2024-08-24 (e86aa913) et 2025-05-18 (6e97bb8c) montrent le nez court avec le panneau B21 vers u 23, et le « 50 » derrière. La photo 2023-03-18 (39be7e39) montre déjà des hachures jusqu'à un nez estimé vers u 20–25 (estimation grossière par perspective). L'absence, dans le GAM, du jeu 2, des « 50 », de la rive T2 et de la flèche de rabattement est confirmée."
+    }
+   ],
+   "oublis": [
+    "Évolution temporelle non établie dans le rapport. Entre mai 2022 et août 2024 (probablement dès mars 2023), l'îlot a été raccourci de u 36 à u ≈ 23,4 (nouveau nez avec panneau B21, dessus en enrobé neuf) et le zébra a été prolongé et repeint (sources : IGN 2024, Panoramax 2023-03 / 2024-08 / 2025-05, GAM). La géométrie de 2022 était donc déjà caduque avant les travaux C1.",
+    "État du revêtement sous-estimé. Les photos de rue 2023 à 2025 montrent un réseau dense de fissures pontées sur les deux sens, ainsi qu'une bande d'enrobé neuf sombre le long de l'axe côté NE (2024–2025). Ces éléments sont invisibles sur l'ortho 5 cm : ils comptent pour une caméra ADAS (faux bords sombres) et pour le diagnostic de chaussée.",
+    "Le plan du projet 2025 ajoute une ligne d'effet des feux tiretée à u ≈ 17,2 sur l'approche SO (et des marquages cyclables neufs à la traversée de la Revirée). Le point ADAS 7 (« pas de ligne d'effet des feux ») ne vaut plus pour l'état de 2026.",
+    "Le passage piéton se prolonge sur la piste (3 bandes à v 8,5–10,5, u 11–14), avec deux bandes d'éveil côté NO (v ≈ 5,9 et 7,3). Un cheminement piéton longe la piste de u 15 à 90 (pictogrammes GAM à v ≈ 11,8). Ces éléments ne figurent pas dans le rapport.",
+    "L'OSM 2026 indique lanes=2 pour le sens NE jusqu'à u ≈ 153 et lanes=1 pour le sens SO au-delà de u 153, ce qui contredit l'ortho 2022 et les photos 2024. C'est à signaler à qui construirait une carte HD à partir d'OSM.",
+    "Au-delà de la couverture (u 228–268), les IGN 2015 et 2021 montrent d'autres marques courbes, de type flèches, avant la zone hachurée. La flèche de u 205 appartient sans doute à une séquence qu'il faudrait analyser avant de la déclarer incohérente.",
+    "Objets de chantier temporaires en bord SE : clôtures Heras au ras de la chaussée en 2023, bungalows de chantier en 2024, panneaux « ACCES CHANTIER ». Ce sont des objets à forte signature pour le LiDAR et la caméra, non mentionnés dans le rapport.",
+    "Le calage LiDAR/ortho est bon (≤ 0,3 m sur le passage piéton et le nez de l'îlot). L'incertitude du rapport sur les ruptures LiDAR décalées de 0,6 à 0,8 m peut être levée : il s'agit d'une bordure basse suivie d'une bande plate avant le talus, pas d'un défaut de calage."
+   ],
+   "fiabilite_globale": "Fiabilité bonne. La géométrie est très fiable : profils et largeurs recoupés à ±0,1–0,2 m avec le GAM et le PCRS hors cœur, îlot et bordures recoupés avec le LiDAR 2021. L'inventaire des marquages est complet et bien localisé, et les interprétations sont prudentes. Plusieurs points sont toutefois à corriger :\n- l'état du revêtement est trop optimiste (réseau de fissures pontées visible sur les photos 2023–2025) ;\n- certaines gradations d'usure ne sont pas étayées par la carte de contraste objective (jeu de flèches 1 noté 2 au lieu de 1, « 50 » droite jugé plus usé) ;\n- les dévers et la pente en long sont sous-estimés ;\n- le début de la ligne mixte est placé trop tôt ;\n- la flèche de la boîte du carrefour n'a qu'une tête ;\n- la modification de l'îlot, évoquée comme hypothèse, est en fait vérifiée (raccourcissement entre 2022 et 2024).\nFichiers de travail dans /tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_ortho/vrf_vne_k7q/ (gros fichiers supprimés). Dépôt git non modifié."
+  },
+  "arbitrage": {
+   "arbitrages": [
+    {
+     "id": "verdun_ne-05",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "Relief (LiDAR août–sept. 2021). Profil en toit. La crête est près de l'axe, en général 0,5 à 1,5 m côté NO de la ligne d'axe (v ≈ −2,0 à −2,8 de u 75 à 175 ; −3,6 à u 50, −1,4 à u 190). Dévers d'environ 1,5–2,0 % vers le NO (2,4 % à u 190) et 2,1–2,7 % vers le SE (1,8 % à u 75). Pente en long montante vers le NE : ≈ 0,6 % (u 15–45), ≈ 1,3 % (u 50–150), ≈ 1,8 % (u 150–210). Près du carrefour (u 17–35), bordures classiques de 12–18 cm des deux côtés ; îlot +10 à +18 cm. À partir de u ≈ 50, la chaussée est 25 à 45 cm plus haute que les abords. Côté NO : bordure basse (≈ 5 cm), puis talus enherbé d'environ 13 % qui descend vers la piste (−35 à −44 cm). Côté SE : abords au niveau de la chaussée à u 40–60 (descente seulement au-delà de v ≈ −12), puis plus bas progressivement dès u ≈ 60–70 ; ressaut net de 15 à 20 cm seulement à partir de u ≈ 80. Calage LiDAR/ortho vérifié : nez d'îlot à u 36,0 (LiDAR) contre 36,5 (ortho), bordures du passage à 0,1–0,2 m près. Le décalage de 0,6 à 0,8 m des ruptures LiDAR par rapport aux bords visibles plus au NE est donc physique (bordure basse puis bande plate ou caniveau avant la rupture), pas un défaut de calage.",
+     "justification": "Je refais les ajustements bilinéaires sur dtm_15cm (médiane sur 5 m en u). Pente NO : 1,46 (u 50), 1,63 (75), 1,64 (100), 2,00 (125), 1,87 (150), 1,51 (175) et 2,42 % (190). Pente SE : 2,29 / 1,77 / 2,12 / 2,26 / 2,74 / 2,36 / 2,23 %. Le profil en long à v +0,5 donne 0,57 % (u 15–45), 1,26 % (50–100), 1,36 % (100–150) et 1,8 % (150–210). Les deux vérificateurs ont raison : les pentes du rapport (1,1–1,3 %, 1,9–2 %, puis 0,7→1 %) sont sous-estimées. Profils SE : à u 50 et 60, aucun ressaut (palier jusqu'à v −12,3, puis chute) ; descente progressive à u 70 ; chute de 18–20 cm entre v −9,6 et −10,2 à u 80, 90 et 100. Le talus NO vaut 13 % à u 50. L'oubli « calage LiDAR/ortho » est intégré ici."
+    },
+    {
+     "id": "verdun_ne-07",
+     "decision": "retenu_corrige",
+     "usure_finale": "1",
+     "texte_final": "Passage piéton à feux en deux temps sur la bouche NE. 6 bandes côté NO (v +4,3 … −0,7) et 6 côté SE (v −3,55 … −9,0). 3 bandes le prolongent à travers la piste (v 8,35–10,75 ; GAM 2646534003/004/005). Blanc franc (médianes 206–225 contre 143–170 pour l'enrobé), bords nets ; probablement repeint peu avant mai 2022. Bandes d'environ 0,5–0,55 m (dans le sens de la traversée) × 3,0 m (u 11,1–14,2), au pas de 1,0 m (intervalles ≈ 0,45–0,5 m). Traversée de bordure à bordure ≈ 14,5 m : demi-chaussée NO ≈ 6,2 m (bordure v +5,25 → îlot v −0,95), refuge ≈ 2,25 m, demi-chaussée SE ≈ 6,1 m (îlot v −3,2 → bordure v −9,3). Les bandes ne couvrent que ≈ 5,0–5,5 m de chaque côté. Léger manque sur la dernière bande SE, côté caniveau (roues de la voie droite NE, ruissellement).",
+     "justification": "Le profil le long de v (u 11,6–13,8) donne 12 bandes routières de 0,45–0,55 m au pas de 1,0 m et 3 bandes sur la piste. Bords mesurés sur l'ortho : bordure NO v 5,25 ; îlot −0,94 et −3,19 ; bordure SE −9,31. Le LiDAR place les bordures à v 5,3 et −9,35. Les deux vérificateurs l'ont relevé : « 5,6 / 5,5 m » correspond à l'emprise des bandes, pas aux demi-chaussées. Usure 0–1 confirmée."
+    },
+    {
+     "id": "verdun_ne-08",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "Dans la coupure de l'îlot (u 12,0–13,45), deux éléments clairs et mouchetés d'environ 1,45–1,6 × 0,35 m, un contre chaque bord du refuge (v −1,40/−1,75 et −2,45/−2,80 ; le second en 2 morceaux). Ce ne sont pas des bandes de passage usées ou fantômes : les bandes peintes mesurent 3,0 × 0,5 m (u 11,2–14,15), alors que ces éléments ont la forme, la taille, le retrait (0,3–0,4 m du bord) et la teinte (190–194 pour un fond de 168–172) des bandes d'éveil de vigilance du refuge NO. Ce sont des bandes podotactiles (dalles d'éveil de vigilance), absentes du levé GAM. Usure sans objet.",
+     "justification": "La segmentation au seuil 1,10 × fond donne u 12,00–13,45 × v −1,75/−1,40 et u 12,05–13,45 × v −2,80/−2,45. On est loin du « 0,5 × 2,4 m » du rapport. Les rangées du refuge NO (v 5,60–6,00 et 7,15–7,55) et celle au-delà de la piste (v 11,6–11,95) ont la même taille (1,55–1,6 × 0,35–0,4 m) et le même aspect moucheté à la loupe ×4. Une bande de passage aurait 3 m de long, comme les 12 autres. La réobservation est confirmée ; la note d'usure 3 et la lecture « fantôme » du recoupement sont rejetées."
+    },
+    {
+     "id": "verdun_ne-09",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "Abaissés de trottoir des deux côtés et coupure de l'îlot à niveau. LiDAR 2021 à u 12,5 : rampes continues, sans ressaut mesurable (≤ 2–3 cm) ; +3/+5 cm dans la coupure, contre 12–18 cm de bordure à u 17–30. Bandes d'éveil de vigilance : éléments clairs mouchetés d'environ 1,5–1,6 × 0,35–0,45 m, en retrait de 0,3 à 0,5 m des bords. On en compte deux rangées sur le refuge NO (u 11,7–13,3 ; v 5,60–6,00 côté chaussée et 7,15–7,55 côté piste), une au-delà de la piste au bord du cheminement (u 11,6–13,15 ; v 11,6–11,95) et deux dans la coupure de l'îlot (voir 08). Côté SE (trottoir béton u 11,4–14,5, v −9,3 à −13,3), la zone est en grande partie visible, mais aucune bande d'éveil ne s'y distingue (absente, ou non contrastée sur le béton clair). L'objet sombre à u ≈ 11,4, v −8,6/−11,5 est un piéton ou un mât de feu piéton déporté par la perspective ; on ne peut pas trancher. OSM 1959022973 / 1959022976 : tactile_paving=yes (la date 2023-08-26 est le check_date de traffic_signals:sound).",
+     "justification": "Profils LiDAR à u 12,5, 17 et 22 : pas de ressaut au droit du passage, contre 13–18 cm ailleurs. Loupe ×4 : on voit deux rangées sur le refuge NO, pas une seule, plus une 5e rangée au-delà de la piste (v 11,75 ; luminance 179 contre 142, même forme), qu'aucun vérificateur n'avait relevée. Côté SE, l'abaissé u 11,4–14,5 est lisible sur l'essentiel de sa surface : « aucune lecture possible » est excessif. Pour l'objet sombre, les deux avis s'opposent (piéton / mât) et la loupe ×8 ne permet pas de trancher."
+    },
+    {
+     "id": "verdun_ne-12",
+     "decision": "retenu_corrige",
+     "usure_finale": "1",
+     "texte_final": "Premier jeu de flèches de présélection, près de la limite d'arrêt, pointes vers le SO (sens entrant). Voie droite (v +3,35 à +4,55) : tout droit + droite, vers la Revirée. Voie gauche (v −0,2 à +1,0) : tout droit + gauche, vers Vercors. Longueur ≈ 3,9 m (u 19,3–23,2, gabarit d'agglomération de 4 m). Contraste peinture/fond 1,22–1,25 (blanc médian 187–195 pour un fond de 153–156), identique à celui du jeu 2 et des lignes de voie. Aire peinte au seuil 1,15 × fond : 1,15 m² pour la droite et 1,33 m² pour la gauche. La flèche droite se fragmente plus tôt (3 morceaux au seuil 1,20). Usure 1, de 1 à 2 pour la flèche de la voie droite : arrêt et freinage au feu sur la tête, roues sur la branche, girations vers la Revirée (bus compris).",
+     "justification": "Mes mesures donnent un contraste de 1,22–1,25 pour le jeu 1, contre 1,22–1,27 pour le jeu 2 (classé usure 1 dans le rapport) et 1,19–1,24 pour les lignes T1/T3. Rien ne justifie une note 2 globale pour le jeu 1. Le léger déficit de la flèche droite (environ 15 % de surface en moins) se retrouve à l'identique sur le jeu 2. Les fonctions et la géométrie sont confirmées par les deux vérificateurs et par l'ortho. Je suis le recoupement : usure 1, ou 1–2 pour la flèche droite."
+    },
+    {
+     "id": "verdun_ne-13",
+     "decision": "retenu_corrige",
+     "usure_finale": "1",
+     "texte_final": "Second jeu de flèches de présélection, plus en amont, avec les mêmes fonctions : voie droite (v 2,25–3,35) tout droit + droite, voie gauche (v −1,35/−0,05) tout droit + gauche ; pointes vers le SO. Ce jeu ne figure pas dans le levé GAM. Il s'étend de u ≈ 58,0 à 61,9, soit ≈ 3,9–4 m (même gabarit que le jeu 1, et non 57,4–64 / 4,5–5 m). Aires peintes au seuil 1,10 / 1,15 / 1,20 × fond : droite 1,50 / 1,24 / 0,88 m² ; gauche 1,57 / 1,39 / 1,07 m². La fragmentation dépend du seuil : les deux flèches sont d'un tenant à 1,10 et en 2 morceaux à 1,20 ; la droite se coupe dès 1,15. Contraste 1,22–1,27, blanc 187–204. Usure 1 (gauche) à 1–2 (droite) : roues de la voie lente (bus, poids lourds), freinage en approche.",
+     "justification": "La loupe ×5 et la segmentation montrent la pointe à u 57,95 et l'extrémité de la tige à u 61,85–61,9. Le jeu 2 a la même longueur que le jeu 1 (3,9 m). La remarque « 3 morceaux à droite, gauche d'un tenant » ne tient pas comme un fait stable : elle dépend du seuil, comme l'a vu la réobservation. L'absence dans le GAM est confirmée par une requête sur les vecteurs (u 55–66)."
+    },
+    {
+     "id": "verdun_ne-14",
+     "decision": "retenu_corrige",
+     "usure_finale": "1",
+     "texte_final": "Deux marquages « 50 » dans une ellipse (rappel de limitation), un par voie sortante NE, lisibles dans le sens NE. Ellipses d'environ 1,8 × 0,9 m, à u 24,25–26,1. Voie gauche : v −4,25/−5,15, L93 ≈ (917301, 6460304). Voie droite : v −7,25/−8,15, L93 ≈ (917303, 6460302). Absents du levé GAM. Usure 1 pour les deux, sans différence mesurable. Contraste peinture/fond identique (1,27–1,28 au seuil 1,15) et aires équivalentes (0,85 et 0,88 m² au même seuil). Le « 50 » de droite paraît plus gris (195 contre 207) uniquement parce que son fond est plus sombre (153 contre 164).",
+     "justification": "Ma mesure confirme le recoupement : contraste 1,25–1,28 contre 1,26–1,29, aires 0,97 / 0,85 / 0,68 m² contre 0,99 / 0,88 / 0,76 m² (seuils 1,10 / 1,15 / 1,20). L'écart du rapport (0,87 contre 0,67 m²) n'est pas reproductible. L'existence et la lisibilité dans le sens NE sont confirmées par les deux vérificateurs."
+    },
+    {
+     "id": "verdun_ne-17",
+     "decision": "retenu_corrige",
+     "usure_finale": "1",
+     "texte_final": "Axe séparant les deux sens, en trois tronçons.\n1) De u ≈ 59 (fin du zébra) à u ≈ 107,7 : ligne continue simple (v ≈ −2,95 → −2,85), à contraste faible par endroits (u 70,5–72 et 82–84). Le GAM fait commencer le doublement à u 90,2, mais aucun tiret n'apparaît sur l'ortho, y compris au soleil sur u 94–97 et 104–107,7.\n2) De u 107,7 à 176,5 : ligne mixte. Trait continu côté NO (sens SO) et tirets T1 côté SE à ≈ 0,2 m (107,7–111,1 ; 121,4–124,9 ; 134,5–138 ; 147,3–150,3 ; 160,5–163,5 ; 173,5–176,5 ; période ≈ 13,4 m). Le sens NE peut la franchir, pas le sens SO.\n3) De u ≈ 177,5 à ≥ 229 : ligne simple discontinue au rythme T3, c'est-à-dire une ligne d'annonce (avertissement) et non une ligne continue. Traits ≈ 3,3–3,5 m ; coupures ≈ 0,6–1 m en ombre homogène vers u 181,6 ; 185,9 ; 194,4 ; 198,2 ; 202,6 ; 207,1 ; 211,6 ; 215,8 (période ≈ 4,3 m). Confiance moyenne pour ce tronçon, très ombragé.\nLargeur des traits 0,15–0,2 m. Trait continu bien blanc ; tirets usure 1 à 2 (roues des véhicules NE qui mordent sur l'axe).",
+     "justification": "Tronçon 1 : trace colonne par colonne de la ligne (u 56–90), toujours présente à v −2,6/−2,9 (contraste 1,07–1,7). Tronçon 2 : loupes ×5 brutes et normalisées sur u 78–110 ; premier tiret SE à u 107,7 ; rien à v −3,0 sur les plages ensoleillées 94–96,5 et 104–107,7, là où le rythme T1 placerait un tiret. Les deux vérificateurs l'avaient vu. Tronçon 3 : le rapport ligne/côtés (±0,3 m) tombe à ≈ 1,0 sur 0,6–1 m alors que le fond est homogène (55–60), à intervalles réguliers d'environ 4,3 m. Les coupures 181,3–181,9 et 197,9–198,7 sont nettes à la loupe ×5. La réobservation est confirmée. La continuité u 186–197 avancée par le recoupement n'est pas vérifiable (taches de soleil) et contredite par la coupure à 194,4."
+    },
+    {
+     "id": "verdun_ne-19",
+     "decision": "retenu",
+     "usure_finale": "2",
+     "texte_final": "Ligne de rive NO continue et étroite, collée à la bordure (u ≈ 14,2 → 69,3 ; v +5,1 → +3,5). Elle suit le biseau et s'arrête au bateau de l'accès privé. Largeur ≈ 0,10–0,15 m. Usure 2, hétérogène. Le contraste vaut 1,15–1,23 sur u 14–28 et 46–69, mais il est très faible (≈ 1,04–1,09, à peine détectable) sur u 30–44. La ligne est nettement moins contrastée que les flèches (1,22–1,27) et que la rive T2 (1,23–1,37). Causes : gravillons et feuilles le long de la bordure, balayage, véhicules serrant à droite dans le biseau.",
+     "justification": "Le suivi de la ligne le long de la bordure (u 14–70) donne un rapport médian de 1,15–1,23 et 82–100 % de pixels au-dessus de 1,10, sauf sur u 30–44 (rapport 1,04–1,09, 0–33 %). La loupe ×4 montre un liseré grisé qui se confond avec la bordure sur ce tronçon. Cela conforte l'usure 2 du rapport (le recoupement parle de 2–3, la réobservation de 1) ; la note 1 n'est pas tenable sur toute la longueur."
+    },
+    {
+     "id": "verdun_ne-20",
+     "decision": "retenu_corrige",
+     "usure_finale": "1",
+     "texte_final": "Ligne de rive NO discontinue T2, au ras de la bordure, absente du levé GAM. Elle commence dès u ≈ 73 (tiret 73,1–75,9 devant l'accès privé) et se poursuit jusqu'à u ≥ 211, de v +2,65 à +3,8. Tirets : 79,9–83,4 ; 86,25–89,6 ; 92,9–96,4 ; 100,1–103,4 ; 106,9–110,2 ; 113,65–116,95 ; 120,25–123,65 ; … ; 140,75–143,95. Longueur ≈ 3,2–3,4 m, intervalles ≈ 3,3–3,5 m. Largeur ≈ 0,18–0,20 m à mi-hauteur sur fond symétrique, contre 0,11–0,12 m pour les lignes de voie : cela correspond à une rive 3u avec u ≈ 6 cm, pas à 3u = 22,5 cm. L'« héritage RN90 » reste une déduction (OSM old_ref=N 90). Contraste 1,23–1,37 et couverture complète des tirets : usure 1, aspect granuleux. Causes : âge, roues de la voie droite SO qui serrent la bordure, balayage.",
+     "justification": "Mesure de largeur à mi-hauteur sur profils alignés : 0,189 m à u 120 (fond 156/155, symétrique). Les valeurs de 0,22–0,29 m n'apparaissent que là où le fond végétal côté NO, plus sombre, élargit artificiellement la mesure ; c'est aussi ce qui explique le 0,30 m du recoupement. Lignes T1 mesurées de la même façon : 0,109–0,118 m. Contraste le long des tirets : 1,23–1,37, avec 96–100 % de couverture au-dessus de 1,15. Les lignes T1 font 1,19, donc la note 2 n'est pas étayée sur l'ortho 2022. Le tiret u 73,1–75,9 respecte la période T2 de 6,7 m."
+    },
+    {
+     "id": "verdun_ne-22",
+     "decision": "retenu_corrige",
+     "usure_finale": "1",
+     "texte_final": "Flèche de rabattement, longue d'environ 5,9 m, dans la voie gauche du sens SO (entre la ligne T1 à v ≈ 0,3 et l'axe à v ≈ −3,3). Tige à v ≈ −1,2 de u 201,5 à 205, tête de u 205,3 à 207,4 qui s'incurve vers l'axe (pointe vers v ≈ −1,95). Elle est orientée NE : elle s'adresse aux usagers NE qui dépassent par cette voie et leur indique de se rabattre à droite. Ce n'est pas une incohérence. Elle accompagne la ligne d'annonce T3 de l'axe (u ≥ 177,5 ; voir 17), qui fait suite à la ligne mixte. Hors zone, les IGN 2015/2021 montrent d'autres marques courbes (u ≈ 228–245) puis une zone hachurée (u ≈ 250–268, sur la voie gauche SO et l'axe ; aussi en 2024). C'est le schéma normal de fin de section de dépassement. Existence certaine (aussi sur l'IGN 2015 et dans l'intensité LiDAR 2021) ; interprétation de confiance moyenne. Partie au soleil bien blanche, tête à l'ombre (usure 1, peut-être 1–2).",
+     "justification": "Loupe ×5 sur la bande redressée : forme confirmée par les deux vérificateurs. L'axe après u 177,5 est une ligne T3 (ligne d'annonce), comme établi pour verdun_ne-17. Une flèche de rabattement posée dans la voie opposée le long d'une ligne d'annonce est le dispositif réglementaire habituel. Le recadrage IGN 2015/2021/2024 sur u 170–280 montre bien la zone hachurée u ≈ 250–268 et des marques courbes vers u 233–240 : cela appuie la réobservation, et la piste « séquence hors zone » du recoupement va dans le même sens. Les oublis « axe T3 » et « IGN hors couverture » sont intégrés ici."
+    },
+    {
+     "id": "verdun_ne-23",
+     "decision": "retenu_corrige",
+     "usure_finale": "1",
+     "texte_final": "Limite SO de la zone, dans la boîte du carrefour. Ligne de guidage en tirets courts à v ≈ −1,1 (tirets ≈ 0,5–0,6 m, intervalles ≈ 0,4–0,5 m, u −0,4 → 8,9 ; blanc ≈ 190 pour un fond de 160). Elle prolonge le bord NO de l'îlot. Côté NO, elle est doublée d'un trait continu plus grisé à v ≈ −0,84 (u −0,5 → 9,35, médiane ≈ 181–185), dont la nature n'est pas établie (ancien marquage ou ligne doublée). La flèche n'est pas un tout droit + gauche : c'est une flèche de tourne-à-gauche seule pour le sens NE, vers la Revirée. Sa tige est à v −2,75 de u 3,1 à 5,35 ; une branche oblique monte ensuite jusqu'à une tête unique en chevron qui pointe vers le NO (sommet ≈ u 6,0, v −1,95 ; base u 5,05–6,85, v −2,15). Aucune tête ne pointe vers l'avant. Aire ≈ 0,6 m². Le plan projet 2025 reprend la même forme. Usure 1 (girations).",
+     "justification": "Loupe ×10 avec contraste étiré : une seule tête, symétrique autour de u 6,0, pointe vers +v (NO). Je suis la réobservation ; la tête « orientée NE » du recoupement n'est pas confirmée. Profil transversal médian (u 0–8) : deux pics, à v −0,84 (183) et −1,09 (190). La segmentation donne des tirets réguliers d'environ 0,5 m sur la rangée −1,09, et de longs segments sur la rangée −0,84 (−0,48–1,0 ; 3,37–4,32 ; 4,9–9,35). Il s'agit donc d'un trait continu usé, pas de « deux rangées de tirets » comme le dit le recoupement. Le plan projet redressé montre la même flèche et la même ligne de guidage."
+    },
+    {
+     "id": "verdun_ne-25",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "Piste cyclable bidirectionnelle côté NO, séparée de la chaussée par une bande verte et 30 à 45 cm plus basse qu'elle (LiDAR). De u 15 à 90 : piste d'environ 3,05–3,1 m (bordurettes v ≈ 8,0 et 11,05), derrière une bande verte d'environ 2,6–2,7 m (gazon, regards, mâts d'éclairage). Au-delà de la bordurette v 11,05, un cheminement piéton d'environ 1,8 m (v 11,1–12,9) longe la piste. Entre u 90 et 99, le bord côté route se rapproche (v +7,6 → +5,4). De u 100 à 200, plateforme d'environ 5,0 m (v 5,4–10,35 à u 116) : ≈ 3,0 m cyclables (v 5,4–8,4), un trait séparateur blanc fin d'environ 0,1 m (v ≈ 8,43), puis ≈ 1,9 m pour les piétons (v 8,5–10,35, revêtement un peu plus sombre). Enrobé gris (RGB ≈ 140–144 / 141–146 / 132–136 au soleil). Côté route : massifs taillés (v +4 à +5,5). Pas de ligne axiale continue : un tiret isolé à v ≈ +6,9 (u 99–103) et un tronçon d'axe à v 9,25 (u 83–88) près de l'accès privé, avec pictogrammes vélo. Le passage piéton se prolonge à travers la piste à u 11–14 (3 bandes). Au carrefour (u 4–8), la traversée de la Revirée est teintée vert pâle avec damier blanc (hors zone).",
+     "justification": "Profil transversal médian à u 112–122 : bord à v 5,40, pic étroit à v 8,40–8,45 (141–142 contre 130–134), puis surface plus sombre (≈ 133) jusqu'à v 10,35. Le séparateur mesure environ 0,1 m, pas 0,35 m : la réobservation est confirmée. À u 18–38, piste v 8,0–11,05 (≈ 3,05 m, et non 3,2–3,5 m), bande grise au-delà jusqu'à v ≈ 12,9 et bande verte v 5,3–8,0. Cela confirme le cheminement signalé par le recoupement (pictogramme GAM tracé à u 85,5–86,5, v 11,1–12,1). Les oublis « cheminement le long de la piste » et « tronçon d'axe v 9,25 » sont intégrés ici."
+    },
+    {
+     "id": "verdun_ne-26",
+     "decision": "retenu_corrige",
+     "usure_finale": "1",
+     "texte_final": "Croisement de la piste et de la voie privée (u ≈ 77–87). La traversée de la piste elle-même (u ≈ 77–81, v 8–11) est sous un houppier : son marquage (damier ou bordures) n'est pas vérifiable. Le damier cité (pixels 560–620 / 845–890 de la tuile 917300_6460350) est en fait sur le cheminement, à v ≈ 12,7–13,2, au-delà de la piste. Un passage piéton de 3 bandes traverse l'accès sur le cheminement (u ≈ 81,4–83,6, v ≈ 10,9–12,6 ; le GAM 2646488466/472/539 le place 1,3 m plus au SO). En aval, pictogrammes vélo + flèche dans les deux sens (u 81,6–85 ; v ≈ 8,3–8,9 et 9,75–10,3) et tronçon de ligne axiale de piste à v 9,25 (u 83–88). Usure 1 : passage des vélos et des véhicules qui sortent.",
+     "justification": "Loupe ×4 sur u 70–90, v 2–15 : pictogrammes, axe de piste et 3 bandes du cheminement confirmés. La zone de traversée de la piste (u 77–81) est entièrement masquée par le houppier, comme le disent les deux vérificateurs. Le calcul pixel → (u, v) place le « damier » du rapport à u 82,5, v 11,7, donc hors de la plage v 7,7–10,7 annoncée."
+    },
+    {
+     "id": "verdun_ne-29",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "Bord SE. Bordure et caniveau à v ≈ −9,3 près du carrefour. Selon le PCRS 2019, la bordure se rapproche ensuite de l'axe : v −8,6 à u 93, −8,2 à u 113, −7,1 à u 205. Au soleil (u 14,5–28), la bande v −9,5 à −13,2 n'est pas un trottoir en béton : c'est un massif planté (arbustes, mât de feu SE) suivi de terre et d'herbe sèche. Le trottoir en béton est au-delà de la limite PCRS v ≈ −13,2 (v −13,3 à ≈ −16 au droit du passage). Plus loin, sous la rangée d'arbres, herbe et terre. Les deux lisières rectilignes claires sont des clôtures de chantier : l'une à v ≈ −10,6 (u ≈ 88–114), reliée au portail de chantier (voir 30), l'autre à v ≈ −13,9. Relief : abords au niveau de la chaussée à u 40–60, plus bas progressivement dès u ≈ 60–70, ressaut net de 15 à 20 cm à partir de u ≈ 80 (LiDAR 2021). Zone presque entièrement à l'ombre au-delà de u 28.",
+     "justification": "Loupe ×2 sur u 14–44 : massif d'arbustes (u 14,5–20,5) puis terre et herbe (u 20,5–28) entre la bordure et la limite v −13,2 ; dalle béton claire au-delà. Couches PCRS : 22c4/22c5/2384 (v −9,1/−10,8) et 22c6 (v −13,2) limitent la bande plantée. 232b est une ligne de limite qui va de v −13,17 à u 53 jusqu'à −9,5 à u 203, pas une surface béton de 3,5 m. Loupe ×3 sur u 88–114 : clôtures à poteaux à v −10,6 et −13,9, et portail. Relief : voir verdun_ne-05. Je suis la réobservation et j'ajoute la correction de relief du recoupement."
+    },
+    {
+     "id": "verdun_ne-30",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "Bande blanche très lumineuse au bord SE, u 95,2–109,4, v −8,05/−8,7 (≈ 0,6 × 14 m), dédoublée par un trait sombre à v ≈ −8,4. Luminance 180–216 malgré l'ombre des arbres (fond 60–80). Derrière, une bande sombre au niveau de la chaussée (v −8,7 à −9,6), puis un portail tubulaire à 2 vantaux ouverts (u ≈ 96,5–106,5) raccordé à une clôture rectiligne à v ≈ −10,6. Le LiDAR 2021 la donne plate (−3 à −6 cm, sans relief), avec le ressaut de bordure plus loin, à v ≈ −9,6 ; elle coïncide avec la ligne de bordure PCRS 2019 (v ≈ −8,5). Sa nature n'est pas démontrée : il s'agit vraisemblablement d'un élément béton clair et plat au droit de l'entrée de chantier (caniveau, bordure arasée neuve ou nettoyée, seuil) plutôt que d'un bateau, qui n'existait pas en 2021. Visuellement, elle forme une très forte « ligne de rive » de 14 m (risque de faux positif pour une caméra).",
+     "justification": "Les deux vérificateurs confirment l'observation. Profils croisés ortho/LiDAR à u 100 et 104 : pic de luminance (175–203) à v −8,1/−8,6, LiDAR plat jusqu'à v −9,4/−9,6, puis chute de 16 à 22 cm. Bordure PCRS 69dc à v −8,64 (u 93) et −8,19 (u 113). L'interprétation « bordure neuve ou bateau » du rapport n'est pas étayée par le LiDAR 2021. Des travaux ont pu avoir lieu entre août 2021 et mai 2022 : je retiens donc l'objet et requalifie l'interprétation comme incertaine."
+    },
+    {
+     "id": "verdun_ne-31",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "Couche de roulement en enrobé dense à granulats fins, gris clair et oxydé (RGB médian ≈ 155/156/150). Au soleil, on ne voit à 5 cm aucun nid-de-poule, faïençage, ressuage ni fissure ouverte. On voit en revanche des joints de mise en œuvre, situés sous la peinture : un joint longitudinal sombre et rectiligne à v ≈ +1,6 → +1,9 (u ≈ 20–70) dans la demi-chaussée SO, et des joints transversaux qui partent de la bordure NO jusqu'à ce joint, à u ≈ 32,2 et probablement u ≈ 24,5. L'absence de dégradation visible ne permet pas de conclure à un « bon état ». Les photos de rue du 2023-03-18 (5df8bf6d) et du 2024-08-24 (97890c75) montrent un réseau dense de fissures pontées (longitudinales, transversales, en blocs) sur les deux sens. Ce réseau est invisible sur l'ortho de mai 2022 (passe-haut sur u 95–145 au soleil) : le pontage a donc été fait entre mai 2022 et mars 2023, sur une fissuration fine probablement déjà présente mais sous la résolution de 5 cm. Orniérage non décelable (LiDAR ±2 cm). La demi-chaussée NE, aux deux tiers à l'ombre, n'est pas évaluable.",
+     "justification": "Passe-haut (écart à la médiane 9 px) sur u 15–70 : le joint longitudinal et les deux joints transversaux, qui s'arrêtent net sur ce joint, sont visibles. Ce ne sont pas des câbles, qui traversent tout en ligne droite. Sur u 95–145, aucune ligne sinueuse alors que des bandes de pontage de 5 à 8 cm seraient visibles à 5 cm. J'ai vérifié les photos Panoramax 5df8bf6d r01_c01/c02 (2023) et 97890c75 r01_c02 (2024) : réseau dense de fissures pontées. Je combine les corrections des deux vérificateurs."
+    },
+    {
+     "id": "verdun_ne-32",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "Reprises et joints autour du passage ; ils sont sous la peinture, ce ne sont pas des ombres. Rectangle de reprise d'environ 4,1 × 2,5 m (u 14,3–18,4, v 1,1–3,6), à cheval sur la ligne de voie SO, visible aussi sur la photo 2023-03-18 (911bcb9d, d7279ab8). Joint transversal de reprise à u ≈ 18,4 dans la moitié NO et à u ≈ 19,8 dans la moitié SE. Ligne sombre longitudinale à v ≈ +3,6, qui se prolonge dans toute la boîte du carrefour. Dans la boîte (u < 10), les lignes courbes sont surtout des paires parallèles espacées de 0,6 à 0,8 m, c'est-à-dire des bords de tranchées refermées. Les longues lignes fines rectilignes qui traversent tout, marquages compris, sont des ombres de câbles aériens. Les « fissures pontées » de la boîte ne sont pas démontrées sur l'ortho.",
+     "justification": "Passe-haut sur u −12 à 22 : rectangle, joints décalés (18,4 / 19,8) et ligne v 3,6 confirmés. Plusieurs lignes droites traversent toute l'image, y compris les bandes blanches : ce sont des ombres de câbles. Les tracés courbes vont par paires parallèles. Les photos 2023 confirment le rectangle (recoupement). La réobservation est suivie pour l'interprétation."
+    }
+   ],
+   "oublis_valides": [
+    {
+     "description": "Bandes d'éveil de vigilance non inventoriées ou mal lues. On compte 5 rangées d'éléments clairs mouchetés d'environ 1,5–1,6 × 0,35–0,45 m, en retrait de 0,3 à 0,5 m des bords : deux sur le refuge NO (v 5,60–6,00 et 7,15–7,55), une au-delà de la piste au bord du cheminement (v 11,6–11,95) et deux dans la coupure de l'îlot (v −1,40/−1,75 et −2,45/−2,80, prises à tort pour des bandes de passage fantômes en 08). Aucune n'est visible côté SE.",
+     "localisation": "u 11,6–13,45 ; tuiles 917250_6460250 et 917250_6460300",
+     "preuve": "Ortho 5 cm redressée (loupe ×4) et segmentation : mêmes dimensions et même teinte pour les 5 rangées (173–194, rapport au fond 1,13–1,26), alors que les bandes peintes mesurent 3,0 × 0,5 m. OSM : tactile_paving=yes.",
+     "usure": "NA"
+    },
+    {
+     "description": "Le passage piéton se prolonge à travers la piste cyclable par 3 bandes blanches de 3,0 × 0,45 m. Il est bordé côté NO par la bande d'éveil v ≈ 11,7 et par le cheminement piéton (v 11,1–12,9) qui longe la piste de u 15 à 90.",
+     "localisation": "u ≈ 10,95–13,95 ; v 8,35–8,75, 9,35–9,75, 10,35–10,75",
+     "preuve": "Segmentation ortho (médiane 198–208 pour un fond de 155, couverture complète). GAM 2646534003/004/005.",
+     "usure": "0-1"
+    },
+    {
+     "description": "Axe après u ≈ 177,5 : ligne discontinue au rythme T3 (traits ≈ 3,3–3,5 m, coupures ≈ 0,6–1 m, période ≈ 4,3 m), donc une ligne d'annonce et non une ligne continue. La flèche de u 201,5–207,4 est alors une flèche de rabattement normale. Hors zone, d'autres marques courbes (u ≈ 228–245) et une zone hachurée (u ≈ 250–268) complètent la séquence. Les points ADAS et la synthèse qui parlaient d'une ligne continue ou d'une flèche incohérente sont à revoir.",
+     "localisation": "u 177,5 → ≥ 229, v ≈ −3,75 → −3,2 ; tuiles 917350_6460350 et 917400_6460400",
+     "preuve": "Rapport ligne/côtés ≈ 1,0 sur fond homogène vers u 181,6 ; 185,9 ; 194,4 ; 198,2 ; 202,6 ; 207,1 ; 211,6 ; 215,8. Coupures 181,3–181,9 et 197,9–198,7 nettes à la loupe ×5. IGN 2015/2021/2024 recadrées sur u 170–280.",
+     "usure": "1"
+    },
+    {
+     "description": "Joints de mise en œuvre sous la peinture dans la demi-chaussée SO au soleil. Un joint longitudinal sombre et rectiligne à v ≈ +1,6 → +1,9 (u ≈ 20–70), qui croise la ligne T3 vers u 45–50. Des joints transversaux de la bordure NO jusqu'à ce joint, à u ≈ 32,2 et probablement u ≈ 24,5. Ce sont des lignes sombres parallèles aux marquages, susceptibles de tromper un détecteur de lignes.",
+     "localisation": "u 20–70, v +1,6 à +5,2 ; tuiles 917250_6460300 et 917300_6460300",
+     "preuve": "Passe-haut (écart à la médiane 9 px) en loupe ×2 ; les lignes s'arrêtent net sur le joint, donc ce ne sont pas des ombres de câbles. Joint visible aussi sur la photo 2023-03-18 d7279ab8.",
+     "usure": "NA"
+    },
+    {
+     "description": "Dans la boîte du carrefour, un trait continu grisé à v ≈ −0,84 double côté NO la ligne de guidage en tirets à v ≈ −1,1. Il est plus pâle que les tirets (médiane ≈ 181–185 contre 190, fond 160). Ancien marquage ou ligne doublée : nature non établie.",
+     "localisation": "u −0,5 → 9,35, v ≈ −0,84 ; tuile 917250_6460250",
+     "preuve": "Profil transversal médian à deux pics (v −0,84 et −1,09). Segmentation : longs segments sur la rangée −0,84, tirets réguliers d'environ 0,5 m sur la rangée −1,09.",
+     "usure": "2"
+    },
+    {
+     "description": "Abords SE mal décrits. Entre la bordure (v ≈ −9,3) et le trottoir béton (v ≈ −13,3 à −16), la bande v −9,5 à −13,2 est un massif planté puis de la terre et de l'herbe. Deux clôtures de chantier rectilignes, à v ≈ −10,6 (reliée au portail) et v ≈ −13,9, sont déjà présentes en mai 2022.",
+     "localisation": "u 14,5–28 (massif et terre) ; u ≈ 88–114 (clôtures et portail) ; tuiles 917250_6460250 et 917350_6460350",
+     "preuve": "Loupes ×2 et ×3 de l'ortho 5 cm ; limites PCRS 22c4/22c5/22c6.",
+     "usure": "NA"
+    },
+    {
+     "description": "Aucun marquage entre les deux voies SO sur environ 15 m, juste après l'accès privé : entre la fin du dernier tiret T3 (u 69,2, v ≈ 0,5) et le premier tiret T1 (u 84,5, v ≈ −0,05). Ce vide est plus long qu'un intervalle T1 (10 m) et s'accompagne d'un décalage latéral d'environ 0,55 m. Point utile pour l'ADAS et la carte HD.",
+     "localisation": "u 69,2–84,5, v ≈ 0 à 0,5 ; tuile 917300_6460300",
+     "preuve": "Détection des tirets le long de la ligne de voie et loupe ×3, zone en grande partie au soleil.",
+     "usure": "NA"
+    },
+    {
+     "description": "La rive T2 commence dès u ≈ 73 (tiret 73,1–75,9 devant l'accès, conforme à la période de 6,7 m), et non à u 80. Sa largeur mesurée (≈ 0,18–0,20 m, contre 0,11–0,12 m pour les lignes de voie) contredit le « ≈ 0,25 m / 3u = 22,5 cm » de la partie « pourquoi_cette_conception ».",
+     "localisation": "u 73 → ≥ 211, v +2,65 → +3,8",
+     "preuve": "Largeur à mi-hauteur sur profils alignés (0,189 m à u 120, fond symétrique) ; détection des tirets.",
+     "usure": "1"
+    },
+    {
+     "description": "État 2025/2026 : le plan projet ajoute une ligne d'effet des feux en tirets à u ≈ 17,2, sur les deux voies SO (v ≈ −1 à +4,8). Il ajoute aussi des marquages cyclables neufs (traversée de la piste teintée, logos) à la traversée de la Revirée et du passage. Le point ADAS « pas de ligne d'effet des feux / arrêt au bord du passage » ne vaut que pour l'état 2022.",
+     "localisation": "u ≈ 17,2, v −1 à +4,8 ; plan_projet_2025/plan_L93.tif",
+     "preuve": "Plan projet géoréférencé, rééchantillonné dans le repère de la branche.",
+     "usure": "NA"
+    },
+    {
+     "description": "Détails mineurs non décrits : deux tampons carrés sur la piste.",
+     "localisation": "u ≈ 19,1 (v ≈ 9,4–9,9) et u ≈ 42,3 (v ≈ 9,45–10,4)",
+     "preuve": "Loupe ×2 de la piste (u 14–50).",
+     "usure": "NA"
+    },
+    {
+     "description": "Évolution non établie dans le rapport : entre mars 2023 et août 2024, l'îlot a été raccourci d'environ u 36 à u ≈ 23. Le nouveau nez arrondi porte un panneau B21 et un dessus en enrobé neuf sombre ; le zébra a été prolongé jusqu'à l'ancienne emprise. La géométrie de 2022 était donc caduque avant les travaux C1. Contrairement à ce qu'avançait le vérificateur, ce n'est pas « dès mars 2023 » : les photos du 2023-03-18 montrent encore l'îlot long, sans B21.",
+     "localisation": "u ≈ 19–36, v −1 à −3",
+     "preuve": "Panoramax 2024-08-24 e86aa913 (u 29) : nez neuf avec B21 à environ 6 m devant, zébra le long de la caméra. Panoramax 2023-03-18 e2574612 (u 30) et 911bcb9d (u 38) : bordure d'îlot continue près de la caméra. IGN 2024 : bloc sombre u 19–23 et zébra prolongé.",
+     "usure": "NA"
+    },
+    {
+     "description": "État du revêtement sous-estimé. Les photos de rue de 2023 à 2025 montrent un réseau dense de fissures pontées sur les deux sens (longitudinales, transversales, en blocs), ainsi qu'une bande d'enrobé neuf sombre le long de l'axe côté NE en 2024. Tout cela est invisible sur l'ortho 2022, donc postérieur à mai 2022. Ces éléments comptent pour une caméra ADAS (faux bords sombres) et pour le diagnostic de chaussée.",
+     "localisation": "Chaussée u ≈ 20–140, les deux sens",
+     "preuve": "Panoramax 2023-03-18 5df8bf6d r01_c01/c02 et 2024-08-24 97890c75 r01_c02 ; passe-haut de l'ortho 5 cm sans pontage visible sur u 95–145.",
+     "usure": "NA"
+    },
+    {
+     "description": "L'OSM 2026 contredit le marquage observé en 2022. Il donne lanes=2 pour le sens NE de u −7 à 153 (2 voies seulement jusqu'à u ≈ 80 sur l'ortho) et lanes=1 pour le sens SO de u 153 à 210 (2 voies jusqu'à u ≥ 230 sur l'ortho). Avant de construire une carte HD à partir d'OSM, il faut vérifier si l'OSM est faux ou si le marquage a été refait en 2025.",
+     "localisation": "Ways OSM 1275266692, 442125313, 63600587, 442125312",
+     "preuve": "osm_roads.geojson (sens des ways et tags lanes) ; tirets T1 SO observés à u 193–223 sur l'ortho 2022.",
+     "usure": "NA"
+    },
+    {
+     "description": "Objets de chantier en bord SE, à forte signature pour le LiDAR et la caméra et non mentionnés dans le rapport : panneaux « ACCES CHANTIER PLM P1 » sur l'îlot (2023) ; clôtures Heras au ras de la chaussée et bungalows de chantier (2024). Sur l'ortho de mai 2022, on voit déjà le portail et deux clôtures (u 88–114).",
+     "localisation": "Bord SE, u ≈ 88–140 ; îlot près du passage",
+     "preuve": "Panoramax 2023-03-18 911bcb9d r01_c00 et d7279ab8 r01_c01 ; 2024-08-24 e86aa913 r01_c00 et 97890c75 r01_c02 ; ortho 5 cm (loupe ×3).",
+     "usure": "NA"
+    }
+   ]
+  },
+  "zone": "verdun_ne",
+  "tiles": [
+   "917300_6460300",
+   "917350_6460300",
+   "917350_6460350",
+   "917400_6460350",
+   "917400_6460400"
+  ]
+ }
+]

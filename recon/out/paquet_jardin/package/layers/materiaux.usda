@@ -1,0 +1,2012 @@
+#usda 1.0
+(
+    customLayerData = {
+        string masques = ""
+    }
+    defaultPrim = "World"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def Scope "Looks"
+    {
+        def Material "sol_chaussee"
+        {
+            token outputs:surface.connect = </World/Looks/sol_chaussee/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.2, 0.2, 0.21)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "sol_chaussee_macro"
+        {
+            token outputs:surface.connect = </World/Looks/sol_chaussee_macro/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/sol_chaussee_macro/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/albedo_macro_8192.jpg@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/sol_chaussee_macro/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "sol_piste_cyclable"
+        {
+            token outputs:surface.connect = </World/Looks/sol_piste_cyclable/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.3, 0.24, 0.22)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "sol_piste_cyclable_macro"
+        {
+            token outputs:surface.connect = </World/Looks/sol_piste_cyclable_macro/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/sol_piste_cyclable_macro/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/albedo_macro_8192.jpg@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/sol_piste_cyclable_macro/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "sol_trottoir"
+        {
+            token outputs:surface.connect = </World/Looks/sol_trottoir/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.52, 0.51, 0.48)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "sol_trottoir_macro"
+        {
+            token outputs:surface.connect = </World/Looks/sol_trottoir_macro/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/sol_trottoir_macro/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/albedo_macro_8192.jpg@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/sol_trottoir_macro/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "sol_ilot"
+        {
+            token outputs:surface.connect = </World/Looks/sol_ilot/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.58, 0.57, 0.54)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "sol_ilot_macro"
+        {
+            token outputs:surface.connect = </World/Looks/sol_ilot_macro/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/sol_ilot_macro/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/albedo_macro_8192.jpg@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/sol_ilot_macro/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "sol_quai_bus"
+        {
+            token outputs:surface.connect = </World/Looks/sol_quai_bus/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.62, 0.61, 0.58)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "sol_quai_bus_macro"
+        {
+            token outputs:surface.connect = </World/Looks/sol_quai_bus_macro/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/sol_quai_bus_macro/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/albedo_macro_8192.jpg@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/sol_quai_bus_macro/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "sol_parking"
+        {
+            token outputs:surface.connect = </World/Looks/sol_parking/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.27, 0.27, 0.27)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "sol_parking_macro"
+        {
+            token outputs:surface.connect = </World/Looks/sol_parking_macro/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/sol_parking_macro/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/albedo_macro_8192.jpg@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/sol_parking_macro/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "sol_acces_riverain"
+        {
+            token outputs:surface.connect = </World/Looks/sol_acces_riverain/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.33, 0.32, 0.3)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "sol_acces_riverain_macro"
+        {
+            token outputs:surface.connect = </World/Looks/sol_acces_riverain_macro/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/sol_acces_riverain_macro/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/albedo_macro_8192.jpg@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/sol_acces_riverain_macro/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "sol_terre_plein_vegetal"
+        {
+            token outputs:surface.connect = </World/Looks/sol_terre_plein_vegetal/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.24, 0.36, 0.14)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "sol_terre_plein_vegetal_macro"
+        {
+            token outputs:surface.connect = </World/Looks/sol_terre_plein_vegetal_macro/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/sol_terre_plein_vegetal_macro/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/albedo_macro_8192.jpg@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/sol_terre_plein_vegetal_macro/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "sol_espace_vert"
+        {
+            token outputs:surface.connect = </World/Looks/sol_espace_vert/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.22, 0.34, 0.13)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "sol_espace_vert_macro"
+        {
+            token outputs:surface.connect = </World/Looks/sol_espace_vert_macro/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/sol_espace_vert_macro/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/albedo_macro_8192.jpg@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/sol_espace_vert_macro/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "sol_chantier"
+        {
+            token outputs:surface.connect = </World/Looks/sol_chantier/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.45, 0.4, 0.33)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "sol_chantier_macro"
+        {
+            token outputs:surface.connect = </World/Looks/sol_chantier_macro/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/sol_chantier_macro/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/albedo_macro_8192.jpg@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/sol_chantier_macro/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "sol_batiment"
+        {
+            token outputs:surface.connect = </World/Looks/sol_batiment/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.45, 0.43, 0.4)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "sol_batiment_macro"
+        {
+            token outputs:surface.connect = </World/Looks/sol_batiment_macro/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/sol_batiment_macro/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/albedo_macro_8192.jpg@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/sol_batiment_macro/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "sol_autre"
+        {
+            token outputs:surface.connect = </World/Looks/sol_autre/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.4, 0.38, 0.34)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "sol_autre_macro"
+        {
+            token outputs:surface.connect = </World/Looks/sol_autre_macro/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/sol_autre_macro/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/albedo_macro_8192.jpg@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/sol_autre_macro/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "sol_chaussee_2025"
+        {
+            token outputs:surface.connect = </World/Looks/sol_chaussee_2025/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.13, 0.13, 0.14)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "bordure"
+        {
+            token outputs:surface.connect = </World/Looks/bordure/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.66, 0.65, 0.62)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "bati"
+        {
+            token outputs:surface.connect = </World/Looks/bati/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.78, 0.74, 0.66)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "toit"
+        {
+            token outputs:surface.connect = </World/Looks/toit/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.42, 0.33, 0.3)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "tronc"
+        {
+            token outputs:surface.connect = </World/Looks/tronc/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.3, 0.22, 0.15)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "feuillage"
+        {
+            token outputs:surface.connect = </World/Looks/feuillage/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.18, 0.32, 0.12)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "metal"
+        {
+            token outputs:surface.connect = </World/Looks/metal/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.35, 0.37, 0.38)
+                float inputs:metallic = 0.6
+                float inputs:roughness = 0.4
+                token outputs:surface
+            }
+        }
+
+        def Material "signal"
+        {
+            token outputs:surface.connect = </World/Looks/signal/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.1, 0.1, 0.1)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "panneau"
+        {
+            token outputs:surface.connect = </World/Looks/panneau/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.85, 0.85, 0.85)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.85
+                token outputs:surface
+            }
+        }
+
+        def Material "verre"
+        {
+            token outputs:surface.connect = </World/Looks/verre/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.55, 0.65, 0.7)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.4
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_blanc_u0"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_blanc_u0/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.88, 0.88, 0.86)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.97
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_blanc_u1"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_blanc_u1/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.88, 0.88, 0.86)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.88
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_blanc_u2"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_blanc_u2/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.88, 0.88, 0.86)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.68
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_blanc_u3"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_blanc_u3/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.88, 0.88, 0.86)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.42
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_blanc_uF"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_blanc_uF/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.88, 0.88, 0.86)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.15
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_jaune_u0"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_jaune_u0/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.9, 0.75, 0.1)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.97
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_jaune_u1"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_jaune_u1/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.9, 0.75, 0.1)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.88
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_jaune_u2"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_jaune_u2/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.9, 0.75, 0.1)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.68
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_jaune_u3"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_jaune_u3/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.9, 0.75, 0.1)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.42
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_jaune_uF"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_jaune_uF/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.9, 0.75, 0.1)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.15
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_ocre_u0"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_ocre_u0/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.8, 0.55, 0.25)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.97
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_ocre_u1"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_ocre_u1/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.8, 0.55, 0.25)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.88
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_ocre_u2"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_ocre_u2/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.8, 0.55, 0.25)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.68
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_ocre_u3"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_ocre_u3/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.8, 0.55, 0.25)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.42
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_ocre_uF"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_ocre_uF/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.8, 0.55, 0.25)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.15
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_vert_u0"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_vert_u0/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.25, 0.55, 0.3)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.97
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_vert_u1"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_vert_u1/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.25, 0.55, 0.3)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.88
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_vert_u2"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_vert_u2/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.25, 0.55, 0.3)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.68
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_vert_u3"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_vert_u3/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.25, 0.55, 0.3)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.42
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_vert_uF"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_vert_uF/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.25, 0.55, 0.3)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.15
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_rouge_u0"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_rouge_u0/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.7, 0.15, 0.12)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.97
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_rouge_u1"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_rouge_u1/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.7, 0.15, 0.12)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.88
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_rouge_u2"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_rouge_u2/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.7, 0.15, 0.12)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.68
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_rouge_u3"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_rouge_u3/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.7, 0.15, 0.12)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.42
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_rouge_uF"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_rouge_uF/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.7, 0.15, 0.12)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.15
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_bleu_u0"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_bleu_u0/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.15, 0.3, 0.65)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.97
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_bleu_u1"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_bleu_u1/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.15, 0.3, 0.65)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.88
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_bleu_u2"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_bleu_u2/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.15, 0.3, 0.65)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.68
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_bleu_u3"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_bleu_u3/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.15, 0.3, 0.65)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.42
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "peinture_bleu_uF"
+        {
+            token outputs:surface.connect = </World/Looks/peinture_bleu_uF/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.15, 0.3, 0.65)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.15
+                float inputs:roughness = 0.6
+                token outputs:surface
+            }
+        }
+
+        def Material "galva"
+        {
+            token outputs:surface.connect = </World/Looks/galva/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.62, 0.63, 0.64)
+                float inputs:metallic = 0.5
+                float inputs:roughness = 0.35
+                token outputs:surface
+            }
+        }
+
+        def Material "gris_feu"
+        {
+            token outputs:surface.connect = </World/Looks/gris_feu/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.25, 0.27, 0.28)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.7
+                token outputs:surface
+            }
+        }
+
+        def Material "noir_mat"
+        {
+            token outputs:surface.connect = </World/Looks/noir_mat/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.05, 0.05, 0.05)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.7
+                token outputs:surface
+            }
+        }
+
+        def Material "feu_rouge"
+        {
+            token outputs:surface.connect = </World/Looks/feu_rouge/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.55, 0.05, 0.04)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.35
+                token outputs:surface
+            }
+        }
+
+        def Material "feu_orange"
+        {
+            token outputs:surface.connect = </World/Looks/feu_orange/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.6, 0.35, 0.02)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.35
+                token outputs:surface
+            }
+        }
+
+        def Material "feu_vert"
+        {
+            token outputs:surface.connect = </World/Looks/feu_vert/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.05, 0.45, 0.25)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.35
+                token outputs:surface
+            }
+        }
+
+        def Material "bois"
+        {
+            token outputs:surface.connect = </World/Looks/bois/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.36, 0.27, 0.18)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.7
+                token outputs:surface
+            }
+        }
+
+        def Material "beton_mobilier"
+        {
+            token outputs:surface.connect = </World/Looks/beton_mobilier/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.68, 0.67, 0.64)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.7
+                token outputs:surface
+            }
+        }
+
+        def Material "blanc_panneau"
+        {
+            token outputs:surface.connect = </World/Looks/blanc_panneau/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.9, 0.9, 0.88)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.7
+                token outputs:surface
+            }
+        }
+
+        def Material "rouge_panneau"
+        {
+            token outputs:surface.connect = </World/Looks/rouge_panneau/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.7, 0.08, 0.1)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.7
+                token outputs:surface
+            }
+        }
+
+        def Material "bleu_panneau"
+        {
+            token outputs:surface.connect = </World/Looks/bleu_panneau/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.05, 0.25, 0.6)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.7
+                token outputs:surface
+            }
+        }
+
+        def Material "jaune_panneau"
+        {
+            token outputs:surface.connect = </World/Looks/jaune_panneau/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.95, 0.75, 0.05)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.7
+                token outputs:surface
+            }
+        }
+
+        def Material "vert_mobilier"
+        {
+            token outputs:surface.connect = </World/Looks/vert_mobilier/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.15, 0.3, 0.22)
+                float inputs:metallic = 0
+                float inputs:roughness = 0.7
+                token outputs:surface
+            }
+        }
+
+        def Material "face_A17"
+        {
+            token outputs:surface.connect = </World/Looks/face_A17/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_A17/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/A17.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_A17/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_AB3a"
+        {
+            token outputs:surface.connect = </World/Looks/face_AB3a/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_AB3a/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/AB3a.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_AB3a/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_AB4"
+        {
+            token outputs:surface.connect = </World/Looks/face_AB4/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_AB4/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/AB4.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_AB4/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_AK5"
+        {
+            token outputs:surface.connect = </World/Looks/face_AK5/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_AK5/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/AK5.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_AK5/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_B1"
+        {
+            token outputs:surface.connect = </World/Looks/face_B1/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_B1/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/B1.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_B1/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_B21a1"
+        {
+            token outputs:surface.connect = </World/Looks/face_B21a1/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_B21a1/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/B21a1.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_B21a1/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_B2a"
+        {
+            token outputs:surface.connect = </World/Looks/face_B2a/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_B2a/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/B2a.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_B2a/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_B2b"
+        {
+            token outputs:surface.connect = </World/Looks/face_B2b/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_B2b/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/B2b.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_B2b/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_B2b_temporaire"
+        {
+            token outputs:surface.connect = </World/Looks/face_B2b_temporaire/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_B2b_temporaire/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/B2b_temporaire.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_B2b_temporaire/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_B6a1"
+        {
+            token outputs:surface.connect = </World/Looks/face_B6a1/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_B6a1/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/B6a1.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_B6a1/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_C113"
+        {
+            token outputs:surface.connect = </World/Looks/face_C113/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_C113/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/C113.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_C113/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_C114"
+        {
+            token outputs:surface.connect = </World/Looks/face_C114/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_C114/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/C114.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_C114/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_C13a"
+        {
+            token outputs:surface.connect = </World/Looks/face_C13a/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_C13a/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/C13a.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_C13a/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_C13a_portrait"
+        {
+            token outputs:surface.connect = </World/Looks/face_C13a_portrait/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_C13a_portrait/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/C13a_portrait.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_C13a_portrait/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_D21a_commerces_reviree"
+        {
+            token outputs:surface.connect = </World/Looks/face_D21a_commerces_reviree/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_D21a_commerces_reviree/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/D21a_commerces_reviree.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_D21a_commerces_reviree/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_D21a_la_reviree_college"
+        {
+            token outputs:surface.connect = </World/Looks/face_D21a_la_reviree_college/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_D21a_la_reviree_college/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/D21a_la_reviree_college.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_D21a_la_reviree_college/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_J5"
+        {
+            token outputs:surface.connect = </World/Looks/face_J5/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_J5/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/J5.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_J5/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_M12a"
+        {
+            token outputs:surface.connect = </World/Looks/face_M12a/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_M12a/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/M12a.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_M12a/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_M9c"
+        {
+            token outputs:surface.connect = </World/Looks/face_M9c/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_M9c/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/M9c.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_M9c/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_balise_chevrons_chantier"
+        {
+            token outputs:surface.connect = </World/Looks/face_balise_chevrons_chantier/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_balise_chevrons_chantier/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/balise_chevrons_chantier.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_balise_chevrons_chantier/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+
+        def Material "face_plaque_rue_avenue_de_verdun"
+        {
+            token outputs:surface.connect = </World/Looks/face_plaque_rue_avenue_de_verdun/Surface.outputs:surface>
+
+            def Shader "Surface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor.connect = </World/Looks/face_plaque_rue_avenue_de_verdun/Albedo.outputs:rgb>
+                float inputs:metallic = 0
+                float inputs:roughness = 0.45
+                token outputs:surface
+            }
+
+            def Shader "stReader"
+            {
+                uniform token info:id = "UsdPrimvarReader_float2"
+                token inputs:varname = "st"
+                float2 outputs:result
+            }
+
+            def Shader "Albedo"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @../textures/panneaux/plaque_rue_avenue_de_verdun.png@
+                token inputs:sourceColorSpace = "sRGB"
+                float2 inputs:st.connect = </World/Looks/face_plaque_rue_avenue_de_verdun/stReader.outputs:result>
+                token inputs:wrapS = "clamp"
+                token inputs:wrapT = "clamp"
+                float3 outputs:rgb
+            }
+        }
+    }
+}
+

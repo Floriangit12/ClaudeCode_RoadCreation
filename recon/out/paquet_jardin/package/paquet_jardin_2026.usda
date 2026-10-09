@@ -1,0 +1,31 @@
+#usda 1.0
+(
+    customLayerData = {
+        string crs = "EPSG:2154 (Lambert-93), altitudes NGF-IGN69"
+        string etat_modelise = "octobre 2026 (après travaux ligne C1 2025)"
+        string opendrive = "paquet_jardin_2026.xodr"
+        string origine_locale_L93_NGF = "917279.43 6460289.98 216.3"
+        string site = "Meylan (38) — carrefour Paquet Jardin (av. de Verdun / ch. de la Revirée / av. du Vercors)"
+        string unites = "mètres, Z vers le haut"
+    }
+    defaultPrim = "World"
+    metersPerUnit = 1
+    subLayers = [
+        @layers/materiaux.usda@,
+        @layers/marquages.usdc@,
+        @layers/bordures.usdc@,
+        @layers/voirie.usdc@,
+        @layers/terrain.usdc@,
+        @layers/vegetation.usdc@,
+        @layers/mobilier.usdc@,
+        @layers/batiments.usdc@
+    ]
+    upAxis = "Z"
+)
+
+def Xform "World" (
+    kind = "assembly"
+)
+{
+}
+

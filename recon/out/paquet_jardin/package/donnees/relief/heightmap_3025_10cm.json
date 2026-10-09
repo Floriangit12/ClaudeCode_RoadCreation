@@ -1,0 +1,62 @@
+{
+ "fichier": "heightmap_3025_10cm.png",
+ "fichier_flottant_z_local": "heightmap_3025_10cm_zlocal.tif",
+ "format": "PNG niveaux de gris 16 bits non signé, ligne 0 = nord, colonne 0 = ouest",
+ "largeur_px": 3025,
+ "hauteur_px": 3025,
+ "taille_pixel_m": 0.1,
+ "convention_echantillonnage": "valeur = altitude au NŒUD (sommet de grille), pas au centre de pixel",
+ "emprise_noeuds_L93": {
+  "x_min": 917128.23,
+  "y_min": 6460138.78,
+  "x_max": 917430.63,
+  "y_max": 6460441.18
+ },
+ "cote_m": 302.4,
+ "origine_locale_L93_NGF": {
+  "x": 917279.43,
+  "y": 6460289.98,
+  "z": 216.3
+ },
+ "noeud_central": {
+  "colonne": 1512,
+  "ligne": 1512,
+  "X_local_m": 0.0,
+  "Y_local_m": 0.0
+ },
+ "z_min_m_NGF": 213.1,
+ "z_max_m_NGF": 219.9,
+ "z_min_local_m": -3.2,
+ "z_max_local_m": 3.6,
+ "z_donnees_min_max_m_NGF": [
+  213.239,
+  219.835
+ ],
+ "decodage": "z_NGF = z_min_m_NGF + valeur / 65535 * (z_max_m_NGF - z_min_m_NGF)",
+ "quantification_mm": 0.1038,
+ "source": "dtm_2026_10cm.tif (sol nu état octobre 2026, voir README_relief.md)",
+ "unreal_5_8_landscape": {
+  "import": "Landscape Mode > Manage > New > Import from File (heightmap)",
+  "resolution_globale": "3025 x 3025",
+  "quads_par_section": 63,
+  "sections_par_composant": "2x2",
+  "nombre_de_composants": "24x24",
+  "scale_xyz": [
+   10.0,
+   10.0,
+   1.328145
+  ],
+  "location_cm": [
+   -15120.0,
+   -15120.0,
+   20.005
+  ],
+  "remarques": "Repère Unreal = repère local du site en cm, X = Est, Y = Sud (Y local inversé, comme l'import USD), Z = altitude - 216,30 m. Le sommet (0,0) de la heightmap (coin NO) est placé à 'location_cm'. Hauteur Unreal (cm) = location_z + (valeur - 32768) * scale_z / 128. Ne pas activer de redimensionnement à l'import."
+ },
+ "houdini_22_heightfield": {
+  "methode_recommandee": "HeightField File : fichier heightmap_3025_10cm_zlocal.tif (float32, Z local en m), Grid Spacing = 0.1, taille 302.5 m (pixels), centre (0,0) ; la couche 'height' contient directement Z local.",
+  "methode_png": "HeightField File sur heightmap_3025_10cm.png puis HeightField Remap (0..1 -> -3.2..3.6 m).",
+  "orientation": "Houdini Y-up : X = Est, Z Houdini = -Y local (Sud), Y = altitude locale ; la ligne 0 de l'image (nord) est du côté -Z, sans retournement.",
+  "note_centre_pixel": "Le heightfield Houdini place les voxels au centre des pixels : avec 3025 pixels au pas 0.1 m, les centres coïncident avec les nœuds ci-dessus."
+ }
+}

@@ -1117,6 +1117,20 @@ def main():
                 d = pkg / p.relative_to(SRC)
                 d.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(p, d)
+    # données vectorielles et heightmaps utiles dans Houdini (courbes de bordures, voies, instances...)
+    DONNEES = {"surfaces": ["surfaces_2026.geojson"], "marquages": ["marquages_2026.geojson"],
+               "relief": ["bordures_hauteurs.geojson", "relief_zones_2026.geojson", "heightmap_2017_15cm.png",
+                          "heightmap_2017_15cm.json", "heightmap_3025_10cm.png", "heightmap_3025_10cm.json",
+                          "README_relief.md"],
+               "objets": ["instances.json", "arbres.geojson", "mobilier.geojson", "batiments_local.geojson"],
+               "opendrive": ["lanes_2026.geojson", "manoeuvres_2026.json", "validation_2026.json"],
+               "textures": ["index_tuiles.json", "LISEZMOI_TEXTURES.md"]}
+    for at, files in DONNEES.items():
+        for fn in files:
+            f = IN / at / fn
+            if f.exists():
+                (pkg / "donnees" / at).mkdir(parents=True, exist_ok=True)
+                shutil.copy2(f, pkg / "donnees" / at / fn)
     # look-dev (atelier lookdev) : scripts de matériaux Houdini/Unreal, cartes de détail CC0
     LD = IN / "lookdev"
     if LD.exists():

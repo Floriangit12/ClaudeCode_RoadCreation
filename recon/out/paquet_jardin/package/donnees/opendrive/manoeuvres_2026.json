@@ -1,0 +1,404 @@
+{
+ "carrefour": "Paquet Jardin (Meylan) : av. de Verdun RD1090 / ch. de la Reviree / av. du Vercors",
+ "etat": "octobre 2026 (apres travaux C1 2025)",
+ "fichier": "paquet_jardin_2026.xodr",
+ "jonction": 100,
+ "affectation_des_voies_entrantes": {
+  "R1.dL": "tout droit + gauche (Reviree) - plan projet 2025",
+  "R1.dR": "tout droit + droite (Vercors) - plan projet 2025",
+  "R3.dL": "tout droit + gauche (Vercors) - fleches 2022 conservees (GAM, ortho)",
+  "R3.dR": "tout droit + droite (Reviree) - fleches 2022 conservees (GAM, ortho)",
+  "R6.dInL": "gauche seul (Grenoble) - plan projet 2025",
+  "R6.dInR": "tout droit (Reviree) + droite (Montbonnot) - plan projet 2025",
+  "R5.dIn": "toutes directions (pas de fleche ; OSM : demi-tour interdit)"
+ },
+ "manoeuvres": [
+  {
+   "code": "SW_TD_G",
+   "manoeuvre": "tout droit",
+   "entree": {
+    "route": 1,
+    "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)",
+    "voie": -1,
+    "role": "dL",
+    "fleches": "tout droit + gauche (Reviree) - plan projet 2025"
+   },
+   "sortie": {
+    "route": 4,
+    "nom": "Avenue de Verdun (RD1090) NE - chaussee sens NE (sortante)",
+    "voie": -1,
+    "role": "dL"
+   },
+   "route_de_liaison": {
+    "id": 101,
+    "longueur_m": 32.01,
+    "rayon_min_m": 385.9,
+    "largeur_debut_fin_m": [
+     3.27,
+     2.96
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "SW_TD_D",
+   "manoeuvre": "tout droit",
+   "entree": {
+    "route": 1,
+    "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)",
+    "voie": -2,
+    "role": "dR",
+    "fleches": "tout droit + droite (Vercors) - plan projet 2025"
+   },
+   "sortie": {
+    "route": 4,
+    "nom": "Avenue de Verdun (RD1090) NE - chaussee sens NE (sortante)",
+    "voie": -2,
+    "role": "dR"
+   },
+   "route_de_liaison": {
+    "id": 102,
+    "longueur_m": 32.02,
+    "rayon_min_m": 94.4,
+    "largeur_debut_fin_m": [
+     3.25,
+     3.22
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "SW_TAG",
+   "manoeuvre": "tourne-a-gauche vers la Reviree",
+   "entree": {
+    "route": 1,
+    "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)",
+    "voie": -1,
+    "role": "dL",
+    "fleches": "tout droit + gauche (Reviree) - plan projet 2025"
+   },
+   "sortie": {
+    "route": 5,
+    "nom": "Chemin de la Reviree",
+    "voie": -1,
+    "role": "dOut"
+   },
+   "route_de_liaison": {
+    "id": 103,
+    "longueur_m": 35.52,
+    "rayon_min_m": 6.5,
+    "largeur_debut_fin_m": [
+     3.27,
+     4.8
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "SW_TAD",
+   "manoeuvre": "tourne-a-droite vers le Vercors (depuis la voie droite generale)",
+   "entree": {
+    "route": 1,
+    "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)",
+    "voie": -2,
+    "role": "dR",
+    "fleches": "tout droit + droite (Vercors) - plan projet 2025"
+   },
+   "sortie": {
+    "route": 6,
+    "nom": "Avenue du Vercors",
+    "voie": -2,
+    "role": "dOut"
+   },
+   "route_de_liaison": {
+    "id": 104,
+    "longueur_m": 10.27,
+    "rayon_min_m": 4.6,
+    "largeur_debut_fin_m": [
+     3.25,
+     7.02
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "NE_TD_G",
+   "manoeuvre": "tout droit",
+   "entree": {
+    "route": 3,
+    "nom": "Avenue de Verdun (RD1090) NE - chaussee sens SW (entrante)",
+    "voie": -1,
+    "role": "dL",
+    "fleches": "tout droit + gauche (Vercors) - fleches 2022 conservees (GAM, ortho)"
+   },
+   "sortie": {
+    "route": 2,
+    "nom": "Avenue de Verdun (RD1090) SW - chaussee sens SW (sortante)",
+    "voie": -1,
+    "role": "dL"
+   },
+   "route_de_liaison": {
+    "id": 105,
+    "longueur_m": 31.99,
+    "rayon_min_m": 91.7,
+    "largeur_debut_fin_m": [
+     3.03,
+     3.37
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "NE_TD_D",
+   "manoeuvre": "tout droit",
+   "entree": {
+    "route": 3,
+    "nom": "Avenue de Verdun (RD1090) NE - chaussee sens SW (entrante)",
+    "voie": -2,
+    "role": "dR",
+    "fleches": "tout droit + droite (Reviree) - fleches 2022 conservees (GAM, ortho)"
+   },
+   "sortie": {
+    "route": 2,
+    "nom": "Avenue de Verdun (RD1090) SW - chaussee sens SW (sortante)",
+    "voie": -2,
+    "role": "dR"
+   },
+   "route_de_liaison": {
+    "id": 106,
+    "longueur_m": 31.96,
+    "rayon_min_m": 75.8,
+    "largeur_debut_fin_m": [
+     3.05,
+     3.32
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "NE_TAG",
+   "manoeuvre": "tourne-a-gauche vers le Vercors",
+   "entree": {
+    "route": 3,
+    "nom": "Avenue de Verdun (RD1090) NE - chaussee sens SW (entrante)",
+    "voie": -1,
+    "role": "dL",
+    "fleches": "tout droit + gauche (Vercors) - fleches 2022 conservees (GAM, ortho)"
+   },
+   "sortie": {
+    "route": 6,
+    "nom": "Avenue du Vercors",
+    "voie": -2,
+    "role": "dOut"
+   },
+   "route_de_liaison": {
+    "id": 107,
+    "longueur_m": 32.31,
+    "rayon_min_m": 13.8,
+    "largeur_debut_fin_m": [
+     3.03,
+     7.02
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "NE_TAD",
+   "manoeuvre": "tourne-a-droite vers la Reviree",
+   "entree": {
+    "route": 3,
+    "nom": "Avenue de Verdun (RD1090) NE - chaussee sens SW (entrante)",
+    "voie": -2,
+    "role": "dR",
+    "fleches": "tout droit + droite (Reviree) - fleches 2022 conservees (GAM, ortho)"
+   },
+   "sortie": {
+    "route": 5,
+    "nom": "Chemin de la Reviree",
+    "voie": -1,
+    "role": "dOut"
+   },
+   "route_de_liaison": {
+    "id": 108,
+    "longueur_m": 10.31,
+    "rayon_min_m": 4.7,
+    "largeur_debut_fin_m": [
+     3.05,
+     4.8
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "S_TAG",
+   "manoeuvre": "tourne-a-gauche vers Grenoble (voie gauche, tourne-a-gauche seul)",
+   "entree": {
+    "route": 6,
+    "nom": "Avenue du Vercors",
+    "voie": 2,
+    "role": "dInL",
+    "fleches": "gauche seul (Grenoble) - plan projet 2025"
+   },
+   "sortie": {
+    "route": 2,
+    "nom": "Avenue de Verdun (RD1090) SW - chaussee sens SW (sortante)",
+    "voie": -1,
+    "role": "dL"
+   },
+   "route_de_liaison": {
+    "id": 109,
+    "longueur_m": 25.23,
+    "rayon_min_m": 13.3,
+    "largeur_debut_fin_m": [
+     4.03,
+     3.37
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "S_TD",
+   "manoeuvre": "tout droit vers la Reviree (voie droite)",
+   "entree": {
+    "route": 6,
+    "nom": "Avenue du Vercors",
+    "voie": 3,
+    "role": "dInR",
+    "fleches": "tout droit (Reviree) + droite (Montbonnot) - plan projet 2025"
+   },
+   "sortie": {
+    "route": 5,
+    "nom": "Chemin de la Reviree",
+    "voie": -1,
+    "role": "dOut"
+   },
+   "route_de_liaison": {
+    "id": 110,
+    "longueur_m": 24.65,
+    "rayon_min_m": 49.9,
+    "largeur_debut_fin_m": [
+     2.93,
+     4.8
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "S_TAD",
+   "manoeuvre": "tourne-a-droite vers Montbonnot (voie droite)",
+   "entree": {
+    "route": 6,
+    "nom": "Avenue du Vercors",
+    "voie": 3,
+    "role": "dInR",
+    "fleches": "tout droit (Reviree) + droite (Montbonnot) - plan projet 2025"
+   },
+   "sortie": {
+    "route": 4,
+    "nom": "Avenue de Verdun (RD1090) NE - chaussee sens NE (sortante)",
+    "voie": -2,
+    "role": "dR"
+   },
+   "route_de_liaison": {
+    "id": 111,
+    "longueur_m": 15.04,
+    "rayon_min_m": 5.2,
+    "largeur_debut_fin_m": [
+     2.93,
+     3.22
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "N_TAD",
+   "manoeuvre": "tourne-a-droite vers Grenoble",
+   "entree": {
+    "route": 5,
+    "nom": "Chemin de la Reviree",
+    "voie": 1,
+    "role": "dIn",
+    "fleches": "toutes directions (pas de fleche ; OSM : demi-tour interdit)"
+   },
+   "sortie": {
+    "route": 2,
+    "nom": "Avenue de Verdun (RD1090) SW - chaussee sens SW (sortante)",
+    "voie": -2,
+    "role": "dR"
+   },
+   "route_de_liaison": {
+    "id": 112,
+    "longueur_m": 24.96,
+    "rayon_min_m": 8.1,
+    "largeur_debut_fin_m": [
+     4.66,
+     3.32
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "N_TD",
+   "manoeuvre": "tout droit vers le Vercors",
+   "entree": {
+    "route": 5,
+    "nom": "Chemin de la Reviree",
+    "voie": 1,
+    "role": "dIn",
+    "fleches": "toutes directions (pas de fleche ; OSM : demi-tour interdit)"
+   },
+   "sortie": {
+    "route": 6,
+    "nom": "Avenue du Vercors",
+    "voie": -2,
+    "role": "dOut"
+   },
+   "route_de_liaison": {
+    "id": 113,
+    "longueur_m": 28.92,
+    "rayon_min_m": 15.6,
+    "largeur_debut_fin_m": [
+     4.66,
+     7.02
+    ]
+   },
+   "autorisee_2026": true
+  },
+  {
+   "code": "N_TAG",
+   "manoeuvre": "tourne-a-gauche vers Montbonnot",
+   "entree": {
+    "route": 5,
+    "nom": "Chemin de la Reviree",
+    "voie": 1,
+    "role": "dIn",
+    "fleches": "toutes directions (pas de fleche ; OSM : demi-tour interdit)"
+   },
+   "sortie": {
+    "route": 4,
+    "nom": "Avenue de Verdun (RD1090) NE - chaussee sens NE (sortante)",
+    "voie": -1,
+    "role": "dL"
+   },
+   "route_de_liaison": {
+    "id": 114,
+    "longueur_m": 22.2,
+    "rayon_min_m": 11.0,
+    "largeur_debut_fin_m": [
+     4.66,
+     2.96
+    ]
+   },
+   "autorisee_2026": true
+  }
+ ],
+ "manoeuvres_non_autorisees_ou_supprimees": [
+  "Verdun SW -> Vercors par la bretelle / voie bus de tourne-a-droite : supprimee (travaux 2025, OSM 2025-08-03) ; le tourne-a-droite se fait depuis la voie droite generale (liaison SW_TAD)",
+  "Verdun SW voie gauche -> Vercors, voie droite -> Reviree : non (fleches)",
+  "Verdun NE voie gauche -> Reviree, voie droite -> Vercors : non (fleches)",
+  "Vercors voie gauche -> tout droit / droite : non (fleche gauche seule, plan projet)",
+  "Vercors voie droite -> gauche : non dans l'etat de reference (plan projet) ; autorise dans la variante --variante-vercors-trident (fleches 2022 conservees au GAM)",
+  "demi-tours : interdits (relations OSM no_u_turn sur la Reviree et le Vercors ; aucun sur Verdun)"
+ ],
+ "sources": "plan projet 2025 (fleches, lignes d'effet), leve GAM 2026 (fleches centrales, lignes de guidage), ortho 2022 (fleches Verdun NE), OSM 2026 (sens, nombre de voies, restrictions)"
+}

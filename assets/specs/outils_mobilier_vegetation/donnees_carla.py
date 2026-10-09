@@ -170,6 +170,7 @@ def corr(asset):
             "corylus": ["Hazel", "Corylus"], "magnolia": ["Magnolia"], "crataegus": ["Hawthorn", "Crataegus"], "sorbus": ["Rowan", "Sorbus"],
             "salix": ["Willow", "Salix"], "pinus": ["Pine", "Pinus"], "alnus": ["Alder", "Alnus"], "cercis": ["Judas", "Cercis", "Redbud"],
             "ulmus": ["Elm", "Ulmus"], "gleditsia": ["Locust", "Gleditsia"], "celtis": ["Hackberry", "Celtis"], "feuillu": ["Tree", "Broadleaf"],
+            "prunus": ["Plum", "Prunus", "Cherry", "Purple", "Beech"],
             "conifere": ["Pine", "Spruce", "Fir", "Conifer"], "jeune": ["Sapling", "Young"], "haie": ["Hedge", "Bush"], "massif": ["Bush", "Shrub"],
         }
         g = a.split("_")[1] if a.startswith("arbre_") else a.split("_")[0]
@@ -199,4 +200,23 @@ CONSTATS_VIGNETTES = {
     "static.prop.mailbox": "boîte aux lettres USPS : à éviter",
     "static.prop.cypresstree": "cyprès colonnaire : proche du cyprès d'Italie",
     "static.prop.aporosatree": "arbre tropical : à éviter",
+}
+
+
+# V2 : vérification des noms et dossiers cités (pages officielles relues le 2026-10-09)
+VERIFICATION_V2 = {
+    "date": "2026-10-09",
+    "props": ("les 26 identifiants static.prop.* cités (bench01-03, trashcan01-05, bin, busstop, busstoplb, advertisement, chainbarrier, chainbarrierend, "
+              "streetbarrier, constructioncone, trafficcone01-02, warningconstruction, trafficwarning, mailbox, streetfountain, glasscontainer, "
+              "cypresstree, aporosatree, streetsign) figurent dans " + DOC["props"]),
+    "dossiers": {
+        "Content/Carla/Static/TrafficLight/StreetLights_01": [DOC["maps"], DOC["tl_0915"]],
+        "Content/Carla/Static/TrafficSign": [DOC["maps"], DOC["tl_0915"]],
+        "Carla > Static > Vegetation (« blueprints for multiple types of trees, bushes, shrubs »)": [DOC["maps"]],
+        "Carla/Static/Pole/PoweLine (BP_SplinePoweLine)": [DOC["landscape_0915"]],
+        "BP_Spline, BP_RepSpline, BP_Wall (Serial meshes)": [DOC["landscape_0915"]],
+        "Content/Carla/Static/Decals, GenericMaterials": [DOC["road_painter_0915"]],
+        "Default.Package.json, /Game/Carla/Static/Static/SM_Atm.SM_Atm": [DOC["props_json"]],
+    },
+    "non_publie": "les noms des static meshes des lampadaires, poteaux, clôtures et végétaux ne sont pas publiés : résolution sur le PC (carla_resoudre_chemins.py)",
 }

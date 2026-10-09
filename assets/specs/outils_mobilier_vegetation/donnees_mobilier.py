@@ -30,6 +30,10 @@ T_FFC2 = "2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5"
 T_DED0 = "2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309"
 T_E5D7 = "2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5"
 T_119D = "2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c"
+T_DD2A = "2024-05-01_dd2a9c8c-6044-453b-9377-32ddad938138"   # V2 : arceaux vélo du quai NO sous ciel couvert
+T_B401 = "2024-05-01_b4013696-1d02-4d94-9a89-456a56298e04"   # V2 : feuilles de la haie (laurier-cerise)
+T_0508 = "2026-07-28_05089869-a37a-40f8-a2bc-cd764ec7d7f9"   # V2 : allée de L'Horloge (magnolias / grand feuillu voisin)
+T_7A18 = "2025-05-18_7a182db7-30c9-4964-a0d1-b8b50e80fb42"   # V2 : houppier du Populus alba (Verdun NE)
 
 
 def trap(h, z0, z1, d0, d1, c):
@@ -78,9 +82,11 @@ def _cloture():
     return g
 
 
-def _arceau(h0=0.0):
-    return [line([[h0 - 0.4, 0], [h0 - 0.4, 0.70], [h0 - 0.27, 0.83], [h0 + 0.27, 0.83], [h0 + 0.4, 0.70], [h0 + 0.4, 0]],
-                 0.05, "galvanise_vieilli")]
+def _arceau(h0=0.0, L=0.65, H=0.82, r=0.08):
+    """V2 : arceau anthracite 0,65 x 0,82 m, angles de rayon ≈ 0,08 m (photo 2024-05-01 dd2a9c8c r01_c00)."""
+    a = L / 2
+    return [line([[h0 - a, 0], [h0 - a, H - r], [h0 - a + r * 0.3, H - r * 0.3], [h0 - a + r, H], [h0 + a - r, H],
+                  [h0 + a - r * 0.3, H - r * 0.3], [h0 + a, H - r], [h0 + a, 0]], 0.05, "anthracite_7016")]
 
 
 CANDELABRE_DIFFUSION = ("Les cotes de fût/lanterne sont des estimations photo (pas de catalogue fabricant) ; la hauteur "
@@ -441,20 +447,21 @@ FICHES = [
     },
     {
         "asset": "arceau_velo", "categorie_lib": "mobilier",
-        "designation": "Arceau vélo en U renversé à angles arrondis, tube d'acier galvanisé, scellé",
+        "designation": "Arceau vélo en U renversé à angles arrondis, tube d'acier thermolaqué anthracite, scellé",
         "classement_atelier": {"type": "stationnement_velos (bicycle_parking=stands)"},
         "etat_2026": "présent", "confiance": "haute", "priorite": 2,
         "quantite": {"estimation": 20, "min": 13, "max": 25,
                      "methode": "6 arceaux au quai NO (photo 2025-05 + plan projet « Stationnement vélos ») ; emprise : groupes OSM bicycle_parking=stands, capacité/2 arceaux (10, 8, 15, 6 places → ≈ 20 arceaux) ; les groupes wall_loops / handlebar_holder / bollard sont d'autres modèles"},
-        "dimensions_m": {"longueur": 0.80, "hauteur": 0.85, "tube_diametre": 0.05, "rayon_angles": 0.15, "entraxe_rangee": 1.0},
+        "dimensions_m": {"longueur": 0.65, "longueur_plage": "0,60-0,70", "hauteur": 0.82, "hauteur_plage": "0,80-0,85", "tube_diametre": 0.05, "rayon_angles": 0.08, "entraxe_rangee": 1.0,
+                         "v2": "V1 : 0,80 x 0,85 m, rayon 0,15 m, galvanisé → corrigé d'après la vue rapprochée dd2a9c8c (2024-05-01, ciel couvert)"},
         "geometrie": ["tube cintré en U renversé, pieds scellés (ou platines)", "rangée : instancier tous les 1,0 m, perpendiculairement à la bordure"],
         "gabarit_2d": {"plan": "XZ", "elements": _arceau()},
-        "materiaux": [{"partie": "tube", "materiau": "acier galvanisé", "couleur": "galvanise_vieilli",
-                       "note": ("seule vue (2374105b r01_c03) à contre-jour : cœur des tubes RGB ≈ 30-45, aussi sombre que le "
-                                "candélabre voisin côté ombre ; teinte non tranchée (catalogue : galvanisé / anthracite) → "
-                                "prévoir une variante de matériau anthracite_7016")}],
-        "cotes_mesurees": [{"grandeur": "hauteur", "valeur": "≈ 0,85-1,0 m", "methode": "photo 2025-05-18 2374105b r01_c03 (pied −10°, sommet −4,1° pour une caméra à 1,7 m ; vélo garé pour contrôle)"}],
-        "photos_reference": [tuile(T_2374, "r01_c03"), tuile(T_734A, "r01_c03")],
+        "materiaux": [{"partie": "tube", "materiau": "acier thermolaqué", "couleur": "anthracite_7016",
+                       "note": ("V2 : tranché sur la vue rapprochée 2024-05-01 dd2a9c8c r01_c00 (lumière diffuse, ≈ 3-6 m) : tubes gris anthracite mat "
+                                "(≈ RAL 7016), pieds plus clairs (poussière) ; la vue V1 à contre-jour (2374105b) ne permettait pas de trancher")}],
+        "cotes_mesurees": [{"grandeur": "hauteur", "valeur": "≈ 0,85-1,0 m (V1, contre-jour)", "methode": "photo 2025-05-18 2374105b r01_c03 (pied −10°, sommet −4,1° pour une caméra à 1,7 m ; vélo garé pour contrôle)"},
+                           {"grandeur": "rapport largeur / hauteur (V2)", "valeur": "0,70-0,72 sur 2 arceaux vus presque de face (pieds au même niveau image) ; roues de vélo garé ≈ 0,66-0,70 m de diamètre à côté → hauteur ≈ 0,80-0,85 m, largeur ≈ 0,60-0,70 m", "methode": "photo 2024-05-01 dd2a9c8c r01_c00 (arceaux x 355-460 et 487-603, sommets y 432-470, pieds y 578-637)"}],
+        "photos_reference": [tuile(T_DD2A, "r01_c00"), tuile(T_2374, "r01_c03"), tuile(T_734A, "r01_c03")],
         "source_recommandee": "maison",
         "budget": {"triangles_lod0": 300},
         "pivot_orientation": "pivot au sol au centre ; l'arceau est dans le plan XZ",

@@ -18,7 +18,7 @@ from PIL import Image, ImageDraw, ImageFont
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from commun import ASSETS, COULEURS, QA, REPO, SPECS  # noqa: E402
 from donnees_mobilier import (T_119D, T_1149, T_2374, T_2AB4, T_31D1, T_5C0D, T_734A, T_9834, T_9FC8, T_A1FF,  # noqa: E402
-                              T_AB4C, T_BC579, T_D888, T_DED0, T_E5D7, T_F8D9, T_FFC2)
+                              T_AB4C, T_BC579, T_D888, T_DED0, T_E5D7, T_F8D9, T_FFC2, T_DD2A, T_B401, T_0508, T_7A18)
 
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 
@@ -288,6 +288,57 @@ def p8_carla(vign: Path | None):
     return planche("QA 08 — doublures CARLA (catalogue officiel des props) / réel du site", cells, 4, 3, "qa_08_carla_vs_reel.jpg")
 
 
+def _plan_cypres(w, h):
+    """Relèvements du cyprès d'Italie (V2) : rayons depuis 3 photos, emprise, conifères de l'atelier, candidats V1."""
+    import math
+    from commun import OBJETS
+    im = Image.new("RGB", (w, h), (245, 245, 240))
+    d = ImageDraw.Draw(im)
+    x0, x1, y0, y1 = -330.0, 170.0, -260.0, 240.0                 # m (repère local)
+    k = min(w / (x1 - x0), (h - 30) / (y1 - y0))
+    P = lambda x, y: ((x - x0) * k, (y1 - y) * k)                  # noqa: E731
+    d.rectangle([P(-150, 150), P(150, -150)], outline=(80, 80, 80), width=2)
+    d.text(P(-148, 148), "emprise 300 m", fill=(80, 80, 80), font=font(11))
+    arb = json.loads((OBJETS / "arbres.geojson").read_text())["features"]
+    v1 = {"arbre_108", "arbre_139", "arbre_140", "arbre_143", "arbre_164"}
+    for f in arb:
+        q = f["properties"]
+        if q.get("type") != "conifere":
+            continue
+        X, Y = P(q["x_local"], q["y_local"])
+        r = 5 if q["id"] in v1 else 3
+        d.ellipse([X - r, Y - r, X + r, Y + r], fill=(200, 40, 40) if q["id"] in v1 else (40, 120, 40))
+    rayons = [((-53.94, -54.79), 289.4, "bc579b89"), ((-39.59, -39.60), 273.4, "2374105b"), ((-11.13, -6.19), 272.1, "2ab4efbc")]
+    for (px, py), az, nom in rayons:
+        a = math.radians(az)
+        d.line([P(px, py), P(px + 420 * math.sin(a), py + 420 * math.cos(a))], fill=(30, 60, 200), width=2)
+        X, Y = P(px, py)
+        d.ellipse([X - 4, Y - 4, X + 4, Y + 4], fill=(30, 60, 200))
+        d.text((X + 4, Y + 2), nom, fill=(30, 60, 200), font=font(10))
+    d.text((4, 4), "rayons : relèvements du cyprès (photos)\nrouge : candidats V1 ; vert : conifères atelier", fill=(40, 40, 40), font=font(11))
+    return legende(im, "cyprès d'Italie : rayons quasi parallèles vers\nl'ouest → hors emprise (V1 corrigée)")
+
+
+def p9_v2(mob):
+    """Planche V2 : corrections et ajouts vérifiés sur photos natives."""
+    cw, chh = 330, 318
+    arceau_gab = dessiner_gabarit(fiche(mob, "arceau_velo")["gabarit_2d"]["elements"] + [
+        {"t": "circ", "h": 1.2, "z": 0.34, "r": 0.34, "c": "noir_9005"}], cw, chh, 260, h0=-0.55, personne=False,
+        titre="V2 : arceau 0,65 x 0,82 anthracite + roue 0,68", cote="grille 1 m")
+    cells = [
+        legende(extrait(T_DD2A, "r01_c00", 300, 330, cw, chh), "2024-05-01 dd2a9c8c r01_c00 : arceaux\nanthracite, l/h ≈ 0,72 (ciel couvert)"),
+        arceau_gab,
+        legende(extrait("2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0", "r01_c00", 600, 400, cw, chh), "2025-01 a1ffea74 : îlot effilé du Vercors,\nbordures hautes très claires → bordure_T3"),
+        legende(extrait(T_5C0D, "r01_c04", 600, 200, cw, chh), "2024-08 5c0d1d39 : arbre pourpre (arbre_273)\n→ arbre_prunus_cerasifera_pissardii_moyen"),
+        legende(extrait(T_9834, "r01_c04", 90, 160, cw, chh), "2025-05 9834f494 r01_c04 : même arbre\npourpre derrière la haie"),
+        legende(extrait(T_7A18, "r00_c05", 0, 380, cw, chh), "2025-05 7a182db7 r00_c05 : houppier haut\nà l'emplacement du Populus alba (424)"),
+        legende(extrait(T_B401, "r01_c04", 300, 300, cw, chh), "2024-05 b4013696 : haie = laurier-cerise\n(grandes feuilles vernissées)"),
+        legende(extrait(T_0508, "r01_c04", 520, 120, cw, chh), "2026-07 05089869 : grand feuillu voisin des\nmagnolias → hauteurs 8-9 m rejetées (5 m)"),
+        _plan_cypres(cw, chh),
+    ]
+    return planche("QA 09 — V2 : corrections vérifiées sur photos (arceaux, T3, essences, hauteurs, cyprès)", cells, 3, 3, "qa_09_v2_corrections.jpg")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--carla-vignettes", type=Path, default=None, help="dossier des vignettes .webp du catalogue CARLA (docs)")
@@ -295,5 +346,5 @@ if __name__ == "__main__":
     mob = json.loads((SPECS / "mobilier.json").read_text())
     bor = json.loads((SPECS / "bordures.json").read_text())
     for p in (p1_eclairage(mob), p2_transport(mob), p3_mobilier(mob), p4_profils(bor), p5_bordures_site(), p6_vegetation(), p7_plan(),
-              p8_carla(a.carla_vignettes)):
+              p8_carla(a.carla_vignettes), p9_v2(mob)):
         print(p.relative_to(ASSETS.parent), p.stat().st_size)

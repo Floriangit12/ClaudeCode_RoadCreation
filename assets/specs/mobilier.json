@@ -31,7 +31,20 @@
    "assets/qa/mobilier_vegetation_carla/qa_03_mobilier.jpg",
    "assets/qa/mobilier_vegetation_carla/qa_08_carla_vs_reel.jpg"
   ],
-  "hors_lot": "feux, mâts de feux, mât à crosse caméra et panneaux : assets/specs/feux.json et panneaux.json"
+  "hors_lot": "feux, mâts de feux, mât à crosse caméra et panneaux : assets/specs/feux.json et panneaux.json (la correspondance avec la scène les inclut pour être complète)",
+  "version": 2,
+  "historique": [
+   {
+    "version": 1,
+    "date": "2026-10-09",
+    "contenu": "première version (fiches, profils, essences, correspondances CARLA)"
+   },
+   {
+    "version": 2,
+    "date": "2026-10-09",
+    "contenu": "contrôle visuel des 8 planches V1 et recoupements photo/normes : correspondance prototypes de la scène → noms du catalogue (+ script noms_catalogue_scene.py), hauteurs d'arbres aberrantes corrigées, 2 essences ajoutées (arbre pourpre, peuplier blanc), cyprès hors emprise, arceaux anthracite 0,65 x 0,82 m, positions des BEV, profils de bordures vérifiés sur les plans cotés Celtys, bordure_T3 explicite, identifiants CARLA revérifiés"
+   }
+  ]
  },
  "couleurs": {
   "galvanise_vieilli": {
@@ -280,7 +293,7 @@
   }
  },
  "alias_prototypes_atelier": {
-  "probleme": "les prototypes de l'atelier objets (instances.json) ne portent pas les noms du catalogue (ex. lampadaire_crosse_double ≠ candelabre_double_crosse) et orientent leur face selon +X ; recon/assemble.py lit en outre « type » et « yaw » alors que instances.json fournit « prototype » et « yaw_deg » : à corriger à l'assemblage (renommage via cette table, yaw − 90°).",
+  "probleme": "les prototypes de l'atelier objets (instances.json) ne portent pas les noms du catalogue (ex. lampadaire_crosse_double ≠ candelabre_double_crosse) et orientent leur face selon +X. V2 : recon/assemble.py lit désormais « prototype » et « yaw_deg » (rotation yaw − 90°, faces +Y) ; reste le renommage → voir correspondance_scene_v1 (table complète par instance, lue dans la scène).",
   "table": [
    {
     "prototype_atelier": "arbre_feuillu",
@@ -538,6 +551,1505 @@
     "asset_catalogue": "totem_pr_smmag"
    }
   ]
+ },
+ "correspondance_scene_v1": {
+  "scene": "recon/out/paquet_jardin/package/paquet_jardin_2026.usda (paquet v1 du 2026-10-09)",
+  "probleme": "les prototypes de la scène portent les noms de l'atelier objets ; package/substituer_assets.py ne cherche que le nom exact du prototype → un asset livré sous son nom de catalogue ne serait pas substitué",
+  "solution_pc": "hython assets/specs/outils_mobilier_vegetation/noms_catalogue_scene.py --scene <paquet>/paquet_jardin_2026.usda, PUIS substituer_assets.py : la couche layers/noms_catalogue.usda réaffecte chaque instance au prototype nommé comme son asset (table par_instance)",
+  "solution_durable": "recon/assemble.py devrait nommer directement les prototypes avec ces noms (table par_instance) dans le paquet v2",
+  "prototypes": [
+   {
+    "prototype_scene": "abri_bus_JCDecaux",
+    "instances": 2,
+    "asset_catalogue": "abri_bus_m_reso",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "armoire",
+    "instances": 2,
+    "asset_catalogue": "armoire_commande_feux",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false,
+    "repartition": {
+     "armoire_technique": 1,
+     "armoire_commande_feux": 1
+    },
+    "instances_divergentes": [
+     {
+      "id": "armoire_1313238971",
+      "asset": "armoire_technique"
+     }
+    ]
+   },
+   {
+    "prototype_scene": "balise_J11",
+    "instances": 2,
+    "asset_catalogue": "balise_J11",
+    "asset_dans_catalogue_besoins": false,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "banc",
+    "instances": 2,
+    "asset_catalogue": "banc_bois_metal",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "barriere_levante",
+    "instances": 3,
+    "asset_catalogue": "barriere_levante",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "boite_aux_lettres",
+    "instances": 1,
+    "asset_catalogue": "boite_aux_lettres_poste",
+    "asset_dans_catalogue_besoins": false,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "chicane",
+    "instances": 1,
+    "asset_catalogue": "chicane_cycles",
+    "asset_dans_catalogue_besoins": false,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "conteneur_verre",
+    "instances": 1,
+    "asset_catalogue": "conteneur_verre",
+    "asset_dans_catalogue_besoins": false,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "corbeille",
+    "instances": 5,
+    "asset_catalogue": "corbeille_cylindrique",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "distributeur",
+    "instances": 2,
+    "asset_catalogue": "distributeur_sacs_canins",
+    "asset_dans_catalogue_besoins": false,
+    "nom_identique": false,
+    "repartition": {
+     "distributeur_sacs_canins": 1,
+     "distributeur_titres_m_reso": 1
+    },
+    "instances_divergentes": [
+     {
+      "id": "distributeur_12321482421",
+      "asset": "distributeur_titres_m_reso"
+     }
+    ]
+   },
+   {
+    "prototype_scene": "feu_mat",
+    "instances": 13,
+    "asset_catalogue": "mat_feu_d114",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "feu_tete_R11v",
+    "instances": 7,
+    "asset_catalogue": "feu_R11v",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "feu_tete_R11v_rep",
+    "instances": 4,
+    "asset_catalogue": "feu_R11v_repetiteur",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "feu_tete_R12",
+    "instances": 14,
+    "asset_catalogue": "feu_R12",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "feu_tete_R13c",
+    "instances": 4,
+    "asset_catalogue": "feu_R13c",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "fontaine",
+    "instances": 1,
+    "asset_catalogue": "borne_fontaine",
+    "asset_dans_catalogue_besoins": false,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "lampadaire_crosse_double",
+    "instances": 6,
+    "asset_catalogue": "candelabre_double_crosse",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "lampadaire_crosse_simple",
+    "instances": 9,
+    "asset_catalogue": "candelabre_crosse_simple",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false,
+    "repartition": {
+     "candelabre_crosse_simple": 8,
+     "candelabre_double_crosse": 1
+    },
+    "instances_divergentes": [
+     {
+      "id": "lamp_9514795520",
+      "asset": "candelabre_double_crosse"
+     }
+    ]
+   },
+   {
+    "prototype_scene": "lampadaire_mat_droit",
+    "instances": 27,
+    "asset_catalogue": "candelabre_mat_droit_led",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false,
+    "repartition": {
+     "candelabre_mat_droit_led": 23,
+     "candelabre_mat_droit_shp": 4
+    },
+    "instances_divergentes": [
+     {
+      "id": "lamp_9530354220",
+      "asset": "candelabre_mat_droit_shp"
+     },
+     {
+      "id": "lamp_9530354517",
+      "asset": "candelabre_mat_droit_shp"
+     },
+     {
+      "id": "lamp_12894141026",
+      "asset": "candelabre_mat_droit_shp"
+     },
+     {
+      "id": "lamp_12894130974",
+      "asset": "candelabre_mat_droit_shp"
+     }
+    ]
+   },
+   {
+    "prototype_scene": "mat_camera",
+    "instances": 2,
+    "asset_catalogue": "mat_feu_crosse_camera",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false,
+    "repartition": {
+     "mat_camera_video": 1,
+     "mat_feu_crosse_camera": 1
+    },
+    "instances_divergentes": [
+     {
+      "id": "mat_camera_9831317323",
+      "asset": "mat_camera_video"
+     }
+    ]
+   },
+   {
+    "prototype_scene": "mobilier_publicitaire",
+    "instances": 2,
+    "asset_catalogue": "mupi_publicitaire",
+    "asset_dans_catalogue_besoins": false,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "panneau_A17",
+    "instances": 1,
+    "asset_catalogue": "panneau_A17",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "panneau_AB3a",
+    "instances": 3,
+    "asset_catalogue": "panneau_AB3a",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "panneau_AB4",
+    "instances": 2,
+    "asset_catalogue": "panneau_AB4",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "panneau_B1",
+    "instances": 2,
+    "asset_catalogue": "panneau_B1",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "panneau_B21a1",
+    "instances": 4,
+    "asset_catalogue": "panneau_B21a1",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "panneau_B2a",
+    "instances": 2,
+    "asset_catalogue": "panneau_B2a",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "panneau_B2b",
+    "instances": 1,
+    "asset_catalogue": "panneau_B2b",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "panneau_B6a1",
+    "instances": 3,
+    "asset_catalogue": "panneau_B6a1",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "panneau_C113",
+    "instances": 1,
+    "asset_catalogue": "panneau_C113",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "panneau_C114",
+    "instances": 1,
+    "asset_catalogue": "panneau_C114",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "panneau_C13a",
+    "instances": 1,
+    "asset_catalogue": "panneau_C13a",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "panneau_D21",
+    "instances": 3,
+    "asset_catalogue": "panneau_D21a_commerces_reviree",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false,
+    "note": "pan_D21_3 = 3 lames de jalonnement au texte non lu (hors catalogue : panneau_D21a_jalonnement_generique proposé)",
+    "repartition": {
+     "panneau_D21a_la_reviree_college": 1,
+     "panneau_D21a_commerces_reviree": 1,
+     "panneau_D21a_jalonnement_generique": 1
+    },
+    "instances_divergentes": [
+     {
+      "id": "pan_D21_1",
+      "asset": "panneau_D21a_la_reviree_college"
+     },
+     {
+      "id": "pan_D21_3",
+      "asset": "panneau_D21a_jalonnement_generique"
+     }
+    ]
+   },
+   {
+    "prototype_scene": "panneau_J5",
+    "instances": 2,
+    "asset_catalogue": "panneau_J5",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "panneau_M9",
+    "instances": 2,
+    "asset_catalogue": "panneau_M9c",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "panneau_information",
+    "instances": 4,
+    "asset_catalogue": "panneau_information_plan",
+    "asset_dans_catalogue_besoins": false,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "panonceau_AB3a",
+    "instances": 1,
+    "asset_catalogue": "panneau_AB3a",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "panonceau_M12",
+    "instances": 1,
+    "asset_catalogue": "panneau_M12a",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "portail",
+    "instances": 8,
+    "asset_catalogue": "portail_prive",
+    "asset_dans_catalogue_besoins": false,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "poteau_arret_bus",
+    "instances": 3,
+    "asset_catalogue": "poteau_arret_m_reso",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "poteau_incendie",
+    "instances": 3,
+    "asset_catalogue": "poteau_incendie",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "poteau_panneau",
+    "instances": 18,
+    "asset_catalogue": "mat_panneau_d60",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false,
+    "note": "hauteur du mât portée par l'échelle Z de l'instance dans la scène (1,0-3,05) : la substitution remet l'échelle à 1 (mobilier) → livrer mat_panneau_d60 à 3,0 m",
+    "repartition": {
+     "mat_panneau_d60": 12,
+     "mat_panneau_ilot_court": 6
+    },
+    "instances_divergentes": [
+     {
+      "id": "pan_B21a1_1_poteau",
+      "asset": "mat_panneau_ilot_court"
+     },
+     {
+      "id": "pan_J5_1_poteau",
+      "asset": "mat_panneau_ilot_court"
+     },
+     {
+      "id": "pan_B21a1_2_poteau",
+      "asset": "mat_panneau_ilot_court"
+     },
+     {
+      "id": "pan_B21a1_3_poteau",
+      "asset": "mat_panneau_ilot_court"
+     },
+     {
+      "id": "pan_B21a1_4_poteau",
+      "asset": "mat_panneau_ilot_court"
+     },
+     {
+      "id": "pan_J5_2_poteau",
+      "asset": "mat_panneau_ilot_court"
+     }
+    ]
+   },
+   {
+    "prototype_scene": "poteau_reseau",
+    "instances": 8,
+    "asset_catalogue": "mat_illumination_cable",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false,
+    "repartition": {
+     "mat_illumination_cable": 6,
+     "poteau_bois_reseau": 2
+    },
+    "instances_divergentes": [
+     {
+      "id": "poteau_bois_NE",
+      "asset": "poteau_bois_reseau"
+     },
+     {
+      "id": "poteau_bois_REV_ilot",
+      "asset": "poteau_bois_reseau"
+     }
+    ]
+   },
+   {
+    "prototype_scene": "potelet",
+    "instances": 8,
+    "asset_catalogue": "potelet_noir",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "stationnement_velos",
+    "instances": 9,
+    "asset_catalogue": "arceau_velo",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false,
+    "note": "1 instance de la scène = 1 GROUPE OSM (capacité/2 arceaux, voir mobilier.json › arceau_velo › positions › nb_arceaux) : à éclater en nb_arceaux arceaux alignés (entraxe 1,0 m) ; les groupes « autres » (pinces-roues, guidons) restent hors catalogue",
+    "repartition": {
+     "stationnement_velos_autre": 5,
+     "arceau_velo": 4
+    },
+    "instances_divergentes": [
+     {
+      "id": "stationnement_velos_10265340447",
+      "asset": "stationnement_velos_autre"
+     },
+     {
+      "id": "stationnement_velos_10914489976",
+      "asset": "stationnement_velos_autre"
+     },
+     {
+      "id": "stationnement_velos_11332612318",
+      "asset": "stationnement_velos_autre"
+     },
+     {
+      "id": "stationnement_velos_12673486211",
+      "asset": "stationnement_velos_autre"
+     },
+     {
+      "id": "stationnement_velos_12125436855",
+      "asset": "stationnement_velos_autre"
+     }
+    ]
+   },
+   {
+    "prototype_scene": "totem_PR",
+    "instances": 1,
+    "asset_catalogue": "totem_pr_smmag",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   }
+  ],
+  "resume": {
+   "prototypes_scene": 46,
+   "noms_identiques": 16,
+   "instances": 202,
+   "instances_exactes_avec_alias_majoritaire": 179,
+   "instances_sans_asset_catalogue": 0
+  },
+  "par_instance": {
+   "abri_NO_0021": {
+    "prototype_scene": "abri_bus_JCDecaux",
+    "asset": "abri_bus_m_reso",
+    "hauteur_scene_m": -1.0
+   },
+   "abri_SE_0396": {
+    "prototype_scene": "abri_bus_JCDecaux",
+    "asset": "abri_bus_m_reso",
+    "hauteur_scene_m": -1.0
+   },
+   "armoire_1313238971": {
+    "prototype_scene": "armoire",
+    "asset": "armoire_technique",
+    "hauteur_scene_m": -1.0
+   },
+   "armoire_feux_VERC": {
+    "prototype_scene": "armoire",
+    "asset": "armoire_commande_feux",
+    "hauteur_scene_m": -1.0
+   },
+   "balise_J11_REV_1": {
+    "prototype_scene": "balise_J11",
+    "asset": "balise_J11",
+    "hauteur_scene_m": -1.0
+   },
+   "balise_J11_REV_2": {
+    "prototype_scene": "balise_J11",
+    "asset": "balise_J11",
+    "hauteur_scene_m": -1.0
+   },
+   "banc_12321340512": {
+    "prototype_scene": "banc",
+    "asset": "banc_bois_metal",
+    "hauteur_scene_m": -1.0
+   },
+   "banc_8360664518": {
+    "prototype_scene": "banc",
+    "asset": "banc_bois_metal",
+    "hauteur_scene_m": -1.0
+   },
+   "barriere_levante_12462947804": {
+    "prototype_scene": "barriere_levante",
+    "asset": "barriere_levante",
+    "hauteur_scene_m": -1.0
+   },
+   "barriere_levante_3375058657": {
+    "prototype_scene": "barriere_levante",
+    "asset": "barriere_levante",
+    "hauteur_scene_m": -1.0
+   },
+   "barriere_levante_9079845917": {
+    "prototype_scene": "barriere_levante",
+    "asset": "barriere_levante",
+    "hauteur_scene_m": -1.0
+   },
+   "boite_aux_lettres_12887274328": {
+    "prototype_scene": "boite_aux_lettres",
+    "asset": "boite_aux_lettres_poste",
+    "hauteur_scene_m": -1.0
+   },
+   "chicane_12462947805": {
+    "prototype_scene": "chicane",
+    "asset": "chicane_cycles",
+    "hauteur_scene_m": -1.0
+   },
+   "conteneur_verre_9592546351": {
+    "prototype_scene": "conteneur_verre",
+    "asset": "conteneur_verre",
+    "hauteur_scene_m": -1.0
+   },
+   "corbeille_12328578845": {
+    "prototype_scene": "corbeille",
+    "asset": "corbeille_cylindrique",
+    "hauteur_scene_m": -1.0
+   },
+   "corbeille_1959017517": {
+    "prototype_scene": "corbeille",
+    "asset": "corbeille_cylindrique",
+    "hauteur_scene_m": -1.0
+   },
+   "corbeille_1959017544": {
+    "prototype_scene": "corbeille",
+    "asset": "corbeille_cylindrique",
+    "hauteur_scene_m": -1.0
+   },
+   "corbeille_9592546350": {
+    "prototype_scene": "corbeille",
+    "asset": "corbeille_cylindrique",
+    "hauteur_scene_m": -1.0
+   },
+   "corbeille_9592546352": {
+    "prototype_scene": "corbeille",
+    "asset": "corbeille_cylindrique",
+    "hauteur_scene_m": -1.0
+   },
+   "distributeur_12321330570": {
+    "prototype_scene": "distributeur",
+    "asset": "distributeur_sacs_canins",
+    "hauteur_scene_m": -1.0
+   },
+   "distributeur_12321482421": {
+    "prototype_scene": "distributeur",
+    "asset": "distributeur_titres_m_reso",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_NE_SE_pietons": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 2.6
+   },
+   "feu_NE_SE_pietons_t1": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_NE_TPC": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 3.4
+   },
+   "feu_NE_TPC_t1": {
+    "prototype_scene": "feu_tete_R11v",
+    "asset": "feu_R11v",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_NE_TPC_t2": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_NE_TPC_t3": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_NE_droite": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 3.4
+   },
+   "feu_NE_droite_t1": {
+    "prototype_scene": "feu_tete_R11v",
+    "asset": "feu_R11v",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_NE_droite_t2": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_NE_droite_t3": {
+    "prototype_scene": "feu_tete_R11v_rep",
+    "asset": "feu_R11v_repetiteur",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_REV_E_pietons": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 2.5
+   },
+   "feu_REV_E_pietons_t1": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_REV_E_pietons_t2": {
+    "prototype_scene": "feu_tete_R13c",
+    "asset": "feu_R13c",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_REV_droite": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 3.4
+   },
+   "feu_REV_droite_t1": {
+    "prototype_scene": "feu_tete_R11v",
+    "asset": "feu_R11v",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_REV_droite_t2": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_REV_droite_t3": {
+    "prototype_scene": "feu_tete_R13c",
+    "asset": "feu_R13c",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_REV_droite_t4": {
+    "prototype_scene": "feu_tete_R11v_rep",
+    "asset": "feu_R11v_repetiteur",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_REV_droite_t5": {
+    "prototype_scene": "panonceau_M12",
+    "asset": "panneau_M12a",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_SW_NO_pietons": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 2.6
+   },
+   "feu_SW_NO_pietons_t1": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_SW_TPC": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 3.4
+   },
+   "feu_SW_TPC_t1": {
+    "prototype_scene": "feu_tete_R11v",
+    "asset": "feu_R11v",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_SW_TPC_t2": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_SW_TPC_t3": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_SW_cycles_NO": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 2.2
+   },
+   "feu_SW_cycles_NO_t1": {
+    "prototype_scene": "feu_tete_R13c",
+    "asset": "feu_R13c",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_SW_cycles_SE": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 2.2
+   },
+   "feu_SW_cycles_SE_t1": {
+    "prototype_scene": "feu_tete_R13c",
+    "asset": "feu_R13c",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_SW_droite": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 3.4
+   },
+   "feu_SW_droite_t1": {
+    "prototype_scene": "feu_tete_R11v",
+    "asset": "feu_R11v",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_SW_droite_t2": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_SW_droite_t3": {
+    "prototype_scene": "feu_tete_R11v_rep",
+    "asset": "feu_R11v_repetiteur",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_VERC_O_pietons": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 2.6
+   },
+   "feu_VERC_O_pietons_t1": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_VERC_droite": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 3.4
+   },
+   "feu_VERC_droite_t1": {
+    "prototype_scene": "feu_tete_R11v",
+    "asset": "feu_R11v",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_VERC_droite_t2": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_VERC_droite_t3": {
+    "prototype_scene": "feu_tete_R11v_rep",
+    "asset": "feu_R11v_repetiteur",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_VERC_droite_t4": {
+    "prototype_scene": "panonceau_AB3a",
+    "asset": "panneau_AB3a",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_VERC_ilot": {
+    "prototype_scene": "feu_mat",
+    "asset": "mat_feu_d114",
+    "hauteur_scene_m": 3.4
+   },
+   "feu_VERC_ilot_t1": {
+    "prototype_scene": "feu_tete_R11v",
+    "asset": "feu_R11v",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_VERC_ilot_t2": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "feu_VERC_ilot_t3": {
+    "prototype_scene": "feu_tete_R12",
+    "asset": "feu_R12",
+    "hauteur_scene_m": -1.0
+   },
+   "fontaine_11496218933": {
+    "prototype_scene": "fontaine",
+    "asset": "borne_fontaine",
+    "hauteur_scene_m": -1.0
+   },
+   "lamp_12668578865": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 7.0
+   },
+   "lamp_12668620636": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 7.0
+   },
+   "lamp_12730298117": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_12730372821": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_12730374912": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_12758859672": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_12758894668": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_12882680524": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 10.1
+   },
+   "lamp_12887274329": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_12887274334": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_12887274335": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_12894130974": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_shp",
+    "hauteur_scene_m": 8.0
+   },
+   "lamp_12894141026": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_shp",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_13539939799": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_13539946625": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_13539950055": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_13539965051": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_13624569647": {
+    "prototype_scene": "lampadaire_crosse_simple",
+    "asset": "candelabre_crosse_simple",
+    "hauteur_scene_m": 10.0
+   },
+   "lamp_9514794919": {
+    "prototype_scene": "lampadaire_crosse_double",
+    "asset": "candelabre_double_crosse",
+    "hauteur_scene_m": 12.3
+   },
+   "lamp_9514795121": {
+    "prototype_scene": "lampadaire_crosse_double",
+    "asset": "candelabre_double_crosse",
+    "hauteur_scene_m": 12.4
+   },
+   "lamp_9514795518": {
+    "prototype_scene": "lampadaire_crosse_double",
+    "asset": "candelabre_double_crosse",
+    "hauteur_scene_m": 12.1
+   },
+   "lamp_9514795519": {
+    "prototype_scene": "lampadaire_crosse_double",
+    "asset": "candelabre_double_crosse",
+    "hauteur_scene_m": 11.5
+   },
+   "lamp_9514795520": {
+    "prototype_scene": "lampadaire_crosse_simple",
+    "asset": "candelabre_double_crosse",
+    "hauteur_scene_m": 10.6
+   },
+   "lamp_9514795718": {
+    "prototype_scene": "lampadaire_crosse_double",
+    "asset": "candelabre_double_crosse",
+    "hauteur_scene_m": 12.2
+   },
+   "lamp_9514795817": {
+    "prototype_scene": "lampadaire_crosse_double",
+    "asset": "candelabre_double_crosse",
+    "hauteur_scene_m": 10.7
+   },
+   "lamp_9514825221": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_9514828418": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_9514828431": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "lamp_9514828517": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 9.1
+   },
+   "lamp_9514828820": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 8.0
+   },
+   "lamp_9514830019": {
+    "prototype_scene": "lampadaire_crosse_simple",
+    "asset": "candelabre_crosse_simple",
+    "hauteur_scene_m": 9.3
+   },
+   "lamp_9530354220": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_shp",
+    "hauteur_scene_m": 8.1
+   },
+   "lamp_9530354318": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 7.0
+   },
+   "lamp_9530354517": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_shp",
+    "hauteur_scene_m": 8.0
+   },
+   "lamp_9665416417": {
+    "prototype_scene": "lampadaire_crosse_simple",
+    "asset": "candelabre_crosse_simple",
+    "hauteur_scene_m": 10.3
+   },
+   "lamp_9665416517": {
+    "prototype_scene": "lampadaire_crosse_simple",
+    "asset": "candelabre_crosse_simple",
+    "hauteur_scene_m": 10.3
+   },
+   "lamp_9665416617": {
+    "prototype_scene": "lampadaire_crosse_simple",
+    "asset": "candelabre_crosse_simple",
+    "hauteur_scene_m": 10.4
+   },
+   "lamp_9665416717": {
+    "prototype_scene": "lampadaire_crosse_simple",
+    "asset": "candelabre_crosse_simple",
+    "hauteur_scene_m": 10.3
+   },
+   "lamp_9665416817": {
+    "prototype_scene": "lampadaire_crosse_simple",
+    "asset": "candelabre_crosse_simple",
+    "hauteur_scene_m": 10.4
+   },
+   "lamp_lidar_SW_NO": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 8.1
+   },
+   "lamp_lidar_VERC_E": {
+    "prototype_scene": "lampadaire_crosse_simple",
+    "asset": "candelabre_crosse_simple",
+    "hauteur_scene_m": 8.8
+   },
+   "lamp_ortho_parking_terrasse_NO": {
+    "prototype_scene": "lampadaire_mat_droit",
+    "asset": "candelabre_mat_droit_led",
+    "hauteur_scene_m": 6.0
+   },
+   "mat_camera_9831317323": {
+    "prototype_scene": "mat_camera",
+    "asset": "mat_camera_video",
+    "hauteur_scene_m": 6.0
+   },
+   "mat_camera_SW_TPC": {
+    "prototype_scene": "mat_camera",
+    "asset": "mat_feu_crosse_camera",
+    "hauteur_scene_m": 6.0
+   },
+   "mobilier_publicitaire_12507622173": {
+    "prototype_scene": "mobilier_publicitaire",
+    "asset": "mupi_publicitaire",
+    "hauteur_scene_m": -1.0
+   },
+   "mobilier_publicitaire_12507625761": {
+    "prototype_scene": "mobilier_publicitaire",
+    "asset": "mupi_publicitaire",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_A17_1": {
+    "prototype_scene": "panneau_A17",
+    "asset": "panneau_A17",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_A17_1_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_d60",
+    "hauteur_scene_m": 2.6
+   },
+   "pan_AB3a_1": {
+    "prototype_scene": "panneau_AB3a",
+    "asset": "panneau_AB3a",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_AB3a_2": {
+    "prototype_scene": "panneau_AB3a",
+    "asset": "panneau_AB3a",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_AB3a_3": {
+    "prototype_scene": "panneau_AB3a",
+    "asset": "panneau_AB3a",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_AB3a_3_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_d60",
+    "hauteur_scene_m": 1.9
+   },
+   "pan_AB4_1": {
+    "prototype_scene": "panneau_AB4",
+    "asset": "panneau_AB4",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_AB4_1_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_d60",
+    "hauteur_scene_m": 2.95
+   },
+   "pan_AB4_2": {
+    "prototype_scene": "panneau_AB4",
+    "asset": "panneau_AB4",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_AB4_2_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_d60",
+    "hauteur_scene_m": 1.9
+   },
+   "pan_B1_1": {
+    "prototype_scene": "panneau_B1",
+    "asset": "panneau_B1",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_B1_2": {
+    "prototype_scene": "panneau_B1",
+    "asset": "panneau_B1",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_B1_2_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_d60",
+    "hauteur_scene_m": 2.5
+   },
+   "pan_B21a1_1": {
+    "prototype_scene": "panneau_B21a1",
+    "asset": "panneau_B21a1",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_B21a1_1_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_ilot_court",
+    "hauteur_scene_m": 1.0
+   },
+   "pan_B21a1_2": {
+    "prototype_scene": "panneau_B21a1",
+    "asset": "panneau_B21a1",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_B21a1_2_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_ilot_court",
+    "hauteur_scene_m": 1.3
+   },
+   "pan_B21a1_3": {
+    "prototype_scene": "panneau_B21a1",
+    "asset": "panneau_B21a1",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_B21a1_3_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_ilot_court",
+    "hauteur_scene_m": 1.3
+   },
+   "pan_B21a1_4": {
+    "prototype_scene": "panneau_B21a1",
+    "asset": "panneau_B21a1",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_B21a1_4_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_ilot_court",
+    "hauteur_scene_m": 1.3
+   },
+   "pan_B2a_1": {
+    "prototype_scene": "panneau_B2a",
+    "asset": "panneau_B2a",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_B2a_1_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_d60",
+    "hauteur_scene_m": 2.9
+   },
+   "pan_B2a_2": {
+    "prototype_scene": "panneau_B2a",
+    "asset": "panneau_B2a",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_B2b_1": {
+    "prototype_scene": "panneau_B2b",
+    "asset": "panneau_B2b",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_B2b_1_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_d60",
+    "hauteur_scene_m": 3.05
+   },
+   "pan_B6a1_1": {
+    "prototype_scene": "panneau_B6a1",
+    "asset": "panneau_B6a1",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_B6a1_2": {
+    "prototype_scene": "panneau_B6a1",
+    "asset": "panneau_B6a1",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_B6a1_2_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_d60",
+    "hauteur_scene_m": 2.5
+   },
+   "pan_B6a1_3": {
+    "prototype_scene": "panneau_B6a1",
+    "asset": "panneau_B6a1",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_B6a1_3_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_d60",
+    "hauteur_scene_m": 2.5
+   },
+   "pan_C113_1": {
+    "prototype_scene": "panneau_C113",
+    "asset": "panneau_C113",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_C113_1_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_d60",
+    "hauteur_scene_m": 2.5
+   },
+   "pan_C114_1": {
+    "prototype_scene": "panneau_C114",
+    "asset": "panneau_C114",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_C13a_1": {
+    "prototype_scene": "panneau_C13a",
+    "asset": "panneau_C13a",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_D21_1": {
+    "prototype_scene": "panneau_D21",
+    "asset": "panneau_D21a_la_reviree_college",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_D21_1_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_d60",
+    "hauteur_scene_m": 2.5
+   },
+   "pan_D21_2": {
+    "prototype_scene": "panneau_D21",
+    "asset": "panneau_D21a_commerces_reviree",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_D21_3": {
+    "prototype_scene": "panneau_D21",
+    "asset": "panneau_D21a_jalonnement_generique",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_D21_3_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_d60",
+    "hauteur_scene_m": 2.6
+   },
+   "pan_J5_1": {
+    "prototype_scene": "panneau_J5",
+    "asset": "panneau_J5",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_J5_1_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_ilot_court",
+    "hauteur_scene_m": 1.1
+   },
+   "pan_J5_2": {
+    "prototype_scene": "panneau_J5",
+    "asset": "panneau_J5",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_J5_2_poteau": {
+    "prototype_scene": "poteau_panneau",
+    "asset": "mat_panneau_ilot_court",
+    "hauteur_scene_m": 1.1
+   },
+   "pan_M9_1": {
+    "prototype_scene": "panneau_M9",
+    "asset": "panneau_M9c",
+    "hauteur_scene_m": -1.0
+   },
+   "pan_M9_2": {
+    "prototype_scene": "panneau_M9",
+    "asset": "panneau_M9c",
+    "hauteur_scene_m": -1.0
+   },
+   "panneau_information_12507622172": {
+    "prototype_scene": "panneau_information",
+    "asset": "panneau_information_plan",
+    "hauteur_scene_m": -1.0
+   },
+   "panneau_information_12507625760": {
+    "prototype_scene": "panneau_information",
+    "asset": "panneau_information_plan",
+    "hauteur_scene_m": -1.0
+   },
+   "panneau_information_13539969129": {
+    "prototype_scene": "panneau_information",
+    "asset": "panneau_information_plan",
+    "hauteur_scene_m": -1.0
+   },
+   "panneau_information_9592546353": {
+    "prototype_scene": "panneau_information",
+    "asset": "panneau_information_plan",
+    "hauteur_scene_m": -1.0
+   },
+   "portail_12096800979": {
+    "prototype_scene": "portail",
+    "asset": "portail_prive",
+    "hauteur_scene_m": -1.0
+   },
+   "portail_12134406600": {
+    "prototype_scene": "portail",
+    "asset": "portail_prive",
+    "hauteur_scene_m": -1.0
+   },
+   "portail_12134426801": {
+    "prototype_scene": "portail",
+    "asset": "portail_prive",
+    "hauteur_scene_m": -1.0
+   },
+   "portail_1227744740": {
+    "prototype_scene": "portail",
+    "asset": "portail_prive",
+    "hauteur_scene_m": -1.0
+   },
+   "portail_12462947807": {
+    "prototype_scene": "portail",
+    "asset": "portail_prive",
+    "hauteur_scene_m": -1.0
+   },
+   "portail_12976463291": {
+    "prototype_scene": "portail",
+    "asset": "portail_prive",
+    "hauteur_scene_m": -1.0
+   },
+   "portail_13827066643": {
+    "prototype_scene": "portail",
+    "asset": "portail_prive",
+    "hauteur_scene_m": -1.0
+   },
+   "portail_13827066656": {
+    "prototype_scene": "portail",
+    "asset": "portail_prive",
+    "hauteur_scene_m": -1.0
+   },
+   "poteau_NO_0021": {
+    "prototype_scene": "poteau_arret_bus",
+    "asset": "poteau_arret_m_reso",
+    "hauteur_scene_m": 2.8
+   },
+   "poteau_REV_ligne42": {
+    "prototype_scene": "poteau_arret_bus",
+    "asset": "poteau_arret_m_reso",
+    "hauteur_scene_m": 2.8
+   },
+   "poteau_SE_0396": {
+    "prototype_scene": "poteau_arret_bus",
+    "asset": "poteau_arret_m_reso",
+    "hauteur_scene_m": 2.8
+   },
+   "poteau_bois_NE": {
+    "prototype_scene": "poteau_reseau",
+    "asset": "poteau_bois_reseau",
+    "hauteur_scene_m": 10.0
+   },
+   "poteau_bois_REV_ilot": {
+    "prototype_scene": "poteau_reseau",
+    "asset": "poteau_bois_reseau",
+    "hauteur_scene_m": 10.0
+   },
+   "poteau_incendie_4587565593": {
+    "prototype_scene": "poteau_incendie",
+    "asset": "poteau_incendie",
+    "hauteur_scene_m": -1.0
+   },
+   "poteau_incendie_5948977094": {
+    "prototype_scene": "poteau_incendie",
+    "asset": "poteau_incendie",
+    "hauteur_scene_m": -1.0
+   },
+   "poteau_incendie_9577881491": {
+    "prototype_scene": "poteau_incendie",
+    "asset": "poteau_incendie",
+    "hauteur_scene_m": -1.0
+   },
+   "poteau_reseau_12888048898": {
+    "prototype_scene": "poteau_reseau",
+    "asset": "mat_illumination_cable",
+    "hauteur_scene_m": 9.0
+   },
+   "poteau_reseau_12888056356": {
+    "prototype_scene": "poteau_reseau",
+    "asset": "mat_illumination_cable",
+    "hauteur_scene_m": 9.0
+   },
+   "poteau_reseau_13624544994": {
+    "prototype_scene": "poteau_reseau",
+    "asset": "mat_illumination_cable",
+    "hauteur_scene_m": 9.0
+   },
+   "poteau_reseau_13633137873": {
+    "prototype_scene": "poteau_reseau",
+    "asset": "mat_illumination_cable",
+    "hauteur_scene_m": 9.0
+   },
+   "poteau_reseau_13633145627": {
+    "prototype_scene": "poteau_reseau",
+    "asset": "mat_illumination_cable",
+    "hauteur_scene_m": 9.0
+   },
+   "poteau_reseau_9742811518": {
+    "prototype_scene": "poteau_reseau",
+    "asset": "mat_illumination_cable",
+    "hauteur_scene_m": 9.0
+   },
+   "potelet_12462947806": {
+    "prototype_scene": "potelet",
+    "asset": "potelet_noir",
+    "hauteur_scene_m": -1.0
+   },
+   "potelet_13827066657": {
+    "prototype_scene": "potelet",
+    "asset": "potelet_noir",
+    "hauteur_scene_m": -1.0
+   },
+   "potelet_13827066658": {
+    "prototype_scene": "potelet",
+    "asset": "potelet_noir",
+    "hauteur_scene_m": -1.0
+   },
+   "potelet_REV_1": {
+    "prototype_scene": "potelet",
+    "asset": "potelet_noir",
+    "hauteur_scene_m": -1.0
+   },
+   "potelet_REV_2": {
+    "prototype_scene": "potelet",
+    "asset": "potelet_noir",
+    "hauteur_scene_m": -1.0
+   },
+   "potelet_REV_3": {
+    "prototype_scene": "potelet",
+    "asset": "potelet_noir",
+    "hauteur_scene_m": -1.0
+   },
+   "potelet_REV_NE_1": {
+    "prototype_scene": "potelet",
+    "asset": "potelet_noir",
+    "hauteur_scene_m": -1.0
+   },
+   "potelet_REV_NE_2": {
+    "prototype_scene": "potelet",
+    "asset": "potelet_noir",
+    "hauteur_scene_m": -1.0
+   },
+   "stationnement_velos_10265340447": {
+    "prototype_scene": "stationnement_velos",
+    "asset": "stationnement_velos_autre",
+    "hauteur_scene_m": -1.0
+   },
+   "stationnement_velos_10914489976": {
+    "prototype_scene": "stationnement_velos",
+    "asset": "stationnement_velos_autre",
+    "hauteur_scene_m": -1.0
+   },
+   "stationnement_velos_11332612316": {
+    "prototype_scene": "stationnement_velos",
+    "asset": "arceau_velo",
+    "hauteur_scene_m": -1.0
+   },
+   "stationnement_velos_11332612317": {
+    "prototype_scene": "stationnement_velos",
+    "asset": "arceau_velo",
+    "hauteur_scene_m": -1.0
+   },
+   "stationnement_velos_11332612318": {
+    "prototype_scene": "stationnement_velos",
+    "asset": "stationnement_velos_autre",
+    "hauteur_scene_m": -1.0
+   },
+   "stationnement_velos_12125436855": {
+    "prototype_scene": "stationnement_velos",
+    "asset": "stationnement_velos_autre",
+    "hauteur_scene_m": -1.0
+   },
+   "stationnement_velos_12673486211": {
+    "prototype_scene": "stationnement_velos",
+    "asset": "stationnement_velos_autre",
+    "hauteur_scene_m": -1.0
+   },
+   "stationnement_velos_13542473491": {
+    "prototype_scene": "stationnement_velos",
+    "asset": "arceau_velo",
+    "hauteur_scene_m": -1.0
+   },
+   "stationnement_velos_8360665117": {
+    "prototype_scene": "stationnement_velos",
+    "asset": "arceau_velo",
+    "hauteur_scene_m": -1.0
+   },
+   "totem_PR": {
+    "prototype_scene": "totem_PR",
+    "asset": "totem_pr_smmag",
+    "hauteur_scene_m": 2.8
+   }
+  }
  },
  "modeles": [
   {
@@ -3210,7 +4722,7 @@
   {
    "asset": "arceau_velo",
    "categorie_lib": "mobilier",
-   "designation": "Arceau vélo en U renversé à angles arrondis, tube d'acier galvanisé, scellé",
+   "designation": "Arceau vélo en U renversé à angles arrondis, tube d'acier thermolaqué anthracite, scellé",
    "classement_atelier": {
     "type": "stationnement_velos (bicycle_parking=stands)"
    },
@@ -3225,11 +4737,14 @@
     "positions_connues": 19
    },
    "dimensions_m": {
-    "longueur": 0.8,
-    "hauteur": 0.85,
+    "longueur": 0.65,
+    "longueur_plage": "0,60-0,70",
+    "hauteur": 0.82,
+    "hauteur_plage": "0,80-0,85",
     "tube_diametre": 0.05,
-    "rayon_angles": 0.15,
-    "entraxe_rangee": 1.0
+    "rayon_angles": 0.08,
+    "entraxe_rangee": 1.0,
+    "v2": "V1 : 0,80 x 0,85 m, rayon 0,15 m, galvanisé → corrigé d'après la vue rapprochée dd2a9c8c (2024-05-01, ciel couvert)"
    },
    "geometrie": [
     "tube cintré en U renversé, pieds scellés (ou platines)",
@@ -3242,51 +4757,65 @@
       "t": "line",
       "p": [
        [
-        -0.4,
+        -0.325,
         0
        ],
        [
-        -0.4,
-        0.7
+        -0.325,
+        0.74
        ],
        [
-        -0.27,
-        0.83
+        -0.301,
+        0.7959999999999999
        ],
        [
-        0.27,
-        0.83
+        -0.245,
+        0.82
        ],
        [
-        0.4,
-        0.7
+        0.245,
+        0.82
        ],
        [
-        0.4,
+        0.301,
+        0.7959999999999999
+       ],
+       [
+        0.325,
+        0.74
+       ],
+       [
+        0.325,
         0
        ]
       ],
       "w": 0.05,
-      "c": "galvanise_vieilli"
+      "c": "anthracite_7016"
      }
     ]
    },
    "materiaux": [
     {
      "partie": "tube",
-     "materiau": "acier galvanisé",
-     "couleur": "galvanise_vieilli",
-     "note": "seule vue (2374105b r01_c03) à contre-jour : cœur des tubes RGB ≈ 30-45, aussi sombre que le candélabre voisin côté ombre ; teinte non tranchée (catalogue : galvanisé / anthracite) → prévoir une variante de matériau anthracite_7016"
+     "materiau": "acier thermolaqué",
+     "couleur": "anthracite_7016",
+     "note": "V2 : tranché sur la vue rapprochée 2024-05-01 dd2a9c8c r01_c00 (lumière diffuse, ≈ 3-6 m) : tubes gris anthracite mat (≈ RAL 7016), pieds plus clairs (poussière) ; la vue V1 à contre-jour (2374105b) ne permettait pas de trancher"
     }
    ],
    "cotes_mesurees": [
     {
      "grandeur": "hauteur",
-     "valeur": "≈ 0,85-1,0 m",
+     "valeur": "≈ 0,85-1,0 m (V1, contre-jour)",
      "methode": "photo 2025-05-18 2374105b r01_c03 (pied −10°, sommet −4,1° pour une caméra à 1,7 m ; vélo garé pour contrôle)"
+    },
+    {
+     "grandeur": "rapport largeur / hauteur (V2)",
+     "valeur": "0,70-0,72 sur 2 arceaux vus presque de face (pieds au même niveau image) ; roues de vélo garé ≈ 0,66-0,70 m de diamètre à côté → hauteur ≈ 0,80-0,85 m, largeur ≈ 0,60-0,70 m",
+     "methode": "photo 2024-05-01 dd2a9c8c r01_c00 (arceaux x 355-460 et 487-603, sommets y 432-470, pieds y 578-637)"
     }
    ],
    "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2024-05-01_dd2a9c8c-6044-453b-9377-32ddad938138_hd/2024-05-01_dd2a9c8c-6044-453b-9377-32ddad938138_hd_r01_c00.jpg",
     "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd_r01_c03.jpg",
     "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c03.jpg"
    ],
@@ -4353,6 +5882,83 @@
     "note": "par bande de 3 m avec plots géométriques ; sinon 2 triangles + normal map"
    },
    "pivot_orientation": "pivot au coin avant gauche de la bande au niveau du sol ; +Y = vers la chaussée (bord à 0,50 m du nez), longueur selon +X",
+   "positions_abaisses": {
+    "note": "9 abaissés appariés (3 chartière(s) isolée(s)) ; BEV posée derrière le nez de l'abaissé, première rangée de plots à 0,50 m, sur toute la largeur de l'abaissé (longueur_bev_m ≈ écart des chartières − 0,4 m, ≥ 1,20 m) ; les refuges reçoivent 2 bandes dos à dos ; 14 traversées OSM dans l'emprise (dont 7 tactile_paving=yes) : voir bordures.json › abaisses › traversees_osm pour celles hors levé GAM",
+    "abaisses": [
+     {
+      "x": -81.36,
+      "y": -61.98,
+      "ecart_chartieres_m": 2.02,
+      "rotation_gam_deg": 42.6,
+      "longueur_bev_m": 1.62,
+      "source": "paire CHARTIERE_DROITE/GAUCHE du levé GAM 2025"
+     },
+     {
+      "x": -13.94,
+      "y": -17.61,
+      "ecart_chartieres_m": 2.43,
+      "rotation_gam_deg": 46.6,
+      "longueur_bev_m": 2.03,
+      "source": "paire CHARTIERE_DROITE/GAUCHE du levé GAM 2025"
+     },
+     {
+      "x": -19.02,
+      "y": -22.87,
+      "ecart_chartieres_m": 2.46,
+      "rotation_gam_deg": 224.5,
+      "longueur_bev_m": 2.06,
+      "source": "paire CHARTIERE_DROITE/GAUCHE du levé GAM 2025"
+     },
+     {
+      "x": -26.27,
+      "y": -12.88,
+      "ecart_chartieres_m": 2.41,
+      "rotation_gam_deg": 201.6,
+      "longueur_bev_m": 2.01,
+      "source": "paire CHARTIERE_DROITE/GAUCHE du levé GAM 2025"
+     },
+     {
+      "x": -29.7,
+      "y": -10.93,
+      "ecart_chartieres_m": 2.03,
+      "rotation_gam_deg": 19.6,
+      "longueur_bev_m": 1.63,
+      "source": "paire CHARTIERE_DROITE/GAUCHE du levé GAM 2025"
+     },
+     {
+      "x": -22.11,
+      "y": -14.86,
+      "ecart_chartieres_m": 6.98,
+      "rotation_gam_deg": 46.6,
+      "longueur_bev_m": 6.58,
+      "source": "paire CHARTIERE_DROITE/GAUCHE du levé GAM 2025"
+     },
+     {
+      "x": 15.82,
+      "y": 2.39,
+      "ecart_chartieres_m": 2.99,
+      "rotation_gam_deg": 229.8,
+      "longueur_bev_m": 2.59,
+      "source": "paire CHARTIERE_DROITE/GAUCHE du levé GAM 2025"
+     },
+     {
+      "x": 11.93,
+      "y": -9.98,
+      "ecart_chartieres_m": 3.54,
+      "rotation_gam_deg": 285.9,
+      "longueur_bev_m": 3.14,
+      "source": "paire CHARTIERE_DROITE/GAUCHE du levé GAM 2025"
+     },
+     {
+      "x": 33.08,
+      "y": -82.29,
+      "ecart_chartieres_m": 4.93,
+      "rotation_gam_deg": 279.8,
+      "longueur_bev_m": 4.53,
+      "source": "paire CHARTIERE_DROITE/GAUCHE du levé GAM 2025"
+     }
+    ]
+   },
    "positions": []
   },
   {

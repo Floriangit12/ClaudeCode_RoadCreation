@@ -19,6 +19,20 @@
    "assets/qa/mobilier_vegetation_carla/qa_06_vegetation.jpg",
    "assets/qa/mobilier_vegetation_carla/qa_07_plan_jeunes_sujets.jpg"
   ],
+  "version": 2,
+  "historique": [
+   {
+    "version": 1,
+    "date": "2026-10-09",
+    "contenu": "première version (fiches, profils, essences, correspondances CARLA)"
+   },
+   {
+    "version": 2,
+    "date": "2026-10-09",
+    "contenu": "contrôle visuel des 8 planches V1 et recoupements photo/normes : correspondance prototypes de la scène → noms du catalogue (+ script noms_catalogue_scene.py), hauteurs d'arbres aberrantes corrigées, 2 essences ajoutées (arbre pourpre, peuplier blanc), cyprès hors emprise, arceaux anthracite 0,65 x 0,82 m, positions des BEV, profils de bordures vérifiés sur les plans cotés Celtys, bordure_T3 explicite, identifiants CARLA revérifiés"
+   }
+  ],
+  "classes_scene_v1": "attention : recon/assemble.py (paquet v1) nomme les prototypes d'arbres avec ses propres classes (petit < 8 m, moyen < 15 m, grand au-delà) et l'essence brute : voir correspondance_scene_v1 pour la table prototype de scène → asset",
   "lecture_plan_2025": "codes relus à 150 dpi : TPC planté SO « Alc, As, Ce/Cs, Alc, As » ; noue SE « Ul, Qc/Oc, Qc/Oc, Ul » ; bande NO « Gt, Aca, Ac, Gt, Ac » ; angle NO « Ca » → 15 sujets (dont « Aca », cercle orange en tirets : sujet existant conservé probable). Écarts avec le catalogue des besoins : « As » et « Gt » sont 2 chacun (et non 1) ; « Qc » peut se lire « Oc » (Ostrya carpinifolia, retenu par l'atelier objets)."
  },
  "sources_production": {
@@ -38,6 +52,2604 @@
    "tuteurage on/off (tripode 3 x Ø 0,08 x 2,2 m + demi-rondins)",
    "paillage Ø 1,5-2 m"
   ]
+ },
+ "correspondance_scene_v1": {
+  "scene": "recon/out/paquet_jardin/package/paquet_jardin_2026.usda (paquet v1 du 2026-10-09)",
+  "probleme": "les prototypes de la scène portent les noms de l'atelier objets et des classes de taille calculées par recon/assemble.py (petit < 8 m, moyen < 15 m, grand au-delà ≠ classes du catalogue jeune < 5, petit 5-10, moyen 10-20, grand 20-30 m) ; package/substituer_assets.py ne cherche que le nom exact du prototype → un asset livré sous son nom de catalogue ne serait pas substitué",
+  "solution_pc": "hython assets/specs/outils_mobilier_vegetation/noms_catalogue_scene.py --scene <paquet>/paquet_jardin_2026.usda, PUIS substituer_assets.py : la couche layers/noms_catalogue.usda réaffecte chaque instance au prototype nommé comme son asset (table par_instance) et ajoute le primvar hauteur_m (lu par substituer_assets.py, absent de la scène v1 qui ne porte que hauteur_cible_m), avec les hauteurs retenues ci-dessous à la place des hauteurs aberrantes",
+  "solution_durable": "recon/assemble.py devrait nommer directement les prototypes avec ces noms (table par_instance) dans le paquet v2",
+  "prototypes": [
+   {
+    "prototype_scene": "arbre_acer_campestre_jeune",
+    "instances": 3,
+    "asset_catalogue": "arbre_acer_campestre_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "arbre_acer_campestre_petit",
+    "instances": 7,
+    "asset_catalogue": "arbre_acer_campestre_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_acer_sp_jeune",
+    "instances": 2,
+    "asset_catalogue": "arbre_alnus_spaethii_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_alnus_cordata_jeune",
+    "instances": 2,
+    "asset_catalogue": "arbre_alnus_cordata_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "arbre_betula_pendula_moyen",
+    "instances": 3,
+    "asset_catalogue": "arbre_betula_pendula_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "arbre_carpinus_betulus_grand",
+    "instances": 3,
+    "asset_catalogue": "arbre_carpinus_betulus_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_carpinus_betulus_moyen",
+    "instances": 2,
+    "asset_catalogue": "arbre_carpinus_betulus_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "arbre_cedrus_atlantica_grand",
+    "instances": 1,
+    "asset_catalogue": "arbre_cedrus_atlantica_grand",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "arbre_cedrus_grand",
+    "instances": 1,
+    "asset_catalogue": "arbre_cedrus_atlantica_grand",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_celtis_australis_jeune",
+    "instances": 1,
+    "asset_catalogue": "arbre_celtis_australis_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "arbre_celtis_jeune",
+    "instances": 1,
+    "asset_catalogue": "arbre_cercis_siliquastrum_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_conifere",
+    "instances": 18,
+    "asset_catalogue": "arbre_conifere_generique_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_corylus_colurna_grand",
+    "instances": 1,
+    "asset_catalogue": "arbre_corylus_colurna_petit",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_corylus_colurna_moyen",
+    "instances": 2,
+    "asset_catalogue": "arbre_corylus_colurna_petit",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_crataegus_laevigata_moyen",
+    "instances": 1,
+    "asset_catalogue": "arbre_crataegus_laevigata_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_feuillage_pourpre_moyen",
+    "instances": 1,
+    "asset_catalogue": "arbre_prunus_cerasifera_pissardii_moyen",
+    "asset_dans_catalogue_besoins": false,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_feuillu",
+    "instances": 325,
+    "asset_catalogue": "arbre_feuillu_generique_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_fraxinus_excelsior_grand",
+    "instances": 3,
+    "asset_catalogue": "arbre_fraxinus_excelsior_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_fraxinus_excelsior_moyen",
+    "instances": 2,
+    "asset_catalogue": "arbre_fraxinus_excelsior_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "arbre_gleditsia_triacanthos_jeune",
+    "instances": 2,
+    "asset_catalogue": "arbre_gleditsia_triacanthos_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "arbre_magnolia_grandiflora_moyen",
+    "instances": 1,
+    "asset_catalogue": "arbre_magnolia_grandiflora_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_magnolia_grandiflora_petit",
+    "instances": 1,
+    "asset_catalogue": "arbre_magnolia_grandiflora_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_ostrya_carpinifolia_jeune",
+    "instances": 2,
+    "asset_catalogue": "arbre_quercus_cerris_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_populus_alba_grand",
+    "instances": 1,
+    "asset_catalogue": "arbre_populus_alba_grand",
+    "asset_dans_catalogue_besoins": false,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "arbre_populus_nigra_grand",
+    "instances": 5,
+    "asset_catalogue": "arbre_populus_nigra_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false,
+    "repartition": {
+     "arbre_populus_nigra_moyen": 4,
+     "arbre_populus_nigra_grand": 1
+    },
+    "instances_divergentes": [
+     {
+      "id": "arbre_245",
+      "asset": "arbre_populus_nigra_grand"
+     }
+    ]
+   },
+   {
+    "prototype_scene": "arbre_populus_nigra_petit",
+    "instances": 1,
+    "asset_catalogue": "massif_arbustif",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false,
+    "note": "peuplier d'Italie arbre_363 : probablement recépé/abattu (LiDAR 3,0 m, MNH 4,1 m) — voir vegetation.json"
+   },
+   {
+    "prototype_scene": "arbre_populus_sp_grand",
+    "instances": 5,
+    "asset_catalogue": "arbre_populus_sp_tetard_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_populus_sp_moyen",
+    "instances": 1,
+    "asset_catalogue": "arbre_populus_sp_tetard_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_populus_sp_petit",
+    "instances": 1,
+    "asset_catalogue": "arbre_populus_sp_tetard_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_quercus_robur_grand",
+    "instances": 2,
+    "asset_catalogue": "arbre_quercus_robur_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false,
+    "repartition": {
+     "arbre_quercus_robur_moyen": 1,
+     "arbre_quercus_robur_grand": 1
+    },
+    "instances_divergentes": [
+     {
+      "id": "arbre_370",
+      "asset": "arbre_quercus_robur_grand"
+     }
+    ]
+   },
+   {
+    "prototype_scene": "arbre_quercus_robur_moyen",
+    "instances": 6,
+    "asset_catalogue": "arbre_quercus_robur_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true,
+    "repartition": {
+     "arbre_quercus_robur_petit": 3,
+     "arbre_quercus_robur_moyen": 3
+    },
+    "instances_divergentes": [
+     {
+      "id": "arbre_003",
+      "asset": "arbre_quercus_robur_petit"
+     },
+     {
+      "id": "arbre_284",
+      "asset": "arbre_quercus_robur_petit"
+     },
+     {
+      "id": "arbre_285",
+      "asset": "arbre_quercus_robur_petit"
+     }
+    ]
+   },
+   {
+    "prototype_scene": "arbre_quercus_robur_petit",
+    "instances": 1,
+    "asset_catalogue": "arbre_quercus_robur_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_salix_babylonica_grand",
+    "instances": 1,
+    "asset_catalogue": "arbre_salix_babylonica_tetard_petit",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_sorbus_sp_petit",
+    "instances": 1,
+    "asset_catalogue": "arbre_sorbus_sp_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbre_tilia_cordata_moyen",
+    "instances": 5,
+    "asset_catalogue": "arbre_tilia_cordata_moyen",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": true
+   },
+   {
+    "prototype_scene": "arbre_ulmus__orme_jeune",
+    "instances": 2,
+    "asset_catalogue": "arbre_ulmus_hybride_jeune",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "arbuste_bosquet",
+    "instances": 34,
+    "asset_catalogue": "massif_arbustif",
+    "asset_dans_catalogue_besoins": true,
+    "nom_identique": false
+   },
+   {
+    "prototype_scene": "souche",
+    "instances": 2,
+    "asset_catalogue": "souche_arbre",
+    "asset_dans_catalogue_besoins": false,
+    "nom_identique": false
+   }
+  ],
+  "resume": {
+   "prototypes_scene": 38,
+   "noms_identiques": 11,
+   "instances": 453,
+   "instances_exactes_avec_alias_majoritaire": 448,
+   "instances_sans_asset_catalogue": 0
+  },
+  "par_instance": {
+   "arbre_001": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 19.5
+   },
+   "arbre_002": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 20.1
+   },
+   "arbre_003": {
+    "prototype_scene": "arbre_quercus_robur_moyen",
+    "asset": "arbre_quercus_robur_petit",
+    "hauteur_scene_m": 14.0
+   },
+   "arbre_004": {
+    "prototype_scene": "arbre_magnolia_grandiflora_moyen",
+    "asset": "arbre_magnolia_grandiflora_jeune",
+    "hauteur_scene_m": 9.0,
+    "hauteur_retenue_m": 5.0,
+    "raison": "magnolia (classe [0;5 m[) : 9,0 m mesurés = grand feuillu voisin (photo 2026-07-28 05089869 r01_c04)"
+   },
+   "arbre_005": {
+    "prototype_scene": "arbre_magnolia_grandiflora_petit",
+    "asset": "arbre_magnolia_grandiflora_jeune",
+    "hauteur_scene_m": 7.9,
+    "hauteur_retenue_m": 5.0,
+    "raison": "magnolia (classe [0;5 m[) : 7,9 m mesurés = grand feuillu voisin (photo 2026-07-28 05089869 r01_c04)"
+   },
+   "arbre_006": {
+    "prototype_scene": "arbre_quercus_robur_grand",
+    "asset": "arbre_quercus_robur_moyen",
+    "hauteur_scene_m": 16.0
+   },
+   "arbre_007": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 17.7
+   },
+   "arbre_008": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.9
+   },
+   "arbre_009": {
+    "prototype_scene": "arbre_acer_campestre_petit",
+    "asset": "arbre_acer_campestre_jeune",
+    "hauteur_scene_m": 7.5
+   },
+   "arbre_010": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.8
+   },
+   "arbre_011": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.4
+   },
+   "arbre_012": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.8
+   },
+   "arbre_013": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_014": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 2.9
+   },
+   "arbre_015": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_016": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_017": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 19.3
+   },
+   "arbre_020": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 9.9
+   },
+   "arbre_021": {
+    "prototype_scene": "arbre_acer_campestre_petit",
+    "asset": "arbre_acer_campestre_jeune",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_022": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_023": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.8
+   },
+   "arbre_024": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.3
+   },
+   "arbre_025": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 15.8
+   },
+   "arbre_026": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 17.5
+   },
+   "arbre_027": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.7
+   },
+   "arbre_028": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_029": {
+    "prototype_scene": "souche",
+    "asset": "souche_arbre",
+    "hauteur_scene_m": 0.4
+   },
+   "arbre_030": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_031": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_032": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_033": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.1
+   },
+   "arbre_035": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.1
+   },
+   "arbre_036": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.8
+   },
+   "arbre_037": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.2
+   },
+   "arbre_038": {
+    "prototype_scene": "arbre_acer_campestre_petit",
+    "asset": "arbre_acer_campestre_jeune",
+    "hauteur_scene_m": 5.2
+   },
+   "arbre_039": {
+    "prototype_scene": "souche",
+    "asset": "souche_arbre",
+    "hauteur_scene_m": 0.4
+   },
+   "arbre_040": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.5
+   },
+   "arbre_041": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.8
+   },
+   "arbre_042": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_043": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_044": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.8
+   },
+   "arbre_045": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.9
+   },
+   "arbre_046": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.8
+   },
+   "arbre_047": {
+    "prototype_scene": "arbre_acer_campestre_petit",
+    "asset": "arbre_acer_campestre_jeune",
+    "hauteur_scene_m": 4.8
+   },
+   "arbre_048": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.1
+   },
+   "arbre_049": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 14.1
+   },
+   "arbre_050": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 27.3
+   },
+   "arbre_051": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 15.2
+   },
+   "arbre_052": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.9
+   },
+   "arbre_053": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_054": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_055": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_056": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_057": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_058": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 21.7
+   },
+   "arbre_059": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 23.8
+   },
+   "arbre_060": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 14.6
+   },
+   "arbre_061": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.3
+   },
+   "arbre_062": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.1
+   },
+   "arbre_063": {
+    "prototype_scene": "arbre_acer_campestre_petit",
+    "asset": "arbre_acer_campestre_jeune",
+    "hauteur_scene_m": 5.8
+   },
+   "arbre_064": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.3
+   },
+   "arbre_065": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.6
+   },
+   "arbre_066": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_067": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_068": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.4
+   },
+   "arbre_069": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_070": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 2.6
+   },
+   "arbre_071": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_072": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.5
+   },
+   "arbre_073": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.7
+   },
+   "arbre_074": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.0
+   },
+   "arbre_075": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 6.0
+   },
+   "arbre_076": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.4
+   },
+   "arbre_077": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.3
+   },
+   "arbre_078": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_079": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_080": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_081": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.6
+   },
+   "arbre_082": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_083": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_084": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_085": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 4.3
+   },
+   "arbre_086": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_087": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_088": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.9
+   },
+   "arbre_089": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 17.9
+   },
+   "arbre_090": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.2
+   },
+   "arbre_091": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.4
+   },
+   "arbre_092": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 4.8
+   },
+   "arbre_093": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.7
+   },
+   "arbre_094": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.8
+   },
+   "arbre_095": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.3
+   },
+   "arbre_096": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.8
+   },
+   "arbre_097": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_098": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_099": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_100": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.0
+   },
+   "arbre_101": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_102": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_103": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.4
+   },
+   "arbre_104": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 16.1
+   },
+   "arbre_105": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 16.0
+   },
+   "arbre_106": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 15.7
+   },
+   "arbre_107": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.2
+   },
+   "arbre_108": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 14.1
+   },
+   "arbre_109": {
+    "prototype_scene": "arbre_acer_campestre_petit",
+    "asset": "arbre_acer_campestre_jeune",
+    "hauteur_scene_m": 6.7
+   },
+   "arbre_110": {
+    "prototype_scene": "arbre_acer_campestre_petit",
+    "asset": "arbre_acer_campestre_jeune",
+    "hauteur_scene_m": 4.1
+   },
+   "arbre_111": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 10.1
+   },
+   "arbre_112": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 8.9
+   },
+   "arbre_113": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.5
+   },
+   "arbre_115": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_116": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_117": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_118": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_119": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_120": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 15.0
+   },
+   "arbre_121": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_122": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_123": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_124": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 14.3
+   },
+   "arbre_125": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_126": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_127": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_128": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_129": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_130": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_131": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_132": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_133": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_134": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_135": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 14.3
+   },
+   "arbre_136": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 6.6
+   },
+   "arbre_137": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 9.3
+   },
+   "arbre_138": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.1
+   },
+   "arbre_139": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 13.2
+   },
+   "arbre_140": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 16.4
+   },
+   "arbre_141": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 18.9
+   },
+   "arbre_142": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 18.8
+   },
+   "arbre_143": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 13.8
+   },
+   "arbre_145": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.2
+   },
+   "arbre_146": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.8
+   },
+   "arbre_147": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 14.0
+   },
+   "arbre_148": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 15.3
+   },
+   "arbre_149": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.8
+   },
+   "arbre_150": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_151": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_152": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_153": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_154": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_155": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 17.9
+   },
+   "arbre_156": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_157": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_158": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 17.9
+   },
+   "arbre_159": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_160": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.6
+   },
+   "arbre_161": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 9.9
+   },
+   "arbre_162": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.6
+   },
+   "arbre_163": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.9
+   },
+   "arbre_164": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 13.9
+   },
+   "arbre_165": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.1
+   },
+   "arbre_166": {
+    "prototype_scene": "arbre_gleditsia_triacanthos_jeune",
+    "asset": "arbre_gleditsia_triacanthos_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_167": {
+    "prototype_scene": "arbre_alnus_cordata_jeune",
+    "asset": "arbre_alnus_cordata_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_168": {
+    "prototype_scene": "arbre_ulmus__orme_jeune",
+    "asset": "arbre_ulmus_hybride_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_169": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 4.8
+   },
+   "arbre_170": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 9.8
+   },
+   "arbre_171": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 9.9
+   },
+   "arbre_172": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 9.9
+   },
+   "arbre_173": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 6.6
+   },
+   "arbre_174": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_175": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 9.3
+   },
+   "arbre_176": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.0
+   },
+   "arbre_177": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_178": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.0
+   },
+   "arbre_179": {
+    "prototype_scene": "arbre_acer_campestre_jeune",
+    "asset": "arbre_acer_campestre_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_180": {
+    "prototype_scene": "arbre_acer_sp_jeune",
+    "asset": "arbre_alnus_spaethii_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_181": {
+    "prototype_scene": "arbre_celtis_jeune",
+    "asset": "arbre_cercis_siliquastrum_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_182": {
+    "prototype_scene": "arbre_ostrya_carpinifolia_jeune",
+    "asset": "arbre_quercus_cerris_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_183": {
+    "prototype_scene": "arbre_ostrya_carpinifolia_jeune",
+    "asset": "arbre_quercus_cerris_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_184": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_185": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_186": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_187": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_188": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_189": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_190": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_191": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_192": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_193": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_194": {
+    "prototype_scene": "arbre_acer_campestre_jeune",
+    "asset": "arbre_acer_campestre_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_195": {
+    "prototype_scene": "arbre_alnus_cordata_jeune",
+    "asset": "arbre_alnus_cordata_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_196": {
+    "prototype_scene": "arbre_acer_sp_jeune",
+    "asset": "arbre_alnus_spaethii_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_197": {
+    "prototype_scene": "arbre_ulmus__orme_jeune",
+    "asset": "arbre_ulmus_hybride_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_198": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_199": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_200": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_201": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_202": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_203": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_204": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_205": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_206": {
+    "prototype_scene": "arbre_gleditsia_triacanthos_jeune",
+    "asset": "arbre_gleditsia_triacanthos_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_207": {
+    "prototype_scene": "arbre_acer_campestre_jeune",
+    "asset": "arbre_acer_campestre_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_208": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.3
+   },
+   "arbre_209": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.4
+   },
+   "arbre_210": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_211": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_212": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_213": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_214": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_215": {
+    "prototype_scene": "arbre_celtis_australis_jeune",
+    "asset": "arbre_celtis_australis_jeune",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_216": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.0
+   },
+   "arbre_217": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_218": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_219": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_220": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_221": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_222": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_223": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 2.5
+   },
+   "arbre_224": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 24.6
+   },
+   "arbre_225": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_226": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_227": {
+    "prototype_scene": "arbre_corylus_colurna_grand",
+    "asset": "arbre_corylus_colurna_petit",
+    "hauteur_scene_m": 15.7
+   },
+   "arbre_228": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_231": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 19.2
+   },
+   "arbre_232": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_233": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_234": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.1
+   },
+   "arbre_235": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_236": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_237": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.8
+   },
+   "arbre_238": {
+    "prototype_scene": "arbre_corylus_colurna_moyen",
+    "asset": "arbre_corylus_colurna_petit",
+    "hauteur_scene_m": 9.2
+   },
+   "arbre_239": {
+    "prototype_scene": "arbre_corylus_colurna_moyen",
+    "asset": "arbre_corylus_colurna_petit",
+    "hauteur_scene_m": 10.0
+   },
+   "arbre_240": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.7
+   },
+   "arbre_241": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.2
+   },
+   "arbre_242": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.1
+   },
+   "arbre_243": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.8
+   },
+   "arbre_244": {
+    "prototype_scene": "arbre_cedrus_grand",
+    "asset": "arbre_cedrus_atlantica_grand",
+    "hauteur_scene_m": 27.0
+   },
+   "arbre_245": {
+    "prototype_scene": "arbre_populus_nigra_grand",
+    "asset": "arbre_populus_nigra_grand",
+    "hauteur_scene_m": 23.4
+   },
+   "arbre_246": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 23.3
+   },
+   "arbre_247": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 19.5
+   },
+   "arbre_248": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_249": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_250": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_251": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 9.6
+   },
+   "arbre_252": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.9
+   },
+   "arbre_253": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_254": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_255": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_256": {
+    "prototype_scene": "arbre_carpinus_betulus_moyen",
+    "asset": "arbre_carpinus_betulus_moyen",
+    "hauteur_scene_m": 13.4
+   },
+   "arbre_257": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_258": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_259": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_260": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 2.6
+   },
+   "arbre_261": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.6
+   },
+   "arbre_262": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 6.7
+   },
+   "arbre_263": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 6.5
+   },
+   "arbre_264": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 14.0
+   },
+   "arbre_265": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 17.6
+   },
+   "arbre_266": {
+    "prototype_scene": "arbre_populus_nigra_grand",
+    "asset": "arbre_populus_nigra_moyen",
+    "hauteur_scene_m": 22.9
+   },
+   "arbre_267": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_268": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_269": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 3.8
+   },
+   "arbre_270": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.7
+   },
+   "arbre_271": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.6
+   },
+   "arbre_272": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.8
+   },
+   "arbre_273": {
+    "prototype_scene": "arbre_feuillage_pourpre_moyen",
+    "asset": "arbre_prunus_cerasifera_pissardii_moyen",
+    "hauteur_scene_m": 11.5
+   },
+   "arbre_274": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.9
+   },
+   "arbre_275": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.4
+   },
+   "arbre_276": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 14.9
+   },
+   "arbre_277": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 9.1
+   },
+   "arbre_278": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 18.1
+   },
+   "arbre_279": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 20.9
+   },
+   "arbre_280": {
+    "prototype_scene": "arbre_populus_nigra_grand",
+    "asset": "arbre_populus_nigra_moyen",
+    "hauteur_scene_m": 23.2
+   },
+   "arbre_281": {
+    "prototype_scene": "arbre_populus_nigra_grand",
+    "asset": "arbre_populus_nigra_moyen",
+    "hauteur_scene_m": 24.7
+   },
+   "arbre_282": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 22.9
+   },
+   "arbre_283": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_284": {
+    "prototype_scene": "arbre_quercus_robur_moyen",
+    "asset": "arbre_quercus_robur_petit",
+    "hauteur_scene_m": 10.0
+   },
+   "arbre_285": {
+    "prototype_scene": "arbre_quercus_robur_moyen",
+    "asset": "arbre_quercus_robur_petit",
+    "hauteur_scene_m": 10.5
+   },
+   "arbre_286": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 17.5
+   },
+   "arbre_287": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 17.7
+   },
+   "arbre_288": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.6
+   },
+   "arbre_289": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.1
+   },
+   "arbre_290": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 6.0
+   },
+   "arbre_291": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 6.3
+   },
+   "arbre_292": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 4.0
+   },
+   "arbre_293": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 16.7
+   },
+   "arbre_294": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 21.0
+   },
+   "arbre_295": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 19.9
+   },
+   "arbre_296": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 20.8
+   },
+   "arbre_297": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 20.2
+   },
+   "arbre_298": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 21.4
+   },
+   "arbre_299": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_300": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_301": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.2
+   },
+   "arbre_302": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 14.8
+   },
+   "arbre_303": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.9
+   },
+   "arbre_304": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.7
+   },
+   "arbre_305": {
+    "prototype_scene": "arbre_betula_pendula_moyen",
+    "asset": "arbre_betula_pendula_moyen",
+    "hauteur_scene_m": 13.5
+   },
+   "arbre_306": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 15.3
+   },
+   "arbre_307": {
+    "prototype_scene": "arbre_tilia_cordata_moyen",
+    "asset": "arbre_tilia_cordata_moyen",
+    "hauteur_scene_m": 13.6
+   },
+   "arbre_308": {
+    "prototype_scene": "arbre_quercus_robur_moyen",
+    "asset": "arbre_quercus_robur_moyen",
+    "hauteur_scene_m": 13.7
+   },
+   "arbre_309": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 15.0
+   },
+   "arbre_310": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 9.7
+   },
+   "arbre_311": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.3
+   },
+   "arbre_312": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.4
+   },
+   "arbre_313": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 8.4
+   },
+   "arbre_314": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.0
+   },
+   "arbre_315": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 21.4
+   },
+   "arbre_316": {
+    "prototype_scene": "arbre_populus_nigra_grand",
+    "asset": "arbre_populus_nigra_moyen",
+    "hauteur_scene_m": 27.4
+   },
+   "arbre_318": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 19.9
+   },
+   "arbre_319": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_320": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_321": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.9
+   },
+   "arbre_322": {
+    "prototype_scene": "arbre_quercus_robur_moyen",
+    "asset": "arbre_quercus_robur_moyen",
+    "hauteur_scene_m": 12.2
+   },
+   "arbre_323": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.1
+   },
+   "arbre_324": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.2
+   },
+   "arbre_325": {
+    "prototype_scene": "arbre_betula_pendula_moyen",
+    "asset": "arbre_betula_pendula_moyen",
+    "hauteur_scene_m": 13.2
+   },
+   "arbre_326": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 14.2
+   },
+   "arbre_327": {
+    "prototype_scene": "arbre_tilia_cordata_moyen",
+    "asset": "arbre_tilia_cordata_moyen",
+    "hauteur_scene_m": 13.6
+   },
+   "arbre_328": {
+    "prototype_scene": "arbre_tilia_cordata_moyen",
+    "asset": "arbre_tilia_cordata_moyen",
+    "hauteur_scene_m": 13.2
+   },
+   "arbre_329": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.9
+   },
+   "arbre_330": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 24.1
+   },
+   "arbre_331": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 15.3
+   },
+   "arbre_332": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 15.4
+   },
+   "arbre_333": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 16.2
+   },
+   "arbre_334": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 24.8
+   },
+   "arbre_335": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 25.7
+   },
+   "arbre_336": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_337": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_338": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 14.5
+   },
+   "arbre_339": {
+    "prototype_scene": "arbre_crataegus_laevigata_moyen",
+    "asset": "arbre_crataegus_laevigata_jeune",
+    "hauteur_scene_m": 11.9,
+    "hauteur_retenue_m": 6.0,
+    "raison": "aubépine (classe [0;5 m[, plantée 1990) : LiDAR 11,9 / MNH 10,9 m = couronne voisine"
+   },
+   "arbre_340": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.1
+   },
+   "arbre_342": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.4
+   },
+   "arbre_343": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_344": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_345": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_346": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_347": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.9
+   },
+   "arbre_348": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 15.7
+   },
+   "arbre_349": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_350": {
+    "prototype_scene": "arbuste_bosquet",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0
+   },
+   "arbre_351": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 15.5
+   },
+   "arbre_352": {
+    "prototype_scene": "arbre_quercus_robur_moyen",
+    "asset": "arbre_quercus_robur_moyen",
+    "hauteur_scene_m": 13.3
+   },
+   "arbre_353": {
+    "prototype_scene": "arbre_tilia_cordata_moyen",
+    "asset": "arbre_tilia_cordata_moyen",
+    "hauteur_scene_m": 14.0
+   },
+   "arbre_354": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.1
+   },
+   "arbre_355": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 16.2
+   },
+   "arbre_356": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 17.4
+   },
+   "arbre_357": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 23.9
+   },
+   "arbre_358": {
+    "prototype_scene": "arbre_populus_sp_grand",
+    "asset": "arbre_populus_sp_tetard_moyen",
+    "hauteur_scene_m": 25.6
+   },
+   "arbre_359": {
+    "prototype_scene": "arbre_populus_sp_grand",
+    "asset": "arbre_populus_sp_tetard_moyen",
+    "hauteur_scene_m": 25.9
+   },
+   "arbre_360": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 25.2
+   },
+   "arbre_361": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 21.5
+   },
+   "arbre_362": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 25.4
+   },
+   "arbre_363": {
+    "prototype_scene": "arbre_populus_nigra_petit",
+    "asset": "massif_arbustif",
+    "hauteur_scene_m": 3.0,
+    "reaffectation": "peuplier d'Italie de 1960 très probablement recépé : LiDAR 2021 3,0 m et MNH IGN 4,1 m, couronne 4,8 m → cépée de rejets ; garder arbre_populus_nigra_italica_grand pour d'autres sites",
+    "hauteur_retenue_m": 3.5,
+    "raison": "peuplier d'Italie probablement recépé/abattu : LiDAR 2021 3,0 m et MNH IGN 4,1 m concordants → cépée de 3-4 m (ou souche)"
+   },
+   "arbre_364": {
+    "prototype_scene": "arbre_betula_pendula_moyen",
+    "asset": "arbre_betula_pendula_moyen",
+    "hauteur_scene_m": 14.2
+   },
+   "arbre_366": {
+    "prototype_scene": "arbre_quercus_robur_petit",
+    "asset": "arbre_quercus_robur_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_367": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 3.3
+   },
+   "arbre_368": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 14.6
+   },
+   "arbre_369": {
+    "prototype_scene": "arbre_tilia_cordata_moyen",
+    "asset": "arbre_tilia_cordata_moyen",
+    "hauteur_scene_m": 14.6
+   },
+   "arbre_370": {
+    "prototype_scene": "arbre_quercus_robur_grand",
+    "asset": "arbre_quercus_robur_grand",
+    "hauteur_scene_m": 16.3
+   },
+   "arbre_371": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.5
+   },
+   "arbre_372": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.8
+   },
+   "arbre_373": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_374": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_375": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_376": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_377": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 15.9
+   },
+   "arbre_378": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 14.9
+   },
+   "arbre_379": {
+    "prototype_scene": "arbre_populus_sp_petit",
+    "asset": "arbre_populus_sp_tetard_moyen",
+    "hauteur_scene_m": 5.9
+   },
+   "arbre_380": {
+    "prototype_scene": "arbre_populus_sp_grand",
+    "asset": "arbre_populus_sp_tetard_moyen",
+    "hauteur_scene_m": 21.4
+   },
+   "arbre_381": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 27.1
+   },
+   "arbre_382": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 28.4
+   },
+   "arbre_383": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 22.7
+   },
+   "arbre_384": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_385": {
+    "prototype_scene": "arbre_sorbus_sp_petit",
+    "asset": "arbre_sorbus_sp_jeune",
+    "hauteur_scene_m": 4.9
+   },
+   "arbre_386": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_387": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_388": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_389": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 6.6
+   },
+   "arbre_390": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.5
+   },
+   "arbre_391": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.5
+   },
+   "arbre_392": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 16.4
+   },
+   "arbre_393": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 16.2
+   },
+   "arbre_394": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 20.6
+   },
+   "arbre_395": {
+    "prototype_scene": "arbre_populus_sp_grand",
+    "asset": "arbre_populus_sp_tetard_moyen",
+    "hauteur_scene_m": 17.7
+   },
+   "arbre_396": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 22.0
+   },
+   "arbre_397": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 27.9
+   },
+   "arbre_398": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 27.9
+   },
+   "arbre_399": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_400": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 18.2
+   },
+   "arbre_401": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 20.2
+   },
+   "arbre_402": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.9
+   },
+   "arbre_403": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 14.6
+   },
+   "arbre_404": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 17.3
+   },
+   "arbre_405": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 16.9
+   },
+   "arbre_406": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 16.0
+   },
+   "arbre_407": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 11.1
+   },
+   "arbre_408": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 13.7
+   },
+   "arbre_410": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 28.0
+   },
+   "arbre_411": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 25.5
+   },
+   "arbre_412": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 29.1
+   },
+   "arbre_413": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 4.8
+   },
+   "arbre_414": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.6
+   },
+   "arbre_415": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.9
+   },
+   "arbre_416": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.0
+   },
+   "arbre_417": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 7.3
+   },
+   "arbre_418": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.0
+   },
+   "arbre_419": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.2
+   },
+   "arbre_420": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 6.1
+   },
+   "arbre_421": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 5.6
+   },
+   "arbre_424": {
+    "prototype_scene": "arbre_populus_alba_grand",
+    "asset": "arbre_populus_alba_grand",
+    "hauteur_scene_m": 30.7
+   },
+   "arbre_425": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 29.5
+   },
+   "arbre_426": {
+    "prototype_scene": "arbre_conifere",
+    "asset": "arbre_conifere_generique_moyen",
+    "hauteur_scene_m": 5.0
+   },
+   "arbre_427": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 9.7
+   },
+   "arbre_428": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 18.5
+   },
+   "arbre_429": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 12.2
+   },
+   "arbre_430": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.0
+   },
+   "arbre_431": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 16.2
+   },
+   "arbre_432": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 19.0
+   },
+   "arbre_433": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 22.2
+   },
+   "arbre_434": {
+    "prototype_scene": "arbre_populus_sp_grand",
+    "asset": "arbre_populus_sp_tetard_moyen",
+    "hauteur_scene_m": 19.3
+   },
+   "arbre_435": {
+    "prototype_scene": "arbre_cedrus_atlantica_grand",
+    "asset": "arbre_cedrus_atlantica_grand",
+    "hauteur_scene_m": 20.9
+   },
+   "arbre_436": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 16.3
+   },
+   "arbre_437": {
+    "prototype_scene": "arbre_carpinus_betulus_grand",
+    "asset": "arbre_carpinus_betulus_moyen",
+    "hauteur_scene_m": 16.6
+   },
+   "arbre_438": {
+    "prototype_scene": "arbre_carpinus_betulus_grand",
+    "asset": "arbre_carpinus_betulus_moyen",
+    "hauteur_scene_m": 15.9
+   },
+   "arbre_439": {
+    "prototype_scene": "arbre_populus_sp_moyen",
+    "asset": "arbre_populus_sp_tetard_moyen",
+    "hauteur_scene_m": 9.2
+   },
+   "arbre_440": {
+    "prototype_scene": "arbre_fraxinus_excelsior_moyen",
+    "asset": "arbre_fraxinus_excelsior_moyen",
+    "hauteur_scene_m": 14.8
+   },
+   "arbre_441": {
+    "prototype_scene": "arbre_fraxinus_excelsior_grand",
+    "asset": "arbre_fraxinus_excelsior_moyen",
+    "hauteur_scene_m": 18.2
+   },
+   "arbre_442": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 25.2
+   },
+   "arbre_443": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 25.6
+   },
+   "arbre_444": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 8.5
+   },
+   "arbre_445": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 6.9
+   },
+   "arbre_446": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.4
+   },
+   "arbre_447": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.2
+   },
+   "arbre_448": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 11.6
+   },
+   "arbre_449": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 9.6
+   },
+   "arbre_450": {
+    "prototype_scene": "arbre_carpinus_betulus_moyen",
+    "asset": "arbre_carpinus_betulus_moyen",
+    "hauteur_scene_m": 13.2
+   },
+   "arbre_451": {
+    "prototype_scene": "arbre_carpinus_betulus_grand",
+    "asset": "arbre_carpinus_betulus_moyen",
+    "hauteur_scene_m": 15.2
+   },
+   "arbre_452": {
+    "prototype_scene": "arbre_fraxinus_excelsior_moyen",
+    "asset": "arbre_fraxinus_excelsior_moyen",
+    "hauteur_scene_m": 14.6
+   },
+   "arbre_453": {
+    "prototype_scene": "arbre_fraxinus_excelsior_grand",
+    "asset": "arbre_fraxinus_excelsior_moyen",
+    "hauteur_scene_m": 17.0
+   },
+   "arbre_454": {
+    "prototype_scene": "arbre_fraxinus_excelsior_grand",
+    "asset": "arbre_fraxinus_excelsior_moyen",
+    "hauteur_scene_m": 16.1
+   },
+   "arbre_455": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 17.9
+   },
+   "arbre_456": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 29.4
+   },
+   "arbre_457": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 23.6
+   },
+   "arbre_458": {
+    "prototype_scene": "arbre_salix_babylonica_grand",
+    "asset": "arbre_salix_babylonica_tetard_petit",
+    "hauteur_scene_m": 26.4,
+    "hauteur_retenue_m": 8.0,
+    "raison": "saule têtard (classe [5;10 m[) : LiDAR 26,4 / MNH 26,0 m = peupliers voisins"
+   },
+   "arbre_459": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 25.6
+   },
+   "arbre_460": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.2
+   },
+   "arbre_461": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 4.5
+   },
+   "arbre_462": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 13.5
+   },
+   "arbre_463": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 22.6
+   },
+   "arbre_464": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 10.2
+   },
+   "arbre_465": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 16.1
+   },
+   "arbre_467": {
+    "prototype_scene": "arbre_feuillu",
+    "asset": "arbre_feuillu_generique_moyen",
+    "hauteur_scene_m": 25.2
+   }
+  }
  },
  "essences": [
   {
@@ -284,9 +2896,9 @@
    "nom_latin": "Populus nigra 'Italica'",
    "nom_francais": "peuplier d'Italie",
    "nom_anglais": "Lombardy poplar",
-   "source": "inventaire Métropole (parc NO, port architecturé)",
-   "priorite": 2,
-   "confiance": "moyenne",
+   "source": "inventaire Métropole (parc NO, port architecturé, planté en 1960)",
+   "priorite": 3,
+   "confiance": "faible (état 2026 : probablement recépé ou abattu)",
    "port": "fastigié (colonne étroite), branches dressées dès la base",
    "tronc": "Ø ≈ 0,67 m (210 cm)",
    "feuillage": {
@@ -302,7 +2914,7 @@
     "couronne_diametre": 4.5,
     "forme_couronne": "colonne fusiforme"
    },
-   "note_hauteur": "LiDAR de l'atelier : 3,0 m (point mal apparié) ; inventaire [20;30 m[ → construire à 24 m",
+   "note_hauteur": "V2 : LiDAR HD 2021 3,0 m ET MNH IGN 4,1 m concordants (couronne 4,8 m) : le sujet de 1960 a très probablement été recépé ou abattu (cépée de rejets) — la classe [20;30 m[ de l'inventaire est périmée. Construire l'asset à 24 m (utile ailleurs à Meylan), mais à l'emplacement arbre_363 poser une cépée de 3-4 m (massif_arbustif) ou souche_arbre ; aucune photo à moins de 90 m pour trancher",
    "production": {
     "principale": "speedtree",
     "alternatives": [
@@ -310,7 +2922,7 @@
     ]
    },
    "photos_reference": [],
-   "nombre_2026": 1,
+   "nombre_2026": 0,
    "hauteurs_mesurees_m": {
     "min": 3.0,
     "mediane": 3.0,
@@ -329,9 +2941,24 @@
      "z": 0.2,
      "hauteur_m": 3.0,
      "couronne_m": 4.8,
-     "circonference_cm": 210
+     "circonference_cm": 210,
+     "hauteur_retenue_m": 3.5,
+     "hauteur_suspecte": "peuplier d'Italie probablement recépé/abattu : LiDAR 2021 3,0 m et MNH IGN 4,1 m concordants → cépée de 3-4 m (ou souche)"
     }
-   ]
+   ],
+   "reaffectations_v2": [
+    {
+     "id": "arbre_363",
+     "asset": "massif_arbustif",
+     "raison": "peuplier d'Italie de 1960 très probablement recépé : LiDAR 2021 3,0 m et MNH IGN 4,1 m, couronne 4,8 m → cépée de rejets ; garder arbre_populus_nigra_italica_grand pour d'autres sites"
+    }
+   ],
+   "hauteurs_retenues_m": {
+    "min": 3.5,
+    "mediane": 3.5,
+    "max": 3.5,
+    "note": "V2 : hauteurs mesurées aberrantes (arbre voisin capté par le LiDAR, sujet recépé) remplacées ; voir positions › hauteur_suspecte"
+   }
   },
   {
    "asset": "arbre_cedrus_atlantica_grand",
@@ -1200,14 +3827,16 @@
     "forme_couronne": "ovoïde dense",
     "feuille_cm": "15-20"
    },
-   "note_hauteur": "inventaire [0;5 m[ ; LiDAR 7,9-9,0 (probablement l'arbre voisin) → garder 5 m",
+   "note_hauteur": "inventaire [0;5 m[ ; LiDAR 7,9-9,0 et MNH IGN 7,7-8,1 → V2 : la photo 2026-07-28 05089869 r01_c04 (à 7,5 m) montre à cet endroit un grand feuillu caduc à gros tronc dont le houppier couvre l'allée : la hauteur mesurée est la sienne → garder 5 m pour les magnolias (petits sujets de 35 cm de circonférence, non distingués sur la photo)",
    "production": {
     "principale": "speedtree",
     "alternatives": [
      "labs"
     ]
    },
-   "photos_reference": [],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_05089869-a37a-40f8-a2bc-cd764ec7d7f9_hd/2026-07-28_05089869-a37a-40f8-a2bc-cd764ec7d7f9_hd_r01_c04.jpg"
+   ],
    "nombre_2026": 2,
    "hauteurs_mesurees_m": {
     "min": 7.9,
@@ -1227,7 +3856,9 @@
      "z": -2.79,
      "hauteur_m": 9.0,
      "couronne_m": 7.6,
-     "circonference_cm": 35
+     "circonference_cm": 35,
+     "hauteur_retenue_m": 5.0,
+     "hauteur_suspecte": "magnolia (classe [0;5 m[) : 9,0 m mesurés = grand feuillu voisin (photo 2026-07-28 05089869 r01_c04)"
     },
     {
      "id": "arbre_005",
@@ -1236,9 +3867,17 @@
      "z": -2.61,
      "hauteur_m": 7.9,
      "couronne_m": 7.3,
-     "circonference_cm": 35
+     "circonference_cm": 35,
+     "hauteur_retenue_m": 5.0,
+     "hauteur_suspecte": "magnolia (classe [0;5 m[) : 7,9 m mesurés = grand feuillu voisin (photo 2026-07-28 05089869 r01_c04)"
     }
-   ]
+   ],
+   "hauteurs_retenues_m": {
+    "min": 5.0,
+    "mediane": 5.0,
+    "max": 5.0,
+    "note": "V2 : hauteurs mesurées aberrantes (arbre voisin capté par le LiDAR, sujet recépé) remplacées ; voir positions › hauteur_suspecte"
+   }
   },
   {
    "asset": "arbre_crataegus_laevigata_jeune",
@@ -1263,6 +3902,7 @@
     "couronne_diametre": 4.0,
     "forme_couronne": "arrondie"
    },
+   "note_hauteur": "V2 : inventaire [0;5 m[ (planté 1990, circonférence 50 cm) ; LiDAR 11,9 / MNH IGN 10,9 m invraisemblables pour une aubépine (≤ 8-10 m) → couronne voisine ; hauteur retenue 6 m",
    "production": {
     "principale": "speedtree",
     "alternatives": [
@@ -1289,9 +3929,17 @@
      "z": -0.16,
      "hauteur_m": 11.9,
      "couronne_m": 8.3,
-     "circonference_cm": 50
+     "circonference_cm": 50,
+     "hauteur_retenue_m": 6.0,
+     "hauteur_suspecte": "aubépine (classe [0;5 m[, plantée 1990) : LiDAR 11,9 / MNH 10,9 m = couronne voisine"
     }
-   ]
+   ],
+   "hauteurs_retenues_m": {
+    "min": 6.0,
+    "mediane": 6.0,
+    "max": 6.0,
+    "note": "V2 : hauteurs mesurées aberrantes (arbre voisin capté par le LiDAR, sujet recépé) remplacées ; voir positions › hauteur_suspecte"
+   }
   },
   {
    "asset": "arbre_sorbus_sp_jeune",
@@ -1396,9 +4044,17 @@
      "z": 1.95,
      "hauteur_m": 26.4,
      "couronne_m": 10.4,
-     "circonference_cm": 220
+     "circonference_cm": 220,
+     "hauteur_retenue_m": 8.0,
+     "hauteur_suspecte": "saule têtard (classe [5;10 m[) : LiDAR 26,4 / MNH 26,0 m = peupliers voisins"
     }
-   ]
+   ],
+   "hauteurs_retenues_m": {
+    "min": 8.0,
+    "mediane": 8.0,
+    "max": 8.0,
+    "note": "V2 : hauteurs mesurées aberrantes (arbre voisin capté par le LiDAR, sujet recépé) remplacées ; voir positions › hauteur_suspecte"
+   }
   },
   {
    "asset": "arbre_cupressus_sempervirens_grand",
@@ -1423,7 +4079,7 @@
     "couronne_diametre": 2.5,
     "forme_couronne": "colonne fusiforme (rapport h/l ≈ 6-8)"
    },
-   "positions_note": "2 sujets vus de loin (repère visuel fort) ; candidats LiDAR étroits (couronne 3,3-4,1 m, h 13-16 m) : arbre_108, 139, 140, 143, 164 de l'atelier (x −104…−115, y −51…−66) — à confirmer",
+   "positions_note": "V2 : HORS EMPRISE. Relèvements de la colonne sombre sur 3 photos (2025-05-18 bc579b89 r01_c03 x≈910 → az 289° depuis (−54, −55) ; 2025-05-18 2374105b r01_c03 x≈655 → az 273° depuis (−40, −40) ; 2024-08-24 2ab4efbc r01_c03 x≈585 → az 272° depuis (−11, −6)) quasi parallèles : sujets à ≥ 120-150 m vers l'ouest, au-delà de la limite x = −150 m. Les candidats V1 (arbre_108, 139, 140, 143, 164 ; x −104…−115) sont à 20-25° de ces directions : ce sont des conifères génériques (groupe de cimes coniques privé). Asset utile comme décor lointain / extension de l'emprise",
    "production": {
     "principale": "speedtree",
     "alternatives": [
@@ -1507,6 +4163,126 @@
     "data/raw/panoramax/paquet_jardin/tiles/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd_r01_c01.jpg"
    ],
    "nombre_2026": 1
+  },
+  {
+   "asset": "arbre_prunus_cerasifera_pissardii_moyen",
+   "hors_catalogue_v1": true,
+   "nom_latin": "Prunus cerasifera 'Pissardii' (probable ; Fagus sylvatica 'Purpurea' possible)",
+   "nom_francais": "prunier myrobolan pourpre (ou hêtre pourpre)",
+   "nom_anglais": "purple-leaf plum (or copper beech)",
+   "source": "atelier objets arbre_273 (orthos 2022 et 2024 : couronne pourpre ≈ 8 m ; MNH 2021 : 10-11,5 m) ; vérifié V2 sur 2 photos",
+   "priorite": 2,
+   "confiance": "haute (présence, couleur) / faible (essence)",
+   "port": "libre : houppier arrondi ajouré, ramure fine visible, derrière la haie de laurier-cerise de l'angle Revirée (repère coloré fort depuis le carrefour)",
+   "tronc": "non visible (masqué par la haie)",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#6B2E3A",
+    "automne_srgb": "#8A3A2E",
+    "etat_mi_octobre_2026": "pourpre-brun virant au rouge-bronze, chute commencée",
+    "hiver": "nu (rameaux fins sombres)",
+    "chute": "mi-octobre à début novembre",
+    "debourrement": "mars-avril (floraison blanc rosé avant les feuilles si Prunus)"
+   },
+   "gabarit": {
+    "hauteur": 11.0,
+    "fut_nu": 2.0,
+    "couronne_diametre": 8.0,
+    "forme_couronne": "arrondie, ajourée",
+    "feuille_cm": "4-6 (Prunus) / 6-10 (Fagus)"
+   },
+   "note_hauteur": "MNH IGN 10,0 m, LiDAR 2021 11,5 m ; sur la photo 2024-08-24 le sommet est au niveau du 3e-4e étage de l'immeuble voisin (≈ 10-11 m)",
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs",
+     "fab"
+    ],
+    "note": "si Prunus : 1 tronc court, charpentières obliques ; texture de feuilles pourpres sombres (albédo ≈ #5A2630 à l'ombre)"
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd_r01_c04.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c04.jpg"
+   ],
+   "nombre_2026": 1,
+   "hauteurs_mesurees_m": {
+    "min": 11.5,
+    "mediane": 11.5,
+    "max": 11.5,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 8.0,
+    "max": 8.0
+   },
+   "positions": [
+    {
+     "id": "arbre_273",
+     "x": -6.5,
+     "y": 39.88,
+     "z": 0.07,
+     "hauteur_m": 11.5,
+     "couronne_m": 8.0
+    }
+   ]
+  },
+  {
+   "asset": "arbre_populus_alba_grand",
+   "hors_catalogue_v1": true,
+   "nom_latin": "Populus alba (d'après l'inventaire ; essence non confirmée sur photo)",
+   "nom_francais": "peuplier blanc",
+   "nom_anglais": "white poplar",
+   "source": "inventaire Métropole (fiche « Abattu », non datée) ; atelier objets arbre_424 « à vérifier » : couronne LiDAR 2021 30,7 m, MNH IGN 28,8 m, ortho 2024 végétation 0,82",
+   "priorite": 2,
+   "confiance": "moyenne (présence d'un grand houppier à cet emplacement en 2025) / faible (essence)",
+   "port": "libre : très grand fût, houppier large et irrégulier (17 m), charpentières épaisses",
+   "tronc": "écorce blanc-gris lisse à lenticelles en losanges, crevassée noire en pied (Ø ≈ 0,46 m d'après 144 cm)",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#5E8240",
+    "automne_srgb": "#D8C060",
+    "etat_mi_octobre_2026": "vert sombre dessus / revers blanc feutré (scintillement au vent), jaunissement tardif",
+    "hiver": "silhouette nue, rameaux blanchâtres"
+   },
+   "gabarit": {
+    "hauteur": 29.0,
+    "fut_nu": 6.0,
+    "couronne_diametre": 17.0,
+    "forme_couronne": "large, irrégulière"
+   },
+   "note_hauteur": "V2 : la photo 2025-05-18 7a182db7 (r00_c05 / r01_c05, à 28 m) montre à cet emplacement une masse arborée haute et dense le long de Verdun NE → arbre présent en 2025 ; garder 29 m (LiDAR/MNH concordants)",
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_7a182db7-30c9-4964-a0d1-b8b50e80fb42_hd/2025-05-18_7a182db7-30c9-4964-a0d1-b8b50e80fb42_hd_r00_c05.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_7a182db7-30c9-4964-a0d1-b8b50e80fb42_hd/2025-05-18_7a182db7-30c9-4964-a0d1-b8b50e80fb42_hd_r01_c05.jpg"
+   ],
+   "nombre_2026": 1,
+   "hauteurs_mesurees_m": {
+    "min": 30.7,
+    "mediane": 30.7,
+    "max": 30.7,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 17.1,
+    "max": 17.1
+   },
+   "positions": [
+    {
+     "id": "arbre_424",
+     "x": 98.0,
+     "y": 122.88,
+     "z": 0.52,
+     "hauteur_m": 30.7,
+     "couronne_m": 17.1,
+     "circonference_cm": 144
+    }
+   ]
   },
   {
    "asset": "arbre_feuillu_generique_moyen",
@@ -2114,7 +4890,7 @@
    "nom_anglais": "trimmed evergreen hedge",
    "source": "BD TOPO (haie 646 m) + GAM SOL_VEGETATION + photos (haies séparatives de Verdun SO, angle Revirée)",
    "priorite": 1,
-   "confiance": "haute (présence) / faible (essence)",
+   "confiance": "haute (présence) / moyenne (essence : laurier-cerise confirmé de près à l'angle Revirée — 2024-05-01 b4013696 r01_c04 : grandes feuilles vernissées elliptiques, 10-15 cm)",
    "port": "volume taillé à faces planes et dessus plat ou arrondi, base parfois dégarnie",
    "tronc": "—",
    "feuillage": {
@@ -2137,6 +4913,7 @@
     ]
    },
    "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2024-05-01_b4013696-1d02-4d94-9a89-456a56298e04_hd/2024-05-01_b4013696-1d02-4d94-9a89-456a56298e04_hd_r01_c04.jpg",
     "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
     "data/raw/panoramax/paquet_jardin/tiles/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd_r01_c03.jpg",
     "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd_r01_c03.jpg"
@@ -2182,12 +4959,16 @@
  "synthese": {
   "arbres_inventaire_presents": 53,
   "jeunes_sujets_2025": 15,
-  "note": "les 3 érables champêtres du plan 2025 (« Ac » ×2, « Aca ») sont comptés dans arbre_acer_campestre_jeune"
+  "complements_v2": {
+   "arbre_prunus_cerasifera_pissardii_moyen": 1,
+   "arbre_populus_alba_grand": 1
+  },
+  "note": "les 3 érables champêtres du plan 2025 (« Ac » ×2, « Aca ») sont comptés dans arbre_acer_campestre_jeune ; arbres_inventaire_presents = fiches de l'inventaire présentes (hors « à vérifier », hors compléments V2)"
  },
  "non_retenus": [
   {
    "type": "Populus alba, Populus nigra (1), Salix alba (3), Robinia pseudoacacia, Betula pendula (2), Fraxinus excelsior (1), Acer campestre (1), Crataegus laevigata (1), Populus sp. (5)",
-   "raison": "16 fiches « Abattu » de l'inventaire dans l'emprise : absents en 2026"
+   "raison": "16 fiches « Abattu » de l'inventaire dans l'emprise : absents en 2026 — sauf V2 : le Populus alba arbre_424 (houppier LiDAR 2021 de 30,7 m, ortho 2024 et photo 2025-05-18 7a182db7) est retenu comme présent probable (arbre_populus_alba_grand)"
   },
   {
    "type": "Platanus × acerifolia",

@@ -28,6 +28,65 @@ import donnees_bordures as DB  # noqa: E402
 import donnees_carla as DC  # noqa: E402
 import donnees_mobilier as DM  # noqa: E402
 import donnees_vegetation as DV  # noqa: E402
+import correspondance_scene as CS  # noqa: E402
+
+VERSION = 2
+HISTORIQUE = [
+    {"version": 1, "date": "2026-10-09", "contenu": "première version (fiches, profils, essences, correspondances CARLA)"},
+    {"version": 2, "date": DATE, "contenu": ("contrôle visuel des 8 planches V1 et recoupements photo/normes : correspondance prototypes de la scène → "
+                                              "noms du catalogue (+ script noms_catalogue_scene.py), hauteurs d'arbres aberrantes corrigées, 2 essences "
+                                              "ajoutées (arbre pourpre, peuplier blanc), cyprès hors emprise, arceaux anthracite 0,65 x 0,82 m, positions des BEV, "
+                                              "profils de bordures vérifiés sur les plans cotés Celtys, bordure_T3 explicite, identifiants CARLA revérifiés")},
+]
+
+
+def catalogue_info():
+    cat = charger(ASSETS / "catalogue_besoins.json") or {}
+    noms = set(cat.get("noms_assets", []))
+    prio = {it["id"]: it.get("priorite", 9) for v in cat.get("categories", {}).values() for it in v}
+    return noms, prio
+
+
+def _asset_veg(p):
+    if p.get("id") in DV.REAFFECTATIONS:
+        return DV.REAFFECTATIONS[p["id"]][0]
+    ess = p.get("essence") or p.get("type")
+    return DV.asset_pour(ess.split(" (")[0].replace("?", "").strip() if ess else ess, p.get("hauteur_classe_inventaire"),
+                         p.get("statut_2026"), p.get("essence_code"))
+
+
+_LIGNES = None
+
+
+def lignes_scene():
+    global _LIGNES
+    if _LIGNES is None:
+        _LIGNES = CS.lire_scene() or []
+    return _LIGNES
+
+
+def correspondance(vegetation: bool, fichier_prec: Path):
+    """Section « correspondance_scene_v1 » (lue dans la scène USD ; à défaut, version précédente du fichier)."""
+    L = lignes_scene()
+    if not L:
+        return (charger(fichier_prec) or {}).get("correspondance_scene_v1")
+    noms, prio = catalogue_info()
+    res = CS.resolveur(asset_mobilier, _asset_veg)
+    filtre = (lambda i: i.startswith("/World/Vegetation")) if vegetation else (lambda i: not i.startswith("/World/Vegetation"))
+    sec = CS.construire(L, res, filtre, DV.HAUTEURS_RETENUES if vegetation else None, noms, prio, DV.REAFFECTATIONS if vegetation else None)
+    sec = {
+        "scene": str(CS.SCENE.relative_to(ASSETS.parent)) + " (paquet v1 du 2026-10-09)",
+        "probleme": ("les prototypes de la scène portent les noms de l'atelier objets" + (" et des classes de taille calculées par recon/assemble.py "
+                     "(petit < 8 m, moyen < 15 m, grand au-delà ≠ classes du catalogue jeune < 5, petit 5-10, moyen 10-20, grand 20-30 m)" if vegetation else "")
+                     + " ; package/substituer_assets.py ne cherche que le nom exact du prototype → un asset livré sous son nom de catalogue ne serait pas substitué"),
+        "solution_pc": ("hython assets/specs/outils_mobilier_vegetation/noms_catalogue_scene.py --scene <paquet>/paquet_jardin_2026.usda, PUIS substituer_assets.py : "
+                        "la couche layers/noms_catalogue.usda réaffecte chaque instance au prototype nommé comme son asset (table par_instance)"
+                        + (" et ajoute le primvar hauteur_m (lu par substituer_assets.py, absent de la scène v1 qui ne porte que hauteur_cible_m), "
+                           "avec les hauteurs retenues ci-dessous à la place des hauteurs aberrantes" if vegetation else "")),
+        "solution_durable": "recon/assemble.py devrait nommer directement les prototypes avec ces noms (table par_instance) dans le paquet v2",
+        **sec,
+    }
+    return sec
 
 HPS = {"9530354220", "9530354517", "12894141026", "12894130974"}   # OSM lamp_type=high_pressure_sodium
 
@@ -128,11 +187,42 @@ def alias_prototypes():
     return lignes
 
 
+def abaisses_bev():
+    """V2 : abaissés des traversées = paires de chartières GAM (droite + gauche à moins de 7 m) ; une BEV par abaissé."""
+    ch = chartieres()
+    dr = [c for c in ch if "DROITE" in c["bloc"]]
+    ga = [c for c in ch if "GAUCHE" in c["bloc"]]
+    out, pris = [], set()
+    for d in dr:
+        best = None
+        for j, g in enumerate(ga):
+            if j in pris:
+                continue
+            dd = ((d["x"] - g["x"]) ** 2 + (d["y"] - g["y"]) ** 2) ** 0.5
+            if dd < 7.0 and (best is None or dd < best[0]):
+                best = (dd, j, g)
+        if best:
+            dd, j, g = best
+            pris.add(j)
+            out.append({"x": round((d["x"] + g["x"]) / 2, 2), "y": round((d["y"] + g["y"]) / 2, 2), "ecart_chartieres_m": round(dd, 2),
+                        "rotation_gam_deg": d.get("rotation_gam_deg"), "longueur_bev_m": round(max(1.2, dd - 0.4), 2),
+                        "source": "paire CHARTIERE_DROITE/GAUCHE du levé GAM 2025"})
+    seules = len(dr) + len(ga) - 2 * len(out)
+    tv = [t for t in traversees_bev() if t.get("type") in ("traffic_signals", "uncontrolled", "marked", "unmarked") or t.get("tactile_paving") == "yes"]
+    return {"note": (f"{len(out)} abaissés appariés ({seules} chartière(s) isolée(s)) ; BEV posée derrière le nez de l'abaissé, première rangée de plots à 0,50 m, "
+                     "sur toute la largeur de l'abaissé (longueur_bev_m ≈ écart des chartières − 0,4 m, ≥ 1,20 m) ; les refuges reçoivent 2 bandes dos à dos ; "
+                     f"{len(tv)} traversées OSM dans l'emprise (dont {sum(1 for t in tv if t.get('tactile_paving') == 'yes')} tactile_paving=yes) : "
+                     "voir bordures.json › abaisses › traversees_osm pour celles hors levé GAM"),
+            "abaisses": out}
+
+
 def construire_mobilier():
     pos = positions_mobilier()
     fiches = []
     for f in DM.FICHES:
         f = dict(f)
+        if f["asset"] == "bev_podotactile":
+            f["positions_abaisses"] = abaisses_bev()
         ps = pos.get(f["asset"], [])
         if ps:
             f["positions"] = ps
@@ -165,15 +255,17 @@ def construire_mobilier():
                                 "data/sites/paquet_jardin/vector/osm_*.geojson", "data/raw/docs/panneau_150dpi.png (plan projet 2025)"],
             "controle_visuel": ["assets/qa/mobilier_vegetation_carla/qa_01_eclairage.jpg", "assets/qa/mobilier_vegetation_carla/qa_02_transport.jpg",
                                 "assets/qa/mobilier_vegetation_carla/qa_03_mobilier.jpg", "assets/qa/mobilier_vegetation_carla/qa_08_carla_vs_reel.jpg"],
-            "hors_lot": "feux, mâts de feux, mât à crosse caméra et panneaux : assets/specs/feux.json et panneaux.json",
+            "hors_lot": "feux, mâts de feux, mât à crosse caméra et panneaux : assets/specs/feux.json et panneaux.json (la correspondance avec la scène les inclut pour être complète)",
+            "version": VERSION, "historique": HISTORIQUE,
         },
         "couleurs": COULEURS,
         "alias_prototypes_atelier": {
             "probleme": ("les prototypes de l'atelier objets (instances.json) ne portent pas les noms du catalogue (ex. lampadaire_crosse_double ≠ "
-                         "candelabre_double_crosse) et orientent leur face selon +X ; recon/assemble.py lit en outre « type » et « yaw » alors que "
-                         "instances.json fournit « prototype » et « yaw_deg » : à corriger à l'assemblage (renommage via cette table, yaw − 90°)."),
+                         "candelabre_double_crosse) et orientent leur face selon +X. V2 : recon/assemble.py lit désormais « prototype » et « yaw_deg » "
+                         "(rotation yaw − 90°, faces +Y) ; reste le renommage → voir correspondance_scene_v1 (table complète par instance, lue dans la scène)."),
             "table": alias_prototypes(),
         },
+        "correspondance_scene_v1": correspondance(False, SPECS / "mobilier.json"),
         "modeles": fiches,
         "fiches_complementaires": comps,
         "stationnements_velos_autres_modeles": {"note": "groupes OSM non « stands » (pinces-roues murales, guidons, potelets) : hors catalogue, priorité 3", "positions": autres},
@@ -277,6 +369,7 @@ def construire_bordures():
             p["pose_exemple"] = {"translation_v_m": round(-hz, 4), "contour_pose": [[pt[0], round(pt[1] - hz, 4)] for pt in c],
                                  "lecture": "origine = arête côté chaussée au niveau de la chaussée"}
         p["nb_points"] = len(c)
+        p["source_cotes"] = DB.SOURCES_PROFILS.get(k, "voir meta.sources")
         profils[k] = p
     data = {
         "meta": {
@@ -289,6 +382,8 @@ def construire_bordures():
             "tolerances_nf": "faces vues : ± 3 mm (< 100 mm), ± 3 % (100-170 mm), ± 5 mm (> 170 mm) ; longueur ± 1 %",
             "sources": DB.SOURCES,
             "controle_visuel": ["assets/qa/mobilier_vegetation_carla/qa_04_bordures_profils.jpg", "assets/qa/mobilier_vegetation_carla/qa_05_bordures_site.jpg"],
+            "verification_v2": DB.VERIFICATION_V2,
+            "version": VERSION, "historique": HISTORIQUE,
         },
         "profils": profils,
         "assets": DB.ASSETS,
@@ -332,8 +427,9 @@ def construire_vegetation():
     for e in DV.ESSENCES:
         e = dict(e)
         tous = par.get(e["asset"], [])
-        ps = [p for p in tous if "vérifier" not in str(p.get("statut_2026"))]
-        av = [p for p in tous if "vérifier" in str(p.get("statut_2026"))]
+        garder = e["asset"] == "arbre_populus_alba_grand"            # V2 : « à vérifier » mais houppier vu en 2025
+        ps = [p for p in tous if garder or "vérifier" not in str(p.get("statut_2026"))]
+        av = [p for p in tous if not garder and "vérifier" in str(p.get("statut_2026"))]
 
         def _h(p):
             if "planté 2025" in str(p.get("statut_2026")):
@@ -354,9 +450,20 @@ def construire_vegetation():
             e["positions"] = [{k: v for k, v in {"id": p.get("id"), "x": r2(p.get("x_local")), "y": r2(p.get("y_local")), "z": r2(p.get("z_local")),
                                                  "hauteur_m": r2(p.get("hauteur_m"), 1), "couronne_m": r2(p.get("diametre_couronne_m"), 1),
                                                  "circonference_cm": p.get("circonference_cm"), "code_plan": p.get("essence_code"),
-                                                 "zone": p.get("zone_plantation")}.items() if v is not None} for p in ps]
+                                                 "zone": p.get("zone_plantation"),
+                                                 "hauteur_retenue_m": DV.HAUTEURS_RETENUES.get(p.get("id"), (None,))[0],
+                                                 "hauteur_suspecte": DV.HAUTEURS_RETENUES[p["id"]][1] if p.get("id") in DV.HAUTEURS_RETENUES else None,
+                                                 }.items() if v is not None} for p in ps]
         elif ps:
             e["positions"] = f"{len(ps)} instances : recon/out/paquet_jardin/objets/arbres.geojson (essence vide, type {ps[0].get('type')})"
+        reaff = [p for p in ps if p.get("id") in DV.REAFFECTATIONS]
+        if reaff:
+            e["nombre_2026"] = len(ps) - len(reaff)
+            e["reaffectations_v2"] = [{"id": p["id"], "asset": DV.REAFFECTATIONS[p["id"]][0], "raison": DV.REAFFECTATIONS[p["id"]][1]} for p in reaff]
+        if hs and any(p.get("id") in DV.HAUTEURS_RETENUES for p in ps):
+            hr = [DV.HAUTEURS_RETENUES[p["id"]][0] if p.get("id") in DV.HAUTEURS_RETENUES else _h(p) for p in ps if _h(p)]
+            e["hauteurs_retenues_m"] = {"min": round(min(hr), 1), "mediane": round(statistics.median(hr), 1), "max": round(max(hr), 1),
+                                        "note": "V2 : hauteurs mesurées aberrantes (arbre voisin capté par le LiDAR, sujet recépé) remplacées ; voir positions › hauteur_suspecte"}
         if e["asset"] in ("arbre_cupressus_sempervirens_grand", "arbre_pinus_sylvestris_moyen", "arbre_cedrus_deodara_grand"):
             e["nombre_2026"] = {"arbre_cupressus_sempervirens_grand": 2, "arbre_pinus_sylvestris_moyen": 2, "arbre_cedrus_deodara_grand": 1}[e["asset"]]
         if e["asset"] in ("haie_taillee_persistante",):
@@ -376,6 +483,9 @@ def construire_vegetation():
                              "recon/out/paquet_jardin/objets/arbres.geojson (470 arbres : GAM, LiDAR, inventaire, plan projet)",
                              "plan projet 2025 (data/raw/docs/panneau_150dpi.png, codes d'essences relus à 150 dpi)", "photos Panoramax 2023-2026"],
                  "controle_visuel": ["assets/qa/mobilier_vegetation_carla/qa_06_vegetation.jpg", "assets/qa/mobilier_vegetation_carla/qa_07_plan_jeunes_sujets.jpg"],
+                 "version": VERSION, "historique": HISTORIQUE,
+                 "classes_scene_v1": ("attention : recon/assemble.py (paquet v1) nomme les prototypes d'arbres avec ses propres classes (petit < 8 m, moyen < 15 m, "
+                                      "grand au-delà) et l'essence brute : voir correspondance_scene_v1 pour la table prototype de scène → asset"),
                  "lecture_plan_2025": ("codes relus à 150 dpi : TPC planté SO « Alc, As, Ce/Cs, Alc, As » ; noue SE « Ul, Qc/Oc, Qc/Oc, Ul » ; bande NO « Gt, Aca, Ac, Gt, Ac » ; "
                                        "angle NO « Ca » → 15 sujets (dont « Aca », cercle orange en tirets : sujet existant conservé probable). Écarts avec le catalogue des besoins : "
                                        "« As » et « Gt » sont 2 chacun (et non 1) ; « Qc » peut se lire « Oc » (Ostrya carpinifolia, retenu par l'atelier objets).")},
@@ -383,11 +493,14 @@ def construire_vegetation():
         "generateur_jeune_sujet": {"hda_propose": "jeune_sujet.hda (Houdini 22) : tronc conique + 5-8 charpentières + rameaux (Labs Tree Branch Generator) + cartes de feuilles par essence + tripode bois",
                                    "parametres": ["essence (atlas de feuilles, couleur été/automne)", "hauteur 3,5-5 m", "Ø tige 0,05-0,08 m", "Ø couronne 1,5-2,5 m",
                                                   "état saisonnier 0-1 (vert → coloré → chute)", "tuteurage on/off (tripode 3 x Ø 0,08 x 2,2 m + demi-rondins)", "paillage Ø 1,5-2 m"]},
+        "correspondance_scene_v1": correspondance(True, SPECS / "vegetation.json"),
         "essences": ess_out,
-        "synthese": {"arbres_inventaire_presents": sum(1 for a, v in par.items() if "generique" not in a for p in v
-                                                       if "planté 2025" not in str(p.get("statut_2026")) and "vérifier" not in str(p.get("statut_2026"))),
+        "synthese": {"arbres_inventaire_presents": sum(1 for a, v in par.items() if "generique" not in a and a != "arbre_prunus_cerasifera_pissardii_moyen"
+                                                       for p in v if "planté 2025" not in str(p.get("statut_2026")) and "vérifier" not in str(p.get("statut_2026"))),
                      "jeunes_sujets_2025": n_jeunes,
-                     "note": "les 3 érables champêtres du plan 2025 (« Ac » ×2, « Aca ») sont comptés dans arbre_acer_campestre_jeune"},
+                     "complements_v2": {e["asset"]: e.get("nombre_2026") for e in ess_out if e.get("hors_catalogue_v1")},
+                     "note": ("les 3 érables champêtres du plan 2025 (« Ac » ×2, « Aca ») sont comptés dans arbre_acer_campestre_jeune ; "
+                              "arbres_inventaire_presents = fiches de l'inventaire présentes (hors « à vérifier », hors compléments V2)")},
         "non_retenus": DV.NON_RETENUS,
     }
     return ecrire_json(SPECS / "vegetation.json", data)
@@ -422,6 +535,12 @@ def construire_carla():
             cand, adeq, just, reco = [DC.prop("static.prop.advertisement")], "proche", "caisson publicitaire sur pied", "intégré à l'abri"
         rows.append({"asset": c["asset_propose"], "categorie": "complement (hors catalogue)", "priorite": c.get("priorite"), "carla": cand,
                      "adequation": adeq, "justification": just, "recommandation": reco})
+    # V2 : compléments ajoutés aux spécifications (bordures, végétation, panneau de jalonnement de la scène)
+    for nom, cat_, prio in (("bordure_T3", "bordures", 1), ("arbre_prunus_cerasifera_pissardii_moyen", "vegetation", 2),
+                            ("arbre_populus_alba_grand", "vegetation", 2), ("panneau_D21a_jalonnement_generique", "signalisation_verticale", 3)):
+        cand, adeq, just, reco = DC.corr(nom)
+        rows.append({"asset": nom, "categorie": "complement (hors catalogue)", "categorie_lib": cat_, "priorite": prio, "carla": cand,
+                     "adequation": adeq, "justification": just, "recommandation": reco, "ajout": "V2"})
     resume = collections.Counter(r["adequation"] for r in rows if r["categorie"] != "complement (hors catalogue)")
     data = {
         "meta": {
@@ -440,11 +559,14 @@ def construire_carla():
             "recommandation": {"maison": "Houdini 22 d'après assets/specs", "CC0": "manifeste_cc0.json / telecharger_cc0.py", "CARLA": "contenu CARLA (export USD)",
                                "Fab": "Fab / Megascans (compte utilisateur)", "SpeedTree": "SpeedTree (compte utilisateur)"},
             "nombre_assets": len(noms), "resume_adequation": dict(resume),
-            "nombre_complements_hors_catalogue": len(DM.COMPLEMENTS),
+            "nombre_complements_hors_catalogue": len(DM.COMPLEMENTS) + 4,
             "resume_adequation_complements": dict(collections.Counter(r["adequation"] for r in rows if r["categorie"] == "complement (hors catalogue)")),
             "note_decompte": (f"{len(noms)} assets du catalogue des besoins + {len(DM.COMPLEMENTS)} compléments vus sur les photos (mobilier.json › "
-                              f"fiches_complementaires) = {len(rows)} lignes ; resume_adequation ne compte que les assets du catalogue"),
+                              f"fiches_complementaires) + 4 compléments V2 (bordure_T3, 2 arbres, D21a de jalonnement) = {len(rows)} lignes ; "
+                              "resume_adequation ne compte que les assets du catalogue"),
             "controle_visuel": "assets/qa/mobilier_vegetation_carla/qa_08_carla_vs_reel.jpg (vignettes officielles du catalogue des props vs photos du site)",
+            "verification_v2": DC.VERIFICATION_V2,
+            "version": VERSION, "historique": HISTORIQUE,
             "utilisation_pc": ["python assets/carla_resoudre_chemins.py --carla <racine du dépôt CARLA> [--content <dossier Content>] → assets/carla_correspondances_resolues.json",
                                "pour utiliser une doublure CARLA comme asset de la librairie : Unreal (projet CARLA) › clic droit sur le static mesh › Asset Actions › Export › .usd "
                                "dans assets/lib/<categorie>/<asset>/<asset>.usd(a) ; substituer_assets.py convertit cm / axes ; vérifier la face +Y (sinon tourner l'asset)",

@@ -35,14 +35,58 @@
    "aucun équivalent": 27,
    "à vérifier": 28
   },
-  "nombre_complements_hors_catalogue": 12,
+  "nombre_complements_hors_catalogue": 16,
   "resume_adequation_complements": {
-   "aucun équivalent": 8,
+   "aucun équivalent": 10,
    "proche": 3,
-   "à éviter": 1
+   "à éviter": 1,
+   "à vérifier": 2
   },
-  "note_decompte": "122 assets du catalogue des besoins + 12 compléments vus sur les photos (mobilier.json › fiches_complementaires) = 134 lignes ; resume_adequation ne compte que les assets du catalogue",
+  "note_decompte": "122 assets du catalogue des besoins + 12 compléments vus sur les photos (mobilier.json › fiches_complementaires) + 4 compléments V2 (bordure_T3, 2 arbres, D21a de jalonnement) = 138 lignes ; resume_adequation ne compte que les assets du catalogue",
   "controle_visuel": "assets/qa/mobilier_vegetation_carla/qa_08_carla_vs_reel.jpg (vignettes officielles du catalogue des props vs photos du site)",
+  "verification_v2": {
+   "date": "2026-10-09",
+   "props": "les 26 identifiants static.prop.* cités (bench01-03, trashcan01-05, bin, busstop, busstoplb, advertisement, chainbarrier, chainbarrierend, streetbarrier, constructioncone, trafficcone01-02, warningconstruction, trafficwarning, mailbox, streetfountain, glasscontainer, cypresstree, aporosatree, streetsign) figurent dans https://carla.readthedocs.io/en/latest/catalogue_props/",
+   "dossiers": {
+    "Content/Carla/Static/TrafficLight/StreetLights_01": [
+     "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/",
+     "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_add_tl/"
+    ],
+    "Content/Carla/Static/TrafficSign": [
+     "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/",
+     "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_add_tl/"
+    ],
+    "Carla > Static > Vegetation (« blueprints for multiple types of trees, bushes, shrubs »)": [
+     "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    ],
+    "Carla/Static/Pole/PoweLine (BP_SplinePoweLine)": [
+     "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/"
+    ],
+    "BP_Spline, BP_RepSpline, BP_Wall (Serial meshes)": [
+     "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/"
+    ],
+    "Content/Carla/Static/Decals, GenericMaterials": [
+     "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    ],
+    "Default.Package.json, /Game/Carla/Static/Static/SM_Atm.SM_Atm": [
+     "https://carla.readthedocs.io/en/latest/content_authoring_props/"
+    ]
+   },
+   "non_publie": "les noms des static meshes des lampadaires, poteaux, clôtures et végétaux ne sont pas publiés : résolution sur le PC (carla_resoudre_chemins.py)"
+  },
+  "version": 2,
+  "historique": [
+   {
+    "version": 1,
+    "date": "2026-10-09",
+    "contenu": "première version (fiches, profils, essences, correspondances CARLA)"
+   },
+   {
+    "version": 2,
+    "date": "2026-10-09",
+    "contenu": "contrôle visuel des 8 planches V1 et recoupements photo/normes : correspondance prototypes de la scène → noms du catalogue (+ script noms_catalogue_scene.py), hauteurs d'arbres aberrantes corrigées, 2 essences ajoutées (arbre pourpre, peuplier blanc), cyprès hors emprise, arceaux anthracite 0,65 x 0,82 m, positions des BEV, profils de bordures vérifiés sur les plans cotés Celtys, bordure_T3 explicite, identifiants CARLA revérifiés"
+   }
+  ],
   "utilisation_pc": [
    "python assets/carla_resoudre_chemins.py --carla <racine du dépôt CARLA> [--content <dossier Content>] → assets/carla_correspondances_resolues.json",
    "pour utiliser une doublure CARLA comme asset de la librairie : Unreal (projet CARLA) › clic droit sur le static mesh › Asset Actions › Export › .usd dans assets/lib/<categorie>/<asset>/<asset>.usd(a) ; substituer_assets.py convertit cm / axes ; vérifier la face +Y (sinon tourner l'asset)",
@@ -3006,6 +3050,104 @@
    "adequation": "aucun équivalent",
    "justification": "non traité",
    "recommandation": "maison"
+  },
+  {
+   "asset": "bordure_T3",
+   "categorie": "complement (hors catalogue)",
+   "categorie_lib": "bordures",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Blueprints/LevelDesign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Blueprints/LevelDesign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "BP_Spline"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/",
+     "note": "outil de pose : déformer le maillage de profil (bordures.json) le long des lignes de bordures"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "les bordures CARLA sont générées avec les routes (profils américains) ; pas de profil T2/A2/P1/quai",
+   "recommandation": "maison (profils bordures.json, Sweep Houdini)",
+   "ajout": "V2"
+  },
+  {
+   "asset": "arbre_prunus_cerasifera_pissardii_moyen",
+   "categorie": "complement (hors catalogue)",
+   "categorie_lib": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Plum",
+      "Prunus",
+      "Cherry",
+      "Purple",
+      "Beech"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "ajout": "V2"
+  },
+  {
+   "asset": "arbre_populus_alba_grand",
+   "categorie": "complement (hors catalogue)",
+   "categorie_lib": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Poplar",
+      "Populus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "ajout": "V2"
+  },
+  {
+   "asset": "panneau_D21a_jalonnement_generique",
+   "categorie": "complement (hors catalogue)",
+   "categorie_lib": "signalisation_verticale",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "D21a_jalonnement_generique"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "ajout": "V2"
   }
  ]
 }

@@ -23,6 +23,20 @@
   "controle_visuel": [
    "assets/qa/mobilier_vegetation_carla/qa_04_bordures_profils.jpg",
    "assets/qa/mobilier_vegetation_carla/qa_05_bordures_site.jpg"
+  ],
+  "verification_v2": "V2 : plans cotés Celtys des pages 2-3 et 6 rendus à 200 dpi et relus en tuiles 1000x1000 : T1, T2, T2 bateau, T3, A1, A2 conformes aux contours de ce fichier (A2 : plat 7 cm, chanfrein 8 x 6 cm côté chaussée ; A1 : plat 12 cm). Les dessins montrent une légère pente de la tête vers la chaussée (≈ 2-4 %, quelques mm) que les contours ignorent (sans effet visible). Tableau Chausson/Cambounet (A2 15x20x100, 69-73 kg) concordant.",
+  "version": 2,
+  "historique": [
+   {
+    "version": 1,
+    "date": "2026-10-09",
+    "contenu": "première version (fiches, profils, essences, correspondances CARLA)"
+   },
+   {
+    "version": 2,
+    "date": "2026-10-09",
+    "contenu": "contrôle visuel des 8 planches V1 et recoupements photo/normes : correspondance prototypes de la scène → noms du catalogue (+ script noms_catalogue_scene.py), hauteurs d'arbres aberrantes corrigées, 2 essences ajoutées (arbre pourpre, peuplier blanc), cyprès hors emprise, arceaux anthracite 0,65 x 0,82 m, positions des BEV, profils de bordures vérifiés sur les plans cotés Celtys, bordure_T3 explicite, identifiants CARLA revérifiés"
+   }
   ]
  },
  "profils": {
@@ -120,7 +134,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 9
+   "nb_points": 9,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 2, tableau p. 7 ; relu en V2 (2026-10-09) — 12 x 20, tête 10, face inclinée sur 10 cm"
   },
   "T2": {
    "famille": "T (trottoir, non franchissable)",
@@ -216,7 +231,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 9
+   "nb_points": 9,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 2, tableau p. 7 ; relu en V2 (2026-10-09) — 15 x 25, tête 12, face inclinée sur 14 cm"
   },
   "T3": {
    "famille": "T (trottoir, non franchissable)",
@@ -269,7 +285,7 @@
      0.0
     ]
    ],
-   "note": "certains fabricants livrent une « T3 » de 15 x 25 (classe U) : retenir 17 x 28 pour les vues de 18-21 cm",
+   "note": "V2 : le tableau Celtys p. 7 imprime « T3 15 x 25 » mais 108 kg/ml, poids d'une section 17 x 28 (0,17 x 0,28 x 2,3 t/m³ ≈ 109 kg) et le dessin coté p. 2 donne 17 x 28 (face inclinée 14 cm, tête 14 cm) : coquille du tableau ; retenir 17 x 28 pour les vues de 18-21 cm",
    "pose_exemple": {
     "vue_m": 0.18,
     "translation_v_m": -0.1,
@@ -313,7 +329,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 9
+   "nb_points": 9,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 2, tableau p. 7 ; relu en V2 (2026-10-09) — 17 x 28, tête 14, face inclinée sur 14 cm (tableau p. 7 : coquille « 15 x 25 »)"
   },
   "T2_bateau": {
    "famille": "T, élément abaissé (bateau)",
@@ -399,7 +416,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 8
+   "nb_points": 8,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 2, tableau p. 7 ; relu en V2 (2026-10-09) — 15 x 16, face vue 12 cm + arrondi 4 cm"
   },
   "A1": {
    "famille": "A (franchissable)",
@@ -470,7 +488,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 6
+   "nb_points": 6,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 2, tableau p. 7 ; relu en V2 (2026-10-09) — 20 x 25, plat 12, chanfrein 8 x 6"
   },
   "A2": {
    "famille": "A (franchissable)",
@@ -541,7 +560,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 6
+   "nb_points": 6,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 2, tableau p. 7 ; relu en V2 (2026-10-09) — 15 x 20, plat 7, chanfrein 8 x 6 ; recoupé Chausson (A2 15x20x100, 69-73 kg)"
   },
   "P1": {
    "famille": "P (bordurette de jardin, parcs)",
@@ -627,7 +647,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 8
+   "nb_points": 8,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 4, tableau p. 7 ; relu en V2 (2026-10-09) — 8 x 20"
   },
   "P2": {
    "famille": "P (bordurette)",
@@ -719,7 +740,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 9
+   "nb_points": 9,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 4, tableau p. 7 ; relu en V2 (2026-10-09) — 6 x 28"
   },
   "P3": {
    "famille": "P (bordurette)",
@@ -771,7 +793,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 4
+   "nb_points": 4,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 4, tableau p. 7 ; relu en V2 (2026-10-09) — 8 x 20 rectangulaire"
   },
   "CS1": {
    "famille": "caniveau simple pente",
@@ -830,7 +853,8 @@
     ],
     "lecture": "origine = arête côté chaussée au niveau de la chaussée"
    },
-   "nb_points": 5
+   "nb_points": 5,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 3, tableau p. 7 ; relu en V2 (2026-10-09) — 20 x 10/12"
   },
   "CS2": {
    "famille": "caniveau simple pente",
@@ -889,7 +913,8 @@
     ],
     "lecture": "origine = arête côté chaussée au niveau de la chaussée"
    },
-   "nb_points": 5
+   "nb_points": 5,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 3, tableau p. 7 ; relu en V2 (2026-10-09) — 25 x 11/13,5"
   },
   "CC1": {
    "famille": "caniveau double pente",
@@ -960,7 +985,8 @@
     ],
     "lecture": "origine = arête côté chaussée au niveau de la chaussée"
    },
-   "nb_points": 7
+   "nb_points": 7,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 3, tableau p. 7 ; relu en V2 (2026-10-09) — 40 x 12"
   },
   "CC2": {
    "famille": "caniveau double pente (fond arrondi)",
@@ -1079,7 +1105,8 @@
     ],
     "lecture": "origine = arête côté chaussée au niveau de la chaussée"
    },
-   "nb_points": 13
+   "nb_points": 13,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 3, tableau p. 7 ; relu en V2 (2026-10-09) — 50 x 14"
   },
   "I1": {
    "famille": "I (îlot franchissable, dessus galbé)",
@@ -1186,7 +1213,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 11
+   "nb_points": 11,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 3, tableau p. 7 ; relu en V2 (2026-10-09) — 25 x 13, face vue 6"
   },
   "I2": {
    "famille": "I (îlot franchissable)",
@@ -1293,7 +1321,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 11
+   "nb_points": 11,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 3, tableau p. 7 ; relu en V2 (2026-10-09) — 25 x 18, face vue 11"
   },
   "IL": {
    "famille": "I (lotissement, très bas)",
@@ -1400,7 +1429,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 11
+   "nb_points": 11,
+   "source_cotes": "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. 3, tableau p. 7 ; relu en V2 (2026-10-09) — 20 x 9, face vue 3"
   },
   "QUAI_BUS": {
    "famille": "bordure de quai bus accessible (plancher bas)",
@@ -1470,7 +1500,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 6
+   "nb_points": 6,
+   "source_cotes": "profil générique de quai bus accessible à face inclinée (type « Kassel » / BQB) : Celtys p. 6 montre le système (raccords A et B < 5 %, dalles d'éveil) SANS coupe cotée → cotes 35 x 29,5 indicatives, confiance moyenne ; vue réelle 0,18-0,21 m mesurée sur le site"
   },
   "PAVES_GRANIT": {
    "famille": "rangée de pavés de granit sertis (anneau d'îlot)",
@@ -1571,7 +1602,8 @@
     ],
     "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
    },
-   "nb_points": 10
+   "nb_points": 10,
+   "source_cotes": "pavés de granit 14 x 14 estimés sur la photo 2025-05-18 119d9094 r01_c00 (anneau d'îlot B21a1)"
   }
  },
  "assets": [
@@ -1678,6 +1710,20 @@
     "2024-08-24_5c0d1d39 r01_c04",
     "2025-08-31_ab4cfacd r01_c02"
    ]
+  },
+  {
+   "asset": "bordure_T3",
+   "profil": "T3",
+   "hors_catalogue_v1": true,
+   "materiau": "beton_bordure",
+   "couleur": "beton_clair",
+   "usage": "V2 : profil haut (vue 0,175-0,27 m ; ≈ 280 m sur le site d'après les vues mesurées) : îlots du Vercors (vue 0,18-0,21), quelques bordures de quai et de trottoir surélevées. En V1 cette plage était confiée à « bordure_T2 (maillage T3) », soit un même nom pour deux maillages : nom distinct en V2",
+   "priorite": 1,
+   "aspect": "comme bordure_T2 (bordures très claires, presque blanches, aux îlots du Vercors sur les photos 2025-01)",
+   "photos_reference": [
+    "2025-01-12_a1ffea74 r01_c00",
+    "2025-01-12_d88855f2 r01_c01"
+   ]
   }
  ],
  "regles_affectation": [
@@ -1714,7 +1760,7 @@
   {
    "si": "0,175 ≤ h_vue < 0,30",
    "profil": "T3",
-   "asset": "bordure_T2 (maillage T3)",
+   "asset": "bordure_T3",
    "vue_pose": "h_vue (0,175-0,27) ; T3 plutôt que T2 enterrée de moins de 8 cm"
   },
   {
@@ -1856,7 +1902,7 @@
    "zone": "îlots du Vercors (îlot effilé gravillonné, îlot triangulaire)",
    "profil": "T2 (vue ≤ 0,175) / T3 (vue 0,18-0,21)",
    "vue_m": "0,16-0,21",
-   "asset": "bordure_T2",
+   "asset": "bordure_T2 / bordure_T3",
    "note": "bordures très claires (presque blanches) sur les photos 2025-01"
   },
   {

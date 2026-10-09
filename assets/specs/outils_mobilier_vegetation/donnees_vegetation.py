@@ -9,7 +9,10 @@ chaque arbre à l'échelle de sa hauteur mesurée : la hauteur de l'asset compte
 proportions (fût / houppier).
 """
 from commun import tuile
-from donnees_mobilier import T_E540, T_9FC8, T_5C0D, T_D888, T_2AB4, T_BC579, T_2374, T_DED0, T_FFC2, T_E5D7, T_119D, T_F8D9, T_31D1
+from donnees_mobilier import T_E540, T_9FC8, T_5C0D, T_D888, T_2AB4, T_BC579, T_2374, T_DED0, T_FFC2, T_E5D7, T_119D, T_F8D9, T_31D1, T_B401, T_0508, T_7A18
+
+T_9834 = "2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433"
+T_5C0D_C4 = "2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a"
 
 SOURCES_PROD = {
     "speedtree": "SpeedTree (Modeler 10 / bibliothèque du compte de l'utilisateur) : modèles par essence, saisons (été/automne/hiver) et LOD ; export FBX ou USD → Houdini (mise en Z-up, pivot au pied) → assets/lib/vegetation/<nom>/<nom>.usda",
@@ -39,6 +42,10 @@ def asset_pour(ess, classe, statut, code):
                 "Ac": "arbre_acer_campestre_jeune", "Aca": "arbre_acer_campestre_jeune"}.get(c, "arbre_jeune_tuteure_generique")
     if "absent" in (statut or "") or e == "souche":
         return None
+    if e.startswith("populus alba"):                       # V2 : fiche « Abattu » mais houppier présent 2021-2025
+        return "arbre_populus_alba_grand"
+    if e.startswith("feuillage pourpre"):                  # V2 : arbre pourpre de l'angle Revirée (photos 2024-08, 2025-05)
+        return "arbre_prunus_cerasifera_pissardii_moyen"
     cl = {"[0;5m[": "jeune", "[5;10m[": "petit", "[10;20m[": "moyen", "[20;30m[": "grand"}.get(classe or "")
     if e.startswith("populus nigra italica"):
         return "arbre_populus_nigra_italica_grand"
@@ -109,11 +116,13 @@ ESSENCES = [
      "production": {"principale": LABS, "alternatives": [SPT], "note": "le têtard n'existe pas en bibliothèque : tronc + têtes modélisés, rejets générés (Labs Branch Generator)"},
      "photos_reference": [tuile(T_9FC8, "r01_c03")]},
     {"asset": "arbre_populus_nigra_italica_grand", "nom_latin": "Populus nigra 'Italica'", "nom_francais": "peuplier d'Italie", "nom_anglais": "Lombardy poplar",
-     "source": "inventaire Métropole (parc NO, port architecturé)", "priorite": 2, "confiance": "moyenne",
+     "source": "inventaire Métropole (parc NO, port architecturé, planté en 1960)", "priorite": 3, "confiance": "faible (état 2026 : probablement recépé ou abattu)",
      "port": "fastigié (colonne étroite), branches dressées dès la base", "tronc": "Ø ≈ 0,67 m (210 cm)",
      "feuillage": feuillage("caduc", "#4F7B2F", "#E0BE45", "vert-jaune", "colonne nue de rameaux dressés"),
      "gabarit": {"hauteur": 24.0, "fut_nu": 1.5, "couronne_diametre": 4.5, "forme_couronne": "colonne fusiforme"},
-     "note_hauteur": "LiDAR de l'atelier : 3,0 m (point mal apparié) ; inventaire [20;30 m[ → construire à 24 m",
+     "note_hauteur": ("V2 : LiDAR HD 2021 3,0 m ET MNH IGN 4,1 m concordants (couronne 4,8 m) : le sujet de 1960 a très probablement été recépé "
+                      "ou abattu (cépée de rejets) — la classe [20;30 m[ de l'inventaire est périmée. Construire l'asset à 24 m (utile ailleurs à Meylan), "
+                      "mais à l'emplacement arbre_363 poser une cépée de 3-4 m (massif_arbustif) ou souche_arbre ; aucune photo à moins de 90 m pour trancher"),
      "production": {"principale": SPT, "alternatives": [LABS]}, "photos_reference": []},
     {"asset": "arbre_cedrus_atlantica_grand", "nom_latin": "Cedrus atlantica (dont 'Glauca')", "nom_francais": "cèdre de l'Atlas", "nom_anglais": "Atlas cedar",
      "source": "inventaire Métropole (2 : grand cèdre de l'angle Revirée, « Cedrus » 10-20 m mais LiDAR 25,7 m ; cèdre glauque NE 20,9 m)", "priorite": 1, "confiance": "haute",
@@ -187,13 +196,16 @@ ESSENCES = [
      "port": "libre : cime ovoïde dense", "tronc": "Ø ≈ 0,11 m (35 cm)",
      "feuillage": feuillage("persistant", "#2F5525", "#2F5525", "inchangé (grandes feuilles vernissées, revers roux)", "inchangé"),
      "gabarit": {"hauteur": 5.0, "fut_nu": 1.0, "couronne_diametre": 3.5, "forme_couronne": "ovoïde dense", "feuille_cm": "15-20"},
-     "note_hauteur": "inventaire [0;5 m[ ; LiDAR 7,9-9,0 (probablement l'arbre voisin) → garder 5 m",
-     "production": {"principale": SPT, "alternatives": [LABS]}, "photos_reference": []},
+     "note_hauteur": ("inventaire [0;5 m[ ; LiDAR 7,9-9,0 et MNH IGN 7,7-8,1 → V2 : la photo 2026-07-28 05089869 r01_c04 (à 7,5 m) montre à cet endroit "
+                      "un grand feuillu caduc à gros tronc dont le houppier couvre l'allée : la hauteur mesurée est la sienne → garder 5 m pour les magnolias "
+                      "(petits sujets de 35 cm de circonférence, non distingués sur la photo)"),
+     "production": {"principale": SPT, "alternatives": [LABS]}, "photos_reference": [tuile(T_0508, "r01_c04")]},
     {"asset": "arbre_crataegus_laevigata_jeune", "nom_latin": "Crataegus laevigata", "nom_francais": "aubépine épineuse", "nom_anglais": "Midland hawthorn",
      "source": "inventaire Métropole (1)", "priorite": 3, "confiance": "moyenne",
      "port": "libre : petit arbre à cime arrondie, rameaux épineux", "tronc": "Ø ≈ 0,16 m",
      "feuillage": feuillage("caduc", "#4C7A30", "#C27A33", "jaune-orangé, fruits rouges (cenelles)", "rameaux épineux denses"),
      "gabarit": {"hauteur": 5.0, "fut_nu": 1.2, "couronne_diametre": 4.0, "forme_couronne": "arrondie"},
+     "note_hauteur": "V2 : inventaire [0;5 m[ (planté 1990, circonférence 50 cm) ; LiDAR 11,9 / MNH IGN 10,9 m invraisemblables pour une aubépine (≤ 8-10 m) → couronne voisine ; hauteur retenue 6 m",
      "production": {"principale": SPT, "alternatives": [LABS]}, "photos_reference": []},
     {"asset": "arbre_sorbus_sp_jeune", "nom_latin": "Sorbus sp.", "nom_francais": "sorbier", "nom_anglais": "rowan / whitebeam",
      "source": "inventaire Métropole (1)", "priorite": 3, "confiance": "moyenne",
@@ -214,7 +226,11 @@ ESSENCES = [
      "port": "fastigié : colonne très étroite et dense, pointe effilée", "tronc": "non visible",
      "feuillage": feuillage("persistant", "#2E4A28", "#2E4A28", "inchangé (vert très sombre)", "inchangé"),
      "gabarit": {"hauteur": 16.0, "fut_nu": 0.5, "couronne_diametre": 2.5, "forme_couronne": "colonne fusiforme (rapport h/l ≈ 6-8)"},
-     "positions_note": "2 sujets vus de loin (repère visuel fort) ; candidats LiDAR étroits (couronne 3,3-4,1 m, h 13-16 m) : arbre_108, 139, 140, 143, 164 de l'atelier (x −104…−115, y −51…−66) — à confirmer",
+     "positions_note": ("V2 : HORS EMPRISE. Relèvements de la colonne sombre sur 3 photos (2025-05-18 bc579b89 r01_c03 x≈910 → az 289° depuis (−54, −55) ; "
+                        "2025-05-18 2374105b r01_c03 x≈655 → az 273° depuis (−40, −40) ; 2024-08-24 2ab4efbc r01_c03 x≈585 → az 272° depuis (−11, −6)) "
+                        "quasi parallèles : sujets à ≥ 120-150 m vers l'ouest, au-delà de la limite x = −150 m. Les candidats V1 (arbre_108, 139, 140, 143, 164 ; "
+                        "x −104…−115) sont à 20-25° de ces directions : ce sont des conifères génériques (groupe de cimes coniques privé). "
+                        "Asset utile comme décor lointain / extension de l'emprise"),
      "production": {"principale": SPT, "alternatives": ["fab", "carla static.prop.cypresstree (silhouette proche, à mettre à l'échelle)"]},
      "photos_reference": [tuile(T_2AB4, "r01_c03"), tuile(T_BC579, "r01_c03"), tuile(T_2374, "r01_c03")]},
     {"asset": "arbre_pinus_sylvestris_moyen", "nom_latin": "Pinus sylvestris (probable)", "nom_francais": "pin sylvestre", "nom_anglais": "Scots pine",
@@ -229,6 +245,31 @@ ESSENCES = [
      "feuillage": feuillage("persistant", "#4C6A4A", "#4C6A4A", "inchangé", "inchangé"),
      "gabarit": {"hauteur": 17.0, "fut_nu": 2.0, "couronne_diametre": 10.0, "forme_couronne": "conique lâche, branches pendantes"},
      "production": {"principale": SPT, "alternatives": [LABS]}, "photos_reference": [tuile(T_D888, "r01_c01")]},
+    # ---------------------------------------------------------------- compléments V2 (présents dans la scène, absents du catalogue des besoins)
+    {"asset": "arbre_prunus_cerasifera_pissardii_moyen", "hors_catalogue_v1": True,
+     "nom_latin": "Prunus cerasifera 'Pissardii' (probable ; Fagus sylvatica 'Purpurea' possible)", "nom_francais": "prunier myrobolan pourpre (ou hêtre pourpre)",
+     "nom_anglais": "purple-leaf plum (or copper beech)",
+     "source": "atelier objets arbre_273 (orthos 2022 et 2024 : couronne pourpre ≈ 8 m ; MNH 2021 : 10-11,5 m) ; vérifié V2 sur 2 photos", "priorite": 2,
+     "confiance": "haute (présence, couleur) / faible (essence)",
+     "port": "libre : houppier arrondi ajouré, ramure fine visible, derrière la haie de laurier-cerise de l'angle Revirée (repère coloré fort depuis le carrefour)",
+     "tronc": "non visible (masqué par la haie)",
+     "feuillage": feuillage("caduc", "#6B2E3A", "#8A3A2E", "pourpre-brun virant au rouge-bronze, chute commencée", "nu (rameaux fins sombres)",
+                            chute="mi-octobre à début novembre", debourrement="mars-avril (floraison blanc rosé avant les feuilles si Prunus)"),
+     "gabarit": {"hauteur": 11.0, "fut_nu": 2.0, "couronne_diametre": 8.0, "forme_couronne": "arrondie, ajourée", "feuille_cm": "4-6 (Prunus) / 6-10 (Fagus)"},
+     "note_hauteur": "MNH IGN 10,0 m, LiDAR 2021 11,5 m ; sur la photo 2024-08-24 le sommet est au niveau du 3e-4e étage de l'immeuble voisin (≈ 10-11 m)",
+     "production": {"principale": SPT, "alternatives": [LABS, "fab"], "note": "si Prunus : 1 tronc court, charpentières obliques ; texture de feuilles pourpres sombres (albédo ≈ #5A2630 à l'ombre)"},
+     "photos_reference": [tuile(T_9834, "r01_c04"), tuile(T_5C0D_C4, "r01_c04")]},
+    {"asset": "arbre_populus_alba_grand", "hors_catalogue_v1": True,
+     "nom_latin": "Populus alba (d'après l'inventaire ; essence non confirmée sur photo)", "nom_francais": "peuplier blanc", "nom_anglais": "white poplar",
+     "source": "inventaire Métropole (fiche « Abattu », non datée) ; atelier objets arbre_424 « à vérifier » : couronne LiDAR 2021 30,7 m, MNH IGN 28,8 m, ortho 2024 végétation 0,82",
+     "priorite": 2, "confiance": "moyenne (présence d'un grand houppier à cet emplacement en 2025) / faible (essence)",
+     "port": "libre : très grand fût, houppier large et irrégulier (17 m), charpentières épaisses",
+     "tronc": "écorce blanc-gris lisse à lenticelles en losanges, crevassée noire en pied (Ø ≈ 0,46 m d'après 144 cm)",
+     "feuillage": feuillage("caduc", "#5E8240", "#D8C060", "vert sombre dessus / revers blanc feutré (scintillement au vent), jaunissement tardif", "silhouette nue, rameaux blanchâtres"),
+     "gabarit": {"hauteur": 29.0, "fut_nu": 6.0, "couronne_diametre": 17.0, "forme_couronne": "large, irrégulière"},
+     "note_hauteur": "V2 : la photo 2025-05-18 7a182db7 (r00_c05 / r01_c05, à 28 m) montre à cet emplacement une masse arborée haute et dense le long de Verdun NE → arbre présent en 2025 ; garder 29 m (LiDAR/MNH concordants)",
+     "production": {"principale": SPT, "alternatives": [LABS]},
+     "photos_reference": [tuile(T_7A18, "r00_c05"), tuile(T_7A18, "r01_c05")]},
     # ---------------------------------------------------------------- génériques
     {"asset": "arbre_feuillu_generique_moyen", "nom_latin": "feuillus divers (essence non renseignée)", "nom_francais": "feuillu générique", "nom_anglais": "generic deciduous tree",
      "source": "levé GAM (ARBRE_FEUILLU) et LiDAR HD 2021 hors inventaire public", "priorite": 1, "confiance": "moyenne",
@@ -301,13 +342,14 @@ ESSENCES = [
      "photos_reference": [tuile(T_FFC2, "r01_c00"), tuile(T_F8D9, "r01_c03")]},
     # ---------------------------------------------------------------- haies, massifs
     {"asset": "haie_taillee_persistante", "nom_latin": "Prunus laurocerasus / Photinia / Ligustrum (probables)", "nom_francais": "haie taillée persistante", "nom_anglais": "trimmed evergreen hedge",
-     "source": "BD TOPO (haie 646 m) + GAM SOL_VEGETATION + photos (haies séparatives de Verdun SO, angle Revirée)", "priorite": 1, "confiance": "haute (présence) / faible (essence)",
+     "source": "BD TOPO (haie 646 m) + GAM SOL_VEGETATION + photos (haies séparatives de Verdun SO, angle Revirée)", "priorite": 1,
+     "confiance": "haute (présence) / moyenne (essence : laurier-cerise confirmé de près à l'angle Revirée — 2024-05-01 b4013696 r01_c04 : grandes feuilles vernissées elliptiques, 10-15 cm)",
      "port": "volume taillé à faces planes et dessus plat ou arrondi, base parfois dégarnie",
      "tronc": "—",
      "feuillage": feuillage("persistant", "#3D6A2A", "#3D6A2A", "inchangé (quelques pousses claires si taille tardive)", "inchangé"),
      "gabarit": {"hauteur": "1,2-2,5 (Verdun SO ≈ 2,0 ; angle Revirée ≈ 1,2-1,8)", "epaisseur": "1,0-2,5", "module": "segment extrudable de 2 m (coque + cartes de feuillage), extrémités arrondies"},
      "production": {"principale": "maison Houdini (coque extrudée le long des lignes BD TOPO/GAM + scatter de cartes de feuilles)", "alternatives": ["fab (haies Megascans)", "carla BP_Spline / BP_Wall avec un maillage de haie"]},
-     "photos_reference": [tuile(T_E5D7, "r01_c04"), tuile("2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d", "r01_c03"), tuile(T_E540, "r01_c03")]},
+     "photos_reference": [tuile(T_B401, "r01_c04"), tuile(T_E5D7, "r01_c04"), tuile("2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d", "r01_c03"), tuile(T_E540, "r01_c03")]},
     {"asset": "massif_arbustif", "nom_latin": "mélange d'arbustes (charmille libre, laurier, cornouiller, buis, graminées)", "nom_francais": "massif arbustif", "nom_anglais": "shrub bed",
      "source": "BD TOPO zone de végétation ≈ 9 900 m² + photos", "priorite": 2, "confiance": "haute (présence)",
      "port": "touffes 0,5-3 m, masses libres", "tronc": "—",
@@ -319,6 +361,24 @@ ESSENCES = [
 
 NON_RETENUS = [
     {"type": "Populus alba, Populus nigra (1), Salix alba (3), Robinia pseudoacacia, Betula pendula (2), Fraxinus excelsior (1), Acer campestre (1), Crataegus laevigata (1), Populus sp. (5)",
-     "raison": "16 fiches « Abattu » de l'inventaire dans l'emprise : absents en 2026"},
+     "raison": ("16 fiches « Abattu » de l'inventaire dans l'emprise : absents en 2026 — sauf V2 : le Populus alba arbre_424 (houppier LiDAR 2021 de 30,7 m, "
+                "ortho 2024 et photo 2025-05-18 7a182db7) est retenu comme présent probable (arbre_populus_alba_grand)")},
     {"type": "Platanus × acerifolia", "raison": "pas de platane d'alignement dans l'emprise (le têtard du NE est un peuplier d'après l'inventaire)"},
 ]
+
+
+# V2 : hauteurs à utiliser à la place de la hauteur mesurée de l'atelier quand celle-ci est manifestement celle d'un voisin
+# (la substitution met chaque arbre à l'échelle de sa hauteur : une valeur aberrante donne un saule de 26 m ou un peuplier de 3 m).
+HAUTEURS_RETENUES = {
+    "arbre_363": (3.5, "peuplier d'Italie probablement recépé/abattu : LiDAR 2021 3,0 m et MNH IGN 4,1 m concordants → cépée de 3-4 m (ou souche)", "LiDAR + MNH"),
+    "arbre_458": (8.0, "saule têtard (classe [5;10 m[) : LiDAR 26,4 / MNH 26,0 m = peupliers voisins", "inventaire"),
+    "arbre_339": (6.0, "aubépine (classe [0;5 m[, plantée 1990) : LiDAR 11,9 / MNH 10,9 m = couronne voisine", "inventaire + âge"),
+    "arbre_004": (5.0, "magnolia (classe [0;5 m[) : 9,0 m mesurés = grand feuillu voisin (photo 2026-07-28 05089869 r01_c04)", "photo"),
+    "arbre_005": (5.0, "magnolia (classe [0;5 m[) : 7,9 m mesurés = grand feuillu voisin (photo 2026-07-28 05089869 r01_c04)", "photo"),
+}
+
+# V2 : instances de la scène à poser avec un autre asset que celui de leur essence (preuve à l'appui)
+REAFFECTATIONS = {
+    "arbre_363": ("massif_arbustif", "peuplier d'Italie de 1960 très probablement recépé : LiDAR 2021 3,0 m et MNH IGN 4,1 m, couronne 4,8 m → cépée de rejets ; "
+                                     "garder arbre_populus_nigra_italica_grand pour d'autres sites"),
+}

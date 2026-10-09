@@ -73,7 +73,8 @@ PROFILS = {
     "T3": {"famille": "T (trottoir, non franchissable)", "section_cm": "17 x 28", "base": 0.17, "H": 0.28, "tete": 0.14,
            "fruit": "face inclinée sur les 14 cm supérieurs (retrait 3 cm)", "rayon_arete": 0.02, "vue_courante": [0.16, 0.20], "poids_kg_ml": 108,
            "contour": profil_T(0.17, 0.28, 0.14, 0.14, 0.02),
-           "note": "certains fabricants livrent une « T3 » de 15 x 25 (classe U) : retenir 17 x 28 pour les vues de 18-21 cm"},
+           "note": ("V2 : le tableau Celtys p. 7 imprime « T3 15 x 25 » mais 108 kg/ml, poids d'une section 17 x 28 (0,17 x 0,28 x 2,3 t/m³ ≈ 109 kg) "
+                    "et le dessin coté p. 2 donne 17 x 28 (face inclinée 14 cm, tête 14 cm) : coquille du tableau ; retenir 17 x 28 pour les vues de 18-21 cm")},
     "T2_bateau": {"famille": "T, élément abaissé (bateau)", "section_cm": "15 x 16", "base": 0.15, "H": 0.16, "tete": 0.11,
                   "fruit": "face vue de 12 cm puis arrondi convexe de 4 cm", "vue_courante": [0.00, 0.04],
                   "contour": [[0.0, 0.0], [0.0, 0.12]] + arc(0.04, 0.12, 0.04, 180, 90, 4)[1:] + [[0.15, 0.16], [0.15, 0.0]]},
@@ -150,7 +151,33 @@ ASSETS = [
      "usage": "abaissés aux traversées : T2 bateau (vue 0,02 m) sur la largeur de la traversée + 2 chartières (gauche/droite) de 1,00 m où la vue passe linéairement de la vue courante à 0,02 m", "priorite": 1,
      "aspect": "comme bordure_T2 ; BEV posée derrière (voir mobilier.json : bev_podotactile)",
      "photos_reference": ["2024-08-24_5c0d1d39 r01_c04", "2025-08-31_ab4cfacd r01_c02"]},
+    {"asset": "bordure_T3", "profil": "T3", "hors_catalogue_v1": True, "materiau": "beton_bordure", "couleur": "beton_clair",
+     "usage": ("V2 : profil haut (vue 0,175-0,27 m ; ≈ 280 m sur le site d'après les vues mesurées) : îlots du Vercors (vue 0,18-0,21), quelques bordures de quai "
+               "et de trottoir surélevées. En V1 cette plage était confiée à « bordure_T2 (maillage T3) », soit un même nom pour deux maillages : nom distinct en V2"),
+     "priorite": 1,
+     "aspect": "comme bordure_T2 (bordures très claires, presque blanches, aux îlots du Vercors sur les photos 2025-01)",
+     "photos_reference": ["2025-01-12_a1ffea74 r01_c00", "2025-01-12_d88855f2 r01_c01"]},
 ]
+
+# V2 : provenance des cotes de chaque profil (planches cotées relues à 200 dpi, tuiles 1000x1000)
+_CELTYS = "Celtys, catalogue « Bordures Travaux publics » (hellopro, 8 p.) : plan coté p. {p}, tableau p. 7 ; relu en V2 (2026-10-09)"
+SOURCES_PROFILS = {
+    "T1": _CELTYS.format(p=2) + " — 12 x 20, tête 10, face inclinée sur 10 cm", "T2": _CELTYS.format(p=2) + " — 15 x 25, tête 12, face inclinée sur 14 cm",
+    "T3": _CELTYS.format(p=2) + " — 17 x 28, tête 14, face inclinée sur 14 cm (tableau p. 7 : coquille « 15 x 25 »)",
+    "T2_bateau": _CELTYS.format(p=2) + " — 15 x 16, face vue 12 cm + arrondi 4 cm",
+    "A1": _CELTYS.format(p=2) + " — 20 x 25, plat 12, chanfrein 8 x 6", "A2": _CELTYS.format(p=2) + " — 15 x 20, plat 7, chanfrein 8 x 6 ; recoupé Chausson (A2 15x20x100, 69-73 kg)",
+    "P1": _CELTYS.format(p=4) + " — 8 x 20", "P2": _CELTYS.format(p=4) + " — 6 x 28", "P3": _CELTYS.format(p=4) + " — 8 x 20 rectangulaire",
+    "CS1": _CELTYS.format(p=3) + " — 20 x 10/12", "CS2": _CELTYS.format(p=3) + " — 25 x 11/13,5", "CC1": _CELTYS.format(p=3) + " — 40 x 12",
+    "CC2": _CELTYS.format(p=3) + " — 50 x 14", "I1": _CELTYS.format(p=3) + " — 25 x 13, face vue 6", "I2": _CELTYS.format(p=3) + " — 25 x 18, face vue 11",
+    "IL": _CELTYS.format(p=3) + " — 20 x 9, face vue 3",
+    "QUAI_BUS": ("profil générique de quai bus accessible à face inclinée (type « Kassel » / BQB) : Celtys p. 6 montre le système (raccords A et B < 5 %, "
+                 "dalles d'éveil) SANS coupe cotée → cotes 35 x 29,5 indicatives, confiance moyenne ; vue réelle 0,18-0,21 m mesurée sur le site"),
+    "PAVES_GRANIT": "pavés de granit 14 x 14 estimés sur la photo 2025-05-18 119d9094 r01_c00 (anneau d'îlot B21a1)",
+}
+VERIFICATION_V2 = ("V2 : plans cotés Celtys des pages 2-3 et 6 rendus à 200 dpi et relus en tuiles 1000x1000 : T1, T2, T2 bateau, T3, A1, A2 conformes aux contours "
+                   "de ce fichier (A2 : plat 7 cm, chanfrein 8 x 6 cm côté chaussée ; A1 : plat 12 cm). Les dessins montrent une légère pente de la tête vers la "
+                   "chaussée (≈ 2-4 %, quelques mm) que les contours ignorent (sans effet visible). Tableau Chausson/Cambounet (A2 15x20x100, 69-73 kg) concordant.")
+
 
 # Règles d'affectation d'un profil à un tronçon de 1 m de recon/out/paquet_jardin/relief/bordures_hauteurs.geojson
 # (contexte, traversee, h_vue_m). Appliquées dans l'ordre ; la première qui convient l'emporte.
@@ -160,7 +187,7 @@ REGLES = [
     {"si": "h_vue < 0,03", "profil": "P1", "asset": "bordure_P1", "vue_pose": "h_vue (0-0,03), ou pas de bordure si limite de revêtement"},
     {"si": "0,03 ≤ h_vue < 0,09", "profil": "A2", "asset": "bordure_A2", "vue_pose": "h_vue"},
     {"si": "0,09 ≤ h_vue < 0,175", "profil": "T2", "asset": "bordure_T2", "vue_pose": "h_vue"},
-    {"si": "0,175 ≤ h_vue < 0,30", "profil": "T3", "asset": "bordure_T2 (maillage T3)", "vue_pose": "h_vue (0,175-0,27) ; T3 plutôt que T2 enterrée de moins de 8 cm"},
+    {"si": "0,175 ≤ h_vue < 0,30", "profil": "T3", "asset": "bordure_T3", "vue_pose": "h_vue (0,175-0,27) ; T3 plutôt que T2 enterrée de moins de 8 cm"},
     {"si": "h_vue ≥ 0,30", "profil": "MURET_TALUS", "asset": "(aucun : muret, soutènement ou talus — à modéliser avec le terrain / les murs GAM)", "vue_pose": "—"},
 ]
 
@@ -185,7 +212,7 @@ def regle(contexte, traversee, h):
 
 USAGE_SITE = [
     {"zone": "trottoirs de Verdun, de la Revirée et de l'allée de L'Horloge", "profil": "T2", "vue_m": "0,10-0,13 (mesures LiDAR 2021 ; standard 2025 : 0,14)", "asset": "bordure_T2"},
-    {"zone": "îlots du Vercors (îlot effilé gravillonné, îlot triangulaire)", "profil": "T2 (vue ≤ 0,175) / T3 (vue 0,18-0,21)", "vue_m": "0,16-0,21", "asset": "bordure_T2",
+    {"zone": "îlots du Vercors (îlot effilé gravillonné, îlot triangulaire)", "profil": "T2 (vue ≤ 0,175) / T3 (vue 0,18-0,21)", "vue_m": "0,16-0,21", "asset": "bordure_T2 / bordure_T3",
      "note": "bordures très claires (presque blanches) sur les photos 2025-01"},
     {"zone": "quais bus La Revirée (Verdun, refaits en 2025)", "profil": "QUAI_BUS", "vue_m": "0,20 (ancien quai 0,16-0,22)", "asset": "bordure_quai_bus"},
     {"zone": "terre-plein central de Verdun NE et terre-plein planté SO (2025), refuges", "profil": "T2", "vue_m": "0,15-0,17", "asset": "bordure_T2"},

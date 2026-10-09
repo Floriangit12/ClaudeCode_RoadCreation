@@ -1,0 +1,828 @@
+[
+ {
+  "label": "2025-08-31, photos à plat (Samsung) — carrefour EN TRAVAUX (phase 1 C1)",
+  "observation": {
+   "sequence": "Panoramax 2025-08-31, collection 203bb147 (producteur Binnette), Samsung SM-A528B, photos « flat » 4032×1814 (FOV 72°), prises derrière un pare-brise (taches et halos visibles). Le véhicule roule dans la VOIE DE DROITE du sens Montbonnot → Grenoble (sens SO), avec une voiture à sa gauche sur la voie de gauche (visible dans 1d99, 22c0, 4e72 et 7dcd). Ordre réel de passage : ab4c 17:38:59 (juste avant le passage piéton NE), 8188 17:39:01, a83d 17:39:02, 1d99 17:39:03 (cœur du carrefour), 22c0 17:39:04 (devant la traversée SO), 4e72 17:39:05 (sur la traversée SO), 7dcd 17:39:06 (sortie SO). Vitesse ≈ 5 m/s. DÉDUIT : arrêt d'environ 80 s au feu de l'approche NE (17:37:39 → 17:38:59 pour 5,5 m). Recalage de la géométrie : estimation de pose sur les « 50 » et le tampon vus en 2022, et horizons/points de fuite. Il en ressort un biais GPS d'environ 4 m vers le NNO sur les photos du cœur et de la sortie SO (ab4c est cohérente avec son GPS) et un azimut des métadonnées surestimé de 10 à 20° : cap réel ≈ 228-235°, alors que le JSON annonce 237-260°.",
+   "photos_et_tuiles_vues": [
+    "22c050a5 : r01_c00, r01_c01, r01_c02, r01_c03, r01_c04, r00_c00, r00_c01, r00_c02 + zooms natifs (rangées jaunes, zone entre les lignes jaunes, mâts) + carte des pixels jaunes",
+    "ab4cfacd : r01_c00, r01_c01, r01_c02, r01_c03, r01_c04, r00_c00, r00_c01, r00_c02, r00_c03 + zooms (barrière renversée, flèche gauche, traversée Revirée) + carte jaune",
+    "81882270 : r01_c00, r01_c01, r01_c02, r01_c03, r01_c04 + bande route mi-résolution + zoom panneau à fond jaune",
+    "a83dae90 : r01_c00, r01_c01, r01_c02, r01_c03, r01_c04 + zooms (balise bleue d'îlot, panneau B2b, têtes de feux)",
+    "1d999186 : r01_c00, r01_c01, r01_c02, r01_c03, r01_c04, r00_c00 + zooms (mât provisoire sur parpaings, B2b, têtes de feux) + bande route",
+    "4e7211a3 : r01_c00, r01_c01, r01_c02, r01_c03, r01_c04 + zooms ×3 (ligne neuve et ligne fantôme, flèche fantôme, pontages) + carte jaune + mesures colorimétriques",
+    "7dcdf1d1 : r01_c00, r01_c01, r01_c02, r01_c03 + zooms quadrillés (« 50 », tampon) + carte jaune + redressement au sol",
+    "Ortho PCRS 5 cm 2022 : pcrs5cm_917250_6460250, pcrs5cm_917250_6460300 + mosaïques natives des tuiles 917200-917300 / 6460250-6460300 (recadrages quadrillés à 1 m, vues alignées sur l'axe SO s/t, vues synthétiques 2022 reprojetées dans les caméras 4e72, 7dcd, 22c0, 8188, ab4c)",
+    "analysis/paquet_jardin/carte_assemblage_pcrs.jpg",
+    "data/raw/docs/panneau_72dpi.png (plan projet)"
+   ],
+   "constats": [
+    {
+     "id": "p2025_08_travaux-01",
+     "categorie": "marquage_longitudinal",
+     "description": "Nouvelle ligne blanche discontinue (tirets) qui sépare les 2 voies du sens SO juste après la traversée SO. Tracé courbe en S (déport), bords nets, blanc franc, sans usure. Elle est BLANCHE, pas jaune : médiane RGB des tirets 127/139/144 (b−r = +17), contre 114/115/106 pour les carrés jaunes (b−r = −8). Marquage de phase travaux ou définitif anticipé : impossible à dire.",
+     "localisation": "Branche SO, sens SO, de la traversée SO jusqu'à au moins 15 m au-delà (s≈21→35 m du centre). L93 ≈ 917264,6460276 → 917258,6460269",
+     "preuve": "4e72 r01_c01 (zoom ×3 natif : x1100-1450, y1240-1500) ; 22c0 r01_c01 ; 1d99 r01_c01 ; a83d r01_c01 ; 7dcd r01_c01",
+     "usure": "0",
+     "cause_usure": "neuf (peint en 2025, phase 1)",
+     "date_source": "2025-08-31 ; absent de l'ortho 2022-05-10",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-02",
+     "categorie": "marquage_longitudinal",
+     "description": "Ancienne ligne discontinue de 2022 (tracé droit-oblique) effacée. Il en reste des taches grises lissées, à 0,5-1 m à GAUCHE de la nouvelle ligne juste après la traversée. Un tiret plus proche reste encore assez visible (usure 2). Ligne fantôme parallèle à la ligne neuve.",
+     "localisation": "Branche SO, sens SO, s≈21-27 m. L93 ≈ 917263,6460274",
+     "preuve": "4e72 r01_c01 (zoom ×3) ; 22c0 r01_c01 (tirets doubles côte à côte) ; ortho 2022 vue alignée s/t",
+     "usure": "F",
+     "cause_usure": "effacement (rabotage/grenaillage) lors du redécoupage des voies",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-03",
+     "categorie": "fleche_symbole",
+     "description": "Flèche de tourne-à-droite (tout droit puis à droite, vers l'accès P+R) bien visible en 2022, effacée en 2025. Elle laisse une empreinte lisse gris clair avec quelques résidus blancs, très lisible en contre-jour.",
+     "localisation": "Branche SO, voie de droite du sens SO, s≈21,5-23,5, t≈+3,5. L93 ≈ 917261,6460277",
+     "preuve": "4e72 r01_c01 et zoom ×3 (x1500-1950, y1420-1640) ; 22c0 r01_c01 ; ortho 2022 (vue s/t, synthèse 2022 dans la caméra 4e72)",
+     "usure": "F",
+     "cause_usure": "effacement volontaire (voie de tourne-à-droite / accès P+R supprimés)",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-04",
+     "categorie": "travaux_provisoire",
+     "description": "Alignement continu de séparateurs modulaires de voie (K16) en plastique, alternés rouge et blanc, lestés de sacs (blancs et orange). Posés sur la chaussée à partir de la traversée SO, ils condamnent l'ancienne 3e voie de droite (tourne-à-droite vers le P+R et voie tout-droit). Le bord droit circulable est défini par ces blocs, sans ligne de rive peinte.",
+     "localisation": "Branche SO, côté NO, t≈+4…+5 m, de s≈19 jusqu'au-delà de 45 m. L93 ≈ 917263,6460280 → 917251,6460268",
+     "preuve": "22c0 r01_c01/c02 ; 4e72 r01_c01/c02 ; 7dcd r01_c01/c02 ; 1d99 r01_c01 ; ab4c r01_c01",
+     "usure": "NA",
+     "date_source": "2025-08-31",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-05",
+     "categorie": "travaux_provisoire",
+     "description": "Plateforme de chantier en grave (GNT) nivelée avec éléments préfabriqués en béton posés dessus. Clôtures mobiles orange de chantier tout autour. En 2022 s'y trouvaient la 3e voie, la ligne de carrés et l'accès bordé au P+R. Au-delà, un cheminement / la piste cyclable bidirectionnelle restent ouverts derrière les clôtures (piétons visibles).",
+     "localisation": "Côté NO de la branche SO (ancienne zone accès P+R / quais « La Revirée »). L93 ≈ 917248,6460272 (±5 m)",
+     "preuve": "22c0 r01_c02 ; 4e72 r01_c02/c03/c04 ; 7dcd r01_c02 ; 1d99 r01_c03",
+     "usure": "NA",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-06",
+     "categorie": "marquage_longitudinal",
+     "description": "Ligne de carrés blancs de 2022 (séparation entre la voie 2 et la 3e voie) non visible en tant que marquage en 2025. À droite du « 50 » de droite, on voit une zone de taches claires irrégulières (effacement probable), puis les SMV.",
+     "localisation": "Branche SO, t≈+3,3…+4,5, s≈24-33. L93 ≈ 917257,6460273",
+     "preuve": "7dcd r01_c01 ; 4e72 r01_c01 ; ortho 2022 vue s/t",
+     "usure": "F",
+     "cause_usure": "effacement ou recouvrement par les SMV",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "moyenne"
+    },
+    {
+     "id": "p2025_08_travaux-07",
+     "categorie": "fleche_symbole",
+     "description": "Deux marquages « 50 » dans un ovale, un par voie du sens SO, à la même position qu'en 2022. Celui de gauche est net. Celui de droite est plus délavé, avec un intérieur gris et des manques.",
+     "localisation": "Branche SO, s≈31. « 50 » gauche L93 ≈ 917259,6460267 ; « 50 » droite L93 ≈ 917256,6460269",
+     "preuve": "7dcd r01_c01 (zoom quadrillé ×2) ; 4e72 r01_c01 ; 22c0 r01_c01 ; ortho 2022",
+     "usure": "1",
+     "cause_usure": "passage des roues (le « 50 » de droite est plutôt en usure 2 : trafic et âge)",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-08",
+     "categorie": "passage_pieton",
+     "description": "Passage piéton (zébra) de la branche SO : mêmes bandes qu'en 2022, devenues grisées et granuleuses. Fissures transversales et faïençage traversent les bandes. Contraste bande/enrobé ≈ 1,5. L'extrémité NO de la traversée bute sur les SMV.",
+     "localisation": "Branche SO, s≈19,5-21. L93 ≈ 917265,6460276",
+     "preuve": "22c0 r01_c01 ; 4e72 r01_c00/c01 ; 1d99 r01_c01 ; a83d r01_c01 ; ortho 2022",
+     "usure": "2",
+     "cause_usure": "passage des roues, freinage et démarrage au feu, âge, fissuration du support",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-09",
+     "categorie": "amenagement_cyclable",
+     "description": "Deux lignes de carrés jaune ocre (environ 0,5 m) qui bordent la traversée cyclable bidirectionnelle juste avant le zébra SO. Elles existaient déjà sur l'ortho 2022 : il s'agit d'un marquage permanent, PAS du marquage provisoire. Teinte terne et délavée, fissures. Les logos vélo de 2022 entre les deux lignes ne sont pas visibles sur la voie de droite.",
+     "localisation": "Branche SO, s≈13,7 et s≈18 sur toute la largeur. L93 ≈ 917267,6460279",
+     "preuve": "22c0 r01_c01/c02 + zoom x900-2600, y1420-1640 ; 4e72 r01_c01 ; 1d99 r01_c01 ; carte des pixels jaunes 22c0/4e72 ; ortho 2022 vue s/t",
+     "usure": "2",
+     "cause_usure": "âge, roues, décoloration UV ; logos usés ou effacés",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-10",
+     "categorie": "passage_pieton",
+     "description": "Passage piéton (zébra) qui traverse la branche NE en entrée de carrefour. Bandes usées et granuleuses, fissurées. Un tampon rond en fonte est posé sur une bande.",
+     "localisation": "Branche NE, juste avant le cœur. L93 ≈ 917286,6460302",
+     "preuve": "ab4c r01_c00/c01 ; ortho 2022 recadrage +3..+18 / +8..+23",
+     "usure": "2",
+     "cause_usure": "passage des roues, âge",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-11",
+     "categorie": "revetement_texture",
+     "description": "Cœur du carrefour : réseau de lignes claires sinueuses et rectangulaires. Ce sont surtout des pontages de fissures au bitume, très réfléchissants à contre-jour ; les lignes sombres correspondantes existent déjà sur l'ortho 2022. Quelques traces d'anciens marquages effacés s'y mêlent (une flèche fantôme probable devant 1d99). Une longue bande claire longitudinale (joint ponté) suit l'axe du cœur. Aucun marquage de guidage sur la trajectoire du sens SO.",
+     "localisation": "Cœur du carrefour, entre les traversées NE et SO. L93 ≈ 917275,6460288",
+     "preuve": "ab4c r01_c01 ; 8188 r01_c00/c01 (bande mi-résolution) ; a83d r01_c01 ; 1d99 r01_c01 ; synthèse 2022 dans la caméra 8188/ab4c",
+     "usure": "F",
+     "cause_usure": "pontages (entretien) + effacements anciens ; visibilité accentuée par le contre-jour",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "moyenne"
+    },
+    {
+     "id": "p2025_08_travaux-12",
+     "categorie": "degradation",
+     "description": "Enrobé âgé aux granulats apparents. Fissures longitudinales (joint d'axe), transversales et en carte dans les bandes des zébras, nombreux pontages. Fines lignes transversales rectilignes en sortie SO (joints, traits de sciage ou bords de rabotage). Aucun nid-de-poule ni tranchée récente visible sur la chaussée circulée.",
+     "localisation": "Ensemble des voies sens SO, du zébra NE jusqu'à s≈35 m",
+     "preuve": "ab4c r01_c01 ; 4e72 zoom (x1500-1950, y1420-1640) ; 22c0 r01_c01 ; 7dcd r01_c01",
+     "usure": "NA",
+     "date_source": "2025-08-31",
+     "confiance": "moyenne"
+    },
+    {
+     "id": "p2025_08_travaux-13",
+     "categorie": "marquage_longitudinal",
+     "description": "À gauche dans le cœur : lignes de guidage en tirets formant un V et flèche directionnelle blanche (mouvements de tourne-à-gauche / voies du sens NE), encore bien lisibles. Elles semblent conservées de 2022.",
+     "localisation": "Moitié SE du cœur du carrefour (à gauche du trajet). L93 ≈ 917276,6460283 (±5 m)",
+     "preuve": "ab4c zoom (x150-1150, y1300-1520) ; 8188 zoom (x250-1050, y1280-1460)",
+     "usure": "1",
+     "cause_usure": "faible passage de roues",
+     "date_source": "2025-08-31",
+     "confiance": "faible"
+    },
+    {
+     "id": "p2025_08_travaux-14",
+     "categorie": "assainissement_reseaux",
+     "description": "Tampons ronds en fonte : (a) dans le cœur, dans un rapiéçage carré (déjà présent en 2022) ; (b) dans la voie de droite après la traversée SO, avec cadre carré, sous le « 50 » de droite ; (c) sur une bande du zébra NE. Aucun avaloir ni grille visible sur la trajectoire.",
+     "localisation": "(a) L93 ≈ 917272,6460284 ; (b) L93 ≈ 917258,6460271 ; (c) ≈ 917286,6460302",
+     "preuve": "(a) 1d99 r01_c01, a83d r01_c01, 8188 bande ; (b) 7dcd r01_c01 ; (c) ab4c r01_c00",
+     "usure": "NA",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-15",
+     "categorie": "bordure_ilot_trottoir",
+     "description": "Îlot triangulaire engazonné de 2022 conservé (angle NO, entre le sens SO et l'accès Revirée/P+R), avec bordures et herbes folles. Il sert de support au chantier : panneau à chevrons rouge et blanc pointant vers la GAUCHE (balise de déport de chantier, équivalent temporaire du J4) sur pied lesté, SMV blancs et orange, clôtures orange, plaque « COLAS ». Les ombres du panneau et des SMV se projettent vers la caméra.",
+     "localisation": "Angle NO du carrefour, à droite du trajet. L93 ≈ 917268,6460288",
+     "preuve": "1d99 r01_c02 ; a83d r01_c02 ; 8188 bande mi-résolution ; ab4c r01_c02 ; 22c0 r01_c03 ; ortho 2022",
+     "usure": "NA",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-16",
+     "categorie": "signalisation_verticale_feux",
+     "description": "Petit îlot directionnel côté Revirée, existant en 2022. Son musoir porte une balise de tête d'îlot bleue à flèche blanche oblique (type J5), un peu inclinée, et un mât de feu piétons.",
+     "localisation": "Angle Revirée / Verdun SO, à droite du trajet dans le cœur. L93 ≈ 917276,6460295",
+     "preuve": "a83d r01_c02 (zoom x2580-2720, y1420-1760) ; 8188 bande mi-résolution",
+     "usure": "NA",
+     "date_source": "2025-08-31",
+     "confiance": "moyenne"
+    },
+    {
+     "id": "p2025_08_travaux-17",
+     "categorie": "signalisation_verticale_feux",
+     "description": "Mât de feu provisoire posé sur la chaussée : platine sombre lestée de parpaings creux empilés, tête en haut (couleur illisible à contre-jour). Un groupe de SMV rouges est posé à côté, au nez de l'îlot central.",
+     "localisation": "Branche SO, côté îlot central / voies du sens NE, à hauteur de la traversée SO. L93 ≈ 917268,6460274 (±5 m)",
+     "preuve": "1d99 r01_c00 (zoom x650-900, y1240-1360 et x730-880, y840-1000) ; ab4c r01_c01 ; a83d r01_c00",
+     "usure": "NA",
+     "date_source": "2025-08-31",
+     "confiance": "moyenne"
+    },
+    {
+     "id": "p2025_08_travaux-18",
+     "categorie": "bordure_ilot_trottoir",
+     "description": "Îlot central (refuge) de la branche SO : gros cylindre gris en béton tagué (« EPSIG », lecture incertaine), mâts portant des têtes de feux tricolores R11v vues DE DOS (elles s'adressent au sens NE, véhicules à l'arrêt au rouge), lampadaire avec caméra dôme de vidéoprotection.",
+     "localisation": "Branche SO, îlot entre les deux sens. L93 ≈ 917271,6460279",
+     "preuve": "a83d r01_c01 (zoom têtes) ; ab4c r01_c01 (zoom) ; 1d99 r01_c01 (zoom) ; 22c0 r00_c00 ; ortho 2022 (îlot rond avec mât)",
+     "usure": "NA",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "moyenne"
+    },
+    {
+     "id": "p2025_08_travaux-19",
+     "categorie": "signalisation_verticale_feux",
+     "description": "Panneau B2b (interdiction de tourner à droite) sur un fond carré JAUNE (signalisation temporaire), fixé à un mât de feux côté gauche et vu de face par le sens SO. Il est cohérent avec la fermeture de l'ancien tourne-à-droite vers le P+R. Les annotations Panoramax disent aussi B2b.",
+     "localisation": "Branche SO, côté gauche (îlot central). L93 ≈ 917268,6460276 (±5 m)",
+     "preuve": "1d99 r01_c00 et a83d r01_c00 (zooms ×5 assemblés) ; 8188 bande (haut gauche)",
+     "usure": "NA",
+     "date_source": "2025-08-31",
+     "confiance": "moyenne"
+    },
+    {
+     "id": "p2025_08_travaux-20",
+     "categorie": "signalisation_verticale_feux",
+     "description": "Panneaux de direction D21 à fond blanc (destinations locales), flèches vers la droite : « LA REVIRÉE / Collège L. Terray » et « Commerces de LA REVIREE ». Feux piétons R12 au vert (bonhomme vert allumé) sur la traversée de la Revirée.",
+     "localisation": "Angle NO (départ du chemin de la Revirée). L93 ≈ 917275,6460300",
+     "preuve": "ab4c r01_c02 ; 8188 r01_c03 ; a83d r01_c03",
+     "usure": "NA",
+     "date_source": "2025-08-31",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-21",
+     "categorie": "travaux_provisoire",
+     "description": "Panneau de clôture métallique de chantier RENVERSÉ et couché sur le revêtement, avec un piquet et un petit cône orange, près de la traversée piétonne de la Revirée. C'est un obstacle bas et imprévu.",
+     "localisation": "Angle Revirée, à droite du trajet, à environ 8-14 m devant ab4c. L93 ≈ 917278,6460303 (±5 m)",
+     "preuve": "ab4c r01_c02 + zoom (x2640-3032, y1430-1640)",
+     "usure": "NA",
+     "date_source": "2025-08-31",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-22",
+     "categorie": "passage_pieton",
+     "description": "Traversée piétonne de la Revirée : zébra et bandes d'éveil de vigilance (podotactiles gris à plots) aux abaissés de bordure. La peinture verte de la traversée cyclable visible en 2022 n'est pas discernable (contre-jour, voile du pare-brise).",
+     "localisation": "Branche Revirée (NNO), à droite du trajet. L93 ≈ 917273,6460302",
+     "preuve": "ab4c r01_c02 + zoom (x2500-4032, y1180-1480) ; 8188 r01_c03 ; synthèse 2022 caméra ab4c",
+     "usure": "2",
+     "cause_usure": "âge ; lecture dégradée par le contre-jour",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "faible"
+    },
+    {
+     "id": "p2025_08_travaux-23",
+     "categorie": "marquage_longitudinal",
+     "description": "Ligne continue blanche à gauche des voies du sens SO (limite avec la zone de l'îlot central / le sens NE), à la même place qu'en 2022 (t≈−4).",
+     "localisation": "Branche SO, s≈22-40, t≈−4. L93 ≈ 917261,6460266",
+     "preuve": "7dcd r01_c00/c01 ; 4e72 r01_c01 ; ortho 2022 vue s/t",
+     "usure": "1",
+     "cause_usure": "peu sollicitée par les roues",
+     "date_source": "2025-08-31 vs 2022-05-10",
+     "confiance": "moyenne"
+    },
+    {
+     "id": "p2025_08_travaux-24",
+     "categorie": "travaux_provisoire",
+     "description": "Côté SE (angle avenue du Vercors) : rubalise rouge et blanche, cônes K5a, blocs blancs, SMV. Ce sont des travaux de phase 1 de l'autre côté. Les véhicules du sens NE attendent au feu, phares allumés face à la caméra.",
+     "localisation": "Angle SE du carrefour / sens NE de la branche SO. L93 ≈ 917268,6460268 (±8 m)",
+     "preuve": "4e72 r01_c00 ; 1d99 r01_c00 ; 7dcd r01_c00",
+     "usure": "NA",
+     "date_source": "2025-08-31",
+     "confiance": "moyenne"
+    },
+    {
+     "id": "p2025_08_travaux-25",
+     "categorie": "mobilier_vegetation",
+     "description": "Ombres longues portées vers la caméra : ombres en diagonale de mâts et de câbles qui barrent les voies, ombre allongée du panneau à chevrons et des SMV. Grands arbres côté NO. Panneaux d'information du projet « Aménagement carrefour Verdun/Vercors » plantés sur l'îlot côté Revirée.",
+     "localisation": "Cœur du carrefour et îlot NO",
+     "preuve": "1d99 r01_c01 (ombres diagonales) ; 8188 bande ; a83d r01_c03 et 1d99 r01_c03 (panneaux projet) ; ab4c r01_c02",
+     "usure": "NA",
+     "date_source": "2025-08-31",
+     "confiance": "haute"
+    },
+    {
+     "id": "p2025_08_travaux-26",
+     "categorie": "signalisation_verticale_feux",
+     "description": "Objet sombre enveloppé (sac ou filet noir, avec un élément rougeâtre) en tête de mât près du lampadaire de l'îlot central. Ce pourrait être une tête de feu masquée ou neutralisée pendant les travaux.",
+     "localisation": "Îlot central branche SO / cœur. L93 ≈ 917272,6460282 (±6 m)",
+     "preuve": "22c0 r00_c00 (zoom x200-360, y640-800)",
+     "usure": "NA",
+     "date_source": "2025-08-31",
+     "confiance": "faible"
+    }
+   ],
+   "configuration_voies_vue_du_sol": "Vue d'un conducteur du sens Montbonnot → Grenoble, dans la voie de droite :\n(1) Approche NE (ab4c) : 2 voies dans le sens SO, voiture voisine sur la voie de gauche. Un zébra NE traverse juste devant. Les feux de ce sens sont déjà dépassés ou hors champ : non vus.\n(2) Cœur du carrefour (8188, a83d, 1d99) : aucune ligne de guidage sur la trajectoire, seulement des pontages et des traces fantômes. À gauche, des tirets de guidage en V et une flèche (mouvements de tourne-à-gauche). À droite, le petit îlot Revirée avec sa balise bleue J5, puis l'îlot engazonné avec le panneau à chevrons « <<< » qui annonce le déport à gauche. Au fond, sur l'îlot central, les feux du sens NE vus de dos, un mât de feu provisoire sur parpaings et un groupe de SMV rouges.\n(3) Traversée SO (22c0, 4e72) : 1re ligne de carrés jaunes, espace sans logo visible, 2e ligne de carrés jaunes, puis le zébra blanc fissuré. La ligne d'arrêt du sens NE se trouve à gauche, avec les voitures à l'arrêt.\n(4) Sortie SO (4e72, 7dcd) : toujours 2 voies. Elles sont séparées par une ligne discontinue blanche NEUVE et courbe (déport), doublée près de la traversée par la ligne 2022 effacée, encore visible. Un « 50 » marque chaque voie. À gauche, une ligne continue blanche. À droite, pas de ligne de rive : un mur continu de SMV rouges et blancs lestés.\n(5) La 3e voie de 2022 (tourne-à-droite vers l'accès P+R + voie tout-droit, séparée par une ligne de carrés) est supprimée. Il en reste la flèche de tourne-à-droite fantôme, au pied des SMV, et une plateforme en grave derrière.\nSignalisation associée : B2b temporaire sur fond jaune (interdiction de tourner à droite).",
+   "signalisation_verticale_et_feux": "Vu :\n- Têtes de feux tricolores R11v vues de dos sur l'îlot central de la branche SO, pour le sens NE à l'arrêt (zooms a83d, ab4c, 1d99).\n- Mât de feu PROVISOIRE posé sur la chaussée, lesté de parpaings creux (1d99 r01_c00).\n- Possible tête de feu masquée par un sac noir près du lampadaire (22c0 r00_c00, confiance faible).\n- Lampadaire avec caméra dôme de vidéoprotection.\n- Feux piétons R12 au vert sur la traversée de la Revirée (ab4c r01_c02, 8188 r01_c03, a83d r01_c03).\n- Panneau B2b sur fond carré jaune (temporaire), côté gauche, vu de face (1d99, a83d, 8188), cohérent avec les annotations Panoramax.\n- Panneaux de direction D21 à fond blanc : « LA REVIRÉE / Collège L. Terray » et « Commerces de LA REVIREE », flèches à droite (ab4c r01_c02).\n- Balise de tête d'îlot bleue à flèche blanche (type J5) sur le musoir de l'îlot Revirée (a83d r01_c02).\n- Panneau provisoire à chevrons rouge et blanc pointant à gauche, sur pied (équivalent chantier du J4), sur l'îlot engazonné NO.\n- Matériel de chantier : SMV K16 rouges et blancs, cônes K5a, rubalise, clôtures mobiles orange, plaque « COLAS », petit panneau jaune d'information fixé à une clôture (texte illisible).\n- Panneaux d'information du projet sur l'îlot Revirée.\n\nPas vu : les feux propres au sens SO (déjà dépassés ou hors champ), aucun feu vélo ou bus identifié, aucun bouton d'appel piéton lisible.",
+   "revetement_et_usure_synthese": "Revêtement : enrobé ancien, gris moyen, granulats apparents. Fissures longitudinales (joint d'axe dans le cœur), fissures transversales et faïençage qui traversent les bandes des zébras. Réseau étendu de pontages de fissures au bitume, déjà visibles en lignes sombres sur l'ortho 2022, qui paraissent CLAIRS à contre-jour. Rapiéçages carrés autour des tampons. Ni nid-de-poule, ni ressuage net, ni tranchée récente sur la chaussée circulée : les travaux restent sur les rives (plateforme en grave côté NO, angle SE balisé).\n\nUsure des marquages :\n- Neuf (0) : la ligne discontinue courbe de déport, blanche.\n- Usure 1 : « 50 » de gauche, ligne continue gauche, tirets en V du cœur.\n- Usure 2 : zébras NE et SO (grisés, fissurés), lignes de carrés jaunes de la traversée cyclable (délavées), « 50 » de droite, traversée de la Revirée.\n- Fantômes (F) : ancienne ligne discontinue 2022, flèche de tourne-à-droite P+R, ligne de carrés de la 3e voie, traces dans le cœur.\n\nCauses : roues et freinage aux feux pour les zébras, âge et UV pour le jaune, effacement par rabotage ou grenaillage pour les fantômes. Mesures : contraste zébra/enrobé ≈ 1,46-1,57 ; tirets neufs ≈ 1,6.",
+   "differences_avec_ortho_2022": "Ortho 5 cm du 10 mai 2022 → photos du 31 août 2025.\n\nChangements :\n1. Sortie SO : il y avait 3 voies dans le sens SO (2 voies avec « 50 » + une 3e voie à droite séparée par une ligne de carrés blancs, portant une flèche de tourne-à-droite vers l'accès P+R et une flèche tout-droit, et bordée par l'accès P+R). Il en reste 2. La 3e voie est condamnée par des SMV ; sa flèche et sa ligne de carrés sont effacées (fantômes) ; l'accès P+R, la zone de quais et leurs bordures sont devenus une plateforme en grave entourée de clôtures.\n2. La ligne de séparation entre les 2 voies restantes a été RETRACÉE : ligne blanche neuve en courbe ; l'ancienne ligne droite est grenaillée et reste visible en fantôme.\n3. Apparition de signalisation de chantier : SMV, chevrons, B2b sur fond jaune, mât de feu provisoire sur parpaings, cônes, rubalise, clôtures, barrière renversée.\n\nSans changement de position (mais dégradé) :\n- Zébras NE et SO, lignes de carrés JAUNES de la traversée cyclable (déjà là en 2022, donc pas un marquage provisoire), « 50 », ligne continue gauche, tampons, îlot engazonné NO, petit îlot Revirée, îlot central.\n- Ces marquages n'ont PAS été refaits. Nets et blancs sur l'ortho 2022, ils sont en 2025 délavés et fissurés (usure 2 pour zébras et carrés jaunes). Les logos vélo entre les lignes jaunes ne sont plus visibles sur la voie de droite.\n\nSeul marquage refait : la ligne de déport, neuve.\n\nLe « marquage provisoire jaune » annoncé dans la fiche n'est PAS observé sur ces 7 photos : les cartes de pixels jaunes ne détectent que les lignes de carrés de 2022 et la végétation.\n\nPrudence : l'ortho (vue verticale, éclairage de mai) et les photos (sol, contre-jour) ne sont pas comparables photométriquement. Les niveaux d'usure sont jugés sur la netteté et la continuité, pas sur la luminance brute.",
+   "points_adas": "1. Double ligne en sortie SO : ligne neuve courbe et ancienne ligne droite grenaillée, côte à côte à 0,5-1 m. Fort risque de mauvais choix de ligne ou de trajectoire en S, d'autant plus que le fantôme brille à contre-jour.\n2. Flèche de tourne-à-droite fantôme dans la voie de droite, vers un accès P+R qui n'existe plus : risque de fausse classification de voie ou de manœuvre.\n3. Bord droit défini uniquement par les SMV rouges et blancs, sans ligne de rive : le suivi de voie doit se rabattre sur la détection d'objets (blocs de 0,8 m, sacs de lestage au-dessus).\n4. Cœur sans guidage, avec un réseau de pontages clairs sinueux et des tirets en V à gauche : faux départs de lignes probables.\n5. Contre-jour quasi axial (soleil à l'azimut 254,5°, hauteur 27°, cap réel 228-235°) : contraste des marquages écrasé, reflets spéculaires sur bitume et pontages, halos et taches du pare-brise, ombres longues de mâts et de câbles qui barrent les voies en diagonale (fausses arêtes).\n6. Carrés jaunes permanents de la traversée cyclable, juste avant un zébra fissuré : ce n'est pas un marquage temporaire. Un système qui donnerait priorité au jaune comme « provisoire » se tromperait ici, et aucun jaune provisoire de voie n'est présent.\n7. Signalisation temporaire : B2b sur fond jaune, chevrons, mât de feu provisoire sur parpaings posé sur la chaussée, absents des cartes. OSM 2026 montre l'état final, l'ortho 2022 l'état initial : aucune carte ne décrit la phase 1.\n8. Obstacles bas : barrière métallique renversée près de la traversée de la Revirée, groupe de SMV rouges au nez de l'îlot central.\n9. Zébras usés et fissurés (usure 2) : détection des passages piétons dégradée.\n10. Métadonnées Panoramax : GPS biaisé d'environ 4 m et azimut boussole surestimé de 10-20° ; à corriger avant tout recalage automatique.",
+   "eclairage_ombres_meteo": "31 août 2025, 17:38:59-17:39:06 CEST (15:39 UTC). Soleil calculé (NOAA) à l'azimut 254,5° et 27° de hauteur : contre-jour franc, la caméra regardant réellement vers 228-235°. Le soleil reste au-dessus du cadre mais produit voile, halos sur les taches du pare-brise (tuiles c03/c04) et reflets spéculaires sur les pontages et les marquages lisses. Ciel partiellement nuageux (voile et nuages élevés, éclaircies). Chaussée SÈCHE. Ombres longues dirigées vers la caméra (vers l'ENE) : mâts, câbles, panneau à chevrons, SMV ; ombre d'un véhicule voisin. Les zones à l'ombre des SMV et des arbres côté NO sont sombres. Balance des blancs légèrement bleutée (le blanc mesure b−r ≈ +15).",
+   "incertitudes": "- Positions : GPS annoncé à ±5 m, avec un biais estimé d'environ 4 m ; azimuts des métadonnées faux de 10-20°. Les coordonnées L93 sont fiables à ±1-2 m pour les éléments déjà présents en 2022 (recalés sur l'ortho : « 50 », tampons, zébras, îlots), à ±3-5 m pour les éléments nouveaux (mât provisoire, B2b, barrière renversée, SMV). Les poses caméra ajustées sur 3 points sont approximatives : les redressements au sol n'ont servi qu'à l'appui qualitatif.\n- Contre-jour et pare-brise sale : distinguer pontage et marquage effacé reste incertain dans le cœur ; la couleur des feux allumés est illisible ; la peinture verte de la traversée Revirée n'est pas vérifiable.\n- Codes des panneaux B2b et J5 à confiance moyenne (résolution) ; pas de code certain pour les chevrons rouge et blanc de chantier.\n- Les feux du sens SO n'ont pas été observés.\n- Impossible de dire si la ligne courbe blanche est provisoire ou définitive.\n- Le « marquage provisoire jaune » de la fiche n'apparaît pas ici ; il peut exister ailleurs (branche Vercors, autres séquences).\n- Les logos vélo de 2022 n'ont pas été vérifiés sur la voie de gauche.\n- La photo 39e0de2b (17:39:00), non attribuée, n'a pas été analysée.\n- Double vérification faite :\n  - la couleur des lignes est mesurée en RGB et Lab, en plus du contrôle visuel ;\n  - la carte de pixels jaunes couvre ab4c, 22c0, 4e72 et 7dcd ;\n  - la carte jaune de 1d99, a83d et 8188 est restée au comptage de pixels sans contrôle visuel : couverture plus faible pour ces trois photos ;\n  - la superposition 2022/2025 utilise des vues synthétiques et des recadrages alignés sur l'axe ;\n  - l'ombre circulaire autour des SMV rouges, d'abord prise pour un rapiéçage, est une ombre portée (corrigé)."
+  },
+  "verification_reobservation": {
+   "verdicts": [
+    {
+     "id": "p2025_08_travaux-01",
+     "verdict": "corrige",
+     "usure_verifiee": "0",
+     "justification": "Vu (4e72 crop natif x1050-1650/y1240-1600, 22c0, 7dcd, a83d) : il y a bien une ligne discontinue blanche fraîche, aux bords nets, plus large que l'ancienne. Elle est blanche et non jaune : médiane 103/115/118, même teinte que le zébra (104/116/121), contre 98/98/85 pour les carrés jaunes. Mais j'ai calé une homographie sol→image sur 4e72 (8 coins de bandes du zébra, les deux « 50 », le tampon ; contrôle sur la hampe de la flèche fantôme, écart d'environ 11 px). Dans le repère s/t de l'ortho 2022, la ligne vive passe à t≈1,77 (s 21,5), 1,19 (s 25,7), 0,46 (s 29,6), −0,18 (s 33), −0,70 (s 36,7), −0,99 (s 40,5). La ligne 2022 passait à t 1,49 / 1,0 / 0,36 / −0,25 / −0,75 / −1,0. La ligne 2025 suit donc presque exactement le tracé 2022 : environ 0,25-0,3 m plus à droite près de la traversée, confondue (±0,1 m) au-delà de s≈29. Le « déport » oblique existait déjà en 2022 (t 1,5 → −1,0 sur 18 m). Dans 7dcd, les tirets vifs gardent la même position par rapport au cadre du tampon que les tirets 2022 par rapport au rapiéçage.",
+     "correction": "Ligne discontinue blanche REPEINTE en 2025 (peinture fraîche, plus large), qui reprend presque le tracé oblique (déport) déjà présent sur l'ortho 2022. Elle est décalée d'environ 0,25-0,3 m vers la droite sur les ~6 premiers mètres après la traversée, puis se confond avec l'ancien tracé (s≳29). Il est faux d'écrire « absente de l'ortho 2022 » : l'ortho montre une ligne quasi superposée. Le « S » n'est pas un nouveau tracé."
+    },
+    {
+     "id": "p2025_08_travaux-02",
+     "verdict": "corrige",
+     "usure_verifiee": "F",
+     "justification": "Vu dans 4e72 (zoom natif) et 22c0 : à gauche de chaque tiret neuf, près de la traversée, il reste un tiret plus fin, discontinu, mité de résidus blancs. C'est l'aspect d'un marquage grenaillé (contraste ≈1,17 contre ≈1,33 pour le tiret neuf). L'homographie place ce tiret pâle exactement sur la ligne 2022 : t 1,53 contre 1,49 à s 21,5, et t 1,09 contre 1,08 à s 25. L'interprétation du rapport (fantôme 2022 à gauche de la ligne neuve) est donc confirmée. En revanche, l'écart mesuré est de 0,2-0,3 m (65-80 px à ~11 m), pas 0,5-1 m, et les deux lignes convergent au-delà de s≈29. Le tracé 2022 n'était pas « droit » : il était oblique, comme la ligne actuelle.",
+     "correction": "Fantôme de la ligne 2022 à environ 0,2-0,3 m à gauche de la ligne repeinte, de s≈20 à s≈28, puis confondu avec elle. Le tiret le plus proche de la traversée reste assez visible."
+    },
+    {
+     "id": "p2025_08_travaux-03",
+     "verdict": "confirme",
+     "usure_verifiee": "F",
+     "justification": "Ortho 2022 (vue s/t) : flèche avec une hampe à t≈2,7 (s 20,3-22,3) et une tête rabattue à droite à t≈3,4 (s≈23,5), dans la voie de droite (entre la ligne discontinue et la ligne de carrés). Dans 4e72 (x≈1570-1810, y≈1475-1570) et 22c0, on voit une empreinte gris clair lissée avec quelques résidus. Par l'homographie, la pointe tombe à (s 22,75, t 3,42) et la hampe à (21,4, 2,75), ce qui coïncide avec la flèche 2022. La ligne de carrés et l'îlot bordé montrent que la 3e voie menait à l'accès P+R."
+    },
+    {
+     "id": "p2025_08_travaux-04",
+     "verdict": "confirme",
+     "justification": "Vu dans 22c0 r01_c01/c02, 4e72 r01_c01/c02, 7dcd r01_c01/c02, 1d99, a83d, 8188 et ab4c : file continue de séparateurs modulaires de voie (SMV, K16) en plastique, alternés rouge et blanc, lestés de sacs blancs et orange. Ils démarrent juste après le zébra SO. Aucune ligne de rive peinte n'est visible. Par l'homographie de 4e72, leur pied est à t≈4,0-4,4 pour s 24-27, et ils se rapprochent un peu de l'axe plus loin."
+    },
+    {
+     "id": "p2025_08_travaux-05",
+     "verdict": "confirme",
+     "justification": "Vu dans 7dcd r01_c02 (plate-forme de grave avec cubes ou regards préfabriqués en béton posés dessus), 4e72 r01_c02/c03 et 22c0 r01_c02 : clôtures mobiles orange tout autour, cheminement ouvert derrière avec des piétons et un trottinettiste. La grave commence directement derrière les SMV, à l'emplacement de l'ancienne 3e voie et de l'accès P+R de 2022."
+    },
+    {
+     "id": "p2025_08_travaux-06",
+     "verdict": "confirme",
+     "usure_verifiee": "F",
+     "justification": "En 2022, la ligne de carrés était à t≈3,3-3,6 (s 24-32). Dans 7dcd et 4e72, aucun carré régulier n'est visible à cet endroit, seulement des plaques claires irrégulières à droite du « 50 » droit jusqu'aux SMV. Le rapport hésite entre effacement et recouvrement par les SMV : cette prudence est justifiée, car les SMV passent sur l'ancien tracé vers s≥30. Confiance moyenne maintenue."
+    },
+    {
+     "id": "p2025_08_travaux-07",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "Zoom natif 7dcd : « 50 » gauche (x663-905, y1419-1455), anneau et chiffres blancs, nets. « 50 » droit (x1408-1617, y1432-1467) : anneau continu, chiffres plus ternes, intérieur grisâtre, plaque claire effacée accolée à droite. Le droit est un peu plus usé, mais je le classe en usure 1 plutôt que 2. Position identique à 2022 plausible à ±0,5 m (la position par rapport au cadre du tampon varie de 0,3-0,4 m selon la méthode de calage), non démontrée plus finement."
+    },
+    {
+     "id": "p2025_08_travaux-08",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "4e72 (zoom natif x1150-2050, y1560-1814) et 22c0 : bandes gris-blanc granuleuses, granulats apparents, fissure transversale nette dans une bande, fissuration ramifiée (faïençage) dans la suivante. La bande extrême NO, près des SMV, est partiellement effacée. Remarque de localisation : sur l'ortho 2022, le zébra est à s≈17,4-20 (pas 19,5-21) dans le repère centre/225°. Le point L93 donné est à environ 1,5-2 m du centre réel du zébra (≈917265,2 ; 6460277,8), ce qui reste dans la tolérance annoncée."
+    },
+    {
+     "id": "p2025_08_travaux-09",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "22c0 (zoom y1440-1640) et 4e72 : deux rangées de carrés ocre ternes (RGB ≈98/98/85), fissurés, déjà présentes sur l'ortho 2022 (s≈12,7-13,6 et 16,4-17,3, soit plutôt s≈13,1 et 16,9 que 13,7 et 18). Ce n'est pas du marquage provisoire. Entre les rangées, sur la voie de droite, aucun logo vélo n'est discernable (en 2022, un logo à t≈3, s≈14,5-15)."
+    },
+    {
+     "id": "p2025_08_travaux-10",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "ab4c r01_c00/c01 : bandes grisées, granuleuses, fissurées, juste devant le véhicule. Un tampon rond en fonte est posé dans une bande (r01_c00, x440-850, y890-970). Le tampon est déjà visible sur une bande de l'ortho 2022 (s≈−12,8, t≈1,6). Le zébra NE est à s≈−11,2 à −13,8, ce qui est cohérent avec le point L93 donné."
+    },
+    {
+     "id": "p2025_08_travaux-11",
+     "verdict": "confirme",
+     "usure_verifiee": "F",
+     "justification": "Vu dans ab4c r01_c01, 8188 r01_c01, a83d r01_c01, 1d99 r01_c01 : réseau de lignes claires sinueuses à contre-jour, avec des lignes sombres correspondantes sur l'ortho 2022 (vue s/t du cœur). Une longue bande claire longitudinale (1d99 x≈1780-1850) correspond à un joint visible en sombre sur l'ortho. Aucun guidage n'est peint sur la trajectoire. La « flèche fantôme probable devant 1d99 » reste indéterminable : simple tache claire, sans équivalent 2022 au même endroit."
+    },
+    {
+     "id": "p2025_08_travaux-12",
+     "verdict": "confirme",
+     "justification": "Vu : enrobé à granulats apparents, fissures transversales et ramifiées dans les bandes du zébra SO, pontages nombreux. Fines lignes transversales claires et rectilignes dans la sortie SO (4e72, 7dcd). Je n'ai vu ni nid-de-poule ni tranchée sur la chaussée circulée."
+    },
+    {
+     "id": "p2025_08_travaux-13",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "ab4c r01_c00 (zoom y1330-1530) : flèche blanche assez nette et tirets alignés à gauche. 8188 r01_c00 : tirets en V. Sur l'ortho 2022 (vue s/t du cœur), il y a au même endroit des tirets de guidage (t≈−1 de s −9 à 0,5, puis une oblique jusqu'à t≈−3,5) et une flèche à t≈−2,3, s≈−5, dont la pointe est orientée vers le NE, donc vers les mouvements du sens NE. L'interprétation et le caractère conservé sont plausibles. Confiance faible à moyenne."
+    },
+    {
+     "id": "p2025_08_travaux-14",
+     "verdict": "corrige",
+     "justification": "(b) est confirmé (7dcd : tampon dans un cadre clair, juste en deçà et à gauche du « 50 » droit, à l'emplacement du rapiéçage 2022 s 27,1-28,6, t 0,8-2,1). (c) est confirmé (ab4c r01_c00). (a) mélange deux tampons distincts. Le tampon dans un rapiéçage carré, vu dans 1d99 r01_c01, est à s≈9,3, t≈1,45, soit L93 ≈917271,8 ; 6460284,4 (conforme). Celui de la bande 8188 r01_c01 (x1400-1630, y≈1565) est un tampon rond SANS cadre, à environ 10 m de la caméra, soit le tampon 2022 à s≈−3,1, t≈2,9 (L93 ≈917279,6 ; 6460294,2).",
+     "correction": "Le cœur compte deux tampons : (a1) tampon rond nu au centre du carrefour, L93 ≈917279,6 ; 6460294,2 (8188) ; (a2) tampon dans un rapiéçage carré avant la traversée cyclable SO, L93 ≈917271,8 ; 6460284,4 (1d99, a83d). Tous deux existaient déjà en 2022."
+    },
+    {
+     "id": "p2025_08_travaux-15",
+     "verdict": "corrige",
+     "justification": "Vu (1d99 r01_c02, a83d r01_c02, 8188 r01_c02, ab4c r01_c02) : îlot engazonné avec bordures et herbes folles, conforme au triangle de l'ortho 2022. Panneau à chevrons rouges et blancs pointant à GAUCHE sur pied lesté, SMV blancs et rouges ou orange, clôtures orange, plaque COLAS. Les ombres du panneau se projettent vers la caméra. Le type du panneau est connu : c'est le K8 (balise de virage ou de déviation temporaire), pas seulement un « équivalent du J4 ».",
+     "correction": "Préciser : panneau K8 (chevrons rouges et blancs de signalisation temporaire)."
+    },
+    {
+     "id": "p2025_08_travaux-16",
+     "verdict": "confirme",
+     "justification": "a83d r01_c02 (zoom natif) : balise bleue verticale à flèche blanche dirigée vers le bas, un peu penchée, sur le musoir du petit îlot bordé (type J5 de tête d'îlot). Sur l'ortho 2022, ce petit îlot (≈917274-917278 ; 6460294-6460298) porte bien un mât à son angle N et un panneau. Le mât du feu piétons vert (8188 r01_c03, a83d r01_c03) est compatible avec cet angle."
+    },
+    {
+     "id": "p2025_08_travaux-17",
+     "verdict": "corrige",
+     "justification": "1d99 r01_c00 (zoom x600-1000, y820-1360) : mât sur une base empilée de parpaings creux (alvéoles visibles), posé sur l'enrobé à côté du groupe de SMV rouges et du cylindre béton de l'îlot central. Mais la tête n'est pas seulement « illisible à contre-jour » : elle est enveloppée d'un sac ou d'une housse sombre avec un élément rougeâtre et un câble, ce qui indique un feu masqué ou neutralisé. Dans 22c0, le même mât (pied à parpaings partiellement caché par la voiture voisine, r01_c00 x≈250-310) porte la tête ensachée décrite au constat 26.",
+     "correction": "Mât de feu provisoire sur parpaings, tête ENSACHÉE (feu masqué ou non activé). C'est le même objet que le constat 26."
+    },
+    {
+     "id": "p2025_08_travaux-18",
+     "verdict": "confirme",
+     "justification": "Vu dans 22c0 r01_c00 (cylindre béton tagué, lecture « EPSIG » plausible), a83d r01_c01, 8188 r01_c01 et ab4c r01_c01 : mât d'éclairage portant un objet en dôme et têtes de feux au sommet. Les voitures du sens NE sont arrêtées face à la caméra, ce qui rend cohérent que ces feux soient vus de dos, sans que j'aie pu le prouver formellement à cette résolution. Confiance moyenne maintenue."
+    },
+    {
+     "id": "p2025_08_travaux-19",
+     "verdict": "incertain",
+     "justification": "Vu (zooms 1d99 x60-260/y1000-1150 et a83d x370-480/y1050-1140) : panneau rond à flèche tournant vers la droite et barre, sur fond carré jaune ; B2b plausible, et les annotations Panoramax disent FR:B2b. Mais le panneau est vu très en biais (rapport largeur/hauteur du fond carré ≈0,6-0,7, soit environ 45-55° d'obliquité). Il ne fait donc pas face au sens SO. Les relèvements successifs (−24° dans ab4c → −34° dans 1d99) et le fond de scène (rubalise de l'angle SE) le placent plutôt à l'angle S/SE, au-delà des voies du sens NE, et non sur l'îlot central. À qui il s'adresse n'est pas établi. Le lien avec l'ancien tourne-à-droite P+R est une hypothèse : un B2b destiné au sens SO interdirait plutôt de tourner à droite vers la Revirée, ce qui contredirait les panneaux D21 visibles.",
+     "correction": "B2b temporaire (fond jaune) observé, position probable à l'angle S/SE (±8 m), orientation et flux concerné non déterminés."
+    },
+    {
+     "id": "p2025_08_travaux-20",
+     "verdict": "confirme",
+     "justification": "ab4c r01_c02 : panneaux blancs à flèche droite « LA REVIRÉE / Collège L. Terray » et « Commerces de LA REVIREE » sur un mât du petit îlot. Bonhomme vert allumé (R12) sur la traversée Revirée, aussi dans 8188 r01_c03 et a83d r01_c03."
+    },
+    {
+     "id": "p2025_08_travaux-21",
+     "verdict": "confirme",
+     "justification": "ab4c r01_c02 (zoom x2600-3100, y1380-1650) : cadre de barrière métallique couché sur l'enrobé, piquet vertical et petit élément orange, près des bandes podotactiles de la traversée Revirée. La position estimée (environ 10 m, relèvement d'environ 245-250°) est cohérente avec L93 ≈917278 ; 6460304."
+    },
+    {
+     "id": "p2025_08_travaux-22",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "ab4c r01_c02/c03 : zébra et bandes d'éveil de vigilance aux abaissés. Sur l'ortho 2022, la traversée cyclable verte est bien visible (≈917270-917277 ; 6460296-6460305) ; dans les photos, la surface paraît grise. Usure 2 plausible mais peu fiable à contre-jour : confiance faible justifiée."
+    },
+    {
+     "id": "p2025_08_travaux-23",
+     "verdict": "incertain",
+     "justification": "Ortho 2022 : une ligne continue faible à t≈−3,7 à −4,2 (s 23-39). Dans 2025, 4e72 r01_c00 et 7dcd r01_c00 montrent deux lignes à gauche : une ligne fine compatible avec t≈−3,8, et une ligne continue très nette et vive, oblique. Selon l'homographie de 4e72 (extrapolée, peu précise de ce côté), cette ligne vive part du nez d'îlot (s≈22,7, t≈−1,4) et rejoint t≈−3,6 vers s≈37. Entre les deux s'étend une zone triangulaire claire (zébras effacés ? îlot peint ?). La ligne la plus visible n'est donc pas forcément celle de 2022, et elle paraît plutôt fraîche (usure 0-1). L'affirmation « même place qu'en 2022 » n'est pas démontrée."
+    },
+    {
+     "id": "p2025_08_travaux-24",
+     "verdict": "confirme",
+     "justification": "Vu dans 4e72 r01_c00 (cône K5a, blocs blancs, rubalise rouge et blanc), 7dcd r01_c00 (rubalise), 1d99 r01_c00 (cône, rubalise, SMV) ; voitures du sens NE arrêtées, feux de jour allumés face à la caméra."
+    },
+    {
+     "id": "p2025_08_travaux-25",
+     "verdict": "corrige",
+     "justification": "Ombres longues en diagonale vers la caméra (soleil recalculé à l'azimut 254,2° et 26,5° de hauteur), grands arbres côté NO, deux panneaux d'information sur poteaux (1d99 r01_c03, a83d r01_c03) : tout cela est confirmé. Le texte des panneaux est illisible (zoom 1d99 x3480-3840) ; seul un médaillon rond rappelle le panneau projet. Le titre « Aménagement carrefour Verdun/Vercors » est donc une déduction, pas une observation.",
+     "correction": "Panneaux d'information (texte illisible), probablement ceux du projet Verdun/Vercors (déduit)."
+    },
+    {
+     "id": "p2025_08_travaux-26",
+     "verdict": "corrige",
+     "justification": "22c0 r00_c00 (zoom x100-500, y500-900) : tête enveloppée (housse ou filet noir avec élément rougeâtre et câble) au sommet d'un mât. Ce mât descend dans 22c0 r01_c00 (x≈180-270) jusqu'à un pied de parpaings (x≈250-310, y≈1300-1410). Son relèvement est cohérent avec celui du mât sur parpaings de 1d99 (îlot central SO, s≈21, t≈−3,5). Dans 1d99, la tête de ce mât montre la même housse sombre avec un élément rouge et un câble. Ce n'est pas un objet distinct « près du lampadaire » : c'est la tête du mât provisoire du constat 17.",
+     "correction": "Fusionner avec le constat 17 : feu provisoire sur parpaings dont la tête est ensachée (feu neutralisé). Confiance moyenne."
+    }
+   ],
+   "oublis": [
+    "Bande claire longitudinale rectiligne (joint ponté) au milieu de la voie de droite de la sortie SO, à t≈2,3 de s≈20 à s≈31. Elle longe le bord droit du cadre du tampon et l'extrémité droite du « 50 » droit (4e72 x≈1450-1560/y≈1440-1565, 22c0, 7dcd). C'est un risque de fausse ligne de voie pour l'ADAS, juste dans la voie empruntée ; le rapport ne cite le joint que dans le cœur.",
+    "Le « déport » oblique de la ligne entre les deux voies existait déjà en 2022 (t 1,5 → −1,0 entre s 20 et 39). La ligne actuelle est une repeinture quasi superposée : environ +0,25 m près de la traversée, confondue au-delà. Le constat 01, la configuration vue du sol et le point ADAS 1 (« 0,5-1 m ») sont à corriger.",
+    "Côté gauche de la sortie SO (4e72 r01_c00, 7dcd r01_c00) : ligne continue oblique très nette partant du nez de l'îlot central, plus une zone triangulaire claire (zébras ou îlot peint effacés ?) entre elle et la ligne t≈−3,8. Non décrit.",
+    "Second tampon du cœur (rond, sans cadre) à L93 ≈917279,6 ; 6460294,2, vu dans 8188, confondu dans le rapport avec le tampon à cadre carré de 1d99 (L93 ≈917271,8 ; 6460284,4).",
+    "Sur l'îlot engazonné NO, mât portant un panneau rond vu de dos, coiffé d'un élément orange (housse ou feu de chantier) et d'un câble pendant (1d99 r01_c02 x≈2230-2300/y≈820-1100, a83d r01_c02). Non signalé.",
+    "Code du panneau à chevrons rouges et blancs : K8 (signalisation temporaire). Le rapport le laisse « sans code certain ».",
+    "Doublon : les constats 17 et 26 décrivent le même mât provisoire, dont la tête est ensachée (feu neutralisé), ce qui est utile pour l'ADAS : un feu présent mais non actif.",
+    "Métadonnées : l'azimut JSON surestime le cap de seulement 2-4° pour ab4c (237 contre ≈233-235), mais d'environ 25° pour 8188 (260). L'intervalle « 10 à 20° » est trop étroit. Le véhicule accélère depuis l'arrêt (≈1,5 → 6 m/s), il ne roule pas à 5 m/s constants.",
+    "Positions réelles : 4e72 a la caméra à s≈11, environ 1,5 m AVANT la traversée cyclable (zébra à 6 m devant), et non « sur la traversée SO ». 7dcd a la caméra au niveau du zébra (s≈16-17,5). Le biais GPS mesuré sur 4e72 est d'environ 3,5 m vers le N (s −2,3, t +2,6), cohérent avec « ≈4 m NNO ». Les GPS placent tout le trajet à t≈6,5, hors de la voie réellement suivie (t≈2-4).",
+    "Photo 39e0de2b (17:39:00, entre ab4c et 8188, annotée FR:B2b) non analysée."
+   ],
+   "fiabilite_globale": "Moyenne à bonne. L'inventaire des objets est fiable : SMV, plate-forme de grave, clôtures, K8, J5, D21, R12, barrière renversée, parpaings, zébras et carrés jaunes usés de 2022, flèche P+R fantôme, « 50 », contre-jour (soleil recalculé à 254,2° et 26,5°). Le cap réel (≈231-235°) et le biais GPS (≈3,5-4 m vers le N) sont confirmés ; la surestimation de l'azimut varie de 2 à 25°. La faiblesse principale concerne la ligne entre les deux voies. Une homographie calée sur le zébra, les « 50 » et le tampon de 4e72 montre que la ligne vive reprend presque le tracé oblique de 2022 : le « déport » n'est pas nouveau. Le fantôme 2022 n'est qu'à 0,2-0,3 m à gauche (et non 0,5-1 m), et seulement près de la traversée. Autres points faibles : deux constats en doublon (17/26) ; deux tampons du cœur confondus ; panneau B2b situé et orienté de façon non démontrée (vu à ~45°, probablement à l'angle S/SE) ; ligne continue gauche et zone claire triangulaire mal décrites ; joint longitudinal dans la voie de sortie omis. Les coordonnées s du rapport sont décalées d'environ 1-1,5 m près du zébra par rapport à l'ortho 2022 (zébra à s 17,4-20, carrés jaunes à s≈13,1 et 16,9), mais les L93 restent dans la tolérance annoncée. Fichiers de travail créés dans /tmp/claude-0/-home-user-ClaudeCode-RoadCreation/86d2357b-8d3a-5e9d-b8d8-a3aa44c66205/scratchpad/wf_street/v4/ (scripts .py seulement, images supprimées) ; aucun fichier du dépôt modifié."
+  },
+  "verification_recoupement": {
+   "verdicts": [
+    {
+     "id": "p2025_08_travaux-01",
+     "verdict": "corrige",
+     "usure_verifiee": "1",
+     "justification": "La ligne discontinue blanche existe bien et elle est blanche (22c0 r01_c01, 4e72 r01_c01 et zoom x1150-1500/y1250-1600). En revanche, elle n'a PAS été peinte pendant la phase 1. Les photos Panoramax antérieures aux travaux montrent déjà le même doublet juste après le zébra SO : un tiret blanc net à droite et un tiret fantôme grisé à gauche. On le voit le 2024-08-24 (2ab4efbc r01_c02, zoom x2650-2980/y1470-1680) et le 2025-05-18 (31d16b8e r01_c02, zoom x2450-3000/y1450-1870), avec la flèche de tourne-à-droite encore blanche à côté. Le 2023-03-18 (b05ebf7e r01_c01, zoom x1380-2080/y1380-1830), la ligne était UNIQUE et rectiligne, comme sur l'ortho 2022. La ligne a donc été retracée entre le 18/03/2023 et le 24/08/2024. Le 31/08/2025, elle a au moins 1 an : elle reste blanche et nette, mais son contraste (1,6 selon le rapport) est voisin de celui du zébra usé (1,5), ce qui n'est pas celui d'un marquage neuf.",
+     "correction": "Ligne de séparation retracée entre mars 2023 et août 2024, et non pendant la phase 1 de 2025. Usure 1 (ancienneté supérieure ou égale à 1 an), cause : trafic et âge. Le tracé légèrement sinueux existait déjà avant les travaux : ce n'est pas un déport de chantier. Sources datées : 2023-03-18 (ligne unique), 2024-08-24 et 2025-05-18 (doublet déjà présent)."
+    },
+    {
+     "id": "p2025_08_travaux-02",
+     "verdict": "corrige",
+     "usure_verifiee": "F",
+     "justification": "Le fantôme existe bien, à gauche de la ligne blanche et parallèle à elle, sur les deux premiers tirets après le zébra (22c0 et 4e72). Mais il est déjà fantôme le 2024-08-24 (2ab4efbc) et le 2025-05-18 (31d16b8e). L'effacement date du retraçage de 2023-2024 et non d'un redécoupage des voies en phase 1.",
+     "correction": "Fantôme (F) de la ligne 2022-2023, effacée entre mars 2023 et août 2024 lors d'un retraçage antérieur aux travaux C1. La date source doit inclure Panoramax 2023-03-18, 2024-08-24 et 2025-05-18."
+    },
+    {
+     "id": "p2025_08_travaux-03",
+     "verdict": "confirme",
+     "usure_verifiee": "F",
+     "justification": "La flèche est nette sur l'ortho 2022, en forme courbe vers l'ouest (≈917260,4-917262,2 / 6460275,2-6460277,4). Elle est blanche et franche le 2023-03-18 (b05ebf7e) et encore le 2025-05-18 (31d16b8e r01_c02). Le 2025-08-31, elle n'est plus qu'une empreinte gris clair, beaucoup moins lumineuse que les tirets voisins (4e72 r01_c01, 22c0 r01_c01). Elle a donc été effacée entre le 18/05 et le 31/08/2025, ce qui concorde avec le B2b temporaire. Précision : elle se trouvait dans la voie 2 de 2022, c'est-à-dire la voie de droite actuelle, à gauche de la ligne de carrés, et non dans la 3e voie condamnée."
+    },
+    {
+     "id": "p2025_08_travaux-04",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Les SMV alternés rouge et blanc, lestés de sacs blancs et orange, sont bien visibles (4e72 r01_c01/c02, 7dcd r01_c01/c02, 22c0 r01_c01). On ne voit aucune ligne de rive. Ils sont posés à peu près sur l'ancienne ligne de carrés, environ 1 m à droite de la flèche fantôme. Nuance : la 3e voie condamnée portait une flèche TOUT DROIT (ortho 2022 ≈917251-917254 / 6460270,5-6460272,5 ; 2023-03-18 b05ebf7e r01_c02 ; 2025-05-18 31d16b8e r01_c03). La flèche de tourne-à-droite appartenait à la voie 2."
+    },
+    {
+     "id": "p2025_08_travaux-05",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "On voit la plateforme en grave avec des éléments préfabriqués posés dessus, les clôtures orange, puis un cheminement goudronné ouvert derrière (7dcd r01_c02, 4e72 r01_c02) avec des piétons (a83d r01_c02). Nuance : en 2022 et en mai 2025, au nord-ouest de la 3e voie, il y avait une bordure puis la piste cyclable bidirectionnelle à axe jaune (31d16b8e r01_c03), plutôt qu'un « accès P+R bordé ». Le plan projet montre à cet endroit une bande plantée et un quai bus."
+    },
+    {
+     "id": "p2025_08_travaux-06",
+     "verdict": "incertain",
+     "usure_verifiee": "F",
+     "justification": "La ligne de carrés était déjà très fissurée en 2023 (e70db9dd r01_c02/r02_c02) et encore visible en mai 2025 (31d16b8e r01_c02, bord droit). En août 2025, on voit à droite du « 50 » de droite des taches claires étendues (7dcd r01_c01, e26d3f7f r01_c01), mais les SMV sont posés sur son tracé. Impossible de trancher entre effacement, usure et recouvrement."
+    },
+    {
+     "id": "p2025_08_travaux-07",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "Les positions concordent avec l'ortho 2022 (≈917256,3/6460269,3 et 917258,4/6460267,4). Le « 50 » de gauche est net (7dcd r01_c00). Celui de droite est délavé (7dcd r01_c01, e26d3f7f r01_c01) : usure 2 pour celui-ci."
+    },
+    {
+     "id": "p2025_08_travaux-08",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "Ce sont les mêmes bandes, déjà grisées et fissurées le 2023-03-18 (b05ebf7e r01_c01) et le 2024-08-24 (2ab4efbc r01_c02). Elles n'ont pas été refaites (4e72 r01_c01, 22c0 r01_c01)."
+    },
+    {
+     "id": "p2025_08_travaux-09",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "Ce marquage est permanent. On le voit sur l'ortho 2022, en jaune ocre sur 2023-03-18 b05ebf7e r01_c01, en jaune vif sur 2024-08-24 2ab4efbc r01_c02, et sur 2025-05-18 31d16b8e r01_c00. En août 2025, il paraît terne (22c0 r01_c01), mais le contre-jour y contribue : l'usure 2 est plausible sans être certaine. L'absence des logos vélo n'a pas été recoupée."
+    },
+    {
+     "id": "p2025_08_travaux-10",
+     "verdict": "confirme",
+     "usure_verifiee": "2",
+     "justification": "Le tampon rond posé sur une bande du zébra NE est visible (ab4c r01_c00, x≈440-850 / y≈890-970). Les bandes sont grisées et fissurées (ab4c r01_c01, 78424004 r01_c01)."
+    },
+    {
+     "id": "p2025_08_travaux-11",
+     "verdict": "confirme",
+     "usure_verifiee": "F",
+     "justification": "Le réseau de lignes sinueuses sombres (pontages) est bien présent au cœur du carrefour sur l'ortho 2022. Il apparaît clair à contre-jour (ab4c r01_c01, 8188 r01_c01, 10ec04d5 r01_c01). La « flèche fantôme » devant 1d99 n'a pas été recoupée : confiance moyenne maintenue."
+    },
+    {
+     "id": "p2025_08_travaux-12",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Enrobé ancien, fissures, pontages et fines lignes transversales en sortie SO (7dcd r01_c01) : tout cela est visible. Aucune tranchée sur la chaussée circulée."
+    },
+    {
+     "id": "p2025_08_travaux-13",
+     "verdict": "incertain",
+     "usure_verifiee": "1",
+     "justification": "On voit des tirets de guidage et une flèche au cœur du carrefour en 2022 (ortho) et en mai 2025 (119d9094 r01_c02), ainsi qu'une flèche et des lignes dans ab4c r01_c00. La forme en V et la correspondance exacte avec 2022 n'ont pas pu être vérifiées. Le rapport lui-même donne une confiance faible."
+    },
+    {
+     "id": "p2025_08_travaux-14",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "(a) Rapiéçage carré avec tampon sur l'ortho 2022 vers 917271,6/6460284,6, cadre visible dans 1d99 r01_c01. (b) Carré sombre en 2022 vers 917258,4/6460271,1 ; tampon à cadre carré juste avant le « 50 » de droite en 2023 (e70db9dd r01_c01) et en 2025 (7dcd r01_c01). (c) Tampon visible dans ab4c r01_c00."
+    },
+    {
+     "id": "p2025_08_travaux-15",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Îlot engazonné de 2022 avec panneau à chevrons rouge et blanc pointant à gauche, SMV, clôtures et plaque « COLAS » lisible (a83d r01_c02, ab4c r01_c02)."
+    },
+    {
+     "id": "p2025_08_travaux-16",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Balise J5 bleue rectangulaire à flèche blanche, inclinée, vue de près dans a83d r01_c02. Les annotations Panoramax de mai 2025 citent aussi des J5."
+    },
+    {
+     "id": "p2025_08_travaux-17",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Mât sur platine lesté de parpaings, avec un groupe de SMV rouges à côté (1d99 r01_c00). Dans 8188 r01_c01, il apparaît contre le cylindre « EPSIG » de l'îlot central. La position est compatible avec la tolérance de ±5 m."
+    },
+    {
+     "id": "p2025_08_travaux-18",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Têtes vues de dos (boîtiers arrondis sans lentilles, 1d99 zoom x1000-1250 / y780-1000). Le cylindre porte « EPSIG » en rouge, bien lisible dans 1d99 r01_c00. On voit une caméra dôme sur un mât (ab4c, 8188, et déjà en 2024 et 2025-05). Nuance : le mât voisin du B2b porte au moins une tête tournée vers le sens SO, allumée au rouge dans 10ec04d5."
+    },
+    {
+     "id": "p2025_08_travaux-19",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Le B2b sur fond carré jaune est visible dans ab4c r01_c00, a83d r01_c00, 1d99 r01_c00 et 10ec04d5 r01_c00. Il est annoté B2b sur les 2025-08 et ne figure pas dans les annotations proches du carrefour en mai 2025 : il est donc temporaire. Une triangulation (ab4c, a83d, 1d99) le place vers 917270/6460279 à ±4 m, ce qui reste compatible. Il est monté à côté d'un mât de feu du sens SO. Le lien avec la fermeture du tourne-à-droite (effacement de la flèche entre mai et août 2025) est cohérent mais reste déduit : rien ne permet d'exclure qu'il vise un autre mouvement."
+    },
+    {
+     "id": "p2025_08_travaux-20",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Panneaux « LA REVIRÉE / Collège L. Terray » et « Commerces de LA REVIREE », flèches à droite, et bonhomme vert allumé : tout cela est visible dans ab4c r01_c02. Bonhomme vert également dans a83d r01_c03."
+    },
+    {
+     "id": "p2025_08_travaux-21",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Panneau de clôture renversé au sol avec un piquet et un petit cône orange, à côté des bandes podotactiles (ab4c r01_c02, x≈680-1000 / y≈630-810)."
+    },
+    {
+     "id": "p2025_08_travaux-22",
+     "verdict": "incertain",
+     "usure_verifiee": "2",
+     "justification": "Les podotactiles sont confirmés (ab4c r01_c02). Le zébra de la Revirée est peu lisible à contre-jour : l'usure 2 et l'absence du vert ne sont pas vérifiables."
+    },
+    {
+     "id": "p2025_08_travaux-23",
+     "verdict": "confirme",
+     "usure_verifiee": "1",
+     "justification": "Ligne continue blanche, assez nette, à gauche des voies SO (7dcd r01_c00, 4e72 r01_c01). Elle borde la zone hachurée déjà présente en mai 2025 (31d16b8e r01_c02)."
+    },
+    {
+     "id": "p2025_08_travaux-24",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "On voit la rubalise, un cône, des blocs blancs et des véhicules du sens NE phares allumés (4e72 r01_c00, 7dcd r01_c00, 1d99 r01_c00)."
+    },
+    {
+     "id": "p2025_08_travaux-25",
+     "verdict": "confirme",
+     "usure_verifiee": "NA",
+     "justification": "Ombres longues et panneaux d'information sur l'îlot côté Revirée (a83d r01_c03). Le titre « Aménagement carrefour Verdun/Vercors » n'est pas lisible à cette résolution."
+    },
+    {
+     "id": "p2025_08_travaux-26",
+     "verdict": "incertain",
+     "usure_verifiee": "NA",
+     "justification": "L'objet sombre enveloppé est bien visible (22c0, zoom x100-460 / y560-1000), avec un élément rougeâtre et des câbles. L'aspect est très proche du sommet du mât provisoire sur parpaings (1d99 r01_c00, x≈780-840 / y≈45-110). Il pourrait donc s'agir de la tête masquée de ce mât du constat 17, pas d'un objet distinct. La géométrie ne permet pas de trancher."
+    }
+   ],
+   "oublis": [
+    "DATATION ERRONÉE DANS LA SYNTHÈSE : « Seul marquage refait : la ligne de déport, neuve » et « ligne retracée / ancienne ligne grenaillée » (différences 2, configuration (4), ADAS 1) décrivent en réalité un retraçage fait entre le 2023-03-18 (b05ebf7e : ligne unique) et le 2024-08-24 (2ab4efbc : doublet ligne blanche + fantôme). Ce doublet existe toujours le 2025-05-18 (31d16b8e). La phase 1 n'a refait aucune ligne longitudinale visible, et le piège ADAS du doublet existait déjà avant les travaux.",
+    "FEUX DU SENS SO BIEN VISIBLES (le rapport dit « Pas vu »). Dans ab4c r00_c03/r00_c04 (tuile listée comme vue), une lampe VERTE est allumée en haut de l'image à 17:38:59. Dans 10ec04d5 (17:37:35), le feu du sens SO à droite est allumé au ROUGE (r01_c02, x≈25-80 / y≈15-65), ainsi qu'une tête rouge tournée vers la caméra sur le mât du B2b (r01_c00, x≈940-960 / y≈180-195). Cela confirme l'arrêt d'environ 80 s au rouge.",
+    "MARQUAGE PROVISOIRE JAUNE PRÉSENT DANS LA MÊME SÉQUENCE. Un grand zigzag jaune traverse la voie de droite de l'approche NE, à environ 40-60 m en amont (bas de 6a73e684, fdc59178 et 10ec04d5). Il est absent le 2025-05-18 (eeb2f8f1 r01_c02), ce qui laisse penser à un arrêt de bus provisoire lié au déplacement des quais « La Revirée ». L'affirmation « marquage provisoire jaune non observé » ne vaut que pour les 7 photos retenues.",
+    "Panneau temporaire jaune « ROUTE BARRÉE » (type KC1), avec de grands blocs rouges et blancs, près de l'îlot central et de l'angle SE (10ec04d5 r01_c00, x≈330-385 / y≈1110-1160). Il n'apparaît nulle part dans le rapport, alors qu'il signale probablement une fermeture de branche pendant la phase 1.",
+    "Attribution des voies 2022 inexacte dans la synthèse (configuration (5), différences 1). La flèche de tourne-à-droite était dans la voie 2, qui reste la voie de droite en 2025. La 3e voie condamnée (au-delà de la ligne de carrés) portait une flèche TOUT DROIT (ortho 2022 ≈917251-917254 / 6460270,5-6460272,5 ; 2023-03-18 b05ebf7e r01_c02 ; 2025-05-18 31d16b8e r01_c03).",
+    "Recoupements temporels non exploités. Panoramax 2023-03-18, 2024-08-24 et 2025-05-18 suivent exactement la même trajectoire et permettent de dater les changements : retraçage 2023-2024, effacement de la flèche entre mai et août 2025, apparition du B2b temporaire entre mai et août 2025. Les photos de la même séquence en amont (10ec04d5, dabd05a0, 2bbb8e7c, 78424004, e96ea4be, 39e0de2b) et en aval (e26d3f7f, 4982214f…) n'ont pas été analysées. e26d3f7f montre de grandes plages d'effacement à droite du « 50 »."
+   ],
+   "fiabilite_globale": "Moyenne. Les constats sur les objets et les panneaux (SMV, plateforme, chevrons, COLAS, J5, B2b temporaire, mât sur parpaings, barrière renversée, tampons, « 50 », zébras, carrés jaunes permanents) sont exacts et recoupés par l'ortho 2022 et les autres dates Panoramax. Les écarts de position restent compatibles avec la tolérance de ±5 m. Le biais GPS vers le nord-ouest et l'azimut surestimé sont plausibles : position latérale décalée d'environ 3 m par rapport aux séquences 2023 et 2025-05 dans la même voie, et points de fuite donnant un cap d'environ 235-237°. Le calcul solaire est juste : azimut 254,2°, hauteur 26,6°. En revanche, le constat principal du rapport, une ligne de déport « neuve, peinte en phase 1 », est faux sur la date : ligne et fantôme existent dès août 2024. Les conclusions de synthèse qui en découlent sont donc à corriger. Le rapport a aussi manqué les feux du sens SO, pourtant visibles dans une tuile qu'il dit avoir examinée, ainsi que le marquage provisoire jaune et le panneau « ROUTE BARRÉE » présents ailleurs dans la même séquence. Aucun fichier du dépôt n'a été modifié ; les fichiers temporaires ont été supprimés."
+  },
+  "arbitrage": {
+   "arbitrages": [
+    {
+     "id": "p2025_08_travaux-01",
+     "decision": "retenu_corrige",
+     "usure_finale": "1",
+     "texte_final": "Ligne discontinue BLANCHE (pas jaune) qui sépare les 2 voies du sens SO après la traversée SO, de s≈21 jusqu'à au moins s≈35 (L93 ≈ 917264,6460276 → 917258,6460269).\n\nElle n'a PAS été peinte pendant la phase 1 de 2025. Elle a été retracée entre le 18/03/2023 et le 24/08/2024 :\n- 18/03/2023 (b05ebf7e r01_c01) : une seule ligne ;\n- 24/08/2024 (2ab4efbc) : déjà le doublet « trait vif + fantôme » ;\n- 18/05/2025 (31d16b8e) : même doublet, identique.\n\nLe tracé reprend presque celui de 2022. Sur l'ortho, la ligne était déjà oblique (déport) : t≈1,4 à s 21, puis 1,0 à s 25, 0,3 à s 30, −0,4 à s 36, puis parallèle vers t≈−1. La ligne actuelle est décalée d'environ 0,25-0,3 m vers la droite sur les premiers mètres après la traversée, puis se confond avec l'ancien tracé au-delà de s≈29. Le « S » vu sur les photos est l'effet de perspective de ce tracé oblique puis parallèle, qui existait déjà en 2022 : ce n'est pas un nouveau déport de chantier.\n\nLa peinture est plus large que l'ancienne, encore blanche, avec des bords nets. Elle a au moins un an : usure 1 (trafic et âge).",
+     "justification": "J'ai vérifié moi-même les photos et l'ortho.\n\nDatation du doublet :\n- 2023-03-18 (b05ebf7e r01_c01) : une seule ligne rectiligne ;\n- 2024-08-24 (2ab4efbc, zoom x2600-3000/y1450-1700) : tiret vif à droite, tiret fantôme à gauche, et flèche de tourne-à-droite encore blanche ;\n- 2025-05-18 (31d16b8e, zoom x2400-3000/y1400-1880) : même doublet, net.\nL'hypothèse « peint en 2025, phase 1 » et l'affirmation « absent de l'ortho 2022 » sont donc fausses.\n\nTracé : sur l'ortho 2022 en vue redressée s/t (axe 225°), j'ai mesuré la ligne de tirets à t≈1,4 (s 21-22,5), 1,0 (s 25-27), 0,3 (s 29-32) et −0,4 (s 34-38). Cela confirme la mesure de la réobservation.\n\nDans 4e72 (zoom x1100-1700/y1230-1600), le tiret vif et le fantôme sont séparés d'environ 70 px d'axe à axe, à environ 11 m, soit environ 0,3 m.\n\nLa couleur blanche est confirmée.\n\nUsure : 1 plutôt que 0, vu l'âge (au moins 1 an) et un aspect identique en mai 2025."
+    },
+    {
+     "id": "p2025_08_travaux-02",
+     "decision": "retenu_corrige",
+     "usure_finale": "F",
+     "texte_final": "Fantôme de l'ancienne ligne discontinue (tracé 2022-mars 2023), juste à GAUCHE de la ligne retracée. Les deux sont séparées d'environ 0,2-0,3 m d'axe à axe, et non de 0,5-1 m.\n\nLe fantôme est visible sur les 2-3 premiers tirets après la traversée (s≈20-28, L93 ≈ 917263,6460274). Au-delà de s≈29, il se confond avec la ligne actuelle. Ses tirets sont plus fins et mités de résidus blancs (aspect grenaillé) ; le tiret le plus proche de la traversée reste assez visible. L'ancien tracé était oblique comme la ligne actuelle, pas « droit ».\n\nL'effacement date du retraçage fait entre le 18/03/2023 et le 24/08/2024 : le fantôme est déjà visible le 24/08/2024 (2ab4efbc) et le 18/05/2025 (31d16b8e). Ce n'est pas un redécoupage des voies en phase 1.\n\nRisque ADAS : double ligne à environ 0,3 m, présente dès 2024.",
+     "justification": "Fantôme vu dans 4e72 (zoom natif) et dans 22c0 : tiret pâle, fin et mité à gauche de chaque tiret vif près de la traversée.\n\nLe même doublet existe déjà dans 2ab4efbc (2024-08-24) et 31d16b8e (2025-05-18). Il est absent dans b05ebf7e (2023-03-18), qui montre une ligne unique.\n\nL'écart mesuré dans 4e72 est d'environ 70 px à environ 11 m, soit environ 0,3 m, ce qui confirme la réobservation (0,2-0,3 m). L'écart de 0,5-1 m du rapport est surestimé.\n\nLes deux vérificateurs s'accordent sur F. La datation suit le recoupement."
+    },
+    {
+     "id": "p2025_08_travaux-06",
+     "decision": "retenu_corrige",
+     "usure_finale": "F",
+     "texte_final": "La ligne de carrés blancs de 2022 (séparation entre la voie 2 et la 3e voie, t≈3,2-4,4, s≈22-33, L93 ≈ 917257,6460273) n'est plus visible comme marquage le 31/08/2025. Elle était encore visible le 18/05/2025 (31d16b8e).\n\nÀ sa place, entre l'extrémité droite du « 50 » de droite et les SMV, on voit de grandes plages claires irrégulières, striées et à contours rectangulaires, d'aspect grenaillé ou raboté (7dcd r01_c01, e26d3f7f r01_c01). Les SMV sont posés le long de son ancien tracé et en recouvrent une partie vers s≥30.\n\nCause probable : effacement entre mai et août 2025 (préparation de la phase 1), plus un recouvrement partiel par les SMV. Confiance moyenne.",
+     "justification": "Vu : dans 7dcd r01_c01 et e26d3f7f r01_c01, aucun carré régulier, seulement des plages claires striées entre le « 50 » droit et les SMV. Dans 31d16b8e (zoom), la ligne de carrés est encore nette en mai 2025.\n\nL'ortho 2022 en vue s/t place les carrés à t 4,4 (s 22) → 3,4 (s 31), c'est-à-dire au pied des SMV actuels (t +4…+5).\n\nL'aspect strié des plages en e26d plaide pour un effacement mécanique plutôt que pour une simple usure. La part exacte du recouvrement reste indéterminée : confiance moyenne."
+    },
+    {
+     "id": "p2025_08_travaux-13",
+     "decision": "retenu_corrige",
+     "usure_finale": "1",
+     "texte_final": "À gauche du trajet, dans la moitié SE du cœur, on voit des lignes de guidage en tirets (qui forment un V vu depuis 8188) et une flèche directionnelle blanche, encore bien lisibles (ab4c r01_c00 : flèche et tirets ; 8188 r01_c00 : tirets en V).\n\nL'ortho 2022 montre au même endroit plusieurs lignes de guidage en tirets et des flèches : tirets ≈917279,5-917285,5 / 6460285,5-6460295,5 ; une flèche pointe vers le NE vers 917285 ; 6460292,7 ; une autre pointe vers le SO vers 917275 ; 6460282. Ce sont donc très probablement des marquages conservés de 2022.\n\nLa correspondance tiret par tiret n'est pas établie. Position ≈ 917276-917285 / 6460281-6460295 (±5 m). Usure 1 (peu de passages de roues). Confiance moyenne.",
+     "justification": "Tirets en V vus dans 8188 r01_c00 (x≈330-900, y≈490-620). Flèche blanche et longue ligne vues dans ab4c r01_c00 (x≈170-560, y≈570-690).\n\nSur l'ortho 2022 (zoom 917272-917294 / 6460282-6460302 et vue s/t élargie), j'ai identifié des tirets de guidage et des flèches dans la moitié gauche du cœur.\n\nLa forme exacte du V et l'orientation de la flèche dans ab4c restent ambiguës à cause de la perspective rasante. Le constat est retenu, avec une confiance relevée de faible à moyenne."
+    },
+    {
+     "id": "p2025_08_travaux-14",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "Tampons ronds en fonte (tous déjà présents sur l'ortho 2022) :\n- (a1) au centre du carrefour, tampon rond SANS cadre ni rapiéçage : L93 ≈ 917279,4 ; 6460294,3 (s≈−3, t≈+3) ; vu dans 8188 r01_c01 (x≈1400-1630, y≈1565), ab4c r01_c01 et 39e0 r01_c01 ;\n- (a2) avant la traversée cyclable SO, tampon dans un rapiéçage carré : L93 ≈ 917271,9 ; 6460284,5 (s≈9,2, t≈1,45) ; vu dans 1d99 r01_c01 et a83d r01_c01 ;\n- (b) dans la voie de droite après la traversée SO, avec un cadre carré clair, environ 2-3 m AVANT le « 50 » de droite et légèrement à sa gauche (rapiéçage 2022 s 27,3-28,6, t 0,9-2,1) : L93 ≈ 917258,6460271 ; vu dans 7dcd r01_c01 ;\n- (c) sur une bande du zébra NE : L93 ≈ 917286,6460302 ; vu dans ab4c r01_c00.\n\nAucun avaloir ni grille sur la trajectoire.",
+     "justification": "L'ortho 2022 (recadrages 917262-917292 / 6460276-6460306) montre bien deux tampons distincts dans le cœur :\n- un tampon rond nu à 917279,4 ; 6460294,3 ;\n- un tampon dans un carré rapiécé à 917271-917272,8 ; 6460283,8-6460285,3.\n\nDans 8188 r01_c01, le tampon vu à environ 10 m est rond et sans cadre : c'est le premier. Le constat (a) mélangeait donc les deux.\n\n(b) est confirmé dans 7dcd r01_c01 et par l'ortho 2022 (vue s/t). L'expression « sous le 50 » est imprécise : le tampon est juste avant.\n\n(c) est confirmé dans ab4c r01_c00."
+    },
+    {
+     "id": "p2025_08_travaux-15",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "L'îlot triangulaire engazonné de 2022 est conservé (angle NO, entre le sens SO et l'accès Revirée/P+R), avec ses bordures et des herbes folles (L93 ≈ 917268,6460288).\n\nIl sert de support au chantier :\n- panneau K8 (balise temporaire à chevrons rouges et blancs) pointant vers la GAUCHE, qui annonce le déport, sur pied lesté ;\n- SMV blancs et rouges ou orange ;\n- clôtures mobiles orange ;\n- plaque « COLAS ».\n\nLes ombres du panneau et des SMV se projettent vers la caméra.",
+     "justification": "Vu dans 1d99 r01_c02 (zoom), ab4c r01_c02 et a83d r01_c02 : chevrons rouges et blancs pointant à gauche, SMV, clôtures, plaque COLAS lisible dans ab4c r01_c02.\n\nLes deux vérificateurs confirment le fond. Le panneau temporaire à chevrons rouges et blancs a un code connu, K8 : il n'y a pas lieu de parler d'un « équivalent du J4 » ni d'un « code incertain »."
+    },
+    {
+     "id": "p2025_08_travaux-17",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "Mât de feu PROVISOIRE posé sur l'enrobé, au nez de l'îlot central de la branche SO, à hauteur du zébra SO (s≈20-21, t≈−3,5 ; L93 ≈ 917267,6460273, ±4 m).\n\nIl repose sur une base de parpaings creux empilés. À côté, côté gauche, se trouve un groupe de SMV rouges ; à droite, le cylindre béton tagué de l'îlot.\n\nLa tête n'est pas seulement « illisible à contre-jour » : elle est ENVELOPPÉE d'une housse ou d'un filet sombre, avec un élément rougeâtre et un câble. C'est probablement un feu masqué ou non activé.\n\nC'est le même objet que le constat 26 (fusionné). Intérêt ADAS : feu physiquement présent mais non actif.",
+     "justification": "1d99 r01_c00 : base en parpaings (x≈690-850, y≈470-530 de la tuile) et tête sombre avec élément rouge et câble (zoom x700-920 / y800-1000).\n\n22c0 r01_c00/r00_c00 : même mât à gauche du cylindre, pied gris en parpaings partiellement caché par la voiture voisine, et tête clairement ensachée (zoom x100-500 / y500-900).\n\nLa position relative (à gauche du cylindre, au niveau du zébra) est cohérente d'une photo à l'autre. La réobservation est donc retenue."
+    },
+    {
+     "id": "p2025_08_travaux-19",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "Panneau B2b (interdiction de tourner à droite) sur un fond carré JAUNE (signalisation temporaire). Il est absent à cet endroit le 18/05/2025 (e5d79de9) et annoté FR:B2b sur toutes les photos d'août proches du carrefour. Il est visible pendant tout le trajet SO (10ec, ab4c, 39e0, 8188, a83d, 1d99).\n\nIl n'est PAS sur l'îlot central de la branche SO. Une triangulation sur 4 vues, recalées sur le cylindre de l'îlot central, le place à L93 ≈ 917270 ; 6460263 (±4 m), soit s≈25-28, t≈−12,5. C'est côté SE de la branche SO, au-delà des voies du sens NE, sur la ligne de rubalise du chantier de l'angle SE.\n\nIl est monté sur un mât fin, accolé à un mât de feu dont une tête, tournée vers l'approche NE, était au rouge à 17:37:35 (10ec r01_c00).\n\nIl est vu très en biais (environ 40-55°) depuis toutes les positions du sens SO. Le flux auquel il s'adresse n'est donc pas établi. Le lien avec la fermeture du tourne-à-droite vers le P+R reste une hypothèse.",
+     "justification": "Montage de zooms sur 10ec, ab4c, 8188, a83d et 1d99 : disque nettement elliptique (rapport largeur/hauteur 0,6-0,75) dans toutes les vues, donc vue oblique d'environ 40-55°. Le panneau n'est pas vu de face.\n\nTriangulation : position GPS de chaque photo, avec ou sans correction de biais de 3,5 m vers le N ; cap de chaque photo recalé sur le cylindre de l'îlot (≈917265,9 ; 6460273,1). Toutes les paires (10ec/ab4c/8188/1d99) convergent à 917267-917271 / 6460258-6460265.\n\nLa taille apparente du fond jaune (33 px à environ 70 m, 70 px à environ 33 m) donne un fond d'environ 0,8 m dans les deux cas, ce qui recoupe ces distances.\n\nL'emplacement du rapport (917268,6460276) et celui du recoupement (917270/6460279) sont donc écartés d'environ 12-15 m.\n\nTemporaire : aucun fond jaune à cet endroit dans e5d79de9 (2025-05-18)."
+    },
+    {
+     "id": "p2025_08_travaux-22",
+     "decision": "retenu_corrige",
+     "usure_finale": "2",
+     "texte_final": "Traversée piétonne de la Revirée (branche NNO, à droite du trajet, L93 ≈ 917273,6460302) : on voit des bandes de zébra (discernables seulement en renforçant le contraste, très peu contrastées à contre-jour et en vue rasante) et des bandes d'éveil de vigilance (podotactiles gris à plots) aux abaissés de bordure.\n\nLa peinture verte de la traversée cyclable, bien visible sur l'ortho 2022, n'est pas discernable.\n\nL'usure (2) n'est donnée qu'à titre indicatif. Elle n'est pas évaluable de façon fiable : la faible lisibilité vient surtout du contre-jour et de l'angle. Confiance faible.",
+     "justification": "ab4c r01_c02 : podotactiles nets ; zébra Revirée visible en bandes très pâles sur un recadrage x2450-3450/y1300-1500 à contraste renforcé ; aucun vert visible.\n\nSur l'ortho 2022, la traversée verte et le zébra sont présents.\n\nL'existence est confirmée. L'usure et l'absence du vert ne sont pas vérifiables, comme le dit le recoupement : la confiance reste faible."
+    },
+    {
+     "id": "p2025_08_travaux-23",
+     "decision": "retenu_corrige",
+     "usure_finale": "1",
+     "texte_final": "Bord gauche des voies du sens SO, même configuration que sur l'ortho 2022 :\n- une ligne continue blanche OBLIQUE part du nez de l'îlot central (s≈23, t≈−1,5) et rejoint vers s≈34-37 la ligne continue située à t≈−4 ;\n- la ligne continue t≈−4,1 se prolonge au-delà (L93 ≈ 917261,6460266) ;\n- entre les deux s'étend une zone triangulaire claire (zébras ou îlot peint usés).\n\nEn 2025, la ligne la plus visible depuis la voie est l'oblique, nette et vive : elle a probablement été repeinte avec le reste en 2023-2024. La ligne t≈−4 est plus fine. Usure 1 (peu sollicitée par les roues).",
+     "justification": "Ortho 2022 en vue s/t à contraste renforcé : ligne continue droite à t≈−4,1, ligne oblique de (s 23, t −1,5) à (s 34, t −4,0), et triangle clair entre les deux.\n\nDans 4e72 r01_c00 et 7dcd r01_c00, on voit deux lignes à gauche qui convergent au loin (l'oblique vive en bas, la ligne fine au-dessus), avec une zone claire entre elles. Cela concorde avec la mesure de la réobservation (s 22,7, t −1,4 → t −3,6 à s 37).\n\nLe constat (« même place qu'en 2022, t≈−4 ») est donc incomplet mais pas faux. La ligne principale vue du sol est l'oblique, elle aussi présente en 2022."
+    },
+    {
+     "id": "p2025_08_travaux-25",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "Longues ombres portées vers la caméra : ombres en diagonale de mâts et de câbles qui barrent les voies, ombre allongée du panneau à chevrons K8 et des SMV. Grands arbres côté NO.\n\nDeux panneaux d'information sur poteaux sont plantés sur l'îlot côté Revirée. Ils portent une bande verte en bas, un médaillon rond et un plan. Leur texte est illisible. Ce sont probablement les panneaux du projet « Aménagement carrefour Verdun/Vercors » (déduit, non lu).",
+     "justification": "1d99 r01_c03 : deux panneaux avec bande verte, médaillon rond et plan, texte illisible. Ombres diagonales vues dans 1d99 r01_c01.\n\nLes deux vérificateurs s'accordent : le titre n'est pas lisible. Il doit être présenté comme une déduction."
+    },
+    {
+     "id": "p2025_08_travaux-26",
+     "decision": "retenu_corrige",
+     "usure_finale": "NA",
+     "texte_final": "À FUSIONNER avec le constat 17. L'objet sombre enveloppé (sac ou filet noir avec élément rougeâtre et câble) vu en tête de mât dans 22c0 r00_c00 n'est pas un objet distinct « près du lampadaire » : c'est la tête ensachée du mât de feu provisoire sur parpaings du constat 17 (îlot central SO, L93 ≈ 917267,6460273). C'est un feu masqué ou non activé. Confiance moyenne.",
+     "justification": "22c0 : le mât qui porte la tête ensachée (zoom x100-500/y500-900) descend dans r01_c00 jusqu'à un pied gris en parpaings (x≈250-310, y≈1300-1410), juste à gauche du cylindre.\n\n1d99 r01_c00 : même mât sur parpaings, à gauche du cylindre, avec une tête sombre, un élément rouge et un câble.\n\nL'ordre relatif mât/cylindre et le relèvement sont cohérents entre les deux photos. Il s'agit donc d'un seul objet."
+    }
+   ],
+   "oublis_valides": [
+    {
+     "description": "Bande claire longitudinale rectiligne au milieu de la voie de droite de la sortie SO, à t≈2,3 de s≈20 à s≈31. Elle longe le bord droit du cadre du tampon (b) et l'extrémité droite du « 50 » de droite. Ce serait un joint longitudinal ponté (déduit). Elle existait déjà en 2024-08 et en 2025-05. Le rapport ne cite de bande longitudinale que dans le cœur. Risque de fausse ligne de voie pour l'ADAS, en plein dans la voie empruntée.",
+     "localisation": "Branche SO, voie de droite du sens SO, s≈20-31, t≈2,3 (L93 ≈ 917262,6460275 → 917255,6460268)",
+     "preuve": "4e72 (zoom x1100-1700/y1230-1600 : bande de x≈1450,y≈1580 à x≈1615,y≈1350) ; 7dcd r01_c01 (bande du bas du cadre jusqu'à l'extrémité du « 50 ») ; 2ab4efbc (2024-08-24) et 31d16b8e (2025-05-18)",
+     "usure": "NA"
+    },
+    {
+     "description": "Le « déport » oblique de la ligne entre les deux voies du sens SO existait déjà en 2022 : t≈1,4 à s 21, 1,0 à s 25, 0,3 à s 30, −0,4 à s 36, puis ligne parallèle. La ligne actuelle est une repeinture quasi superposée : environ +0,25-0,3 m près de la traversée, confondue au-delà de s≈29. Le fantôme est à environ 0,3 m, et non à 0,5-1 m. Le constat 01, le point (4) de la configuration vue du sol, le point 2 des différences et le point ADAS 1 (« 0,5-1 m », « ligne neuve courbe ») sont à corriger.",
+     "localisation": "Branche SO, s≈20-40",
+     "preuve": "Ortho PCRS 2022 en vue redressée s/t (axe 225°) ; 4e72 zoom (écart tiret vif / fantôme ≈70 px à ≈11 m)",
+     "usure": "1"
+    },
+    {
+     "description": "Bord gauche de la sortie SO : une ligne continue oblique très nette part du nez de l'îlot central (s≈23, t≈−1,5) et rejoint la ligne t≈−4 vers s≈34-37. Entre elle et la ligne t≈−4 s'étend une zone triangulaire claire (zébras ou îlot peint usés). Le rapport ne décrit que la ligne t≈−4. Cette configuration existait déjà en 2022 (ortho).",
+     "localisation": "Branche SO, côté gauche du sens SO, s≈22-37, t≈−1,5 à −4 (L93 ≈ 917262,6460268)",
+     "preuve": "4e72 r01_c00 ; 7dcd r01_c00 ; ortho 2022 en vue s/t à contraste renforcé",
+     "usure": "1"
+    },
+    {
+     "description": "Second tampon du cœur, rond, SANS cadre, au centre du carrefour. Le rapport l'a confondu avec le tampon à rapiéçage carré situé avant la traversée cyclable SO (1d99 ; L93 ≈ 917271,9 ; 6460284,5). Les deux existent sur l'ortho 2022.",
+     "localisation": "Centre du carrefour, L93 ≈ 917279,4 ; 6460294,3 (s≈−3, t≈+3)",
+     "preuve": "8188 r01_c01 (x≈1400-1630, y≈1565) ; ab4c r01_c01 ; 39e0 r01_c01 ; ortho 2022 (tampon rond nu)",
+     "usure": "NA"
+    },
+    {
+     "description": "Sur l'îlot engazonné NO, mât portant un objet rond sombre vu de dos (panneau rond ou tête), coiffé d'un élément orange (housse ou feu de chantier) d'où pend un câble. Non signalé dans le rapport.",
+     "localisation": "Îlot engazonné NO, derrière le panneau K8 (L93 ≈ 917268,6460288, ±5 m)",
+     "preuve": "1d99 (zoom x2050-2550/y700-1450 : mât x≈2230-2300, tête y≈840-915, câble au-dessus) ; a83d r01_c02",
+     "usure": "NA"
+    },
+    {
+     "description": "Le panneau à chevrons rouges et blancs pointant à gauche, sur l'îlot NO, est un K8 (balise temporaire de virage ou de déviation). Le rapport le laisse « sans code certain » et parle d'un « équivalent du J4 ».",
+     "localisation": "Îlot engazonné NO, L93 ≈ 917268,6460288",
+     "preuve": "1d99 r01_c02 ; ab4c r01_c02 ; a83d r01_c02",
+     "usure": "NA"
+    },
+    {
+     "description": "Doublon : les constats 17 et 26 décrivent le même mât de feu provisoire sur parpaings, dont la tête est ensachée (feu masqué ou non activé). Pour l'ADAS, c'est un feu présent mais non actif.",
+     "localisation": "Nez de l'îlot central de la branche SO, L93 ≈ 917267,6460273",
+     "preuve": "22c0 r00_c00 + r01_c00 (pied en parpaings x≈250-310) ; 1d99 r01_c00 (base et tête)",
+     "usure": "NA"
+    },
+    {
+     "description": "Métadonnées. L'écart entre l'azimut JSON et le cap réel varie fortement d'une photo à l'autre. Caps recalés sur le cylindre de l'îlot central :\n- ab4c : environ 5-10° (JSON 237, cap ≈226-229) ;\n- 1d99 et 22c0 : environ 20° ;\n- 8188 : environ 25-30° (JSON 260, cap ≈226-229).\nL'intervalle « 10 à 20° » du rapport est trop étroit. Le véhicule ne roule pas à 5 m/s constants : il accélère depuis l'arrêt au feu, d'environ 1,6 m/s (ab4c→39e0) à environ 6,5 m/s (22c0→7dcd) d'après les incréments GPS.",
+     "localisation": "Séquence 17:38:59-17:39:07",
+     "preuve": "JSON des photos ; relèvements du cylindre de l'îlot (≈917265,9 ; 6460273,1) dans 10ec, ab4c, 8188, 1d99, 22c0 ; positions GPS successives",
+     "usure": "NA"
+    },
+    {
+     "description": "Positions réelles des photos :\n- 4e72 : caméra à s≈11-11,5, environ 2 m AVANT la 1re rangée de carrés jaunes (s 13,7) et environ 8 m avant le zébra SO (s 19,5-21), et non « sur la traversée SO » ;\n- 7dcd : caméra à s≈16-17, juste avant le zébra.\nLes GPS placent tout le trajet à t≈6,2-6,6, hors de la voie réellement suivie (voie de droite, t≈2-4). Le biais GPS est d'environ 3,5 m vers le N (s −2,3, t +2,6 pour 4e72), cohérent avec les « ≈4 m NNO » du rapport.",
+     "localisation": "Branche SO, s≈10-17",
+     "preuve": "4e72 r01_c01 (rangée jaune à s 18 en bas d'image, zébra au-dessus) ; 7dcd r01_c01 (tampon à environ 11 m) ; JSON (dx/dy)",
+     "usure": "NA"
+    },
+    {
+     "description": "Datation erronée dans la synthèse. « Seul marquage refait : la ligne de déport, neuve » et « ligne retracée / ancienne ligne grenaillée » (différences 2, configuration (4), ADAS 1, usure 0 dans la synthèse) décrivent en réalité un retraçage fait entre le 18/03/2023 et le 24/08/2024 :\n- 18/03/2023 (b05ebf7e) : ligne unique ;\n- 24/08/2024 (2ab4efbc) : doublet ligne blanche + fantôme ;\n- 18/05/2025 (31d16b8e) : doublet toujours présent.\nLa phase 1 n'a refait aucune ligne longitudinale visible. Le piège ADAS du doublet existait avant les travaux. Le zébra SO, très usé en mars 2023, apparaît aussi repeint en août 2024 (probable) : l'affirmation « ces marquages n'ont pas été refaits » depuis 2022 est donc à nuancer.",
+     "localisation": "Branche SO, s≈19-35",
+     "preuve": "b05ebf7e r01_c01 ; 2ab4efbc r01_c02 (zoom x2600-3000/y1450-1700) ; 31d16b8e (zoom x2400-3000/y1400-1880)",
+     "usure": "1"
+    },
+    {
+     "description": "Feux du sens SO bien visibles, alors que le rapport dit « Pas vu » :\n- ab4c r00_c03 (tuile listée comme vue) : une lampe VERTE allumée en haut de l'image à 17:38:59, au moment du départ ;\n- 6a73e684 r01_c01 (17:37:33) : les deux feux de l'approche NE sont au ROUGE ;\n- 10ec04d5 r01_c02 (17:37:35) : le feu de droite est au ROUGE (x≈25-80/y≈15-65) ;\n- 10ec04d5 r01_c00 : une tête tournée vers l'approche NE est rouge sur le mât voisin du B2b (x≈940-960/y≈180-195).\nCela confirme l'arrêt d'environ 80 s au rouge.",
+     "localisation": "Approche NE (feux au droit de la ligne d'arrêt) et mât du B2b à l'angle SE",
+     "preuve": "ab4c r00_c03 ; 6a73e684 r01_c01 ; 10ec04d5 r01_c02 et r01_c00",
+     "usure": "NA"
+    },
+    {
+     "description": "Marquage provisoire JAUNE présent dans la même séquence. Un grand zigzag jaune traverse la voie de droite de l'approche NE, environ 40-55 m en amont du centre. Un panneau « ARRÊT PROVISOIRE » se dresse sur l'accotement droit : c'est un arrêt de bus provisoire, lié au déplacement des quais « La Revirée ». Le zigzag est absent le 18/05/2025. L'affirmation « marquage provisoire jaune non observé » ne vaut que pour les 7 photos retenues.",
+     "localisation": "Approche NE (avenue de Verdun, sens SO), voie de droite, s≈−40 à −55",
+     "preuve": "6a73e684 r01_c01 (zigzag jaune) et r01_c02 (panneau « ARRET PROVISOIRE ») ; bas de 10ec04d5 r01_c01 ; absence le 2025-05-18 dans 35a02e70 r01_c02 et eeb2f8f1 r01_c02",
+     "usure": "0"
+    },
+    {
+     "description": "Panneau temporaire jaune « ROUTE BARRÉE » (type KC1 probable), à côté de blocs rouges et blancs et de SMV, côté SE / avenue du Vercors. Il signale probablement la fermeture d'une branche (Vercors) pendant les travaux. Absent du rapport.",
+     "localisation": "Angle SE du carrefour (côté Vercors), ±8 m",
+     "preuve": "10ec04d5 r01_c00 (x≈325-385, y≈1109-1159, texte « ROUTE BARREE » lisible)",
+     "usure": "NA"
+    },
+    {
+     "description": "Attribution des voies de 2022 inexacte dans la synthèse (configuration (5), différences 1). La flèche de tourne-à-droite (vers le P+R) était dans la VOIE 2, entre la ligne discontinue et la ligne de carrés : c'est la voie de droite actuelle, où elle subsiste en fantôme. La 3e voie condamnée, au-delà de la ligne de carrés, portait une flèche TOUT DROIT (t≈5,8, s≈31-37).",
+     "localisation": "Branche SO, sens SO, s≈21-37 ; flèche tout droit L93 ≈ 917251-917254 / 6460270,5-6460272,5",
+     "preuve": "Ortho 2022 (zoom 917248-917268 / 6460262-6460282 et vue s/t) ; b05ebf7e r01_c02 (2023-03-18 : flèche tout droit à droite de la ligne de carrés) ; 31d16b8e (2025-05-18 : flèche tourne-à-droite à gauche de la ligne de carrés)",
+     "usure": "F"
+    },
+    {
+     "description": "Recoupements temporels non exploités. Les séquences Panoramax du 18/03/2023, du 24/08/2024 et du 18/05/2025 suivent la même trajectoire et permettent de dater les changements :\n- retraçage de la ligne discontinue (et probablement du zébra SO) entre mars 2023 et août 2024 ;\n- effacement de la flèche de tourne-à-droite et de la ligne de carrés entre mai et août 2025 (encore nettes le 18/05/2025) ;\n- apparition du B2b temporaire et du zigzag jaune d'arrêt provisoire entre mai et août 2025.\nLes photos amont (10ec04d5, 6a73e684, dabd05a0, 2bbb8e7c, 78424004, e96ea4be, 39e0de2b) et aval (e26d3f7f, 4982214f…) de la même séquence n'ont pas été analysées. e26d3f7f montre de grandes plages d'effacement striées à droite du « 50 » de droite.",
+     "localisation": "Ensemble du carrefour et approche NE",
+     "preuve": "b05ebf7e, 2ab4efbc, 31d16b8e, e5d79de9, 35a02e70 ; 6a73e684, 10ec04d5, e26d3f7f r01_c01",
+     "usure": "NA"
+    }
+   ]
+  },
+  "sequence": "p2025_08_travaux",
+  "photos": [
+   "2025-08-31_22c050a5-95d7-427d-b66e-518855592a6b",
+   "2025-08-31_1d999186-824b-4ec7-8b52-0402511307a3",
+   "2025-08-31_a83dae90-c92a-472e-8d22-2e8863c47968",
+   "2025-08-31_4e7211a3-1ce0-48aa-9681-2413e2d6a51e",
+   "2025-08-31_81882270-2b91-457a-a7c9-4f955319ea22",
+   "2025-08-31_7dcdf1d1-be9a-4908-abb0-cd1b01125391",
+   "2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c"
+  ]
+ }
+]

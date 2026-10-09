@@ -1,0 +1,1831 @@
+{
+ "meta": {
+  "site": "paquet_jardin (Meylan) — carrefour avenue de Verdun RD1090 / chemin de la Revirée / avenue du Vercors",
+  "etat": "octobre 2026 (dernières photos du cœur : 2025-08-31, avant la fin des travaux C1 ; abords sud : 2026-07-28)",
+  "date": "2026-10-09",
+  "role": "cahier des charges vérifié des panneaux (fabrication finale sur le PC : Houdini 22 / Unreal 5.8)",
+  "conventions_asset": "assets/CONVENTIONS.md : mètres, Z-up, pivot au pied sur le sol (z = 0), FACE AVANT VERS +Y ; nom = nom du prototype de scène",
+  "conventions_positions": "L93 (EPSG:2154) ; local = L93 - (917279.43, 6460289.98), z local = altitude - 216.30 ; azimut_face_deg = direction vers laquelle regarde la face (Nord = 0, sens horaire). Attention : la couche recon/objets utilise yaw = 90 - azimut avec la face selon +X du prototype, la librairie a la face selon +Y (rotation de -90° à appliquer à la substitution).",
+  "sources": [
+   "inventaire assets/catalogue_besoins.json",
+   "couche recon/out/paquet_jardin/objets/mobilier.geojson (positions LiDAR/ortho/photos)",
+   "annotations Panoramax (boîtes en pixels HD, triangulation de rayons)",
+   "photos Panoramax 2020-2026 (tuiles 1000×1000 et extraits HD)",
+   "IISR 1re partie (gammes, implantation, rétroréflexion) via fr.wikipedia ; nomenclature des panonceaux (M9c, M12)",
+   "Wikimedia Commons (dessins des panneaux, catégories « <code> (road sign, France) »)"
+  ],
+  "faces": "assets/specs/panneaux/faces/<code>.png (PNG RGBA sRGB, contour physique exact, transparent hors du panneau) ; manifeste et licences : assets/specs/panneaux/faces/sources.json ; reconstruction : python3 assets/specs/panneaux/construire_faces.py",
+  "controle": "planches 1000×1000 assets/qa/panneaux_feux/planche_*.jpg (face / extrait de photo réelle du même panneau) : python3 assets/specs/panneaux/planches_controle.py"
+ },
+ "gammes_iisr": {
+  "source": "IISR 1re partie, art. 5 (tableau des gammes, repris par fr.wikipedia « Panneau de signalisation routière en France », consulté le 2026-10-09)",
+  "unite": "mm (côté du triangle, diamètre du disque, distance entre côtés de l'octogone, côté du carré)",
+  "triangle_A_AB1_AB3": {
+   "miniature": 500,
+   "petite": 700,
+   "normale": 1000,
+   "grande": 1250,
+   "tres_grande": 1500
+  },
+  "octogone_AB4": {
+   "miniature": 400,
+   "petite": 600,
+   "normale": 800,
+   "grande": 1000,
+   "tres_grande": 1200
+  },
+  "disque_B": {
+   "miniature": 450,
+   "petite": 650,
+   "normale": 850,
+   "grande": 1050,
+   "tres_grande": 1250
+  },
+  "carre_C_CE_J5": {
+   "miniature": 350,
+   "petite": 500,
+   "normale": 700,
+   "grande": 900,
+   "tres_grande": 1050
+  },
+  "emploi": "gamme normale en règle générale ; petite gamme en cas de difficulté d'implantation (trottoirs étroits, etc.) ; miniature exceptionnellement, en agglomération seulement"
+ },
+ "regles_communes": {
+  "implantation": {
+   "hauteur_bas_panneau": "rase campagne : 1,00 m (bas du panneau inférieur) ; agglomération éclairée : jusqu'à 2,30 m (véhicules masquants, piétons). Observé sur le site : 1,9-2,3 m sur trottoir/accotement, 0,3-0,8 m pour les balises d'îlot (B21a1, J5 : hauteur réglementaire 1 m, adaptable).",
+   "distance_laterale": "≥ 0,70 m entre l'aplomb du bord du panneau et la rive de chaussée (sauf contrainte de site) ; en agglomération : minimiser la gêne des piétons.",
+   "inclinaison": "face tournée de 3 à 5° vers l'extérieur de la route (évite la réflexion spéculaire nocturne).",
+   "source": "IISR 1re partie art. 8-9, résumé fr.wikipedia « Panneau de signalisation de cédez-le-passage en France » (§ implantation)"
+  },
+  "retroreflexion": {
+   "classe_1": "minimum obligatoire pour tout panneau.",
+   "classe_2": "obligatoire pour les panneaux implantés à plus de 2 m de hauteur, sur autoroutes et routes à grande circulation quelle que soit la hauteur, et en agglomération dans les sections à 70 km/h. Film microprismatique.",
+   "classe_3": "admise pour les panneaux à plus de 2 m (zones urbaines complexes, AB sur voies importantes à 70 km/h) ; interdite ailleurs.",
+   "application_site": "Panneaux sur mât (bas à ≈ 2,0-2,3 m) : classe 2 retenue. Balises d'îlot basses (B21a1, J5) : classe 1 minimum, classe 2 si la RD1090 est classée route à grande circulation (à vérifier dans le décret n° 2010-578 modifié) — classe 2 conseillée pour la simulation de nuit.",
+   "rendu_simulateur": "Unreal/Houdini ne simulent pas la rétroréflexion : prévoir dans le matériau de face un terme émissif = albédo × k × max(0, N·L_phare)^p × max(0, V·L_phare)^q (k ≈ 3 pour classe 1, ≈ 8 pour classe 2, p ≈ 1, q ≈ 50-200) piloté par un paramètre de collection « phares » ; les parties noires/grises ne sont pas rétroréfléchissantes."
+  },
+  "construction": {
+   "plaque": "tôle d'aluminium ≈ 2 mm à bord tombé (rebord périphérique ≈ 20-25 mm) ou profilé ; angles arrondis comme sur les faces ; épaisseur apparente du panneau ≈ 25 mm",
+   "revers": "neutre (gris aluminium/galvanisé), sans couleur de signalisation ni inscription autre que le marquage NF (numéro d'admission) ; observé : revers gris clair avec rails en T (photo 2026-07-28 f8d91bb1)",
+   "fixation": "rails collés au revers : 2 rails jusqu'au 1250 mm, 3 rails pour 1500 mm ; brides/colliers sur mât Ø 60-76 mm ; colliers à cerclage sur candélabre",
+   "face": "film rétroréfléchissant ; rugosité PBR ≈ 0,35 (film neuf) à 0,55 (film terni) ; métal 0 ; revers : métal 1, rugosité 0,45-0,6, albédo gris_revers"
+  },
+  "couleurs": {
+   "rouge": {
+    "srgb": "#C1121C",
+    "lineaire": [
+     0.5333,
+     0.006,
+     0.0116
+    ],
+    "reference": "RAL 3020 rouge signalisation"
+   },
+   "bleu": {
+    "srgb": "#005387",
+    "lineaire": [
+     0.0,
+     0.0865,
+     0.2423
+    ],
+    "reference": "RAL 5017 bleu signalisation"
+   },
+   "blanc": {
+    "srgb": "#F2F2F2",
+    "lineaire": [
+     0.8879,
+     0.8879,
+     0.8879
+    ],
+    "reference": "RAL 9016 blanc signalisation"
+   },
+   "noir": {
+    "srgb": "#1E1E1E",
+    "lineaire": [
+     0.013,
+     0.013,
+     0.013
+    ],
+    "reference": "RAL 9017 noir signalisation"
+   },
+   "jaune": {
+    "srgb": "#F7B500",
+    "lineaire": [
+     0.9301,
+     0.4621,
+     0.0
+    ],
+    "reference": "RAL 1023 jaune signalisation"
+   },
+   "vert": {
+    "srgb": "#308446",
+    "lineaire": [
+     0.0296,
+     0.2307,
+     0.0612
+    ],
+    "reference": "RAL 6024 vert signalisation"
+   },
+   "gris_revers": {
+    "srgb": "#A5A8AA",
+    "lineaire": [
+     0.3763,
+     0.3916,
+     0.402
+    ],
+    "reference": "aluminium brut / galvanisé (revers neutre)"
+   },
+   "galvanise_mat": {
+    "srgb": "#9EA3A6",
+    "lineaire": [
+     0.3419,
+     0.3663,
+     0.3813
+    ],
+    "reference": "acier galvanisé à chaud vieilli (mâts)"
+   }
+  },
+  "couleurs_note": "sRGB indicatif des teintes RAL usuelles (arrêté du 24 novembre 1967 / IISR : rouge, bleu, jaune, vert, blanc, noir) ; la conformité réglementaire est définie par les coordonnées chromatiques et facteurs de luminance de la NF EN 12899-1. Les faces PNG sont recolorées avec cette palette (les dessins Commons utilisaient des teintes hétérogènes : #FF0000, #EA190E, #0000FF, #003399...).",
+  "usure_observee": "C113/C114 nettement ternis et délavés (bleu → bleu-gris, blancs grisâtres, salissures), B1/B2 et AB3a en bon état, D21 propres ; prévoir un paramètre d'usure (désaturation 0-40 %, voile gris, salissures en bas de face)."
+ },
+ "panneaux": [
+  {
+   "asset": "panneau_B21a1",
+   "code": "B21a1",
+   "designation": "Contournement obligatoire par la droite (obligation)",
+   "forme": "disque",
+   "gamme": "miniature",
+   "dimensions_mm": {
+    "diametre": 450,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "bleu",
+    "blanc"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/B21a1.png",
+    "px": [
+     1024,
+     1024
+    ],
+    "cotes_mm": [
+     450,
+     450
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 3.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_B21a1.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/2/2a/France_road_sign_B21a1.svg",
+    "attribution": "« France road sign B21a1.svg » par Roulex_45, CC BY-SA 3.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé"
+   },
+   "retroreflexion": "classe 1 minimum ; classe 2 conseillée (voir regles_communes)",
+   "support": {
+    "type": "balise d'îlot souple observée : corps blanc en polyéthylène en forme de goutte (≈ 0,50 × 0,72 m) portant le disque, sur embase noire articulée (≈ 0,15 m, ressort) ; variante possible : mât court Ø 60 mm (mat_panneau_ilot_court)",
+    "hauteur_bas_disque_m": "≈ 0,35-0,5 au-dessus de l'îlot (balise) ; 0,5-0,8 sur mât court",
+    "prototype_support": "balise souple à modéliser avec le panneau (asset unique) ou mat_panneau_ilot_court"
+   },
+   "recto_verso": "recto : disque B21a1 encastré dans le corps blanc ; verso : corps blanc (le disque peut être répété au dos sur ce type de balise : non vérifié)",
+   "quantite": {
+    "estimation": 4,
+    "min": 3,
+    "max": 5,
+    "methode": "catalogue_besoins (3 vus en 2025 + 1 probable sur le TPC planté SO)"
+   },
+   "positions": [
+    {
+     "id": "B21a1_ilot_D_centre",
+     "L93": [
+      917288.33,
+      6460295.28
+     ],
+     "local": [
+      8.9,
+      5.3,
+      null
+     ],
+     "azimut_face_deg": 250,
+     "statut_2026": "observé 2025-05 (îlot en D de 2022) ; à vérifier après les travaux 2025",
+     "confiance": "moyenne",
+     "source": "intersection de 2 rayons Panoramax (119d9094 az 81,3° ; 31d16b8e az 59,2°) recalée sur le petit îlot en D visible sur l'ortho 2022 ; tailles apparentes cohérentes avec Ø 0,45 m",
+     "ecart_couche_objets": "la couche objets place pan_B21a1_1 en (12,87 ; 10,04), au nez du TPC NE : sur les photos ce nez porte une balise J5 (9834f494), pas un B21a1"
+    },
+    {
+     "id": "pan_B21a1_2",
+     "L93": [
+      917269.11,
+      6460275.84
+     ],
+     "local": [
+      -10.32,
+      -14.14,
+      -0.038
+     ],
+     "z_sol_ngf": 216.26,
+     "azimut_face_deg": 45.0,
+     "statut_2026": "déduit 2026 (à vérifier)",
+     "confiance": "faible",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : photo 2025-05 (B21a1 sur l'îlot rond SW) ; plan 2025 (nez planté u -21,9..-17)"
+    },
+    {
+     "id": "pan_B21a1_3",
+     "L93": [
+      917232.34,
+      6460239.07
+     ],
+     "local": [
+      -47.09,
+      -50.91,
+      -0.308
+     ],
+     "z_sol_ngf": 215.99,
+     "azimut_face_deg": 225.0,
+     "statut_2026": "déduit 2026 (à vérifier)",
+     "confiance": "faible",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : plan 2025 (TPC dès u -69,5, nez hachuré amont)"
+    },
+    {
+     "id": "pan_B21a1_4",
+     "L93": [
+      917283.83,
+      6460278.38
+     ],
+     "local": [
+      4.4,
+      -11.6,
+      -0.062
+     ],
+     "z_sol_ngf": 216.24,
+     "azimut_face_deg": 10.0,
+     "statut_2026": "déduit 2026 (à vérifier)",
+     "confiance": "faible",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : photo 2025-05 e5d79de9 (annotation B21a1 vers le S) ; plan 2025 (îlot en goutte d'eau)"
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c00.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r01_c00.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c02.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_B21a1.jpg",
+   "confiance": "haute (type) / moyenne (positions 2026)",
+   "priorite": 1,
+   "prototype_scene_actuel": "panneau_B21a1 (objets : « disque Ø 0,45 m (petite gamme) » — 450 mm est la gamme MINIATURE)"
+  },
+  {
+   "asset": "panneau_J5",
+   "code": "J5",
+   "designation": "Balise de tête d'îlot (contournement par la droite d'un îlot annoncé par une ligne continue)",
+   "forme": "carré",
+   "gamme": "normale probable (700) ; petite (500) possible pour la balise SO",
+   "dimensions_mm": {
+    "cote": 700,
+    "variante_cote": 500,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "bleu",
+    "blanc"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/J5.png",
+    "px": [
+     1023,
+     1024
+    ],
+    "cotes_mm": [
+     700,
+     700
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 3.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_J5.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/6/60/France_road_sign_J5.svg",
+    "attribution": "« France road sign J5.svg » par Roulex_45, CC BY-SA 3.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; liseré blanc ajouté"
+   },
+   "retroreflexion": "rétroréfléchissante (classe 1 minimum, classe 2 conseillée)",
+   "support": {
+    "type": "pied noir court sur embase (balise de nez d'îlot), ou mât Ø 60 mm court",
+    "hauteur_bas_m": "≈ 0,3-0,5 au-dessus de l'îlot (réglementaire : 1 m, adaptable)",
+    "prototype_support": "mat_panneau_ilot_court"
+   },
+   "recto_verso": "recto bleu à flèche blanche et liseré blanc ; verso gris neutre",
+   "quantite": {
+    "estimation": 2,
+    "min": 2,
+    "max": 3,
+    "methode": "annotations Panoramax FR:J5 ×3 (2 balises distinctes)"
+   },
+   "positions": [
+    {
+     "id": "J5_nez_TPC_NE",
+     "L93": [
+      917296.73,
+      6460302.58
+     ],
+     "local": [
+      17.3,
+      12.6,
+      null
+     ],
+     "azimut_face_deg": 45,
+     "statut_2026": "observé 2025-05 et 2025-08 (TPC NE non touché par les travaux du cœur) : existant",
+     "confiance": "moyenne",
+     "source": "rayon 9834f494 (az 167,4°) + distance par l'angle de site (≈ 8,4 m) ; vue 2025-08-31 fdc59178"
+    },
+    {
+     "id": "J5_SO",
+     "L93": [
+      917260.63,
+      6460268.48
+     ],
+     "local": [
+      -18.8,
+      -21.5,
+      null
+     ],
+     "azimut_face_deg": 248,
+     "statut_2026": "observé 2025-05 (avant le TPC planté SO de 2025) : à vérifier",
+     "confiance": "faible",
+     "source": "rayon 734a0da6 (az 67,6°) + distance par l'angle de site (≈ 8 m) ; taille apparente ≈ 0,4 m (gamme petite ?)"
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_fdc59178-d148-43e0-a307-4742929b45a2_hd/2025-08-31_fdc59178-d148-43e0-a307-4742929b45a2_hd_r01_c00.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd_r01_c01.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c00.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_J5.jpg",
+   "confiance": "haute (type) / moyenne (gamme, positions)",
+   "priorite": 1,
+   "prototype_scene_actuel": "absent de la couche objets (à ajouter)"
+  },
+  {
+   "asset": "panneau_C113",
+   "code": "C113",
+   "designation": "Piste ou bande cyclable conseillée et réservée aux cycles (indication)",
+   "forme": "carré à angles arrondis",
+   "gamme": "petite (500) ; mesuré 0,55-0,65 m (normale 700 non exclue)",
+   "dimensions_mm": {
+    "cote": 500,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "bleu",
+    "blanc"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/C113.png",
+    "px": [
+     1024,
+     1024
+    ],
+    "cotes_mm": [
+     500,
+     500
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 3.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_C113.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/8/88/France_road_sign_C113.svg",
+    "attribution": "« France road sign C113.svg » par Roulex_45, CC BY-SA 3.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé"
+   },
+   "retroreflexion": "classe 2 (bas > 2 m)",
+   "support": {
+    "type": "mat_panneau_d60 seul, sur accotement enherbé",
+    "hauteur_bas_m": "≈ 2,0-2,3",
+    "fixation": "2 brides sur rails"
+   },
+   "recto_verso": "recto très terni (bleu délavé, vélo grisé) ; verso gris neutre",
+   "quantite": {
+    "estimation": 2,
+    "min": 1,
+    "max": 3,
+    "methode": "9 annotations FR:C113 convergentes (1 panneau certain)"
+   },
+   "positions": [
+    {
+     "id": "pan_C113_1",
+     "L93": [
+      917285.63,
+      6460309.88
+     ],
+     "local": [
+      6.2,
+      19.9,
+      0.255
+     ],
+     "z_sol_ngf": 216.55,
+     "azimut_face_deg": 65,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "moyenne",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : annotations Panoramax 2025-05-18 et 2025-08-31 (FR:C113), triangulation",
+     "ecart_couche_objets": "azimut de face corrigé : la face est vue de face depuis le NE (78424004, 2bbb8e7c) ; la couche objets indique 225°"
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_78424004-5544-4380-a371-8d59460101cc_hd/2025-08-31_78424004-5544-4380-a371-8d59460101cc_hd_r00_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_C113.jpg",
+   "confiance": "haute",
+   "priorite": 1,
+   "prototype_scene_actuel": "panneau_C113 (carré 0,50 m)"
+  },
+  {
+   "asset": "panneau_C114",
+   "code": "C114",
+   "designation": "Fin de piste ou bande cyclable conseillée (indication)",
+   "forme": "carré à angles arrondis",
+   "gamme": "petite (500) ; mesuré ≈ 0,58 m (rapport 0,83 au triangle AB3a de 700 du même mât)",
+   "dimensions_mm": {
+    "cote": 500,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "bleu",
+    "blanc",
+    "rouge"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/C114.png",
+    "px": [
+     1024,
+     1024
+    ],
+    "cotes_mm": [
+     500,
+     500
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 3.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_C114.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/c/c6/France_road_sign_C114.svg",
+    "attribution": "« France road sign C114.svg » par Roulex_45, CC BY-SA 3.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé"
+   },
+   "retroreflexion": "classe 2 (bas > 2 m)",
+   "support": {
+    "type": "mat_panneau_d60 portant 3 éléments superposés : C114 (haut), AB3a, panonceau M9c",
+    "hauteur_bas_m": "C114 ≈ 2,6 ; AB3a ≈ 1,9 ; M9c ≈ 1,6 (haut du mât ≈ 3,2)",
+    "fixation": "brides sur rails"
+   },
+   "recto_verso": "recto terni ; verso gris neutre",
+   "quantite": {
+    "estimation": 1,
+    "min": 1,
+    "max": 1,
+    "methode": "débouché du chemin du Ruisseau sur la Revirée"
+   },
+   "positions": [
+    {
+     "id": "pan_C114_1",
+     "L93": [
+      917271.03,
+      6460313.98
+     ],
+     "local": [
+      -8.4,
+      24.0,
+      0.125
+     ],
+     "z_sol_ngf": 216.43,
+     "azimut_face_deg": 80,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "moyenne",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : observation p2024_05_360-24 ; Panoramax e5d79de9 / 10ec04d5 (annotations C114, AB3a) ; LiDAR 2021",
+     "ecart_couche_objets": "face vue de face depuis l'E/NE (10ec04d5) : azimut ≈ 75-90° au lieu de 250°"
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd_r01_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_mat_reviree_C114_AB3a_M9c.jpg",
+   "confiance": "haute",
+   "priorite": 1,
+   "prototype_scene_actuel": "panneau_C114 (carré 0,50 m)"
+  },
+  {
+   "asset": "panneau_AB3a",
+   "code": "AB3a",
+   "designation": "Cédez le passage à l'intersection (signal de position)",
+   "forme": "triangle pointe en bas",
+   "gamme": "petite (700) ; mesuré 0,6-0,76 m",
+   "dimensions_mm": {
+    "cote": 700,
+    "hauteur": 617,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "rouge",
+    "blanc"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/AB3a.png",
+    "px": [
+     1024,
+     901
+    ],
+    "cotes_mm": [
+     700,
+     617
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 3.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_AB3a.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/f/fb/France_road_sign_AB3a.svg",
+    "attribution": "« France road sign AB3a.svg » par Roulex_45, CC BY-SA 3.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé ; recadrage"
+   },
+   "retroreflexion": "classe 2 (signal AB, bas ≈ 1,9-2,2 m)",
+   "support": {
+    "type": "mat_panneau_d60 (souvent avec un panneau au-dessus et le panonceau M9c au-dessous)",
+    "hauteur_bas_m": "≈ 1,9-2,2 (panonceau M9c dessous : bas ≈ 1,6)"
+   },
+   "recto_verso": "recto bon état ; verso gris neutre (rails)",
+   "quantite": {
+    "estimation": 4,
+    "min": 3,
+    "max": 5,
+    "methode": "chemin du Ruisseau (avec C114) ; accès NE (avec B2a) ; allée des Mitaillères/L'Horloge (2026) ; panonceau sous un feu du Vercors (AB3a ou M12a)"
+   },
+   "positions": [
+    {
+     "id": "pan_AB3a_1",
+     "L93": [
+      917271.03,
+      6460313.98
+     ],
+     "local": [
+      -8.4,
+      24.0,
+      0.125
+     ],
+     "z_sol_ngf": 216.43,
+     "azimut_face_deg": 80,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "moyenne",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : idem C114",
+     "ecart_couche_objets": "même mât que C114 (azimut corrigé)"
+    },
+    {
+     "id": "pan_AB3a_2",
+     "L93": [
+      917325.83,
+      6460355.08
+     ],
+     "local": [
+      46.4,
+      65.1,
+      0.42
+     ],
+     "z_sol_ngf": 216.72,
+     "azimut_face_deg": 50,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "moyenne",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : idem B2a",
+     "ecart_couche_objets": "mât du B2a, face vers le NE (vue de face depuis bb9c05ff/b536a4a0) ; la couche objets indique 342°"
+    },
+    {
+     "id": "pan_AB3a_3",
+     "L93": [
+      917308.7,
+      6460154.3
+     ],
+     "local": [
+      29.27,
+      -135.68,
+      -1.993
+     ],
+     "z_sol_ngf": 214.31,
+     "azimut_face_deg": 270.0,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "moyenne",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : observation p2026_07_ign-14 ; poteau visible sur l'ortho 2022"
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd_r01_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd_r01_c02.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg"
+   ],
+   "planche_qa": [
+    "assets/qa/panneaux_feux/planche_AB3a_AB4_allee_horloge.jpg",
+    "assets/qa/panneaux_feux/planche_mats_acces_NE_B2b_B1_B2a_AB3a.jpg"
+   ],
+   "confiance": "haute",
+   "priorite": 1,
+   "prototype_scene_actuel": "panneau_AB3a (triangle 0,70 m) et panonceau_AB3a (0,35 m, sous un feu)"
+  },
+  {
+   "asset": "panneau_M9c",
+   "code": "M9c",
+   "designation": "Panonceau « CÉDEZ LE PASSAGE » (indications diverses) associé à l'AB3a",
+   "forme": "rectangle à angles arrondis",
+   "gamme": "associée à l'AB3a de 700",
+   "dimensions_mm": {
+    "largeur": 450,
+    "hauteur": 183,
+    "epaisseur": 25,
+    "note": "mesuré ≈ 0,62 × le côté de l'AB3a (≈ 435 × 190 mm) ; cote IISR exacte à confirmer"
+   },
+   "couleurs": [
+    "blanc",
+    "noir"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/M9c.png",
+    "px": [
+     1024,
+     415
+    ],
+    "cotes_mm": [
+     450,
+     183
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 4.0",
+    "auteur": "Chabe01",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_M9c.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/4/4d/France_road_sign_M9c.svg",
+    "attribution": "« France road sign M9c.svg » par Chabe01, CC BY-SA 4.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence"
+   },
+   "retroreflexion": "classe 2 (fond blanc rétroréfléchissant, texte noir non rétroréfléchissant)",
+   "support": {
+    "type": "sous l'AB3a, même mât, 2 brides",
+    "hauteur_bas_m": "≈ 1,5-1,7"
+   },
+   "recto_verso": "recto : 2 lignes « CÉDEZ LE / PASSAGE » noires, listel noir ; verso gris",
+   "quantite": {
+    "estimation": 2,
+    "min": 2,
+    "max": 2,
+    "methode": "sous les AB3a du chemin du Ruisseau et de l'accès NE (photos 2025-08)"
+   },
+   "positions": [
+    {
+     "id": "M9c_ruisseau",
+     "L93": [
+      917271.03,
+      6460313.98
+     ],
+     "local": [
+      -8.4,
+      24.0,
+      0.125
+     ],
+     "z_sol_ngf": 216.43,
+     "azimut_face_deg": 80,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "moyenne",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : idem C114",
+     "hauteur_centre_m": 1.6
+    },
+    {
+     "id": "M9c_acces_NE",
+     "L93": [
+      917325.83,
+      6460355.08
+     ],
+     "local": [
+      46.4,
+      65.1,
+      0.42
+     ],
+     "z_sol_ngf": 216.72,
+     "azimut_face_deg": 50,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "moyenne",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : idem B2a",
+     "hauteur_centre_m": 1.6
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd/2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd_r01_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd_r01_c02.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_mat_reviree_C114_AB3a_M9c.jpg",
+   "confiance": "haute (présence, code M9c confirmé par la nomenclature IISR des panonceaux)",
+   "priorite": 1,
+   "prototype_scene_actuel": "absent de la couche objets (à ajouter sous pan_AB3a_1 et pan_AB3a_2)"
+  },
+  {
+   "asset": "panneau_AB4",
+   "code": "AB4",
+   "designation": "Arrêt obligatoire à l'intersection (STOP)",
+   "forme": "octogone",
+   "gamme": "petite (600) probable",
+   "dimensions_mm": {
+    "entre_plats": 600,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "rouge",
+    "blanc"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/AB4.png",
+    "px": [
+     1023,
+     1024
+    ],
+    "cotes_mm": [
+     600,
+     600
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 3.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_AB4.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/b/bd/France_road_sign_AB4.svg",
+    "attribution": "« France road sign AB4.svg » par Roulex_45, CC BY-SA 3.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé"
+   },
+   "retroreflexion": "classe 2",
+   "support": {
+    "type": "mat_panneau_d60",
+    "hauteur_bas_m": "≈ 1,8-2,0"
+   },
+   "recto_verso": "recto bon état ; verso gris",
+   "quantite": {
+    "estimation": 1,
+    "min": 1,
+    "max": 1,
+    "methode": "sortie de l'allée des Mitaillères / L'Horloge sur l'avenue du Vercors (≈ 135 m au sud)"
+   },
+   "positions": [
+    {
+     "id": "pan_AB4_1",
+     "L93": [
+      917312.5,
+      6460151.5
+     ],
+     "local": [
+      33.07,
+      -138.48,
+      -1.755
+     ],
+     "z_sol_ngf": 214.54,
+     "azimut_face_deg": 270.0,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "faible",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : OSM highway=stop 12167664505 (nœud sur la chaussée) ; observation p2026_07_ign-15 : extrémité E de l'îlot S ou rive E du Vercors (implantation exacte non établie)"
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_6b2c66d7-bab2-4e2c-9135-529f631109d3_hd/2026-07-28_6b2c66d7-bab2-4e2c-9135-529f631109d3_hd_r01_c02.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_AB3a_AB4_allee_horloge.jpg",
+   "confiance": "haute (présence) / faible (implantation exacte)",
+   "priorite": 1,
+   "prototype_scene_actuel": "panneau_AB4 (objets : octogone 0,70 m — 700 n'est pas une gamme AB4 : 600 ou 800)"
+  },
+  {
+   "asset": "panneau_B1",
+   "code": "B1",
+   "designation": "Sens interdit à tout véhicule",
+   "forme": "disque",
+   "gamme": "petite (650) à l'accès NE ; miniature (450) probable à la sortie du parking de L'Horloge (mesuré ≈ 0,5 m)",
+   "dimensions_mm": {
+    "diametre": 650,
+    "variante_diametre": 450,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "rouge",
+    "blanc"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/B1.png",
+    "px": [
+     1024,
+     1024
+    ],
+    "cotes_mm": [
+     650,
+     650
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 3.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_B1.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/c/c1/France_road_sign_B1.svg",
+    "attribution": "« France road sign B1.svg » par Roulex_45, CC BY-SA 3.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé"
+   },
+   "retroreflexion": "classe 2",
+   "support": {
+    "type": "mat_panneau_d60 ; à l'accès NE sous le B2b (même mât)",
+    "hauteur_bas_m": "≈ 2,0-2,2"
+   },
+   "recto_verso": "recto bon état ; verso gris",
+   "quantite": {
+    "estimation": 2,
+    "min": 2,
+    "max": 3,
+    "methode": "accès NE (avec B2b) ; sortie du parking de L'Horloge"
+   },
+   "positions": [
+    {
+     "id": "B1_acces_NE",
+     "L93": [
+      917327.93,
+      6460352.68
+     ],
+     "local": [
+      48.5,
+      62.7,
+      null
+     ],
+     "azimut_face_deg": 65,
+     "statut_2026": "observé 2025-05 et 2025-08 : existant",
+     "confiance": "faible (± 3 m)",
+     "source": "moindres carrés sur 3 rayons Panoramax (9fc8ba46, bb9c05ff, b536a4a0), même mât que le B2b",
+     "diametre_mm": 650
+    },
+    {
+     "id": "pan_B1_1",
+     "L93": [
+      917244.0,
+      6460149.8
+     ],
+     "local": [
+      -35.43,
+      -140.18,
+      -2.66
+     ],
+     "z_sol_ngf": 213.64,
+     "azimut_face_deg": 150.0,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "moyenne",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : annotations Panoramax 2026-07-28 fab53b58 / ffc2e8ac / 05089869 (FR:B1), triangulation",
+     "diametre_mm": 450
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd_r01_c02.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd_r01_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd_r01_c00.jpg"
+   ],
+   "planche_qa": [
+    "assets/qa/panneaux_feux/planche_mats_acces_NE_B2b_B1_B2a_AB3a.jpg",
+    "assets/qa/panneaux_feux/planche_B1_horloge.jpg"
+   ],
+   "confiance": "haute",
+   "priorite": 1,
+   "prototype_scene_actuel": "panneau_B1 (1 seule instance : celle de l'accès NE manque)"
+  },
+  {
+   "asset": "panneau_B2b",
+   "code": "B2b",
+   "designation": "Interdiction de tourner à droite à la prochaine intersection",
+   "forme": "disque",
+   "gamme": "petite (650)",
+   "dimensions_mm": {
+    "diametre": 650,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "rouge",
+    "blanc",
+    "noir"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/B2b.png",
+    "px": [
+     1024,
+     1024
+    ],
+    "cotes_mm": [
+     650,
+     650
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 4.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_B2b.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/0/0f/France_road_sign_B2b.svg",
+    "attribution": "« France road sign B2b.svg » par Roulex_45, CC BY-SA 4.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé"
+   },
+   "retroreflexion": "classe 2 (bas ≈ 2,6 m)",
+   "support": {
+    "type": "mat_panneau_d60 de 3,3 m, au-dessus du B1",
+    "hauteur_bas_m": "≈ 2,6 (haut du mât ≈ 3,3)"
+   },
+   "recto_verso": "recto bon état ; verso gris",
+   "quantite": {
+    "estimation": 1,
+    "min": 1,
+    "max": 1,
+    "methode": "accès NE (permanent, fond blanc) ; la version temporaire sur fond jaune est listée à part"
+   },
+   "positions": [
+    {
+     "id": "B2b_acces_NE",
+     "L93": [
+      917327.93,
+      6460352.68
+     ],
+     "local": [
+      48.5,
+      62.7,
+      null
+     ],
+     "azimut_face_deg": 65,
+     "statut_2026": "observé 2025-05 et 2025-08 : existant",
+     "confiance": "faible (± 3 m)",
+     "source": "moindres carrés sur 3 rayons Panoramax (9fc8ba46, bb9c05ff, b536a4a0)"
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd_r00_c02.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd_r01_c03.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_mats_acces_NE_B2b_B1_B2a_AB3a.jpg",
+   "confiance": "haute",
+   "priorite": 1,
+   "prototype_scene_actuel": "absent de la couche objets (à ajouter)"
+  },
+  {
+   "asset": "panneau_B2a",
+   "code": "B2a",
+   "designation": "Interdiction de tourner à gauche à la prochaine intersection",
+   "forme": "disque",
+   "gamme": "petite (650)",
+   "dimensions_mm": {
+    "diametre": 650,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "rouge",
+    "blanc",
+    "noir"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/B2a.png",
+    "px": [
+     1024,
+     1024
+    ],
+    "cotes_mm": [
+     650,
+     650
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 3.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_B2a.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/e/e4/France_road_sign_B2a.svg",
+    "attribution": "« France road sign B2a.svg » par Roulex_45, CC BY-SA 3.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé"
+   },
+   "retroreflexion": "classe 2",
+   "support": {
+    "type": "mat_panneau_d60 portant B2a (haut), AB3a, M9c",
+    "hauteur_bas_m": "≈ 2,6"
+   },
+   "recto_verso": "recto bon état ; verso gris",
+   "quantite": {
+    "estimation": 1,
+    "min": 1,
+    "max": 1,
+    "methode": "deuxième mât de l'accès NE"
+   },
+   "positions": [
+    {
+     "id": "pan_B2a_1",
+     "L93": [
+      917325.83,
+      6460355.08
+     ],
+     "local": [
+      46.4,
+      65.1,
+      0.42
+     ],
+     "z_sol_ngf": 216.72,
+     "azimut_face_deg": 50,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "moyenne",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : annotations Panoramax 2025-08-31 (FR:B2a, FR:AB3a), triangulation ; OSM give_way 12184212277",
+     "ecart_couche_objets": "face vers le NE (vue de face depuis bb9c05ff/b536a4a0, de biais depuis 9ef861d4) ; objets : 342°"
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd/2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd_r00_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_b536a4a0-72c8-4d78-ac7d-fe7d65b98d91_hd/2025-08-31_b536a4a0-72c8-4d78-ac7d-fe7d65b98d91_hd_r01_c02.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_mats_acces_NE_B2b_B1_B2a_AB3a.jpg",
+   "confiance": "haute",
+   "priorite": 1,
+   "prototype_scene_actuel": "panneau_B2a (disque 0,65 m)"
+  },
+  {
+   "asset": "panneau_B6a1",
+   "code": "B6a1",
+   "designation": "Stationnement interdit",
+   "forme": "disque",
+   "gamme": "miniature (450) sur candélabre ; petite (650) possible sur poteau",
+   "dimensions_mm": {
+    "diametre": 450,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "bleu",
+    "rouge"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/B6a1.png",
+    "px": [
+     1024,
+     1024
+    ],
+    "cotes_mm": [
+     450,
+     450
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 4.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_B6a1.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/4/43/France_road_sign_B6a1.svg",
+    "attribution": "« France road sign B6a1.svg » par Roulex_45, CC BY-SA 4.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé"
+   },
+   "retroreflexion": "classe 2 (bas > 2 m)",
+   "support": {
+    "type": "colliers à cerclage sur candélabre (n° 0456, avec C13a dessous) ou mat_panneau_d60 (parking de L'Horloge, avec panonceau privé « PARKING PRIVÉ L'HORLOGE – DÉFENSE DE STATIONNER » non fourni)",
+    "hauteur_bas_m": "≈ 2,2-2,4"
+   },
+   "recto_verso": "recto bon état ; verso gris",
+   "quantite": {
+    "estimation": 4,
+    "min": 3,
+    "max": 5,
+    "methode": "catalogue_besoins (candélabre 0456, parking L'Horloge, portail P+R 2020, B6 côté E du Vercors 2025-01)"
+   },
+   "positions": [
+    {
+     "id": "pan_B6a1_1",
+     "L93": [
+      917292.0,
+      6460149.7
+     ],
+     "local": [
+      12.57,
+      -140.28,
+      -2.415
+     ],
+     "z_sol_ngf": 213.88,
+     "azimut_face_deg": 0.0,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "moyenne",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : observation p2026_07_ign-16"
+    },
+    {
+     "id": "pan_B6a1_2",
+     "L93": [
+      917263.3,
+      6460163.8
+     ],
+     "local": [
+      -16.13,
+      -126.18,
+      -2.018
+     ],
+     "z_sol_ngf": 214.28,
+     "azimut_face_deg": 180.0,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "faible",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : annotations Panoramax 2026-07-28 (FR:B6a1), triangulation à 2 rayons"
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c04.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd_r01_c02.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c01.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_B6a1_C13a.jpg",
+   "confiance": "haute",
+   "priorite": 2,
+   "prototype_scene_actuel": "panneau_B6a1 (objets : disque 0,65 m ; 0,45 m observé sur le candélabre)"
+  },
+  {
+   "asset": "panneau_C13a",
+   "code": "C13a",
+   "designation": "Impasse",
+   "forme": "rectangle portrait (modèle posé) ; carré dans l'IISR",
+   "gamme": "miniature",
+   "dimensions_mm": {
+    "largeur": 250,
+    "hauteur": 400,
+    "epaisseur": 25,
+    "variante_carre_iisr": 350
+   },
+   "couleurs": [
+    "bleu",
+    "blanc",
+    "rouge"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/C13a_portrait.png",
+    "px": [
+     640,
+     1024
+    ],
+    "cotes_mm": [
+     250,
+     400
+    ],
+    "source": "maison",
+    "licence": "création maison (même licence que le dépôt)",
+    "auteur": "dépôt ClaudeCode_RoadCreation",
+    "note": "variante portrait réellement posée (≈ 0,25 × 0,40 m) sous le B6a1 du candélabre n° 0456 ; C13a.png = modèle carré de l'IISR",
+    "svg_source": "assets/specs/panneaux/svg_maison/C13a_portrait.svg"
+   },
+   "face_variante_iisr": {
+    "fichier": "assets/specs/panneaux/faces/C13a.png",
+    "px": [
+     1020,
+     1024
+    ],
+    "cotes_mm": [
+     350,
+     350
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 3.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_C13a.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/f/f5/France_road_sign_C13a.svg",
+    "attribution": "« France road sign C13a.svg » par Roulex_45, CC BY-SA 3.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé"
+   },
+   "retroreflexion": "classe 1 ou 2 (bas ≈ 1,9 m)",
+   "support": {
+    "type": "colliers sur le candélabre n° 0456, sous le B6a1",
+    "hauteur_bas_m": "≈ 1,7-1,9"
+   },
+   "recto_verso": "verso gris",
+   "quantite": {
+    "estimation": 1,
+    "min": 1,
+    "max": 1,
+    "methode": "candélabre 0456 (desserte des garages, Vercors sud)"
+   },
+   "positions": [
+    {
+     "id": "pan_C13a_1",
+     "L93": [
+      917292.0,
+      6460149.7
+     ],
+     "local": [
+      12.57,
+      -140.28,
+      -2.415
+     ],
+     "z_sol_ngf": 213.88,
+     "azimut_face_deg": 0.0,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "moyenne",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : observation p2026_07_ign-16"
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c04.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd_r01_c05.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_B6a1_C13a.jpg",
+   "confiance": "haute",
+   "priorite": 2,
+   "prototype_scene_actuel": "panneau_C13a (objets : carré 0,50 m ; observé 0,25 × 0,40 m)"
+  },
+  {
+   "asset": "panneau_A17",
+   "code": "A17",
+   "designation": "Annonce de feux tricolores (danger)",
+   "forme": "triangle pointe en haut",
+   "gamme": "petite (700) ; mesuré ≈ 0,7 m (≈ 4 × le diamètre du fût)",
+   "dimensions_mm": {
+    "cote": 700,
+    "hauteur": 616,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "rouge",
+    "blanc",
+    "noir",
+    "jaune",
+    "vert"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/A17.png",
+    "px": [
+     1024,
+     902
+    ],
+    "cotes_mm": [
+     700,
+     616
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 3.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_A17.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/3/38/France_road_sign_A17.svg",
+    "attribution": "« France road sign A17.svg » par Roulex_45, CC BY-SA 3.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé"
+   },
+   "retroreflexion": "classe 2",
+   "support": {
+    "type": "colliers à cerclage sur candélabre gris-bleu (fût Ø ≈ 0,17 m)",
+    "hauteur_bas_m": "≈ 2,3"
+   },
+   "recto_verso": "verso gris",
+   "quantite": {
+    "estimation": 1,
+    "min": 1,
+    "max": 1,
+    "methode": "approche NE de Verdun, ≈ 150 m du centre (bord d'emprise)"
+   },
+   "positions": [
+    {
+     "id": "pan_A17_1",
+     "L93": [
+      917388.93,
+      6460409.78
+     ],
+     "local": [
+      109.5,
+      119.8,
+      1.595
+     ],
+     "z_sol_ngf": 217.9,
+     "azimut_face_deg": 45.0,
+     "statut_2026": "permanent (vu 2025-08 ; fond blanc, pas AK17)",
+     "confiance": "moyenne",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : annotations Panoramax 2025-08-31 f6297e9f / 3a86ce25 / 430a2fa1 (FR:A17)"
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/complements/tiles/2025-08-31_f6297e9f-f229-45c1-bc88-c902fa605716_hd_x2100_y500.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_A17.jpg",
+   "confiance": "haute",
+   "priorite": 2,
+   "prototype_scene_actuel": "panneau_A17 (objets : triangle 1,00 m — observé 0,70 m)"
+  },
+  {
+   "asset": "panneau_M12a",
+   "code": "M12a (probable)",
+   "designation": "Panonceau d'autorisation conditionnelle de franchissement pour cycles (cédez-le-passage cycliste au feu), tourne-à-droite",
+   "forme": "triangle pointe en bas",
+   "gamme": "panonceau M12",
+   "dimensions_mm": {
+    "cote": 300,
+    "hauteur": 264,
+    "epaisseur": 25,
+    "note": "≈ 0,25-0,35 m mesuré ; dimension réglementaire à confirmer (arrêté du 12 janvier 2012)"
+   },
+   "couleurs": [
+    "rouge",
+    "blanc",
+    "jaune",
+    "noir"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/M12a.png",
+    "px": [
+     1024,
+     904
+    ],
+    "cotes_mm": [
+     300,
+     264
+    ],
+    "source": "wikimedia",
+    "licence": "CC0",
+    "auteur": "Mathgb",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_M12D.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/7/75/France_road_sign_M12D.svg",
+    "attribution": "« France road sign M12a.svg » par Mathgb, CC0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé"
+   },
+   "retroreflexion": "classe 1 ou 2",
+   "support": {
+    "type": "colliers sur le mât de feux, sous la tête R11v (ou sous le répétiteur)",
+    "hauteur_centre_m": "≈ 1,6-2,0"
+   },
+   "recto_verso": "verso gris",
+   "quantite": {
+    "estimation": 1,
+    "min": 0,
+    "max": 2,
+    "methode": "OSM red_turn:right:bicycle=yes (Revirée) ; panonceau triangulaire sous un feu du Vercors (2025-01, illisible)"
+   },
+   "positions": [
+    {
+     "id": "M12a_feu_REV_droite",
+     "L93": [
+      917267.53,
+      6460298.78
+     ],
+     "local": [
+      -11.9,
+      8.8,
+      0.017
+     ],
+     "z_sol_ngf": 216.32,
+     "azimut_face_deg": 330,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "faible",
+     "source": "mobilier.geojson feu_REV_droite (tête M12) ; OSM node 1959022958",
+     "hauteur_centre_m": 1.6
+    },
+    {
+     "id": "M12a_ou_AB3a_feu_VERC_droite",
+     "L93": [
+      917293.23,
+      6460277.68
+     ],
+     "local": [
+      13.8,
+      -12.3,
+      -0.01
+     ],
+     "z_sol_ngf": 216.29,
+     "azimut_face_deg": 172,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "faible",
+     "source": "mobilier.geojson feu_VERC_droite (panonceau triangulaire AB3a ou M12) ; photo 2025-01-12 a1ffea74",
+     "hauteur_centre_m": 1.6
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd_r01_c00.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_M12a.jpg",
+   "confiance": "faible (code) / moyenne (présence d'un panonceau)",
+   "priorite": 2,
+   "prototype_scene_actuel": "panonceau_M12 et panonceau_AB3a (0,35 m) sous les têtes de feux"
+  },
+  {
+   "asset": "panneau_D21a_la_reviree_college",
+   "code": "D21a",
+   "designation": "Panneau de position de direction en flèche, fond blanc : « LA REVIRÉE / Collège L. Terray » (flèche à droite)",
+   "forme": "flèche (rectangle à pointe droite)",
+   "gamme": "composition locale, hauteur de capitale Hc ≈ 80 mm (ligne 1) / ≈ 66 mm (ligne 2)",
+   "dimensions_mm": {
+    "largeur": 1100,
+    "hauteur": 360,
+    "epaisseur": 30
+   },
+   "couleurs": [
+    "blanc",
+    "noir"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/D21a_la_reviree_college.png",
+    "px": [
+     2048,
+     670
+    ],
+    "cotes_mm": [
+     1100,
+     360
+    ],
+    "source": "maison",
+    "licence": "création maison (même licence que le dépôt)",
+    "auteur": "dépôt ClaudeCode_RoadCreation",
+    "note": "composition d'après la photo Panoramax 2025-08-31 ab4cfacd ; police de substitution DejaVu Sans Bold (police réglementaire L1/L4 à mettre sur le PC)",
+    "svg_source": "assets/specs/panneaux/svg_maison/D21a_la_reviree_college.svg"
+   },
+   "retroreflexion": "classe 2 (fond blanc ; texte et listel noirs non rétroréfléchissants)",
+   "support": {
+    "type": "un mât rond galvanisé Ø 76 mm sur le refuge de la Revirée portant les 2 D21a (bras de fixation au revers)",
+    "hauteur_bas_m": "≈ 2,5 (D21a inférieur ≈ 2,2)"
+   },
+   "recto_verso": "verso gris (rails horizontaux)",
+   "quantite": {
+    "estimation": 1,
+    "min": 1,
+    "max": 1,
+    "methode": "refuge de la Revirée"
+   },
+   "positions": [
+    {
+     "id": "pan_D21_1",
+     "L93": [
+      917275.83,
+      6460296.38
+     ],
+     "local": [
+      -3.6,
+      6.4,
+      0.09
+     ],
+     "z_sol_ngf": 216.39,
+     "azimut_face_deg": 135,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "haute",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : Panoramax 2025-05-18 119d9094 r01_c04 ; 2025-08-31 ab4cfacd",
+     "hauteur_bas_m": 2.5
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd_r01_c02.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd/2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd_r01_c02.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_D21a.jpg",
+   "confiance": "haute",
+   "priorite": 1,
+   "prototype_scene_actuel": "panneau_D21 (objets : « 2 panneaux 1,20 × 0,35 m » en un seul prototype)"
+  },
+  {
+   "asset": "panneau_D21a_commerces_reviree",
+   "code": "D21a",
+   "designation": "Panneau de position de direction en flèche, fond blanc : « Commerces de LA REVIREE »",
+   "forme": "flèche (rectangle à pointe droite)",
+   "gamme": "composition locale, Hc ≈ 62,5 mm",
+   "dimensions_mm": {
+    "largeur": 1150,
+    "hauteur": 215,
+    "epaisseur": 30
+   },
+   "couleurs": [
+    "blanc",
+    "noir"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/D21a_commerces_reviree.png",
+    "px": [
+     2048,
+     383
+    ],
+    "cotes_mm": [
+     1150,
+     215
+    ],
+    "source": "maison",
+    "licence": "création maison (même licence que le dépôt)",
+    "auteur": "dépôt ClaudeCode_RoadCreation",
+    "note": "texte relevé : « Commerces de LA REVIREE » (sans accent sur le panneau réel)",
+    "svg_source": "assets/specs/panneaux/svg_maison/D21a_commerces_reviree.svg"
+   },
+   "retroreflexion": "classe 2",
+   "support": {
+    "type": "même mât que panneau_D21a_la_reviree_college, sous lui",
+    "hauteur_bas_m": "≈ 2,2"
+   },
+   "recto_verso": "verso gris",
+   "quantite": {
+    "estimation": 1,
+    "min": 1,
+    "max": 1,
+    "methode": "idem"
+   },
+   "positions": [
+    {
+     "id": "pan_D21_2",
+     "L93": [
+      917275.83,
+      6460296.38
+     ],
+     "local": [
+      -3.6,
+      6.4,
+      0.09
+     ],
+     "z_sol_ngf": 216.39,
+     "azimut_face_deg": 135,
+     "statut_2026": "existant (inchangé)",
+     "confiance": "haute",
+     "source": "recon/out/paquet_jardin/objets/mobilier.geojson : Panoramax 2025-05-18 119d9094 r01_c04 ; 2025-08-31 ab4cfacd",
+     "hauteur_bas_m": 2.2
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd_r01_c02.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_D21a.jpg",
+   "confiance": "haute",
+   "priorite": 1,
+   "prototype_scene_actuel": "panneau_D21 (voir ci-dessus)"
+  },
+  {
+   "asset": "plaque_rue_avenue_de_verdun",
+   "code": "plaque de rue",
+   "designation": "Plaque de nom de voie « AVENUE DE VERDUN »",
+   "forme": "rectangle à angles arrondis",
+   "gamme": "modèle communal",
+   "dimensions_mm": {
+    "largeur": 530,
+    "hauteur": 270,
+    "epaisseur": 15
+   },
+   "couleurs": [
+    "bleu marine de plaque communale #233A7E (observé, hors palette réglementaire)",
+    "blanc"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/plaque_rue_avenue_de_verdun.png",
+    "px": [
+     1024,
+     522
+    ],
+    "cotes_mm": [
+     530,
+     270
+    ],
+    "source": "maison",
+    "licence": "création maison (même licence que le dépôt)",
+    "auteur": "dépôt ClaudeCode_RoadCreation",
+    "note": "d'après la photo Panoramax 2024-08-24 2ab4efbc (mât de feux n° 3150)",
+    "svg_source": "assets/specs/panneaux/svg_maison/plaque_rue_avenue_de_verdun.svg"
+   },
+   "retroreflexion": "non réglementée (film ou peinture)",
+   "support": {
+    "type": "colliers sur le mât de feux n° 3150 (étiquette d'inventaire « 3150 » verticale bleue sous la plaque)",
+    "hauteur_bas_m": "≈ 2,7"
+   },
+   "recto_verso": "verso gris",
+   "quantite": {
+    "estimation": 1,
+    "min": 1,
+    "max": 2,
+    "methode": "photo 2024-08-24"
+   },
+   "positions": [
+    {
+     "id": "plaque_mat_3150",
+     "L93": [
+      917266.63,
+      6460284.58
+     ],
+     "local": [
+      -12.8,
+      -5.4,
+      null
+     ],
+     "azimut_face_deg": 115,
+     "statut_2026": "observé 2024-08 (avant travaux) : à rattacher au mât de feux le plus proche en 2026",
+     "confiance": "faible",
+     "source": "photo 2024-08-24 2ab4efbc : mât à ≈ 1,9 m de la caméra (diamètre apparent), azimut 295,5° depuis (-11,1 ; -6,2)",
+     "hauteur_bas_m": 2.7
+    }
+   ],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c03.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_plaque_rue.jpg",
+   "confiance": "haute",
+   "priorite": 3,
+   "prototype_scene_actuel": "absent (position : mât de feux du coin NO de la traversée de Verdun SO, à rattacher sur le PC)"
+  },
+  {
+   "asset": "panneau_B2b_temporaire",
+   "code": "B2b (temporaire)",
+   "designation": "B2b sur fond carré jaune (signalisation temporaire de chantier 2025-08)",
+   "forme": "disque sur carré",
+   "gamme": "disque 650 sur carré ≈ 800",
+   "dimensions_mm": {
+    "cote": 800,
+    "diametre_disque": 650,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "jaune",
+    "rouge",
+    "blanc",
+    "noir"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/B2b_temporaire.png",
+    "px": [
+     1024,
+     1024
+    ],
+    "cotes_mm": [
+     800,
+     800
+    ],
+    "source": "composition",
+    "licence": "CC BY-SA 4.0 (dérivé de « France road sign B2b.svg », Roulex_45)",
+    "auteur": "dépôt ClaudeCode_RoadCreation d'après Roulex_45",
+    "note": "disque B2b Ø 650 sur fond carré jaune ≈ 800 mm (rapport mesuré 0,8 sur 1d999186)"
+   },
+   "retroreflexion": "classe 2",
+   "support": {
+    "type": "fixé sur un mât de feux (2025-08)",
+    "hauteur_bas_m": "≈ 2,0"
+   },
+   "recto_verso": "verso gris",
+   "quantite": {
+    "estimation": 0,
+    "min": 0,
+    "max": 0,
+    "methode": "absent en 2026 : scénarios travaux uniquement"
+   },
+   "positions": [],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_1d999186-824b-4ec7-8b52-0402511307a3_hd/2025-08-31_1d999186-824b-4ec7-8b52-0402511307a3_hd_r01_c00.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_81882270-2b91-457a-a7c9-4f955319ea22_hd/2025-08-31_81882270-2b91-457a-a7c9-4f955319ea22_hd_r01_c00.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_chantier_B2b_AK5_chevrons.jpg",
+   "confiance": "haute (2025)",
+   "priorite": 3,
+   "prototype_scene_actuel": "absent (scénario)"
+  },
+  {
+   "asset": "panneau_AK5",
+   "code": "AK5",
+   "designation": "Travaux (signalisation temporaire de danger)",
+   "forme": "triangle pointe en haut",
+   "gamme": "normale (1000) sur chevalet ; petite (700) possible en agglomération",
+   "dimensions_mm": {
+    "cote": 1000,
+    "hauteur": 880,
+    "epaisseur": 25
+   },
+   "couleurs": [
+    "jaune",
+    "rouge",
+    "noir"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/AK5.png",
+    "px": [
+     1024,
+     902
+    ],
+    "cotes_mm": [
+     1000,
+     880
+    ],
+    "source": "wikimedia",
+    "licence": "CC BY-SA 3.0",
+    "auteur": "Roulex_45",
+    "page_commons": "https://commons.wikimedia.org/wiki/File:France_road_sign_AK5.svg",
+    "url_svg": "https://upload.wikimedia.org/wikipedia/commons/f/f1/France_road_sign_AK5.svg",
+    "attribution": "« France road sign AK5.svg » par Roulex_45, CC BY-SA 3.0, via Wikimedia Commons",
+    "modifications": "teintes ramenées à la palette de référence ; filet noir de dessin extérieur supprimé"
+   },
+   "retroreflexion": "classe 2",
+   "support": {
+    "type": "chevalet / piètement de chantier lesté",
+    "hauteur_bas_m": "≈ 0,3-0,5"
+   },
+   "recto_verso": "verso gris",
+   "quantite": {
+    "estimation": 0,
+    "min": 0,
+    "max": 0,
+    "methode": "absent en 2026 : scénarios travaux uniquement"
+   },
+   "positions": [],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c01.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_chantier_B2b_AK5_chevrons.jpg",
+   "confiance": "haute (2020-2025)",
+   "priorite": 3,
+   "prototype_scene_actuel": "absent (scénario)"
+  },
+  {
+   "asset": "balise_chevrons_chantier",
+   "code": "K8",
+   "designation": "Panneau à chevrons rouges et blancs de déport/position de chantier",
+   "forme": "rectangle",
+   "gamme": "≈ 1000 × 350 (rapport mesuré 2,8)",
+   "dimensions_mm": {
+    "largeur": 1000,
+    "hauteur": 350,
+    "epaisseur": 20
+   },
+   "couleurs": [
+    "rouge",
+    "blanc"
+   ],
+   "face": {
+    "fichier": "assets/specs/panneaux/faces/balise_chevrons_chantier.png",
+    "px": [
+     1024,
+     358
+    ],
+    "cotes_mm": [
+     1000,
+     350
+    ],
+    "source": "maison",
+    "licence": "création maison (même licence que le dépôt)",
+    "auteur": "dépôt ClaudeCode_RoadCreation",
+    "note": "chevrons rouges et blancs pointant vers la gauche (photo 2025-08-31 ab4cfacd) ; code K8 probable",
+    "svg_source": "assets/specs/panneaux/svg_maison/balise_chevrons_chantier.svg"
+   },
+   "retroreflexion": "classe 2",
+   "support": {
+    "type": "posé sur les séparateurs modulaires (K16) ou sur pied",
+    "hauteur_bas_m": "≈ 0,8-1,0"
+   },
+   "recto_verso": "verso gris",
+   "quantite": {
+    "estimation": 0,
+    "min": 0,
+    "max": 0,
+    "methode": "absent en 2026 : scénarios travaux uniquement"
+   },
+   "positions": [],
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd_r01_c02.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_chantier_B2b_AK5_chevrons.jpg",
+   "confiance": "haute (2025) ; code K8 confirmé par la catégorie Commons « K8 (road sign, France) »",
+   "priorite": 3,
+   "prototype_scene_actuel": "absent (scénario)"
+  }
+ ],
+ "supports": [
+  {
+   "asset": "mat_panneau_d60",
+   "designation": "Mât rond de panneau, acier galvanisé",
+   "diametre_mm": 60,
+   "variante_diametre_mm": 76,
+   "epaisseur_paroi_mm": 2.5,
+   "longueur_hors_sol_m": [
+    3.0,
+    3.5
+   ],
+   "scellement": "fourreau béton ≈ 0,5 m ou platine 4 tiges",
+   "tete": "bouchon plastique noir ou gris",
+   "couleur": "galvanise_mat",
+   "rugosite": 0.55,
+   "metallique": 1.0,
+   "quantite": {
+    "estimation": 12,
+    "min": 10,
+    "max": 16
+   },
+   "notes": "un mât par groupe de panneaux ; variantes de longueur par échelle Z (pivot au pied) ; Ø 76 mm pour les mâts à 3 éléments (C114/AB3a/M9c, B2a/AB3a/M9c) et les D21a",
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd/2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd_r01_c02.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg"
+   ],
+   "prototype_scene_actuel": "poteau_panneau (Ø 60 mm, hauteur 1 m mise à l'échelle)"
+  },
+  {
+   "asset": "mat_panneau_ilot_court",
+   "designation": "Mât court de balise d'îlot (B21a1, J5)",
+   "diametre_mm": 60,
+   "longueur_hors_sol_m": [
+    0.6,
+    1.3
+   ],
+   "couleur": "galvanise_mat ou noir",
+   "quantite": {
+    "estimation": 6,
+    "min": 5,
+    "max": 8
+   },
+   "notes": "sur le site, les balises observées sont plutôt des modèles souples sur embase noire (B21a1 sur corps blanc ; J5 sur pied noir) : prévoir les deux variantes",
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c00.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_fdc59178-d148-43e0-a307-4742929b45a2_hd/2025-08-31_fdc59178-d148-43e0-a307-4742929b45a2_hd_r01_c00.jpg"
+   ]
+  },
+  {
+   "asset": "fixation_collier_candelabre",
+   "designation": "Collier à cerclage (feuillard inox) + rail pour panneau sur candélabre ou mât de feux",
+   "notes": "B6a1/C13a (candélabre 0456), A17 (candélabre NE), plaque de rue (mât de feux 3150), M12a (mât de feux) ; pas d'asset séparé nécessaire si les panneaux portent leurs rails"
+  }
+ ],
+ "non_retenus": [
+  {
+   "type": "B14 (vitesse), B30/B51 (zone 30), C12, C20a, CE, B21-1, B22a",
+   "raison": "non observés dans l'emprise (voir catalogue_besoins.json)"
+  },
+  {
+   "type": "AK3, AB4/B2a hors emprise",
+   "raison": "annotations Panoramax à plus de 150 m"
+  },
+  {
+   "type": "panonceaux privés (« PARKING PRIVÉ L'HORLOGE », « Réservé », « Cabinet kinésithérapie », « → ACCÈS »)",
+   "raison": "texte propre au site, priorité 3 : un panneau texte générique suffit"
+  },
+  {
+   "type": "balises J11 (fuseau de la Revirée, ≈ 120 m au NO)",
+   "raison": "relevées par la couche objets (ortho) mais absentes de l'inventaire : à traiter avec le mobilier (potelets/balises)"
+  }
+ ]
+}

@@ -1,0 +1,3011 @@
+{
+ "meta": {
+  "date": "2026-10-09",
+  "role": "équivalents du contenu CARLA pour chaque asset de la librairie (doublures, outils de pose) ; rien de CARLA n'est versionné ici",
+  "documentation": {
+   "props": "https://carla.readthedocs.io/en/latest/catalogue_props/",
+   "bp_library": "https://carla.readthedocs.io/en/latest/bp_library/",
+   "props_json": "https://carla.readthedocs.io/en/latest/content_authoring_props/",
+   "maps": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/",
+   "tl_0915": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_add_tl/",
+   "landscape_0915": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/",
+   "road_painter_0915": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/",
+   "core_map": "https://carla.readthedocs.io/en/latest/core_map/"
+  },
+  "version_doc": "carla.readthedocs.io « latest » (consultée le 2026-10-09) + pages 0.9.15 pour la personnalisation des cartes",
+  "limite": "la documentation publie les identifiants des props (static.prop.*) et les DOSSIERS de contenu (feux, panneaux, végétation, poteaux, décals, matériaux, blueprints de pose), pas la liste des static meshes : les chemins /Game/... exacts sont complétés sur le PC par assets/carla_resoudre_chemins.py (Default.Package.json + inventaire des .uasset), qui écrit carla_correspondances_resolues.json",
+  "adequation": {
+   "identique": "utilisable tel quel (aucun cas : CARLA ne contient pas de mobilier français)",
+   "proche": "doublure acceptable (silhouette, typologie) à retexturer / mettre à l'échelle",
+   "à éviter": "objet étranger trompeur pour la perception (feux et panneaux américains, signalisation temporaire US)",
+   "à vérifier": "dossier pertinent mais essence/modèle exact inconnu : lire les candidats du script de résolution",
+   "aucun équivalent": "rien de comparable dans le contenu documenté"
+  },
+  "recommandation": {
+   "maison": "Houdini 22 d'après assets/specs",
+   "CC0": "manifeste_cc0.json / telecharger_cc0.py",
+   "CARLA": "contenu CARLA (export USD)",
+   "Fab": "Fab / Megascans (compte utilisateur)",
+   "SpeedTree": "SpeedTree (compte utilisateur)"
+  },
+  "nombre_assets": 122,
+  "resume_adequation": {
+   "à éviter": 26,
+   "proche": 41,
+   "aucun équivalent": 27,
+   "à vérifier": 28
+  },
+  "nombre_complements_hors_catalogue": 12,
+  "resume_adequation_complements": {
+   "aucun équivalent": 8,
+   "proche": 3,
+   "à éviter": 1
+  },
+  "note_decompte": "122 assets du catalogue des besoins + 12 compléments vus sur les photos (mobilier.json › fiches_complementaires) = 134 lignes ; resume_adequation ne compte que les assets du catalogue",
+  "controle_visuel": "assets/qa/mobilier_vegetation_carla/qa_08_carla_vs_reel.jpg (vignettes officielles du catalogue des props vs photos du site)",
+  "utilisation_pc": [
+   "python assets/carla_resoudre_chemins.py --carla <racine du dépôt CARLA> [--content <dossier Content>] → assets/carla_correspondances_resolues.json",
+   "pour utiliser une doublure CARLA comme asset de la librairie : Unreal (projet CARLA) › clic droit sur le static mesh › Asset Actions › Export › .usd dans assets/lib/<categorie>/<asset>/<asset>.usd(a) ; substituer_assets.py convertit cm / axes ; vérifier la face +Y (sinon tourner l'asset)",
+   "pour la simulation CARLA : garder les blueprints de feux (logique) et remplacer leur mesh par feu_R11v / feu_R12"
+  ]
+ },
+ "dossiers_documentes": {
+  "static": {
+   "chemin": "/Game/Carla/Static/",
+   "contenu": "racine du contenu statique (citée par la documentation du Road Painter : « Content/Carla/Static/Decals and Content/Carla/Static ») : recherche par mots-clés pour les objets non listés (lampadaires, bornes, clôtures, coffrets)",
+   "doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+  },
+  "props": {
+   "chemin": "/Game/Carla/Static/Static/",
+   "contenu": "static meshes des props (ex. documenté : /Game/Carla/Static/Static/SM_Atm.SM_Atm pour le prop « ATM »)",
+   "enregistrement": "Content/Carla/Config/Default.Package.json : entrée {name, path, size} ; identifiant Python static.prop.<name en minuscules>",
+   "doc": "https://carla.readthedocs.io/en/latest/content_authoring_props/"
+  },
+  "feux": {
+   "chemin": "/Game/Carla/Static/TrafficLight/StreetLights_01/",
+   "contenu": "blueprints de feux tricolores (logique CARLA : groupes, volumes de déclenchement)",
+   "doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+  },
+  "panneaux": {
+   "chemin": "/Game/Carla/Static/TrafficSign/",
+   "contenu": "blueprints de panneaux (Stop, Yield, limitations de vitesse...)",
+   "doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+  },
+  "vegetation": {
+   "chemin": "/Game/Carla/Static/Vegetation/",
+   "contenu": "blueprints d'arbres, buissons, arbustes",
+   "doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+  },
+  "poteaux_reseau": {
+   "chemin": "/Game/Carla/Static/Pole/PoweLine/",
+   "contenu": "BP_SplinePoweLine (poteaux électriques + câbles le long d'une courbe) et maillages de poteaux",
+   "doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/"
+  },
+  "level_design": {
+   "chemin": "/Game/Carla/Blueprints/LevelDesign/",
+   "contenu": "BP_Spline (maillage déformé le long d'une courbe : bordures, haies), BP_RepSpline (éléments répétés : potelets, arceaux), BP_Wall (éléments joints : barrières, clôtures)",
+   "doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/"
+  },
+  "decals": {
+   "chemin": "/Game/Carla/Static/Decals/",
+   "contenu": "décals de chaussée (tampons, fissures, taches)",
+   "doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+  },
+  "materiaux": {
+   "chemin": "/Game/Carla/Static/GenericMaterials/",
+   "contenu": "matériaux génériques (Asphalt/Textures, RoadPainterMaterials)",
+   "doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+  }
+ },
+ "props_documentes_utiles": {
+  "static.prop.bench01": "Bench 01",
+  "static.prop.bench02": "Bench 02",
+  "static.prop.bench03": "Bench 03",
+  "static.prop.trashcan01": "Trash can 01",
+  "static.prop.trashcan02": "Trash can 02",
+  "static.prop.trashcan03": "Trash can 03",
+  "static.prop.trashcan04": "Trash can 04",
+  "static.prop.trashcan05": "Trash can 05",
+  "static.prop.bin": "Bin",
+  "static.prop.busstop": "Bus stop",
+  "static.prop.busstoplb": "Bus stop alternate",
+  "static.prop.advertisement": "Advertisement",
+  "static.prop.chainbarrier": "Chain barrier",
+  "static.prop.chainbarrierend": "Chain barrier end",
+  "static.prop.streetbarrier": "Street barrier",
+  "static.prop.constructioncone": "Construction cone",
+  "static.prop.trafficcone01": "Traffic cone 01",
+  "static.prop.trafficcone02": "Traffic cone 02",
+  "static.prop.warningconstruction": "Warning construction",
+  "static.prop.trafficwarning": "Traffic warning",
+  "static.prop.mailbox": "Mailbox",
+  "static.prop.streetfountain": "Street fountain",
+  "static.prop.glasscontainer": "Glass container",
+  "static.prop.cypresstree": "Cypress tree",
+  "static.prop.aporosatree": "Aporosa tree",
+  "static.prop.streetsign": "Street sign"
+ },
+ "correspondances": [
+  {
+   "asset": "panneau_B21a1",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "B21a1"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison (SVG Wikimedia Commons, domaine public)"
+  },
+  {
+   "asset": "panneau_J5",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "J5"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "panneau_C113",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "C113"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "panneau_C114",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "C114"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "panneau_AB3a",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Yield"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "triangle « cédez le passage » de même forme, liseré et proportions non IISR",
+   "recommandation": "maison (face officielle)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "panneau_M9c",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "M9c"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison (texte vectoriel)"
+  },
+  {
+   "asset": "panneau_AB4",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Stop"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "octogone rouge « STOP » de même forme, mais typographie, proportions et rétroréflexion non conformes à l'IISR / arrêté de 1967",
+   "recommandation": "maison (face officielle specs/panneaux/faces/AB4.png) ; le blueprint Stop CARLA peut servir de doublure logique",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "panneau_B1",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "B1"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "panneau_B2b",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "B2b"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "panneau_B2a",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "B2a"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "panneau_B6a1",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "B6a1"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "panneau_C13a",
+   "categorie": "signalisation_verticale",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "C13a"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "panneau_A17",
+   "categorie": "signalisation_verticale",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "A17"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "panneau_M12a",
+   "categorie": "signalisation_verticale",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "M12a"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "panneau_D21a_la_reviree_college",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "D21a_la_reviree_college"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison (texte vectoriel)"
+  },
+  {
+   "asset": "panneau_D21a_commerces_reviree",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "D21a_commerces_reviree"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "plaque_rue_avenue_de_verdun",
+   "categorie": "signalisation_verticale",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "signalétique locale (texte, charte SMMAG)",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "totem_pr_smmag",
+   "categorie": "transport",
+   "priorite": 2,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "signalétique locale (texte, charte SMMAG)",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison (texture depuis la photo)"
+  },
+  {
+   "asset": "mat_panneau_d60",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Pole",
+      "Post"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "simple tube : géométrie triviale, mais diamètre / bouchon à contrôler",
+   "recommandation": "maison (tube Ø 60 mm)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "mat_panneau_ilot_court",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Pole",
+      "Post"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "simple tube : géométrie triviale, mais diamètre / bouchon à contrôler",
+   "recommandation": "maison (tube Ø 60 mm)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "feu_R11v",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "TrafficLight",
+      "Light"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/",
+     "note": "blueprints américains (têtes à 3 feux avec plaque, potences) : utiles pour la LOGIQUE CARLA, pas pour l'aspect"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "feux américains (têtes, plaques de contraste, potences) très différents des R11v/R12 français à modules séparés et visières",
+   "recommandation": "maison (specs/feux.json) ; si simulation CARLA : remplacer le mesh des blueprints StreetLights_01 par l'asset français en gardant la logique",
+   "source_recommandee_catalogue": "maison (CARLA : feux US à éviter)"
+  },
+  {
+   "asset": "feu_R11v_repetiteur",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "TrafficLight",
+      "Light"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/",
+     "note": "blueprints américains (têtes à 3 feux avec plaque, potences) : utiles pour la LOGIQUE CARLA, pas pour l'aspect"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "feux américains (têtes, plaques de contraste, potences) très différents des R11v/R12 français à modules séparés et visières",
+   "recommandation": "maison (specs/feux.json) ; si simulation CARLA : remplacer le mesh des blueprints StreetLights_01 par l'asset français en gardant la logique",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "feu_R12",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "TrafficLight",
+      "Light"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/",
+     "note": "blueprints américains (têtes à 3 feux avec plaque, potences) : utiles pour la LOGIQUE CARLA, pas pour l'aspect"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "feux américains (têtes, plaques de contraste, potences) très différents des R11v/R12 français à modules séparés et visières",
+   "recommandation": "maison (specs/feux.json) ; si simulation CARLA : remplacer le mesh des blueprints StreetLights_01 par l'asset français en gardant la logique",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "feu_R12_horizontal",
+   "categorie": "signalisation_verticale",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "TrafficLight",
+      "Light"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/",
+     "note": "blueprints américains (têtes à 3 feux avec plaque, potences) : utiles pour la LOGIQUE CARLA, pas pour l'aspect"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "feux américains (têtes, plaques de contraste, potences) très différents des R11v/R12 français à modules séparés et visières",
+   "recommandation": "maison (specs/feux.json) ; si simulation CARLA : remplacer le mesh des blueprints StreetLights_01 par l'asset français en gardant la logique",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "feu_R13c",
+   "categorie": "signalisation_verticale",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "TrafficLight",
+      "Light"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/",
+     "note": "blueprints américains (têtes à 3 feux avec plaque, potences) : utiles pour la LOGIQUE CARLA, pas pour l'aspect"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "feux américains (têtes, plaques de contraste, potences) très différents des R11v/R12 français à modules séparés et visières",
+   "recommandation": "maison (specs/feux.json) ; si simulation CARLA : remplacer le mesh des blueprints StreetLights_01 par l'asset français en gardant la logique",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "boitier_bouton_appel",
+   "categorie": "signalisation_verticale",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "TrafficLight",
+      "Light"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/",
+     "note": "blueprints américains (têtes à 3 feux avec plaque, potences) : utiles pour la LOGIQUE CARLA, pas pour l'aspect"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "feux américains (têtes, plaques de contraste, potences) très différents des R11v/R12 français à modules séparés et visières",
+   "recommandation": "maison (specs/feux.json) ; si simulation CARLA : remplacer le mesh des blueprints StreetLights_01 par l'asset français en gardant la logique",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "mat_feu_d114",
+   "categorie": "signalisation_verticale",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "TrafficLight",
+      "Light"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/",
+     "note": "blueprints américains (têtes à 3 feux avec plaque, potences) : utiles pour la LOGIQUE CARLA, pas pour l'aspect"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "feux américains (têtes, plaques de contraste, potences) très différents des R11v/R12 français à modules séparés et visières",
+   "recommandation": "maison (specs/feux.json) ; si simulation CARLA : remplacer le mesh des blueprints StreetLights_01 par l'asset français en gardant la logique",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "mat_feu_crosse_camera",
+   "categorie": "signalisation_verticale",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficLight/StreetLights_01/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "TrafficLight",
+      "Light"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/",
+     "note": "blueprints américains (têtes à 3 feux avec plaque, potences) : utiles pour la LOGIQUE CARLA, pas pour l'aspect"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "feux américains (têtes, plaques de contraste, potences) très différents des R11v/R12 français à modules séparés et visières",
+   "recommandation": "maison (specs/feux.json) ; si simulation CARLA : remplacer le mesh des blueprints StreetLights_01 par l'asset français en gardant la logique",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "armoire_commande_feux",
+   "categorie": "mobilier",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "ElectricBox",
+      "Electric_Box",
+      "Cabinet",
+      "TrafficBox"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "pas d'armoire de contrôleur documentée",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison (ou CARLA « traffic light box », adéquation proche)"
+  },
+  {
+   "asset": "candelabre_double_crosse",
+   "categorie": "eclairage",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "StreetLight",
+      "Streetlight",
+      "Street_Light",
+      "Lamp",
+      "LightPole"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/",
+     "note": "les lampadaires des villes CARLA (couche « StreetLights ») ne sont pas listés dans la documentation : résolution par mots-clés sur le PC"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "silhouette de candélabre routier possible, mais lanternes et crosses différentes (Verdun : double crosse en T de 2,4 m, lanternes plates)",
+   "recommandation": "maison (mobilier.json)",
+   "source_recommandee_catalogue": "maison (CARLA : lampadaires proches en silhouette)"
+  },
+  {
+   "asset": "candelabre_crosse_simple",
+   "categorie": "eclairage",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "StreetLight",
+      "Streetlight",
+      "Street_Light",
+      "Lamp",
+      "LightPole"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/",
+     "note": "les lampadaires des villes CARLA (couche « StreetLights ») ne sont pas listés dans la documentation : résolution par mots-clés sur le PC"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "silhouette de candélabre routier possible, mais lanternes et crosses différentes (Verdun : double crosse en T de 2,4 m, lanternes plates)",
+   "recommandation": "maison (mobilier.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "candelabre_mat_droit_led",
+   "categorie": "eclairage",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "StreetLight",
+      "Streetlight",
+      "Street_Light",
+      "Lamp",
+      "LightPole"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/",
+     "note": "les lampadaires des villes CARLA (couche « StreetLights ») ne sont pas listés dans la documentation : résolution par mots-clés sur le PC"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "silhouette de candélabre routier possible, mais lanternes et crosses différentes (Verdun : double crosse en T de 2,4 m, lanternes plates)",
+   "recommandation": "maison (mobilier.json)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "candelabre_mat_droit_shp",
+   "categorie": "eclairage",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "StreetLight",
+      "Streetlight",
+      "Street_Light",
+      "Lamp",
+      "LightPole"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/",
+     "note": "les lampadaires des villes CARLA (couche « StreetLights ») ne sont pas listés dans la documentation : résolution par mots-clés sur le PC"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "silhouette de candélabre routier possible, mais lanternes et crosses différentes (Verdun : double crosse en T de 2,4 m, lanternes plates)",
+   "recommandation": "maison (mobilier.json)",
+   "source_recommandee_catalogue": "variante de candelabre_mat_droit_led (lumière orangée 2000 K)"
+  },
+  {
+   "asset": "poteau_bois_reseau",
+   "categorie": "eclairage",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Pole/PoweLine/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Pole/PoweLine/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Pole",
+      "PowerLine",
+      "PoweLine",
+      "Wood"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "poteaux bois américains à traverses ; le BP_SplinePoweLine est utile pour poser les câbles",
+   "recommandation": "maison (ou CARLA en supprimant les traverses)",
+   "source_recommandee_catalogue": "maison (CARLA : poteaux électriques, adéquation proche)"
+  },
+  {
+   "asset": "mat_illumination_cable",
+   "categorie": "eclairage",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Pole/PoweLine/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Pole/PoweLine/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Pole",
+      "PowerLine"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "poteaux électriques américains ; le mât acier brun à bras porte-câbles n'existe pas",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "abri_bus_m_reso",
+   "categorie": "transport",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "Bus stop",
+     "blueprint_id": "static.prop.busstop",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = busstop (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/",
+     "note": "ossature verte, banc rouge"
+    },
+    {
+     "nom": "Bus stop alternate",
+     "blueprint_id": "static.prop.busstoplb",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = busstoplb (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "même typologie (abri vitré + panneau publicitaire), couleurs, toit et proportions différents de l'abri M réso",
+   "recommandation": "maison ; doublure CARLA possible (retexturer anthracite, banc bois)",
+   "constat_vignette_officielle": [
+    "abri à ossature verte, banc rouge, panneau publicitaire : typologie proche, aspect différent"
+   ],
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "poteau_arret_m_reso",
+   "categorie": "transport",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "Street sign",
+     "blueprint_id": "static.prop.streetsign",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = streetsign (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/",
+     "note": "panneau sur pied américain"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "aucun poteau d'arrêt à disque « M »",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "barriere_croix_saint_andre",
+   "categorie": "mobilier",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Blueprints/LevelDesign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Blueprints/LevelDesign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "BP_Wall"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/",
+     "note": "pour poser les modules le long d'une courbe"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "pas de barrière de ville française",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "potelet_noir",
+   "categorie": "mobilier",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "Chain barrier end",
+     "blueprint_id": "static.prop.chainbarrierend",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = chainbarrierend (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/",
+     "note": "potelet noir isolé (extrémité de chaîne)"
+    },
+    {
+     "nom": "Chain barrier",
+     "blueprint_id": "static.prop.chainbarrier",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = chainbarrier (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "potelet cylindrique sombre ; il manque la tête blanche contrastée",
+   "recommandation": "maison (ou CARLA + bande blanche)",
+   "constat_vignette_officielle": [
+    "potelets noirs reliés par une chaîne : potelet proche"
+   ],
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "banc_bois_metal",
+   "categorie": "mobilier",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "Bench 01",
+     "blueprint_id": "static.prop.bench01",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = bench01 (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/",
+     "note": "lattes bois + dossier"
+    },
+    {
+     "nom": "Bench 02",
+     "blueprint_id": "static.prop.bench02",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = bench02 (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/",
+     "note": "sans dossier"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "banc à lattes de bois et dossier : forme proche, bois trop clair",
+   "recommandation": "CARLA bench01 retexturé (bois brun, piétement sombre) ou maison",
+   "constat_vignette_officielle": [
+    "banc à lattes claires + dossier, piétement métal : forme proche du banc des quais",
+    "même banc sans dossier"
+   ],
+   "source_recommandee_catalogue": "CC0 (Poly Haven) ou maison"
+  },
+  {
+   "asset": "corbeille_cylindrique",
+   "categorie": "mobilier",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "Trash can 03",
+     "blueprint_id": "static.prop.trashcan03",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = trashcan03 (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/",
+     "note": "cylindre"
+    },
+    {
+     "nom": "Trash can 02",
+     "blueprint_id": "static.prop.trashcan02",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = trashcan02 (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/",
+     "note": "corbeille ouverte sur pied"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "silhouette cylindrique ; ni lames ajourées ni couvercle jaune",
+   "recommandation": "maison",
+   "constat_vignette_officielle": [
+    "corbeille cylindrique pleine, gris clair : silhouette seulement",
+    "corbeille ouverte sur pied (type Paris) : à éviter"
+   ],
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "arceau_velo",
+   "categorie": "mobilier",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Blueprints/LevelDesign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Blueprints/LevelDesign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "BP_RepSpline"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/",
+     "note": "pour aligner les arceaux"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "pas d'arceau vélo documenté",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "barriere_levante",
+   "categorie": "mobilier",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "non présent dans le catalogue des props",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "poteau_incendie",
+   "categorie": "mobilier",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Hydrant"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/",
+     "note": "si une borne d'incendie américaine existe dans les villes CARLA : à éviter"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "les bornes d'incendie américaines (bouches latérales, couleur, gabarit) ne correspondent pas au poteau rouge NF EN 14384",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "CARLA (« fire hydrant » US : à éviter) → maison"
+  },
+  {
+   "asset": "armoire_technique",
+   "categorie": "mobilier",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "non présent dans le catalogue des props",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "ganivelle_bois",
+   "categorie": "mobilier",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "non présent dans le catalogue des props",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "cloture_grillage_rigide",
+   "categorie": "mobilier",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Blueprints/LevelDesign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Blueprints/LevelDesign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "BP_Wall"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/"
+    },
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Fence"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "clôtures des villes CARLA (étiquette sémantique Fence) : grillages américains, à vérifier",
+   "recommandation": "CC0 / Fab (panneaux rigides) posés avec BP_Wall",
+   "source_recommandee_catalogue": "CARLA/CC0 (proche)"
+  },
+  {
+   "asset": "bordure_T2",
+   "categorie": "bordures",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Blueprints/LevelDesign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Blueprints/LevelDesign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "BP_Spline"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/",
+     "note": "outil de pose : déformer le maillage de profil (bordures.json) le long des lignes de bordures"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "les bordures CARLA sont générées avec les routes (profils américains) ; pas de profil T2/A2/P1/quai",
+   "recommandation": "maison (profils bordures.json, Sweep Houdini)",
+   "source_recommandee_catalogue": "maison (profil extrudé)"
+  },
+  {
+   "asset": "bordure_T2_peinte_blanc",
+   "categorie": "bordures",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Blueprints/LevelDesign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Blueprints/LevelDesign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "BP_Spline"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/",
+     "note": "outil de pose : déformer le maillage de profil (bordures.json) le long des lignes de bordures"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "les bordures CARLA sont générées avec les routes (profils américains) ; pas de profil T2/A2/P1/quai",
+   "recommandation": "maison (profils bordures.json, Sweep Houdini)",
+   "source_recommandee_catalogue": "variante matériau"
+  },
+  {
+   "asset": "bordure_quai_bus",
+   "categorie": "bordures",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Blueprints/LevelDesign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Blueprints/LevelDesign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "BP_Spline"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/",
+     "note": "outil de pose : déformer le maillage de profil (bordures.json) le long des lignes de bordures"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "les bordures CARLA sont générées avec les routes (profils américains) ; pas de profil T2/A2/P1/quai",
+   "recommandation": "maison (profils bordures.json, Sweep Houdini)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "bordure_A2",
+   "categorie": "bordures",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Blueprints/LevelDesign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Blueprints/LevelDesign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "BP_Spline"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/",
+     "note": "outil de pose : déformer le maillage de profil (bordures.json) le long des lignes de bordures"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "les bordures CARLA sont générées avec les routes (profils américains) ; pas de profil T2/A2/P1/quai",
+   "recommandation": "maison (profils bordures.json, Sweep Houdini)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "bordure_P1",
+   "categorie": "bordures",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Blueprints/LevelDesign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Blueprints/LevelDesign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "BP_Spline"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/",
+     "note": "outil de pose : déformer le maillage de profil (bordures.json) le long des lignes de bordures"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "les bordures CARLA sont générées avec les routes (profils américains) ; pas de profil T2/A2/P1/quai",
+   "recommandation": "maison (profils bordures.json, Sweep Houdini)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "caniveau_cs",
+   "categorie": "bordures",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Blueprints/LevelDesign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Blueprints/LevelDesign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "BP_Spline"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/",
+     "note": "outil de pose : déformer le maillage de profil (bordures.json) le long des lignes de bordures"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "les bordures CARLA sont générées avec les routes (profils américains) ; pas de profil T2/A2/P1/quai",
+   "recommandation": "maison (profils bordures.json, Sweep Houdini)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "bordure_paves_granit",
+   "categorie": "bordures",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Blueprints/LevelDesign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Blueprints/LevelDesign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "BP_Spline"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/",
+     "note": "outil de pose : déformer le maillage de profil (bordures.json) le long des lignes de bordures"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "les bordures CARLA sont générées avec les routes (profils américains) ; pas de profil T2/A2/P1/quai",
+   "recommandation": "maison (profils bordures.json, Sweep Houdini)",
+   "source_recommandee_catalogue": "maison + CC0"
+  },
+  {
+   "asset": "abaisse_chartiere",
+   "categorie": "bordures",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Blueprints/LevelDesign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Blueprints/LevelDesign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "BP_Spline"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_weather_landscape/",
+     "note": "outil de pose : déformer le maillage de profil (bordures.json) le long des lignes de bordures"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "les bordures CARLA sont générées avec les routes (profils américains) ; pas de profil T2/A2/P1/quai",
+   "recommandation": "maison (profils bordures.json, Sweep Houdini)",
+   "source_recommandee_catalogue": "maison"
+  },
+  {
+   "asset": "bev_podotactile",
+   "categorie": "bordures",
+   "priorite": 1,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "pas de dalle podotactile NF P98-351",
+   "recommandation": "maison (géométrie) + CC0 (béton)",
+   "source_recommandee_catalogue": "maison (géométrie) + matériau"
+  },
+  {
+   "asset": "enrobe_bbsg_ancien",
+   "categorie": "materiaux",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Asphalt"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "enrobés génériques CARLA (texture américaine, sans fissures pontées ni teinte de l'ortho)",
+   "recommandation": "CC0 (manifeste_cc0.json + telecharger_cc0.py, recolorés sur l'ortho)",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "enrobe_bbsg_neuf",
+   "categorie": "materiaux",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Asphalt"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "enrobés génériques CARLA (texture américaine, sans fissures pontées ni teinte de l'ortho)",
+   "recommandation": "CC0 (manifeste_cc0.json + telecharger_cc0.py, recolorés sur l'ortho)",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "enrobe_reprise_tranchee",
+   "categorie": "materiaux",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Asphalt"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "enrobés génériques CARLA (texture américaine, sans fissures pontées ni teinte de l'ortho)",
+   "recommandation": "CC0 (manifeste_cc0.json + telecharger_cc0.py, recolorés sur l'ortho)",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "enrobe_piste_cyclable",
+   "categorie": "materiaux",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Asphalt"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "enrobés génériques CARLA (texture américaine, sans fissures pontées ni teinte de l'ortho)",
+   "recommandation": "CC0 (manifeste_cc0.json + telecharger_cc0.py, recolorés sur l'ortho)",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "enrobe_trottoir",
+   "categorie": "materiaux",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Asphalt"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "enrobés génériques CARLA (texture américaine, sans fissures pontées ni teinte de l'ortho)",
+   "recommandation": "CC0 (manifeste_cc0.json + telecharger_cc0.py, recolorés sur l'ortho)",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "enrobe_clair_granulats",
+   "categorie": "materiaux",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Asphalt"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "enrobés génériques CARLA (texture américaine, sans fissures pontées ni teinte de l'ortho)",
+   "recommandation": "CC0 (manifeste_cc0.json + telecharger_cc0.py, recolorés sur l'ortho)",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "enrobe_colore_ocre",
+   "categorie": "materiaux",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Asphalt"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "enrobés génériques CARLA (texture américaine, sans fissures pontées ni teinte de l'ortho)",
+   "recommandation": "CC0 (manifeste_cc0.json + telecharger_cc0.py, recolorés sur l'ortho)",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "resine_verte",
+   "categorie": "materiaux",
+   "priorite": 2,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "revêtements colorés locaux",
+   "recommandation": "CC0 recoloré",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "resine_cyan",
+   "categorie": "materiaux",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "revêtements colorés locaux",
+   "recommandation": "CC0 recoloré",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "beton_bordure",
+   "categorie": "materiaux",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Concrete",
+      "Grass",
+      "Gravel",
+      "Dirt",
+      "Cobble"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "matériaux génériques des villes CARLA (non documentés individuellement)",
+   "recommandation": "CC0 (manifeste_cc0.json) ; Megascans (Fab) pour herbes 3D",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "paves_granit",
+   "categorie": "materiaux",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Concrete",
+      "Grass",
+      "Gravel",
+      "Dirt",
+      "Cobble"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "matériaux génériques des villes CARLA (non documentés individuellement)",
+   "recommandation": "CC0 (manifeste_cc0.json) ; Megascans (Fab) pour herbes 3D",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "beton_galets",
+   "categorie": "materiaux",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Concrete",
+      "Grass",
+      "Gravel",
+      "Dirt",
+      "Cobble"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "matériaux génériques des villes CARLA (non documentés individuellement)",
+   "recommandation": "CC0 (manifeste_cc0.json) ; Megascans (Fab) pour herbes 3D",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "gravillons_ilot",
+   "categorie": "materiaux",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Concrete",
+      "Grass",
+      "Gravel",
+      "Dirt",
+      "Cobble"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "matériaux génériques des villes CARLA (non documentés individuellement)",
+   "recommandation": "CC0 (manifeste_cc0.json) ; Megascans (Fab) pour herbes 3D",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "stabilise_beige",
+   "categorie": "materiaux",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Concrete",
+      "Grass",
+      "Gravel",
+      "Dirt",
+      "Cobble"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "matériaux génériques des villes CARLA (non documentés individuellement)",
+   "recommandation": "CC0 (manifeste_cc0.json) ; Megascans (Fab) pour herbes 3D",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "gazon_tondu",
+   "categorie": "materiaux",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Concrete",
+      "Grass",
+      "Gravel",
+      "Dirt",
+      "Cobble"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "matériaux génériques des villes CARLA (non documentés individuellement)",
+   "recommandation": "CC0 (manifeste_cc0.json) ; Megascans (Fab) pour herbes 3D",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "herbe_haute",
+   "categorie": "materiaux",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Concrete",
+      "Grass",
+      "Gravel",
+      "Dirt",
+      "Cobble"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "matériaux génériques des villes CARLA (non documentés individuellement)",
+   "recommandation": "CC0 (manifeste_cc0.json) ; Megascans (Fab) pour herbes 3D",
+   "source_recommandee_catalogue": "CC0 + cartes d’herbe (instances)"
+  },
+  {
+   "asset": "gazon_sec",
+   "categorie": "materiaux",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Concrete",
+      "Grass",
+      "Gravel",
+      "Dirt",
+      "Cobble"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "matériaux génériques des villes CARLA (non documentés individuellement)",
+   "recommandation": "CC0 (manifeste_cc0.json) ; Megascans (Fab) pour herbes 3D",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "noue_plantee",
+   "categorie": "materiaux",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Concrete",
+      "Grass",
+      "Gravel",
+      "Dirt",
+      "Cobble"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "matériaux génériques des villes CARLA (non documentés individuellement)",
+   "recommandation": "CC0 (manifeste_cc0.json) ; Megascans (Fab) pour herbes 3D",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "paillage_mineral",
+   "categorie": "materiaux",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Concrete",
+      "Grass",
+      "Gravel",
+      "Dirt",
+      "Cobble"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "matériaux génériques des villes CARLA (non documentés individuellement)",
+   "recommandation": "CC0 (manifeste_cc0.json) ; Megascans (Fab) pour herbes 3D",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "terre_nue",
+   "categorie": "materiaux",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Concrete",
+      "Grass",
+      "Gravel",
+      "Dirt",
+      "Cobble"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "matériaux génériques des villes CARLA (non documentés individuellement)",
+   "recommandation": "CC0 (manifeste_cc0.json) ; Megascans (Fab) pour herbes 3D",
+   "source_recommandee_catalogue": "CC0 (ambientCG / Poly Haven) recoloré sur l’ortho 5 cm"
+  },
+  {
+   "asset": "peinture_blanche",
+   "categorie": "materiaux",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/GenericMaterials/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/GenericMaterials/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "RoadPainter",
+      "LaneMarking"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "marquage blanc générique du Road Painter CARLA ; usure et rétroréflexion à reprendre",
+   "recommandation": "maison (specs/peinture.json : MF_PeintureRoutiere)",
+   "source_recommandee_catalogue": "maison (masques d’usure procéduraux 0-3 + F)"
+  },
+  {
+   "asset": "peinture_jaune_chronovelo",
+   "categorie": "materiaux",
+   "priorite": 1,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "teintes françaises (jaune Chronovélo, jaune zigzag, vert) absentes",
+   "recommandation": "maison (specs/peinture.json)",
+   "source_recommandee_catalogue": "maison (masques d’usure procéduraux 0-3 + F)"
+  },
+  {
+   "asset": "peinture_jaune_zigzag",
+   "categorie": "materiaux",
+   "priorite": 1,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "teintes françaises (jaune Chronovélo, jaune zigzag, vert) absentes",
+   "recommandation": "maison (specs/peinture.json)",
+   "source_recommandee_catalogue": "maison (masques d’usure procéduraux 0-3 + F)"
+  },
+  {
+   "asset": "peinture_verte",
+   "categorie": "materiaux",
+   "priorite": 2,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "teintes françaises (jaune Chronovélo, jaune zigzag, vert) absentes",
+   "recommandation": "maison (specs/peinture.json)",
+   "source_recommandee_catalogue": "maison (masques d’usure procéduraux 0-3 + F)"
+  },
+  {
+   "asset": "pontage_fissures",
+   "categorie": "materiaux",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Decals/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Decals/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Manhole",
+      "Crack",
+      "Decal"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "décals génériques de tampons et de fissures",
+   "recommandation": "maison / CC0 (tampons fonte français)",
+   "source_recommandee_catalogue": "maison (masques d’usure procéduraux 0-3 + F)"
+  },
+  {
+   "asset": "decal_tampon_fonte",
+   "categorie": "materiaux",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Decals/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Decals/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Manhole",
+      "Crack",
+      "Decal"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "décals génériques de tampons et de fissures",
+   "recommandation": "maison / CC0 (tampons fonte français)",
+   "source_recommandee_catalogue": "maison (masques d’usure procéduraux 0-3 + F)"
+  },
+  {
+   "asset": "decal_boucle_detection",
+   "categorie": "materiaux",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Decals/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Decals/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Manhole",
+      "Crack",
+      "Decal"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/0.9.15/tuto_M_custom_road_painter/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "décals génériques de tampons et de fissures",
+   "recommandation": "maison / CC0 (tampons fonte français)",
+   "source_recommandee_catalogue": "maison (masques d’usure procéduraux 0-3 + F)"
+  },
+  {
+   "asset": "arbre_populus_nigra_moyen",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Poplar",
+      "Populus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_populus_nigra_grand",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Poplar",
+      "Populus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_populus_sp_tetard_moyen",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Poplar",
+      "Populus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_populus_nigra_italica_grand",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Poplar",
+      "Populus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_cedrus_atlantica_grand",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Cedar",
+      "Cedrus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_tilia_cordata_moyen",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Linden",
+      "Lime",
+      "Tilia"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_quercus_robur_moyen",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Oak",
+      "Quercus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_quercus_robur_petit",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Oak",
+      "Quercus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_quercus_robur_grand",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Oak",
+      "Quercus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_acer_campestre_jeune",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Maple",
+      "Acer"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_fraxinus_excelsior_moyen",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Ash",
+      "Fraxinus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_carpinus_betulus_moyen",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Hornbeam",
+      "Carpinus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_betula_pendula_moyen",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Birch",
+      "Betula"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_corylus_colurna_petit",
+   "categorie": "vegetation",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Hazel",
+      "Corylus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_magnolia_grandiflora_jeune",
+   "categorie": "vegetation",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Magnolia"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_crataegus_laevigata_jeune",
+   "categorie": "vegetation",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Hawthorn",
+      "Crataegus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_sorbus_sp_jeune",
+   "categorie": "vegetation",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Rowan",
+      "Sorbus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_salix_babylonica_tetard_petit",
+   "categorie": "vegetation",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Willow",
+      "Salix"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (< 30 000 tri) ; haut de gamme : SpeedTree / Megascans / SideFX Labs Tree"
+  },
+  {
+   "asset": "arbre_cupressus_sempervirens_grand",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "Cypress tree",
+     "blueprint_id": "static.prop.cypresstree",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = cypresstree (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/",
+     "note": "cyprès colonnaire (à mettre à l'échelle 15-18 m)"
+    },
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Cypress"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "silhouette colonnaire proche du cyprès d'Italie ; densité et teinte à vérifier",
+   "recommandation": "SpeedTree (ou CARLA cypresstree en doublure)",
+   "constat_vignette_officielle": [
+    "cyprès colonnaire : proche du cyprès d'Italie"
+   ],
+   "source_recommandee_catalogue": "procédural maison / Megascans"
+  },
+  {
+   "asset": "arbre_pinus_sylvestris_moyen",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Pine",
+      "Pinus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison / Megascans"
+  },
+  {
+   "asset": "arbre_cedrus_deodara_grand",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Cedar",
+      "Cedrus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison / Megascans"
+  },
+  {
+   "asset": "arbre_feuillu_generique_moyen",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Tree",
+      "Broadleaf"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "végétation générique CARLA : silhouette acceptable pour un générique",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison / Megascans"
+  },
+  {
+   "asset": "arbre_conifere_generique_moyen",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Pine",
+      "Spruce",
+      "Fir",
+      "Conifer"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "végétation générique CARLA : silhouette acceptable pour un générique",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison / Megascans"
+  },
+  {
+   "asset": "arbre_alnus_cordata_jeune",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Alder",
+      "Alnus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (un même générateur « jeune sujet » paramétré par essence)"
+  },
+  {
+   "asset": "arbre_alnus_spaethii_jeune",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Alder",
+      "Alnus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (un même générateur « jeune sujet » paramétré par essence)"
+  },
+  {
+   "asset": "arbre_cercis_siliquastrum_jeune",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Judas",
+      "Cercis",
+      "Redbud"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (un même générateur « jeune sujet » paramétré par essence)"
+  },
+  {
+   "asset": "arbre_ulmus_hybride_jeune",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Elm",
+      "Ulmus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (un même générateur « jeune sujet » paramétré par essence)"
+  },
+  {
+   "asset": "arbre_quercus_cerris_jeune",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Oak",
+      "Quercus"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (un même générateur « jeune sujet » paramétré par essence)"
+  },
+  {
+   "asset": "arbre_gleditsia_triacanthos_jeune",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Locust",
+      "Gleditsia"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (un même générateur « jeune sujet » paramétré par essence)"
+  },
+  {
+   "asset": "arbre_celtis_australis_jeune",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Hackberry",
+      "Celtis"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison (un même générateur « jeune sujet » paramétré par essence)"
+  },
+  {
+   "asset": "arbre_jeune_tuteure_generique",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Sapling",
+      "Young"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "à vérifier",
+   "justification": "essence européenne précise rarement présente dans CARLA : vérifier les candidats listés par le script de résolution",
+   "recommandation": "SpeedTree (ou SideFX Labs Tree / Fab)",
+   "source_recommandee_catalogue": "procédural maison"
+  },
+  {
+   "asset": "haie_taillee_persistante",
+   "categorie": "vegetation",
+   "priorite": 1,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Hedge",
+      "Bush"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "végétation générique CARLA : silhouette acceptable pour un générique",
+   "recommandation": "maison (coque extrudée + cartes) ou Fab",
+   "source_recommandee_catalogue": "module extrudable maison (boîte + cartes de feuillage)"
+  },
+  {
+   "asset": "massif_arbustif",
+   "categorie": "vegetation",
+   "priorite": 2,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/Vegetation/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/Vegetation/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "Bush",
+      "Shrub"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "végétation générique CARLA : silhouette acceptable pour un générique",
+   "recommandation": "Fab (Megascans) ou SpeedTree",
+   "source_recommandee_catalogue": "CC0 / Megascans"
+  },
+  {
+   "asset": "panneau_B2b_temporaire",
+   "categorie": "signalisation_verticale",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "à éviter",
+   "justification": "signalisation temporaire américaine (losange orange) sans équivalent français K/AK",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison / CARLA (cônes, barrières : proches)"
+  },
+  {
+   "asset": "panneau_AK5",
+   "categorie": "signalisation_verticale",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "Warning construction",
+     "blueprint_id": "static.prop.warningconstruction",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = warningconstruction (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/",
+     "note": "losange orange américain"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "signalisation temporaire américaine (losange orange) sans équivalent français K/AK",
+   "recommandation": "maison",
+   "constat_vignette_officielle": [
+    "panneau losange orange américain : à éviter"
+   ],
+   "source_recommandee_catalogue": "maison / CARLA (cônes, barrières : proches)"
+  },
+  {
+   "asset": "separateur_modulaire_K16",
+   "categorie": "mobilier",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "signalisation temporaire française (K16, K8/J4 temporaire)",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison / CARLA (cônes, barrières : proches)"
+  },
+  {
+   "asset": "balise_chevrons_chantier",
+   "categorie": "signalisation_verticale",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "signalisation temporaire française (K16, K8/J4 temporaire)",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison / CARLA (cônes, barrières : proches)"
+  },
+  {
+   "asset": "barriere_chantier_rouge_blanc",
+   "categorie": "mobilier",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "Street barrier",
+     "blueprint_id": "static.prop.streetbarrier",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = streetbarrier (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/",
+     "note": "chevalet américain jaune et blanc"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "barrière américaine (couleurs et forme) ; K2 français rouge/blanc",
+   "recommandation": "maison",
+   "constat_vignette_officielle": [
+    "chevalet américain jaune/blanc : à éviter"
+   ],
+   "source_recommandee_catalogue": "maison / CARLA (cônes, barrières : proches)"
+  },
+  {
+   "asset": "mat_feu_provisoire",
+   "categorie": "signalisation_verticale",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "mât de chantier lesté (scénario travaux)",
+   "recommandation": "maison",
+   "source_recommandee_catalogue": "maison / CARLA (cônes, barrières : proches)"
+  },
+  {
+   "asset": "balise_J11",
+   "categorie": "complement (hors catalogue)",
+   "priorite": 2,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "non traité",
+   "recommandation": "maison"
+  },
+  {
+   "asset": "distributeur_titres_m_reso",
+   "categorie": "complement (hors catalogue)",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "non traité",
+   "recommandation": "maison"
+  },
+  {
+   "asset": "distributeur_sacs_canins",
+   "categorie": "complement (hors catalogue)",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "non traité",
+   "recommandation": "maison"
+  },
+  {
+   "asset": "panneau_information_plan",
+   "categorie": "complement (hors catalogue)",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "contenu du dossier /Game/Carla/Static/TrafficSign/",
+     "blueprint_id": null,
+     "dossier_unreal": "/Game/Carla/Static/TrafficSign/",
+     "chemin_unreal": null,
+     "mots_cles": [
+      "information_plan"
+     ],
+     "documente": "dossier cité par la documentation (noms des assets non publiés)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/tuto_content_authoring_maps/"
+    }
+   ],
+   "adequation": "aucun équivalent",
+   "justification": "pas d'équivalent français dans le contenu CARLA (panneaux américains / génériques)",
+   "recommandation": "maison (faces officielles Wikimedia, specs/panneaux.json)"
+  },
+  {
+   "asset": "mupi_publicitaire",
+   "categorie": "complement (hors catalogue)",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "Advertisement",
+     "blueprint_id": "static.prop.advertisement",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = advertisement (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "caisson publicitaire sur pied",
+   "recommandation": "intégré à l'abri"
+  },
+  {
+   "asset": "conteneur_verre",
+   "categorie": "complement (hors catalogue)",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "Glass container",
+     "blueprint_id": "static.prop.glasscontainer",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = glasscontainer (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "colonne à verre en cloche verte",
+   "recommandation": "CARLA ou maison"
+  },
+  {
+   "asset": "boite_aux_lettres_poste",
+   "categorie": "complement (hors catalogue)",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "Mailbox",
+     "blueprint_id": "static.prop.mailbox",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = mailbox (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/"
+    }
+   ],
+   "adequation": "à éviter",
+   "justification": "boîte USPS américaine",
+   "recommandation": "maison"
+  },
+  {
+   "asset": "borne_fontaine",
+   "categorie": "complement (hors catalogue)",
+   "priorite": 3,
+   "carla": [
+    {
+     "nom": "Street fountain",
+     "blueprint_id": "static.prop.streetfountain",
+     "dossier_unreal": "/Game/Carla/Static/Static/",
+     "chemin_unreal": null,
+     "a_resoudre": "entrée « name » = streetfountain (insensible à la casse) de Default.Package.json → champ path",
+     "documente": "catalogue des props (blueprint ID)",
+     "source_doc": "https://carla.readthedocs.io/en/latest/catalogue_props/"
+    }
+   ],
+   "adequation": "proche",
+   "justification": "fontaine sur pied",
+   "recommandation": "CARLA ou maison"
+  },
+  {
+   "asset": "chicane_cycles",
+   "categorie": "complement (hors catalogue)",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "non traité",
+   "recommandation": "maison"
+  },
+  {
+   "asset": "portail_prive",
+   "categorie": "complement (hors catalogue)",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "non traité",
+   "recommandation": "maison"
+  },
+  {
+   "asset": "mat_camera_video",
+   "categorie": "complement (hors catalogue)",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "non traité",
+   "recommandation": "maison"
+  },
+  {
+   "asset": "souche_arbre",
+   "categorie": "complement (hors catalogue)",
+   "priorite": 3,
+   "carla": [],
+   "adequation": "aucun équivalent",
+   "justification": "non traité",
+   "recommandation": "maison"
+  }
+ ]
+}

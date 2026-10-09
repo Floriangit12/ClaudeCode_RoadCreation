@@ -1,0 +1,2217 @@
+{
+ "meta": {
+  "date": "2026-10-09",
+  "role": "profils exacts des bordures et caniveaux béton français, prêts pour un Sweep (Houdini 22) ou BP_Spline (CARLA/Unreal), et affectation sur le site",
+  "normes": [
+   "NF EN 1340 (bordures et caniveaux en béton : exigences)",
+   "NF P98-340/CN (complément national : profils T, A, C, P, I et tolérances)",
+   "NF P98-351 (BEV)",
+   "arrêté du 15 janvier 2007 (abaissés, ressauts)"
+  ],
+  "repere_profil": "Repère d'un profil (« repère bloc ») : u horizontal perpendiculaire à la bordure, u = 0 sur la face\nvue (côté chaussée), u > 0 vers l'arrière (trottoir / îlot) ; v vertical, v = 0 sous le bloc.\nContour fermé parcouru dans le sens horaire (u vers la droite, v vers le haut), premier point = coin avant bas. Pour la pose : la chaussée\nest à v = H − vue ; « profil_pose » translate le bloc pour que l'origine soit le pied de la face\nvue au niveau de la chaussée (fil d'eau), ce qui correspond à la courbe GAM / atelier relief.",
+  "unites": "mètres",
+  "longueur_element": "1,00 m (joints de 3-5 mm, éléments de 0,50 m en courbe serrée ; éléments courbes R 25 en nez d'îlot)",
+  "tolerances_nf": "faces vues : ± 3 mm (< 100 mm), ± 3 % (100-170 mm), ± 5 mm (> 170 mm) ; longueur ± 1 %",
+  "sources": [
+   "Celtys (bétons industriels), catalogue « Bordures – Travaux publics » (profils cotés T1/T2/T3/T2 bateau/TU/A1/A2/AC1/CC1/CC2/CS1/CS2/I1/I2/IL/P1/P2/P3, bordure quai de bus), via hellopro.fr : https://www.hellopro.fr//documentation/pdf_prod/0/4/0/36050_9cb0dc8651512a6c9ced73c97a4dac56_6058040.pdf",
+   "Fiches techniques Groupe Daniel / Sopravem (CC1, CS2 110/135 mm, P1 80 x 200 r 20, T2 basse 150 x 150), via groupe-samse.fr : https://medias.groupe-samse.fr/Fiche_technique/Fiche_technique_1246113.pdf (et 1246112, 1246130, 1246135)",
+   "Fabemi, fiche bordure A2 150 x 200 (chanfrein 5 x 5), via chausson.fr : https://www.chausson.fr/media/article-document/243625",
+   "Tableau des bordures (T1 12x20, T2 15x25, A2 15x20, P1 20x8, CS1 20x12, CS2 25x13,5, CC1 40x12, CC2 50x14), via chausson.fr : https://www.chausson.fr/media/article-document/210472",
+   "NF P98-351 / fiche CFPSAA « Bande d'éveil de vigilance » (aveuglesdefrance.org, 2021) ; fiche produit BEV (vinci-construction.com, 2024) : plots Ø 25 mm, h 5 mm, entraxe 75 mm",
+   "arrêté du 15 janvier 2007 (accessibilité de la voirie) : abaissés ≥ 1,20 m, ressaut ≤ 2 cm, pente ≤ 5 % (8 % sur ≤ 2 m, 12 % sur ≤ 0,5 m)"
+  ],
+  "controle_visuel": [
+   "assets/qa/mobilier_vegetation_carla/qa_04_bordures_profils.jpg",
+   "assets/qa/mobilier_vegetation_carla/qa_05_bordures_site.jpg"
+  ]
+ },
+ "profils": {
+  "T1": {
+   "famille": "T (trottoir, non franchissable)",
+   "section_cm": "12 x 20",
+   "base": 0.12,
+   "H": 0.2,
+   "tete": 0.1,
+   "fruit": "face inclinée sur les 10 cm supérieurs (retrait 2 cm)",
+   "rayon_arete": 0.015,
+   "vue_courante": [
+    0.1,
+    0.14
+   ],
+   "poids_kg_ml": 54,
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.1
+    ],
+    [
+     0.0171,
+     0.1853
+    ],
+    [
+     0.0193,
+     0.1917
+    ],
+    [
+     0.023,
+     0.1963
+    ],
+    [
+     0.0283,
+     0.1991
+    ],
+    [
+     0.035,
+     0.2
+    ],
+    [
+     0.12,
+     0.2
+    ],
+    [
+     0.12,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "vue_m": 0.12,
+    "translation_v_m": -0.08,
+    "contour_pose": [
+     [
+      0.0,
+      -0.08
+     ],
+     [
+      0.0,
+      0.02
+     ],
+     [
+      0.0171,
+      0.1053
+     ],
+     [
+      0.0193,
+      0.1117
+     ],
+     [
+      0.023,
+      0.1163
+     ],
+     [
+      0.0283,
+      0.1191
+     ],
+     [
+      0.035,
+      0.12
+     ],
+     [
+      0.12,
+      0.12
+     ],
+     [
+      0.12,
+      -0.08
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 9
+  },
+  "T2": {
+   "famille": "T (trottoir, non franchissable)",
+   "section_cm": "15 x 25",
+   "base": 0.15,
+   "H": 0.25,
+   "tete": 0.12,
+   "fruit": "face inclinée sur les 14 cm supérieurs (retrait 3 cm)",
+   "rayon_arete": 0.02,
+   "vue_courante": [
+    0.12,
+    0.16
+   ],
+   "poids_kg_ml": 83,
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.11
+    ],
+    [
+     0.0258,
+     0.2304
+    ],
+    [
+     0.0289,
+     0.239
+    ],
+    [
+     0.034,
+     0.2451
+    ],
+    [
+     0.041,
+     0.2488
+    ],
+    [
+     0.05,
+     0.25
+    ],
+    [
+     0.15,
+     0.25
+    ],
+    [
+     0.15,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "vue_m": 0.14,
+    "translation_v_m": -0.11,
+    "contour_pose": [
+     [
+      0.0,
+      -0.11
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0258,
+      0.1204
+     ],
+     [
+      0.0289,
+      0.129
+     ],
+     [
+      0.034,
+      0.1351
+     ],
+     [
+      0.041,
+      0.1388
+     ],
+     [
+      0.05,
+      0.14
+     ],
+     [
+      0.15,
+      0.14
+     ],
+     [
+      0.15,
+      -0.11
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 9
+  },
+  "T3": {
+   "famille": "T (trottoir, non franchissable)",
+   "section_cm": "17 x 28",
+   "base": 0.17,
+   "H": 0.28,
+   "tete": 0.14,
+   "fruit": "face inclinée sur les 14 cm supérieurs (retrait 3 cm)",
+   "rayon_arete": 0.02,
+   "vue_courante": [
+    0.16,
+    0.2
+   ],
+   "poids_kg_ml": 108,
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.14
+    ],
+    [
+     0.0258,
+     0.2604
+    ],
+    [
+     0.0289,
+     0.269
+    ],
+    [
+     0.034,
+     0.2751
+    ],
+    [
+     0.041,
+     0.2788
+    ],
+    [
+     0.05,
+     0.28
+    ],
+    [
+     0.17,
+     0.28
+    ],
+    [
+     0.17,
+     0.0
+    ]
+   ],
+   "note": "certains fabricants livrent une « T3 » de 15 x 25 (classe U) : retenir 17 x 28 pour les vues de 18-21 cm",
+   "pose_exemple": {
+    "vue_m": 0.18,
+    "translation_v_m": -0.1,
+    "contour_pose": [
+     [
+      0.0,
+      -0.1
+     ],
+     [
+      0.0,
+      0.04
+     ],
+     [
+      0.0258,
+      0.1604
+     ],
+     [
+      0.0289,
+      0.169
+     ],
+     [
+      0.034,
+      0.1751
+     ],
+     [
+      0.041,
+      0.1788
+     ],
+     [
+      0.05,
+      0.18
+     ],
+     [
+      0.17,
+      0.18
+     ],
+     [
+      0.17,
+      -0.1
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 9
+  },
+  "T2_bateau": {
+   "famille": "T, élément abaissé (bateau)",
+   "section_cm": "15 x 16",
+   "base": 0.15,
+   "H": 0.16,
+   "tete": 0.11,
+   "fruit": "face vue de 12 cm puis arrondi convexe de 4 cm",
+   "vue_courante": [
+    0.0,
+    0.04
+   ],
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.12
+    ],
+    [
+     0.003,
+     0.1353
+    ],
+    [
+     0.0117,
+     0.1483
+    ],
+    [
+     0.0247,
+     0.157
+    ],
+    [
+     0.04,
+     0.16
+    ],
+    [
+     0.15,
+     0.16
+    ],
+    [
+     0.15,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "vue_m": 0.02,
+    "translation_v_m": -0.14,
+    "contour_pose": [
+     [
+      0.0,
+      -0.14
+     ],
+     [
+      0.0,
+      -0.02
+     ],
+     [
+      0.003,
+      -0.0047
+     ],
+     [
+      0.0117,
+      0.0083
+     ],
+     [
+      0.0247,
+      0.017
+     ],
+     [
+      0.04,
+      0.02
+     ],
+     [
+      0.15,
+      0.02
+     ],
+     [
+      0.15,
+      -0.14
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 8
+  },
+  "A1": {
+   "famille": "A (franchissable)",
+   "section_cm": "20 x 25",
+   "base": 0.2,
+   "H": 0.25,
+   "plat": 0.12,
+   "chanfrein": "8 x 6 cm",
+   "vue_courante": [
+    0.06,
+    0.12
+   ],
+   "poids_kg_ml": 112,
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.19
+    ],
+    [
+     0.08,
+     0.25
+    ],
+    [
+     0.195,
+     0.25
+    ],
+    [
+     0.2,
+     0.245
+    ],
+    [
+     0.2,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "vue_m": 0.09,
+    "translation_v_m": -0.16,
+    "contour_pose": [
+     [
+      0.0,
+      -0.16
+     ],
+     [
+      0.0,
+      0.03
+     ],
+     [
+      0.08,
+      0.09
+     ],
+     [
+      0.195,
+      0.09
+     ],
+     [
+      0.2,
+      0.085
+     ],
+     [
+      0.2,
+      -0.16
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 6
+  },
+  "A2": {
+   "famille": "A (franchissable)",
+   "section_cm": "15 x 20",
+   "base": 0.15,
+   "H": 0.2,
+   "plat": 0.07,
+   "chanfrein": "8 x 6 cm (+ chanfreins 5 x 5 mm)",
+   "vue_courante": [
+    0.04,
+    0.1
+   ],
+   "poids_kg_ml": 67,
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.14
+    ],
+    [
+     0.08,
+     0.2
+    ],
+    [
+     0.145,
+     0.2
+    ],
+    [
+     0.15,
+     0.195
+    ],
+    [
+     0.15,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "vue_m": 0.07,
+    "translation_v_m": -0.13,
+    "contour_pose": [
+     [
+      0.0,
+      -0.13
+     ],
+     [
+      0.0,
+      0.01
+     ],
+     [
+      0.08,
+      0.07
+     ],
+     [
+      0.145,
+      0.07
+     ],
+     [
+      0.15,
+      0.065
+     ],
+     [
+      0.15,
+      -0.13
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 6
+  },
+  "P1": {
+   "famille": "P (bordurette de jardin, parcs)",
+   "section_cm": "8 x 20",
+   "base": 0.08,
+   "H": 0.2,
+   "rayon_arete": 0.02,
+   "vue_courante": [
+    0.0,
+    0.06
+   ],
+   "poids_kg_ml": 35,
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.18
+    ],
+    [
+     0.0015,
+     0.1877
+    ],
+    [
+     0.0059,
+     0.1941
+    ],
+    [
+     0.0123,
+     0.1985
+    ],
+    [
+     0.02,
+     0.2
+    ],
+    [
+     0.08,
+     0.2
+    ],
+    [
+     0.08,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "vue_m": 0.03,
+    "translation_v_m": -0.17,
+    "contour_pose": [
+     [
+      0.0,
+      -0.17
+     ],
+     [
+      0.0,
+      0.01
+     ],
+     [
+      0.0015,
+      0.0177
+     ],
+     [
+      0.0059,
+      0.0241
+     ],
+     [
+      0.0123,
+      0.0285
+     ],
+     [
+      0.02,
+      0.03
+     ],
+     [
+      0.08,
+      0.03
+     ],
+     [
+      0.08,
+      -0.17
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 8
+  },
+  "P2": {
+   "famille": "P (bordurette)",
+   "section_cm": "6 x 28 (tête ronde)",
+   "base": 0.06,
+   "H": 0.28,
+   "vue_courante": [
+    0.0,
+    0.08
+   ],
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.003,
+     0.255
+    ],
+    [
+     0.0083,
+     0.2675
+    ],
+    [
+     0.0175,
+     0.2767
+    ],
+    [
+     0.03,
+     0.28
+    ],
+    [
+     0.0425,
+     0.2767
+    ],
+    [
+     0.0517,
+     0.2675
+    ],
+    [
+     0.057,
+     0.255
+    ],
+    [
+     0.06,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "vue_m": 0.04,
+    "translation_v_m": -0.24,
+    "contour_pose": [
+     [
+      0.0,
+      -0.24
+     ],
+     [
+      0.003,
+      0.015
+     ],
+     [
+      0.0083,
+      0.0275
+     ],
+     [
+      0.0175,
+      0.0367
+     ],
+     [
+      0.03,
+      0.04
+     ],
+     [
+      0.0425,
+      0.0367
+     ],
+     [
+      0.0517,
+      0.0275
+     ],
+     [
+      0.057,
+      0.015
+     ],
+     [
+      0.06,
+      -0.24
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 9
+  },
+  "P3": {
+   "famille": "P (bordurette)",
+   "section_cm": "8 x 20 (rectangulaire)",
+   "base": 0.08,
+   "H": 0.2,
+   "vue_courante": [
+    0.0,
+    0.06
+   ],
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.2
+    ],
+    [
+     0.08,
+     0.2
+    ],
+    [
+     0.08,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "vue_m": 0.03,
+    "translation_v_m": -0.17,
+    "contour_pose": [
+     [
+      0.0,
+      -0.17
+     ],
+     [
+      0.0,
+      0.03
+     ],
+     [
+      0.08,
+      0.03
+     ],
+     [
+      0.08,
+      -0.17
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 4
+  },
+  "CS1": {
+   "famille": "caniveau simple pente",
+   "section_cm": "20 x 10/12",
+   "largeur": 0.2,
+   "h_cote_chaussee": 0.12,
+   "h_cote_bordure": 0.1,
+   "pente_dessus": "10 % vers la bordure (fil d'eau au pied de la bordure)",
+   "poids_kg_ml": 54,
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.115
+    ],
+    [
+     0.005,
+     0.12
+    ],
+    [
+     0.2,
+     0.1
+    ],
+    [
+     0.2,
+     0.0
+    ]
+   ],
+   "pose": "u = 0 côté chaussée (dessus au niveau de la chaussée), u = 0,20 contre la face vue de la bordure",
+   "pose_exemple": {
+    "translation_v_m": -0.12,
+    "contour_pose": [
+     [
+      0.0,
+      -0.12
+     ],
+     [
+      0.0,
+      -0.005
+     ],
+     [
+      0.005,
+      -0.0
+     ],
+     [
+      0.2,
+      -0.02
+     ],
+     [
+      0.2,
+      -0.12
+     ]
+    ],
+    "lecture": "origine = arête côté chaussée au niveau de la chaussée"
+   },
+   "nb_points": 5
+  },
+  "CS2": {
+   "famille": "caniveau simple pente",
+   "section_cm": "25 x 11/13,5",
+   "largeur": 0.25,
+   "h_cote_chaussee": 0.135,
+   "h_cote_bordure": 0.11,
+   "pente_dessus": "10 % vers la bordure",
+   "poids_kg_ml": 68,
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.13
+    ],
+    [
+     0.005,
+     0.135
+    ],
+    [
+     0.25,
+     0.11
+    ],
+    [
+     0.25,
+     0.0
+    ]
+   ],
+   "pose": "u = 0 côté chaussée, u = 0,25 contre la bordure",
+   "pose_exemple": {
+    "translation_v_m": -0.135,
+    "contour_pose": [
+     [
+      0.0,
+      -0.135
+     ],
+     [
+      0.0,
+      -0.005
+     ],
+     [
+      0.005,
+      0.0
+     ],
+     [
+      0.25,
+      -0.025
+     ],
+     [
+      0.25,
+      -0.135
+     ]
+    ],
+    "lecture": "origine = arête côté chaussée au niveau de la chaussée"
+   },
+   "nb_points": 5
+  },
+  "CC1": {
+   "famille": "caniveau double pente",
+   "section_cm": "40 x 12",
+   "largeur": 0.4,
+   "creux": 0.015,
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.115
+    ],
+    [
+     0.005,
+     0.12
+    ],
+    [
+     0.2,
+     0.105
+    ],
+    [
+     0.395,
+     0.12
+    ],
+    [
+     0.4,
+     0.115
+    ],
+    [
+     0.4,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "translation_v_m": -0.12,
+    "contour_pose": [
+     [
+      0.0,
+      -0.12
+     ],
+     [
+      0.0,
+      -0.005
+     ],
+     [
+      0.005,
+      -0.0
+     ],
+     [
+      0.2,
+      -0.015
+     ],
+     [
+      0.395,
+      -0.0
+     ],
+     [
+      0.4,
+      -0.005
+     ],
+     [
+      0.4,
+      -0.12
+     ]
+    ],
+    "lecture": "origine = arête côté chaussée au niveau de la chaussée"
+   },
+   "nb_points": 7
+  },
+  "CC2": {
+   "famille": "caniveau double pente (fond arrondi)",
+   "section_cm": "50 x 14",
+   "largeur": 0.5,
+   "creux": 0.03,
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.14
+    ],
+    [
+     0.06,
+     0.14
+    ],
+    [
+     0.1075,
+     0.1285
+    ],
+    [
+     0.155,
+     0.1188
+    ],
+    [
+     0.2025,
+     0.1123
+    ],
+    [
+     0.25,
+     0.11
+    ],
+    [
+     0.2975,
+     0.1123
+    ],
+    [
+     0.345,
+     0.1188
+    ],
+    [
+     0.3925,
+     0.1285
+    ],
+    [
+     0.44,
+     0.14
+    ],
+    [
+     0.5,
+     0.14
+    ],
+    [
+     0.5,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "translation_v_m": -0.145,
+    "contour_pose": [
+     [
+      0.0,
+      -0.145
+     ],
+     [
+      0.0,
+      -0.005
+     ],
+     [
+      0.06,
+      -0.005
+     ],
+     [
+      0.1075,
+      -0.0165
+     ],
+     [
+      0.155,
+      -0.0262
+     ],
+     [
+      0.2025,
+      -0.0327
+     ],
+     [
+      0.25,
+      -0.035
+     ],
+     [
+      0.2975,
+      -0.0327
+     ],
+     [
+      0.345,
+      -0.0262
+     ],
+     [
+      0.3925,
+      -0.0165
+     ],
+     [
+      0.44,
+      -0.005
+     ],
+     [
+      0.5,
+      -0.005
+     ],
+     [
+      0.5,
+      -0.145
+     ]
+    ],
+    "lecture": "origine = arête côté chaussée au niveau de la chaussée"
+   },
+   "nb_points": 13
+  },
+  "I1": {
+   "famille": "I (îlot franchissable, dessus galbé)",
+   "section_cm": "25 x 13 (face vue 6)",
+   "base": 0.25,
+   "vue_courante": [
+    0.06,
+    0.06
+   ],
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.05
+    ],
+    [
+     0.01,
+     0.06
+    ],
+    [
+     0.0425,
+     0.0781
+    ],
+    [
+     0.075,
+     0.095
+    ],
+    [
+     0.1075,
+     0.1095
+    ],
+    [
+     0.14,
+     0.1206
+    ],
+    [
+     0.1725,
+     0.1276
+    ],
+    [
+     0.205,
+     0.13
+    ],
+    [
+     0.25,
+     0.13
+    ],
+    [
+     0.25,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "vue_m": 0.06,
+    "translation_v_m": -0.07,
+    "contour_pose": [
+     [
+      0.0,
+      -0.07
+     ],
+     [
+      0.0,
+      -0.02
+     ],
+     [
+      0.01,
+      -0.01
+     ],
+     [
+      0.0425,
+      0.0081
+     ],
+     [
+      0.075,
+      0.025
+     ],
+     [
+      0.1075,
+      0.0395
+     ],
+     [
+      0.14,
+      0.0506
+     ],
+     [
+      0.1725,
+      0.0576
+     ],
+     [
+      0.205,
+      0.06
+     ],
+     [
+      0.25,
+      0.06
+     ],
+     [
+      0.25,
+      -0.07
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 11
+  },
+  "I2": {
+   "famille": "I (îlot franchissable)",
+   "section_cm": "25 x 18 (face vue 11)",
+   "base": 0.25,
+   "vue_courante": [
+    0.11,
+    0.11
+   ],
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.1
+    ],
+    [
+     0.01,
+     0.11
+    ],
+    [
+     0.0425,
+     0.1281
+    ],
+    [
+     0.075,
+     0.145
+    ],
+    [
+     0.1075,
+     0.1595
+    ],
+    [
+     0.14,
+     0.1706
+    ],
+    [
+     0.1725,
+     0.1776
+    ],
+    [
+     0.205,
+     0.18
+    ],
+    [
+     0.25,
+     0.18
+    ],
+    [
+     0.25,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "vue_m": 0.11,
+    "translation_v_m": -0.07,
+    "contour_pose": [
+     [
+      0.0,
+      -0.07
+     ],
+     [
+      0.0,
+      0.03
+     ],
+     [
+      0.01,
+      0.04
+     ],
+     [
+      0.0425,
+      0.0581
+     ],
+     [
+      0.075,
+      0.075
+     ],
+     [
+      0.1075,
+      0.0895
+     ],
+     [
+      0.14,
+      0.1006
+     ],
+     [
+      0.1725,
+      0.1076
+     ],
+     [
+      0.205,
+      0.11
+     ],
+     [
+      0.25,
+      0.11
+     ],
+     [
+      0.25,
+      -0.07
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 11
+  },
+  "IL": {
+   "famille": "I (lotissement, très bas)",
+   "section_cm": "20 x 9 (face vue 3)",
+   "base": 0.2,
+   "vue_courante": [
+    0.03,
+    0.03
+   ],
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.02
+    ],
+    [
+     0.01,
+     0.03
+    ],
+    [
+     0.0357,
+     0.0455
+    ],
+    [
+     0.0613,
+     0.06
+    ],
+    [
+     0.087,
+     0.0724
+    ],
+    [
+     0.1127,
+     0.082
+    ],
+    [
+     0.1383,
+     0.088
+    ],
+    [
+     0.164,
+     0.09
+    ],
+    [
+     0.2,
+     0.09
+    ],
+    [
+     0.2,
+     0.0
+    ]
+   ],
+   "pose_exemple": {
+    "vue_m": 0.03,
+    "translation_v_m": -0.06,
+    "contour_pose": [
+     [
+      0.0,
+      -0.06
+     ],
+     [
+      0.0,
+      -0.04
+     ],
+     [
+      0.01,
+      -0.03
+     ],
+     [
+      0.0357,
+      -0.0145
+     ],
+     [
+      0.0613,
+      0.0
+     ],
+     [
+      0.087,
+      0.0124
+     ],
+     [
+      0.1127,
+      0.022
+     ],
+     [
+      0.1383,
+      0.028
+     ],
+     [
+      0.164,
+      0.03
+     ],
+     [
+      0.2,
+      0.03
+     ],
+     [
+      0.2,
+      -0.06
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 11
+  },
+  "QUAI_BUS": {
+   "famille": "bordure de quai bus accessible (plancher bas)",
+   "section_cm": "35 x 29,5",
+   "base": 0.35,
+   "H": 0.295,
+   "face": "verticale sur 11 cm puis inclinée à 73° sur 18 cm (guidage des pneus), petit chanfrein en tête",
+   "vue_courante": [
+    0.18,
+    0.21
+   ],
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.11
+    ],
+    [
+     0.051,
+     0.278
+    ],
+    [
+     0.062,
+     0.295
+    ],
+    [
+     0.35,
+     0.295
+    ],
+    [
+     0.35,
+     0.0
+    ]
+   ],
+   "note": "dessus antidérapant clair (bande d'environ 0,30 m vue sur les photos) ; éléments de raccordement A/B (pente < 5 %) vers la T2 aux extrémités",
+   "pose_exemple": {
+    "vue_m": 0.195,
+    "translation_v_m": -0.1,
+    "contour_pose": [
+     [
+      0.0,
+      -0.1
+     ],
+     [
+      0.0,
+      0.01
+     ],
+     [
+      0.051,
+      0.178
+     ],
+     [
+      0.062,
+      0.195
+     ],
+     [
+      0.35,
+      0.195
+     ],
+     [
+      0.35,
+      -0.1
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 6
+  },
+  "PAVES_GRANIT": {
+   "famille": "rangée de pavés de granit sertis (anneau d'îlot)",
+   "section_cm": "14 x 14 x 14-20",
+   "base": 0.14,
+   "H": 0.17,
+   "vue_courante": [
+    0.1,
+    0.13
+   ],
+   "contour": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.14
+    ],
+    [
+     0.004,
+     0.155
+    ],
+    [
+     0.015,
+     0.166
+    ],
+    [
+     0.03,
+     0.17
+    ],
+    [
+     0.11,
+     0.17
+    ],
+    [
+     0.125,
+     0.166
+    ],
+    [
+     0.136,
+     0.155
+    ],
+    [
+     0.14,
+     0.14
+    ],
+    [
+     0.14,
+     0.0
+    ]
+   ],
+   "note": "préférer des pavés instanciés (Copy to Points le long de la courbe, 0,14 m + joint 0,012 m, rotation/hauteur aléatoires ± 5 mm) plutôt qu'un sweep continu",
+   "pose_exemple": {
+    "vue_m": 0.115,
+    "translation_v_m": -0.055,
+    "contour_pose": [
+     [
+      0.0,
+      -0.055
+     ],
+     [
+      0.0,
+      0.085
+     ],
+     [
+      0.004,
+      0.1
+     ],
+     [
+      0.015,
+      0.111
+     ],
+     [
+      0.03,
+      0.115
+     ],
+     [
+      0.11,
+      0.115
+     ],
+     [
+      0.125,
+      0.111
+     ],
+     [
+      0.136,
+      0.1
+     ],
+     [
+      0.14,
+      0.085
+     ],
+     [
+      0.14,
+      -0.055
+     ]
+    ],
+    "lecture": "origine = pied de la face vue au niveau de la chaussée (fil d'eau) ; v = 0 = chaussée"
+   },
+   "nb_points": 10
+  }
+ },
+ "assets": [
+  {
+   "asset": "bordure_T2",
+   "profil": "T2",
+   "materiau": "beton_bordure (manifeste_cc0.json)",
+   "couleur": "beton_clair",
+   "usage": "bordure courante des trottoirs, terre-pleins, refuges et îlots (vue 0,09-0,175 m)",
+   "priorite": 1,
+   "aspect": "béton gris clair, joints tous les 1,00 m (3-5 mm), épaufrures d'arêtes, mousses et herbes dans les joints, salissures noires au fil d'eau",
+   "photos_reference": [
+    "2025-05-18_9834f494 r01_c02 (TPC de Verdun NE)",
+    "2025-05-18_31d16b8e r01_c02 (îlot du mât caméra)",
+    "2024-08-24_5c0d1d39 r01_c03 (îlot D21)"
+   ]
+  },
+  {
+   "asset": "bordure_T2_peinte_blanc",
+   "profil": "T2",
+   "materiau": "beton_bordure + peinture_blanche (usure 2-3)",
+   "couleur": "beton_clair",
+   "usage": "refuges en D de Verdun SO (si conservés en 2026) : tête et face vue peintes en blanc, peinture écaillée",
+   "priorite": 1,
+   "aspect": "même maillage que bordure_T2 ; matériau : masque de peinture sur la tête + la face vue, couverture 0,6-0,8",
+   "photos_reference": [
+    "2024-08-24_2ab4efbc r01_c01"
+   ]
+  },
+  {
+   "asset": "bordure_quai_bus",
+   "profil": "QUAI_BUS",
+   "materiau": "beton_bordure (tête claire antidérapante)",
+   "couleur": "beton_clair",
+   "usage": "quais bus La Revirée (2 quais de Verdun refaits en 2025, vue 0,18-0,21 m, standard atelier relief 0,20 m)",
+   "priorite": 1,
+   "aspect": "tête très claire (bande ≈ 0,3 m), face inclinée plus sombre, pied noirci ; raccords de 1-2 m en pente < 5 % vers la T2",
+   "photos_reference": [
+    "2025-05-18_2374105b r01_c03",
+    "2025-05-18_bc579b89 r01_c03"
+   ]
+  },
+  {
+   "asset": "bordure_A2",
+   "profil": "A2",
+   "materiau": "beton_bordure",
+   "couleur": "beton_clair",
+   "usage": "bordures basses franchissables : séparateurs de la piste bidirectionnelle, rives de piste, accotements (vue 0,03-0,09 m)",
+   "priorite": 1,
+   "aspect": "béton gris, arête chanfreinée, salissures ; type exact (A2 / I1 / T2 basse) non vu de près : profil A2 retenu (confiance moyenne)",
+   "photos_reference": [
+    "2024-08-24_2ab4efbc r01_c03",
+    "2025-05-18_31d16b8e r01_c03",
+    "2025-01-12_a1ffea74 r01_c00"
+   ]
+  },
+  {
+   "asset": "bordure_P1",
+   "profil": "P1",
+   "materiau": "beton_bordure",
+   "couleur": "beton_clair",
+   "usage": "bordurettes d'espaces verts, de parkings et de cheminements, limites à niveau (vue 0-0,03 m ; pose affleurante)",
+   "priorite": 1,
+   "aspect": "bordurette étroite, souvent salie, herbe débordante",
+   "photos_reference": [
+    "2026-07-28_f8d91bb1 r01_c03",
+    "2026-07-28_ded07efa r01_c02"
+   ]
+  },
+  {
+   "asset": "caniveau_cs",
+   "profil": "CS2",
+   "variante": "CS1 (20 cm) ; caniveau à fente le long du quai SE (grille continue)",
+   "materiau": "beton_bordure (plus sale)",
+   "couleur": "beton_clair",
+   "usage": "fil d'eau béton à joints transversaux au pied des T2 de Verdun (GAM SOL_CANIVEAU)",
+   "priorite": 1,
+   "aspect": "béton gris plus sombre et taché que la bordure, dépôts (sable, feuilles) au fil d'eau, joints tous les 1 m",
+   "photos_reference": [
+    "2025-05-18_734a0da6 r01_c03"
+   ]
+  },
+  {
+   "asset": "bordure_paves_granit",
+   "profil": "PAVES_GRANIT",
+   "materiau": "paves_granit (manifeste_cc0.json)",
+   "couleur": "granit_clair",
+   "usage": "anneaux des petits îlots ronds portant un B21a1 (Ø ≈ 2 m, vue ≈ 0,12 m)",
+   "priorite": 2,
+   "aspect": "pavés clairs à tête bombée, joints mortier, centre de l'îlot en enrobé ou gravillons",
+   "photos_reference": [
+    "2025-05-18_119d9094 r01_c00"
+   ]
+  },
+  {
+   "asset": "abaisse_chartiere",
+   "profil": "T2_bateau",
+   "materiau": "beton_bordure",
+   "couleur": "beton_clair",
+   "usage": "abaissés aux traversées : T2 bateau (vue 0,02 m) sur la largeur de la traversée + 2 chartières (gauche/droite) de 1,00 m où la vue passe linéairement de la vue courante à 0,02 m",
+   "priorite": 1,
+   "aspect": "comme bordure_T2 ; BEV posée derrière (voir mobilier.json : bev_podotactile)",
+   "photos_reference": [
+    "2024-08-24_5c0d1d39 r01_c04",
+    "2025-08-31_ab4cfacd r01_c02"
+   ]
+  }
+ ],
+ "regles_affectation": [
+  {
+   "si": "traversee et h_vue ≤ 0,06",
+   "profil": "T2_bateau",
+   "asset": "abaisse_chartiere",
+   "vue_pose": "0,02"
+  },
+  {
+   "si": "contexte = quai_bus et h_vue ≥ 0,15",
+   "profil": "QUAI_BUS",
+   "asset": "bordure_quai_bus",
+   "vue_pose": "h_vue (0,18-0,21)"
+  },
+  {
+   "si": "h_vue < 0,03",
+   "profil": "P1",
+   "asset": "bordure_P1",
+   "vue_pose": "h_vue (0-0,03), ou pas de bordure si limite de revêtement"
+  },
+  {
+   "si": "0,03 ≤ h_vue < 0,09",
+   "profil": "A2",
+   "asset": "bordure_A2",
+   "vue_pose": "h_vue"
+  },
+  {
+   "si": "0,09 ≤ h_vue < 0,175",
+   "profil": "T2",
+   "asset": "bordure_T2",
+   "vue_pose": "h_vue"
+  },
+  {
+   "si": "0,175 ≤ h_vue < 0,30",
+   "profil": "T3",
+   "asset": "bordure_T2 (maillage T3)",
+   "vue_pose": "h_vue (0,175-0,27) ; T3 plutôt que T2 enterrée de moins de 8 cm"
+  },
+  {
+   "si": "h_vue ≥ 0,30",
+   "profil": "MURET_TALUS",
+   "asset": "(aucun : muret, soutènement ou talus — à modéliser avec le terrain / les murs GAM)",
+   "vue_pose": "—"
+  }
+ ],
+ "statistiques_site": {
+  "source": "recon/out/paquet_jardin/relief/bordures_hauteurs.geojson (tronçons de 1 m des bordures GAM, vue h_vue_m : LiDAR 2021 + standards 2025)",
+  "longueur_par_profil_m": {
+   "T2": 3827,
+   "P1": 2222,
+   "A2": 1732,
+   "T3": 279,
+   "T2_bateau": 146,
+   "MURET_TALUS": 88,
+   "QUAI_BUS": 67
+  },
+  "longueur_par_profil_et_contexte_m": [
+   {
+    "profil": "T2",
+    "contexte": "trottoir_ou_espace_vert",
+    "longueur_m": 2602
+   },
+   {
+    "profil": "P1",
+    "contexte": "trottoir_ou_espace_vert",
+    "longueur_m": 2208
+   },
+   {
+    "profil": "A2",
+    "contexte": "trottoir_ou_espace_vert",
+    "longueur_m": 1705
+   },
+   {
+    "profil": "T2",
+    "contexte": "quartier_saules_blancs",
+    "longueur_m": 1093
+   },
+   {
+    "profil": "T3",
+    "contexte": "trottoir_ou_espace_vert",
+    "longueur_m": 278
+   },
+   {
+    "profil": "T2_bateau",
+    "contexte": "trottoir_ou_espace_vert",
+    "longueur_m": 116
+   },
+   {
+    "profil": "T2",
+    "contexte": "refuge_tpc_ilot",
+    "longueur_m": 107
+   },
+   {
+    "profil": "MURET_TALUS",
+    "contexte": "trottoir_ou_espace_vert",
+    "longueur_m": 88
+   },
+   {
+    "profil": "QUAI_BUS",
+    "contexte": "quai_bus",
+    "longueur_m": 67
+   },
+   {
+    "profil": "T2_bateau",
+    "contexte": "refuge_tpc_ilot",
+    "longueur_m": 30
+   },
+   {
+    "profil": "A2",
+    "contexte": "quai_bus",
+    "longueur_m": 28
+   },
+   {
+    "profil": "T2",
+    "contexte": "quai_bus",
+    "longueur_m": 25
+   },
+   {
+    "profil": "P1",
+    "contexte": "quai_bus",
+    "longueur_m": 15
+   },
+   {
+    "profil": "T3",
+    "contexte": "refuge_tpc_ilot",
+    "longueur_m": 1
+   }
+  ],
+  "vue_par_profil_m": {
+   "A2": {
+    "p10": 0.033,
+    "p50": 0.053,
+    "p90": 0.08
+   },
+   "P1": {
+    "p10": 0.0,
+    "p50": 0.01,
+    "p90": 0.025
+   },
+   "T2": {
+    "p10": 0.105,
+    "p50": 0.14,
+    "p90": 0.145
+   },
+   "T3": {
+    "p10": 0.18,
+    "p50": 0.207,
+    "p90": 0.263
+   },
+   "MURET_TALUS": {
+    "p10": 0.309,
+    "p50": 0.407,
+    "p90": 0.638
+   },
+   "T2_bateau": {
+    "p10": 0.005,
+    "p50": 0.02,
+    "p90": 0.043
+   },
+   "QUAI_BUS": {
+    "p10": 0.162,
+    "p50": 0.2,
+    "p90": 0.245
+   }
+  }
+ },
+ "usage_site": [
+  {
+   "zone": "trottoirs de Verdun, de la Revirée et de l'allée de L'Horloge",
+   "profil": "T2",
+   "vue_m": "0,10-0,13 (mesures LiDAR 2021 ; standard 2025 : 0,14)",
+   "asset": "bordure_T2"
+  },
+  {
+   "zone": "îlots du Vercors (îlot effilé gravillonné, îlot triangulaire)",
+   "profil": "T2 (vue ≤ 0,175) / T3 (vue 0,18-0,21)",
+   "vue_m": "0,16-0,21",
+   "asset": "bordure_T2",
+   "note": "bordures très claires (presque blanches) sur les photos 2025-01"
+  },
+  {
+   "zone": "quais bus La Revirée (Verdun, refaits en 2025)",
+   "profil": "QUAI_BUS",
+   "vue_m": "0,20 (ancien quai 0,16-0,22)",
+   "asset": "bordure_quai_bus"
+  },
+  {
+   "zone": "terre-plein central de Verdun NE et terre-plein planté SO (2025), refuges",
+   "profil": "T2",
+   "vue_m": "0,15-0,17",
+   "asset": "bordure_T2"
+  },
+  {
+   "zone": "refuges en D de Verdun SO (2022, peints en blanc)",
+   "profil": "T2",
+   "vue_m": "≈ 0,15",
+   "asset": "bordure_T2_peinte_blanc",
+   "note": "à vérifier en 2026 (zone des travaux)"
+  },
+  {
+   "zone": "séparateurs et rives de la piste bidirectionnelle (Chronovélo), accotements",
+   "profil": "A2",
+   "vue_m": "0,05-0,09",
+   "asset": "bordure_A2"
+  },
+  {
+   "zone": "espaces verts, parkings, cheminements, quartier des Saules Blancs (limites à niveau)",
+   "profil": "P1",
+   "vue_m": "0-0,05",
+   "asset": "bordure_P1"
+  },
+  {
+   "zone": "traversées piétonnes (21 chartières GAM, abaissés)",
+   "profil": "T2_bateau + chartières 1 m",
+   "vue_m": "0,02",
+   "asset": "abaisse_chartiere"
+  },
+  {
+   "zone": "fil d'eau de Verdun (GAM SOL_CANIVEAU ≈ 139 m) et caniveau à fente du quai SE",
+   "profil": "CS2 (CS1)",
+   "vue_m": "—",
+   "asset": "caniveau_cs"
+  },
+  {
+   "zone": "petits îlots ronds à B21a1 (approches NE et Revirée)",
+   "profil": "PAVES_GRANIT",
+   "vue_m": "0,10-0,13",
+   "asset": "bordure_paves_granit"
+  },
+  {
+   "zone": "surface centrale sud à niveau (refuge piétons/cycles)",
+   "profil": "IL ou P1 affleurant",
+   "vue_m": "0-0,03",
+   "asset": "bordure_P1"
+  }
+ ],
+ "abaisses": {
+  "principe": "élément T2 bateau (vue 0,02 m) sur la largeur de la traversée (≥ 1,20 m ; 2-4 m sur le site), encadré de deux chartières de 1,00 m (raccord gauche / droite) où la vue varie linéairement de la vue courante à 0,02 m ; trottoir raccordé en pente ≤ 5 % (8 % sur ≤ 2 m) ; BEV derrière (voir mobilier.json : bev_podotactile, première ligne de plots à 0,50 m du nez)",
+  "houdini": "Sweep du profil T2 avec un attribut de point « vue » interpolé sur la courbe ; translation v = −(H − vue) par point (Point Wrangle avant Sweep : @P.y += ...), ou PolyLoft entre profils T2 et T2_bateau",
+  "chartieres_gam": [
+   {
+    "bloc": "CHARTIERE_DROITE",
+    "x": -80.68,
+    "y": -61.23,
+    "rotation_gam_deg": 42.6,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_GAUCHE",
+    "x": -82.04,
+    "y": -62.73,
+    "rotation_gam_deg": 49.1,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_GAUCHE",
+    "x": -18.14,
+    "y": -23.73,
+    "rotation_gam_deg": 48.9,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_DROITE",
+    "x": -13.05,
+    "y": -18.44,
+    "rotation_gam_deg": 46.6,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_DROITE",
+    "x": -19.89,
+    "y": -22.0,
+    "rotation_gam_deg": 224.5,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_GAUCHE",
+    "x": -14.83,
+    "y": -16.78,
+    "rotation_gam_deg": 230.6,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_GAUCHE",
+    "x": -25.11,
+    "y": -12.55,
+    "rotation_gam_deg": 170.5,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_DROITE",
+    "x": -27.43,
+    "y": -13.21,
+    "rotation_gam_deg": 201.6,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_GAUCHE",
+    "x": -30.62,
+    "y": -11.35,
+    "rotation_gam_deg": 29.7,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_DROITE",
+    "x": -28.77,
+    "y": -10.52,
+    "rotation_gam_deg": 19.6,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_GAUCHE",
+    "x": -45.61,
+    "y": -30.0,
+    "rotation_gam_deg": 226.2,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_DROITE",
+    "x": -13.01,
+    "y": -27.83,
+    "rotation_gam_deg": 224.5,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_GAUCHE",
+    "x": -24.53,
+    "y": -17.37,
+    "rotation_gam_deg": 48.9,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_DROITE",
+    "x": -19.68,
+    "y": -12.35,
+    "rotation_gam_deg": 46.6,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_GAUCHE",
+    "x": 16.88,
+    "y": 3.45,
+    "rotation_gam_deg": 226.4,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_DROITE",
+    "x": 14.77,
+    "y": 1.33,
+    "rotation_gam_deg": 229.8,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_GAUCHE",
+    "x": -0.55,
+    "y": -25.17,
+    "rotation_gam_deg": 158.8,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_DROITE",
+    "x": 12.35,
+    "y": -11.7,
+    "rotation_gam_deg": 285.9,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_GAUCHE",
+    "x": 11.5,
+    "y": -8.26,
+    "rotation_gam_deg": 274.6,
+    "echelle": "1;1;1"
+   },
+   {
+    "bloc": "CHARTIERE_GAUCHE",
+    "x": 32.67,
+    "y": -79.86,
+    "rotation_gam_deg": 279.5,
+    "echelle": "0.9999999999999998;1.2987012978844867;0.9999999999999998"
+   },
+   {
+    "bloc": "CHARTIERE_DROITE",
+    "x": 33.49,
+    "y": -84.72,
+    "rotation_gam_deg": 279.8,
+    "echelle": "0.9999999999999998;1.2987012978844867;0.9999999999999998"
+   }
+  ],
+  "traversees_osm": [
+   {
+    "osm_id": "node/514050471",
+    "x": -7.18,
+    "y": 6.98,
+    "type": "traffic_signals",
+    "tactile_paving": null,
+    "kerb": null
+   },
+   {
+    "osm_id": "node/1722505398",
+    "x": -5.89,
+    "y": -15.6,
+    "type": "traffic_signals",
+    "tactile_paving": null,
+    "kerb": null
+   },
+   {
+    "osm_id": "node/1722505399",
+    "x": -11.72,
+    "y": -9.57,
+    "type": "traffic_signals",
+    "tactile_paving": "yes",
+    "kerb": null
+   },
+   {
+    "osm_id": "node/1785903175",
+    "x": 47.53,
+    "y": 65.64,
+    "type": null,
+    "tactile_paving": null,
+    "kerb": null
+   },
+   {
+    "osm_id": "node/1959011177",
+    "x": -1.67,
+    "y": 12.01,
+    "type": "traffic_signals",
+    "tactile_paving": null,
+    "kerb": null
+   },
+   {
+    "osm_id": "node/1959022961",
+    "x": 10.93,
+    "y": -11.66,
+    "type": "traffic_signals",
+    "tactile_paving": "no",
+    "kerb": null
+   },
+   {
+    "osm_id": "node/1959022964",
+    "x": 4.55,
+    "y": -17.86,
+    "type": "traffic_signals",
+    "tactile_paving": "yes",
+    "kerb": null
+   },
+   {
+    "osm_id": "node/1959022965",
+    "x": 1.78,
+    "y": 15.34,
+    "type": "marked",
+    "tactile_paving": null,
+    "kerb": null
+   },
+   {
+    "osm_id": "node/1959022973",
+    "x": 8.98,
+    "y": 10.54,
+    "type": "traffic_signals",
+    "tactile_paving": "yes",
+    "kerb": null
+   },
+   {
+    "osm_id": "node/1959022976",
+    "x": 14.11,
+    "y": 5.79,
+    "type": "traffic_signals",
+    "tactile_paving": "yes",
+    "kerb": null
+   },
+   {
+    "osm_id": "node/4419895296",
+    "x": -61.81,
+    "y": 92.37,
+    "type": "uncontrolled",
+    "tactile_paving": "no",
+    "kerb": "lowered"
+   },
+   {
+    "osm_id": "node/6569623985",
+    "x": -3.93,
+    "y": 14.49,
+    "type": "traffic_signals",
+    "tactile_paving": "yes",
+    "kerb": null
+   },
+   {
+    "osm_id": "node/6569623986",
+    "x": -8.36,
+    "y": 9.27,
+    "type": "traffic_signals",
+    "tactile_paving": "yes",
+    "kerb": null
+   },
+   {
+    "osm_id": "node/9592546348",
+    "x": -44.09,
+    "y": 57.55,
+    "type": "marked",
+    "tactile_paving": "no",
+    "kerb": "lowered"
+   },
+   {
+    "osm_id": "node/7095202739",
+    "x": -1.72,
+    "y": 19.69,
+    "type": "unmarked",
+    "tactile_paving": "yes",
+    "kerb": null
+   },
+   {
+    "osm_id": "node/13827066641",
+    "x": 49.63,
+    "y": -24.29,
+    "type": null,
+    "tactile_paving": null,
+    "kerb": null
+   }
+  ]
+ },
+ "caniveaux": {
+  "longueur_gam_m": 138.8,
+  "profil": "CS2 (25 cm) au pied des T2 ; CS1 en variante ; caniveau à fente (grille continue Ø fente 2-3 cm) le long du quai SE"
+ },
+ "houdini_sweep": {
+  "script": "assets/specs/outils_mobilier_vegetation/bordures_profil_sop.py (Python SOP : lit ce fichier et crée le profil choisi dans le plan XY, X = u, Y = v)",
+  "chaine": [
+   "Object Merge des courbes de bordures (GAM / atelier relief, Z-up converti en Y-up)",
+   "Resample 0,25 m (courbes) / 1 m (droites)",
+   "Python SOP (profil, vue) → Sweep (Surface Type : Ribbon/Columns ; Cross Section : second input ; Up Vector : +Y monde)",
+   "si la face vue regarde le trottoir : Reverse sur la courbe (ou « Reverse Cross Sections »)",
+   "UV : U le long de la courbe en mètres (joints tous les 1 m dans le matériau), V = abscisse du contour",
+   "matériau beton_bordure (manifeste_cc0.json) ; option masque d'usure (épaufrures sur l'arête avant, mousses dans les joints)"
+  ],
+  "unreal": "export USD (Z-up, m) puis import ; ou maillage d'un élément de 1 m + BP_Spline CARLA (/Game/Carla/Blueprints/LevelDesign) / Spline Mesh Component"
+ }
+}

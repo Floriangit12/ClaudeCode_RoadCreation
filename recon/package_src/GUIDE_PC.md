@@ -38,6 +38,7 @@ Le paquet est dans `recon/out/paquet_jardin/package/` :
 | `houdini/charger_paquet_jardin.py` | chargement Houdini 22 |
 | `unreal/importer_paquet_jardin.py` | import Unreal 5.8 |
 | `substituer_assets.py` | remplace les volumes provisoires par tes assets |
+| `PROMPTS_PC.md` | prompts prêts à coller dans Claude Code sur le PC (Houdini, look-dev, Unreal, librairie, mises à jour) |
 | `rapport_assemblage.json` | comptes, sources utilisées, origine du repère |
 | `donnees/` | couches sources en Lambert-93 : surfaces, marquages, bordures avec hauteur mesurée (pour des Sweep), heightmaps 16 bits avec leur JSON d'échelle (Landscape Unreal, heightfield Houdini), instances et voies OpenDRIVE |
 

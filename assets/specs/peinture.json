@@ -1,0 +1,1607 @@
+{
+ "version": 1,
+ "date": "2026-10-09",
+ "objet": "Peinture routière et produits de marquage du carrefour Paquet Jardin (Meylan) : couleurs (sRGB, albédo linéaire, Lab), réflectance, rugosité, recette d'usure 0-3 + F par masques procéduraux, et mise en œuvre en Material Function Unreal 5.8 et en COPs Houdini 22.",
+ "lien_scene": {
+  "maillages": "layers/marquages.usdc : un Mesh par (couleur, usure) /World/Marquages/<couleur>_usure_<u>, posé à +1 cm ; primvars type, couverture, ident ; UV st1 en mètres (repère du site)",
+  "materiaux": "/World/Looks/peinture_<couleur>_u<u> (layers/materiaux.usda) ; couleurs de la scène : blanc, jaune, ocre, vert, rouge, bleu ; usures 0, 1, 2, 3, F",
+  "couverture_scene": {
+   "0": 0.97,
+   "1": 0.88,
+   "2": 0.68,
+   "3": 0.42,
+   "F": 0.15
+  },
+  "remarque": "La couverture de la scène (recon/assemble.py OPACITE_USURE) est la couverture EFFECTIVE en luminance mesurée sur l'ortho 5 cm (analyse coeur : moitié usée du zébra SO ≈ 0,71 contre ≈ 0,93). La recette ci-dessous la décompose en manques réels (trous) et en salissure/grisaillement."
+ },
+ "references_normatives": {
+  "IISR_7e_partie": "Instruction interministérielle sur la signalisation routière, 7e partie (marques sur chaussées) : blanc pour les marques permanentes ; jaune pour les marques temporaires de chantier, les interdictions d'arrêt/stationnement et le zigzag des arrêts de bus.",
+  "NF_EN_1436": "Performances des produits de marquage en service : facteur de luminance β (blanc sur enrobé classe B3 ≥ 0,30 à B5 ≥ 0,50), coefficient de luminance rétroréfléchie RL (R2 ≥ 100, R3 ≥ 150, R4 ≥ 200 mcd·m⁻²·lx⁻¹), coefficient de luminance sous éclairage diffus Qd (Q2 ≥ 100, Q3 ≥ 130 mcd·m⁻²·lx⁻¹), boîtes de chromaticité par couleur. Boîte du blanc (x, y) : (0,355 ; 0,355), (0,305 ; 0,305), (0,285 ; 0,325), (0,335 ; 0,375).",
+  "certification": "Produits certifiés NF / ASQUER en France ; billes de verre saupoudrées (rétroréflexion de nuit).",
+  "couleurs_locales": "Jaune « Chronovélo » (charte Grenoble-Alpes Métropole), vert et cyan des aménagements cyclables : couleurs non réglementaires de l'IISR (revêtements colorés), mesurées sur site."
+ },
+ "etalonnage": {
+  "ortho_vers_albedo": "albédo = (lin(sRGB_ortho) − 0,05) / 1,067 (voile 0,05 ; gain fixé par le blanc en service : ortho p90 ≈ 217 → β ≈ 0,60)",
+  "photos": "rapports linéaires dans une même photo (marquage / enrobé voisin), multipliés par l'albédo de l'enrobé ancien (0,26 ; 0,27 ; 0,25)",
+  "enrobe_ancien_reference": {
+   "albedo_lineaire": [
+    0.26,
+    0.269,
+    0.247
+   ],
+   "srgb8": [
+    139,
+    142,
+    136
+   ],
+   "srgb_hex": "#8B8E88",
+   "lab": [
+    58.6,
+    -1.9,
+    2.6
+   ]
+  }
+ },
+ "mesures_site": [
+  {
+   "objet": "blanc usure 0 (2026, Vercors refait)",
+   "valeur": "RVB photo ≈ 222/217/208 ; enrobé ≈ 207/198/188 (f8d91bb1)",
+   "source": "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd (r01_c03)"
+  },
+  {
+   "objet": "blanc en service, ortho 2022",
+   "valeur": "médiane usure 0 (183,186,181), p90 (213,217,211) ; usure 2 médiane (152,157,151) ; chaussée (155,157,152)",
+   "source": "ortho 5 cm 2022 × marquages_2026.geojson"
+  },
+  {
+   "objet": "contraste zébra / enrobé (usure 2, photo)",
+   "valeur": "1,46-1,57 ; tirets neufs ≈ 1,6",
+   "source": "analysis/paquet_jardin/observations_initiales/p2025_08_travaux.json"
+  },
+  {
+   "objet": "lignes Revirée usure 0 (ortho)",
+   "valeur": "pic 223-229 pour une chaussée à ≈ 155 (contraste ≈ 70 niveaux)",
+   "source": "reviree_no.json"
+  },
+  {
+   "objet": "jaune Chronovélo neuf (2026)",
+   "valeur": "RVB photo ≈ 220/195/115 ; 2022 délavé ≈ 184/173/130 (ortho) / médiane (158,148,128)",
+   "source": "p2026_07_ign.json ; ortho 2022"
+  },
+  {
+   "objet": "jaune du zigzag d'arrêt (usure 1-2)",
+   "valeur": "RVB photo ≈ 171/172/156 contre 145/146/141 pour l'enrobé",
+   "source": "verdun_so.json (bc579b89 r01_c02-c03)"
+  },
+  {
+   "objet": "vert délavé (résine)",
+   "valeur": "RVB ≈ 150/162/151 (presque gris)",
+   "source": "coeur.json ; ortho (153,165,155)"
+  },
+  {
+   "objet": "cyan pâle",
+   "valeur": "RVB ≈ 164/181/180 contre ≈ 158 pour l'enrobé",
+   "source": "coeur.json (coeur-21)"
+  },
+  {
+   "objet": "usure 3 / fantôme",
+   "valeur": "résidus +2 à +6 % ; fantômes grenaillés = empreinte lisse gris clair (+10 à +20 %)",
+   "source": "abords_est.json ; p2025_08_travaux.json (4e72 r01_c01)"
+  }
+ ],
+ "couleurs": {
+  "blanc": {
+   "usage": "toutes les marques permanentes (lignes, zébras, flèches, symboles, « 30 », « 50 », damiers blancs)",
+   "neuf": {
+    "albedo_lineaire": [
+     0.78,
+     0.78,
+     0.76
+    ],
+    "srgb8": [
+     229,
+     229,
+     226
+    ],
+    "srgb_hex": "#E5E5E2",
+    "lab": [
+     90.7,
+     -0.5,
+     1.3
+    ],
+    "beta": 0.78
+   },
+   "en_service_2022": {
+    "albedo_lineaire": [
+     0.6,
+     0.6,
+     0.59
+    ],
+    "srgb8": [
+     203,
+     203,
+     202
+    ],
+    "srgb_hex": "#CBCBCA",
+    "lab": [
+     81.8,
+     -0.3,
+     0.8
+    ],
+    "beta": 0.6,
+    "remarque": "p90 ortho"
+   },
+   "RL_mcd_par_usure": {
+    "0": 250,
+    "1": 150,
+    "2": 90,
+    "3": 40,
+    "F": 15
+   },
+   "Qd_mcd_par_usure": {
+    "0": 160,
+    "1": 140,
+    "2": 120,
+    "3": 100,
+    "F": 80
+   },
+   "epaisseur_mm": "peinture 0,4-0,6 ; enduit à froid / thermoplastique 1,5-3 (zébras, damiers)",
+   "billes_verre": true,
+   "chroma_par_usure": {
+    "0": 1.0,
+    "1": 1.0,
+    "2": 1.0,
+    "3": 1.0,
+    "F": 1.0
+   }
+  },
+  "jaune": {
+   "usage": "damiers et lignes de rive Chronovélo, points d'axe de piste, zigzags d'arrêt de bus (même produit jaune, l'usure le pâlit)",
+   "neuf": {
+    "albedo_lineaire": [
+     0.764,
+     0.613,
+     0.212
+    ],
+    "srgb8": [
+     226,
+     205,
+     127
+    ],
+    "srgb_hex": "#E2CD7F",
+    "lab": [
+     82.7,
+     -3.2,
+     41.6
+    ],
+    "beta": 0.62,
+    "remarque": "jaune paille mesuré en 2026 (rapport au blanc de la même photo)"
+   },
+   "en_service_2022": {
+    "albedo_lineaire": [
+     0.274,
+     0.231,
+     0.155
+    ],
+    "srgb8": [
+     143,
+     132,
+     110
+    ],
+    "srgb_hex": "#8F846E",
+    "lab": [
+     55.5,
+     0.3,
+     13.6
+    ],
+    "remarque": "ocre-kaki délavé (ortho, usure 1)"
+   },
+   "zigzag_mesure": {
+    "albedo_lineaire": [
+     0.374,
+     0.387,
+     0.311
+    ],
+    "srgb8": [
+     165,
+     167,
+     151
+    ],
+    "srgb_hex": "#A5A797",
+    "lab": [
+     67.9,
+     -3.8,
+     7.8
+    ]
+   },
+   "RL_mcd_par_usure": {
+    "0": 180,
+    "1": 110,
+    "2": 65,
+    "3": 30,
+    "F": 15
+   },
+   "Qd_mcd_par_usure": {
+    "0": 120,
+    "1": 105,
+    "2": 95,
+    "3": 85,
+    "F": 80
+   },
+   "chroma_par_usure": {
+    "0": 1.0,
+    "1": 0.8,
+    "2": 0.55,
+    "3": 0.4,
+    "F": 0.3
+   }
+  },
+  "ocre": {
+   "usage": "surfaces ocre-orangé délavées (îlots à niveau de la Revirée) et jaune très délavé",
+   "neuf": {
+    "albedo_lineaire": [
+     0.42,
+     0.25,
+     0.12
+    ],
+    "srgb8": [
+     173,
+     137,
+     97
+    ],
+    "srgb_hex": "#AD8961",
+    "lab": [
+     59.6,
+     8.5,
+     26.6
+    ],
+    "remarque": "estimation (orange du plan projet 2025)"
+   },
+   "en_service_2022": {
+    "albedo_lineaire": [
+     0.355,
+     0.283,
+     0.223
+    ],
+    "srgb8": [
+     161,
+     145,
+     130
+    ],
+    "srgb_hex": "#A19182",
+    "lab": [
+     61.1,
+     3.3,
+     10.1
+    ],
+    "remarque": "ortho, R−B ≈ +29"
+   },
+   "RL_mcd_par_usure": {
+    "0": 60,
+    "1": 45,
+    "2": 30,
+    "3": 20,
+    "F": 15
+   },
+   "chroma_par_usure": {
+    "0": 1.0,
+    "1": 0.8,
+    "2": 0.55,
+    "3": 0.4,
+    "F": 0.3
+   }
+  },
+  "vert": {
+   "usage": "traversées cyclables colorées de la Revirée (résine)",
+   "neuf": {
+    "albedo_lineaire": [
+     0.06,
+     0.22,
+     0.09
+    ],
+    "srgb8": [
+     69,
+     129,
+     85
+    ],
+    "srgb_hex": "#458155",
+    "lab": [
+     49.1,
+     -29.9,
+     18.2
+    ],
+    "remarque": "estimation (non observé neuf sur site)"
+   },
+   "en_service_2022": {
+    "albedo_lineaire": [
+     0.252,
+     0.306,
+     0.26
+    ],
+    "srgb8": [
+     137,
+     150,
+     139
+    ],
+    "srgb_hex": "#89968B",
+    "lab": [
+     60.9,
+     -6.7,
+     4.1
+    ],
+    "remarque": "mesuré, très délavé"
+   },
+   "RL_mcd_par_usure": {
+    "0": 50,
+    "1": 40,
+    "2": 30,
+    "3": 20,
+    "F": 15
+   },
+   "chroma_par_usure": {
+    "0": 1.0,
+    "1": 0.8,
+    "2": 0.55,
+    "3": 0.4,
+    "F": 0.3
+   }
+  },
+  "cyan": {
+   "usage": "rectangles de la traversée de piste NO, tirets turquoise d'axe de piste",
+   "neuf": {
+    "albedo_lineaire": [
+     0.13,
+     0.36,
+     0.37
+    ],
+    "srgb8": [
+     101,
+     162,
+     164
+    ],
+    "srgb_hex": "#65A2A4",
+    "lab": [
+     62.7,
+     -19.1,
+     -7.3
+    ],
+    "remarque": "estimation"
+   },
+   "en_service_2022": {
+    "albedo_lineaire": [
+     0.306,
+     0.34,
+     0.325
+    ],
+    "srgb8": [
+     150,
+     158,
+     154
+    ],
+    "srgb_hex": "#969E9A",
+    "lab": [
+     64.3,
+     -3.3,
+     0.8
+    ],
+    "remarque": "mesuré"
+   },
+   "RL_mcd_par_usure": {
+    "0": 60,
+    "1": 45,
+    "2": 30,
+    "3": 20,
+    "F": 15
+   },
+   "chroma_par_usure": {
+    "0": 1.0,
+    "1": 0.8,
+    "2": 0.55,
+    "3": 0.4,
+    "F": 0.3
+   }
+  },
+  "bleu": {
+   "usage": "places PMR (fond bleu, logo blanc) — non mesuré",
+   "neuf": {
+    "albedo_lineaire": [
+     0.0,
+     0.11,
+     0.4
+    ],
+    "srgb8": [
+     0,
+     93,
+     170
+    ],
+    "srgb_hex": "#005DAA",
+    "lab": [
+     39.2,
+     7.0,
+     -47.3
+    ],
+    "remarque": "≈ RAL 5017, estimation"
+   },
+   "chroma_par_usure": {
+    "0": 1.0,
+    "1": 0.8,
+    "2": 0.55,
+    "3": 0.4,
+    "F": 0.3
+   }
+  },
+  "rouge": {
+   "usage": "non observé dans l'emprise (couleur prévue par la scène)",
+   "neuf": {
+    "albedo_lineaire": [
+     0.45,
+     0.04,
+     0.03
+    ],
+    "srgb8": [
+     179,
+     56,
+     48
+    ],
+    "srgb_hex": "#B33830",
+    "lab": [
+     42.2,
+     49.0,
+     32.8
+    ],
+    "remarque": "≈ RAL 3020, estimation"
+   },
+   "chroma_par_usure": {
+    "0": 1.0,
+    "1": 0.8,
+    "2": 0.55,
+    "3": 0.4,
+    "F": 0.3
+   }
+  }
+ },
+ "rugosite": {
+  "peinture_par_usure": {
+   "0": 0.5,
+   "1": 0.55,
+   "2": 0.62,
+   "3": 0.7,
+   "F": null
+  },
+  "resine_coloree": 0.55,
+  "fantome_F": "rugosité de l'enrobé − 0,08 dans l'emprise (empreinte lissée par grenaillage/rabotage)",
+  "enrobe_reference": "0,85-0,95 (cartes CC0 du manifeste)",
+  "metallic": 0.0,
+  "specular_unreal": 0.5
+ },
+ "usure": {
+  "principe": "Pour chaque pixel de la marque : score = dot(masque.RGA, poids[u]) ; peinture présente si score > seuil[u] et hors fissure (B > fissure_B[u] et A > fissure_A[u]). Couleur de la peinture = couleur_neuve × (albedo_sol / moyenne_sol)^transparence[u], mélangée vers l'albédo du sol par salete[u] × (0,6 + 0,8 A). Hors peinture, dans l'emprise : fond = (moyenne_sol + (albedo_sol − moyenne_sol) × fond_contraste[u]) × fond_gain[u] ; dans les fissures : albedo_sol × 0,55.",
+  "masque": {
+   "fichier": "assets/lib/materiaux/peinture_routiere/textures/masque_usure_peinture.png",
+   "generation": "python assets/telecharger_cc0.py --peinture (ou recette COPs ci-dessous)",
+   "taille_px": 2048,
+   "tile_m": 4.0,
+   "graine": 1967,
+   "espace": "linéaire (non sRGB), RGBA 8 bits, tuilable",
+   "canaux": {
+    "R": {
+     "role": "écaillage fin",
+     "type": "fBm périodique égalisé (uniforme 0-1)",
+     "taille_element_m": 0.025,
+     "octaves": 3,
+     "persistance": 0.5
+    },
+    "G": {
+     "role": "aléa uniforme par plaque de faïençage (une valeur par cellule de Voronoï)",
+     "type": "Worley, identifiant de cellule haché",
+     "taille_cellule_m": 0.35
+    },
+    "B": {
+     "role": "fissures du faïençage",
+     "type": "Worley F2 − F1 : B = clamp(1 − (F2 − F1) / largeur)",
+     "taille_cellule_m": 0.35,
+     "largeur_fissure_m": 0.01
+    },
+    "A": {
+     "role": "variation lente (salissure, plaques d'usure)",
+     "type": "fBm périodique égalisé",
+     "taille_element_m": 1.6,
+     "octaves": 2,
+     "persistance": 0.5
+    }
+   }
+  },
+  "niveaux": {
+   "0": {
+    "description": "neuf ou repeint (2025) : film continu, bords nets",
+    "couverture_effective": 0.97,
+    "trous": 0.01,
+    "salete": 0.02,
+    "transparence": 0.15,
+    "fond_gain": 1.0,
+    "fond_contraste": 1.0,
+    "poids_RGA": [
+     0.7,
+     0.0,
+     0.3
+    ],
+    "fissure_B": null,
+    "fissure_A": null,
+    "photos": [
+     "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd (r01_c03, zébra et damiers 2025)"
+    ]
+   },
+   "1": {
+    "description": "voilé de salissure, micro-écaillage, film moucheté",
+    "couverture_effective": 0.88,
+    "trous": 0.04,
+    "salete": 0.08,
+    "transparence": 0.3,
+    "fond_gain": 1.0,
+    "fond_contraste": 1.0,
+    "poids_RGA": [
+     0.6,
+     0.2,
+     0.2
+    ],
+    "fissure_B": null,
+    "fissure_A": null,
+    "photos": [
+     "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd (r01_c02, lignes)"
+    ]
+   },
+   "2": {
+    "description": "faïençage du produit, fissures du support transmises, plaques arrachées dans les traces de roues, grisaillement",
+    "couverture_effective": 0.68,
+    "trous": 0.17,
+    "salete": 0.18,
+    "transparence": 0.5,
+    "fond_gain": 1.04,
+    "fond_contraste": 0.85,
+    "poids_RGA": [
+     0.3,
+     0.55,
+     0.15
+    ],
+    "fissure_B": 0.5,
+    "fissure_A": 0.45,
+    "photos": [
+     "data/raw/panoramax/paquet_jardin/tiles/2023-03-18_e2574612-b380-4cb2-918e-d5506aff8145_hd (r01_c01, zébra SO)",
+     "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_4e7211a3-1ce0-48aa-9681-2413e2d6a51e_hd (r01_c01, zébra fissuré)"
+    ]
+   },
+   "3": {
+    "description": "vestiges : silhouette grise, peinture résiduelle par plaques",
+    "couverture_effective": 0.42,
+    "trous": 0.3,
+    "salete": 0.4,
+    "transparence": 0.7,
+    "fond_gain": 1.1,
+    "fond_contraste": 0.7,
+    "poids_RGA": [
+     0.25,
+     0.5,
+     0.25
+    ],
+    "fissure_B": 0.35,
+    "fissure_A": 0.3,
+    "photos": [
+     "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd (r01_c02, flèche presque effacée)"
+    ]
+   },
+   "F": {
+    "description": "fantôme : marque effacée (grenaillage/rabotage) : empreinte lisse gris clair, quelques résidus",
+    "couverture_effective": 0.15,
+    "trous": 0.88,
+    "salete": 0.3,
+    "transparence": 0.7,
+    "fond_gain": 1.15,
+    "fond_contraste": 0.6,
+    "poids_RGA": [
+     0.5,
+     0.3,
+     0.2
+    ],
+    "fissure_B": null,
+    "fissure_A": null,
+    "photos": [
+     "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_4e7211a3-1ce0-48aa-9681-2413e2d6a51e_hd (r01_c01, flèche de tourne-à-droite effacée)"
+    ]
+   }
+  },
+  "seuils_score": {
+   "valeurs": {
+    "0": 0.06471,
+    "1": 0.18902,
+    "2": 0.30706,
+    "3": 0.40196,
+    "F": 0.71765
+   },
+   "niveaux_obtenus": {
+    "0": {
+     "seuil": 0.06471,
+     "peinture": 0.99,
+     "couverture_effective": 0.97,
+     "couverture_visee": 0.97
+    },
+    "1": {
+     "seuil": 0.18902,
+     "peinture": 0.96,
+     "couverture_effective": 0.882,
+     "couverture_visee": 0.88
+    },
+    "2": {
+     "seuil": 0.30706,
+     "peinture": 0.83,
+     "couverture_effective": 0.68,
+     "couverture_visee": 0.68
+    },
+    "3": {
+     "seuil": 0.40196,
+     "peinture": 0.702,
+     "couverture_effective": 0.415,
+     "couverture_visee": 0.42
+    },
+    "F": {
+     "seuil": 0.71765,
+     "peinture": 0.12,
+     "couverture_effective": 0.08,
+     "couverture_visee": 0.15
+    }
+   },
+   "remarque": "Seuils du score (calculés sur le PNG 8 bits) pour le masque généré par le script (graine 1967, 2048 px, 4 m) ; pour un autre masque (COPs), les recalculer : python assets/telecharger_cc0.py --seuils <masque.png>. Couverture effective F inférieure à 0,15 : l'empreinte claire (fond_gain 1,15) apporte le reste de la luminance mesurée sur l'ortho."
+  },
+  "traces_de_roues_option": "Si la position latérale dans la voie est connue (OpenDRIVE : t relatif au centre de voie), multiplier la probabilité de manque par 1 + 1,5·exp(−((|t| − 0,85)/0,20)²) pour les marques transversales (zébras, lignes d'effet de feux) : manques concentrés dans les traces de roues.",
+  "relief": "hauteur = peinture × épaisseur (0,5 mm peinture ; 2 mm enduit) → normale par dérivées (Unreal : PerturbNormalHQ / NormalFromHeightmap).",
+  "decoloration_UV": "Produits colorés : la couleur neuve perd sa saturation avec l'âge (UV) : coul = gris + (coul_neuve − gris)·chroma[u], gris = luminance Y (0,2126 R + 0,7152 G + 0,0722 B, linéaire) ; jaune Chronovélo vif en 2020 devenu ocre-kaki en 2022 (analyse coeur), vert de la Revirée presque gris."
+ },
+ "produits_sombres": {
+  "pontage_fissures": {
+   "description": "bitume de pontage des fissures (traits sombres sinueux, brillants à contre-jour)",
+   "largeur_m": [
+    0.03,
+    0.06
+   ],
+   "neuf": {
+    "albedo_lineaire": [
+     0.045,
+     0.045,
+     0.043
+    ],
+    "srgb8": [
+     60,
+     60,
+     58
+    ],
+    "srgb_hex": "#3C3C3A",
+    "lab": [
+     25.2,
+     -0.3,
+     0.9
+    ]
+   },
+   "poussiereux": {
+    "albedo_lineaire": [
+     0.08,
+     0.08,
+     0.075
+    ],
+    "srgb8": [
+     80,
+     80,
+     77
+    ],
+    "srgb_hex": "#50504D",
+    "lab": [
+     33.9,
+     -0.5,
+     1.5
+    ]
+   },
+   "rugosite": {
+    "neuf": 0.35,
+    "ancien": 0.6
+   },
+   "relief_mm": 1.5,
+   "remarque": "décalque (Mesh ou DBuffer) ; réseau dense au centre du carrefour (photos 734a r01_c01, a83d r01_c01)"
+  },
+  "boucle_detection": {
+   "description": "saignées de boucles de détection remplies de résine noire",
+   "largeur_m": 0.008,
+   "albedo": {
+    "albedo_lineaire": [
+     0.04,
+     0.04,
+     0.04
+    ],
+    "srgb8": [
+     56,
+     56,
+     56
+    ],
+    "srgb_hex": "#383838",
+    "lab": [
+     23.7,
+     -0.0,
+     0.0
+    ]
+   },
+   "rugosite": 0.5
+  },
+  "gomme_traces": {
+   "description": "bandes sombres de gomme/huile dans les trajectoires",
+   "facteur_albedo": 0.85,
+   "rugosite_delta": -0.05,
+   "largeur_m": 0.35
+  }
+ },
+ "unreal_5_8": {
+  "material_function": "MF_PeintureRoutiere (Expose to Library)",
+  "entrees": {
+   "UV_m": "Vector2 = AbsoluteWorldPosition.xy / 100 (cm → m) ou la coordonnée de texture UV1 importée (st1, mètres)",
+   "T_MasqueUsure": "Texture Object : masque_usure_peinture.png — sRGB décoché, Compression Settings « Masks (no sRGB) », Mip Gen « FromTextureGroup », adressage Wrap",
+   "TileMasque_m": "4,0",
+   "CouleurNeuve": "Vector3 linéaire (couleurs.<couleur>.neuf.albedo_lineaire)",
+   "AlbedoSol / RugositeSol / NormaleSol": "attributs du matériau d'enrobé échantillonnés avec les mêmes UV (MF_EnrobeDetail : détail CC0 corrigé × macro-albédo)",
+   "MoyenneSol": "Vector3 = albédo moyen de l'enrobé (cible du manifeste : 0,26 ; 0,269 ; 0,247 pour enrobe_bbsg_ancien)",
+   "Paramètres d'usure": "Seuil, PoidsRGA, FissureB, FissureA, Salete, Transparence, FondGain, FondContraste, Rugosite, Chroma (table usure.niveaux + usure.seuils_score)"
+  },
+  "graphe": [
+   "M = TextureSample(T_MasqueUsure, UV_m / TileMasque_m) ; sampler Wrap, Linear Color",
+   "score = M.r·PoidsR + M.g·PoidsG + M.a·PoidsA (DotProduct sur float3(M.r, M.g, M.a))",
+   "fissure = step(FissureB, M.b) · step(FissureA, M.a) (FissureB = 2 désactive)",
+   "peinture = SmoothStep(Seuil − 0,004, Seuil + 0,004, score) · (1 − fissure)",
+   "salete = saturate(Salete · (0,6 + 0,8·M.a))",
+   "coulNeuveU = lerp(Y(CouleurNeuve).xxx, CouleurNeuve, Chroma) — décoloration UV des produits colorés (couleurs.<c>.chroma_par_usure)",
+   "rel = pow(clamp(AlbedoSol / MoyenneSol, 0,2, 3), Transparence)",
+   "coulPeinture = lerp(coulNeuveU · rel, AlbedoSol, salete)",
+   "fond = (MoyenneSol + (AlbedoSol − MoyenneSol)·FondContraste)·FondGain ; fond = lerp(fond, AlbedoSol·0,55, fissure)",
+   "BaseColor = lerp(fond, coulPeinture, peinture) ; Roughness = lerp(RugositeSol − (F ? 0,08 : 0), Rugosite, peinture) ; Metallic 0 ; Specular 0,5",
+   "Normal = BlendAngleCorrectedNormals(NormaleSol aplatie de 70 % sous la peinture, normale de PerturbNormalHQ(peinture × épaisseur))"
+  ],
+  "mise_en_oeuvre": [
+   "Matériau maître M_Marquage (Blend Mode Masked, Two Sided non, Opacity Mask Clip 0,333) appelant MF_PeintureRoutiere ; OpacityMask = 1 pour les usures 2, 3 et F (l'emprise porte l'empreinte), = peinture pour 0 et 1 (les manques laissent voir la chaussée réelle dessous)",
+   "Une instance par matériau de la scène : MI_peinture_<couleur>_u<u> (6 couleurs × 5 usures) avec les paramètres de la table ; remplacer /World/Looks/peinture_<couleur>_u<u> à l'import USD (ou script importer_paquet_jardin.py)",
+   "Les maillages de marquage sont à +1 cm : pas de z-fighting ; si l'on préfère des décalques, Material Domain « Deferred Decal », Decal Blend Mode « DBuffer Translucent Color, Normal, Roughness » avec la même MF (Opacity = peinture ou emprise)",
+   "Nuit / phares (rétroréflexion, approximation) : Emissive = CouleurNeuve·peinture·(RL[u]/250)·K·pow(saturate(dot(V, −L_phare)), 16)·Eclairement_phare, avec L_phare et l'éclairement d'un Material Parameter Collection mis à jour par le véhicule ego ; K ≈ 0,5 à caler sur une photo de nuit",
+   "ADAS : contrôler sur un rendu de jour que le rapport de luminance zébra/enrobé reste dans 1,45-1,6 pour l'usure 2 et ≈ 1,6 pour l'usure 0 (mesures_site)"
+  ],
+  "remarque_carla": "Dans CARLA, l'intensité LiDAR ne dépend pas du matériau (atténuation seule) : RL et Qd servent à un capteur personnalisé ou à la caméra de nuit.",
+  "instances": {
+   "remarque": "Une instance de M_Marquage par matériau de la scène /World/Looks/peinture_<couleur>_u<usure> ; Rugosite = −0,08 pour F signifie « rugosité de l'enrobé − 0,08 » ; FissureB = 2 désactive les fissures",
+   "valeurs": {
+    "MI_peinture_blanc_u0": {
+     "CouleurNeuve": [
+      0.78,
+      0.78,
+      0.76
+     ],
+     "Chroma": 1.0,
+     "Seuil": 0.06471,
+     "PoidsRGA": [
+      0.7,
+      0.0,
+      0.3
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.02,
+     "Transparence": 0.15,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.5,
+     "RL": 250,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_blanc_u1": {
+     "CouleurNeuve": [
+      0.78,
+      0.78,
+      0.76
+     ],
+     "Chroma": 1.0,
+     "Seuil": 0.18902,
+     "PoidsRGA": [
+      0.6,
+      0.2,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.08,
+     "Transparence": 0.3,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.55,
+     "RL": 150,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_blanc_u2": {
+     "CouleurNeuve": [
+      0.78,
+      0.78,
+      0.76
+     ],
+     "Chroma": 1.0,
+     "Seuil": 0.30706,
+     "PoidsRGA": [
+      0.3,
+      0.55,
+      0.15
+     ],
+     "FissureB": 0.5,
+     "FissureA": 0.45,
+     "Salete": 0.18,
+     "Transparence": 0.5,
+     "FondGain": 1.04,
+     "FondContraste": 0.85,
+     "Rugosite": 0.62,
+     "RL": 90,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_blanc_u3": {
+     "CouleurNeuve": [
+      0.78,
+      0.78,
+      0.76
+     ],
+     "Chroma": 1.0,
+     "Seuil": 0.40196,
+     "PoidsRGA": [
+      0.25,
+      0.5,
+      0.25
+     ],
+     "FissureB": 0.35,
+     "FissureA": 0.3,
+     "Salete": 0.4,
+     "Transparence": 0.7,
+     "FondGain": 1.1,
+     "FondContraste": 0.7,
+     "Rugosite": 0.7,
+     "RL": 40,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_blanc_uF": {
+     "CouleurNeuve": [
+      0.78,
+      0.78,
+      0.76
+     ],
+     "Chroma": 1.0,
+     "Seuil": 0.71765,
+     "PoidsRGA": [
+      0.5,
+      0.3,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.3,
+     "Transparence": 0.7,
+     "FondGain": 1.15,
+     "FondContraste": 0.6,
+     "Rugosite": -0.08,
+     "RL": 15,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_jaune_u0": {
+     "CouleurNeuve": [
+      0.764,
+      0.613,
+      0.212
+     ],
+     "Chroma": 1.0,
+     "Seuil": 0.06471,
+     "PoidsRGA": [
+      0.7,
+      0.0,
+      0.3
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.02,
+     "Transparence": 0.15,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.5,
+     "RL": 180,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_jaune_u1": {
+     "CouleurNeuve": [
+      0.764,
+      0.613,
+      0.212
+     ],
+     "Chroma": 0.8,
+     "Seuil": 0.18902,
+     "PoidsRGA": [
+      0.6,
+      0.2,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.08,
+     "Transparence": 0.3,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.55,
+     "RL": 110,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_jaune_u2": {
+     "CouleurNeuve": [
+      0.764,
+      0.613,
+      0.212
+     ],
+     "Chroma": 0.55,
+     "Seuil": 0.30706,
+     "PoidsRGA": [
+      0.3,
+      0.55,
+      0.15
+     ],
+     "FissureB": 0.5,
+     "FissureA": 0.45,
+     "Salete": 0.18,
+     "Transparence": 0.5,
+     "FondGain": 1.04,
+     "FondContraste": 0.85,
+     "Rugosite": 0.62,
+     "RL": 65,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_jaune_u3": {
+     "CouleurNeuve": [
+      0.764,
+      0.613,
+      0.212
+     ],
+     "Chroma": 0.4,
+     "Seuil": 0.40196,
+     "PoidsRGA": [
+      0.25,
+      0.5,
+      0.25
+     ],
+     "FissureB": 0.35,
+     "FissureA": 0.3,
+     "Salete": 0.4,
+     "Transparence": 0.7,
+     "FondGain": 1.1,
+     "FondContraste": 0.7,
+     "Rugosite": 0.7,
+     "RL": 30,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_jaune_uF": {
+     "CouleurNeuve": [
+      0.764,
+      0.613,
+      0.212
+     ],
+     "Chroma": 0.3,
+     "Seuil": 0.71765,
+     "PoidsRGA": [
+      0.5,
+      0.3,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.3,
+     "Transparence": 0.7,
+     "FondGain": 1.15,
+     "FondContraste": 0.6,
+     "Rugosite": -0.08,
+     "RL": 15,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_ocre_u0": {
+     "CouleurNeuve": [
+      0.42,
+      0.25,
+      0.12
+     ],
+     "Chroma": 1.0,
+     "Seuil": 0.06471,
+     "PoidsRGA": [
+      0.7,
+      0.0,
+      0.3
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.02,
+     "Transparence": 0.15,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.5,
+     "RL": 60,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_ocre_u1": {
+     "CouleurNeuve": [
+      0.42,
+      0.25,
+      0.12
+     ],
+     "Chroma": 0.8,
+     "Seuil": 0.18902,
+     "PoidsRGA": [
+      0.6,
+      0.2,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.08,
+     "Transparence": 0.3,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.55,
+     "RL": 45,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_ocre_u2": {
+     "CouleurNeuve": [
+      0.42,
+      0.25,
+      0.12
+     ],
+     "Chroma": 0.55,
+     "Seuil": 0.30706,
+     "PoidsRGA": [
+      0.3,
+      0.55,
+      0.15
+     ],
+     "FissureB": 0.5,
+     "FissureA": 0.45,
+     "Salete": 0.18,
+     "Transparence": 0.5,
+     "FondGain": 1.04,
+     "FondContraste": 0.85,
+     "Rugosite": 0.62,
+     "RL": 30,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_ocre_u3": {
+     "CouleurNeuve": [
+      0.42,
+      0.25,
+      0.12
+     ],
+     "Chroma": 0.4,
+     "Seuil": 0.40196,
+     "PoidsRGA": [
+      0.25,
+      0.5,
+      0.25
+     ],
+     "FissureB": 0.35,
+     "FissureA": 0.3,
+     "Salete": 0.4,
+     "Transparence": 0.7,
+     "FondGain": 1.1,
+     "FondContraste": 0.7,
+     "Rugosite": 0.7,
+     "RL": 20,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_ocre_uF": {
+     "CouleurNeuve": [
+      0.42,
+      0.25,
+      0.12
+     ],
+     "Chroma": 0.3,
+     "Seuil": 0.71765,
+     "PoidsRGA": [
+      0.5,
+      0.3,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.3,
+     "Transparence": 0.7,
+     "FondGain": 1.15,
+     "FondContraste": 0.6,
+     "Rugosite": -0.08,
+     "RL": 15,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_vert_u0": {
+     "CouleurNeuve": [
+      0.06,
+      0.22,
+      0.09
+     ],
+     "Chroma": 1.0,
+     "Seuil": 0.06471,
+     "PoidsRGA": [
+      0.7,
+      0.0,
+      0.3
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.02,
+     "Transparence": 0.15,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.5,
+     "RL": 50,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_vert_u1": {
+     "CouleurNeuve": [
+      0.06,
+      0.22,
+      0.09
+     ],
+     "Chroma": 0.8,
+     "Seuil": 0.18902,
+     "PoidsRGA": [
+      0.6,
+      0.2,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.08,
+     "Transparence": 0.3,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.55,
+     "RL": 40,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_vert_u2": {
+     "CouleurNeuve": [
+      0.06,
+      0.22,
+      0.09
+     ],
+     "Chroma": 0.55,
+     "Seuil": 0.30706,
+     "PoidsRGA": [
+      0.3,
+      0.55,
+      0.15
+     ],
+     "FissureB": 0.5,
+     "FissureA": 0.45,
+     "Salete": 0.18,
+     "Transparence": 0.5,
+     "FondGain": 1.04,
+     "FondContraste": 0.85,
+     "Rugosite": 0.62,
+     "RL": 30,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_vert_u3": {
+     "CouleurNeuve": [
+      0.06,
+      0.22,
+      0.09
+     ],
+     "Chroma": 0.4,
+     "Seuil": 0.40196,
+     "PoidsRGA": [
+      0.25,
+      0.5,
+      0.25
+     ],
+     "FissureB": 0.35,
+     "FissureA": 0.3,
+     "Salete": 0.4,
+     "Transparence": 0.7,
+     "FondGain": 1.1,
+     "FondContraste": 0.7,
+     "Rugosite": 0.7,
+     "RL": 20,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_vert_uF": {
+     "CouleurNeuve": [
+      0.06,
+      0.22,
+      0.09
+     ],
+     "Chroma": 0.3,
+     "Seuil": 0.71765,
+     "PoidsRGA": [
+      0.5,
+      0.3,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.3,
+     "Transparence": 0.7,
+     "FondGain": 1.15,
+     "FondContraste": 0.6,
+     "Rugosite": -0.08,
+     "RL": 15,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_cyan_u0": {
+     "CouleurNeuve": [
+      0.13,
+      0.36,
+      0.37
+     ],
+     "Chroma": 1.0,
+     "Seuil": 0.06471,
+     "PoidsRGA": [
+      0.7,
+      0.0,
+      0.3
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.02,
+     "Transparence": 0.15,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.5,
+     "RL": 60,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_cyan_u1": {
+     "CouleurNeuve": [
+      0.13,
+      0.36,
+      0.37
+     ],
+     "Chroma": 0.8,
+     "Seuil": 0.18902,
+     "PoidsRGA": [
+      0.6,
+      0.2,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.08,
+     "Transparence": 0.3,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.55,
+     "RL": 45,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_cyan_u2": {
+     "CouleurNeuve": [
+      0.13,
+      0.36,
+      0.37
+     ],
+     "Chroma": 0.55,
+     "Seuil": 0.30706,
+     "PoidsRGA": [
+      0.3,
+      0.55,
+      0.15
+     ],
+     "FissureB": 0.5,
+     "FissureA": 0.45,
+     "Salete": 0.18,
+     "Transparence": 0.5,
+     "FondGain": 1.04,
+     "FondContraste": 0.85,
+     "Rugosite": 0.62,
+     "RL": 30,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_cyan_u3": {
+     "CouleurNeuve": [
+      0.13,
+      0.36,
+      0.37
+     ],
+     "Chroma": 0.4,
+     "Seuil": 0.40196,
+     "PoidsRGA": [
+      0.25,
+      0.5,
+      0.25
+     ],
+     "FissureB": 0.35,
+     "FissureA": 0.3,
+     "Salete": 0.4,
+     "Transparence": 0.7,
+     "FondGain": 1.1,
+     "FondContraste": 0.7,
+     "Rugosite": 0.7,
+     "RL": 20,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_cyan_uF": {
+     "CouleurNeuve": [
+      0.13,
+      0.36,
+      0.37
+     ],
+     "Chroma": 0.3,
+     "Seuil": 0.71765,
+     "PoidsRGA": [
+      0.5,
+      0.3,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.3,
+     "Transparence": 0.7,
+     "FondGain": 1.15,
+     "FondContraste": 0.6,
+     "Rugosite": -0.08,
+     "RL": 15,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_bleu_u0": {
+     "CouleurNeuve": [
+      0.0,
+      0.11,
+      0.4
+     ],
+     "Chroma": 1.0,
+     "Seuil": 0.06471,
+     "PoidsRGA": [
+      0.7,
+      0.0,
+      0.3
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.02,
+     "Transparence": 0.15,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.5,
+     "RL": null,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_bleu_u1": {
+     "CouleurNeuve": [
+      0.0,
+      0.11,
+      0.4
+     ],
+     "Chroma": 0.8,
+     "Seuil": 0.18902,
+     "PoidsRGA": [
+      0.6,
+      0.2,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.08,
+     "Transparence": 0.3,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.55,
+     "RL": null,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_bleu_u2": {
+     "CouleurNeuve": [
+      0.0,
+      0.11,
+      0.4
+     ],
+     "Chroma": 0.55,
+     "Seuil": 0.30706,
+     "PoidsRGA": [
+      0.3,
+      0.55,
+      0.15
+     ],
+     "FissureB": 0.5,
+     "FissureA": 0.45,
+     "Salete": 0.18,
+     "Transparence": 0.5,
+     "FondGain": 1.04,
+     "FondContraste": 0.85,
+     "Rugosite": 0.62,
+     "RL": null,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_bleu_u3": {
+     "CouleurNeuve": [
+      0.0,
+      0.11,
+      0.4
+     ],
+     "Chroma": 0.4,
+     "Seuil": 0.40196,
+     "PoidsRGA": [
+      0.25,
+      0.5,
+      0.25
+     ],
+     "FissureB": 0.35,
+     "FissureA": 0.3,
+     "Salete": 0.4,
+     "Transparence": 0.7,
+     "FondGain": 1.1,
+     "FondContraste": 0.7,
+     "Rugosite": 0.7,
+     "RL": null,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_bleu_uF": {
+     "CouleurNeuve": [
+      0.0,
+      0.11,
+      0.4
+     ],
+     "Chroma": 0.3,
+     "Seuil": 0.71765,
+     "PoidsRGA": [
+      0.5,
+      0.3,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.3,
+     "Transparence": 0.7,
+     "FondGain": 1.15,
+     "FondContraste": 0.6,
+     "Rugosite": -0.08,
+     "RL": null,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_rouge_u0": {
+     "CouleurNeuve": [
+      0.45,
+      0.04,
+      0.03
+     ],
+     "Chroma": 1.0,
+     "Seuil": 0.06471,
+     "PoidsRGA": [
+      0.7,
+      0.0,
+      0.3
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.02,
+     "Transparence": 0.15,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.5,
+     "RL": null,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_rouge_u1": {
+     "CouleurNeuve": [
+      0.45,
+      0.04,
+      0.03
+     ],
+     "Chroma": 0.8,
+     "Seuil": 0.18902,
+     "PoidsRGA": [
+      0.6,
+      0.2,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.08,
+     "Transparence": 0.3,
+     "FondGain": 1.0,
+     "FondContraste": 1.0,
+     "Rugosite": 0.55,
+     "RL": null,
+     "OpacityMaskEmprise": false
+    },
+    "MI_peinture_rouge_u2": {
+     "CouleurNeuve": [
+      0.45,
+      0.04,
+      0.03
+     ],
+     "Chroma": 0.55,
+     "Seuil": 0.30706,
+     "PoidsRGA": [
+      0.3,
+      0.55,
+      0.15
+     ],
+     "FissureB": 0.5,
+     "FissureA": 0.45,
+     "Salete": 0.18,
+     "Transparence": 0.5,
+     "FondGain": 1.04,
+     "FondContraste": 0.85,
+     "Rugosite": 0.62,
+     "RL": null,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_rouge_u3": {
+     "CouleurNeuve": [
+      0.45,
+      0.04,
+      0.03
+     ],
+     "Chroma": 0.4,
+     "Seuil": 0.40196,
+     "PoidsRGA": [
+      0.25,
+      0.5,
+      0.25
+     ],
+     "FissureB": 0.35,
+     "FissureA": 0.3,
+     "Salete": 0.4,
+     "Transparence": 0.7,
+     "FondGain": 1.1,
+     "FondContraste": 0.7,
+     "Rugosite": 0.7,
+     "RL": null,
+     "OpacityMaskEmprise": true
+    },
+    "MI_peinture_rouge_uF": {
+     "CouleurNeuve": [
+      0.45,
+      0.04,
+      0.03
+     ],
+     "Chroma": 0.3,
+     "Seuil": 0.71765,
+     "PoidsRGA": [
+      0.5,
+      0.3,
+      0.2
+     ],
+     "FissureB": 2.0,
+     "FissureA": 2.0,
+     "Salete": 0.3,
+     "Transparence": 0.7,
+     "FondGain": 1.15,
+     "FondContraste": 0.6,
+     "Rugosite": -0.08,
+     "RL": null,
+     "OpacityMaskEmprise": true
+    }
+   }
+  }
+ },
+ "houdini_22_cops": {
+  "objectif": "Produire masque_usure_peinture.png (RGBA 2048², 4 m, tuilable) identique en principe au masque du script, puis les masques binaires par usure.",
+  "option_A_copernicus": [
+   "Réseau COP (Copernicus) en 2048 × 2048, pixel = 4 m / 2048 ≈ 1,95 mm ; tous les bruits en mode périodique (période = taille de l'image) pour que la texture se raccorde",
+   "R : Noise (Perlin/fractal), taille d'élément 0,025 m = 12,8 px, 3 octaves, rugosité 0,5 → égalisation d'histogramme (ou Remap sur les centiles 0,5 %-99,5 %) pour une distribution ≈ uniforme",
+   "B et G : Worley/cellulaire, taille de cellule 0,35 m = 179 px : B = clamp(1 − (F2 − F1)/5,1 px) ; G = aléa par cellule (identifiant de cellule → hash → 0-1)",
+   "A : Noise fractal, taille d'élément 1,6 m = 819 px, 2 octaves, égalisé",
+   "Channel Join (R, G, B, A) → sortie PNG 8 bits linéaire (ROP Image / File Output)",
+   "Puis : python assets/telecharger_cc0.py --seuils <masque.png> recalcule les seuils de chaque usure pour CE masque (les seuils du tableau ne valent que pour le masque du script)"
+  ],
+  "option_B_sop_vex": {
+   "principe": "Grille 4 m × 4 m en 2048 × 2048 points, Attribute Wrangle VEX avec bruits périodiques, puis rastérisation des attributs en image (Rasterize Geometry/Attributes COP) ou écriture directe par Python",
+   "vex": "vector P2 = set(@P.x, @P.z, 0); // grille XZ de 4 m\nvector per = {4,4,4};\nf@R = pnoise(P2 * 40.0, per * 40.0); // ≈ 2,5 cm, ajouter 2 octaves (×2, ×4, amplitude ×0,5)\nf@A = pnoise(P2 / 1.6, per / 1.6);\nint seed; float f1, f2; vector p1, p2;\nvnoise(P2 / 0.35, {0.9,0.9,0.9}, seed, f1, f2, p1, p2, per / 0.35); // version périodique de vnoise\nf@B = clamp(1 - (f2 - f1) * 0.35 / 0.010, 0, 1);\nf@G = random(seed);",
+   "remarque": "Égaliser R et A (rang/CDF) avant usage, puis recalculer les seuils avec --seuils. Les signatures périodiques de pnoise/vnoise (période vectorielle ou entière par axe) sont à vérifier dans l'aide VEX de Houdini 22 ; la période doit valoir la taille de la tuile divisée par l'échelle du bruit."
+  },
+  "option_C": "Importer directement le PNG produit par le script (File COP) — c'est la référence des seuils du tableau.",
+  "materialx_karma": "Pour un rendu Karma, même logique en MaterialX : mtlx position (espace monde) → xy/4 → mtlx image (masque, linéaire) → dotproduct / smoothstep / mix ; couleurs et seuils de la table."
+ },
+ "controle_visuel": {
+  "planches": [
+   "assets/qa/materiaux_cc0/qa_13_peinture_usure_a.jpg (sortie --peinture : blanc usure 0-1-2-3-F sur l'enrobé corrigé, dessus et perspective, à côté du zébra usure 2 de 2023)",
+   "assets/qa/materiaux_cc0/qa_14_peinture_usure_b.jpg (photo 2025-08-31 4e72 : zébra fissuré usure 2, tirets neufs, flèche fantôme ; sous elle la sortie du script)",
+   "assets/qa/materiaux_cc0/qa_16_peinture_jaune.jpg (photo 2026-07-28 f8d91bb1 : damiers jaunes refaits 2025 ; sous elle le jaune usure 0-1-2-3-F avec décoloration UV)"
+  ],
+  "constat": "Usure 0-1 conformes ; usure 2 : plaques fissurées et grisées comme sur 4e72 (2025-08-31) ; usure 3 : silhouette grise à plaques résiduelles ; F : empreinte lisse plus claire que l'enrobé, comme la flèche effacée de 4e72 ; jaune neuf proche des damiers 2026 (jaune paille), jaune usé décoloré vers l'ocre-kaki pâle mesuré en 2022. Écart restant : sur les photos, le grisaillement de l'usure 2 est plus uniforme (moins de plaques franches) ; les manques dans les traces de roues demandent la position latérale dans la voie (option traces_de_roues)."
+ }
+}

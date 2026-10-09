@@ -1,0 +1,2197 @@
+{
+ "meta": {
+  "date": "2026-10-09",
+  "etat": "mi-octobre 2026 (feuillage d'automne en cours) ; variantes été / hiver décrites pour les autres scénarios",
+  "classes_taille": {
+   "jeune": "< 5 m",
+   "petit": "5-10 m",
+   "moyen": "10-20 m",
+   "grand": "20-30 m"
+  },
+  "conventions_asset": "mètres, Z vers le haut, pivot au pied du tronc au niveau du sol, < 30 000 triangles en LOD0 (assets/CONVENTIONS.md) ; la substitution met chaque instance à l'échelle de sa hauteur mesurée",
+  "sources": [
+   "data/context/arbres_metropole.geojson (68 fiches dans l'emprise : 52 présentes, 16 abattues)",
+   "recon/out/paquet_jardin/objets/arbres.geojson (470 arbres : GAM, LiDAR, inventaire, plan projet)",
+   "plan projet 2025 (data/raw/docs/panneau_150dpi.png, codes d'essences relus à 150 dpi)",
+   "photos Panoramax 2023-2026"
+  ],
+  "controle_visuel": [
+   "assets/qa/mobilier_vegetation_carla/qa_06_vegetation.jpg",
+   "assets/qa/mobilier_vegetation_carla/qa_07_plan_jeunes_sujets.jpg"
+  ],
+  "lecture_plan_2025": "codes relus à 150 dpi : TPC planté SO « Alc, As, Ce/Cs, Alc, As » ; noue SE « Ul, Qc/Oc, Qc/Oc, Ul » ; bande NO « Gt, Aca, Ac, Gt, Ac » ; angle NO « Ca » → 15 sujets (dont « Aca », cercle orange en tirets : sujet existant conservé probable). Écarts avec le catalogue des besoins : « As » et « Gt » sont 2 chacun (et non 1) ; « Qc » peut se lire « Oc » (Ostrya carpinifolia, retenu par l'atelier objets)."
+ },
+ "sources_production": {
+  "speedtree": "SpeedTree (Modeler 10 / bibliothèque du compte de l'utilisateur) : modèles par essence, saisons (été/automne/hiver) et LOD ; export FBX ou USD → Houdini (mise en Z-up, pivot au pied) → assets/lib/vegetation/<nom>/<nom>.usda",
+  "fab": "Fab / Quixel Megascans (compte de l'utilisateur) : arbres et arbustes photogrammétriques (feuillage Nanite UE 5.x) — peu d'essences urbaines européennes : privilégier pour haies, arbustes, souches, herbes",
+  "labs": "SideFX Labs (Houdini 22) : Labs Tree Trunk Generator + Tree Branch Generator + Tree Leaf Generator (+ Tree Simple Leaf) paramétrés avec le gabarit ci-dessous ; atlas de feuilles CC0 (photos de feuilles détourées)",
+  "carla": "contenu CARLA /Game/Carla/Static/Vegetation (arbres, buissons) : silhouettes génériques non européennes → doublure uniquement (voir carla_correspondances.json)"
+ },
+ "generateur_jeune_sujet": {
+  "hda_propose": "jeune_sujet.hda (Houdini 22) : tronc conique + 5-8 charpentières + rameaux (Labs Tree Branch Generator) + cartes de feuilles par essence + tripode bois",
+  "parametres": [
+   "essence (atlas de feuilles, couleur été/automne)",
+   "hauteur 3,5-5 m",
+   "Ø tige 0,05-0,08 m",
+   "Ø couronne 1,5-2,5 m",
+   "état saisonnier 0-1 (vert → coloré → chute)",
+   "tuteurage on/off (tripode 3 x Ø 0,08 x 2,2 m + demi-rondins)",
+   "paillage Ø 1,5-2 m"
+  ]
+ },
+ "essences": [
+  {
+   "asset": "arbre_populus_nigra_moyen",
+   "nom_latin": "Populus nigra",
+   "nom_francais": "peuplier noir",
+   "nom_anglais": "black poplar",
+   "source": "inventaire Métropole (alignement « Avenue de Verdun/Schneider », branche NE côté SE)",
+   "priorite": 1,
+   "confiance": "haute",
+   "port": "semi-libre : grand fût droit, houppier ovoïde irrégulier, charpentières ascendantes, gourmands sur le tronc",
+   "tronc": "écorce gris sombre profondément crevassée, broussins ; Ø 0,46-0,62 m (circonférence 145-195 cm)",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#4E7A2C",
+    "automne_srgb": "#D8B23C",
+    "etat_mi_octobre_2026": "vert-jaune, 30-50 % jauni, chute commencée (feuilles au sol)",
+    "hiver": "silhouette nue, fines branches dressées",
+    "chute": "mi-octobre à mi-novembre",
+    "debourrement": "début avril"
+   },
+   "gabarit": {
+    "hauteur": 23.5,
+    "fut_nu": 6.0,
+    "couronne_diametre": 10.8,
+    "forme_couronne": "ovoïde haute irrégulière",
+    "angle_charpentieres_deg": 35,
+    "feuille_cm": "6-9 (deltoïde)",
+    "densite": "moyenne (ciel visible)"
+   },
+   "note_hauteur": "inventaire [10;20 m[ mais LiDAR 2021 22,9-27,4 m (médiane 23,4) : construire l'asset à ≈ 23 m",
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs",
+     "fab"
+    ]
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd_r01_c01.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd/2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd_r01_c00.jpg"
+   ],
+   "nombre_2026": 4,
+   "hauteurs_mesurees_m": {
+    "min": 22.9,
+    "mediane": 23.9,
+    "max": 27.4,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 10.7,
+    "max": 13.5
+   },
+   "positions": [
+    {
+     "id": "arbre_266",
+     "x": 54.55,
+     "y": 29.06,
+     "z": 0.07,
+     "hauteur_m": 22.9,
+     "couronne_m": 13.5,
+     "circonference_cm": 195
+    },
+    {
+     "id": "arbre_280",
+     "x": 65.76,
+     "y": 40.67,
+     "z": 0.2,
+     "hauteur_m": 23.2,
+     "couronne_m": 5.8,
+     "circonference_cm": 145
+    },
+    {
+     "id": "arbre_281",
+     "x": 67.6,
+     "y": 42.12,
+     "z": 0.18,
+     "hauteur_m": 24.7,
+     "couronne_m": 10.8,
+     "circonference_cm": 160
+    },
+    {
+     "id": "arbre_316",
+     "x": 82.49,
+     "y": 57.36,
+     "z": 0.57,
+     "hauteur_m": 27.4,
+     "couronne_m": 10.6,
+     "circonference_cm": 190
+    }
+   ]
+  },
+  {
+   "asset": "arbre_populus_nigra_grand",
+   "nom_latin": "Populus nigra",
+   "nom_francais": "peuplier noir",
+   "nom_anglais": "black poplar",
+   "source": "inventaire Métropole (même alignement)",
+   "priorite": 1,
+   "confiance": "haute",
+   "port": "libre : très grand houppier étalé",
+   "tronc": "Ø ≈ 0,46 m (145 cm)",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#4E7A2C",
+    "automne_srgb": "#D8B23C",
+    "etat_mi_octobre_2026": "comme arbre_populus_nigra_moyen",
+    "hiver": "nu"
+   },
+   "gabarit": {
+    "hauteur": 26.0,
+    "fut_nu": 7.0,
+    "couronne_diametre": 13.0,
+    "forme_couronne": "ovoïde large",
+    "angle_charpentieres_deg": 40
+   },
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd_r01_c01.jpg"
+   ],
+   "nombre_2026": 1,
+   "hauteurs_mesurees_m": {
+    "min": 23.4,
+    "mediane": 23.4,
+    "max": 23.4,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 13.1,
+    "max": 13.1
+   },
+   "positions": [
+    {
+     "id": "arbre_245",
+     "x": 43.53,
+     "y": 17.68,
+     "z": -0.37,
+     "hauteur_m": 23.4,
+     "couronne_m": 13.1,
+     "circonference_cm": 145
+    }
+   ]
+  },
+  {
+   "asset": "arbre_populus_sp_tetard_moyen",
+   "nom_latin": "Populus sp. (têtard)",
+   "nom_francais": "peuplier conduit en têtard",
+   "nom_anglais": "pollarded poplar",
+   "source": "inventaire Métropole (alignement NE côté NO, port « Têtard »)",
+   "priorite": 1,
+   "confiance": "haute (port) / moyenne (essence)",
+   "port": "têtard : tronc court et épais, têtes renflées (« têtes de chat ») portant des rejets droits de 1-3 ans ; LiDAR 5,9-25,9 m (grands sujets non recépés)",
+   "tronc": "Ø 0,38-0,89 m (118-280 cm), écorce crevassée, têtes noueuses",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#557F33",
+    "automne_srgb": "#D2B046",
+    "etat_mi_octobre_2026": "rejets feuillus vert-jaune",
+    "hiver": "têtes nues hérissées de rejets (silhouette caractéristique)"
+   },
+   "gabarit": {
+    "hauteur": 18.0,
+    "hauteur_tetes": "3-8 m (selon recépage)",
+    "couronne_diametre": 9.6,
+    "forme_couronne": "têtes + gerbes de rejets verticaux"
+   },
+   "note_hauteur": "deux silhouettes à prévoir : têtard récemment recépé (6-8 m) et têtard non recépé (≈ 23 m)",
+   "production": {
+    "principale": "labs",
+    "alternatives": [
+     "speedtree"
+    ],
+    "note": "le têtard n'existe pas en bibliothèque : tronc + têtes modélisés, rejets générés (Labs Branch Generator)"
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd/2025-05-18_9fc8ba46-9a08-483b-92f7-ad37798f9330_hd_r01_c03.jpg"
+   ],
+   "nombre_2026": 4,
+   "hauteurs_mesurees_m": {
+    "min": 5.9,
+    "mediane": 23.5,
+    "max": 25.9,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 9.6,
+    "max": 16.1
+   },
+   "a_verifier": {
+    "nombre": 3,
+    "note": "statut « à vérifier » dans l'atelier objets (fiche abattue à l'inventaire mais houppier encore présent au LiDAR 2021, ou position incertaine)",
+    "ids": [
+     "arbre_395",
+     "arbre_434",
+     "arbre_439"
+    ]
+   },
+   "positions": [
+    {
+     "id": "arbre_358",
+     "x": 54.41,
+     "y": 84.03,
+     "z": 0.71,
+     "hauteur_m": 25.6,
+     "couronne_m": 13.9,
+     "circonference_cm": 280
+    },
+    {
+     "id": "arbre_359",
+     "x": 57.74,
+     "y": 77.1,
+     "z": 0.61,
+     "hauteur_m": 25.9,
+     "couronne_m": 16.1,
+     "circonference_cm": 185
+    },
+    {
+     "id": "arbre_379",
+     "x": 50.86,
+     "y": 94.01,
+     "z": 1.43,
+     "hauteur_m": 5.9,
+     "couronne_m": 4.9,
+     "circonference_cm": 118
+    },
+    {
+     "id": "arbre_380",
+     "x": 54.15,
+     "y": 86.11,
+     "z": 1.05,
+     "hauteur_m": 21.4,
+     "couronne_m": 5.3,
+     "circonference_cm": 185
+    }
+   ]
+  },
+  {
+   "asset": "arbre_populus_nigra_italica_grand",
+   "nom_latin": "Populus nigra 'Italica'",
+   "nom_francais": "peuplier d'Italie",
+   "nom_anglais": "Lombardy poplar",
+   "source": "inventaire Métropole (parc NO, port architecturé)",
+   "priorite": 2,
+   "confiance": "moyenne",
+   "port": "fastigié (colonne étroite), branches dressées dès la base",
+   "tronc": "Ø ≈ 0,67 m (210 cm)",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#4F7B2F",
+    "automne_srgb": "#E0BE45",
+    "etat_mi_octobre_2026": "vert-jaune",
+    "hiver": "colonne nue de rameaux dressés"
+   },
+   "gabarit": {
+    "hauteur": 24.0,
+    "fut_nu": 1.5,
+    "couronne_diametre": 4.5,
+    "forme_couronne": "colonne fusiforme"
+   },
+   "note_hauteur": "LiDAR de l'atelier : 3,0 m (point mal apparié) ; inventaire [20;30 m[ → construire à 24 m",
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 1,
+   "hauteurs_mesurees_m": {
+    "min": 3.0,
+    "mediane": 3.0,
+    "max": 3.0,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 4.8,
+    "max": 4.8
+   },
+   "positions": [
+    {
+     "id": "arbre_363",
+     "x": -105.2,
+     "y": 85.87,
+     "z": 0.2,
+     "hauteur_m": 3.0,
+     "couronne_m": 4.8,
+     "circonference_cm": 210
+    }
+   ]
+  },
+  {
+   "asset": "arbre_cedrus_atlantica_grand",
+   "nom_latin": "Cedrus atlantica (dont 'Glauca')",
+   "nom_francais": "cèdre de l'Atlas",
+   "nom_anglais": "Atlas cedar",
+   "source": "inventaire Métropole (2 : grand cèdre de l'angle Revirée, « Cedrus » 10-20 m mais LiDAR 25,7 m ; cèdre glauque NE 20,9 m)",
+   "priorite": 1,
+   "confiance": "haute",
+   "port": "libre : tronc puissant, étages de branches horizontales en plateaux, flèche inclinée ; repère visuel majeur, ombre portée sur la Revirée",
+   "tronc": "Ø 0,38-0,53 m (120-165 cm), écorce gris foncé écailleuse",
+   "feuillage": {
+    "persistance": "persistant",
+    "ete_srgb": "#5A7E78",
+    "automne_srgb": "#5A7E78",
+    "etat_mi_octobre_2026": "inchangé (aiguilles bleu-vert glauque), cônes dressés",
+    "hiver": "inchangé"
+   },
+   "gabarit": {
+    "hauteur": 24.0,
+    "fut_nu": 3.0,
+    "couronne_diametre": 12.0,
+    "forme_couronne": "conique large à plateaux étagés",
+    "angle_charpentieres_deg": 80
+   },
+   "note_hauteur": "LiDAR 20,9 et 25,7 m ; couronne LiDAR 6,4-8,8 (sous-estimée : la photo montre ≈ 12-15 m d'envergure)",
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs",
+     "fab"
+    ]
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd_r01_c03.jpg"
+   ],
+   "nombre_2026": 2,
+   "hauteurs_mesurees_m": {
+    "min": 20.9,
+    "mediane": 23.9,
+    "max": 27.0,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 11.8,
+    "max": 14.7
+   },
+   "positions": [
+    {
+     "id": "arbre_244",
+     "x": -20.05,
+     "y": 16.82,
+     "z": 0.14,
+     "hauteur_m": 27.0,
+     "couronne_m": 14.7,
+     "circonference_cm": 120
+    },
+    {
+     "id": "arbre_435",
+     "x": 51.72,
+     "y": 132.69,
+     "z": 2.58,
+     "hauteur_m": 20.9,
+     "couronne_m": 8.8,
+     "circonference_cm": 165
+    }
+   ]
+  },
+  {
+   "asset": "arbre_tilia_cordata_moyen",
+   "nom_latin": "Tilia cordata",
+   "nom_francais": "tilleul à petites feuilles",
+   "nom_anglais": "small-leaved lime / linden",
+   "source": "inventaire Métropole (groupement de 6, parc NO de la Revirée)",
+   "priorite": 1,
+   "confiance": "moyenne",
+   "port": "libre : houppier ovoïde dense, branches basses arquées",
+   "tronc": "Ø 0,30-0,59 m (95-184 cm), écorce gris lisse puis finement fissurée",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#3F6B2B",
+    "automne_srgb": "#C9A43B",
+    "etat_mi_octobre_2026": "jaunissement 30-60 %, chute partielle (souvent précoce après un été sec)",
+    "hiver": "ramure dense, rameaux rougeâtres",
+    "chute": "octobre"
+   },
+   "gabarit": {
+    "hauteur": 14.0,
+    "fut_nu": 2.5,
+    "couronne_diametre": 8.0,
+    "forme_couronne": "ovoïde dense",
+    "feuille_cm": "4-7 (cordée)"
+   },
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd/2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd_r01_c04.jpg"
+   ],
+   "nombre_2026": 6,
+   "hauteurs_mesurees_m": {
+    "min": 3.0,
+    "mediane": 13.6,
+    "max": 14.6,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 3.5,
+    "max": 10.5
+   },
+   "positions": [
+    {
+     "id": "arbre_307",
+     "x": -54.63,
+     "y": 63.13,
+     "z": 0.75,
+     "hauteur_m": 13.6,
+     "couronne_m": 3.4,
+     "circonference_cm": 135
+    },
+    {
+     "id": "arbre_327",
+     "x": -58.55,
+     "y": 74.52,
+     "z": 0.82,
+     "hauteur_m": 13.6,
+     "couronne_m": 10.5,
+     "circonference_cm": 130
+    },
+    {
+     "id": "arbre_328",
+     "x": -58.53,
+     "y": 69.68,
+     "z": 0.72,
+     "hauteur_m": 13.2,
+     "couronne_m": 3.3,
+     "circonference_cm": 110
+    },
+    {
+     "id": "arbre_349",
+     "x": -67.47,
+     "y": 83.71,
+     "z": 0.83,
+     "hauteur_m": 3.0,
+     "couronne_m": 2.5,
+     "circonference_cm": 184
+    },
+    {
+     "id": "arbre_353",
+     "x": -62.43,
+     "y": 77.65,
+     "z": 0.87,
+     "hauteur_m": 14.0,
+     "couronne_m": 3.5,
+     "circonference_cm": 120
+    },
+    {
+     "id": "arbre_369",
+     "x": -71.98,
+     "y": 88.91,
+     "z": 0.85,
+     "hauteur_m": 14.6,
+     "couronne_m": 3.6,
+     "circonference_cm": 95
+    }
+   ]
+  },
+  {
+   "asset": "arbre_quercus_robur_moyen",
+   "nom_latin": "Quercus robur",
+   "nom_francais": "chêne pédonculé",
+   "nom_anglais": "English oak",
+   "source": "inventaire Métropole (groupements NO et sud)",
+   "priorite": 1,
+   "confiance": "moyenne",
+   "port": "libre / semi-libre : charpentières tortueuses, houppier large irrégulier",
+   "tronc": "Ø 0,35-0,53 m (110-165 cm), écorce gris-brun crevassée",
+   "feuillage": {
+    "persistance": "caduc (marcescent jeune)",
+    "ete_srgb": "#3E6A2A",
+    "automne_srgb": "#9A6B2E",
+    "etat_mi_octobre_2026": "encore vert à 80 %, brunissement tardif (fin octobre-novembre)",
+    "hiver": "branches tortueuses, feuilles sèches persistantes sur les jeunes"
+   },
+   "gabarit": {
+    "hauteur": 14.0,
+    "fut_nu": 3.0,
+    "couronne_diametre": 10.0,
+    "forme_couronne": "étalée irrégulière",
+    "feuille_cm": "7-12 (lobée)"
+   },
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs",
+     "fab"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 5,
+   "hauteurs_mesurees_m": {
+    "min": 5.0,
+    "mediane": 13.3,
+    "max": 16.0,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 4.0,
+    "max": 8.8
+   },
+   "positions": [
+    {
+     "id": "arbre_006",
+     "x": 33.02,
+     "y": -146.54,
+     "z": -1.88,
+     "hauteur_m": 16.0,
+     "couronne_m": 4.0,
+     "circonference_cm": 125
+    },
+    {
+     "id": "arbre_308",
+     "x": -49.95,
+     "y": 64.2,
+     "z": 0.52,
+     "hauteur_m": 13.7,
+     "couronne_m": 8.8,
+     "circonference_cm": 110
+    },
+    {
+     "id": "arbre_322",
+     "x": -133.98,
+     "y": 71.05,
+     "z": -0.44,
+     "hauteur_m": 12.2,
+     "couronne_m": 3.0,
+     "circonference_cm": 165
+    },
+    {
+     "id": "arbre_352",
+     "x": -63.37,
+     "y": 81.68,
+     "z": 0.94,
+     "hauteur_m": 13.3,
+     "couronne_m": 7.9,
+     "circonference_cm": 135
+    },
+    {
+     "id": "arbre_366",
+     "x": -92.54,
+     "y": 92.11,
+     "z": 0.46,
+     "hauteur_m": 5.0,
+     "couronne_m": 2.5,
+     "circonference_cm": 140
+    }
+   ]
+  },
+  {
+   "asset": "arbre_quercus_robur_petit",
+   "nom_latin": "Quercus robur",
+   "nom_francais": "chêne pédonculé",
+   "nom_anglais": "English oak",
+   "source": "inventaire Métropole (classe 5-10 m ; dont 1 fiche d'état inconnu, doublon probable)",
+   "priorite": 2,
+   "confiance": "moyenne",
+   "port": "semi-libre",
+   "tronc": "Ø 0,21-0,35 m",
+   "feuillage": {
+    "persistance": "caduc (marcescent)",
+    "ete_srgb": "#3E6A2A",
+    "automne_srgb": "#9A6B2E",
+    "etat_mi_octobre_2026": "vert",
+    "hiver": "feuilles sèches persistantes"
+   },
+   "gabarit": {
+    "hauteur": 8.0,
+    "fut_nu": 2.0,
+    "couronne_diametre": 5.0,
+    "forme_couronne": "ovoïde irrégulière"
+   },
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 3,
+   "hauteurs_mesurees_m": {
+    "min": 10.0,
+    "mediane": 10.5,
+    "max": 14.0,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 6.4,
+    "max": 9.4
+   },
+   "positions": [
+    {
+     "id": "arbre_003",
+     "x": -27.3,
+     "y": -149.81,
+     "z": -2.68,
+     "hauteur_m": 14.0,
+     "couronne_m": 9.4,
+     "circonference_cm": 110
+    },
+    {
+     "id": "arbre_284",
+     "x": -58.19,
+     "y": 54.49,
+     "z": 0.63,
+     "hauteur_m": 10.0,
+     "couronne_m": 2.5,
+     "circonference_cm": 70
+    },
+    {
+     "id": "arbre_285",
+     "x": -57.77,
+     "y": 54.4,
+     "z": 0.63,
+     "hauteur_m": 10.5,
+     "couronne_m": 6.4,
+     "circonference_cm": 65
+    }
+   ]
+  },
+  {
+   "asset": "arbre_quercus_robur_grand",
+   "nom_latin": "Quercus robur",
+   "nom_francais": "chêne pédonculé",
+   "nom_anglais": "English oak",
+   "source": "inventaire Métropole (1, parc NO)",
+   "priorite": 2,
+   "confiance": "moyenne",
+   "port": "libre",
+   "tronc": "Ø ≈ 0,41 m (129 cm)",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#3E6A2A",
+    "automne_srgb": "#9A6B2E",
+    "etat_mi_octobre_2026": "vert",
+    "hiver": "nu"
+   },
+   "gabarit": {
+    "hauteur": 20.0,
+    "fut_nu": 4.0,
+    "couronne_diametre": 13.0,
+    "forme_couronne": "large"
+   },
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 1,
+   "hauteurs_mesurees_m": {
+    "min": 16.3,
+    "mediane": 16.3,
+    "max": 16.3,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 13.6,
+    "max": 13.6
+   },
+   "positions": [
+    {
+     "id": "arbre_370",
+     "x": -69.16,
+     "y": 89.06,
+     "z": 1.07,
+     "hauteur_m": 16.3,
+     "couronne_m": 13.6,
+     "circonference_cm": 129
+    }
+   ]
+  },
+  {
+   "asset": "arbre_acer_campestre_jeune",
+   "nom_latin": "Acer campestre",
+   "nom_francais": "érable champêtre",
+   "nom_anglais": "field maple",
+   "source": "inventaire Métropole (alignement « Avenue de Verdun nord », 7 dont 1 têtard, plantés en 1975 sous la haie séparative) + plan projet 2025 (« Ac » ×2, « Aca » conservé)",
+   "priorite": 1,
+   "confiance": "haute",
+   "port": "semi-libre : petit arbre à cime arrondie, souvent pris dans la haie",
+   "tronc": "Ø 0,11-0,19 m (35-60 cm), écorce liégeuse brun clair",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#4A7A30",
+    "automne_srgb": "#D8B23A",
+    "etat_mi_octobre_2026": "vert-jaune (jaune d'or fin octobre)",
+    "hiver": "rameaux liégeux"
+   },
+   "gabarit": {
+    "hauteur": 5.5,
+    "fut_nu": 1.5,
+    "couronne_diametre": 5.0,
+    "forme_couronne": "arrondie",
+    "feuille_cm": "5-8 (3-5 lobes)"
+   },
+   "note_hauteur": "inventaire [0;5 m[, LiDAR 4,1-7,5 m (médiane 5,2)",
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 10,
+   "hauteurs_mesurees_m": {
+    "min": 4.1,
+    "mediane": 4.9,
+    "max": 7.5,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 4.0,
+    "max": 6.3
+   },
+   "positions": [
+    {
+     "id": "arbre_009",
+     "x": -149.11,
+     "y": -136.85,
+     "z": -0.94,
+     "hauteur_m": 7.5,
+     "couronne_m": 6.3,
+     "circonference_cm": 43
+    },
+    {
+     "id": "arbre_021",
+     "x": -142.44,
+     "y": -129.94,
+     "z": -0.89,
+     "hauteur_m": 5.0,
+     "couronne_m": 2.5,
+     "circonference_cm": 35
+    },
+    {
+     "id": "arbre_038",
+     "x": -133.04,
+     "y": -120.34,
+     "z": -0.81,
+     "hauteur_m": 5.2,
+     "couronne_m": 5.0,
+     "circonference_cm": 45
+    },
+    {
+     "id": "arbre_047",
+     "x": -122.57,
+     "y": -109.55,
+     "z": -0.8,
+     "hauteur_m": 4.8,
+     "couronne_m": 5.1,
+     "circonference_cm": 47
+    },
+    {
+     "id": "arbre_063",
+     "x": -113.08,
+     "y": -99.41,
+     "z": -0.74,
+     "hauteur_m": 5.8,
+     "couronne_m": 4.5,
+     "circonference_cm": 35
+    },
+    {
+     "id": "arbre_109",
+     "x": -90.34,
+     "y": -74.69,
+     "z": -0.64,
+     "hauteur_m": 6.7,
+     "couronne_m": 6.3,
+     "circonference_cm": 60
+    },
+    {
+     "id": "arbre_110",
+     "x": -85.28,
+     "y": -69.62,
+     "z": -0.63,
+     "hauteur_m": 4.1,
+     "couronne_m": 3.6,
+     "circonference_cm": 40
+    },
+    {
+     "id": "arbre_179",
+     "x": -57.42,
+     "y": -44.27,
+     "z": -0.23,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Aca",
+     "zone": "bande_NO"
+    },
+    {
+     "id": "arbre_194",
+     "x": -42.18,
+     "y": -28.7,
+     "z": -0.14,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Ac",
+     "zone": "bande_NO"
+    },
+    {
+     "id": "arbre_207",
+     "x": -30.35,
+     "y": -16.88,
+     "z": -0.19,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Ac",
+     "zone": "bande_NO"
+    }
+   ]
+  },
+  {
+   "asset": "arbre_fraxinus_excelsior_moyen",
+   "nom_latin": "Fraxinus excelsior",
+   "nom_francais": "frêne commun",
+   "nom_anglais": "European ash",
+   "source": "inventaire Métropole (angle NE éloigné)",
+   "priorite": 2,
+   "confiance": "moyenne",
+   "port": "libre : houppier ample et léger, feuilles composées",
+   "tronc": "Ø ≈ 0,27 m (83-85 cm), écorce gris clair",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#4C7A33",
+    "automne_srgb": "#B8B04A",
+    "etat_mi_octobre_2026": "chute des folioles encore vertes ou jaune pâle, houppier clairsemé (chalarose possible)",
+    "hiver": "bourgeons noirs, ramure claire"
+   },
+   "gabarit": {
+    "hauteur": 16.5,
+    "fut_nu": 4.0,
+    "couronne_diametre": 8.0,
+    "forme_couronne": "ovoïde lâche",
+    "feuille_cm": "20-30 (composée, 9-13 folioles)"
+   },
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 4,
+   "hauteurs_mesurees_m": {
+    "min": 14.6,
+    "mediane": 16.6,
+    "max": 18.2,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 8.3,
+    "max": 13.7
+   },
+   "a_verifier": {
+    "nombre": 1,
+    "note": "statut « à vérifier » dans l'atelier objets (fiche abattue à l'inventaire mais houppier encore présent au LiDAR 2021, ou position incertaine)",
+    "ids": [
+     "arbre_440"
+    ]
+   },
+   "positions": [
+    {
+     "id": "arbre_441",
+     "x": 83.99,
+     "y": 132.67,
+     "z": 2.42,
+     "hauteur_m": 18.2,
+     "couronne_m": 13.7,
+     "circonference_cm": 85
+    },
+    {
+     "id": "arbre_452",
+     "x": 75.93,
+     "y": 141.0,
+     "z": 2.41,
+     "hauteur_m": 14.6,
+     "couronne_m": 3.6,
+     "circonference_cm": 83
+    },
+    {
+     "id": "arbre_453",
+     "x": 79.83,
+     "y": 140.5,
+     "z": 2.38,
+     "hauteur_m": 17.0,
+     "couronne_m": 12.7,
+     "circonference_cm": 85
+    },
+    {
+     "id": "arbre_454",
+     "x": 82.47,
+     "y": 138.46,
+     "z": 2.33,
+     "hauteur_m": 16.1,
+     "couronne_m": 4.0,
+     "circonference_cm": 85
+    }
+   ]
+  },
+  {
+   "asset": "arbre_carpinus_betulus_moyen",
+   "nom_latin": "Carpinus betulus (+ 1 'Pyramidalis')",
+   "nom_francais": "charme commun",
+   "nom_anglais": "European hornbeam",
+   "source": "inventaire Métropole (4 libres NE + 1 fastigié 'Pyramidalis' au NO, classé 0-5 m mais LiDAR 13,4 m)",
+   "priorite": 2,
+   "confiance": "moyenne",
+   "port": "libre : houppier ovoïde dense ; variante 'Pyramidalis' en ogive (à traiter en variante de cet asset)",
+   "tronc": "Ø 0,20-0,39 m, écorce grise lisse cannelée",
+   "feuillage": {
+    "persistance": "caduc (marcescent en haie)",
+    "ete_srgb": "#4C7A30",
+    "automne_srgb": "#D3B04A",
+    "etat_mi_octobre_2026": "vert-jaune",
+    "hiver": "ramure fine, feuilles sèches persistantes sur les sujets taillés"
+   },
+   "gabarit": {
+    "hauteur": 15.5,
+    "fut_nu": 2.5,
+    "couronne_diametre": 7.0,
+    "forme_couronne": "ovoïde (variante ogivale)"
+   },
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 5,
+   "hauteurs_mesurees_m": {
+    "min": 13.2,
+    "mediane": 15.2,
+    "max": 16.6,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 6.7,
+    "max": 14.8
+   },
+   "positions": [
+    {
+     "id": "arbre_256",
+     "x": -125.8,
+     "y": 25.36,
+     "z": -0.1,
+     "hauteur_m": 13.4,
+     "couronne_m": 10.3,
+     "circonference_cm": 90
+    },
+    {
+     "id": "arbre_437",
+     "x": 66.6,
+     "y": 128.25,
+     "z": 2.33,
+     "hauteur_m": 16.6,
+     "couronne_m": 14.8,
+     "circonference_cm": 122
+    },
+    {
+     "id": "arbre_438",
+     "x": 69.96,
+     "y": 132.28,
+     "z": 2.11,
+     "hauteur_m": 15.9,
+     "couronne_m": 6.7,
+     "circonference_cm": 92
+    },
+    {
+     "id": "arbre_450",
+     "x": 66.26,
+     "y": 141.22,
+     "z": 2.87,
+     "hauteur_m": 13.2,
+     "couronne_m": 3.3,
+     "circonference_cm": 64
+    },
+    {
+     "id": "arbre_451",
+     "x": 67.67,
+     "y": 139.47,
+     "z": 2.81,
+     "hauteur_m": 15.2,
+     "couronne_m": 3.8,
+     "circonference_cm": 123
+    }
+   ]
+  },
+  {
+   "asset": "arbre_betula_pendula_moyen",
+   "nom_latin": "Betula pendula",
+   "nom_francais": "bouleau verruqueux",
+   "nom_anglais": "silver birch",
+   "source": "inventaire Métropole (parc NO, 2 présents, 2 abattus)",
+   "priorite": 2,
+   "confiance": "moyenne",
+   "port": "semi-libre : houppier léger, rameaux pleureurs",
+   "tronc": "Ø 0,21-0,25 m, écorce blanche à losanges noirs",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#6A8E3A",
+    "automne_srgb": "#E1C04A",
+    "etat_mi_octobre_2026": "jaune 50 %, chute en cours",
+    "hiver": "écorce blanche très visible, rameaux retombants"
+   },
+   "gabarit": {
+    "hauteur": 13.3,
+    "fut_nu": 2.5,
+    "couronne_diametre": 6.5,
+    "forme_couronne": "ovoïde légère, pleureuse"
+   },
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs",
+     "fab"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 2,
+   "hauteurs_mesurees_m": {
+    "min": 13.2,
+    "mediane": 13.3,
+    "max": 13.5,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 7.3,
+    "max": 8.9
+   },
+   "a_verifier": {
+    "nombre": 1,
+    "note": "statut « à vérifier » dans l'atelier objets (fiche abattue à l'inventaire mais houppier encore présent au LiDAR 2021, ou position incertaine)",
+    "ids": [
+     "arbre_364"
+    ]
+   },
+   "positions": [
+    {
+     "id": "arbre_305",
+     "x": -70.68,
+     "y": 56.16,
+     "z": 0.64,
+     "hauteur_m": 13.5,
+     "couronne_m": 8.9,
+     "circonference_cm": 65
+    },
+    {
+     "id": "arbre_325",
+     "x": -74.56,
+     "y": 65.52,
+     "z": 0.62,
+     "hauteur_m": 13.2,
+     "couronne_m": 5.8,
+     "circonference_cm": 80
+    }
+   ]
+  },
+  {
+   "asset": "arbre_corylus_colurna_petit",
+   "nom_latin": "Corylus colurna",
+   "nom_francais": "noisetier de Byzance",
+   "nom_anglais": "Turkish hazel",
+   "source": "inventaire Métropole (alignement ouest)",
+   "priorite": 3,
+   "confiance": "moyenne",
+   "port": "libre : pyramidal régulier, axe droit",
+   "tronc": "Ø 0,14-0,27 m, écorce liégeuse claire",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#3F6A2C",
+    "automne_srgb": "#CDAF45",
+    "etat_mi_octobre_2026": "vert-jaune",
+    "hiver": "conique régulier"
+   },
+   "gabarit": {
+    "hauteur": 10.0,
+    "fut_nu": 1.8,
+    "couronne_diametre": 6.0,
+    "forme_couronne": "conique"
+   },
+   "note_hauteur": "inventaire [5;10 m[, LiDAR 9,2-15,7",
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 3,
+   "hauteurs_mesurees_m": {
+    "min": 9.2,
+    "mediane": 10.0,
+    "max": 15.7,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 8.6,
+    "max": 11.0
+   },
+   "positions": [
+    {
+     "id": "arbre_227",
+     "x": -151.59,
+     "y": 12.76,
+     "z": -0.2,
+     "hauteur_m": 15.7,
+     "couronne_m": 11.0,
+     "circonference_cm": 110
+    },
+    {
+     "id": "arbre_238",
+     "x": -139.13,
+     "y": 19.15,
+     "z": -0.25,
+     "hauteur_m": 9.2,
+     "couronne_m": 8.6,
+     "circonference_cm": 45
+    },
+    {
+     "id": "arbre_239",
+     "x": -131.59,
+     "y": 22.6,
+     "z": -0.17,
+     "hauteur_m": 10.0,
+     "couronne_m": 8.5,
+     "circonference_cm": 85
+    }
+   ]
+  },
+  {
+   "asset": "arbre_magnolia_grandiflora_jeune",
+   "nom_latin": "Magnolia grandiflora",
+   "nom_francais": "magnolia à grandes fleurs",
+   "nom_anglais": "southern magnolia",
+   "source": "inventaire Métropole (2, allée de L'Horloge)",
+   "priorite": 3,
+   "confiance": "moyenne",
+   "port": "libre : cime ovoïde dense",
+   "tronc": "Ø ≈ 0,11 m (35 cm)",
+   "feuillage": {
+    "persistance": "persistant",
+    "ete_srgb": "#2F5525",
+    "automne_srgb": "#2F5525",
+    "etat_mi_octobre_2026": "inchangé (grandes feuilles vernissées, revers roux)",
+    "hiver": "inchangé"
+   },
+   "gabarit": {
+    "hauteur": 5.0,
+    "fut_nu": 1.0,
+    "couronne_diametre": 3.5,
+    "forme_couronne": "ovoïde dense",
+    "feuille_cm": "15-20"
+   },
+   "note_hauteur": "inventaire [0;5 m[ ; LiDAR 7,9-9,0 (probablement l'arbre voisin) → garder 5 m",
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 2,
+   "hauteurs_mesurees_m": {
+    "min": 7.9,
+    "mediane": 8.4,
+    "max": 9.0,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 7.4,
+    "max": 7.6
+   },
+   "positions": [
+    {
+     "id": "arbre_004",
+     "x": -16.56,
+     "y": -146.81,
+     "z": -2.79,
+     "hauteur_m": 9.0,
+     "couronne_m": 7.6,
+     "circonference_cm": 35
+    },
+    {
+     "id": "arbre_005",
+     "x": -7.55,
+     "y": -145.24,
+     "z": -2.61,
+     "hauteur_m": 7.9,
+     "couronne_m": 7.3,
+     "circonference_cm": 35
+    }
+   ]
+  },
+  {
+   "asset": "arbre_crataegus_laevigata_jeune",
+   "nom_latin": "Crataegus laevigata",
+   "nom_francais": "aubépine épineuse",
+   "nom_anglais": "Midland hawthorn",
+   "source": "inventaire Métropole (1)",
+   "priorite": 3,
+   "confiance": "moyenne",
+   "port": "libre : petit arbre à cime arrondie, rameaux épineux",
+   "tronc": "Ø ≈ 0,16 m",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#4C7A30",
+    "automne_srgb": "#C27A33",
+    "etat_mi_octobre_2026": "jaune-orangé, fruits rouges (cenelles)",
+    "hiver": "rameaux épineux denses"
+   },
+   "gabarit": {
+    "hauteur": 5.0,
+    "fut_nu": 1.2,
+    "couronne_diametre": 4.0,
+    "forme_couronne": "arrondie"
+   },
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 1,
+   "hauteurs_mesurees_m": {
+    "min": 11.9,
+    "mediane": 11.9,
+    "max": 11.9,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 8.3,
+    "max": 8.3
+   },
+   "positions": [
+    {
+     "id": "arbre_339",
+     "x": -124.24,
+     "y": 75.71,
+     "z": -0.16,
+     "hauteur_m": 11.9,
+     "couronne_m": 8.3,
+     "circonference_cm": 50
+    }
+   ]
+  },
+  {
+   "asset": "arbre_sorbus_sp_jeune",
+   "nom_latin": "Sorbus sp.",
+   "nom_francais": "sorbier",
+   "nom_anglais": "rowan / whitebeam",
+   "source": "inventaire Métropole (1)",
+   "priorite": 3,
+   "confiance": "moyenne",
+   "port": "libre : petite cime ovoïde",
+   "tronc": "Ø ≈ 0,08 m",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#4E7C34",
+    "automne_srgb": "#C8562E",
+    "etat_mi_octobre_2026": "rouge-orangé, fruits orange",
+    "hiver": "nu"
+   },
+   "gabarit": {
+    "hauteur": 4.9,
+    "fut_nu": 1.5,
+    "couronne_diametre": 3.0,
+    "forme_couronne": "ovoïde"
+   },
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 1,
+   "hauteurs_mesurees_m": {
+    "min": 4.9,
+    "mediane": 4.9,
+    "max": 4.9,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 4.3,
+    "max": 4.3
+   },
+   "positions": [
+    {
+     "id": "arbre_385",
+     "x": -74.08,
+     "y": 98.47,
+     "z": 1.24,
+     "hauteur_m": 4.9,
+     "couronne_m": 4.3,
+     "circonference_cm": 25
+    }
+   ]
+  },
+  {
+   "asset": "arbre_salix_babylonica_tetard_petit",
+   "nom_latin": "Salix babylonica (têtard)",
+   "nom_francais": "saule pleureur conduit en têtard",
+   "nom_anglais": "pollarded weeping willow",
+   "source": "inventaire Métropole (1, NE éloigné)",
+   "priorite": 3,
+   "confiance": "moyenne",
+   "port": "têtard : tronc court massif (Ø ≈ 0,70 m, 220 cm), rejets souples retombants",
+   "tronc": "écorce crevassée",
+   "feuillage": {
+    "persistance": "caduc tardif",
+    "ete_srgb": "#7FA046",
+    "automne_srgb": "#D5C460",
+    "etat_mi_octobre_2026": "vert clair",
+    "hiver": "rejets jaunâtres retombants"
+   },
+   "gabarit": {
+    "hauteur": 8.0,
+    "hauteur_tetes": 2.5,
+    "couronne_diametre": 6.0,
+    "forme_couronne": "boule de rejets retombants"
+   },
+   "note_hauteur": "inventaire [5;10 m[ ; LiDAR 25,5 m (arbre voisin) → garder 8 m",
+   "production": {
+    "principale": "labs",
+    "alternatives": [
+     "speedtree"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 1,
+   "hauteurs_mesurees_m": {
+    "min": 26.4,
+    "mediane": 26.4,
+    "max": 26.4,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 10.4,
+    "max": 10.4
+   },
+   "positions": [
+    {
+     "id": "arbre_458",
+     "x": 119.87,
+     "y": 144.48,
+     "z": 1.95,
+     "hauteur_m": 26.4,
+     "couronne_m": 10.4,
+     "circonference_cm": 220
+    }
+   ]
+  },
+  {
+   "asset": "arbre_cupressus_sempervirens_grand",
+   "nom_latin": "Cupressus sempervirens",
+   "nom_francais": "cyprès d'Italie",
+   "nom_anglais": "Italian cypress",
+   "source": "photos (jardinerie Paquet Jardin, privé) + levé GAM",
+   "priorite": 1,
+   "confiance": "haute (essence) / faible (positions)",
+   "port": "fastigié : colonne très étroite et dense, pointe effilée",
+   "tronc": "non visible",
+   "feuillage": {
+    "persistance": "persistant",
+    "ete_srgb": "#2E4A28",
+    "automne_srgb": "#2E4A28",
+    "etat_mi_octobre_2026": "inchangé (vert très sombre)",
+    "hiver": "inchangé"
+   },
+   "gabarit": {
+    "hauteur": 16.0,
+    "fut_nu": 0.5,
+    "couronne_diametre": 2.5,
+    "forme_couronne": "colonne fusiforme (rapport h/l ≈ 6-8)"
+   },
+   "positions_note": "2 sujets vus de loin (repère visuel fort) ; candidats LiDAR étroits (couronne 3,3-4,1 m, h 13-16 m) : arbre_108, 139, 140, 143, 164 de l'atelier (x −104…−115, y −51…−66) — à confirmer",
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "fab",
+     "carla static.prop.cypresstree (silhouette proche, à mettre à l'échelle)"
+    ]
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd/2025-05-18_bc579b89-508c-49fc-a23d-246d95dc2460_hd_r01_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd_r01_c03.jpg"
+   ],
+   "nombre_2026": 2
+  },
+  {
+   "asset": "arbre_pinus_sylvestris_moyen",
+   "nom_latin": "Pinus sylvestris (probable)",
+   "nom_francais": "pin sylvestre",
+   "nom_anglais": "Scots pine",
+   "source": "photos 2026-07 (abords sud, privé)",
+   "priorite": 2,
+   "confiance": "faible (espèce) — écorce orangée en tête observée",
+   "port": "fût élancé dénudé, houppier clair et irrégulier en tête",
+   "tronc": "écorce brun-gris en pied, orange saumon en partie haute",
+   "feuillage": {
+    "persistance": "persistant",
+    "ete_srgb": "#3F5F3A",
+    "automne_srgb": "#3F5F3A",
+    "etat_mi_octobre_2026": "inchangé (aiguilles vert-bleu)",
+    "hiver": "inchangé"
+   },
+   "gabarit": {
+    "hauteur": 15.0,
+    "fut_nu": 8.0,
+    "couronne_diametre": 6.0,
+    "forme_couronne": "parasol irrégulier"
+   },
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "fab",
+     "labs"
+    ]
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd/2026-07-28_ded07efa-75ec-4289-972a-56c9e98a1309_hd_r01_c02.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c02.jpg"
+   ],
+   "nombre_2026": 2
+  },
+  {
+   "asset": "arbre_cedrus_deodara_grand",
+   "nom_latin": "Cedrus deodara (ou atlantica)",
+   "nom_francais": "cèdre de l'Himalaya",
+   "nom_anglais": "deodar cedar",
+   "source": "photo 2025-01-12 (rive est du Vercors, devant le local technique, privé)",
+   "priorite": 2,
+   "confiance": "moyenne",
+   "port": "grand conifère multi-troncs à branches retombantes, flèche penchée",
+   "tronc": "2-3 troncs",
+   "feuillage": {
+    "persistance": "persistant",
+    "ete_srgb": "#4C6A4A",
+    "automne_srgb": "#4C6A4A",
+    "etat_mi_octobre_2026": "inchangé",
+    "hiver": "inchangé"
+   },
+   "gabarit": {
+    "hauteur": 17.0,
+    "fut_nu": 2.0,
+    "couronne_diametre": 10.0,
+    "forme_couronne": "conique lâche, branches pendantes"
+   },
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs"
+    ]
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd/2025-01-12_d88855f2-6272-43f9-bb83-562d6d894cfe_hd_r01_c01.jpg"
+   ],
+   "nombre_2026": 1
+  },
+  {
+   "asset": "arbre_feuillu_generique_moyen",
+   "nom_latin": "feuillus divers (essence non renseignée)",
+   "nom_francais": "feuillu générique",
+   "nom_anglais": "generic deciduous tree",
+   "source": "levé GAM (ARBRE_FEUILLU) et LiDAR HD 2021 hors inventaire public",
+   "priorite": 1,
+   "confiance": "moyenne",
+   "port": "3 variantes de silhouette recommandées (ovoïde dense type érable plane, étalée type robinier/frêne, colonne type charme fastigié)",
+   "tronc": "Ø 0,2-0,5 m",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#4C7A30",
+    "automne_srgb": "#C9A845",
+    "etat_mi_octobre_2026": "mélange vert / vert-jaune",
+    "hiver": "nu"
+   },
+   "gabarit": {
+    "hauteur": 10.0,
+    "fut_nu": 2.5,
+    "couronne_diametre": 6.0,
+    "forme_couronne": "variantes"
+   },
+   "note_hauteur": "atelier : 372 feuillus existants hors essences, hauteur LiDAR 2,5-29,5 m (médiane 10,1), couronne 1-17,5 m (médiane 4,3) → mise à l'échelle par instance",
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "labs",
+     "fab",
+     "carla"
+    ]
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd_r01_c03.jpg"
+   ],
+   "nombre_2026": 325,
+   "hauteurs_mesurees_m": {
+    "min": 1.2,
+    "mediane": 9.6,
+    "max": 29.5,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 5.4,
+    "max": 17.3
+   },
+   "a_verifier": {
+    "nombre": 4,
+    "note": "statut « à vérifier » dans l'atelier objets (fiche abattue à l'inventaire mais houppier encore présent au LiDAR 2021, ou position incertaine)",
+    "ids": [
+     "arbre_019",
+     "arbre_034",
+     "arbre_229",
+     "arbre_230"
+    ]
+   },
+   "positions": "325 instances : recon/out/paquet_jardin/objets/arbres.geojson (essence vide, type feuillu)"
+  },
+  {
+   "asset": "arbre_conifere_generique_moyen",
+   "nom_latin": "conifères divers",
+   "nom_francais": "conifère générique",
+   "nom_anglais": "generic conifer",
+   "source": "levé GAM (ARBRE_CONIFERE) + LiDAR",
+   "priorite": 2,
+   "confiance": "moyenne",
+   "port": "conique (épicéa / pin noir / thuya)",
+   "tronc": "Ø 0,2-0,4 m",
+   "feuillage": {
+    "persistance": "persistant",
+    "ete_srgb": "#2F4F30",
+    "automne_srgb": "#2F4F30",
+    "etat_mi_octobre_2026": "inchangé",
+    "hiver": "inchangé"
+   },
+   "gabarit": {
+    "hauteur": 12.0,
+    "fut_nu": 1.5,
+    "couronne_diametre": 5.0,
+    "forme_couronne": "conique"
+   },
+   "note_hauteur": "atelier : 12 conifères, 5,0-27,0 m (médiane 12,4)",
+   "production": {
+    "principale": "speedtree",
+    "alternatives": [
+     "fab",
+     "carla"
+    ]
+   },
+   "photos_reference": [],
+   "nombre_2026": 18,
+   "hauteurs_mesurees_m": {
+    "min": 5.0,
+    "mediane": 13.9,
+    "max": 21.0,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 4.9,
+    "max": 17.0
+   },
+   "positions": "18 instances : recon/out/paquet_jardin/objets/arbres.geojson (essence vide, type conifere)"
+  },
+  {
+   "asset": "arbre_alnus_cordata_jeune",
+   "nom_latin": "Alnus cordata (code « Alc »)",
+   "nom_francais": "aulne de Corse",
+   "nom_anglais": "Italian alder",
+   "source": "plan projet 2025 (TPC planté de Verdun SO, 2 sujets)",
+   "priorite": 1,
+   "confiance": "moyenne (code lisible à 150 dpi)",
+   "jeune_sujet": true,
+   "port": "jeune tige conique, axe droit",
+   "tronc": "tige 16/18 (Ø ≈ 0,055 m à 1 m)",
+   "feuillage": {
+    "persistance": "caduc tardif",
+    "ete_srgb": "#2F5E2A",
+    "automne_srgb": "#5C7A2E",
+    "etat_mi_octobre_2026": "encore vert foncé brillant (chute en novembre-décembre)",
+    "hiver": "chatons et petits cônes noirs"
+   },
+   "gabarit": {
+    "hauteur": 4.5,
+    "fut_nu": 1.8,
+    "couronne_diametre": 1.8,
+    "forme_couronne": "conique étroite"
+   },
+   "production": {
+    "principale": "labs",
+    "alternatives": [
+     "speedtree"
+    ],
+    "note": "générateur « jeune sujet » commun (voir arbre_jeune_tuteure_generique) paramétré par essence"
+   },
+   "photos_reference": [
+    "data/sites/paquet_jardin/plan_projet_2025/tuiles/plan_projet_r01_c01.jpg",
+    "assets/qa/mobilier_vegetation_carla/qa_07_plan_jeunes_sujets.jpg"
+   ],
+   "nombre_2026": 2,
+   "hauteurs_mesurees_m": {
+    "min": 4.5,
+    "mediane": 4.5,
+    "max": 4.5,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 1.8,
+    "max": 1.8
+   },
+   "positions": [
+    {
+     "id": "arbre_167",
+     "x": -44.2,
+     "y": -48.86,
+     "z": -0.14,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Alc",
+     "zone": "TPC"
+    },
+    {
+     "id": "arbre_195",
+     "x": -27.3,
+     "y": -31.52,
+     "z": -0.05,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Alc",
+     "zone": "TPC"
+    }
+   ]
+  },
+  {
+   "asset": "arbre_alnus_spaethii_jeune",
+   "nom_latin": "Alnus × spaethii (code « As », lecture probable ; l'atelier lit « Acer sp. »)",
+   "nom_francais": "aulne de Spaeth",
+   "nom_anglais": "Spaeth's alder",
+   "source": "plan projet 2025 (TPC planté SO, 2 sujets « As »)",
+   "priorite": 2,
+   "confiance": "faible (interprétation du code)",
+   "jeune_sujet": true,
+   "port": "jeune tige ovoïde",
+   "tronc": "tige 16/18",
+   "feuillage": {
+    "persistance": "caduc tardif",
+    "ete_srgb": "#355E2C",
+    "automne_srgb": "#6B7A30",
+    "etat_mi_octobre_2026": "vert foncé (jeunes pousses pourpres au printemps)",
+    "hiver": "nu"
+   },
+   "gabarit": {
+    "hauteur": 4.5,
+    "fut_nu": 1.8,
+    "couronne_diametre": 1.8,
+    "forme_couronne": "ovoïde"
+   },
+   "production": {
+    "principale": "labs",
+    "alternatives": [
+     "speedtree"
+    ]
+   },
+   "photos_reference": [
+    "assets/qa/mobilier_vegetation_carla/qa_07_plan_jeunes_sujets.jpg"
+   ],
+   "nombre_2026": 2,
+   "hauteurs_mesurees_m": {
+    "min": 4.5,
+    "mediane": 4.5,
+    "max": 4.5,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 1.8,
+    "max": 1.8
+   },
+   "positions": [
+    {
+     "id": "arbre_180",
+     "x": -39.05,
+     "y": -43.51,
+     "z": -0.12,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "As",
+     "zone": "TPC"
+    },
+    {
+     "id": "arbre_196",
+     "x": -21.45,
+     "y": -25.43,
+     "z": 0.01,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "As",
+     "zone": "TPC"
+    }
+   ]
+  },
+  {
+   "asset": "arbre_cercis_siliquastrum_jeune",
+   "nom_latin": "Cercis siliquastrum (code « Cs »/« Ce », lecture probable)",
+   "nom_francais": "arbre de Judée",
+   "nom_anglais": "Judas tree",
+   "source": "plan projet 2025 (TPC planté SO, 1 sujet)",
+   "priorite": 2,
+   "confiance": "faible",
+   "jeune_sujet": true,
+   "port": "jeune cépée ou tige, cime étalée",
+   "tronc": "tige 14/16",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#4F7B33",
+    "automne_srgb": "#D6B648",
+    "etat_mi_octobre_2026": "jaune pâle, gousses brun-violet",
+    "hiver": "gousses pendantes"
+   },
+   "gabarit": {
+    "hauteur": 3.5,
+    "fut_nu": 1.5,
+    "couronne_diametre": 2.0,
+    "forme_couronne": "étalée"
+   },
+   "production": {
+    "principale": "labs",
+    "alternatives": [
+     "speedtree"
+    ]
+   },
+   "photos_reference": [
+    "assets/qa/mobilier_vegetation_carla/qa_07_plan_jeunes_sujets.jpg"
+   ],
+   "nombre_2026": 1,
+   "hauteurs_mesurees_m": {
+    "min": 4.5,
+    "mediane": 4.5,
+    "max": 4.5,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 1.8,
+    "max": 1.8
+   },
+   "positions": [
+    {
+     "id": "arbre_181",
+     "x": -33.29,
+     "y": -37.44,
+     "z": -0.09,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Ce",
+     "zone": "TPC"
+    }
+   ]
+  },
+  {
+   "asset": "arbre_ulmus_hybride_jeune",
+   "nom_latin": "Ulmus (hybride résistant à la graphiose, code « Ul »)",
+   "nom_francais": "orme résistant",
+   "nom_anglais": "disease-resistant elm",
+   "source": "plan projet 2025 (noue plantée SE, 2 sujets)",
+   "priorite": 1,
+   "confiance": "moyenne",
+   "jeune_sujet": true,
+   "port": "jeune tige ovoïde à colonnaire selon cultivar",
+   "tronc": "tige 16/18",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#3F6B2D",
+    "automne_srgb": "#D2B347",
+    "etat_mi_octobre_2026": "vert",
+    "hiver": "nu"
+   },
+   "gabarit": {
+    "hauteur": 4.5,
+    "fut_nu": 1.8,
+    "couronne_diametre": 1.6,
+    "forme_couronne": "ovoïde étroite"
+   },
+   "production": {
+    "principale": "labs",
+    "alternatives": [
+     "speedtree"
+    ]
+   },
+   "photos_reference": [
+    "assets/qa/mobilier_vegetation_carla/qa_07_plan_jeunes_sujets.jpg"
+   ],
+   "nombre_2026": 2,
+   "hauteurs_mesurees_m": {
+    "min": 4.5,
+    "mediane": 4.5,
+    "max": 4.5,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 1.8,
+    "max": 1.8
+   },
+   "positions": [
+    {
+     "id": "arbre_168",
+     "x": -31.83,
+     "y": -50.42,
+     "z": -0.17,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Ul",
+     "zone": "noue_SE"
+    },
+    {
+     "id": "arbre_197",
+     "x": -14.22,
+     "y": -32.43,
+     "z": -0.08,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Ul",
+     "zone": "noue_SE"
+    }
+   ]
+  },
+  {
+   "asset": "arbre_quercus_cerris_jeune",
+   "nom_latin": "Quercus cerris (code « Qc » ; l'atelier lit « Oc » = Ostrya carpinifolia)",
+   "nom_francais": "chêne chevelu (ou charme-houblon)",
+   "nom_anglais": "Turkey oak (or hop hornbeam)",
+   "source": "plan projet 2025 (noue plantée SE, 2 sujets)",
+   "priorite": 2,
+   "confiance": "faible (code ambigu Qc/Oc à 150 dpi)",
+   "jeune_sujet": true,
+   "port": "jeune tige ovoïde",
+   "tronc": "tige 16/18",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#3E6A2C",
+    "automne_srgb": "#A47A35",
+    "etat_mi_octobre_2026": "vert (brunit fin octobre-novembre)",
+    "hiver": "nu"
+   },
+   "gabarit": {
+    "hauteur": 4.5,
+    "fut_nu": 1.8,
+    "couronne_diametre": 1.8,
+    "forme_couronne": "ovoïde"
+   },
+   "production": {
+    "principale": "labs",
+    "alternatives": [
+     "speedtree"
+    ]
+   },
+   "photos_reference": [
+    "assets/qa/mobilier_vegetation_carla/qa_07_plan_jeunes_sujets.jpg"
+   ],
+   "nombre_2026": 2,
+   "hauteurs_mesurees_m": {
+    "min": 4.5,
+    "mediane": 4.5,
+    "max": 4.5,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 1.8,
+    "max": 1.8
+   },
+   "positions": [
+    {
+     "id": "arbre_182",
+     "x": -25.88,
+     "y": -44.48,
+     "z": -0.12,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Oc",
+     "zone": "noue_SE"
+    },
+    {
+     "id": "arbre_183",
+     "x": -20.06,
+     "y": -38.48,
+     "z": -0.11,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Oc",
+     "zone": "noue_SE"
+    }
+   ]
+  },
+  {
+   "asset": "arbre_gleditsia_triacanthos_jeune",
+   "nom_latin": "Gleditsia triacanthos (code « Gt », probablement 'Inermis' sans épines)",
+   "nom_francais": "févier d'Amérique",
+   "nom_anglais": "honey locust",
+   "source": "plan projet 2025 (bande plantée NO le long de la piste, 2 sujets)",
+   "priorite": 2,
+   "confiance": "moyenne",
+   "jeune_sujet": true,
+   "port": "jeune tige à cime légère, feuillage très fin",
+   "tronc": "tige 16/18",
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#6E9440",
+    "automne_srgb": "#E2C54A",
+    "etat_mi_octobre_2026": "jaune vif, chute rapide (souvent déjà clairsemé mi-octobre)",
+    "hiver": "gousses torsadées brunes"
+   },
+   "gabarit": {
+    "hauteur": 4.5,
+    "fut_nu": 1.8,
+    "couronne_diametre": 2.0,
+    "forme_couronne": "étalée légère",
+    "feuille_cm": "15-20 (bipennée, folioles 2 cm)"
+   },
+   "production": {
+    "principale": "labs",
+    "alternatives": [
+     "speedtree"
+    ]
+   },
+   "photos_reference": [
+    "assets/qa/mobilier_vegetation_carla/qa_07_plan_jeunes_sujets.jpg"
+   ],
+   "nombre_2026": 2,
+   "hauteurs_mesurees_m": {
+    "min": 4.5,
+    "mediane": 4.5,
+    "max": 4.5,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 1.8,
+    "max": 1.8
+   },
+   "positions": [
+    {
+     "id": "arbre_166",
+     "x": -61.61,
+     "y": -47.59,
+     "z": -0.33,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Gt",
+     "zone": "bande_NO"
+    },
+    {
+     "id": "arbre_206",
+     "x": -35.18,
+     "y": -21.75,
+     "z": -0.12,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Gt",
+     "zone": "bande_NO"
+    }
+   ]
+  },
+  {
+   "asset": "arbre_celtis_australis_jeune",
+   "nom_latin": "Celtis australis (code « Ca »)",
+   "nom_francais": "micocoulier de Provence",
+   "nom_anglais": "European nettle tree",
+   "source": "plan projet 2025 (angle NO / Revirée, 1 sujet)",
+   "priorite": 2,
+   "confiance": "moyenne",
+   "jeune_sujet": true,
+   "port": "jeune tige à cime arrondie",
+   "tronc": "tige 16/18, écorce grise lisse",
+   "feuillage": {
+    "persistance": "caduc tardif",
+    "ete_srgb": "#4A7630",
+    "automne_srgb": "#C8BE5A",
+    "etat_mi_octobre_2026": "vert (jaune pâle en novembre)",
+    "hiver": "nu"
+   },
+   "gabarit": {
+    "hauteur": 4.5,
+    "fut_nu": 1.8,
+    "couronne_diametre": 2.0,
+    "forme_couronne": "arrondie"
+   },
+   "production": {
+    "principale": "labs",
+    "alternatives": [
+     "speedtree"
+    ]
+   },
+   "photos_reference": [
+    "assets/qa/mobilier_vegetation_carla/qa_07_plan_jeunes_sujets.jpg"
+   ],
+   "nombre_2026": 1,
+   "hauteurs_mesurees_m": {
+    "min": 4.5,
+    "mediane": 4.5,
+    "max": 4.5,
+    "source": "LiDAR HD 2021 / MNH (atelier objets) ; plan projet pour les jeunes sujets (4,5 m type)"
+   },
+   "couronne_mesuree_m": {
+    "mediane": 1.8,
+    "max": 1.8
+   },
+   "positions": [
+    {
+     "id": "arbre_215",
+     "x": -16.64,
+     "y": -7.48,
+     "z": -0.02,
+     "hauteur_m": 4.5,
+     "couronne_m": 1.8,
+     "code_plan": "Ca",
+     "zone": "angle_NO"
+    }
+   ]
+  },
+  {
+   "asset": "arbre_jeune_tuteure_generique",
+   "nom_latin": "jeune sujet tuteuré (essence non confirmée)",
+   "nom_francais": "jeune arbre tuteuré",
+   "nom_anglais": "staked young tree",
+   "source": "plan projet 2025 (15 fosses d'arbres) ; photos 2026-07 (jeunes plantations au sud et à l'est)",
+   "priorite": 1,
+   "confiance": "haute (besoin)",
+   "jeune_sujet": true,
+   "port": "tige de pépinière (force 16/18 à 20/25), cime formée de 5-8 charpentières",
+   "tronc": "Ø 0,05-0,08 m à 1 m",
+   "tuteurage": {
+    "type": "tripode",
+    "piquets": "3 piquets bois ronds Ø 0,08 m, h 2,2 m hors sol, à 0,5 m du tronc",
+    "liaisons": "3 demi-rondins en tête + colliers caoutchouc",
+    "fosse": "cuvette Ø 1,5-2,0 m, paillage (minéral gris ou copeaux brun)",
+    "protection": "option : ganivelle (voir mobilier.json) ou corset de protection en pied"
+   },
+   "feuillage": {
+    "persistance": "caduc",
+    "ete_srgb": "#4C7A30",
+    "automne_srgb": "#C9A845",
+    "etat_mi_octobre_2026": "feuillé, début de coloration ; 2e automne après plantation (feuillage clairsemé)",
+    "hiver": "tige nue + tuteurs (silhouette fine)"
+   },
+   "gabarit": {
+    "hauteur": 4.5,
+    "fut_nu": 1.8,
+    "couronne_diametre": 1.8,
+    "forme_couronne": "ovoïde lâche"
+   },
+   "production": {
+    "principale": "labs",
+    "alternatives": [
+     "speedtree"
+    ],
+    "note": "un HDA Houdini « jeune_sujet » (tronc + 5-8 branches + feuilles + tripode) paramétré par essence couvre les 8 essences 2025"
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd/2026-07-28_ffc2e8ac-50a1-422d-8a27-6514243a81e5_hd_r01_c00.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c03.jpg"
+   ],
+   "nombre_2026": "repli pour les 15 jeunes sujets 2025 si l'essence n'est pas confirmée"
+  },
+  {
+   "asset": "haie_taillee_persistante",
+   "nom_latin": "Prunus laurocerasus / Photinia / Ligustrum (probables)",
+   "nom_francais": "haie taillée persistante",
+   "nom_anglais": "trimmed evergreen hedge",
+   "source": "BD TOPO (haie 646 m) + GAM SOL_VEGETATION + photos (haies séparatives de Verdun SO, angle Revirée)",
+   "priorite": 1,
+   "confiance": "haute (présence) / faible (essence)",
+   "port": "volume taillé à faces planes et dessus plat ou arrondi, base parfois dégarnie",
+   "tronc": "—",
+   "feuillage": {
+    "persistance": "persistant",
+    "ete_srgb": "#3D6A2A",
+    "automne_srgb": "#3D6A2A",
+    "etat_mi_octobre_2026": "inchangé (quelques pousses claires si taille tardive)",
+    "hiver": "inchangé"
+   },
+   "gabarit": {
+    "hauteur": "1,2-2,5 (Verdun SO ≈ 2,0 ; angle Revirée ≈ 1,2-1,8)",
+    "epaisseur": "1,0-2,5",
+    "module": "segment extrudable de 2 m (coque + cartes de feuillage), extrémités arrondies"
+   },
+   "production": {
+    "principale": "maison Houdini (coque extrudée le long des lignes BD TOPO/GAM + scatter de cartes de feuilles)",
+    "alternatives": [
+     "fab (haies Megascans)",
+     "carla BP_Spline / BP_Wall avec un maillage de haie"
+    ]
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd_r01_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd/2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd_r01_c03.jpg"
+   ],
+   "nombre_2026": "≈ 650 m (500-900)"
+  },
+  {
+   "asset": "massif_arbustif",
+   "nom_latin": "mélange d'arbustes (charmille libre, laurier, cornouiller, buis, graminées)",
+   "nom_francais": "massif arbustif",
+   "nom_anglais": "shrub bed",
+   "source": "BD TOPO zone de végétation ≈ 9 900 m² + photos",
+   "priorite": 2,
+   "confiance": "haute (présence)",
+   "port": "touffes 0,5-3 m, masses libres",
+   "tronc": "—",
+   "feuillage": {
+    "persistance": "mixte",
+    "ete_srgb": "#4A7630",
+    "automne_srgb": "#B98D3E",
+    "etat_mi_octobre_2026": "mélange vert / jaune / roux",
+    "hiver": "masses brunes, persistants verts"
+   },
+   "gabarit": {
+    "hauteur": "0,5-3,0",
+    "elements": "4-6 arbustes types à disperser (scatter) selon la densité de l'ortho"
+   },
+   "production": {
+    "principale": "fab",
+    "alternatives": [
+     "speedtree",
+     "carla /Game/Carla/Static/Vegetation (buissons)"
+    ]
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd/2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd_r01_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd/2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd_r01_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd/2026-07-28_f8d91bb1-694d-47fd-b2a4-3f16b57378bb_hd_r01_c02.jpg"
+   ],
+   "nombre_2026": "surface ≈ 9 900 m² (BD TOPO)"
+  }
+ ],
+ "synthese": {
+  "arbres_inventaire_presents": 53,
+  "jeunes_sujets_2025": 15,
+  "note": "les 3 érables champêtres du plan 2025 (« Ac » ×2, « Aca ») sont comptés dans arbre_acer_campestre_jeune"
+ },
+ "non_retenus": [
+  {
+   "type": "Populus alba, Populus nigra (1), Salix alba (3), Robinia pseudoacacia, Betula pendula (2), Fraxinus excelsior (1), Acer campestre (1), Crataegus laevigata (1), Populus sp. (5)",
+   "raison": "16 fiches « Abattu » de l'inventaire dans l'emprise : absents en 2026"
+  },
+  {
+   "type": "Platanus × acerifolia",
+   "raison": "pas de platane d'alignement dans l'emprise (le têtard du NE est un peuplier d'après l'inventaire)"
+  }
+ ]
+}

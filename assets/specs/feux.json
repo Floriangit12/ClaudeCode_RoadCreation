@@ -1,0 +1,930 @@
+{
+ "meta": {
+  "site": "paquet_jardin (Meylan) — carrefour à feux à 4 branches, état octobre 2026",
+  "date": "2026-10-09",
+  "role": "cahier des charges vérifié des signaux lumineux (fabrication sur le PC : Houdini 22 / Unreal 5.8)",
+  "conventions_asset": "assets/CONVENTIONS.md : mètres, Z-up, pivot au pied (mât) ou au point d'accroche (tête), FACE AVANT (optiques) VERS +Y",
+  "references": [
+   "arrêté du 24 novembre 1967 modifié (signaux R11v, R11j, R12, R12m, R13b/c, R14-R19 ; M12 par l'arrêté du 12 janvier 2012)",
+   "IISR 6e partie « Feux de circulation permanents » (résumé fr.wikipedia « Feux et signaux lumineux routiers en France », consulté le 2026-10-09)",
+   "NF EN 12368 (signaux lumineux : optiques Ø 100 / 200 / 300 mm, classes d'intensité et chromaticité)"
+  ],
+  "sources_site": [
+   "recon/out/paquet_jardin/objets/mobilier.geojson (14 supports : LiDAR 2021, ortho 2022, photos)",
+   "photos Panoramax 2024-05, 2025-01, 2025-05, 2025-08 (tuiles 1000×1000 et extraits HD)",
+   "OSM : traffic_signals ×14, crossing=traffic_signals ×10, button_operated=yes (3 traversées), traffic_signals:sound=no, red_turn:right:bicycle=yes (Revirée)",
+   "analyses analysis/paquet_jardin/observations_initiales (coeur-40, p2024_05_360-22/23, p2025_01_vercors-23/24, p2025_05_360-14/15, p2025_08_travaux-17/18)"
+  ],
+  "constats_generaux": [
+   "pas de potence ni de portique au-dessus de la chaussée : toutes les têtes sont latérales, sur mâts de 3,4 m (4,2 m sur l'îlot axial de la Revirée)",
+   "pas de plaque (écran) de contraste derrière les têtes R11v",
+   "têtes R11v MODULAIRES : 3 modules ronds séparés empilés, corps gris clair, face et visières noires — très reconnaissables de dos",
+   "aucun feu bus (R17/R18) ni directionnel (R14/R16) observé ; R13c (cycles) non confirmé",
+   "pas de ligne d'effet des feux peinte : le passage piéton sert de limite d'arrêt (coeur-09)",
+   "dernière vue du cœur : 2025-08-31 (travaux) ; implantation 2026 du quadrant SO déduite du plan projet (à vérifier)"
+  ],
+  "controle": "planches assets/qa/panneaux_feux/planche_feux_*.jpg"
+ },
+ "couleurs": {
+  "corps_module_gris_clair": {
+   "srgb": "#D5D6D2",
+   "lineaire": [
+    0.6654,
+    0.6724,
+    0.6445
+   ],
+   "reference": "≈ RAL 7035 gris clair (polycarbonate) : dos et flancs des modules R11v, très visibles"
+  },
+  "face_visiere_noir": {
+   "srgb": "#1C1C1C",
+   "lineaire": [
+    0.0116,
+    0.0116,
+    0.0116
+   ],
+   "reference": "≈ RAL 9005/9017 noir mat : face avant, collerette et visières"
+  },
+  "boitier_noir": {
+   "srgb": "#202020",
+   "lineaire": [
+    0.0144,
+    0.0144,
+    0.0144
+   ],
+   "reference": "noir mat : répétiteurs, R12, boîtiers de bouton d'appel"
+  },
+  "mat_galvanise": {
+   "srgb": "#9EA3A6",
+   "lineaire": [
+    0.3419,
+    0.3663,
+    0.3813
+   ],
+   "reference": "acier galvanisé à chaud vieilli"
+  },
+  "mat_anthracite": {
+   "srgb": "#383E42",
+   "lineaire": [
+    0.0395,
+    0.0482,
+    0.0545
+   ],
+   "reference": "≈ RAL 7016 gris anthracite (mât à caméra, certains mâts sombres)"
+  },
+  "fourreau_jaune": {
+   "srgb": "#F7B500",
+   "lineaire": [
+    0.9301,
+    0.4621,
+    0.0
+   ],
+   "reference": "≈ RAL 1023 jaune (manchon de repérage en pied)"
+  },
+  "lentille_eteinte_rouge": {
+   "srgb": "#4A0F0C",
+   "lineaire": [
+    0.0685,
+    0.0048,
+    0.0037
+   ],
+   "reference": "optique rouge éteinte (lentille teintée, vue de jour)"
+  },
+  "lentille_eteinte_jaune": {
+   "srgb": "#4D3A0E",
+   "lineaire": [
+    0.0742,
+    0.0423,
+    0.0044
+   ],
+   "reference": "optique jaune éteinte"
+  },
+  "lentille_eteinte_vert": {
+   "srgb": "#0E3A30",
+   "lineaire": [
+    0.0044,
+    0.0423,
+    0.0296
+   ],
+   "reference": "optique verte éteinte"
+  }
+ },
+ "emission": {
+  "rouge": {
+   "srgb": "#FF2410",
+   "chromaticite_cie_xy_indicative": [
+    0.69,
+    0.3
+   ],
+   "lineaire": [
+    1.0,
+    0.0176,
+    0.0052
+   ],
+   "luminance_cd_m2": "≈ 5 000-12 000 cd/m² sur la plage éclairante Ø 200 mm (intensité ≈ 200-400 cd dans l'axe, ordre de grandeur NF EN 12368) ; ≈ 2 000-6 000 cd/m² pour Ø 100 mm"
+  },
+  "jaune": {
+   "srgb": "#FFA800",
+   "chromaticite_cie_xy_indicative": [
+    0.575,
+    0.42
+   ],
+   "note": "« orange » dans le langage courant",
+   "lineaire": [
+    1.0,
+    0.3916,
+    0.0
+   ],
+   "luminance_cd_m2": "≈ 5 000-12 000 cd/m² sur la plage éclairante Ø 200 mm (intensité ≈ 200-400 cd dans l'axe, ordre de grandeur NF EN 12368) ; ≈ 2 000-6 000 cd/m² pour Ø 100 mm"
+  },
+  "vert": {
+   "srgb": "#00E0A8",
+   "chromaticite_cie_xy_indicative": [
+    0.17,
+    0.53
+   ],
+   "note": "vert bleuté des LED (vu sur les photos : #2FD7A5 environ)",
+   "lineaire": [
+    0.0,
+    0.7454,
+    0.3916
+   ],
+   "luminance_cd_m2": "≈ 5 000-12 000 cd/m² sur la plage éclairante Ø 200 mm (intensité ≈ 200-400 cd dans l'axe, ordre de grandeur NF EN 12368) ; ≈ 2 000-6 000 cd/m² pour Ø 100 mm"
+  }
+ },
+ "types": [
+  {
+   "asset": "feu_R11v",
+   "code": "R11v",
+   "designation": "Signal tricolore circulaire pour véhicules (rouge en haut, jaune, vert en bas)",
+   "optiques": {
+    "diametre_mm": 200,
+    "nombre": 3,
+    "technologie": "LED (lentille lisse, plage éclairante homogène)"
+   },
+   "construction": "3 modules cylindriques séparés (« pots ») assemblés verticalement par une console ; chaque module : corps gris clair Ø ≈ 300-330 mm, profondeur ≈ 250 mm, collerette noire, visière (casquette) noire tubulaire ≈ 200-250 mm, ouverte en bas ; pas d'écran de contraste",
+   "dimensions_m": {
+    "hauteur_tete": 1.1,
+    "pas_vertical_modules": 0.37,
+    "largeur_module": 0.32,
+    "profondeur_avec_visiere": 0.5
+   },
+   "montage": "latéral, par bras courts (≈ 0,15-0,25 m) sur le mât ; bas de la tête ≈ 2,35 m, haut ≈ 3,45 m (mât 3,4 m) ; 4,0-4,1 m en tête sur l'îlot axial de la Revirée (mât 4,2 m) ; plusieurs têtes par mât (orientations différentes)",
+   "couleurs": [
+    "corps_module_gris_clair",
+    "face_visiere_noir"
+   ],
+   "etats": [
+    "rouge fixe",
+    "jaune fixe (3 s en agglomération)",
+    "vert fixe",
+    "jaune clignotant (fonctionnement dégradé / nuit)",
+    "éteint"
+   ],
+   "materiau_unreal": "matériau émissif par optique commutable (paramètre d'état 0-4 ou Material Parameter Collection), lentille éteinte = couleur 'lentille_eteinte_*' rugosité 0,15 ; corps : plastique gris rugosité 0,5 ; visières : noir rugosité 0,6",
+   "quantite": {
+    "estimation": 12,
+    "min": 10,
+    "max": 18,
+    "par_approche": {
+     "Verdun NE (vers Grenoble)": 2,
+     "Revirée": 2,
+     "Vercors": 2,
+     "Verdun SO (vers Montbonnot)": 2,
+     "têtes complémentaires (rappels, sorties, refuges)": "2 à 10"
+    },
+    "methode": "8 têtes principales certaines (2 par approche, couche objets) + têtes vues de dos sur les refuges SO/NE et sur le mât à caméra"
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd_r01_c02.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r01_c02.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_feux_types.jpg",
+   "confiance": "haute",
+   "priorite": 1,
+   "carla": "les feux CARLA (modèle nord-américain, caisson jaune/noir monobloc) ne conviennent pas",
+   "prototype_scene_actuel": "feu_tete_R11v (objets : 0,30 × 0,95 m, face selon +X)"
+  },
+  {
+   "asset": "feu_R11v_repetiteur",
+   "code": "R11v (répétiteur)",
+   "designation": "Répétiteur tricolore à hauteur d'yeux du conducteur arrêté au feu",
+   "optiques": {
+    "diametre_mm": 100,
+    "nombre": 3
+   },
+   "construction": "caisson monobloc noir avec 3 petites visières",
+   "dimensions_m": {
+    "largeur": 0.15,
+    "hauteur": 0.5,
+    "profondeur": 0.15
+   },
+   "montage": "sur le mât principal, face au conducteur arrêté, centre ≈ 1,4 m (mesuré 1,14-1,65 m sur feu_NE_droite)",
+   "couleurs": [
+    "boitier_noir"
+   ],
+   "etats": "synchronisés avec la tête principale",
+   "quantite": {
+    "estimation": 4,
+    "min": 4,
+    "max": 8,
+    "methode": "1 par approche (vus à l'angle Revirée et à l'approche NE)"
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_feux_mesures_mat_NE_droite.jpg",
+   "confiance": "haute",
+   "priorite": 1,
+   "prototype_scene_actuel": "feu_tete_R11v_rep (0,15 × 0,45 m) ; hauteur à corriger (1,4 m au lieu de 1,9 m)"
+  },
+  {
+   "asset": "feu_R12",
+   "code": "R12",
+   "designation": "Signal piétons bicolore (figurine rouge immobile / figurine verte en marche)",
+   "regle": "IISR : vert et rouge normalement disposés côte à côte (rouge à gauche, vert à droite) ; éventuellement l'un au-dessus de l'autre, vert en bas",
+   "variantes_observees": [
+    {
+     "nom": "feu_R12_horizontal",
+     "description": "boîtier noir quasi carré ≈ 0,33 × 0,30 m avec casquette supérieure, deux figurines côte à côte (rouge immobile à gauche, verte en marche à droite) — modèle le plus vu en 2025 (angle Revirée, traversée de la Revirée)",
+     "photos": [
+      "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
+      "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd_r01_c02.jpg"
+     ]
+    },
+    {
+     "nom": "feu_R12 (vertical)",
+     "description": "2 modules ronds noirs Ø ≈ 0,3 m superposés (rouge en haut, vert en bas), visières — vu en 2024 à l'extrémité O de la traversée de la Revirée",
+     "photos": [
+      "data/raw/panoramax/paquet_jardin/tiles/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd_r01_c03.jpg"
+     ]
+    }
+   ],
+   "optiques": {
+    "diametre_mm": 200,
+    "pictogrammes": "figurines pleines de l'arrêté de 1967 (hauteur ≈ 150 mm)"
+   },
+   "montage": "sur mât de feux commun ou mât piéton, centre ≈ 2,1 m (mesuré 1,98-2,28 m), face vers le trottoir opposé",
+   "couleurs": [
+    "boitier_noir"
+   ],
+   "etats": [
+    "rouge fixe",
+    "vert fixe",
+    "éteint"
+   ],
+   "sonore": "aucun répétiteur sonore (OSM traffic_signals:sound=no)",
+   "quantite": {
+    "estimation": 14,
+    "min": 12,
+    "max": 16,
+    "methode": "4 traversées à feux (Verdun SO et NE et Vercors en deux temps, Revirée) ; 14 têtes dans la couche objets"
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd/2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd_r01_c02.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd_r01_c03.jpg"
+   ],
+   "planche_qa": "assets/qa/panneaux_feux/planche_feux_types.jpg",
+   "confiance": "haute",
+   "priorite": 1,
+   "prototype_scene_actuel": "feu_tete_R12 (objets : 2 feux Ø 200, 0,30 × 0,65 m vertical) — la variante horizontale est la plus fréquente"
+  },
+  {
+   "asset": "feu_R12_horizontal",
+   "code": "R12 (disposition horizontale)",
+   "designation": "voir feu_R12, variante horizontale (boîtier bi-figurine)",
+   "dimensions_m": {
+    "largeur": 0.33,
+    "hauteur": 0.3,
+    "profondeur": 0.18,
+    "casquette": 0.12
+   },
+   "quantite": {
+    "estimation": 6,
+    "min": 2,
+    "max": 14,
+    "methode": "proportion inconnue entre variantes : au moins 2 vues (2025-05, 2025-08)"
+   },
+   "confiance": "moyenne",
+   "priorite": 1
+  },
+  {
+   "asset": "feu_R13c",
+   "code": "R13c",
+   "designation": "Signal tricolore modal pour cycles (pictogramme vélo sur les 3 feux, vert en bas)",
+   "etat_2026": "non confirmé (une tête masquée en 2024 sous le R12 de la Revirée ; traversée Chronovélo SO à feux probable)",
+   "optiques": {
+    "diametre_mm": 200,
+    "variante_mm": 100,
+    "pictogramme": "cycle (même dessin que le C113)"
+   },
+   "construction": "même corps que feu_R11v (modules) ou caisson noir compact",
+   "montage": "sur mât de feux, centre ≈ 1,6-2,2 m",
+   "quantite": {
+    "estimation": 0,
+    "min": 0,
+    "max": 4,
+    "methode": "3 têtes déduites dans la couche objets (feu_REV_ilot_E, feu_SW_cycles_SE/NO) : à vérifier sur le terrain"
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd/2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd_r01_c03.jpg"
+   ],
+   "confiance": "faible",
+   "priorite": 3,
+   "prototype_scene_actuel": "feu_tete_R13c"
+  },
+  {
+   "asset": "(non fabriqué) R14 / R15 / R16 / R17 / R18 / R19",
+   "etat_2026": "non observés : ne pas fabriquer pour ce site"
+  }
+ ],
+ "equipements": [
+  {
+   "asset": "boitier_bouton_appel",
+   "designation": "Boîtier noir de demande piétons (bouton d'appel) avec voyant d'attente rouge",
+   "dimensions_m": {
+    "largeur": 0.12,
+    "hauteur": 0.16,
+    "profondeur": 0.1
+   },
+   "montage": "collier sur le mât, centre ≈ 1,0 m (mesuré 0,93-1,08 m), face vers le passage piéton",
+   "couleurs": [
+    "boitier_noir"
+   ],
+   "quantite": {
+    "estimation": 4,
+    "min": 3,
+    "max": 8,
+    "methode": "OSM button_operated=yes sur 3 traversées ; boîtiers vus en 2020 et 2025"
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c02.jpg"
+   ],
+   "confiance": "moyenne",
+   "priorite": 2
+  },
+  {
+   "asset": "mat_feu_d114",
+   "designation": "Mât de feux rond acier",
+   "diametre_mm": "≈ 100-114 (mesuré ≈ 0,09-0,11 m par diamètre apparent ; Ø 114 mm retenu)",
+   "hauteur_hors_sol_m": 3.4,
+   "variante_hauteur_m": 4.2,
+   "finition": "galvanisé clair (majorité) ; gris anthracite RAL 7016 sur certains (TPC NE vu sombre en 2025, mât à caméra)",
+   "details": [
+    "manchon (fourreau) jaune de repérage ≈ 0,35 m entre ≈ 0,58 et 0,93 m sur certains mâts (angle Revirée, îlot axial)",
+    "étiquette d'inventaire verticale bleue à chiffres blancs (ex. « 3150 ») vers 2,2-2,5 m",
+    "pied scellé (pas de platine visible), bouchon en tête"
+   ],
+   "couleurs": [
+    "mat_galvanise",
+    "mat_anthracite",
+    "fourreau_jaune"
+   ],
+   "quantite": {
+    "estimation": 16,
+    "min": 14,
+    "max": 20,
+    "methode": "≥ 14 supports (ombres ortho 2022, LiDAR 2021, couche objets)"
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd/2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd_r01_c04.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd/2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd_r01_c03.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd/2020-05-21_0fe67f82-0d4b-4323-8c47-02545c92dc1a_hd_r01_c02.jpg"
+   ],
+   "confiance": "haute",
+   "priorite": 1,
+   "prototype_scene_actuel": "feu_mat (Ø 76 mm, mis à l'échelle en hauteur) — Ø observé ≈ 100-114 mm"
+  },
+  {
+   "asset": "mat_feu_crosse_camera",
+   "designation": "Mât anthracite à crosse « col de cygne » portant une caméra dôme de vidéoprotection et une tête R11v",
+   "dimensions_m": {
+    "hauteur": 5.8,
+    "crosse": 0.4,
+    "dome_diametre": 0.2,
+    "tete_R11v_bas_haut": [
+     2.3,
+     3.4
+    ]
+   },
+   "details": "petit boîtier gris sur poteau court (≈ 1 m) au pied (détection ou commande, rôle non établi)",
+   "position": {
+    "id": "mat_camera_SW_TPC",
+    "L93": [
+     917266.98,
+     6460273.29
+    ],
+    "source": "OSM node 12288437339 (2026-04-03) ; photo 2025-05 31d16b8e"
+   },
+   "couleurs": [
+    "mat_anthracite",
+    "corps_module_gris_clair"
+   ],
+   "quantite": {
+    "estimation": 1,
+    "min": 1,
+    "max": 2
+   },
+   "photos_reference": [
+    "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd/2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd_r01_c02.jpg",
+    "data/raw/panoramax/paquet_jardin/tiles/2023-03-18_a275b2ea-ca5a-4224-b4ad-f335ddbfe981_hd/2023-03-18_a275b2ea-ca5a-4224-b4ad-f335ddbfe981_hd_r00_c01.jpg"
+   ],
+   "confiance": "haute",
+   "priorite": 2
+  },
+  {
+   "asset": "armoire_commande_feux",
+   "designation": "Armoire métallique grise du contrôleur de feux (taguée)",
+   "dimensions_m": {
+    "largeur": 0.8,
+    "profondeur": 0.4,
+    "hauteur": 1.4
+   },
+   "position": {
+    "L93": [
+     917287.0,
+     6460252.7
+    ],
+    "source": "analyse p2025_01_vercors-24 (photo 2025-01 + ortho 2022)"
+   },
+   "note": "aussi traitée par le lot mobilier ; rappelée ici pour la cohérence des feux",
+   "priorite": 2
+  }
+ ],
+ "supports_site": [
+  {
+   "id": "feu_NE_droite",
+   "branche": "Verdun NE",
+   "role": "approche Verdun NE -> SW, support droit (angle Revirée, fourreau jaune) + piétons",
+   "L93": [
+    917285.93,
+    6460305.28
+   ],
+   "local": [
+    6.5,
+    15.3,
+    0.159
+   ],
+   "hauteur_mat_m": 3.4,
+   "tetes": [
+    {
+     "type": "R11v",
+     "azimut_deg": 45.0,
+     "hauteur_centre_m": 2.92
+    },
+    {
+     "type": "R11v_rep",
+     "azimut_deg": 45.0,
+     "hauteur_centre_m": 1.4
+    },
+    {
+     "type": "R12 (boîtier horizontal)",
+     "azimut_deg": 135,
+     "hauteur_centre_m": 2.13
+    },
+    {
+     "type": "boitier_bouton_appel",
+     "azimut_deg": 135,
+     "hauteur_centre_m": 1.0
+    },
+    {
+     "type": "module isolé au sommet, orienté vers l'O (rôle indéterminé)",
+     "hauteur_centre_m": 3.3
+    }
+   ],
+   "statut_2026": "existant (inchangé)",
+   "confiance": "haute",
+   "source": "LiDAR 2021 (tête à 3,37 m en dx 6,6 dy 15,4) ; ortho 2022 (ombre) ; Panoramax 2025-05-18 9834f494",
+   "mesures_photo": {
+    "source": "2025-05-18 e5d79de9 (360°, caméra à ≈ 2,5 m du mât, hauteur caméra ≈ 2,06 m calée sur le pied et le sommet 3,4 m LiDAR)",
+    "tete_R11v_m": [
+     2.37,
+     3.47
+    ],
+    "repetiteur_m": [
+     1.14,
+     1.65
+    ],
+    "R12_boitier_m": [
+     1.98,
+     2.28
+    ],
+    "boitier_bouton_m": [
+     0.93,
+     1.08
+    ],
+    "fourreau_jaune_m": [
+     0.58,
+     0.93
+    ],
+    "sommet_mat_m": 3.4,
+    "correction": "répétiteur centré à ≈ 1,4 m (et non 1,9 m) ; R12 centré à ≈ 2,1 m (et non 2,4 m)"
+   }
+  },
+  {
+   "id": "feu_NE_TPC",
+   "branche": "Verdun NE",
+   "role": "approche Verdun NE -> SW, support gauche sur le nez du TPC + piétons (refuge)",
+   "L93": [
+    917291.43,
+    6460298.98
+   ],
+   "local": [
+    12.0,
+    9.0,
+    0.31
+   ],
+   "hauteur_mat_m": 3.4,
+   "tetes": [
+    {
+     "type": "R11v",
+     "azimut_deg": 45.0,
+     "hauteur_centre_m": 2.9
+    },
+    {
+     "type": "R12",
+     "azimut_deg": 315,
+     "hauteur_centre_m": 2.4
+    },
+    {
+     "type": "R12",
+     "azimut_deg": 135,
+     "hauteur_centre_m": 2.4
+    }
+   ],
+   "statut_2026": "existant (inchangé)",
+   "confiance": "haute",
+   "source": "LiDAR 2021 (tête 3,34 m) ; Panoramax 2025-05-18 9834f494 / e5d79de9"
+  },
+  {
+   "id": "feu_NE_SE_pietons",
+   "branche": "Verdun NE",
+   "role": "traversée Verdun NE, extrémité SE (piétons)",
+   "L93": [
+    917294.93,
+    6460289.88
+   ],
+   "local": [
+    15.5,
+    -0.1,
+    0.2
+   ],
+   "hauteur_mat_m": 2.6,
+   "tetes": [
+    {
+     "type": "R12",
+     "azimut_deg": 315,
+     "hauteur_centre_m": 2.2
+    }
+   ],
+   "statut_2026": "existant (inchangé)",
+   "confiance": "moyenne",
+   "source": "LiDAR 2021 (amas classe 1, sommet 2,59 m) ; OSM crossing 1959022976 (bouton d'appel)"
+  },
+  {
+   "id": "feu_REV_droite",
+   "branche": "Revirée",
+   "role": "approche Revirée, support droit (côté O) + piétons + cédez-le-passage cycliste au feu",
+   "L93": [
+    917267.53,
+    6460298.78
+   ],
+   "local": [
+    -11.9,
+    8.8,
+    0.017
+   ],
+   "hauteur_mat_m": 3.4,
+   "tetes": [
+    {
+     "type": "R11v",
+     "azimut_deg": 330.0,
+     "hauteur_centre_m": 2.9
+    },
+    {
+     "type": "R11v_rep",
+     "azimut_deg": 330.0,
+     "hauteur_centre_m": 1.9
+    },
+    {
+     "type": "R12",
+     "azimut_deg": 60,
+     "hauteur_centre_m": 2.4
+    },
+    {
+     "type": "M12",
+     "azimut_deg": 330.0,
+     "hauteur_centre_m": 1.6,
+     "note": "panonceau M12 (OSM red_turn:right:bicycle=yes)"
+    }
+   ],
+   "statut_2026": "existant (inchangé)",
+   "confiance": "haute",
+   "source": "LiDAR 2021 (tête 3,38 m) ; Panoramax 2024-05 3fc0ff2e, 2025-05 119d9094 ; OSM 1959022958"
+  },
+  {
+   "id": "feu_REV_ilot_axial",
+   "branche": "Revirée",
+   "role": "approche Revirée, support gauche sur l'îlot axial (mât haut à fourreau jaune)",
+   "L93": [
+    917270.93,
+    6460303.08
+   ],
+   "local": [
+    -8.5,
+    13.1,
+    0.14
+   ],
+   "hauteur_mat_m": 4.2,
+   "tetes": [
+    {
+     "type": "R11v",
+     "azimut_deg": 330.0,
+     "hauteur_centre_m": 3.6
+    }
+   ],
+   "statut_2026": "existant (inchangé)",
+   "confiance": "moyenne",
+   "source": "LiDAR 2021 ; ortho 2022 (ombre longue) ; observations coeur-07"
+  },
+  {
+   "id": "feu_REV_ilot_E",
+   "branche": "Revirée",
+   "role": "traversées Revirée (piétons) et piste (cycles), îlot arrondi E",
+   "L93": [
+    917275.53,
+    6460295.88
+   ],
+   "local": [
+    -3.9,
+    5.9,
+    0.12
+   ],
+   "hauteur_mat_m": 2.6,
+   "tetes": [
+    {
+     "type": "R12",
+     "azimut_deg": 245,
+     "hauteur_centre_m": 2.2
+    },
+    {
+     "type": "R13c",
+     "azimut_deg": 335,
+     "hauteur_centre_m": 1.6
+    }
+   ],
+   "statut_2026": "existant (inchangé)",
+   "confiance": "moyenne",
+   "source": "LiDAR 2021 (amas classe 1, sommet 2,61 m) ; observations coeur-30"
+  },
+  {
+   "id": "feu_VERC_droite",
+   "branche": "Vercors",
+   "role": "approche Vercors, support droit (rive E) + piétons",
+   "L93": [
+    917293.23,
+    6460277.68
+   ],
+   "local": [
+    13.8,
+    -12.3,
+    -0.01
+   ],
+   "hauteur_mat_m": 3.4,
+   "tetes": [
+    {
+     "type": "R11v",
+     "azimut_deg": 172.0,
+     "hauteur_centre_m": 2.9
+    },
+    {
+     "type": "R11v_rep",
+     "azimut_deg": 172.0,
+     "hauteur_centre_m": 1.9
+    },
+    {
+     "type": "R12",
+     "azimut_deg": 239,
+     "hauteur_centre_m": 2.4
+    },
+    {
+     "type": "AB3a",
+     "azimut_deg": 172.0,
+     "hauteur_centre_m": 1.6,
+     "note": "panonceau triangulaire pointe en bas sous un feu (photo 2025-01), lecture incertaine (AB3a ou M12)"
+    }
+   ],
+   "statut_2026": "existant (inchangé)",
+   "confiance": "haute",
+   "source": "LiDAR 2021 (tête 3,39 m) ; Panoramax 2025-01-12 a1ffea74 ; OSM 1959022975"
+  },
+  {
+   "id": "feu_VERC_ilot",
+   "branche": "Vercors",
+   "role": "approche Vercors, support gauche sur l'îlot en goutte d'eau + piétons (refuge)",
+   "L93": [
+    917286.83,
+    6460272.58
+   ],
+   "local": [
+    7.4,
+    -17.4,
+    -0.023
+   ],
+   "hauteur_mat_m": 3.4,
+   "tetes": [
+    {
+     "type": "R11v",
+     "azimut_deg": 172.0,
+     "hauteur_centre_m": 2.9
+    },
+    {
+     "type": "R12",
+     "azimut_deg": 59,
+     "hauteur_centre_m": 2.4
+    },
+    {
+     "type": "R12",
+     "azimut_deg": 222,
+     "hauteur_centre_m": 2.4
+    }
+   ],
+   "statut_2026": "à vérifier",
+   "confiance": "moyenne",
+   "source": "LiDAR 2021 (tête 3,50 m en dx 7,7 dy -17,3) ; plan projet 2025 (îlot)"
+  },
+  {
+   "id": "feu_VERC_O_pietons",
+   "branche": "Vercors",
+   "role": "traversée Vercors, extrémité O (angle SE du carrefour, piétons)",
+   "L93": [
+    917278.23,
+    6460264.58
+   ],
+   "local": [
+    -1.2,
+    -25.4,
+    -0.323
+   ],
+   "hauteur_mat_m": 2.6,
+   "tetes": [
+    {
+     "type": "R12",
+     "azimut_deg": 42,
+     "hauteur_centre_m": 2.2
+    }
+   ],
+   "statut_2026": "déduit 2026 (à vérifier)",
+   "confiance": "faible",
+   "source": "géométrie 2026 (bordure GAM 2646533206, passage piéton prolongé vers l'O)"
+  },
+  {
+   "id": "feu_SW_droite",
+   "branche": "Verdun SW",
+   "role": "approche Verdun SW -> NE, support droit (bordure SE) + piétons",
+   "L93": [
+    917265.78,
+    6460260.07
+   ],
+   "local": [
+    -13.647,
+    -29.911,
+    -0.11
+   ],
+   "hauteur_mat_m": 3.4,
+   "tetes": [
+    {
+     "type": "R11v",
+     "azimut_deg": 225.0,
+     "hauteur_centre_m": 2.9
+    },
+    {
+     "type": "R11v_rep",
+     "azimut_deg": 225.0,
+     "hauteur_centre_m": 1.9
+    },
+    {
+     "type": "R12",
+     "azimut_deg": 315,
+     "hauteur_centre_m": 2.4
+    }
+   ],
+   "statut_2026": "déduit 2026 (à vérifier)",
+   "confiance": "faible",
+   "source": "géométrie GAM/plan 2025 ; implantation type (support droit entre ligne d'arrêt et passage)"
+  },
+  {
+   "id": "feu_SW_TPC",
+   "branche": "Verdun SW",
+   "role": "approche Verdun SW -> NE, support gauche sur la pointe du TPC planté + piétons (refuge)",
+   "L93": [
+    917259.98,
+    6460266.72
+   ],
+   "local": [
+    -19.445,
+    -23.264,
+    -0.115
+   ],
+   "hauteur_mat_m": 3.4,
+   "tetes": [
+    {
+     "type": "R11v",
+     "azimut_deg": 225.0,
+     "hauteur_centre_m": 2.9
+    },
+    {
+     "type": "R12",
+     "azimut_deg": 135,
+     "hauteur_centre_m": 2.4
+    },
+    {
+     "type": "R12",
+     "azimut_deg": 315,
+     "hauteur_centre_m": 2.4
+    }
+   ],
+   "statut_2026": "déduit 2026 (à vérifier)",
+   "confiance": "faible",
+   "source": "plan projet 2025 (TPC planté jusqu'à u -29,6, refuge u -29,6..-22,3)"
+  },
+  {
+   "id": "feu_SW_NO_pietons",
+   "branche": "Verdun SW",
+   "role": "traversée Verdun SW, extrémité NO (piétons)",
+   "L93": [
+    917255.11,
+    6460273.72
+   ],
+   "local": [
+    -24.324,
+    -16.263,
+    -0.28
+   ],
+   "hauteur_mat_m": 2.6,
+   "tetes": [
+    {
+     "type": "R12",
+     "azimut_deg": 135,
+     "hauteur_centre_m": 2.2
+    }
+   ],
+   "statut_2026": "déduit 2026 (à vérifier)",
+   "confiance": "faible",
+   "source": "géométrie GAM/plan 2025"
+  },
+  {
+   "id": "feu_SW_cycles_SE",
+   "branche": "Verdun SW",
+   "role": "traversée cyclable bidirectionnelle (Chronovélo 1), extrémité SE",
+   "L93": [
+    917271.51,
+    6460265.94
+   ],
+   "local": [
+    -7.92,
+    -24.042,
+    -0.12
+   ],
+   "hauteur_mat_m": 2.2,
+   "tetes": [
+    {
+     "type": "R13c",
+     "azimut_deg": 135,
+     "hauteur_centre_m": 1.6
+    }
+   ],
+   "statut_2026": "déduit 2026 (à vérifier)",
+   "confiance": "faible",
+   "source": "plan projet 2025 / GAM (traversée u -25,9..-22,3) ; pratique Chronovélo (feux cycles)"
+  },
+  {
+   "id": "feu_SW_cycles_NO",
+   "branche": "Verdun SW",
+   "role": "traversée cyclable bidirectionnelle (Chronovélo 1), extrémité NO",
+   "L93": [
+    917259.42,
+    6460278.03
+   ],
+   "local": [
+    -20.011,
+    -11.95,
+    -0.08
+   ],
+   "hauteur_mat_m": 2.2,
+   "tetes": [
+    {
+     "type": "R13c",
+     "azimut_deg": 315,
+     "hauteur_centre_m": 1.6
+    }
+   ],
+   "statut_2026": "déduit 2026 (à vérifier)",
+   "confiance": "faible",
+   "source": "plan projet 2025 / GAM ; pratique Chronovélo (feux cycles)"
+  }
+ ],
+ "phasage_note": "plan de feux inconnu ; OSM : 4 lignes de feux (approches NE-bound, Vercors, SW-bound, Revirée). Durée du jaune fixe en agglomération : 3 s."
+}

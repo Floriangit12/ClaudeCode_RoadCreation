@@ -1,0 +1,312 @@
+{
+ "id8": "050fff48",
+ "id": "050fff48-bad1-4b69-bc06-b71b68f6cc6b",
+ "date": "2024-08-24",
+ "datetime": "2024-08-24T15:10:35+00:00",
+ "fichier": "2024-08-24_050fff48-bad1-4b69-bc06-b71b68f6cc6b_hd.jpg",
+ "modele": "equirect",
+ "porteur": "GoPro Max sur voiture (capot visible)",
+ "intrinseques": {
+  "f": 0.0,
+  "cx": 0.0,
+  "cy": 0.0,
+  "k1": 0.0,
+  "source": "equirectangulaire 360°"
+ },
+ "gps": {
+  "lon": 5.7689,
+  "lat": 45.2081,
+  "azimut_vrai": 231,
+  "gamma_deg": -2.0091,
+  "precision_m": 4.0
+ },
+ "pose_brute": {
+  "x": 49.3949,
+  "y": 51.9753,
+  "z": 2.7836,
+  "lacet": 228.9909,
+  "tangage": 0.0,
+  "roulis": 0.0
+ },
+ "sigma_a_priori": {
+  "xy": 4.0,
+  "z": 0.4,
+  "lacet": 8.0,
+  "tangage": 2.0,
+  "roulis": 2.0
+ },
+ "a_priori_sequence": {
+  "voisins": [
+   "79a18815",
+   "e86aa913",
+   "5c0d1d39",
+   "2ab4efbc"
+  ],
+  "pose": {
+   "x": 50.1466,
+   "y": 52.7485,
+   "z": 2.8153,
+   "lacet": 227.9347,
+   "tangage": -0.8474,
+   "roulis": 1.3165
+  },
+  "sigma": {
+   "xy": 0.5,
+   "z": 0.3,
+   "lacet": 1.5,
+   "tangage": 2.0693,
+   "roulis": 1.0605
+  },
+  "decalage": {
+   "long_m": -1.075,
+   "travers_m": 0.09,
+   "lacet_deg": -1.056,
+   "tangage_deg": -0.847,
+   "roulis_deg": 1.317,
+   "hauteur_m": 2.122
+  }
+ },
+ "recalage_grossier": [],
+ "departs": [
+  {
+   "depart": "sequence",
+   "n_obs": 6,
+   "n_inliers": 5,
+   "score": 1.29,
+   "moy_deg": 0.433
+  },
+  {
+   "depart": "brute",
+   "n_obs": 4,
+   "n_inliers": 4,
+   "score": 1.29,
+   "moy_deg": 0.11
+  },
+  {
+   "depart": "sequence+sol",
+   "n_obs": 5,
+   "n_inliers": 4,
+   "score": 1.3,
+   "moy_deg": 0.102
+  },
+  {
+   "depart": "brute+sol",
+   "n_obs": 3,
+   "n_inliers": 3,
+   "score": 1.05,
+   "moy_deg": 0.069
+  }
+ ],
+ "depart_retenu": "sequence+sol",
+ "pose": {
+  "x": 50.2979,
+  "y": 52.684,
+  "z": 2.9094,
+  "lacet": 226.5103,
+  "tangage": -1.8736,
+  "roulis": 1.7657
+ },
+ "ecart_type": {
+  "x": 0.1581,
+  "y": 0.1395,
+  "z": 0.0444,
+  "lacet": 0.8864,
+  "tangage": 0.2645,
+  "roulis": 0.4826
+ },
+ "qualite": {
+  "n_gcp": 6,
+  "n_mats": 0,
+  "n_sol": 6,
+  "n_points_sol": 3,
+  "n_lignes_distinctes": 3,
+  "n_obs": 6,
+  "n_inliers": 6,
+  "n_equations": 9,
+  "residu_loo_moy_deg": 0.362,
+  "secteurs_45": 4,
+  "rapport_profondeur_sol": 1.954,
+  "etendue_azimut_deg": 180.0,
+  "etendue_elevation_deg": 8.283,
+  "residu_moy_deg": 0.071,
+  "residu_max_deg": 0.113,
+  "residu_moy_px": 1.134,
+  "residu_max_px": 1.824,
+  "decalage_gps_m": 1.148,
+  "correction_lacet_deg": -2.481,
+  "hauteur_sol_m": 2.212
+ },
+ "accepte": false,
+ "raison": "trop peu de GCP inliers",
+ "gcp_utilises": [
+  "MQC-MQ0520-c3",
+  "MQC-MQ0524-c2",
+  "MQL-MQ0473-s5",
+  "MQL-MQ0524-s1",
+  "MQL-MQ0537-s0",
+  "ORTHO-51.9_46.5"
+ ],
+ "observations": [
+  {
+   "gcp": "ORTHO-51.9_46.5",
+   "type": "point",
+   "uv": [
+    1905.3104,
+    1704.2581
+   ],
+   "ncc": 0.7031,
+   "distinction": 0.062,
+   "decalage_px": [
+    -3.7067,
+    4.1999
+   ],
+   "recherche_px": 6,
+   "echelle": 1.0,
+   "distance_m": 6.7575,
+   "gabarit": "ortho",
+   "auto": true,
+   "bord": false,
+   "poids": 0.5305,
+   "residu_deg": 0.0671,
+   "residu_px": 1.08,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     51.9099,
+     46.5204,
+     0.7272
+    ],
+    "sigma_m": 0.08,
+    "source": "ortho PCRS 5 cm 2022 + MNT 2026 (point de texture)",
+    "type": "texture_ortho"
+   }
+  },
+  {
+   "gcp": "MQL-MQ0524-s1",
+   "type": "ligne",
+   "uv": [
+    [
+     2751.0438,
+     1638.8385
+    ]
+   ],
+   "ncc": 0.6476,
+   "distinction": 1.0,
+   "decalage_px": [
+    0.795,
+    -3.3348
+   ],
+   "recherche_px": 6,
+   "echelle": 1.0,
+   "distance_m": 9.0877,
+   "gabarit": "ortho",
+   "auto": true,
+   "bord": false,
+   "poids": 0.3095,
+   "residu_deg": 0.1108,
+   "residu_px": 1.77,
+   "inlier": true
+  },
+  {
+   "gcp": "MQL-MQ0473-s5",
+   "type": "ligne",
+   "uv": [
+    [
+     3798.3839,
+     1715.5625
+    ]
+   ],
+   "ncc": 0.6756,
+   "distinction": 1.0,
+   "decalage_px": [
+    -2.0004,
+    0.1988
+   ],
+   "recherche_px": 6,
+   "echelle": 1.0,
+   "distance_m": 9.1123,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.3444,
+   "residu_deg": 0.0702,
+   "residu_px": 1.12,
+   "inlier": true
+  },
+  {
+   "gcp": "MQC-MQ0524-c2",
+   "type": "point",
+   "uv": [
+    2790.8656,
+    1596.5274
+   ],
+   "ncc": 0.5538,
+   "distinction": 0.2097,
+   "decalage_px": [
+    0.5321,
+    -1.1726
+   ],
+   "recherche_px": 6,
+   "echelle": 1.0,
+   "distance_m": 11.4756,
+   "gabarit": "ortho",
+   "auto": true,
+   "bord": false,
+   "poids": 0.3077,
+   "residu_deg": 0.0548,
+   "residu_px": 0.88,
+   "inlier": true
+  },
+  {
+   "gcp": "MQC-MQ0520-c3",
+   "type": "point",
+   "uv": [
+    2802.1077,
+    1583.0311
+   ],
+   "ncc": 0.6127,
+   "distinction": 0.1973,
+   "decalage_px": [
+    1.4611,
+    0.1775
+   ],
+   "recherche_px": 6,
+   "echelle": 1.0,
+   "distance_m": 12.5505,
+   "gabarit": "ortho",
+   "auto": true,
+   "bord": false,
+   "poids": 0.4255,
+   "residu_deg": 0.113,
+   "residu_px": 1.82,
+   "inlier": true
+  },
+  {
+   "gcp": "MQL-MQ0537-s0",
+   "type": "ligne",
+   "uv": [
+    [
+     550.838,
+     1599.111
+    ]
+   ],
+   "ncc": 0.6183,
+   "distinction": 1.0,
+   "decalage_px": [
+    -5.0191,
+    3.9487
+   ],
+   "recherche_px": 6,
+   "echelle": 1.0,
+   "distance_m": 12.599,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.2729,
+   "residu_deg": 0.0074,
+   "residu_px": 0.12,
+   "inlier": true
+  }
+ ],
+ "duree_s": 184.5
+}

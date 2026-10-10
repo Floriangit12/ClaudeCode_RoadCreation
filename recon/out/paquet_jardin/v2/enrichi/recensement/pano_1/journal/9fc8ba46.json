@@ -1,0 +1,101 @@
+[
+ {
+  "source": "pnx:9fc8ba46-9a08-483b-92f7-ad37798f9330",
+  "date_image": "2025-05-18T13:37",
+  "classe": "panneau",
+  "sous_type": "pile_B2b_B1",
+  "attributs": {
+   "lecture": "disque B2b (interdiction de tourner à DROITE : flèche noire vers la droite barrée) au-dessus d'un B1 (sens interdit, disque rouge à barre blanche)",
+   "hauteur_centre_m": {
+    "B2b": 2.81,
+    "B1": 1.96
+   },
+   "hauteurs_description": {
+    "B2b": 2.75,
+    "B1": 2.1
+   },
+   "support": "poteau gris dans l'accotement enherbé, entre la piste (tirets) et la voie d'accès ; faces vers l'ENE",
+   "rayons_sol": {
+    "n9fc8ba46": [
+     52.51,
+     58.49
+    ],
+    "n4407962b": [
+     51.44,
+     57.65
+    ]
+   },
+   "ecart_description_m": 3.5,
+   "controle": "depuis 9fc8ba46 (pose calée, GNSS 0,1 m, 12 m) l'azimut du poteau diffère de 14° de celui de la position décrite : écart latéral ≈ 3 m, hors de toute erreur de pose",
+   "fusion_coherence": "rejetée : B2b/B1 et B2a/AB3a/M9 sont deux poteaux distincts (visibles ensemble dans 4407962b)"
+  },
+  "position": {
+   "local": [
+    52.0,
+    58.1,
+    0.65
+   ],
+   "l93": [
+    917331.43,
+    6460348.08
+   ],
+   "precision_m": 0.8,
+   "methode": "rayon_sol"
+  },
+  "lien_description": "pan_B2b_1",
+  "statut": "position_corrigee",
+  "valide_2026": {
+   "valeur": true,
+   "raison": "élément conservé (existant (inchangé)), hors emprise des travaux 2025 ; image du 2025-05-18"
+  },
+  "confiance": "moyenne",
+  "preuve": {
+   "fichier": "recon/out/paquet_jardin/v2/enrichi/recensement/pano_1/preuves/9fc8ba46_pile_v0_brut.jpg",
+   "pixels": [
+    437,
+    760
+   ],
+   "note": "pied du poteau ; disques en (428,380) et (430,495)"
+  }
+ },
+ {
+  "source": "pnx:4407962b-5827-40bb-bd00-186bca1d9b7d",
+  "date_image": "2024-08-24T15:05",
+  "classe": "panneau",
+  "sous_type": "pile_B2a_AB3a_M9c",
+  "attributs": {
+   "observation": "second poteau (disque B2a + triangle AB3a) juste derrière le poteau B2b/B1 depuis le NE (azimut 237,5° contre 236,5°)",
+   "triangulation": "azimut 237,5° (4407962b) × 40,0° (eeb2f8f1) et 38,6° (79a18815) : (47,3 ; 55,2) et (47,7 ; 55,4), angle d'intersection ≈ 18°",
+   "ecart_description_m": 7.0,
+   "remarque": "position décrite (52,0 ; 61,5) incompatible avec 4407962b et 9fc8ba46 (aucun poteau à l'azimut correspondant) ; 050fff48 (pose refusée, indicative) montre la pile disque + triangle + panonceau à 3-4 m au NNO de la caméra : estimations divergentes, à vérifier sur place"
+  },
+  "position": {
+   "local": [
+    47.5,
+    55.3,
+    0.5
+   ],
+   "l93": [
+    917326.93,
+    6460345.28
+   ],
+   "precision_m": 2.0,
+   "methode": "triangulation"
+  },
+  "lien_description": "pan_B2a_1",
+  "statut": "incertain",
+  "valide_2026": {
+   "valeur": true,
+   "raison": "élément conservé (existant (inchangé)), hors emprise des travaux 2025 ; image du 2024-08-24"
+  },
+  "confiance": "faible",
+  "preuve": {
+   "fichier": "recon/out/paquet_jardin/v2/enrichi/recensement/pano_1/preuves/4407962b_pile_v0_brut.jpg",
+   "pixels": [
+    464,
+    450
+   ],
+   "note": "disque B2a en (467,378), triangle en (470,430)"
+  }
+ }
+]

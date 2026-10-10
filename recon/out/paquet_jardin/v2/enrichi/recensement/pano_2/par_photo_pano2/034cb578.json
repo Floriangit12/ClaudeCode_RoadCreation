@@ -1,0 +1,232 @@
+{
+ "id8": "034cb578",
+ "id": "034cb578-a341-43e0-95ee-d767f3202722",
+ "date": "2025-05-18",
+ "datetime": "2025-05-18T13:38:00.522000+00:00",
+ "fichier": "2025-05-18_034cb578-a341-43e0-95ee-d767f3202722_hd.jpg",
+ "modele": "equirect",
+ "porteur": "GoPro Max sur voiture (capot visible)",
+ "intrinseques": {
+  "f": 0.0,
+  "cx": 0.0,
+  "cy": 0.0,
+  "k1": 0.0,
+  "source": "equirectangulaire 360°"
+ },
+ "gps": {
+  "lon": 5.7673,
+  "lat": 45.207,
+  "azimut_vrai": 226,
+  "gamma_deg": -2.008,
+  "precision_m": 0.1
+ },
+ "pose_brute": {
+  "x": -68.9306,
+  "y": -70.4308,
+  "z": 1.7225,
+  "lacet": 223.992,
+  "tangage": 0.0,
+  "roulis": 0.0
+ },
+ "sigma_a_priori": {
+  "xy": 0.5,
+  "z": 0.4,
+  "lacet": 8.0,
+  "tangage": 2.0,
+  "roulis": 2.0
+ },
+ "a_priori_sequence": {
+  "voisins": [
+   "31d16b8e",
+   "119d9094",
+   "e5d79de9",
+   "9834f494"
+  ],
+  "pose": {
+   "x": -68.6125,
+   "y": -70.0481,
+   "z": 1.7065,
+   "lacet": 221.8663,
+   "tangage": -3.0407,
+   "roulis": 0.3189
+  },
+  "sigma": {
+   "xy": 0.5,
+   "z": 0.3,
+   "lacet": 1.5,
+   "tangage": 1.5074,
+   "roulis": 2.3032
+  },
+  "decalage": {
+   "long_m": -0.496,
+   "travers_m": 0.037,
+   "lacet_deg": -2.126,
+   "tangage_deg": -3.041,
+   "roulis_deg": 0.319,
+   "hauteur_m": 2.085
+  }
+ },
+ "recalage_grossier": [],
+ "departs": [
+  {
+   "depart": "sequence",
+   "n_obs": 3,
+   "n_inliers": 3,
+   "score": 1.18,
+   "moy_deg": 0.24
+  },
+  {
+   "depart": "brute",
+   "n_obs": 0
+  },
+  {
+   "depart": "sequence+sol",
+   "n_obs": 0
+  },
+  {
+   "depart": "brute+sol",
+   "n_obs": 0
+  }
+ ],
+ "depart_retenu": "sequence",
+ "pose": {
+  "x": -68.6248,
+  "y": -70.1613,
+  "z": 1.6982,
+  "lacet": 221.1297,
+  "tangage": -3.9399,
+  "roulis": -1.4377
+ },
+ "ecart_type": {
+  "x": 0.224,
+  "y": 0.2172,
+  "z": 0.224,
+  "lacet": 1.0818,
+  "tangage": 0.913,
+  "roulis": 0.9269
+ },
+ "qualite": {
+  "n_gcp": 3,
+  "n_mats": 0,
+  "n_sol": 3,
+  "n_points_sol": 3,
+  "n_lignes_distinctes": 0,
+  "n_obs": 3,
+  "n_inliers": 3,
+  "n_equations": 6,
+  "residu_loo_moy_deg": 99.0,
+  "secteurs_45": 2,
+  "rapport_profondeur_sol": 1.305,
+  "etendue_azimut_deg": 90.0,
+  "etendue_elevation_deg": 3.909,
+  "residu_moy_deg": 0.24,
+  "residu_max_deg": 0.372,
+  "residu_moy_px": 3.856,
+  "residu_max_px": 5.982,
+  "decalage_gps_m": 0.408,
+  "correction_lacet_deg": -2.862,
+  "hauteur_sol_m": 2.075
+ },
+ "accepte": false,
+ "raison": "trop peu de GCP inliers ; validation croisée (leave-one-out) défavorable",
+ "gcp_utilises": [
+  "MQC-MQ0995-c0",
+  "ORTHO--68.5_-82.3",
+  "ORTHO--70.9_-81.1"
+ ],
+ "observations": [
+  {
+   "gcp": "ORTHO--70.9_-81.1",
+   "type": "point",
+   "uv": [
+    2409.6929,
+    1567.4664
+   ],
+   "ncc": 0.8411,
+   "distinction": 0.0925,
+   "decalage_px": [
+    -2.728,
+    0.0768
+   ],
+   "recherche_px": 24,
+   "echelle": 0.5,
+   "distance_m": 11.4803,
+   "gabarit": "ortho",
+   "auto": true,
+   "bord": false,
+   "poids": 0.7,
+   "residu_deg": 0.372,
+   "residu_px": 5.98,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     -70.8525,
+     -81.0581,
+     -0.3526
+    ],
+    "sigma_m": 0.08,
+    "source": "ortho PCRS 5 cm 2022 + MNT 2026 (point de texture)",
+    "type": "texture_ortho"
+   }
+  },
+  {
+   "gcp": "ORTHO--68.5_-82.3",
+   "type": "point",
+   "uv": [
+    2220.2622,
+    1565.9278
+   ],
+   "ncc": 0.5734,
+   "distinction": 0.0682,
+   "decalage_px": [
+    0.9276,
+    -0.0176
+   ],
+   "recherche_px": 24,
+   "echelle": 0.5,
+   "distance_m": 12.3771,
+   "gabarit": "ortho",
+   "auto": true,
+   "bord": false,
+   "poids": 0.3035,
+   "residu_deg": 0.1935,
+   "residu_px": 3.12,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     -68.4525,
+     -82.2581,
+     -0.4203
+    ],
+    "sigma_m": 0.08,
+    "source": "ortho PCRS 5 cm 2022 + MNT 2026 (point de texture)",
+    "type": "texture_ortho"
+   }
+  },
+  {
+   "gcp": "MQC-MQ0995-c0",
+   "type": "point",
+   "uv": [
+    2861.0783,
+    1504.9236
+   ],
+   "ncc": 0.5676,
+   "distinction": 0.1114,
+   "decalage_px": [
+    6.0373,
+    -9.3859
+   ],
+   "recherche_px": 24,
+   "echelle": 0.5,
+   "distance_m": 14.9739,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.3353,
+   "residu_deg": 0.154,
+   "residu_px": 2.47,
+   "inlier": true
+  }
+ ],
+ "duree_s": 140.5
+}

@@ -1,0 +1,582 @@
+{
+ "id8": "aa9d7e12",
+ "id": "aa9d7e12-14b6-4b31-ac93-25f08cfc2c8a",
+ "date": "2024-08-24",
+ "datetime": "2024-08-24T15:10:45+00:00",
+ "fichier": "2024-08-24_aa9d7e12-14b6-4b31-ac93-25f08cfc2c8a_hd.jpg",
+ "modele": "equirect",
+ "porteur": "GoPro Max sur voiture (capot visible)",
+ "intrinseques": {
+  "f": 0.0,
+  "cx": 0.0,
+  "cy": 0.0,
+  "k1": 0.0,
+  "source": "equirectangulaire 360°"
+ },
+ "gps": {
+  "lon": 5.7679,
+  "lat": 45.2075,
+  "azimut_vrai": 215,
+  "gamma_deg": -2.0084,
+  "precision_m": 4.0
+ },
+ "pose_brute": {
+  "x": -24.1889,
+  "y": -22.1151,
+  "z": 1.5158,
+  "lacet": 212.9916,
+  "tangage": 0.0,
+  "roulis": 0.0
+ },
+ "sigma_a_priori": {
+  "xy": 4.0,
+  "z": 0.5,
+  "lacet": 8.0,
+  "tangage": 2.0,
+  "roulis": 2.0
+ },
+ "recalage_grossier": [
+  {
+   "dx": 1.0,
+   "dy": 0.5,
+   "dlacet": 0.88,
+   "score": 0.626,
+   "n": 5
+  },
+  {
+   "dx": 0.5,
+   "dy": 1.5,
+   "dlacet": 2.4,
+   "score": 0.618,
+   "n": 5
+  },
+  {
+   "dx": 0.0,
+   "dy": 2.5,
+   "dlacet": 3.84,
+   "score": 0.601,
+   "n": 5
+  }
+ ],
+ "departs": [
+  {
+   "depart": "brute",
+   "n_obs": 11,
+   "n_inliers": 10,
+   "score": 4.75,
+   "moy_deg": 0.176
+  },
+  {
+   "depart": "vote0",
+   "n_obs": 5,
+   "n_inliers": 5,
+   "score": 2.33,
+   "moy_deg": 0.055
+  },
+  {
+   "depart": "vote1",
+   "n_obs": 14,
+   "n_inliers": 14,
+   "score": 7.38,
+   "moy_deg": 0.154
+  },
+  {
+   "depart": "vote2",
+   "n_obs": 15,
+   "n_inliers": 14,
+   "score": 7.66,
+   "moy_deg": 0.123
+  },
+  {
+   "depart": "brute+sol",
+   "n_obs": 0
+  },
+  {
+   "depart": "vote0+sol",
+   "n_obs": 0
+  },
+  {
+   "depart": "vote1+sol",
+   "n_obs": 12,
+   "n_inliers": 12,
+   "score": 6.46,
+   "moy_deg": 0.079
+  },
+  {
+   "depart": "vote2+sol",
+   "n_obs": 6,
+   "n_inliers": 6,
+   "score": 3.59,
+   "moy_deg": 0.127
+  }
+ ],
+ "depart_retenu": "vote2",
+ "pose": {
+  "x": -24.2656,
+  "y": -19.9424,
+  "z": 1.6647,
+  "lacet": 216.5407,
+  "tangage": -0.7956,
+  "roulis": -0.3356
+ },
+ "ecart_type": {
+  "x": 0.1061,
+  "y": 0.0732,
+  "z": 0.185,
+  "lacet": 0.1495,
+  "tangage": 0.7799,
+  "roulis": 0.5933
+ },
+ "qualite": {
+  "n_gcp": 14,
+  "n_mats": 3,
+  "n_sol": 11,
+  "n_points_sol": 8,
+  "n_lignes_distinctes": 3,
+  "n_obs": 15,
+  "n_inliers": 14,
+  "n_equations": 25,
+  "residu_loo_moy_deg": 0.255,
+  "secteurs_45": 2,
+  "rapport_profondeur_sol": 1.416,
+  "etendue_azimut_deg": 90.0,
+  "etendue_elevation_deg": 17.19,
+  "residu_moy_deg": 0.15,
+  "residu_max_deg": 0.321,
+  "residu_moy_px": 2.415,
+  "residu_max_px": 5.129,
+  "decalage_gps_m": 2.174,
+  "correction_lacet_deg": 3.549,
+  "hauteur_sol_m": 1.885
+ },
+ "accepte": true,
+ "raison": "ok",
+ "gcp_utilises": [
+  "MAT-feu_REV_droite",
+  "MAT-feu_VERC_droite",
+  "MAT-poteau_bois_REV_ilot",
+  "MQC-MQ0711-c0",
+  "MQC-MQ0711-c1",
+  "MQC-MQ0714-c0",
+  "MQC-MQ0715-c2",
+  "MQC-MQ0716-c3",
+  "MQC-MQ0719-c1",
+  "MQC-MQ0719-c3",
+  "MQL-MQ0711-s0",
+  "MQL-MQ0714-s0",
+  "MQL-MQ0733-s0",
+  "ORTHO--15.3_-13.9"
+ ],
+ "observations": [
+  {
+   "gcp": "MAT-feu_REV_droite",
+   "type": "ligne",
+   "uv": [
+    [
+     5545.3455,
+     1480.2395
+    ],
+    [
+     5545.1922,
+     1445.6902
+    ]
+   ],
+   "az": 23.0526,
+   "el": [
+    -1.4262,
+    0.7331
+   ],
+   "score": 1.9752,
+   "distinction": 79.5288,
+   "coherence": 0.8194,
+   "force": 16.1454,
+   "bande_deg": [
+    -2.5059,
+    1.8128
+   ],
+   "ecart_prediction_deg": -0.76,
+   "recherche_deg": 1.0,
+   "distance_m": 31.8243,
+   "auto": true,
+   "poids": 0.8194,
+   "residu_deg": 0.1546,
+   "residu_px": 2.47,
+   "inlier": true
+  },
+  {
+   "gcp": "MAT-feu_VERC_droite",
+   "type": "ligne",
+   "uv": [
+    [
+     675.4669,
+     1465.7187
+    ],
+    [
+     674.9589,
+     1437.7932
+    ]
+   ],
+   "az": 78.6684,
+   "el": [
+    -1.2025,
+    0.5431
+   ],
+   "score": 3.4904,
+   "distinction": 22773876565.4252,
+   "coherence": 0.7966,
+   "force": 22.7739,
+   "bande_deg": [
+    -2.0753,
+    1.416
+   ],
+   "ecart_prediction_deg": 0.414,
+   "recherche_deg": 1.0,
+   "distance_m": 39.3734,
+   "auto": true,
+   "poids": 0.7966,
+   "residu_deg": 0.3205,
+   "residu_px": 5.13,
+   "inlier": true
+  },
+  {
+   "gcp": "MAT-poteau_bois_REV_ilot",
+   "type": "ligne",
+   "uv": [
+    [
+     5583.9173,
+     1437.4446
+    ],
+    [
+     5583.3407,
+     1327.848
+    ]
+   ],
+   "az": 25.4757,
+   "el": [
+    1.2368,
+    8.0866
+   ],
+   "score": 1.3587,
+   "distinction": 9883122802.4607,
+   "coherence": 0.869,
+   "force": 9.8831,
+   "bande_deg": [
+    -2.1882,
+    11.5116
+   ],
+   "ecart_prediction_deg": -0.4425,
+   "recherche_deg": 1.0,
+   "distance_m": 37.2097,
+   "auto": true,
+   "poids": 0.8588,
+   "residu_deg": 0.2719,
+   "residu_px": 4.35,
+   "inlier": true
+  },
+  {
+   "gcp": "MQC-MQ0703-c12",
+   "type": "point",
+   "uv": [
+    436.6435,
+    1605.111
+   ],
+   "ncc": 0.6586,
+   "distinction": 0.0533,
+   "decalage_px": [
+    2.0112,
+    -11.678
+   ],
+   "recherche_px": 16,
+   "echelle": 0.5,
+   "distance_m": 9.7238,
+   "gabarit": "ortho",
+   "auto": true,
+   "bord": false,
+   "poids": 0.5171,
+   "residu_deg": 1.7827,
+   "residu_px": 28.54,
+   "inlier": false
+  },
+  {
+   "gcp": "ORTHO--15.3_-13.9",
+   "type": "point",
+   "uv": [
+    309.9519,
+    1602.8864
+   ],
+   "ncc": 0.62,
+   "distinction": 0.2149,
+   "decalage_px": [
+    -0.3173,
+    0.2252
+   ],
+   "recherche_px": 16,
+   "echelle": 0.5,
+   "distance_m": 11.5258,
+   "gabarit": "ortho",
+   "auto": true,
+   "bord": false,
+   "poids": 0.385,
+   "residu_deg": 0.0102,
+   "residu_px": 0.17,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     -15.2989,
+     -13.8751,
+     -0.1106
+    ],
+    "sigma_m": 0.08,
+    "source": "ortho PCRS 5 cm 2022 + MNT 2026 (point de texture)",
+    "type": "texture_ortho"
+   }
+  },
+  {
+   "gcp": "MQC-MQ0711-c0",
+   "type": "point",
+   "uv": [
+    246.87,
+    1596.1255
+   ],
+   "ncc": 0.7999,
+   "distinction": 0.3823,
+   "decalage_px": [
+    -0.6742,
+    -0.1795
+   ],
+   "recherche_px": 16,
+   "echelle": 0.5,
+   "distance_m": 12.1488,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.7998,
+   "residu_deg": 0.1482,
+   "residu_px": 2.41,
+   "inlier": true
+  },
+  {
+   "gcp": "MQC-MQ0714-c0",
+   "type": "point",
+   "uv": [
+    320.5055,
+    1591.1009
+   ],
+   "ncc": 0.6724,
+   "distinction": 0.242,
+   "decalage_px": [
+    -0.9792,
+    0.3086
+   ],
+   "recherche_px": 16,
+   "echelle": 0.5,
+   "distance_m": 12.351,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.5448,
+   "residu_deg": 0.1385,
+   "residu_px": 2.25,
+   "inlier": true
+  },
+  {
+   "gcp": "MQL-MQ0711-s0",
+   "type": "ligne",
+   "uv": [
+    [
+     252.0672,
+     1579.9196
+    ]
+   ],
+   "ncc": 0.7816,
+   "distinction": 1.0,
+   "decalage_px": [
+    -0.9438,
+    -0.1109
+   ],
+   "recherche_px": 16,
+   "echelle": 0.5,
+   "distance_m": 13.5008,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.477,
+   "residu_deg": 0.0455,
+   "residu_px": 0.73,
+   "inlier": true
+  },
+  {
+   "gcp": "MQL-MQ0714-s0",
+   "type": "ligne",
+   "uv": [
+    [
+     319.337,
+     1576.4137
+    ]
+   ],
+   "ncc": 0.6504,
+   "distinction": 1.0,
+   "decalage_px": [
+    -0.8115,
+    0.1716
+   ],
+   "recherche_px": 16,
+   "echelle": 0.5,
+   "distance_m": 13.6831,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.313,
+   "residu_deg": 0.0742,
+   "residu_px": 1.19,
+   "inlier": true
+  },
+  {
+   "gcp": "MQC-MQ0711-c1",
+   "type": "point",
+   "uv": [
+    227.257,
+    1568.033
+   ],
+   "ncc": 0.5833,
+   "distinction": 0.1807,
+   "decalage_px": [
+    -0.2011,
+    -0.3406
+   ],
+   "recherche_px": 16,
+   "echelle": 0.5,
+   "distance_m": 14.8014,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.3667,
+   "residu_deg": 0.234,
+   "residu_px": 3.78,
+   "inlier": true
+  },
+  {
+   "gcp": "MQC-MQ0716-c3",
+   "type": "point",
+   "uv": [
+    268.7784,
+    1565.9716
+   ],
+   "ncc": 0.75,
+   "distinction": 0.3161,
+   "decalage_px": [
+    -1.0659,
+    -0.328
+   ],
+   "recherche_px": 16,
+   "echelle": 0.5,
+   "distance_m": 14.8844,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.7,
+   "residu_deg": 0.014,
+   "residu_px": 0.22,
+   "inlier": true
+  },
+  {
+   "gcp": "MQC-MQ0719-c3",
+   "type": "point",
+   "uv": [
+    302.5379,
+    1562.8121
+   ],
+   "ncc": 0.6068,
+   "distinction": 0.1655,
+   "decalage_px": [
+    -2.5247,
+    -0.9292
+   ],
+   "recherche_px": 16,
+   "echelle": 0.5,
+   "distance_m": 14.9809,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.4137,
+   "residu_deg": 0.2932,
+   "residu_px": 4.73,
+   "inlier": true
+  },
+  {
+   "gcp": "MQC-MQ0715-c2",
+   "type": "point",
+   "uv": [
+    228.5504,
+    1561.2198
+   ],
+   "ncc": 0.5873,
+   "distinction": 0.1974,
+   "decalage_px": [
+    -0.154,
+    -0.3735
+   ],
+   "recherche_px": 16,
+   "echelle": 0.5,
+   "distance_m": 15.6002,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.3747,
+   "residu_deg": 0.228,
+   "residu_px": 3.68,
+   "inlier": true
+  },
+  {
+   "gcp": "MQC-MQ0719-c1",
+   "type": "point",
+   "uv": [
+    268.4936,
+    1558.6915
+   ],
+   "ncc": 0.7182,
+   "distinction": 0.291,
+   "decalage_px": [
+    -2.1364,
+    -0.6002
+   ],
+   "recherche_px": 16,
+   "echelle": 0.5,
+   "distance_m": 15.6899,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.6364,
+   "residu_deg": 0.1404,
+   "residu_px": 2.27,
+   "inlier": true
+  },
+  {
+   "gcp": "MQL-MQ0733-s0",
+   "type": "ligne",
+   "uv": [
+    [
+     689.0347,
+     1555.9572
+    ]
+   ],
+   "ncc": 0.6124,
+   "distinction": 1.0,
+   "decalage_px": [
+    9.9071,
+    3.018
+   ],
+   "recherche_px": 16,
+   "echelle": 0.5,
+   "distance_m": 15.9785,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.2655,
+   "residu_deg": 0.0284,
+   "residu_px": 0.45,
+   "inlier": true
+  }
+ ],
+ "duree_s": 166.9
+}

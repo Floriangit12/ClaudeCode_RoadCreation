@@ -1,0 +1,49 @@
+{
+ "schema": "pj_revue_visuelle/0.1",
+ "methode": "lecture par Claude des planches de comparaison (axe à la position du paquet en haut, à la position triangulée en bas, mêmes photos calées) ; verdict : correction_confirmee | correction_rejetee | incertain",
+ "revues": {
+  "pan_C114_1": {
+   "verdict": "correction_rejetee",
+   "par": "Claude (vision)",
+   "date": "2026-10-10",
+   "planches": ["recon/out/paquet_jardin/v2/enrichi/poses/planches/triangulation_pan_C114_1.jpg"],
+   "note": "La position du paquet tombe sur le poteau des panneaux C114 / AB14 (5c0d1d39, 119d9094, 9834f494) ; la position triangulée tombe dans la haie : la triangulation a retenu un autre support."
+  },
+  "feu_NE_SE_pietons": {
+   "verdict": "incertain",
+   "par": "Claude (vision)",
+   "date": "2026-10-10",
+   "planches": ["recon/out/paquet_jardin/v2/enrichi/poses/planches/triangulation_feu_NE_SE_pietons.jpg"],
+   "note": "Deux supports voisins à environ 0,5 m (mât de la tête piétons et poteau du panneau) : les deux positions tombent chacune sur un support ; à trancher avec une photo rapprochée."
+  },
+  "feu_NE_droite": {
+   "verdict": "correction_confirmee",
+   "par": "Claude (vision)",
+   "date": "2026-10-10",
+   "planches": ["recon/out/paquet_jardin/v2/enrichi/poses/planches/triangulation_feu_NE_droite.jpg"],
+   "note": "Même mât dans les deux cas ; à 7 m (5c0d1d39) l'axe triangulé est centré sur le fût, celui du paquet (tête LiDAR) décalé : affinage de 0,35 m."
+  },
+  "pan_D21_1": {
+   "verdict": "incertain",
+   "par": "Claude (vision)",
+   "date": "2026-10-10",
+   "planches": ["recon/out/paquet_jardin/v2/enrichi/poses/planches/triangulation_pan_D21_1.jpg"],
+   "note": "Le poteau du D21 est net ; la position du paquet est 0,3 à 0,5 m à droite du poteau, la position triangulée n'est pas nettement meilleure sur 5c0d1d39 et 2ab4efbc."
+  },
+  "pan_D21_2": {
+   "verdict": "incertain",
+   "par": "Claude (vision)",
+   "date": "2026-10-10",
+   "planches": ["recon/out/paquet_jardin/v2/enrichi/poses/planches/triangulation_pan_D21_1.jpg"],
+   "note": "Même support que pan_D21_1."
+  },
+  "lamp_9514795520": {
+   "verdict": "correction_rejetee",
+   "par": "Claude (vision)",
+   "date": "2026-10-10",
+   "planches": ["recon/out/paquet_jardin/v2/enrichi/poses/planches/preuve_lamp_9514795520__position_paquet_.jpg",
+                "recon/out/paquet_jardin/v2/enrichi/poses/planches/preuve_lamp_9514795520__position_triangulee_.jpg"],
+   "note": "Une première triangulation (2 visées presque colinéaires + 1 mât voisin) proposait 2,07 m ; les planches montrent l'axe du paquet exactement sur le mât du lampadaire du TPC dans 5 photos. Cas d'école à l'origine des contrôles angle d'intersection ≥ 20° et stabilité leave-one-out."
+  }
+ }
+}

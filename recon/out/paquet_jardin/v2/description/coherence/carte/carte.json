@@ -1,0 +1,748 @@
+{
+ "schema": "pj_carte_coherence/0.1",
+ "repere": "local = L93 - (917279.43, 6460289.98) ; z = NGF - 216.30",
+ "georef": {
+  "x0_local": -150.0,
+  "y1_local": 150.0,
+  "pas_m": 0.05,
+  "taille_px": [
+   6000,
+   6000
+  ],
+  "pixel": "(r, c) centré en (x0 + (c + 0,5)·pas, y1 − (r + 0,5)·pas)"
+ },
+ "classes_5cm.png": {
+  "valeurs": {
+   "0": "",
+   "1": "chaussee",
+   "2": "trottoir",
+   "3": "ilot",
+   "4": "piste_cyclable",
+   "5": "quai_bus",
+   "6": "espace_vert",
+   "7": "terre_plein_vegetal",
+   "8": "parking",
+   "9": "acces_riverain",
+   "10": "batiment",
+   "11": "autre"
+  },
+  "priorite": "ilots v2 > surfaces v2 (zone pilote) > batiments_local (sur autre/vide) > surfaces_2026 v1"
+ },
+ "zones_5cm.png": {
+  "bits": {
+   "passage_pietons": 1,
+   "traversee_cyclable": 2,
+   "bev": 4,
+   "abaisse_traversee": 8,
+   "palier_abaisse": 16,
+   "ilot_peint": 32,
+   "voie_bus": 64,
+   "bande_cyclable": 128,
+   "stationnement_chaussee": 256,
+   "cloture": 512
+  },
+  "precedence": [
+   "passage_pietons",
+   "traversee_cyclable",
+   "bev",
+   "abaisse_traversee",
+   "palier_abaisse",
+   "ilot_peint",
+   "voie_bus",
+   "bande_cyclable",
+   "stationnement_chaussee",
+   "piste_cyclable",
+   "quai_bus",
+   "ilot",
+   "trottoir",
+   "terre_plein_vegetal",
+   "espace_vert",
+   "acces_riverain",
+   "parking",
+   "chaussee",
+   "batiment",
+   "autre"
+  ],
+  "sources": {
+   "passage_pietons": "marquages v2 zebra (axe ± longueur de bande / 2) ∩ surfaces circulées",
+   "traversee_cyclable": "marquages v2 traversee_cyclable (enveloppe des files + 0,35 m)",
+   "ilot_peint": "marquages v2 hachures / aplat / chevron + surfaces v2 sous_classe terre_plein_peint",
+   "voie_bus": "lanes_2026 bus ∩ chaussée",
+   "bande_cyclable": "lanes_2026 biking ∩ chaussée",
+   "abaisse_traversee": "abaissés v2 (zone pilote) ; ailleurs extrémités des passages sur les bordures (rampe 1,20 m a priori)",
+   "palier_abaisse": "bande de 0,80 m derrière la rampe",
+   "bev": "ponctuels_sol v2 ; ailleurs 0,50-0,90 m derrière le nez (a priori)",
+   "cloture": "clôtures GAM (mobilier.geojson LineString)"
+  }
+ },
+ "faiblesse_5cm.png": {
+  "bit0": "classe de base faible (limite raster v1, surface modifiée 2025 a priori)",
+  "bit1": "zone dérivée à géométrie par défaut (a priori)"
+ },
+ "distance_bordure_10cm.png": {
+  "encodage": "uint16 : t = valeur / 1000 - 10 (m) ; 0 = au-delà de 6 m",
+  "sens": "t > 0 côté haut (trottoir, îlot), t < 0 côté chaussée ; arête avant",
+  "pas_m": 0.1
+ },
+ "bordure_proche_10cm.png": {
+  "encodage": "uint16 : indice + 1 dans bordures_site.geojson (ordre des entités), 0 = aucune",
+  "pas_m": 0.1
+ },
+ "voies_25cm.png": {
+  "encodage": "uint8 : indice + 1 dans la table voies ci-dessous, 0 = hors voie",
+  "pas_m": 0.25
+ },
+ "cap_voies_25cm.png": {
+  "encodage": "uint16 : cap de circulation (deg) = (valeur - 1) / 100, 0 = hors voie",
+  "pas_m": 0.25
+ },
+ "voies": [
+  {
+   "indice": 1,
+   "route": 1,
+   "voie": -6,
+   "type": "biking",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)"
+  },
+  {
+   "indice": 2,
+   "route": 1,
+   "voie": -6,
+   "type": "biking",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)"
+  },
+  {
+   "indice": 3,
+   "route": 1,
+   "voie": -5,
+   "type": "biking",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)"
+  },
+  {
+   "indice": 4,
+   "route": 1,
+   "voie": -2,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)"
+  },
+  {
+   "indice": 5,
+   "route": 1,
+   "voie": -2,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)"
+  },
+  {
+   "indice": 6,
+   "route": 1,
+   "voie": -2,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)"
+  },
+  {
+   "indice": 7,
+   "route": 1,
+   "voie": -2,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)"
+  },
+  {
+   "indice": 8,
+   "route": 1,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)"
+  },
+  {
+   "indice": 9,
+   "route": 1,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)"
+  },
+  {
+   "indice": 10,
+   "route": 1,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)"
+  },
+  {
+   "indice": 11,
+   "route": 1,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens NE (entrante)"
+  },
+  {
+   "indice": 12,
+   "route": 2,
+   "voie": -5,
+   "type": "biking",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens SW (sortante)"
+  },
+  {
+   "indice": 13,
+   "route": 2,
+   "voie": -2,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens SW (sortante)"
+  },
+  {
+   "indice": 14,
+   "route": 2,
+   "voie": -2,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens SW (sortante)"
+  },
+  {
+   "indice": 15,
+   "route": 2,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens SW (sortante)"
+  },
+  {
+   "indice": 16,
+   "route": 2,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) SW - chaussee sens SW (sortante)"
+  },
+  {
+   "indice": 17,
+   "route": 3,
+   "voie": -5,
+   "type": "biking",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) NE - chaussee sens SW (entrante)"
+  },
+  {
+   "indice": 18,
+   "route": 3,
+   "voie": -5,
+   "type": "biking",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) NE - chaussee sens SW (entrante)"
+  },
+  {
+   "indice": 19,
+   "route": 3,
+   "voie": -2,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) NE - chaussee sens SW (entrante)"
+  },
+  {
+   "indice": 20,
+   "route": 3,
+   "voie": -2,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) NE - chaussee sens SW (entrante)"
+  },
+  {
+   "indice": 21,
+   "route": 3,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) NE - chaussee sens SW (entrante)"
+  },
+  {
+   "indice": 22,
+   "route": 3,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) NE - chaussee sens SW (entrante)"
+  },
+  {
+   "indice": 23,
+   "route": 4,
+   "voie": -2,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) NE - chaussee sens NE (sortante)"
+  },
+  {
+   "indice": 24,
+   "route": 4,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) NE - chaussee sens NE (sortante)"
+  },
+  {
+   "indice": 25,
+   "route": 4,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue de Verdun (RD1090) NE - chaussee sens NE (sortante)"
+  },
+  {
+   "indice": 26,
+   "route": 5,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Chemin de la Reviree"
+  },
+  {
+   "indice": 27,
+   "route": 5,
+   "voie": 1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Chemin de la Reviree"
+  },
+  {
+   "indice": 28,
+   "route": 6,
+   "voie": -5,
+   "type": "biking",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 29,
+   "route": 6,
+   "voie": -4,
+   "type": "biking",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 30,
+   "route": 6,
+   "voie": -4,
+   "type": "biking",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 31,
+   "route": 6,
+   "voie": -4,
+   "type": "biking",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 32,
+   "route": 6,
+   "voie": -2,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 33,
+   "route": 6,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 34,
+   "route": 6,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 35,
+   "route": 6,
+   "voie": -1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 36,
+   "route": 6,
+   "voie": 1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 37,
+   "route": 6,
+   "voie": 1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 38,
+   "route": 6,
+   "voie": 1,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 39,
+   "route": 6,
+   "voie": 2,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 40,
+   "route": 6,
+   "voie": 2,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 41,
+   "route": 6,
+   "voie": 2,
+   "type": "bus",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 42,
+   "route": 6,
+   "voie": 3,
+   "type": "driving",
+   "jonction": false,
+   "nom": "Avenue du Vercors"
+  },
+  {
+   "indice": 43,
+   "route": 101,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison SW_TD_G : tout droit"
+  },
+  {
+   "indice": 44,
+   "route": 102,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison SW_TD_D : tout droit"
+  },
+  {
+   "indice": 45,
+   "route": 103,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison SW_TAG : tourne-a-gauche vers la Reviree"
+  },
+  {
+   "indice": 46,
+   "route": 104,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison SW_TAD : tourne-a-droite vers le Vercors (depuis la voie droite generale)"
+  },
+  {
+   "indice": 47,
+   "route": 105,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison NE_TD_G : tout droit"
+  },
+  {
+   "indice": 48,
+   "route": 106,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison NE_TD_D : tout droit"
+  },
+  {
+   "indice": 49,
+   "route": 107,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison NE_TAG : tourne-a-gauche vers le Vercors"
+  },
+  {
+   "indice": 50,
+   "route": 108,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison NE_TAD : tourne-a-droite vers la Reviree"
+  },
+  {
+   "indice": 51,
+   "route": 109,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison S_TAG : tourne-a-gauche vers Grenoble (voie gauche, tourne-a-gauche seul)"
+  },
+  {
+   "indice": 52,
+   "route": 110,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison S_TD : tout droit vers la Reviree (voie droite)"
+  },
+  {
+   "indice": 53,
+   "route": 111,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison S_TAD : tourne-a-droite vers Montbonnot (voie droite)"
+  },
+  {
+   "indice": 54,
+   "route": 112,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison N_TAD : tourne-a-droite vers Grenoble"
+  },
+  {
+   "indice": 55,
+   "route": 113,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison N_TD : tout droit vers le Vercors"
+  },
+  {
+   "indice": 56,
+   "route": 114,
+   "voie": -1,
+   "type": "driving",
+   "jonction": true,
+   "nom": "liaison N_TAG : tourne-a-gauche vers Montbonnot"
+  }
+ ],
+ "bordures": {
+  "fichier": "bordures_site.geojson",
+  "n": 505,
+  "n_circulee_bas": 289
+ },
+ "abaisses": [
+  {
+   "id": "A-0178-1",
+   "bordure": "K-0178",
+   "k": 8,
+   "s0": 3.748,
+   "s1": 4.948,
+   "source": "v2"
+  },
+  {
+   "id": "A-0339-1",
+   "bordure": "K-0339",
+   "k": 18,
+   "s0": 0.754,
+   "s1": 3.771,
+   "source": "v2"
+  },
+  {
+   "id": "A-0341-1",
+   "bordure": "K-0341",
+   "k": 19,
+   "s0": 4.995,
+   "s1": 7.492,
+   "source": "v2"
+  },
+  {
+   "id": "A-0348-1",
+   "bordure": "K-0348",
+   "k": 21,
+   "s0": 11.52,
+   "s1": 14.275,
+   "source": "v2"
+  },
+  {
+   "id": "A-0348-2",
+   "bordure": "K-0348",
+   "k": 21,
+   "s0": 22.038,
+   "s1": 25.043,
+   "source": "v2"
+  },
+  {
+   "id": "A-0352-1",
+   "bordure": "K-0352",
+   "k": 22,
+   "s0": 0.0,
+   "s1": 1.2,
+   "source": "v2"
+  },
+  {
+   "id": "A-0354-1",
+   "bordure": "K-0354",
+   "k": 24,
+   "s0": 25.779,
+   "s1": 28.783,
+   "source": "v2"
+  },
+  {
+   "id": "A-0372-1",
+   "bordure": "K-0372",
+   "k": 31,
+   "s0": 0.0,
+   "s1": 3.325,
+   "source": "v2"
+  },
+  {
+   "id": "A-0373-1",
+   "bordure": "K-0373",
+   "k": 32,
+   "s0": 0.0,
+   "s1": 2.939,
+   "source": "v2"
+  },
+  {
+   "id": "A-0381-1",
+   "bordure": "K-0381",
+   "k": 33,
+   "s0": 10.915,
+   "s1": 12.404,
+   "source": "v2"
+  },
+  {
+   "id": "A-0385-1",
+   "bordure": "K-0385",
+   "k": 34,
+   "s0": 3.65,
+   "s1": 6.639,
+   "source": "v2"
+  },
+  {
+   "id": "A-0385-2",
+   "bordure": "K-0385",
+   "k": 34,
+   "s0": 17.124,
+   "s1": 20.663,
+   "source": "v2"
+  },
+  {
+   "id": "A-0388-1",
+   "bordure": "K-0388",
+   "k": 37,
+   "s0": 5.223,
+   "s1": 7.302,
+   "source": "v2"
+  },
+  {
+   "id": "A-0389-1",
+   "bordure": "K-0389",
+   "k": 38,
+   "s0": 0.0,
+   "s1": 3.02,
+   "source": "v2"
+  },
+  {
+   "id": "AD-MP-0326-a",
+   "bordure": "KS-0631-1",
+   "k": 452,
+   "s0": 3.464,
+   "s1": 6.665,
+   "source": "deduit_passage"
+  },
+  {
+   "id": "AD-MP-0860-a",
+   "bordure": "KS-0380-1",
+   "k": 296,
+   "s0": 3.131,
+   "s1": 7.189,
+   "source": "deduit_passage"
+  },
+  {
+   "id": "AD-MP-0860-b",
+   "bordure": "KS-0402-1",
+   "k": 313,
+   "s0": 4.348,
+   "s1": 8.29,
+   "source": "deduit_passage"
+  },
+  {
+   "id": "AD-MP-0863-a",
+   "bordure": "KS-0625-1",
+   "k": 446,
+   "s0": 0.0,
+   "s1": 2.707,
+   "source": "deduit_passage"
+  },
+  {
+   "id": "AD-MP-0863-b",
+   "bordure": "KS-0381-1",
+   "k": 297,
+   "s0": 3.961,
+   "s1": 7.459,
+   "source": "deduit_passage"
+  },
+  {
+   "id": "AD-MP-0869-a",
+   "bordure": "KS-0388-2",
+   "k": 303,
+   "s0": 0.0,
+   "s1": 3.105,
+   "source": "deduit_passage"
+  },
+  {
+   "id": "AD-MP-0869-b",
+   "bordure": "KS-0622-1",
+   "k": 443,
+   "s0": 0.0,
+   "s1": 2.798,
+   "source": "deduit_passage"
+  },
+  {
+   "id": "AD-MP-0875-a",
+   "bordure": "KS-0394-1",
+   "k": 307,
+   "s0": 0.138,
+   "s1": 2.881,
+   "source": "deduit_passage"
+  }
+ ],
+ "passages": [
+  "MP-0085",
+  "MP-0326",
+  "MP-0333",
+  "MP-0348",
+  "MP-0442",
+  "MP-0444",
+  "MP-0570",
+  "MP-0574",
+  "MP-0580",
+  "MP-0586",
+  "MP-0860",
+  "MP-0863",
+  "MP-0869",
+  "MP-0875"
+ ]
+}

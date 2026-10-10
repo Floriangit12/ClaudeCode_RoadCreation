@@ -1,0 +1,195 @@
+{
+ "id8": "b4013696",
+ "id": "b4013696-1d02-4d94-9a89-456a56298e04",
+ "date": "2024-05-01",
+ "datetime": "2024-05-01T17:17:00+00:00",
+ "fichier": "2024-05-01_b4013696-1d02-4d94-9a89-456a56298e04_hd.jpg",
+ "modele": "equirect",
+ "porteur": "GoPro Max portée (piéton ou deux-roues)",
+ "intrinseques": {
+  "f": 0.0,
+  "cx": 0.0,
+  "cy": 0.0,
+  "k1": 0.0,
+  "source": "equirectangulaire 360°"
+ },
+ "gps": {
+  "lon": 5.7684,
+  "lat": 45.2079,
+  "azimut_vrai": 229,
+  "gamma_deg": -2.0087,
+  "precision_m": 4.0
+ },
+ "pose_brute": {
+  "x": 12.2033,
+  "y": 24.7084,
+  "z": 2.1312,
+  "lacet": 226.9913,
+  "tangage": 0.0,
+  "roulis": 0.0
+ },
+ "sigma_a_priori": {
+  "xy": 4.0,
+  "z": 0.6,
+  "lacet": 8.0,
+  "tangage": 2.0,
+  "roulis": 2.0
+ },
+ "recalage_grossier": [],
+ "departs": [
+  {
+   "depart": "brute",
+   "n_obs": 3,
+   "n_inliers": 3,
+   "score": 1.26,
+   "moy_deg": 0.012
+  },
+  {
+   "depart": "brute+sol",
+   "n_obs": 0
+  }
+ ],
+ "depart_retenu": "brute",
+ "pose": {
+  "x": 12.1088,
+  "y": 24.1679,
+  "z": 1.8927,
+  "lacet": 226.8426,
+  "tangage": 0.1199,
+  "roulis": 0.7063
+ },
+ "ecart_type": {
+  "x": 0.0983,
+  "y": 0.0786,
+  "z": 0.3827,
+  "lacet": 0.1968,
+  "tangage": 1.9796,
+  "roulis": 1.4822
+ },
+ "qualite": {
+  "n_gcp": 3,
+  "n_mats": 2,
+  "n_sol": 1,
+  "n_points_sol": 1,
+  "n_lignes_distinctes": 0,
+  "n_obs": 3,
+  "n_inliers": 3,
+  "n_equations": 6,
+  "residu_loo_moy_deg": 99.0,
+  "secteurs_45": 3,
+  "rapport_profondeur_sol": 1.0,
+  "etendue_azimut_deg": 135.0,
+  "etendue_elevation_deg": 7.372,
+  "residu_moy_deg": 0.012,
+  "residu_max_deg": 0.017,
+  "residu_moy_px": 0.188,
+  "residu_max_px": 0.275,
+  "decalage_gps_m": 0.549,
+  "correction_lacet_deg": -0.149,
+  "hauteur_sol_m": 1.666
+ },
+ "accepte": false,
+ "raison": "trop peu de GCP inliers ; validation croisée (leave-one-out) défavorable",
+ "gcp_utilises": [
+  "MAT-feu_REV_droite",
+  "MAT-pan_C113_1",
+  "MQC-MQ0508-c3"
+ ],
+ "observations": [
+  {
+   "gcp": "MAT-feu_REV_droite",
+   "type": "ligne",
+   "uv": [
+    [
+     3051.0151,
+     1490.2349
+    ],
+    [
+     3051.6225,
+     1451.3423
+    ]
+   ],
+   "az": 237.7288,
+   "el": [
+    -2.0376,
+    0.3935
+   ],
+   "score": 1.2171,
+   "distinction": 67.8689,
+   "coherence": 0.7195,
+   "force": 5.5327,
+   "bande_deg": [
+    -3.2532,
+    1.609
+   ],
+   "ecart_prediction_deg": 0.0127,
+   "recherche_deg": 1.5,
+   "distance_m": 28.2587,
+   "auto": true,
+   "poids": 0.3981,
+   "residu_deg": 0.0048,
+   "residu_px": 0.08,
+   "inlier": true
+  },
+  {
+   "gcp": "MAT-pan_C113_1",
+   "type": "ligne",
+   "uv": [
+    [
+     2700.6846,
+     1569.2969
+    ],
+    [
+     2701.5707,
+     1528.9023
+    ]
+   ],
+   "az": 215.9611,
+   "el": [
+    -7.3905,
+    -4.8652
+   ],
+   "score": 2.2498,
+   "distinction": 6.5802,
+   "coherence": 0.7059,
+   "force": 4.2202,
+   "bande_deg": [
+    -8.6531,
+    -3.6026
+   ],
+   "ecart_prediction_deg": 0.0553,
+   "recherche_deg": 1.5,
+   "distance_m": 8.9662,
+   "auto": true,
+   "poids": 0.2383,
+   "residu_deg": 0.0133,
+   "residu_px": 0.21,
+   "inlier": true
+  },
+  {
+   "gcp": "MQC-MQ0508-c3",
+   "type": "point",
+   "uv": [
+    1279.5127,
+    1531.0726
+   ],
+   "ncc": 0.7098,
+   "distinction": 0.1479,
+   "decalage_px": [
+    5.8502,
+    1.1355
+   ],
+   "recherche_px": 24,
+   "echelle": 0.5,
+   "distance_m": 14.8364,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.6197,
+   "residu_deg": 0.0172,
+   "residu_px": 0.28,
+   "inlier": true
+  }
+ ],
+ "duree_s": 111.5
+}

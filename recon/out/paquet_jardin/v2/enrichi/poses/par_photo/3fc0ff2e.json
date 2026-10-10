@@ -1,0 +1,295 @@
+{
+ "id8": "3fc0ff2e",
+ "id": "3fc0ff2e-69fd-4697-95ca-337b368e178d",
+ "date": "2024-05-01",
+ "datetime": "2024-05-01T17:17:06+00:00",
+ "fichier": "2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd.jpg",
+ "modele": "equirect",
+ "porteur": "GoPro Max portée (piéton ou deux-roues)",
+ "intrinseques": {
+  "f": 0.0,
+  "cx": 0.0,
+  "cy": 0.0,
+  "k1": 0.0,
+  "source": "equirectangulaire 360°"
+ },
+ "gps": {
+  "lon": 5.7681,
+  "lat": 45.2077,
+  "azimut_vrai": 230,
+  "gamma_deg": -2.0085,
+  "precision_m": 4.0
+ },
+ "pose_brute": {
+  "x": -9.2019,
+  "y": 3.6213,
+  "z": 1.857,
+  "lacet": 227.9915,
+  "tangage": 0.0,
+  "roulis": 0.0
+ },
+ "sigma_a_priori": {
+  "xy": 4.0,
+  "z": 0.6,
+  "lacet": 8.0,
+  "tangage": 2.0,
+  "roulis": 2.0
+ },
+ "recalage_grossier": [
+  {
+   "dx": -5.0,
+   "dy": -2.5,
+   "dlacet": 1.28,
+   "score": 0.496,
+   "n": 9
+  },
+  {
+   "dx": -5.0,
+   "dy": -3.5,
+   "dlacet": -0.24,
+   "score": 0.486,
+   "n": 9
+  },
+  {
+   "dx": -4.5,
+   "dy": -4.5,
+   "dlacet": -1.76,
+   "score": 0.47,
+   "n": 9
+  }
+ ],
+ "departs": [
+  {
+   "depart": "brute",
+   "n_obs": 3,
+   "n_inliers": 3,
+   "score": 1.93,
+   "moy_deg": 0.071
+  },
+  {
+   "depart": "vote0",
+   "n_obs": 3,
+   "n_inliers": 3,
+   "score": 1.95,
+   "moy_deg": 0.056
+  },
+  {
+   "depart": "vote1",
+   "n_obs": 5,
+   "n_inliers": 4,
+   "score": 2.4,
+   "moy_deg": 0.291
+  },
+  {
+   "depart": "vote2",
+   "n_obs": 6,
+   "n_inliers": 4,
+   "score": 2.19,
+   "moy_deg": 0.283
+  },
+  {
+   "depart": "brute+sol",
+   "n_obs": 3,
+   "n_inliers": 3,
+   "score": 2.38,
+   "moy_deg": 0.05
+  },
+  {
+   "depart": "vote0+sol",
+   "n_obs": 3,
+   "n_inliers": 3,
+   "score": 1.65,
+   "moy_deg": 0.24
+  },
+  {
+   "depart": "vote1+sol",
+   "n_obs": 0
+  },
+  {
+   "depart": "vote2+sol",
+   "n_obs": 3,
+   "n_inliers": 3,
+   "score": 1.77,
+   "moy_deg": 0.178
+  }
+ ],
+ "depart_retenu": "vote1",
+ "pose": {
+  "x": -12.8964,
+  "y": -4.3355,
+  "z": 0.8531,
+  "lacet": 215.8926,
+  "tangage": -1.1103,
+  "roulis": 1.0634
+ },
+ "ecart_type": {
+  "x": 0.7989,
+  "y": 2.1155,
+  "z": 0.404,
+  "lacet": 4.4577,
+  "tangage": 2.792,
+  "roulis": 2.5861
+ },
+ "qualite": {
+  "n_gcp": 4,
+  "n_mats": 3,
+  "n_sol": 1,
+  "n_points_sol": 1,
+  "n_lignes_distinctes": 0,
+  "n_obs": 4,
+  "n_inliers": 4,
+  "n_equations": 8,
+  "residu_loo_moy_deg": 3.082,
+  "secteurs_45": 3,
+  "rapport_profondeur_sol": 1.0,
+  "etendue_azimut_deg": 135.0,
+  "etendue_elevation_deg": 8.759,
+  "residu_moy_deg": 0.232,
+  "residu_max_deg": 0.319,
+  "residu_moy_px": 3.717,
+  "residu_max_px": 5.1,
+  "decalage_gps_m": 8.773,
+  "correction_lacet_deg": -12.099,
+  "hauteur_sol_m": 0.845
+ },
+ "accepte": false,
+ "raison": "trop peu de GCP inliers ; validation croisée (leave-one-out) défavorable",
+ "gcp_utilises": [
+  "MAT-feu_NE_SE_pietons",
+  "MAT-feu_NE_TPC",
+  "MAT-feu_NE_droite",
+  "MQC-MQ0734-c0"
+ ],
+ "observations": [
+  {
+   "gcp": "MAT-feu_NE_SE_pietons",
+   "type": "ligne",
+   "uv": [
+    [
+     726.2155,
+     1447.3079
+    ],
+    [
+     725.5282,
+     1421.9432
+    ]
+   ],
+   "az": 83.47,
+   "el": [
+    0.0997,
+    1.6856
+   ],
+   "score": 1.0,
+   "distinction": 7151028925.084,
+   "coherence": 0.7736,
+   "force": 7.151,
+   "bande_deg": [
+    -0.6932,
+    2.4785
+   ],
+   "ecart_prediction_deg": -0.2718,
+   "recherche_deg": 0.8718,
+   "distance_m": 28.8886,
+   "auto": true,
+   "poids": 0.5532,
+   "residu_deg": 0.2581,
+   "residu_px": 4.13,
+   "inlier": true
+  },
+  {
+   "gcp": "MAT-feu_NE_TPC",
+   "type": "ligne",
+   "uv": [
+    [
+     414.0745,
+     1444.567
+    ],
+    [
+     413.196,
+     1405.1782
+    ]
+   ],
+   "az": 63.9713,
+   "el": [
+    0.7572,
+    3.2196
+   ],
+   "score": 1.8864,
+   "distinction": 15313711553.2304,
+   "coherence": 0.7229,
+   "force": 15.3137,
+   "bande_deg": [
+    -0.474,
+    4.4509
+   ],
+   "ecart_prediction_deg": -0.3318,
+   "recherche_deg": 0.8718,
+   "distance_m": 27.8709,
+   "auto": true,
+   "poids": 0.7229,
+   "residu_deg": 0.26,
+   "residu_px": 4.16,
+   "inlier": true
+  },
+  {
+   "gcp": "MAT-feu_NE_droite",
+   "type": "ligne",
+   "uv": [
+    [
+     146.5204,
+     1454.5456
+    ],
+    [
+     145.8583,
+     1413.4499
+    ]
+   ],
+   "az": 47.2402,
+   "el": [
+    0.457,
+    3.0258
+   ],
+   "score": 2.4814,
+   "distinction": 3.6553,
+   "coherence": 0.7674,
+   "force": 15.9015,
+   "bande_deg": [
+    -0.8274,
+    4.3102
+   ],
+   "ecart_prediction_deg": 0.3882,
+   "recherche_deg": 0.8718,
+   "distance_m": 26.7225,
+   "auto": true,
+   "poids": 0.7674,
+   "residu_deg": 0.3188,
+   "residu_px": 5.1,
+   "inlier": true
+  },
+  {
+   "gcp": "MQC-MQ0734-c0",
+   "type": "point",
+   "uv": [
+    1782.3603,
+    1545.3223
+   ],
+   "ncc": 0.5876,
+   "distinction": 0.0573,
+   "decalage_px": [
+    -4.3262,
+    10.5654
+   ],
+   "recherche_px": 13,
+   "echelle": 1.0,
+   "distance_m": 7.4181,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.3753,
+   "residu_deg": 0.0919,
+   "residu_px": 1.48,
+   "inlier": true
+  }
+ ],
+ "duree_s": 429.0
+}

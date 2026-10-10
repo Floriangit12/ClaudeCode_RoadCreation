@@ -1,0 +1,6941 @@
+{
+ "schema": "pj_poses_panoramax/0.1",
+ "repere": "local = Lambert-93 − O (917279.43, 6460289.98), z = NGF − 216,30 (decrire/commun.py repere)",
+ "convention_pose": "lacet = azimut grille de l'axe avant (deg, de +Y vers +X) ; tangage + = relevé ; roulis + = côté droit relevé ; R = matrice_rotation(lacet, tangage, roulis), c = R·(P − C) en (droite, avant, haut)",
+ "modeles": {
+  "equirect": "u = W(0,5 + lon/2π), v = H(0,5 − lat/π)",
+  "stenope": "u = cx + f·x(1+k1 r²), v = cy − f·y(1+k1 r²)"
+ },
+ "criteres": {
+  "seuil_360_deg": 0.5,
+  "seuil_plat_px": 8.0,
+  "gcp_inliers_min": 6,
+  "validation_croisee": "résidu leave-one-out moyen ≤ 2 × seuil",
+  "equations_min": 14,
+  "etendue_plat": "observations inliers étalées sur ≥ 20° en azimut et ≥ 3° en élévation",
+  "condition": "points + mâts + lignes distinctes ≥ 6, dont ≥ 3 points au sol ou ≥ 4 mâts, et points + mâts ≥ 4 ; 360° : ≥ 2 secteurs de 45° ou ≥ 8 points de sol étagés en profondeur (rapport ≥ 1,8)"
+ },
+ "n_photos": 65,
+ "n_acceptees": 13,
+ "photos": [
+  {
+   "id8": "0fe2656f",
+   "id": "0fe2656f-6a46-4189-859a-2a7ac8d8ef79",
+   "date": "2024-08-24",
+   "datetime": "2024-08-24T15:10:47+00:00",
+   "fichier": "2024-08-24_0fe2656f-6a46-4189-859a-2a7ac8d8ef79_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7677,
+    "lat": 45.2073,
+    "azimut_vrai": 229,
+    "gamma_deg": -2.0083,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": -38.3402,
+    "y": -37.8937,
+    "z": 1.8049,
+    "lacet": 226.9917,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.4,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "a_priori_sequence": {
+    "voisins": [
+     "aa9d7e12",
+     "2ab4efbc",
+     "5c0d1d39",
+     "e86aa913"
+    ],
+    "pose": {
+     "x": -37.7525,
+     "y": -36.3928,
+     "z": 1.7642,
+     "lacet": 226.1057,
+     "tangage": -0.6608,
+     "roulis": 0.9589
+    },
+    "sigma": {
+     "xy": 1.7077,
+     "z": 0.3,
+     "lacet": 1.5,
+     "tangage": 1.0,
+     "roulis": 1.0605
+    },
+    "decalage": {
+     "long_m": -1.454,
+     "travers_m": 0.697,
+     "lacet_deg": -0.886,
+     "tangage_deg": -0.661,
+     "roulis_deg": 0.959,
+     "hauteur_m": 2.069
+    }
+   },
+   "recalage_grossier": [],
+   "departs": [
+    {
+     "depart": "sequence",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "sequence+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "10ec04d5",
+   "id": "10ec04d5-3da4-4e39-aa0f-828450425ad1",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:35.146646+00:00",
+   "fichier": "2025-08-31_10ec04d5-3da4-4e39-aa0f-828450425ad1_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7685,
+    "lat": 45.2079,
+    "azimut_vrai": 227,
+    "gamma_deg": -2.0089,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 24.7092,
+    "y": 33.8928,
+    "z": 1.6199,
+    "lacet": 224.9911,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 2.5,
+     "dy": -4.5,
+     "dlacet": -22.6,
+     "score": 0.821,
+     "n": 3
+    },
+    {
+     "dx": 3.5,
+     "dy": -4.5,
+     "dlacet": -21.0,
+     "score": 0.784,
+     "n": 3
+    },
+    {
+     "dx": 5.5,
+     "dy": -6.5,
+     "dlacet": -17.32,
+     "score": 0.744,
+     "n": 3
+    }
+   ],
+   "orientation_horizon": {
+    "reference": "7651c539",
+    "distance_m": 4.3,
+    "ncc": 0.205,
+    "pose": {
+     "x": 24.7092,
+     "y": 33.8928,
+     "z": 1.6199,
+     "lacet": 221.1911,
+     "tangage": -4.0,
+     "roulis": 2.0
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "1149e115",
+   "id": "1149e115-2c88-48fc-a908-bbf633abaa72",
+   "date": "2024-05-01",
+   "datetime": "2024-05-01T17:17:04+00:00",
+   "fichier": "2024-05-01_1149e115-2c88-48fc-a908-bbf633abaa72_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max portée (piéton ou deux-roues)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7682,
+    "lat": 45.2077,
+    "azimut_vrai": 226,
+    "gamma_deg": -2.0086,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": -1.9504,
+    "y": 10.9879,
+    "z": 1.8851,
+    "lacet": 223.9914,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.6,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": -1.5,
+     "dy": -1.5,
+     "dlacet": -0.56,
+     "score": 0.64,
+     "n": 5
+    },
+    {
+     "dx": -4.5,
+     "dy": 1.5,
+     "dlacet": 2.08,
+     "score": 0.635,
+     "n": 5
+    },
+    {
+     "dx": 4.5,
+     "dy": 2.5,
+     "dlacet": -1.76,
+     "score": 0.629,
+     "n": 5
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 5,
+     "n_inliers": 3,
+     "score": 1.15,
+     "moy_deg": 0.284
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 0
+    }
+   ],
+   "depart_retenu": "brute",
+   "pose": {
+    "x": -2.0736,
+    "y": 10.9441,
+    "z": 2.0943,
+    "lacet": 224.01,
+    "tangage": -1.4353,
+    "roulis": 0.1826
+   },
+   "ecart_type": {
+    "x": 0.1575,
+    "y": 0.2621,
+    "z": 0.0557,
+    "lacet": 0.5062,
+    "tangage": 1.3443,
+    "roulis": 1.9903
+   },
+   "qualite": {
+    "n_gcp": 3,
+    "n_mats": 1,
+    "n_sol": 2,
+    "n_points_sol": 2,
+    "n_lignes_distinctes": 0,
+    "n_obs": 5,
+    "n_inliers": 3,
+    "n_equations": 6,
+    "residu_loo_moy_deg": 99.0,
+    "secteurs_45": 3,
+    "rapport_profondeur_sol": 1.016,
+    "etendue_azimut_deg": 135.0,
+    "etendue_elevation_deg": 25.902,
+    "residu_moy_deg": 0.284,
+    "residu_max_deg": 0.55,
+    "residu_moy_px": 4.865,
+    "residu_max_px": 9.488,
+    "decalage_gps_m": 0.131,
+    "correction_lacet_deg": 0.019,
+    "hauteur_sol_m": 2.11
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers ; validation croisée (leave-one-out) défavorable",
+   "gcp_utilises": [
+    "MAT-feu_VERC_droite",
+    "ORTHO--4.6_7.0",
+    "ZEB-MQ0570-c1"
+   ]
+  },
+  {
+   "id8": "119d9094",
+   "id": "119d9094-3d9e-4598-b908-d0571afd136c",
+   "date": "2025-05-18",
+   "datetime": "2025-05-18T13:37:50.522000+00:00",
+   "fichier": "2025-05-18_119d9094-3d9e-4598-b908-d0571afd136c_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7682,
+    "lat": 45.2077,
+    "azimut_vrai": 226,
+    "gamma_deg": -2.0086,
+    "precision_m": 0.1
+   },
+   "pose_brute": {
+    "x": -2.6744,
+    "y": 2.054,
+    "z": 1.6771,
+    "lacet": 223.9914,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 0.5,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 0.75,
+     "dy": 0.25,
+     "dlacet": -4.08,
+     "score": 0.919,
+     "n": 3
+    },
+    {
+     "dx": -0.25,
+     "dy": 0.5,
+     "dlacet": -1.76,
+     "score": 0.902,
+     "n": 3
+    },
+    {
+     "dx": -0.25,
+     "dy": 0.0,
+     "dlacet": -3.36,
+     "score": 0.585,
+     "n": 3
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 27,
+     "n_inliers": 24,
+     "score": 14.24,
+     "moy_deg": 0.211
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 20,
+     "n_inliers": 17,
+     "score": 11.71,
+     "moy_deg": 0.147
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 22,
+     "n_inliers": 19,
+     "score": 13.75,
+     "moy_deg": 0.187
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 5,
+     "n_inliers": 4,
+     "score": 1.59,
+     "moy_deg": 0.409
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 47,
+     "n_inliers": 45,
+     "score": 26.83,
+     "moy_deg": 0.215
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 12,
+     "n_inliers": 6,
+     "score": 4.18,
+     "moy_deg": 0.18
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 47,
+     "n_inliers": 45,
+     "score": 31.19,
+     "moy_deg": 0.174
+    }
+   ],
+   "depart_retenu": "vote2+sol",
+   "pose": {
+    "x": -2.2757,
+    "y": 2.5162,
+    "z": 2.0762,
+    "lacet": 221.4552,
+    "tangage": -2.5883,
+    "roulis": 1.5563
+   },
+   "ecart_type": {
+    "x": 0.0211,
+    "y": 0.0215,
+    "z": 0.0192,
+    "lacet": 0.0775,
+    "tangage": 0.0934,
+    "roulis": 0.1281
+   },
+   "qualite": {
+    "n_gcp": 45,
+    "n_mats": 5,
+    "n_sol": 40,
+    "n_points_sol": 39,
+    "n_lignes_distinctes": 1,
+    "n_obs": 47,
+    "n_inliers": 45,
+    "n_equations": 89,
+    "residu_loo_moy_deg": 0.167,
+    "secteurs_45": 8,
+    "rapport_profondeur_sol": 2.478,
+    "etendue_azimut_deg": 360.0,
+    "etendue_elevation_deg": 30.65,
+    "residu_moy_deg": 0.157,
+    "residu_max_deg": 0.639,
+    "residu_moy_px": 2.568,
+    "residu_max_px": 10.808,
+    "decalage_gps_m": 0.61,
+    "correction_lacet_deg": -2.536,
+    "hauteur_sol_m": 2.096
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MAT-feu_NE_TPC",
+    "MAT-feu_NE_droite",
+    "MAT-feu_VERC_droite",
+    "MAT-lamp_12882680524",
+    "MAT-lamp_lidar_VERC_E",
+    "MQC-MQ0273-c1",
+    "MQC-MQ0275-c1",
+    "MQC-MQ0275-c3",
+    "MQC-MQ0277-c14",
+    "MQC-MQ0470-c3",
+    "MQC-MQ0496-c2",
+    "MQC-MQ0498-c1",
+    "MQC-MQ0720-c1",
+    "MQC-MQ0725-c0",
+    "MQC-MQ0725-c2",
+    "MQL-MQ0499-s0",
+    "ORTHO--4.4_-7.9",
+    "ORTHO--4.4_10.7",
+    "ORTHO--5.0_13.7",
+    "ORTHO--5.6_10.1",
+    "ORTHO--6.8_7.7",
+    "ORTHO--8.0_6.5",
+    "ORTHO--8.6_10.1",
+    "ORTHO--9.8_8.9",
+    "ORTHO-5.2_10.1",
+    "ORTHO-7.6_10.1",
+    "ORTHO-7.6_11.9",
+    "ORTHO-8.8_10.7",
+    "ZEB-MQ0570-c1",
+    "ZEB-MQ0571-c0",
+    "ZEB-MQ0571-c1",
+    "ZEB-MQ0572-c0",
+    "ZEB-MQ0572-c1",
+    "ZEB-MQ0573-c0",
+    "ZEB-MQ0573-c3",
+    "ZEB-MQ0574-c2",
+    "ZEB-MQ0575-c0",
+    "ZEB-MQ0576-c1",
+    "ZEB-MQ0576-c3",
+    "ZEB-MQ0577-c3",
+    "ZEB-MQ0578-c0",
+    "ZEB-MQ0578-c3",
+    "ZEB-MQ0579-c0",
+    "ZEB-MQ0579-c3",
+    "ZEB-MQ0582-c1"
+   ]
+  },
+  {
+   "id8": "1323ac4d",
+   "id": "1323ac4d-92c4-4f99-a029-9d15707b8a31",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:11.847265+00:00",
+   "fichier": "2025-08-31_1323ac4d-92c4-4f99-a029-9d15707b8a31_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7677,
+    "lat": 45.2073,
+    "azimut_vrai": 244,
+    "gamma_deg": -2.0082,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -41.0157,
+    "y": -37.4112,
+    "z": 0.98,
+    "lacet": 241.9918,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "734a0da6",
+    "distance_m": 19.9,
+    "ncc": 0.15,
+    "pose": {
+     "x": -41.0157,
+     "y": -37.4112,
+     "z": 0.98,
+     "lacet": 232.7918,
+     "tangage": -5.75,
+     "roulis": 2.75
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "18a063f3",
+   "id": "18a063f3-cf36-463c-a54c-87f0e5e3bf1d",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:16.848333+00:00",
+   "fichier": "2025-08-31_18a063f3-cf36-463c-a54c-87f0e5e3bf1d_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7672,
+    "lat": 45.207,
+    "azimut_vrai": 242,
+    "gamma_deg": -2.0079,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -77.0968,
+    "y": -75.2705,
+    "z": 0.9392,
+    "lacet": 239.9921,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "734a0da6",
+    "distance_m": 72.1,
+    "ncc": 0.14,
+    "pose": {
+     "x": -77.0968,
+     "y": -75.2705,
+     "z": 0.9392,
+     "lacet": 248.3921,
+     "tangage": 6.0,
+     "roulis": 1.75
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "1d999186",
+   "id": "1d999186-824b-4ec7-8b52-0402511307a3",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:03.752225+00:00",
+   "fichier": "2025-08-31_1d999186-824b-4ec7-8b52-0402511307a3_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7682,
+    "lat": 45.2077,
+    "azimut_vrai": 254,
+    "gamma_deg": -2.0086,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -2.1515,
+    "y": 7.0914,
+    "z": 1.2729,
+    "lacet": 251.9914,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "119d9094",
+    "distance_m": 4.6,
+    "ncc": 0.199,
+    "pose": {
+     "x": -2.1515,
+     "y": 7.0914,
+     "z": 1.2729,
+     "lacet": 245.1914,
+     "tangage": 5.0,
+     "roulis": 0.25
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "20d1a815",
+   "id": "20d1a815-ee8d-4d99-97c4-8e70270f289d",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:30.972624+00:00",
+   "fichier": "2025-08-31_20d1a815-ee8d-4d99-97c4-8e70270f289d_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7689,
+    "lat": 45.2081,
+    "azimut_vrai": 232,
+    "gamma_deg": -2.0091,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 50.6578,
+    "y": 57.1285,
+    "z": 1.9097,
+    "lacet": 229.9909,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "79a18815",
+    "distance_m": 24.9,
+    "ncc": 0.176,
+    "pose": {
+     "x": 50.6578,
+     "y": 57.1285,
+     "z": 1.9097,
+     "lacet": 227.9909,
+     "tangage": -1.0,
+     "roulis": 2.5
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "22c050a5",
+   "id": "22c050a5-95d7-427d-b66e-518855592a6b",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:04.750519+00:00",
+   "fichier": "2025-08-31_22c050a5-95d7-427d-b66e-518855592a6b_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7681,
+    "lat": 45.2077,
+    "azimut_vrai": 253,
+    "gamma_deg": -2.0086,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -6.431,
+    "y": 2.7851,
+    "z": 1.241,
+    "lacet": 250.9914,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "119d9094",
+    "distance_m": 4.2,
+    "ncc": 0.167,
+    "pose": {
+     "x": -6.431,
+     "y": 2.7851,
+     "z": 1.241,
+     "lacet": 237.5914,
+     "tangage": 3.75,
+     "roulis": 0.25
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "2374105b",
+   "id": "2374105b-0338-40b7-ba54-0672c4a92cd8",
+   "date": "2025-05-18",
+   "datetime": "2025-05-18T13:37:56.522000+00:00",
+   "fichier": "2025-05-18_2374105b-0338-40b7-ba54-0672c4a92cd8_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7677,
+    "lat": 45.2073,
+    "azimut_vrai": 225,
+    "gamma_deg": -2.0082,
+    "precision_m": 0.1
+   },
+   "pose_brute": {
+    "x": -39.5911,
+    "y": -39.6001,
+    "z": 1.796,
+    "lacet": 222.9918,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 0.5,
+    "z": 0.4,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "a_priori_sequence": {
+    "voisins": [
+     "734a0da6",
+     "31d16b8e",
+     "119d9094",
+     "e5d79de9"
+    ],
+    "pose": {
+     "x": -39.283,
+     "y": -39.2089,
+     "z": 1.7889,
+     "lacet": 220.6745,
+     "tangage": -2.9191,
+     "roulis": 0.0126
+    },
+    "sigma": {
+     "xy": 0.5,
+     "z": 0.3,
+     "lacet": 2.1016,
+     "tangage": 1.1468,
+     "roulis": 2.3032
+    },
+    "decalage": {
+     "long_m": -0.496,
+     "travers_m": 0.041,
+     "lacet_deg": -2.317,
+     "tangage_deg": -2.919,
+     "roulis_deg": 0.013,
+     "hauteur_m": 2.094
+    }
+   },
+   "recalage_grossier": [],
+   "departs": [
+    {
+     "depart": "sequence",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "sequence+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "26ea5f01",
+   "id": "26ea5f01-166c-4871-8dba-660e5dd56686",
+   "date": "2024-05-01",
+   "datetime": "2024-05-01T17:17:08+00:00",
+   "fichier": "2024-05-01_26ea5f01-166c-4871-8dba-660e5dd56686_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max portée (piéton ou deux-roues)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.768,
+    "lat": 45.2076,
+    "azimut_vrai": 238,
+    "gamma_deg": -2.0085,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": -17.0815,
+    "y": -3.5337,
+    "z": 1.919,
+    "lacet": 235.9915,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.6,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 1.5,
+     "dy": -7.0,
+     "dlacet": 3.04,
+     "score": 0.161,
+     "n": 5
+    },
+    {
+     "dx": 0.0,
+     "dy": -5.0,
+     "dlacet": 6.16,
+     "score": 0.152,
+     "n": 5
+    },
+    {
+     "dx": 0.5,
+     "dy": -6.0,
+     "dlacet": 4.48,
+     "score": 0.15,
+     "n": 5
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 3,
+     "n_inliers": 3,
+     "score": 1.12,
+     "moy_deg": 0.37
+    }
+   ],
+   "depart_retenu": "vote2+sol",
+   "pose": {
+    "x": -14.7137,
+    "y": -12.5815,
+    "z": 1.919,
+    "lacet": 235.5177,
+    "tangage": -2.1491,
+    "roulis": -2.1111
+   },
+   "ecart_type": {
+    "x": 2.59,
+    "y": 5.2621,
+    "z": 1.1988,
+    "lacet": 8.751,
+    "tangage": 3.6332,
+    "roulis": 3.1753
+   },
+   "qualite": {
+    "n_gcp": 3,
+    "n_mats": 3,
+    "n_sol": 0,
+    "n_points_sol": 0,
+    "n_lignes_distinctes": 0,
+    "n_obs": 3,
+    "n_inliers": 3,
+    "n_equations": 6,
+    "residu_loo_moy_deg": 99.0,
+    "secteurs_45": 2,
+    "rapport_profondeur_sol": 1.0,
+    "etendue_azimut_deg": 90.0,
+    "etendue_elevation_deg": 8.068,
+    "residu_moy_deg": 0.37,
+    "residu_max_deg": 0.485,
+    "residu_moy_px": 5.924,
+    "residu_max_px": 7.756,
+    "decalage_gps_m": 9.352,
+    "correction_lacet_deg": -0.474,
+    "hauteur_sol_m": 2.029
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers ; validation croisée (leave-one-out) défavorable",
+   "gcp_utilises": [
+    "MAT-feu_NE_droite",
+    "MAT-feu_REV_E_pietons",
+    "MAT-lamp_lidar_VERC_E"
+   ]
+  },
+  {
+   "id8": "27861f06",
+   "id": "27861f06-a0ed-438d-bec0-3233224ef846",
+   "date": "2024-05-01",
+   "datetime": "2024-05-01T17:16:58+00:00",
+   "fichier": "2024-05-01_27861f06-a0ed-438d-bec0-3233224ef846_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max portée (piéton ou deux-roues)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7685,
+    "lat": 45.2079,
+    "azimut_vrai": 230,
+    "gamma_deg": -2.0088,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": 20.1185,
+    "y": 31.7418,
+    "z": 2.0778,
+    "lacet": 227.9912,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.6,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 3.0,
+     "dy": 1.0,
+     "dlacet": 0.96,
+     "score": 0.98,
+     "n": 3
+    },
+    {
+     "dx": 3.0,
+     "dy": -0.5,
+     "dlacet": 2.4,
+     "score": 0.976,
+     "n": 3
+    },
+    {
+     "dx": 3.0,
+     "dy": 2.5,
+     "dlacet": -0.24,
+     "score": 0.971,
+     "n": 3
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "29fb102d",
+   "id": "29fb102d-8946-41d5-8aac-b595a40faba4",
+   "date": "2025-01-12",
+   "datetime": "2025-01-12T12:11:37+00:00",
+   "fichier": "2025-01-12_29fb102d-8946-41d5-8aac-b595a40faba4_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur vélo (casque)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7683,
+    "lat": 45.2072,
+    "azimut_vrai": 159,
+    "gamma_deg": -2.0087,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": 10.5165,
+    "y": -46.0864,
+    "z": 1.0961,
+    "lacet": 156.9913,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": -7.5,
+     "dy": 2.0,
+     "dlacet": -10.56,
+     "score": 0.471,
+     "n": 6
+    },
+    {
+     "dx": -7.0,
+     "dy": 2.5,
+     "dlacet": -8.64,
+     "score": 0.446,
+     "n": 6
+    },
+    {
+     "dx": -7.5,
+     "dy": 4.5,
+     "dlacet": -6.56,
+     "score": 0.439,
+     "n": 6
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "2ab4efbc",
+   "id": "2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c",
+   "date": "2024-08-24",
+   "datetime": "2024-08-24T15:10:43+00:00",
+   "fichier": "2024-08-24_2ab4efbc-7a8b-4efb-ab98-f9f09c47aa8c_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7681,
+    "lat": 45.2076,
+    "azimut_vrai": 228,
+    "gamma_deg": -2.0085,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": -11.1316,
+    "y": -6.1903,
+    "z": 1.6134,
+    "lacet": 225.9915,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 0.5,
+     "dy": 2.5,
+     "dlacet": -0.16,
+     "score": 0.559,
+     "n": 8
+    },
+    {
+     "dx": 1.0,
+     "dy": -0.5,
+     "dlacet": -5.76,
+     "score": 0.525,
+     "n": 8
+    },
+    {
+     "dx": -1.5,
+     "dy": 1.5,
+     "dlacet": -0.64,
+     "score": 0.467,
+     "n": 8
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 7,
+     "n_inliers": 5,
+     "score": 2.22,
+     "moy_deg": 0.077
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 13,
+     "n_inliers": 11,
+     "score": 6.26,
+     "moy_deg": 0.226
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 9,
+     "n_inliers": 8,
+     "score": 4.59,
+     "moy_deg": 0.172
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 10,
+     "n_inliers": 9,
+     "score": 3.7,
+     "moy_deg": 0.321
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 5,
+     "n_inliers": 4,
+     "score": 2.16,
+     "moy_deg": 0.242
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 4,
+     "n_inliers": 4,
+     "score": 2.75,
+     "moy_deg": 0.128
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 12,
+     "n_inliers": 12,
+     "score": 5.72,
+     "moy_deg": 0.284
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 5,
+     "n_inliers": 5,
+     "score": 3.13,
+     "moy_deg": 0.112
+    }
+   ],
+   "depart_retenu": "vote0",
+   "pose": {
+    "x": -10.6054,
+    "y": -3.8776,
+    "z": 1.9461,
+    "lacet": 225.101,
+    "tangage": 1.2567,
+    "roulis": 1.3092
+   },
+   "ecart_type": {
+    "x": 0.073,
+    "y": 0.2664,
+    "z": 0.0632,
+    "lacet": 0.472,
+    "tangage": 1.0226,
+    "roulis": 1.1871
+   },
+   "qualite": {
+    "n_gcp": 11,
+    "n_mats": 6,
+    "n_sol": 5,
+    "n_points_sol": 2,
+    "n_lignes_distinctes": 3,
+    "n_obs": 13,
+    "n_inliers": 11,
+    "n_equations": 19,
+    "residu_loo_moy_deg": 0.537,
+    "secteurs_45": 5,
+    "rapport_profondeur_sol": 1.668,
+    "etendue_azimut_deg": 225.0,
+    "etendue_elevation_deg": 21.583,
+    "residu_moy_deg": 0.28,
+    "residu_max_deg": 0.814,
+    "residu_moy_px": 4.482,
+    "residu_max_px": 13.026,
+    "decalage_gps_m": 2.372,
+    "correction_lacet_deg": -0.891,
+    "hauteur_sol_m": 2.025
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MAT-feu_NE_SE_pietons",
+    "MAT-feu_NE_droite",
+    "MAT-feu_REV_E_pietons",
+    "MAT-feu_VERC_droite",
+    "MAT-lamp_12882680524",
+    "MAT-lamp_lidar_VERC_E",
+    "MQC-MQ0278-c5",
+    "MQL-MQ0729-s0",
+    "MQL-MQ0733-s0",
+    "MQL-MQ0737-s0",
+    "ORTHO--8.9_6.0"
+   ]
+  },
+  {
+   "id8": "2bbb8e7c",
+   "id": "2bbb8e7c-8752-4373-ab6a-53d0cbc0603a",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:37.176910+00:00",
+   "fichier": "2025-08-31_2bbb8e7c-8752-4373-ab6a-53d0cbc0603a_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7684,
+    "lat": 45.2079,
+    "azimut_vrai": 226,
+    "gamma_deg": -2.0088,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 17.2243,
+    "y": 26.6848,
+    "z": 1.6631,
+    "lacet": 223.9912,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 2.0,
+     "dy": 3.0,
+     "dlacet": 10.92,
+     "score": 0.783,
+     "n": 4
+    },
+    {
+     "dx": 2.0,
+     "dy": 4.0,
+     "dlacet": 9.4,
+     "score": 0.778,
+     "n": 4
+    },
+    {
+     "dx": 3.5,
+     "dy": 2.0,
+     "dlacet": 13.4,
+     "score": 0.741,
+     "n": 4
+    }
+   ],
+   "orientation_horizon": {
+    "reference": "e86aa913",
+    "distance_m": 3.3,
+    "ncc": 0.208,
+    "pose": {
+     "x": 17.2243,
+     "y": 26.6848,
+     "z": 1.6631,
+     "lacet": 220.9912,
+     "tangage": 3.0,
+     "roulis": -1.75
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+horizon",
+     "n_obs": 10,
+     "n_inliers": 10,
+     "score": 3.83,
+     "moy_deg": 0.066
+    },
+    {
+     "depart": "vote1+horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+horizon",
+     "n_obs": 0
+    }
+   ],
+   "depart_retenu": "vote0+horizon",
+   "pose": {
+    "x": 20.3471,
+    "y": 30.5078,
+    "z": 1.8205,
+    "lacet": 219.8529,
+    "tangage": -1.3364,
+    "roulis": 4.0508
+   },
+   "ecart_type": {
+    "x": 0.3427,
+    "y": 0.211,
+    "z": 0.2347,
+    "lacet": 0.7374,
+    "tangage": 0.5925,
+    "roulis": 0.6524
+   },
+   "qualite": {
+    "n_gcp": 10,
+    "n_mats": 1,
+    "n_sol": 9,
+    "n_points_sol": 6,
+    "n_lignes_distinctes": 3,
+    "n_obs": 10,
+    "n_inliers": 10,
+    "n_equations": 17,
+    "residu_loo_moy_deg": 0.117,
+    "secteurs_45": 1,
+    "rapport_profondeur_sol": 1.492,
+    "etendue_azimut_deg": 18.645,
+    "etendue_elevation_deg": 5.391,
+    "residu_moy_deg": 0.066,
+    "residu_max_deg": 0.172,
+    "residu_moy_px": 3.492,
+    "residu_max_px": 9.87,
+    "decalage_gps_m": 4.936,
+    "correction_lacet_deg": -4.138,
+    "hauteur_sol_m": 1.581
+   },
+   "accepte": false,
+   "raison": "GCP mal répartis",
+   "gcp_utilises": [
+    "MAT-feu_REV_E_pietons",
+    "MQC-MQ0469-c3",
+    "MQC-MQ0495-c0",
+    "MQC-MQ0496-c0",
+    "MQC-MQ0496-c2",
+    "MQC-MQ0497-c0",
+    "MQC-MQ0497-c1",
+    "MQL-MQ0469-s0",
+    "MQL-MQ0496-s0",
+    "MQL-MQ0497-s1"
+   ]
+  },
+  {
+   "id8": "2c8809d4",
+   "id": "2c8809d4-0253-4b57-a2df-d17010ae8581",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:25.743572+00:00",
+   "fichier": "2025-08-31_2c8809d4-0253-4b57-a2df-d17010ae8581_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7695,
+    "lat": 45.2085,
+    "azimut_vrai": 235,
+    "gamma_deg": -2.0096,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 96.4314,
+    "y": 102.3631,
+    "z": 2.8006,
+    "lacet": 232.9904,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "79a18815",
+    "distance_m": 89.2,
+    "ncc": 0.098,
+    "pose": {
+     "x": 96.4314,
+     "y": 102.3631,
+     "z": 2.8006,
+     "lacet": 217.9904,
+     "tangage": 7.5,
+     "roulis": 4.75
+    }
+   },
+   "departs": [
+    {
+     "depart": "brute/t-8",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t-5",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t-2",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t+1",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t+4",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t+7",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "31d16b8e",
+   "id": "31d16b8e-d371-4281-8fe7-b62c62ea0cc3",
+   "date": "2025-05-18",
+   "datetime": "2025-05-18T13:37:52.522000+00:00",
+   "fichier": "2025-05-18_31d16b8e-d371-4281-8fe7-b62c62ea0cc3_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.768,
+    "lat": 45.2076,
+    "azimut_vrai": 224,
+    "gamma_deg": -2.0085,
+    "precision_m": 0.1
+   },
+   "pose_brute": {
+    "x": -14.5737,
+    "y": -10.0691,
+    "z": 1.5723,
+    "lacet": 221.9915,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 0.5,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 0.25,
+     "dy": 0.25,
+     "dlacet": -2.8,
+     "score": 0.349,
+     "n": 7
+    },
+    {
+     "dx": 0.25,
+     "dy": 0.0,
+     "dlacet": -0.96,
+     "score": 0.328,
+     "n": 7
+    },
+    {
+     "dx": -1.0,
+     "dy": -0.75,
+     "dlacet": -1.84,
+     "score": 0.278,
+     "n": 7
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 6,
+     "n_inliers": 6,
+     "score": 2.28,
+     "moy_deg": 0.373
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 18,
+     "n_inliers": 17,
+     "score": 7.27,
+     "moy_deg": 0.251
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 6,
+     "n_inliers": 6,
+     "score": 2.56,
+     "moy_deg": 0.195
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 6,
+     "n_inliers": 6,
+     "score": 2.53,
+     "moy_deg": 0.322
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 21,
+     "n_inliers": 19,
+     "score": 9.63,
+     "moy_deg": 0.364
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 16,
+     "n_inliers": 14,
+     "score": 6.71,
+     "moy_deg": 0.304
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 7,
+     "n_inliers": 7,
+     "score": 3.43,
+     "moy_deg": 0.139
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 8,
+     "n_inliers": 6,
+     "score": 2.5,
+     "moy_deg": 0.412
+    }
+   ],
+   "depart_retenu": "brute+sol",
+   "pose": {
+    "x": -14.2609,
+    "y": -9.7067,
+    "z": 1.8292,
+    "lacet": 221.19,
+    "tangage": -3.7344,
+    "roulis": -2.1743
+   },
+   "ecart_type": {
+    "x": 0.05,
+    "y": 0.0849,
+    "z": 0.1153,
+    "lacet": 0.173,
+    "tangage": 0.4602,
+    "roulis": 0.6732
+   },
+   "qualite": {
+    "n_gcp": 28,
+    "n_mats": 7,
+    "n_sol": 21,
+    "n_points_sol": 18,
+    "n_lignes_distinctes": 3,
+    "n_obs": 31,
+    "n_inliers": 28,
+    "n_equations": 53,
+    "residu_loo_moy_deg": 0.4,
+    "secteurs_45": 4,
+    "rapport_profondeur_sol": 1.604,
+    "etendue_azimut_deg": 180.0,
+    "etendue_elevation_deg": 23.406,
+    "residu_moy_deg": 0.35,
+    "residu_max_deg": 0.897,
+    "residu_moy_px": 5.644,
+    "residu_max_px": 14.349,
+    "decalage_gps_m": 0.479,
+    "correction_lacet_deg": -0.802,
+    "hauteur_sol_m": 1.95
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MAT-feu_NE_TPC",
+    "MAT-feu_NE_droite",
+    "MAT-feu_REV_E_pietons",
+    "MAT-feu_REV_droite",
+    "MAT-feu_VERC_droite",
+    "MAT-lamp_12882680524",
+    "MAT-lamp_lidar_VERC_E",
+    "MQC-MQ0733-c0",
+    "MQC-MQ0735-c1",
+    "MQC-MQ0735-c3",
+    "MQC-MQ0738-c2",
+    "MQC-MQ0738-c3",
+    "MQC-MQ0739-c0",
+    "MQC-MQ0740-c3",
+    "MQC-MQ0741-c1",
+    "MQC-MQ0743-c1",
+    "MQC-MQ0745-c0",
+    "MQC-MQ0745-c2",
+    "MQC-MQ0749-c0",
+    "MQC-MQ0750-c2",
+    "MQC-MQ0751-c3",
+    "MQC-MQ0753-c3",
+    "MQC-MQ0754-c3",
+    "MQC-MQ0756-c2",
+    "MQL-MQ0729-s0",
+    "MQL-MQ0737-s0",
+    "MQL-MQ0739-s0",
+    "ORTHO--10.9_-17.0"
+   ]
+  },
+  {
+   "id8": "39e0de2b",
+   "id": "39e0de2b-9dad-4b50-8767-4d50cdec337b",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:00.717998+00:00",
+   "fichier": "2025-08-31_39e0de2b-9dad-4b50-8767-4d50cdec337b_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7683,
+    "lat": 45.2078,
+    "azimut_vrai": 255,
+    "gamma_deg": -2.0087,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 7.261,
+    "y": 16.9006,
+    "z": 1.5689,
+    "lacet": 252.9913,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "e5d79de9",
+    "distance_m": 3.9,
+    "ncc": 0.153,
+    "pose": {
+     "x": 7.261,
+     "y": 16.9006,
+     "z": 1.5689,
+     "lacet": 267.5913,
+     "tangage": 3.25,
+     "roulis": 0.25
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "3fc0ff2e",
+   "id": "3fc0ff2e-69fd-4697-95ca-337b368e178d",
+   "date": "2024-05-01",
+   "datetime": "2024-05-01T17:17:06+00:00",
+   "fichier": "2024-05-01_3fc0ff2e-69fd-4697-95ca-337b368e178d_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max portée (piéton ou deux-roues)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7681,
+    "lat": 45.2077,
+    "azimut_vrai": 230,
+    "gamma_deg": -2.0085,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": -9.2019,
+    "y": 3.6213,
+    "z": 1.857,
+    "lacet": 227.9915,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.6,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": -5.0,
+     "dy": -2.5,
+     "dlacet": 1.28,
+     "score": 0.496,
+     "n": 9
+    },
+    {
+     "dx": -5.0,
+     "dy": -3.5,
+     "dlacet": -0.24,
+     "score": 0.486,
+     "n": 9
+    },
+    {
+     "dx": -4.5,
+     "dy": -4.5,
+     "dlacet": -1.76,
+     "score": 0.47,
+     "n": 9
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 3,
+     "n_inliers": 3,
+     "score": 1.93,
+     "moy_deg": 0.071
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 3,
+     "n_inliers": 3,
+     "score": 1.95,
+     "moy_deg": 0.056
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 5,
+     "n_inliers": 4,
+     "score": 2.4,
+     "moy_deg": 0.291
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 6,
+     "n_inliers": 4,
+     "score": 2.19,
+     "moy_deg": 0.283
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 3,
+     "n_inliers": 3,
+     "score": 2.38,
+     "moy_deg": 0.05
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 3,
+     "n_inliers": 3,
+     "score": 1.65,
+     "moy_deg": 0.24
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 3,
+     "n_inliers": 3,
+     "score": 1.77,
+     "moy_deg": 0.178
+    }
+   ],
+   "depart_retenu": "vote1",
+   "pose": {
+    "x": -12.8964,
+    "y": -4.3355,
+    "z": 0.8531,
+    "lacet": 215.8926,
+    "tangage": -1.1103,
+    "roulis": 1.0634
+   },
+   "ecart_type": {
+    "x": 0.7989,
+    "y": 2.1155,
+    "z": 0.404,
+    "lacet": 4.4577,
+    "tangage": 2.792,
+    "roulis": 2.5861
+   },
+   "qualite": {
+    "n_gcp": 4,
+    "n_mats": 3,
+    "n_sol": 1,
+    "n_points_sol": 1,
+    "n_lignes_distinctes": 0,
+    "n_obs": 4,
+    "n_inliers": 4,
+    "n_equations": 8,
+    "residu_loo_moy_deg": 3.082,
+    "secteurs_45": 3,
+    "rapport_profondeur_sol": 1.0,
+    "etendue_azimut_deg": 135.0,
+    "etendue_elevation_deg": 8.759,
+    "residu_moy_deg": 0.232,
+    "residu_max_deg": 0.319,
+    "residu_moy_px": 3.717,
+    "residu_max_px": 5.1,
+    "decalage_gps_m": 8.773,
+    "correction_lacet_deg": -12.099,
+    "hauteur_sol_m": 0.845
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers ; validation croisée (leave-one-out) défavorable",
+   "gcp_utilises": [
+    "MAT-feu_NE_SE_pietons",
+    "MAT-feu_NE_TPC",
+    "MAT-feu_NE_droite",
+    "MQC-MQ0734-c0"
+   ]
+  },
+  {
+   "id8": "462f4448",
+   "id": "462f4448-7647-4870-b92c-c57d8ce1062f",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:26.810274+00:00",
+   "fichier": "2025-08-31_462f4448-7647-4870-b92c-c57d8ce1062f_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7693,
+    "lat": 45.2085,
+    "azimut_vrai": 235,
+    "gamma_deg": -2.0095,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 87.0753,
+    "y": 92.7446,
+    "z": 2.6216,
+    "lacet": 232.9905,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "79a18815",
+    "distance_m": 75.8,
+    "ncc": 0.139,
+    "pose": {
+     "x": 87.0753,
+     "y": 92.7446,
+     "z": 2.6216,
+     "lacet": 218.5905,
+     "tangage": 5.5,
+     "roulis": 4.75
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "4982214f",
+   "id": "4982214f-4679-4971-b091-9c378bcd42a8",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:08.813406+00:00",
+   "fichier": "2025-08-31_4982214f-4679-4971-b091-9c378bcd42a8_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7679,
+    "lat": 45.2075,
+    "azimut_vrai": 233,
+    "gamma_deg": -2.0084,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -24.4307,
+    "y": -17.749,
+    "z": 1.032,
+    "lacet": 230.9916,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "aa9d7e12",
+    "distance_m": 2.2,
+    "ncc": 0.189,
+    "pose": {
+     "x": -24.4307,
+     "y": -17.749,
+     "z": 1.032,
+     "lacet": 238.5916,
+     "tangage": 4.5,
+     "roulis": 1.0
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "4a60dc76",
+   "id": "4a60dc76-51e5-4366-affa-f27bff1e7a56",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:13.854757+00:00",
+   "fichier": "2025-08-31_4a60dc76-51e5-4366-affa-f27bff1e7a56_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7675,
+    "lat": 45.2072,
+    "azimut_vrai": 240,
+    "gamma_deg": -2.0081,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -54.4508,
+    "y": -51.9177,
+    "z": 0.9181,
+    "lacet": 237.9919,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "734a0da6",
+    "distance_m": 39.6,
+    "ncc": 0.158,
+    "pose": {
+     "x": -54.4508,
+     "y": -51.9177,
+     "z": 0.9181,
+     "lacet": 236.1919,
+     "tangage": -6.25,
+     "roulis": -3.25
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "4c652c50",
+   "id": "4c652c50-e2e4-4c75-bce3-955ac93ad564",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:10.811468+00:00",
+   "fichier": "2025-08-31_4c652c50-e2e4-4c75-bce3-955ac93ad564_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7677,
+    "lat": 45.2074,
+    "azimut_vrai": 240,
+    "gamma_deg": -2.0083,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -34.7606,
+    "y": -30.5242,
+    "z": 1.0305,
+    "lacet": 237.9917,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "734a0da6",
+    "distance_m": 10.7,
+    "ncc": 0.161,
+    "pose": {
+     "x": -34.7606,
+     "y": -30.5242,
+     "z": 1.0305,
+     "lacet": 232.9917,
+     "tangage": -5.0,
+     "roulis": -4.0
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "4d9fa65d",
+   "id": "4d9fa65d-9607-4470-b81e-3b27ffc1cf61",
+   "date": "2025-01-12",
+   "datetime": "2025-01-12T12:11:39+00:00",
+   "fichier": "2025-01-12_4d9fa65d-9607-4470-b81e-3b27ffc1cf61_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur vélo (casque)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7684,
+    "lat": 45.2072,
+    "azimut_vrai": 168,
+    "gamma_deg": -2.0087,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": 14.2847,
+    "y": -54.7549,
+    "z": 0.8736,
+    "lacet": 165.9913,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "4e7211a3",
+   "id": "4e7211a3-1ce0-48aa-9681-2413e2d6a51e",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:05.747410+00:00",
+   "fichier": "2025-08-31_4e7211a3-1ce0-48aa-9681-2413e2d6a51e_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7681,
+    "lat": 45.2076,
+    "azimut_vrai": 246,
+    "gamma_deg": -2.0085,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -11.0178,
+    "y": -1.9431,
+    "z": 1.3281,
+    "lacet": 243.9915,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "2ab4efbc",
+    "distance_m": 2.0,
+    "ncc": 0.25,
+    "pose": {
+     "x": -11.0178,
+     "y": -1.9431,
+     "z": 1.3281,
+     "lacet": 258.1915,
+     "tangage": 7.25,
+     "roulis": 2.0
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "53009a45",
+   "id": "53009a45-918b-4231-9490-2800063c6990",
+   "date": "2024-05-01",
+   "datetime": "2024-05-01T17:17:14+00:00",
+   "fichier": "2024-05-01_53009a45-918b-4231-9490-2800063c6990_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max portée (piéton ou deux-roues)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7676,
+    "lat": 45.2074,
+    "azimut_vrai": 227,
+    "gamma_deg": -2.0082,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": -44.1001,
+    "y": -25.6176,
+    "z": 1.4619,
+    "lacet": 224.9918,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.6,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "5c0d1d39",
+   "id": "5c0d1d39-bfe4-4e40-a6ad-4722501df97a",
+   "date": "2024-08-24",
+   "datetime": "2024-08-24T15:10:41+00:00",
+   "fichier": "2024-08-24_5c0d1d39-bfe4-4e40-a6ad-4722501df97a_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7682,
+    "lat": 45.2077,
+    "azimut_vrai": 225,
+    "gamma_deg": -2.0087,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": 3.3983,
+    "y": 8.1105,
+    "z": 1.7067,
+    "lacet": 222.9913,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 0.5,
+     "dy": 1.0,
+     "dlacet": -0.32,
+     "score": 0.997,
+     "n": 3
+    },
+    {
+     "dx": 0.0,
+     "dy": 0.5,
+     "dlacet": -2.0,
+     "score": 0.995,
+     "n": 3
+    },
+    {
+     "dx": 1.5,
+     "dy": 0.5,
+     "dlacet": -0.32,
+     "score": 0.995,
+     "n": 3
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 13,
+     "n_inliers": 11,
+     "score": 5.57,
+     "moy_deg": 0.144
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 34,
+     "n_inliers": 34,
+     "score": 18.44,
+     "moy_deg": 0.231
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 30,
+     "n_inliers": 30,
+     "score": 17.16,
+     "moy_deg": 0.224
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 11,
+     "n_inliers": 9,
+     "score": 5.1,
+     "moy_deg": 0.194
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 33,
+     "n_inliers": 32,
+     "score": 20.04,
+     "moy_deg": 0.212
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 19,
+     "n_inliers": 17,
+     "score": 9.65,
+     "moy_deg": 0.286
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 17,
+     "n_inliers": 15,
+     "score": 6.5,
+     "moy_deg": 0.254
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 25,
+     "n_inliers": 25,
+     "score": 14.68,
+     "moy_deg": 0.228
+    }
+   ],
+   "depart_retenu": "brute+sol",
+   "pose": {
+    "x": 4.0704,
+    "y": 8.8822,
+    "z": 2.1397,
+    "lacet": 221.7695,
+    "tangage": -1.1686,
+    "roulis": 1.3239
+   },
+   "ecart_type": {
+    "x": 0.0201,
+    "y": 0.0202,
+    "z": 0.0158,
+    "lacet": 0.0939,
+    "tangage": 0.111,
+    "roulis": 0.098
+   },
+   "qualite": {
+    "n_gcp": 38,
+    "n_mats": 1,
+    "n_sol": 37,
+    "n_points_sol": 33,
+    "n_lignes_distinctes": 3,
+    "n_obs": 38,
+    "n_inliers": 38,
+    "n_equations": 72,
+    "residu_loo_moy_deg": 0.215,
+    "secteurs_45": 7,
+    "rapport_profondeur_sol": 2.434,
+    "etendue_azimut_deg": 315.0,
+    "etendue_elevation_deg": 21.201,
+    "residu_moy_deg": 0.187,
+    "residu_max_deg": 0.589,
+    "residu_moy_px": 3.045,
+    "residu_max_px": 9.576,
+    "decalage_gps_m": 1.023,
+    "correction_lacet_deg": -1.222,
+    "hauteur_sol_m": 2.129
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MAT-feu_VERC_droite",
+    "MQC-MQ0275-c0",
+    "MQC-MQ0275-c2",
+    "MQC-MQ0276-c0",
+    "MQC-MQ0281-c5",
+    "MQC-MQ0460-c12",
+    "MQC-MQ0460-c3",
+    "MQC-MQ0460-c4",
+    "MQC-MQ0460-c5",
+    "MQC-MQ0461-c5",
+    "MQC-MQ0461-c7",
+    "MQC-MQ0461-c8",
+    "MQC-MQ0461-c9",
+    "MQC-MQ0470-c2",
+    "MQC-MQ0500-c0",
+    "MQC-MQ0500-c1",
+    "MQC-MQ0501-c2",
+    "MQC-MQ0501-c3",
+    "MQC-MQ0503-c2",
+    "MQL-MQ0469-s0",
+    "MQL-MQ0500-s0",
+    "MQL-MQ0501-s0",
+    "MQL-MQ0501-s1",
+    "ORTHO--3.3_8.1",
+    "ORTHO--4.5_10.5",
+    "ORTHO--4.5_14.7",
+    "ORTHO-12.3_7.5",
+    "ORTHO-5.7_2.1",
+    "ZEB-MQ0571-c0",
+    "ZEB-MQ0571-c2",
+    "ZEB-MQ0572-c0",
+    "ZEB-MQ0579-c0",
+    "ZEB-MQ0580-c0",
+    "ZEB-MQ0580-c3",
+    "ZEB-MQ0582-c2",
+    "ZEB-MQ0583-c1",
+    "ZEB-MQ0584-c1",
+    "ZEB-MQ0585-c1"
+   ]
+  },
+  {
+   "id8": "6599570f",
+   "id": "6599570f-625e-498b-b747-611361bb127c",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:09.812231+00:00",
+   "fichier": "2025-08-31_6599570f-625e-498b-b747-611361bb127c_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7678,
+    "lat": 45.2074,
+    "azimut_vrai": 236,
+    "gamma_deg": -2.0083,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -29.2318,
+    "y": -23.985,
+    "z": 1.0185,
+    "lacet": 233.9917,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "734a0da6",
+    "distance_m": 3.1,
+    "ncc": 0.205,
+    "pose": {
+     "x": -29.2318,
+     "y": -23.985,
+     "z": 1.0185,
+     "lacet": 244.3917,
+     "tangage": 5.0,
+     "roulis": 2.5
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "6a73e684",
+   "id": "6a73e684-c48d-4b24-bb68-f0fae354fdd9",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:33.073695+00:00",
+   "fichier": "2025-08-31_6a73e684-c48d-4b24-bb68-f0fae354fdd9_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7687,
+    "lat": 45.208,
+    "azimut_vrai": 231,
+    "gamma_deg": -2.009,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 35.92,
+    "y": 43.943,
+    "z": 1.7542,
+    "lacet": 228.991,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "79a18815",
+    "distance_m": 5.7,
+    "ncc": 0.274,
+    "pose": {
+     "x": 35.92,
+     "y": 43.943,
+     "z": 1.7542,
+     "lacet": 231.591,
+     "tangage": 4.5,
+     "roulis": 3.25
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "6e97bb8c",
+   "id": "6e97bb8c-4e89-4dc8-94c5-cae73da8523b",
+   "date": "2025-05-18",
+   "datetime": "2025-05-18T13:37:44.522000+00:00",
+   "fichier": "2025-05-18_6e97bb8c-4e89-4dc8-94c5-cae73da8523b_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7685,
+    "lat": 45.2079,
+    "azimut_vrai": 227,
+    "gamma_deg": -2.0088,
+    "precision_m": 0.3
+   },
+   "pose_brute": {
+    "x": 21.3539,
+    "y": 26.5625,
+    "z": 1.9023,
+    "lacet": 224.9912,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 0.5,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": -0.75,
+     "dy": 0.25,
+     "dlacet": 3.92,
+     "score": 0.345,
+     "n": 7
+    },
+    {
+     "dx": 0.25,
+     "dy": 1.0,
+     "dlacet": 3.44,
+     "score": 0.274,
+     "n": 7
+    },
+    {
+     "dx": 0.25,
+     "dy": -0.25,
+     "dlacet": 5.2,
+     "score": 0.265,
+     "n": 7
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 10,
+     "n_inliers": 9,
+     "score": 4.71,
+     "moy_deg": 0.078
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 4,
+     "n_inliers": 3,
+     "score": 1.78,
+     "moy_deg": 0.037
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 4,
+     "n_inliers": 4,
+     "score": 2.09,
+     "moy_deg": 0.046
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 6,
+     "n_inliers": 5,
+     "score": 2.62,
+     "moy_deg": 0.096
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 0
+    }
+   ],
+   "depart_retenu": "brute",
+   "pose": {
+    "x": 21.447,
+    "y": 26.66,
+    "z": 2.1176,
+    "lacet": 223.7281,
+    "tangage": -2.5456,
+    "roulis": 0.4798
+   },
+   "ecart_type": {
+    "x": 0.1152,
+    "y": 0.1941,
+    "z": 0.1342,
+    "lacet": 0.3601,
+    "tangage": 0.5729,
+    "roulis": 1.104
+   },
+   "qualite": {
+    "n_gcp": 13,
+    "n_mats": 1,
+    "n_sol": 12,
+    "n_points_sol": 9,
+    "n_lignes_distinctes": 1,
+    "n_obs": 13,
+    "n_inliers": 13,
+    "n_equations": 23,
+    "residu_loo_moy_deg": 0.109,
+    "secteurs_45": 2,
+    "rapport_profondeur_sol": 1.847,
+    "etendue_azimut_deg": 90.0,
+    "etendue_elevation_deg": 11.962,
+    "residu_moy_deg": 0.084,
+    "residu_max_deg": 0.171,
+    "residu_moy_px": 1.352,
+    "residu_max_px": 2.748,
+    "decalage_gps_m": 0.135,
+    "correction_lacet_deg": -1.263,
+    "hauteur_sol_m": 1.913
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MAT-feu_REV_E_pietons",
+    "MQC-MQ0460-c1",
+    "MQC-MQ0460-c11",
+    "MQC-MQ0460-c3",
+    "MQC-MQ0460-c4",
+    "MQC-MQ0460-c5",
+    "MQC-MQ0460-c7",
+    "MQC-MQ0501-c3",
+    "MQC-MQ0503-c2",
+    "MQC-MQ0503-c3",
+    "MQL-MQ0501-s1",
+    "MQL-MQ0503-s0",
+    "MQL-MQ0503-s1"
+   ]
+  },
+  {
+   "id8": "734a0da6",
+   "id": "734a0da6-aa95-4a49-ab8d-975a95986a2a",
+   "date": "2025-05-18",
+   "datetime": "2025-05-18T13:37:54.522000+00:00",
+   "fichier": "2025-05-18_734a0da6-aa95-4a49-ab8d-975a95986a2a_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7679,
+    "lat": 45.2074,
+    "azimut_vrai": 222,
+    "gamma_deg": -2.0084,
+    "precision_m": 0.1
+   },
+   "pose_brute": {
+    "x": -26.2854,
+    "y": -24.632,
+    "z": 1.8897,
+    "lacet": 219.9916,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 0.5,
+    "z": 0.4,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "a_priori_sequence": {
+    "voisins": [
+     "31d16b8e",
+     "119d9094",
+     "e5d79de9",
+     "9834f494"
+    ],
+    "pose": {
+     "x": -25.9948,
+     "y": -24.2281,
+     "z": 1.8757,
+     "lacet": 217.8659,
+     "tangage": -3.0407,
+     "roulis": 0.3189
+    },
+    "sigma": {
+     "xy": 0.5,
+     "z": 0.3,
+     "lacet": 1.5,
+     "tangage": 1.5074,
+     "roulis": 2.3032
+    },
+    "decalage": {
+     "long_m": -0.496,
+     "travers_m": 0.037,
+     "lacet_deg": -2.126,
+     "tangage_deg": -3.041,
+     "roulis_deg": 0.319,
+     "hauteur_m": 2.085
+    }
+   },
+   "recalage_grossier": [],
+   "departs": [
+    {
+     "depart": "sequence",
+     "n_obs": 9,
+     "n_inliers": 6,
+     "score": 2.97,
+     "moy_deg": 0.209
+    },
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "sequence+sol",
+     "n_obs": 4,
+     "n_inliers": 4,
+     "score": 2.7,
+     "moy_deg": 0.183
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 6,
+     "n_inliers": 4,
+     "score": 2.47,
+     "moy_deg": 0.093
+    }
+   ],
+   "depart_retenu": "sequence",
+   "pose": {
+    "x": -25.4112,
+    "y": -24.5483,
+    "z": 1.83,
+    "lacet": 213.1914,
+    "tangage": -3.3806,
+    "roulis": -0.2472
+   },
+   "ecart_type": {
+    "x": 0.1111,
+    "y": 0.1609,
+    "z": 0.1781,
+    "lacet": 0.338,
+    "tangage": 0.7579,
+    "roulis": 0.8375
+   },
+   "qualite": {
+    "n_gcp": 6,
+    "n_mats": 1,
+    "n_sol": 5,
+    "n_points_sol": 5,
+    "n_lignes_distinctes": 0,
+    "n_obs": 9,
+    "n_inliers": 6,
+    "n_equations": 12,
+    "residu_loo_moy_deg": 0.43,
+    "secteurs_45": 2,
+    "rapport_profondeur_sol": 1.908,
+    "etendue_azimut_deg": 90.0,
+    "etendue_elevation_deg": 14.485,
+    "residu_moy_deg": 0.209,
+    "residu_max_deg": 0.308,
+    "residu_moy_px": 3.409,
+    "residu_max_px": 5.04,
+    "decalage_gps_m": 0.878,
+    "correction_lacet_deg": -6.8,
+    "hauteur_sol_m": 2.019
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers",
+   "gcp_utilises": [
+    "MAT-feu_VERC_ilot",
+    "MQC-MQ0694-c12",
+    "MQC-MQ0699-c7",
+    "MQC-MQ0703-c5",
+    "MQC-MQ0705-c3",
+    "ORTHO--13.7_-19.0"
+   ]
+  },
+  {
+   "id8": "7651c539",
+   "id": "7651c539-1385-4a3e-9cc0-8b035f8bde86",
+   "date": "2025-05-18",
+   "datetime": "2025-05-18T13:37:24.522000+00:00",
+   "fichier": "2025-05-18_7651c539-1385-4a3e-9cc0-8b035f8bde86_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7685,
+    "lat": 45.2079,
+    "azimut_vrai": 227,
+    "gamma_deg": -2.0089,
+    "precision_m": 0.2
+   },
+   "pose_brute": {
+    "x": 24.3741,
+    "y": 29.5097,
+    "z": 2.3435,
+    "lacet": 224.9911,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 0.5,
+    "z": 0.4,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "a_priori_sequence": {
+    "voisins": [
+     "e540bf1d",
+     "eeb2f8f1",
+     "6e97bb8c",
+     "9834f494"
+    ],
+    "pose": {
+     "x": 24.5436,
+     "y": 29.7096,
+     "z": 2.3365,
+     "lacet": 223.32,
+     "tangage": -3.7604,
+     "roulis": 0.7581
+    },
+    "sigma": {
+     "xy": 0.5,
+     "z": 0.3,
+     "lacet": 1.5,
+     "tangage": 1.0,
+     "roulis": 1.0
+    },
+    "decalage": {
+     "long_m": -0.261,
+     "travers_m": 0.021,
+     "lacet_deg": -1.671,
+     "tangage_deg": -3.76,
+     "roulis_deg": 0.758,
+     "hauteur_m": 2.091
+    }
+   },
+   "recalage_grossier": [
+    {
+     "dx": 0.5,
+     "dy": 0.25,
+     "dlacet": 3.44,
+     "score": 0.254,
+     "n": 5
+    },
+    {
+     "dx": 0.25,
+     "dy": -0.75,
+     "dlacet": 5.04,
+     "score": 0.231,
+     "n": 5
+    },
+    {
+     "dx": 0.0,
+     "dy": 0.0,
+     "dlacet": -0.72,
+     "score": 0.214,
+     "n": 5
+    }
+   ],
+   "departs": [
+    {
+     "depart": "sequence",
+     "n_obs": 19,
+     "n_inliers": 18,
+     "score": 9.43,
+     "moy_deg": 0.159
+    },
+    {
+     "depart": "brute",
+     "n_obs": 12,
+     "n_inliers": 11,
+     "score": 5.84,
+     "moy_deg": 0.086
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 4,
+     "n_inliers": 4,
+     "score": 1.95,
+     "moy_deg": 0.075
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 3,
+     "n_inliers": 2,
+     "score": 0.84,
+     "moy_deg": 0.114
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 13,
+     "n_inliers": 11,
+     "score": 5.8,
+     "moy_deg": 0.085
+    },
+    {
+     "depart": "sequence+sol",
+     "n_obs": 18,
+     "n_inliers": 17,
+     "score": 9.35,
+     "moy_deg": 0.15
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 7,
+     "n_inliers": 6,
+     "score": 2.89,
+     "moy_deg": 0.122
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 3,
+     "n_inliers": 3,
+     "score": 1.29,
+     "moy_deg": 0.076
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 0
+    }
+   ],
+   "depart_retenu": "sequence",
+   "pose": {
+    "x": 24.4742,
+    "y": 29.6375,
+    "z": 2.3513,
+    "lacet": 223.9125,
+    "tangage": -3.765,
+    "roulis": 1.9966
+   },
+   "ecart_type": {
+    "x": 0.0462,
+    "y": 0.0389,
+    "z": 0.0272,
+    "lacet": 0.085,
+    "tangage": 0.0864,
+    "roulis": 0.4555
+   },
+   "qualite": {
+    "n_gcp": 20,
+    "n_mats": 0,
+    "n_sol": 20,
+    "n_points_sol": 14,
+    "n_lignes_distinctes": 3,
+    "n_obs": 20,
+    "n_inliers": 20,
+    "n_equations": 34,
+    "residu_loo_moy_deg": 0.104,
+    "secteurs_45": 3,
+    "rapport_profondeur_sol": 2.61,
+    "etendue_azimut_deg": 135.0,
+    "etendue_elevation_deg": 12.85,
+    "residu_moy_deg": 0.089,
+    "residu_max_deg": 0.202,
+    "residu_moy_px": 1.435,
+    "residu_max_px": 3.279,
+    "decalage_gps_m": 0.162,
+    "correction_lacet_deg": -1.079,
+    "hauteur_sol_m": 2.107
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MQC-MQ0461-c1",
+    "MQC-MQ0461-c11",
+    "MQC-MQ0466-c2",
+    "MQC-MQ0468-c2",
+    "MQC-MQ0503-c2",
+    "MQC-MQ0503-c3",
+    "MQC-MQ0504-c0",
+    "MQC-MQ0504-c4",
+    "MQC-MQ0512-c0",
+    "MQC-MQ0514-c2",
+    "MQC-MQ0515-c2",
+    "MQC-MQ0515-c3",
+    "MQC-MQ0517-c2",
+    "MQC-MQ0518-c2",
+    "MQL-MQ0503-s0",
+    "MQL-MQ0503-s1",
+    "MQL-MQ0505-s0",
+    "MQL-MQ0515-s0",
+    "MQL-MQ0515-s1",
+    "MQL-MQ0517-s0"
+   ]
+  },
+  {
+   "id8": "78424004",
+   "id": "78424004-5544-4380-a371-8d59460101cc",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:38.174678+00:00",
+   "fichier": "2025-08-31_78424004-5544-4380-a371-8d59460101cc_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7684,
+    "lat": 45.2079,
+    "azimut_vrai": 227,
+    "gamma_deg": -2.0088,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 14.5035,
+    "y": 24.0779,
+    "z": 1.5771,
+    "lacet": 224.9912,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 1.5,
+     "dy": -0.5,
+     "dlacet": -6.44,
+     "score": 0.985,
+     "n": 3
+    },
+    {
+     "dx": 0.5,
+     "dy": 0.0,
+     "dlacet": -8.04,
+     "score": 0.983,
+     "n": 3
+    },
+    {
+     "dx": 2.5,
+     "dy": 0.5,
+     "dlacet": -5.0,
+     "score": 0.981,
+     "n": 3
+    }
+   ],
+   "orientation_horizon": {
+    "reference": "9834f494",
+    "distance_m": 3.2,
+    "ncc": 0.182,
+    "pose": {
+     "x": 14.5035,
+     "y": 24.0779,
+     "z": 1.5771,
+     "lacet": 224.1912,
+     "tangage": 3.25,
+     "roulis": 1.75
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 4,
+     "n_inliers": 3,
+     "score": 1.14,
+     "moy_deg": 0.157
+    },
+    {
+     "depart": "vote0+horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+horizon",
+     "n_obs": 0
+    }
+   ],
+   "depart_retenu": "horizon",
+   "pose": {
+    "x": 12.8244,
+    "y": 21.7111,
+    "z": 2.9125,
+    "lacet": 229.9616,
+    "tangage": -0.2505,
+    "roulis": -2.8853
+   },
+   "ecart_type": {
+    "x": 0.2851,
+    "y": 0.3521,
+    "z": 0.2573,
+    "lacet": 0.6797,
+    "tangage": 1.1478,
+    "roulis": 1.468
+   },
+   "qualite": {
+    "n_gcp": 3,
+    "n_mats": 0,
+    "n_sol": 3,
+    "n_points_sol": 3,
+    "n_lignes_distinctes": 0,
+    "n_obs": 4,
+    "n_inliers": 3,
+    "n_equations": 6,
+    "residu_loo_moy_deg": 99.0,
+    "secteurs_45": 1,
+    "rapport_profondeur_sol": 1.748,
+    "etendue_azimut_deg": 17.589,
+    "etendue_elevation_deg": 5.644,
+    "residu_moy_deg": 0.157,
+    "residu_max_deg": 0.268,
+    "residu_moy_px": 8.0,
+    "residu_max_px": 13.744,
+    "decalage_gps_m": 2.902,
+    "correction_lacet_deg": 4.97,
+    "hauteur_sol_m": 2.631
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers ; GCP mal répartis ; validation croisée (leave-one-out) défavorable",
+   "gcp_utilises": [
+    "MQC-MQ0292-c3",
+    "MQC-MQ0470-c3",
+    "ZEB-MQ0572-c1"
+   ]
+  },
+  {
+   "id8": "79a18815",
+   "id": "79a18815-14a1-4c1e-9989-3fd1cf0dd123",
+   "date": "2024-08-24",
+   "datetime": "2024-08-24T15:10:37+00:00",
+   "fichier": "2024-08-24_79a18815-14a1-4c1e-9989-3fd1cf0dd123_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7686,
+    "lat": 45.208,
+    "azimut_vrai": 230,
+    "gamma_deg": -2.0089,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": 33.5096,
+    "y": 37.8187,
+    "z": 2.4829,
+    "lacet": 227.9911,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.4,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "a_priori_sequence": {
+    "voisins": [
+     "e86aa913",
+     "5c0d1d39",
+     "2ab4efbc",
+     "aa9d7e12"
+    ],
+    "pose": {
+     "x": 34.1234,
+     "y": 39.3091,
+     "z": 2.4835,
+     "lacet": 227.105,
+     "tangage": -0.6608,
+     "roulis": 0.9589
+    },
+    "sigma": {
+     "xy": 1.7077,
+     "z": 0.3,
+     "lacet": 1.5,
+     "tangage": 1.0,
+     "roulis": 1.0605
+    },
+    "decalage": {
+     "long_m": -1.454,
+     "travers_m": 0.697,
+     "lacet_deg": -0.886,
+     "tangage_deg": -0.661,
+     "roulis_deg": 0.959,
+     "hauteur_m": 2.069
+    }
+   },
+   "recalage_grossier": [],
+   "departs": [
+    {
+     "depart": "sequence",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute",
+     "n_obs": 12,
+     "n_inliers": 12,
+     "score": 4.73,
+     "moy_deg": 0.167
+    },
+    {
+     "depart": "sequence+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    }
+   ],
+   "depart_retenu": "brute",
+   "pose": {
+    "x": 34.2113,
+    "y": 38.4659,
+    "z": 2.5305,
+    "lacet": 225.4377,
+    "tangage": -1.9218,
+    "roulis": 2.8057
+   },
+   "ecart_type": {
+    "x": 0.0612,
+    "y": 0.0794,
+    "z": 0.0445,
+    "lacet": 0.2021,
+    "tangage": 0.1117,
+    "roulis": 0.4993
+   },
+   "qualite": {
+    "n_gcp": 15,
+    "n_mats": 0,
+    "n_sol": 15,
+    "n_points_sol": 10,
+    "n_lignes_distinctes": 2,
+    "n_obs": 15,
+    "n_inliers": 15,
+    "n_equations": 25,
+    "residu_loo_moy_deg": 0.235,
+    "secteurs_45": 2,
+    "rapport_profondeur_sol": 2.515,
+    "etendue_azimut_deg": 90.0,
+    "etendue_elevation_deg": 13.559,
+    "residu_moy_deg": 0.185,
+    "residu_max_deg": 0.392,
+    "residu_moy_px": 2.989,
+    "residu_max_px": 6.318,
+    "decalage_gps_m": 0.955,
+    "correction_lacet_deg": -2.553,
+    "hauteur_sol_m": 2.133
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MQC-MQ0464-c0",
+    "MQC-MQ0464-c1",
+    "MQC-MQ0465-c1",
+    "MQC-MQ0466-c2",
+    "MQC-MQ0514-c2",
+    "MQC-MQ0520-c2",
+    "MQC-MQ0520-c3",
+    "MQL-MQ0478-s10",
+    "MQL-MQ0478-s12",
+    "MQL-MQ0520-s0",
+    "MQL-MQ0520-s1",
+    "MQL-MQ0524-s0",
+    "ORTHO-41.2_45.5",
+    "ORTHO-42.4_41.9",
+    "ORTHO-43.6_41.9"
+   ]
+  },
+  {
+   "id8": "7b9a2706",
+   "id": "7b9a2706-d04e-4228-9a00-c4e3323d4d2d",
+   "date": "2024-05-01",
+   "datetime": "2024-05-01T17:17:12+00:00",
+   "fichier": "2024-05-01_7b9a2706-d04e-4228-9a00-c4e3323d4d2d_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max portée (piéton ou deux-roues)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7677,
+    "lat": 45.2075,
+    "azimut_vrai": 227,
+    "gamma_deg": -2.0083,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": -35.6364,
+    "y": -17.1974,
+    "z": 1.503,
+    "lacet": 224.9917,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.6,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "7dcdf1d1",
+   "id": "7dcdf1d1-be9a-4908-abb0-cd1b01125391",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:06.781921+00:00",
+   "fichier": "2025-08-31_7dcdf1d1-be9a-4908-abb0-cd1b01125391_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.768,
+    "lat": 45.2076,
+    "azimut_vrai": 242,
+    "gamma_deg": -2.0085,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -15.494,
+    "y": -6.6896,
+    "z": 1.2909,
+    "lacet": 239.9915,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "31d16b8e",
+    "distance_m": 3.3,
+    "ncc": 0.235,
+    "pose": {
+     "x": -15.494,
+     "y": -6.6896,
+     "z": 1.2909,
+     "lacet": 253.7915,
+     "tangage": 4.75,
+     "roulis": -0.25
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "80a45bf6",
+   "id": "80a45bf6-0cf5-46cb-9cf3-b6656d629853",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:18.943953+00:00",
+   "fichier": "2025-08-31_80a45bf6-0cf5-46cb-9cf3-b6656d629853_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.767,
+    "lat": 45.2069,
+    "azimut_vrai": 238,
+    "gamma_deg": -2.0077,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -93.4207,
+    "y": -91.8562,
+    "z": 0.7763,
+    "lacet": 235.9923,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "734a0da6",
+    "distance_m": 95.4,
+    "ncc": 0.107,
+    "pose": {
+     "x": -93.4207,
+     "y": -91.8562,
+     "z": 0.7763,
+     "lacet": 250.7923,
+     "tangage": -3.5,
+     "roulis": -4.0
+    }
+   },
+   "departs": [
+    {
+     "depart": "brute/t-8",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t-5",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t-2",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t+1",
+     "n_obs": 6,
+     "n_inliers": 6,
+     "score": 2.46,
+     "moy_deg": 0.022
+    },
+    {
+     "depart": "brute/t+4",
+     "n_obs": 5,
+     "n_inliers": 5,
+     "score": 2.3,
+     "moy_deg": 0.02
+    },
+    {
+     "depart": "brute/t+7",
+     "n_obs": 5,
+     "n_inliers": 5,
+     "score": 2.02,
+     "moy_deg": 0.038
+    }
+   ],
+   "depart_retenu": "brute/t+1",
+   "pose": {
+    "x": -93.8534,
+    "y": -91.3383,
+    "z": 0.7391,
+    "lacet": 229.4386,
+    "tangage": 5.6202,
+    "roulis": 0.7514
+   },
+   "ecart_type": {
+    "x": 3.4881,
+    "y": 3.6327,
+    "z": 0.3558,
+    "lacet": 5.1842,
+    "tangage": 1.3347,
+    "roulis": 2.1706
+   },
+   "qualite": {
+    "n_gcp": 12,
+    "n_mats": 0,
+    "n_sol": 12,
+    "n_points_sol": 0,
+    "n_lignes_distinctes": 8,
+    "n_obs": 12,
+    "n_inliers": 12,
+    "n_equations": 12,
+    "residu_loo_moy_deg": 0.013,
+    "secteurs_45": 1,
+    "rapport_profondeur_sol": 2.698,
+    "etendue_azimut_deg": 18.508,
+    "etendue_elevation_deg": 3.316,
+    "residu_moy_deg": 0.008,
+    "residu_max_deg": 0.023,
+    "residu_moy_px": 0.393,
+    "residu_max_px": 1.135,
+    "decalage_gps_m": 0.675,
+    "correction_lacet_deg": -6.554,
+    "hauteur_sol_m": 1.356
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers ; GCP mal répartis",
+   "gcp_utilises": [
+    "MQL-MQ0963-s0",
+    "MQL-MQ0965-s0",
+    "MQL-MQ0966-s0",
+    "MQL-MQ0966-s1",
+    "MQL-MQ0968-s0",
+    "MQL-MQ0968-s1",
+    "MQL-MQ0969-s0",
+    "MQL-MQ0971-s1",
+    "MQL-MQ0972-s0",
+    "MQL-MQ0972-s1",
+    "MQL-MQ0974-s0",
+    "MQL-MQ0977-s1"
+   ]
+  },
+  {
+   "id8": "81882270",
+   "id": "81882270-2b91-457a-a7c9-4f955319ea22",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:01.747878+00:00",
+   "fichier": "2025-08-31_81882270-2b91-457a-a7c9-4f955319ea22_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7683,
+    "lat": 45.2078,
+    "azimut_vrai": 260,
+    "gamma_deg": -2.0087,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 4.8199,
+    "y": 14.3813,
+    "z": 1.4125,
+    "lacet": 257.9913,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "e5d79de9",
+    "distance_m": 3.2,
+    "ncc": 0.137,
+    "pose": {
+     "x": 4.8199,
+     "y": 14.3813,
+     "z": 1.4125,
+     "lacet": 259.7913,
+     "tangage": -2.75,
+     "roulis": -2.0
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "8cb2a39c",
+   "id": "8cb2a39c-fc49-4721-869a-18b382b96f17",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:17.944097+00:00",
+   "fichier": "2025-08-31_8cb2a39c-fc49-4721-869a-18b382b96f17_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7671,
+    "lat": 45.2069,
+    "azimut_vrai": 241,
+    "gamma_deg": -2.0078,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -85.1506,
+    "y": -83.5096,
+    "z": 0.7991,
+    "lacet": 238.9922,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "aa9d7e12",
+    "distance_m": 88.0,
+    "ncc": 0.117,
+    "pose": {
+     "x": -85.1506,
+     "y": -83.5096,
+     "z": 0.7991,
+     "lacet": 245.9922,
+     "tangage": 3.75,
+     "roulis": 0.0
+    }
+   },
+   "departs": [
+    {
+     "depart": "brute/t-8",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t-5",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t-2",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t+1",
+     "n_obs": 4,
+     "n_inliers": 4,
+     "score": 1.88,
+     "moy_deg": 0.007
+    },
+    {
+     "depart": "brute/t+4",
+     "n_obs": 7,
+     "n_inliers": 7,
+     "score": 2.59,
+     "moy_deg": 0.018
+    },
+    {
+     "depart": "brute/t+7",
+     "n_obs": 7,
+     "n_inliers": 7,
+     "score": 3.08,
+     "moy_deg": 0.023
+    }
+   ],
+   "depart_retenu": "brute/t+7",
+   "pose": {
+    "x": -86.1402,
+    "y": -82.8153,
+    "z": 0.7909,
+    "lacet": 231.9541,
+    "tangage": 6.1426,
+    "roulis": -0.2555
+   },
+   "ecart_type": {
+    "x": 3.7045,
+    "y": 3.9353,
+    "z": 0.3753,
+    "lacet": 13.5473,
+    "tangage": 3.2643,
+    "roulis": 4.5187
+   },
+   "qualite": {
+    "n_gcp": 7,
+    "n_mats": 0,
+    "n_sol": 7,
+    "n_points_sol": 0,
+    "n_lignes_distinctes": 3,
+    "n_obs": 7,
+    "n_inliers": 7,
+    "n_equations": 7,
+    "residu_loo_moy_deg": 0.039,
+    "secteurs_45": 1,
+    "rapport_profondeur_sol": 2.132,
+    "etendue_azimut_deg": 8.787,
+    "etendue_elevation_deg": 1.5,
+    "residu_moy_deg": 0.023,
+    "residu_max_deg": 0.042,
+    "residu_moy_px": 1.136,
+    "residu_max_px": 2.022,
+    "decalage_gps_m": 1.209,
+    "correction_lacet_deg": -7.038,
+    "hauteur_sol_m": 1.455
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers ; GCP mal répartis",
+   "gcp_utilises": [
+    "MQL-MQ0972-s0",
+    "MQL-MQ0972-s1",
+    "MQL-MQ0977-s0",
+    "MQL-MQ0977-s1",
+    "MQL-MQ0981-s1",
+    "MQL-MQ0985-s0",
+    "MQL-MQ0985-s1"
+   ]
+  },
+  {
+   "id8": "9834f494",
+   "id": "9834f494-dbcb-4c89-b8f7-0c3a8cb42433",
+   "date": "2025-05-18",
+   "datetime": "2025-05-18T13:37:46.522000+00:00",
+   "fichier": "2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7684,
+    "lat": 45.2078,
+    "azimut_vrai": 227,
+    "gamma_deg": -2.0088,
+    "precision_m": 0.2
+   },
+   "pose_brute": {
+    "x": 15.4908,
+    "y": 20.7769,
+    "z": 1.8644,
+    "lacet": 224.9912,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 0.5,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": -0.75,
+     "dy": 0.25,
+     "dlacet": -3.12,
+     "score": 0.684,
+     "n": 5
+    },
+    {
+     "dx": -0.25,
+     "dy": 0.0,
+     "dlacet": -1.6,
+     "score": 0.574,
+     "n": 5
+    },
+    {
+     "dx": 1.25,
+     "dy": 0.25,
+     "dlacet": -0.48,
+     "score": 0.487,
+     "n": 5
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 16,
+     "n_inliers": 15,
+     "score": 8.36,
+     "moy_deg": 0.348
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 5,
+     "n_inliers": 4,
+     "score": 2.0,
+     "moy_deg": 0.156
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 13,
+     "n_inliers": 11,
+     "score": 5.54,
+     "moy_deg": 0.422
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 5,
+     "n_inliers": 5,
+     "score": 2.9,
+     "moy_deg": 0.277
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 4,
+     "n_inliers": 3,
+     "score": 1.56,
+     "moy_deg": 0.177
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 17,
+     "n_inliers": 16,
+     "score": 9.14,
+     "moy_deg": 0.221
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 0
+    }
+   ],
+   "depart_retenu": "vote1+sol",
+   "pose": {
+    "x": 15.7249,
+    "y": 21.0672,
+    "z": 2.2473,
+    "lacet": 222.8381,
+    "tangage": -3.4931,
+    "roulis": 0.6349
+   },
+   "ecart_type": {
+    "x": 0.0328,
+    "y": 0.0327,
+    "z": 0.0165,
+    "lacet": 0.0758,
+    "tangage": 0.0907,
+    "roulis": 0.2387
+   },
+   "qualite": {
+    "n_gcp": 25,
+    "n_mats": 2,
+    "n_sol": 23,
+    "n_points_sol": 18,
+    "n_lignes_distinctes": 2,
+    "n_obs": 25,
+    "n_inliers": 25,
+    "n_equations": 45,
+    "residu_loo_moy_deg": 0.139,
+    "secteurs_45": 5,
+    "rapport_profondeur_sol": 2.779,
+    "etendue_azimut_deg": 225.0,
+    "etendue_elevation_deg": 18.095,
+    "residu_moy_deg": 0.118,
+    "residu_max_deg": 0.285,
+    "residu_moy_px": 1.903,
+    "residu_max_px": 4.657,
+    "decalage_gps_m": 0.373,
+    "correction_lacet_deg": -2.153,
+    "hauteur_sol_m": 2.078
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MAT-feu_REV_E_pietons",
+    "MAT-pan_C113_1",
+    "MQC-MQ0460-c4",
+    "MQC-MQ0461-c8",
+    "MQC-MQ0461-c9",
+    "MQC-MQ0465-c3",
+    "MQC-MQ0497-c2",
+    "MQC-MQ0499-c2",
+    "MQC-MQ0509-c0",
+    "MQC-MQ0510-c2",
+    "MQL-MQ0497-s0",
+    "MQL-MQ0497-s1",
+    "MQL-MQ0499-s0",
+    "MQL-MQ0501-s0",
+    "MQL-MQ0501-s1",
+    "ORTHO-13.1_12.5",
+    "ORTHO-20.3_14.3",
+    "ORTHO-7.7_12.5",
+    "ZEB-MQ0573-c0",
+    "ZEB-MQ0573-c3",
+    "ZEB-MQ0574-c1",
+    "ZEB-MQ0574-c2",
+    "ZEB-MQ0575-c2",
+    "ZEB-MQ0576-c0",
+    "ZEB-MQ0576-c2"
+   ]
+  },
+  {
+   "id8": "9ef861d4",
+   "id": "9ef861d4-0b2e-403d-b1ee-2d8e038c6cad",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:29.939441+00:00",
+   "fichier": "2025-08-31_9ef861d4-0b2e-403d-b1ee-2d8e038c6cad_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.769,
+    "lat": 45.2082,
+    "azimut_vrai": 239,
+    "gamma_deg": -2.0092,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 59.4386,
+    "y": 65.2377,
+    "z": 2.2336,
+    "lacet": 236.9908,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "79a18815",
+    "distance_m": 36.8,
+    "ncc": 0.101,
+    "pose": {
+     "x": 59.4386,
+     "y": 65.2377,
+     "z": 2.2336,
+     "lacet": 221.1908,
+     "tangage": 7.75,
+     "roulis": 3.25
+    }
+   },
+   "departs": [
+    {
+     "depart": "brute/t-8",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t-5",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t-2",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t+1",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t+4",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute/t+7",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "9fb83d6e",
+   "id": "9fb83d6e-e638-438b-93f5-9879b46424de",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:15.852679+00:00",
+   "fichier": "2025-08-31_9fb83d6e-e638-438b-93f5-9879b46424de_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7673,
+    "lat": 45.2071,
+    "azimut_vrai": 242,
+    "gamma_deg": -2.008,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -69.1595,
+    "y": -67.2911,
+    "z": 0.8949,
+    "lacet": 239.992,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "734a0da6",
+    "distance_m": 60.9,
+    "ncc": 0.149,
+    "pose": {
+     "x": -69.1595,
+     "y": -67.2911,
+     "z": 0.8949,
+     "lacet": 230.192,
+     "tangage": -8.0,
+     "roulis": -2.0
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "a0a70830",
+   "id": "a0a70830-e05c-48b6-95c2-5946e8cc6d8d",
+   "date": "2024-05-01",
+   "datetime": "2024-05-01T17:17:16+00:00",
+   "fichier": "2024-05-01_a0a70830-e05c-48b6-95c2-5946e8cc6d8d_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max portée (piéton ou deux-roues)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7675,
+    "lat": 45.2074,
+    "azimut_vrai": 229,
+    "gamma_deg": -2.0081,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": -52.4858,
+    "y": -34.024,
+    "z": 1.731,
+    "lacet": 226.9919,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.6,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "a1ffea74",
+   "id": "a1ffea74-72b7-4ebc-a34d-e1930f71ecc0",
+   "date": "2025-01-12",
+   "datetime": "2025-01-12T12:11:35+00:00",
+   "fichier": "2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur vélo (casque)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7683,
+    "lat": 45.2073,
+    "azimut_vrai": 148,
+    "gamma_deg": -2.0087,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": 5.6805,
+    "y": -38.9673,
+    "z": 1.3577,
+    "lacet": 145.9913,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": -3.5,
+     "dy": 1.5,
+     "dlacet": -1.84,
+     "score": 0.702,
+     "n": 5
+    },
+    {
+     "dx": -7.0,
+     "dy": 0.0,
+     "dlacet": 1.68,
+     "score": 0.698,
+     "n": 5
+    },
+    {
+     "dx": -3.0,
+     "dy": 1.0,
+     "dlacet": -3.76,
+     "score": 0.695,
+     "n": 5
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "a83dae90",
+   "id": "a83dae90-c92a-472e-8d22-2e8863c47968",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:02.748635+00:00",
+   "fichier": "2025-08-31_a83dae90-c92a-472e-8d22-2e8863c47968_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7682,
+    "lat": 45.2077,
+    "azimut_vrai": 257,
+    "gamma_deg": -2.0086,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 1.5327,
+    "y": 10.8989,
+    "z": 1.3144,
+    "lacet": 254.9914,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "5c0d1d39",
+    "distance_m": 3.2,
+    "ncc": 0.159,
+    "pose": {
+     "x": 1.5327,
+     "y": 10.8989,
+     "z": 1.3144,
+     "lacet": 260.3914,
+     "tangage": 5.0,
+     "roulis": -0.25
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "a896d871",
+   "id": "a896d871-180a-4d49-a8c5-237adc9ec400",
+   "date": "2024-05-01",
+   "datetime": "2024-05-01T17:17:02+00:00",
+   "fichier": "2024-05-01_a896d871-180a-4d49-a8c5-237adc9ec400_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max portée (piéton ou deux-roues)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7683,
+    "lat": 45.2078,
+    "azimut_vrai": 227,
+    "gamma_deg": -2.0087,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": 5.114,
+    "y": 18.0922,
+    "z": 2.117,
+    "lacet": 224.9913,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.6,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 2.0,
+     "dy": 0.5,
+     "dlacet": -1.12,
+     "score": 0.972,
+     "n": 4
+    },
+    {
+     "dx": 3.5,
+     "dy": -1.5,
+     "dlacet": 0.56,
+     "score": 0.972,
+     "n": 4
+    },
+    {
+     "dx": 1.5,
+     "dy": 1.5,
+     "dlacet": -1.68,
+     "score": 0.97,
+     "n": 4
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 5,
+     "n_inliers": 4,
+     "score": 1.58,
+     "moy_deg": 0.063
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 0
+    }
+   ],
+   "depart_retenu": "brute",
+   "pose": {
+    "x": 5.2528,
+    "y": 17.8895,
+    "z": 2.2005,
+    "lacet": 225.7748,
+    "tangage": 0.123,
+    "roulis": 0.1897
+   },
+   "ecart_type": {
+    "x": 0.124,
+    "y": 0.1038,
+    "z": 0.185,
+    "lacet": 0.2268,
+    "tangage": 1.8877,
+    "roulis": 1.8834
+   },
+   "qualite": {
+    "n_gcp": 4,
+    "n_mats": 2,
+    "n_sol": 2,
+    "n_points_sol": 1,
+    "n_lignes_distinctes": 1,
+    "n_obs": 5,
+    "n_inliers": 4,
+    "n_equations": 7,
+    "residu_loo_moy_deg": 0.53,
+    "secteurs_45": 3,
+    "rapport_profondeur_sol": 1.188,
+    "etendue_azimut_deg": 135.0,
+    "etendue_elevation_deg": 26.414,
+    "residu_moy_deg": 0.063,
+    "residu_max_deg": 0.094,
+    "residu_moy_px": 1.017,
+    "residu_max_px": 1.575,
+    "decalage_gps_m": 0.246,
+    "correction_lacet_deg": 0.784,
+    "hauteur_sol_m": 1.985
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers",
+   "gcp_utilises": [
+    "MAT-feu_REV_droite",
+    "MAT-feu_VERC_ilot",
+    "MQC-MQ0496-c3",
+    "MQL-MQ0496-s0"
+   ]
+  },
+  {
+   "id8": "aa9d7e12",
+   "id": "aa9d7e12-14b6-4b31-ac93-25f08cfc2c8a",
+   "date": "2024-08-24",
+   "datetime": "2024-08-24T15:10:45+00:00",
+   "fichier": "2024-08-24_aa9d7e12-14b6-4b31-ac93-25f08cfc2c8a_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7679,
+    "lat": 45.2075,
+    "azimut_vrai": 215,
+    "gamma_deg": -2.0084,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": -24.1889,
+    "y": -22.1151,
+    "z": 1.5158,
+    "lacet": 212.9916,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 1.0,
+     "dy": 0.5,
+     "dlacet": 0.88,
+     "score": 0.626,
+     "n": 5
+    },
+    {
+     "dx": 0.5,
+     "dy": 1.5,
+     "dlacet": 2.4,
+     "score": 0.618,
+     "n": 5
+    },
+    {
+     "dx": 0.0,
+     "dy": 2.5,
+     "dlacet": 3.84,
+     "score": 0.601,
+     "n": 5
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 11,
+     "n_inliers": 10,
+     "score": 4.75,
+     "moy_deg": 0.176
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 5,
+     "n_inliers": 5,
+     "score": 2.33,
+     "moy_deg": 0.055
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 14,
+     "n_inliers": 14,
+     "score": 7.38,
+     "moy_deg": 0.154
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 15,
+     "n_inliers": 14,
+     "score": 7.66,
+     "moy_deg": 0.123
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 12,
+     "n_inliers": 12,
+     "score": 6.46,
+     "moy_deg": 0.079
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 6,
+     "n_inliers": 6,
+     "score": 3.59,
+     "moy_deg": 0.127
+    }
+   ],
+   "depart_retenu": "vote2",
+   "pose": {
+    "x": -24.2656,
+    "y": -19.9424,
+    "z": 1.6647,
+    "lacet": 216.5407,
+    "tangage": -0.7956,
+    "roulis": -0.3356
+   },
+   "ecart_type": {
+    "x": 0.1061,
+    "y": 0.0732,
+    "z": 0.185,
+    "lacet": 0.1495,
+    "tangage": 0.7799,
+    "roulis": 0.5933
+   },
+   "qualite": {
+    "n_gcp": 14,
+    "n_mats": 3,
+    "n_sol": 11,
+    "n_points_sol": 8,
+    "n_lignes_distinctes": 3,
+    "n_obs": 15,
+    "n_inliers": 14,
+    "n_equations": 25,
+    "residu_loo_moy_deg": 0.255,
+    "secteurs_45": 2,
+    "rapport_profondeur_sol": 1.416,
+    "etendue_azimut_deg": 90.0,
+    "etendue_elevation_deg": 17.19,
+    "residu_moy_deg": 0.15,
+    "residu_max_deg": 0.321,
+    "residu_moy_px": 2.415,
+    "residu_max_px": 5.129,
+    "decalage_gps_m": 2.174,
+    "correction_lacet_deg": 3.549,
+    "hauteur_sol_m": 1.885
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MAT-feu_REV_droite",
+    "MAT-feu_VERC_droite",
+    "MAT-poteau_bois_REV_ilot",
+    "MQC-MQ0711-c0",
+    "MQC-MQ0711-c1",
+    "MQC-MQ0714-c0",
+    "MQC-MQ0715-c2",
+    "MQC-MQ0716-c3",
+    "MQC-MQ0719-c1",
+    "MQC-MQ0719-c3",
+    "MQL-MQ0711-s0",
+    "MQL-MQ0714-s0",
+    "MQL-MQ0733-s0",
+    "ORTHO--15.3_-13.9"
+   ]
+  },
+  {
+   "id8": "ab4cfacd",
+   "id": "ab4cfacd-9fd7-4436-a12d-e410b590026c",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:38:59.723225+00:00",
+   "fichier": "2025-08-31_ab4cfacd-9fd7-4436-a12d-e410b590026c_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7683,
+    "lat": 45.2078,
+    "azimut_vrai": 237,
+    "gamma_deg": -2.0087,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 8.4143,
+    "y": 18.0635,
+    "z": 1.5825,
+    "lacet": 234.9913,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 9.0,
+     "dy": -1.0,
+     "dlacet": -15.96,
+     "score": 0.504,
+     "n": 4
+    },
+    {
+     "dx": 3.0,
+     "dy": 0.0,
+     "dlacet": -14.6,
+     "score": 0.46,
+     "n": 4
+    },
+    {
+     "dx": 3.5,
+     "dy": -1.0,
+     "dlacet": -13.8,
+     "score": 0.458,
+     "n": 4
+    }
+   ],
+   "orientation_horizon": {
+    "reference": "e5d79de9",
+    "distance_m": 5.0,
+    "ncc": 0.244,
+    "pose": {
+     "x": 8.4143,
+     "y": 18.0635,
+     "z": 1.5825,
+     "lacet": 240.7913,
+     "tangage": 4.5,
+     "roulis": 0.75
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+horizon",
+     "n_obs": 3,
+     "n_inliers": 1,
+     "score": 0.17,
+     "moy_deg": 0.278
+    }
+   ],
+   "depart_retenu": "vote2+horizon",
+   "pose": {
+    "x": 8.7426,
+    "y": 18.9153,
+    "z": 1.5974,
+    "lacet": 216.3598,
+    "tangage": 3.9617,
+    "roulis": -0.1813
+   },
+   "ecart_type": {
+    "x": 3.2798,
+    "y": 4.0554,
+    "z": 0.3873,
+    "lacet": 19.6213,
+    "tangage": 4.9234,
+    "roulis": 4.9575
+   },
+   "qualite": {
+    "n_gcp": 1,
+    "n_mats": 0,
+    "n_sol": 1,
+    "n_points_sol": 1,
+    "n_lignes_distinctes": 0,
+    "n_obs": 3,
+    "n_inliers": 1,
+    "n_equations": 2,
+    "residu_loo_moy_deg": 99.0,
+    "secteurs_45": 1,
+    "rapport_profondeur_sol": 1.0,
+    "etendue_azimut_deg": 0.0,
+    "etendue_elevation_deg": 0.0,
+    "residu_moy_deg": 0.278,
+    "residu_max_deg": 0.278,
+    "residu_moy_px": 14.589,
+    "residu_max_px": 14.589,
+    "decalage_gps_m": 0.913,
+    "correction_lacet_deg": -18.631,
+    "hauteur_sol_m": 1.296
+   },
+   "accepte": false,
+   "raison": "résidu moyen trop fort ; trop peu de GCP inliers ; GCP mal répartis ; validation croisée (leave-one-out) défavorable",
+   "gcp_utilises": [
+    "ORTHO-5.4_10.5"
+   ]
+  },
+  {
+   "id8": "b4013696",
+   "id": "b4013696-1d02-4d94-9a89-456a56298e04",
+   "date": "2024-05-01",
+   "datetime": "2024-05-01T17:17:00+00:00",
+   "fichier": "2024-05-01_b4013696-1d02-4d94-9a89-456a56298e04_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max portée (piéton ou deux-roues)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7684,
+    "lat": 45.2079,
+    "azimut_vrai": 229,
+    "gamma_deg": -2.0087,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": 12.2033,
+    "y": 24.7084,
+    "z": 2.1312,
+    "lacet": 226.9913,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.6,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 3,
+     "n_inliers": 3,
+     "score": 1.26,
+     "moy_deg": 0.012
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    }
+   ],
+   "depart_retenu": "brute",
+   "pose": {
+    "x": 12.1088,
+    "y": 24.1679,
+    "z": 1.8927,
+    "lacet": 226.8426,
+    "tangage": 0.1199,
+    "roulis": 0.7063
+   },
+   "ecart_type": {
+    "x": 0.0983,
+    "y": 0.0786,
+    "z": 0.3827,
+    "lacet": 0.1968,
+    "tangage": 1.9796,
+    "roulis": 1.4822
+   },
+   "qualite": {
+    "n_gcp": 3,
+    "n_mats": 2,
+    "n_sol": 1,
+    "n_points_sol": 1,
+    "n_lignes_distinctes": 0,
+    "n_obs": 3,
+    "n_inliers": 3,
+    "n_equations": 6,
+    "residu_loo_moy_deg": 99.0,
+    "secteurs_45": 3,
+    "rapport_profondeur_sol": 1.0,
+    "etendue_azimut_deg": 135.0,
+    "etendue_elevation_deg": 7.372,
+    "residu_moy_deg": 0.012,
+    "residu_max_deg": 0.017,
+    "residu_moy_px": 0.188,
+    "residu_max_px": 0.275,
+    "decalage_gps_m": 0.549,
+    "correction_lacet_deg": -0.149,
+    "hauteur_sol_m": 1.666
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers ; validation croisée (leave-one-out) défavorable",
+   "gcp_utilises": [
+    "MAT-feu_REV_droite",
+    "MAT-pan_C113_1",
+    "MQC-MQ0508-c3"
+   ]
+  },
+  {
+   "id8": "b536a4a0",
+   "id": "b536a4a0-72c8-4d78-ac7d-fe7d65b98d91",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:27.838977+00:00",
+   "fichier": "2025-08-31_b536a4a0-72c8-4d78-ac7d-fe7d65b98d91_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7692,
+    "lat": 45.2084,
+    "azimut_vrai": 236,
+    "gamma_deg": -2.0094,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 77.9098,
+    "y": 83.2883,
+    "z": 2.409,
+    "lacet": 233.9906,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "79a18815",
+    "distance_m": 62.6,
+    "ncc": 0.132,
+    "pose": {
+     "x": 77.9098,
+     "y": 83.2883,
+     "z": 2.409,
+     "lacet": 218.1906,
+     "tangage": 3.75,
+     "roulis": 1.25
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "bb9c05ff",
+   "id": "bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:28.907818+00:00",
+   "fichier": "2025-08-31_bb9c05ff-2fa0-4e65-9e7b-cd7c2ec4eb9e_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7691,
+    "lat": 45.2083,
+    "azimut_vrai": 240,
+    "gamma_deg": -2.0093,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 68.6793,
+    "y": 74.1187,
+    "z": 2.3503,
+    "lacet": 237.9907,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "79a18815",
+    "distance_m": 49.6,
+    "ncc": 0.212,
+    "pose": {
+     "x": 68.6793,
+     "y": 74.1187,
+     "z": 2.3503,
+     "lacet": 221.9907,
+     "tangage": 1.0,
+     "roulis": -4.25
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 4,
+     "n_inliers": 4,
+     "score": 1.41,
+     "moy_deg": 0.029
+    }
+   ],
+   "depart_retenu": "horizon",
+   "pose": {
+    "x": 70.0836,
+    "y": 72.2167,
+    "z": 2.3915,
+    "lacet": 231.4567,
+    "tangage": 5.3007,
+    "roulis": 0.6877
+   },
+   "ecart_type": {
+    "x": 0.7914,
+    "y": 1.8427,
+    "z": 0.3677,
+    "lacet": 4.3288,
+    "tangage": 1.2186,
+    "roulis": 2.06
+   },
+   "qualite": {
+    "n_gcp": 4,
+    "n_mats": 1,
+    "n_sol": 3,
+    "n_points_sol": 1,
+    "n_lignes_distinctes": 1,
+    "n_obs": 4,
+    "n_inliers": 4,
+    "n_equations": 6,
+    "residu_loo_moy_deg": 0.909,
+    "secteurs_45": 2,
+    "rapport_profondeur_sol": 1.608,
+    "etendue_azimut_deg": 35.333,
+    "etendue_elevation_deg": 6.054,
+    "residu_moy_deg": 0.029,
+    "residu_max_deg": 0.092,
+    "residu_moy_px": 1.409,
+    "residu_max_px": 4.433,
+    "decalage_gps_m": 2.364,
+    "correction_lacet_deg": -6.534,
+    "hauteur_sol_m": 1.382
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers ; validation croisée (leave-one-out) défavorable",
+   "gcp_utilises": [
+    "MAT-pan_B2a_1",
+    "MQC-MQ0536-c0",
+    "MQL-MQ0534-s0",
+    "MQL-MQ0537-s0"
+   ]
+  },
+  {
+   "id8": "bc926688",
+   "id": "bc926688-11a4-4b40-87de-611ad85fa871",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:14.854013+00:00",
+   "fichier": "2025-08-31_bc926688-11a4-4b40-87de-611ad85fa871_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7674,
+    "lat": 45.2071,
+    "azimut_vrai": 241,
+    "gamma_deg": -2.008,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -61.6072,
+    "y": -59.5363,
+    "z": 0.9155,
+    "lacet": 238.992,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "734a0da6",
+    "distance_m": 50.0,
+    "ncc": 0.149,
+    "pose": {
+     "x": -61.6072,
+     "y": -59.5363,
+     "z": 0.9155,
+     "lacet": 245.792,
+     "tangage": 1.25,
+     "roulis": -4.5
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "bec705f0",
+   "id": "bec705f0-e932-4398-88e8-15d0d64dfc21",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:19.940946+00:00",
+   "fichier": "2025-08-31_bec705f0-e932-4398-88e8-15d0d64dfc21_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7669,
+    "lat": 45.2068,
+    "azimut_vrai": 236,
+    "gamma_deg": -2.0077,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -101.7469,
+    "y": -100.1715,
+    "z": 0.7105,
+    "lacet": 233.9923,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "aa9d7e12",
+    "distance_m": 111.5,
+    "ncc": 0.153,
+    "pose": {
+     "x": -101.7469,
+     "y": -100.1715,
+     "z": 0.7105,
+     "lacet": 242.9923,
+     "tangage": 4.25,
+     "roulis": 1.25
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "c11b5f99",
+   "id": "c11b5f99-a976-4f08-95cc-b5ce33d2e4d5",
+   "date": "2024-05-01",
+   "datetime": "2024-05-01T17:17:10+00:00",
+   "fichier": "2024-05-01_c11b5f99-a976-4f08-95cc-b5ce33d2e4d5_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max portée (piéton ou deux-roues)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7679,
+    "lat": 45.2076,
+    "azimut_vrai": 233,
+    "gamma_deg": -2.0084,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": -26.5952,
+    "y": -10.0127,
+    "z": 1.601,
+    "lacet": 230.9916,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.6,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": -8.5,
+     "dy": -2.0,
+     "dlacet": -10.56,
+     "score": 0.457,
+     "n": 5
+    },
+    {
+     "dx": -8.0,
+     "dy": -3.0,
+     "dlacet": -11.84,
+     "score": 0.432,
+     "n": 5
+    },
+    {
+     "dx": -7.5,
+     "dy": -1.5,
+     "dlacet": -11.12,
+     "score": 0.427,
+     "n": 5
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "c2284fa6",
+   "id": "c2284fa6-0056-4314-95e6-e0f053f46bbf",
+   "date": "2024-05-01",
+   "datetime": "2024-05-01T17:16:56+00:00",
+   "fichier": "2024-05-01_c2284fa6-0056-4314-95e6-e0f053f46bbf_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max portée (piéton ou deux-roues)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7686,
+    "lat": 45.208,
+    "azimut_vrai": 229,
+    "gamma_deg": -2.0089,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": 28.6611,
+    "y": 39.6989,
+    "z": 1.9642,
+    "lacet": 226.9911,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.6,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 0.5,
+     "dy": -0.5,
+     "dlacet": -0.64,
+     "score": 0.364,
+     "n": 3
+    },
+    {
+     "dx": 1.0,
+     "dy": 0.5,
+     "dlacet": -1.12,
+     "score": 0.361,
+     "n": 3
+    },
+    {
+     "dx": -0.5,
+     "dy": -1.0,
+     "dlacet": -1.28,
+     "score": 0.361,
+     "n": 3
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "c3521abd",
+   "id": "c3521abd-2b2c-46de-be3c-ef9e34940c60",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:12.842344+00:00",
+   "fichier": "2025-08-31_c3521abd-2b2c-46de-be3c-ef9e34940c60_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7676,
+    "lat": 45.2073,
+    "azimut_vrai": 241,
+    "gamma_deg": -2.0082,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -47.6475,
+    "y": -44.5336,
+    "z": 0.9502,
+    "lacet": 238.9918,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "aa9d7e12",
+    "distance_m": 33.9,
+    "ncc": 0.148,
+    "pose": {
+     "x": -47.6475,
+     "y": -44.5336,
+     "z": 0.9502,
+     "lacet": 243.9918,
+     "tangage": 3.0,
+     "roulis": 0.0
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "d1bfc7b1",
+   "id": "d1bfc7b1-a235-491f-9240-95750ab9df54",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:32.036830+00:00",
+   "fichier": "2025-08-31_d1bfc7b1-a235-491f-9240-95750ab9df54_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7688,
+    "lat": 45.2081,
+    "azimut_vrai": 229,
+    "gamma_deg": -2.009,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 42.7831,
+    "y": 50.0624,
+    "z": 1.8308,
+    "lacet": 226.991,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "79a18815",
+    "distance_m": 14.4,
+    "ncc": 0.208,
+    "pose": {
+     "x": 42.7831,
+     "y": 50.0624,
+     "z": 1.8308,
+     "lacet": 219.991,
+     "tangage": 4.0,
+     "roulis": 2.75
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "dabd05a0",
+   "id": "dabd05a0-a4a6-40d7-a92a-ec8b9fda5dca",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:36.137748+00:00",
+   "fichier": "2025-08-31_dabd05a0-a4a6-40d7-a92a-ec8b9fda5dca_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7685,
+    "lat": 45.2079,
+    "azimut_vrai": 226,
+    "gamma_deg": -2.0088,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 20.5663,
+    "y": 29.9469,
+    "z": 1.6748,
+    "lacet": 223.9912,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 5.0,
+     "dy": -2.5,
+     "dlacet": -4.84,
+     "score": 0.733,
+     "n": 4
+    },
+    {
+     "dx": -3.0,
+     "dy": 2.0,
+     "dlacet": -17.08,
+     "score": 0.711,
+     "n": 4
+    },
+    {
+     "dx": 4.0,
+     "dy": -3.0,
+     "dlacet": -6.52,
+     "score": 0.662,
+     "n": 4
+    }
+   ],
+   "orientation_horizon": {
+    "reference": "e540bf1d",
+    "distance_m": 3.0,
+    "ncc": 0.227,
+    "pose": {
+     "x": 20.5663,
+     "y": 29.9469,
+     "z": 1.6748,
+     "lacet": 221.9912,
+     "tangage": -2.75,
+     "roulis": -1.75
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 3,
+     "n_inliers": 3,
+     "score": 1.15,
+     "moy_deg": 0.19
+    },
+    {
+     "depart": "vote0+horizon",
+     "n_obs": 4,
+     "n_inliers": 3,
+     "score": 1.47,
+     "moy_deg": 0.011
+    },
+    {
+     "depart": "vote1+horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+horizon",
+     "n_obs": 3,
+     "n_inliers": 3,
+     "score": 1.22,
+     "moy_deg": 0.028
+    }
+   ],
+   "depart_retenu": "vote0+horizon",
+   "pose": {
+    "x": 26.9734,
+    "y": 28.7841,
+    "z": 1.6215,
+    "lacet": 219.3713,
+    "tangage": -5.0747,
+    "roulis": -0.5501
+   },
+   "ecart_type": {
+    "x": 0.1183,
+    "y": 1.1115,
+    "z": 0.3649,
+    "lacet": 2.8605,
+    "tangage": 1.7862,
+    "roulis": 4.7309
+   },
+   "qualite": {
+    "n_gcp": 3,
+    "n_mats": 0,
+    "n_sol": 3,
+    "n_points_sol": 3,
+    "n_lignes_distinctes": 0,
+    "n_obs": 4,
+    "n_inliers": 3,
+    "n_equations": 6,
+    "residu_loo_moy_deg": 99.0,
+    "secteurs_45": 2,
+    "rapport_profondeur_sol": 4.134,
+    "etendue_azimut_deg": 34.653,
+    "etendue_elevation_deg": 13.632,
+    "residu_moy_deg": 0.012,
+    "residu_max_deg": 0.018,
+    "residu_moy_px": 0.592,
+    "residu_max_px": 0.888,
+    "decalage_gps_m": 6.512,
+    "correction_lacet_deg": -4.62,
+    "hauteur_sol_m": 1.367
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers ; validation croisée (leave-one-out) défavorable",
+   "gcp_utilises": [
+    "MQC-MQ0460-c1",
+    "MQC-MQ0460-c7",
+    "MQC-MQ0472-c3"
+   ]
+  },
+  {
+   "id8": "e26d3f7f",
+   "id": "e26d3f7f-d04a-4ad2-9d07-8465df51cdda",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:39:07.782915+00:00",
+   "fichier": "2025-08-31_e26d3f7f-d04a-4ad2-9d07-8465df51cdda_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7679,
+    "lat": 45.2075,
+    "azimut_vrai": 238,
+    "gamma_deg": -2.0084,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": -19.9864,
+    "y": -11.8701,
+    "z": 1.2301,
+    "lacet": 235.9916,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "31d16b8e",
+    "distance_m": 6.1,
+    "ncc": 0.215,
+    "pose": {
+     "x": -19.9864,
+     "y": -11.8701,
+     "z": 1.2301,
+     "lacet": 249.5916,
+     "tangage": 4.5,
+     "roulis": 0.0
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 0
+    }
+   ],
+   "accepte": false,
+   "raison": "pas assez d'observations",
+   "pose": null
+  },
+  {
+   "id8": "e540bf1d",
+   "id": "e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3",
+   "date": "2025-05-18",
+   "datetime": "2025-05-18T13:37:26.522000+00:00",
+   "fichier": "2025-05-18_e540bf1d-c8ab-4f0a-ae4e-19d7ea07ddc3_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7685,
+    "lat": 45.2079,
+    "azimut_vrai": 225,
+    "gamma_deg": -2.0089,
+    "precision_m": 0.4
+   },
+   "pose_brute": {
+    "x": 23.112,
+    "y": 28.2681,
+    "z": 1.928,
+    "lacet": 222.9911,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 0.5,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 0.0,
+     "dy": 0.25,
+     "dlacet": 5.6,
+     "score": 0.292,
+     "n": 5
+    },
+    {
+     "dx": 0.75,
+     "dy": -0.25,
+     "dlacet": 4.08,
+     "score": 0.26,
+     "n": 5
+    },
+    {
+     "dx": -1.0,
+     "dy": -0.25,
+     "dlacet": 6.24,
+     "score": 0.182,
+     "n": 5
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 13,
+     "n_inliers": 11,
+     "score": 6.18,
+     "moy_deg": 0.161
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 0
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 3,
+     "n_inliers": 3,
+     "score": 1.51,
+     "moy_deg": 0.064
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 0
+    }
+   ],
+   "depart_retenu": "brute",
+   "pose": {
+    "x": 23.1923,
+    "y": 28.5402,
+    "z": 2.418,
+    "lacet": 223.2166,
+    "tangage": -4.0277,
+    "roulis": 0.8813
+   },
+   "ecart_type": {
+    "x": 0.1514,
+    "y": 0.1983,
+    "z": 0.129,
+    "lacet": 0.3376,
+    "tangage": 0.448,
+    "roulis": 1.1013
+   },
+   "qualite": {
+    "n_gcp": 13,
+    "n_mats": 0,
+    "n_sol": 13,
+    "n_points_sol": 10,
+    "n_lignes_distinctes": 1,
+    "n_obs": 13,
+    "n_inliers": 13,
+    "n_equations": 23,
+    "residu_loo_moy_deg": 0.163,
+    "secteurs_45": 1,
+    "rapport_profondeur_sol": 2.515,
+    "etendue_azimut_deg": 45.0,
+    "etendue_elevation_deg": 11.49,
+    "residu_moy_deg": 0.116,
+    "residu_max_deg": 0.259,
+    "residu_moy_px": 1.861,
+    "residu_max_px": 4.157,
+    "decalage_gps_m": 0.284,
+    "correction_lacet_deg": 0.226,
+    "hauteur_sol_m": 2.188
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MQC-MQ0461-c1",
+    "MQC-MQ0461-c11",
+    "MQC-MQ0461-c5",
+    "MQC-MQ0461-c7",
+    "MQC-MQ0461-c9",
+    "MQC-MQ0501-c3",
+    "MQC-MQ0503-c2",
+    "MQC-MQ0503-c3",
+    "MQC-MQ0504-c0",
+    "MQC-MQ0504-c4",
+    "MQL-MQ0501-s1",
+    "MQL-MQ0503-s0",
+    "MQL-MQ0503-s1"
+   ]
+  },
+  {
+   "id8": "e5d79de9",
+   "id": "e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5",
+   "date": "2025-05-18",
+   "datetime": "2025-05-18T13:37:48.522000+00:00",
+   "fichier": "2025-05-18_e5d79de9-9462-4b4d-bc3b-192ebd6ac6f5_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7683,
+    "lat": 45.2078,
+    "azimut_vrai": 226,
+    "gamma_deg": -2.0087,
+    "precision_m": 0.1
+   },
+   "pose_brute": {
+    "x": 7.4333,
+    "y": 12.6577,
+    "z": 1.7423,
+    "lacet": 223.9913,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 0.5,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": -0.5,
+     "dy": 0.25,
+     "dlacet": -3.76,
+     "score": 0.606,
+     "n": 5
+    },
+    {
+     "dx": 0.25,
+     "dy": 0.75,
+     "dlacet": -1.76,
+     "score": 0.58,
+     "n": 5
+    },
+    {
+     "dx": 0.5,
+     "dy": -0.25,
+     "dlacet": -1.6,
+     "score": 0.445,
+     "n": 5
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 41,
+     "n_inliers": 37,
+     "score": 24.69,
+     "moy_deg": 0.185
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 35,
+     "n_inliers": 32,
+     "score": 20.28,
+     "moy_deg": 0.2
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 44,
+     "n_inliers": 42,
+     "score": 27.26,
+     "moy_deg": 0.217
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 12,
+     "n_inliers": 11,
+     "score": 5.59,
+     "moy_deg": 0.6
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 48,
+     "n_inliers": 45,
+     "score": 29.02,
+     "moy_deg": 0.198
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 12,
+     "n_inliers": 11,
+     "score": 6.25,
+     "moy_deg": 0.559
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 7,
+     "n_inliers": 6,
+     "score": 3.2,
+     "moy_deg": 0.376
+    }
+   ],
+   "depart_retenu": "brute+sol",
+   "pose": {
+    "x": 7.7552,
+    "y": 13.0611,
+    "z": 2.1357,
+    "lacet": 221.8929,
+    "tangage": -2.4764,
+    "roulis": 0.0028
+   },
+   "ecart_type": {
+    "x": 0.017,
+    "y": 0.0141,
+    "z": 0.011,
+    "lacet": 0.0598,
+    "tangage": 0.0925,
+    "roulis": 0.1138
+   },
+   "qualite": {
+    "n_gcp": 45,
+    "n_mats": 6,
+    "n_sol": 39,
+    "n_points_sol": 35,
+    "n_lignes_distinctes": 3,
+    "n_obs": 48,
+    "n_inliers": 45,
+    "n_equations": 86,
+    "residu_loo_moy_deg": 0.248,
+    "secteurs_45": 7,
+    "rapport_profondeur_sol": 2.765,
+    "etendue_azimut_deg": 315.0,
+    "etendue_elevation_deg": 29.02,
+    "residu_moy_deg": 0.204,
+    "residu_max_deg": 0.665,
+    "residu_moy_px": 3.334,
+    "residu_max_px": 11.257,
+    "decalage_gps_m": 0.516,
+    "correction_lacet_deg": -2.098,
+    "hauteur_sol_m": 2.091
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MAT-feu_NE_SE_pietons",
+    "MAT-feu_REV_E_pietons",
+    "MAT-feu_VERC_droite",
+    "MAT-lamp_12882680524",
+    "MAT-lamp_lidar_VERC_E",
+    "MAT-pan_C113_1",
+    "MQC-MQ0272-c0",
+    "MQC-MQ0272-c2",
+    "MQC-MQ0273-c3",
+    "MQC-MQ0275-c0",
+    "MQC-MQ0275-c2",
+    "MQC-MQ0276-c0",
+    "MQC-MQ0276-c2",
+    "MQC-MQ0281-c5",
+    "MQC-MQ0460-c1",
+    "MQC-MQ0460-c11",
+    "MQC-MQ0460-c12",
+    "MQC-MQ0461-c1",
+    "MQC-MQ0461-c11",
+    "MQC-MQ0461-c5",
+    "MQC-MQ0461-c7",
+    "MQC-MQ0461-c9",
+    "MQC-MQ0469-c1",
+    "MQC-MQ0501-c3",
+    "MQC-MQ0503-c2",
+    "MQC-MQ0503-c3",
+    "MQC-MQ0504-c4",
+    "MQL-MQ0497-s0",
+    "MQL-MQ0500-s0",
+    "MQL-MQ0503-s0",
+    "MQL-MQ0503-s1",
+    "ORTHO--0.2_11.7",
+    "ORTHO-0.4_15.3",
+    "ORTHO-1.6_14.1",
+    "ORTHO-10.6_5.7",
+    "ORTHO-11.2_4.5",
+    "ORTHO-5.8_2.1",
+    "ORTHO-8.8_7.5",
+    "ZEB-MQ0569-c1",
+    "ZEB-MQ0570-c0",
+    "ZEB-MQ0571-c2",
+    "ZEB-MQ0579-c3",
+    "ZEB-MQ0580-c0",
+    "ZEB-MQ0581-c2",
+    "ZEB-MQ0582-c1"
+   ]
+  },
+  {
+   "id8": "e86aa913",
+   "id": "e86aa913-8387-4b9c-929f-035ec3cb3d90",
+   "date": "2024-08-24",
+   "datetime": "2024-08-24T15:10:39+00:00",
+   "fichier": "2024-08-24_e86aa913-8387-4b9c-929f-035ec3cb3d90_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7684,
+    "lat": 45.2078,
+    "azimut_vrai": 226,
+    "gamma_deg": -2.0088,
+    "precision_m": 4.0
+   },
+   "pose_brute": {
+    "x": 18.0453,
+    "y": 22.82,
+    "z": 1.8943,
+    "lacet": 223.9912,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 4.0,
+    "z": 0.5,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 1.0,
+     "dy": -0.5,
+     "dlacet": 0.16,
+     "score": 0.676,
+     "n": 9
+    },
+    {
+     "dx": 1.0,
+     "dy": 1.0,
+     "dlacet": 0.0,
+     "score": 0.674,
+     "n": 9
+    },
+    {
+     "dx": -1.0,
+     "dy": -2.0,
+     "dlacet": 1.6,
+     "score": 0.633,
+     "n": 9
+    }
+   ],
+   "departs": [
+    {
+     "depart": "brute",
+     "n_obs": 14,
+     "n_inliers": 13,
+     "score": 6.31,
+     "moy_deg": 0.261
+    },
+    {
+     "depart": "vote0",
+     "n_obs": 6,
+     "n_inliers": 6,
+     "score": 3.62,
+     "moy_deg": 0.177
+    },
+    {
+     "depart": "vote1",
+     "n_obs": 29,
+     "n_inliers": 28,
+     "score": 14.73,
+     "moy_deg": 0.187
+    },
+    {
+     "depart": "vote2",
+     "n_obs": 6,
+     "n_inliers": 6,
+     "score": 2.48,
+     "moy_deg": 0.313
+    },
+    {
+     "depart": "brute+sol",
+     "n_obs": 15,
+     "n_inliers": 14,
+     "score": 6.68,
+     "moy_deg": 0.228
+    },
+    {
+     "depart": "vote0+sol",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+sol",
+     "n_obs": 24,
+     "n_inliers": 24,
+     "score": 13.78,
+     "moy_deg": 0.175
+    },
+    {
+     "depart": "vote2+sol",
+     "n_obs": 4,
+     "n_inliers": 3,
+     "score": 1.84,
+     "moy_deg": 0.016
+    }
+   ],
+   "depart_retenu": "vote1",
+   "pose": {
+    "x": 18.7227,
+    "y": 23.7318,
+    "z": 2.303,
+    "lacet": 223.1096,
+    "tangage": -0.5261,
+    "roulis": 0.6086
+   },
+   "ecart_type": {
+    "x": 0.039,
+    "y": 0.0431,
+    "z": 0.0218,
+    "lacet": 0.0847,
+    "tangage": 0.1153,
+    "roulis": 0.3158
+   },
+   "qualite": {
+    "n_gcp": 28,
+    "n_mats": 3,
+    "n_sol": 25,
+    "n_points_sol": 20,
+    "n_lignes_distinctes": 2,
+    "n_obs": 29,
+    "n_inliers": 28,
+    "n_equations": 51,
+    "residu_loo_moy_deg": 0.222,
+    "secteurs_45": 4,
+    "rapport_profondeur_sol": 2.492,
+    "etendue_azimut_deg": 180.0,
+    "etendue_elevation_deg": 20.402,
+    "residu_moy_deg": 0.183,
+    "residu_max_deg": 0.413,
+    "residu_moy_px": 2.971,
+    "residu_max_px": 6.716,
+    "decalage_gps_m": 1.136,
+    "correction_lacet_deg": -0.882,
+    "hauteur_sol_m": 2.114
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MAT-feu_REV_E_pietons",
+    "MAT-feu_VERC_droite",
+    "MAT-pan_C113_1",
+    "MQC-MQ0460-c3",
+    "MQC-MQ0460-c4",
+    "MQC-MQ0460-c7",
+    "MQC-MQ0461-c1",
+    "MQC-MQ0461-c11",
+    "MQC-MQ0461-c5",
+    "MQC-MQ0461-c7",
+    "MQC-MQ0461-c8",
+    "MQC-MQ0461-c9",
+    "MQC-MQ0498-c0",
+    "MQC-MQ0499-c2",
+    "MQC-MQ0501-c3",
+    "MQC-MQ0503-c2",
+    "MQC-MQ0509-c0",
+    "MQC-MQ0510-c2",
+    "MQC-MQ0565-c1",
+    "MQC-MQ0566-c1",
+    "MQC-MQ0567-c1",
+    "MQL-MQ0499-s0",
+    "MQL-MQ0501-s0",
+    "MQL-MQ0501-s1",
+    "MQL-MQ0503-s1",
+    "MQL-MQ0513-s0",
+    "ORTHO-13.7_19.2",
+    "ZEB-MQ0576-c0"
+   ]
+  },
+  {
+   "id8": "e96ea4be",
+   "id": "e96ea4be-821b-4a3f-8723-e2da5e0bc396",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:39.174394+00:00",
+   "fichier": "2025-08-31_e96ea4be-821b-4a3f-8723-e2da5e0bc396_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7684,
+    "lat": 45.2078,
+    "azimut_vrai": 226,
+    "gamma_deg": -2.0087,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 12.3281,
+    "y": 22.0458,
+    "z": 1.5821,
+    "lacet": 223.9913,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [
+    {
+     "dx": 6.5,
+     "dy": -3.0,
+     "dlacet": -3.48,
+     "score": 0.759,
+     "n": 4
+    },
+    {
+     "dx": 5.0,
+     "dy": 0.5,
+     "dlacet": -6.84,
+     "score": 0.755,
+     "n": 4
+    },
+    {
+     "dx": 6.5,
+     "dy": -5.0,
+     "dlacet": -2.68,
+     "score": 0.746,
+     "n": 4
+    }
+   ],
+   "orientation_horizon": {
+    "reference": "9834f494",
+    "distance_m": 3.5,
+    "ncc": 0.204,
+    "pose": {
+     "x": 12.3281,
+     "y": 22.0458,
+     "z": 1.5821,
+     "lacet": 216.1913,
+     "tangage": 4.75,
+     "roulis": 2.75
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 3,
+     "n_inliers": 2,
+     "score": 0.82,
+     "moy_deg": 0.084
+    },
+    {
+     "depart": "vote0+horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote1+horizon",
+     "n_obs": 0
+    },
+    {
+     "depart": "vote2+horizon",
+     "n_obs": 0
+    }
+   ],
+   "depart_retenu": "horizon",
+   "pose": {
+    "x": 11.3323,
+    "y": 23.1739,
+    "z": 1.5489,
+    "lacet": 201.779,
+    "tangage": 5.2626,
+    "roulis": 4.8899
+   },
+   "ecart_type": {
+    "x": 2.579,
+    "y": 1.4519,
+    "z": 0.3842,
+    "lacet": 20.8249,
+    "tangage": 2.6216,
+    "roulis": 4.8431
+   },
+   "qualite": {
+    "n_gcp": 2,
+    "n_mats": 0,
+    "n_sol": 2,
+    "n_points_sol": 1,
+    "n_lignes_distinctes": 1,
+    "n_obs": 3,
+    "n_inliers": 2,
+    "n_equations": 3,
+    "residu_loo_moy_deg": 99.0,
+    "secteurs_45": 1,
+    "rapport_profondeur_sol": 2.182,
+    "etendue_azimut_deg": 1.249,
+    "etendue_elevation_deg": 5.847,
+    "residu_moy_deg": 0.084,
+    "residu_max_deg": 0.16,
+    "residu_moy_px": 4.682,
+    "residu_max_px": 8.992,
+    "decalage_gps_m": 1.505,
+    "correction_lacet_deg": -22.212,
+    "hauteur_sol_m": 1.304
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers ; GCP mal répartis ; validation croisée (leave-one-out) défavorable",
+   "gcp_utilises": [
+    "MQC-MQ0460-c4",
+    "MQL-MQ0500-s0"
+   ]
+  },
+  {
+   "id8": "eeb2f8f1",
+   "id": "eeb2f8f1-9c4b-4b62-a7f7-75c5df0c7aa8",
+   "date": "2025-05-18",
+   "datetime": "2025-05-18T13:37:22.522000+00:00",
+   "fichier": "2025-05-18_eeb2f8f1-9c4b-4b62-a7f7-75c5df0c7aa8_hd.jpg",
+   "modele": "equirect",
+   "porteur": "GoPro Max sur voiture (capot visible)",
+   "intrinseques": {
+    "f": 0.0,
+    "cx": 0.0,
+    "cy": 0.0,
+    "k1": 0.0,
+    "source": "equirectangulaire 360°"
+   },
+   "gps": {
+    "lon": 5.7686,
+    "lat": 45.208,
+    "azimut_vrai": 230,
+    "gamma_deg": -2.0089,
+    "precision_m": 0.2
+   },
+   "pose_brute": {
+    "x": 30.1928,
+    "y": 35.0212,
+    "z": 2.4292,
+    "lacet": 227.9911,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 0.5,
+    "z": 0.4,
+    "lacet": 8.0,
+    "tangage": 2.0,
+    "roulis": 2.0
+   },
+   "a_priori_sequence": {
+    "voisins": [
+     "7651c539",
+     "e540bf1d",
+     "6e97bb8c",
+     "9834f494"
+    ],
+    "pose": {
+     "x": 30.3223,
+     "y": 35.1774,
+     "z": 2.4219,
+     "lacet": 226.8204,
+     "tangage": -3.6279,
+     "roulis": 0.7581
+    },
+    "sigma": {
+     "xy": 0.5,
+     "z": 0.3,
+     "lacet": 1.5935,
+     "tangage": 1.0,
+     "roulis": 1.0
+    },
+    "decalage": {
+     "long_m": -0.201,
+     "travers_m": 0.029,
+     "lacet_deg": -1.171,
+     "tangage_deg": -3.628,
+     "roulis_deg": 0.758,
+     "hauteur_m": 2.09
+    }
+   },
+   "recalage_grossier": [],
+   "departs": [
+    {
+     "depart": "sequence",
+     "n_obs": 22,
+     "n_inliers": 21,
+     "score": 10.23,
+     "moy_deg": 0.168
+    },
+    {
+     "depart": "brute",
+     "n_obs": 8,
+     "n_inliers": 8,
+     "score": 3.02,
+     "moy_deg": 0.25
+    },
+    {
+     "depart": "sequence+sol",
+     "n_obs": 3,
+     "n_inliers": 3,
+     "score": 1.37,
+     "moy_deg": 0.108
+    }
+   ],
+   "depart_retenu": "sequence",
+   "pose": {
+    "x": 30.4446,
+    "y": 35.1984,
+    "z": 2.4193,
+    "lacet": 225.9409,
+    "tangage": -4.0235,
+    "roulis": 2.1322
+   },
+   "ecart_type": {
+    "x": 0.0473,
+    "y": 0.0396,
+    "z": 0.0251,
+    "lacet": 0.089,
+    "tangage": 0.097,
+    "roulis": 0.3758
+   },
+   "qualite": {
+    "n_gcp": 21,
+    "n_mats": 2,
+    "n_sol": 19,
+    "n_points_sol": 11,
+    "n_lignes_distinctes": 3,
+    "n_obs": 22,
+    "n_inliers": 21,
+    "n_equations": 34,
+    "residu_loo_moy_deg": 0.215,
+    "secteurs_45": 4,
+    "rapport_profondeur_sol": 3.123,
+    "etendue_azimut_deg": 180.0,
+    "etendue_elevation_deg": 30.725,
+    "residu_moy_deg": 0.168,
+    "residu_max_deg": 0.558,
+    "residu_moy_px": 2.711,
+    "residu_max_px": 9.092,
+    "decalage_gps_m": 0.308,
+    "correction_lacet_deg": -2.05,
+    "hauteur_sol_m": 2.088
+   },
+   "accepte": true,
+   "raison": "ok",
+   "gcp_utilises": [
+    "MAT-lamp_9665416717",
+    "MAT-poteau_bois_NE",
+    "MQC-MQ0471-c4",
+    "MQC-MQ0505-c2",
+    "MQC-MQ0505-c3",
+    "MQC-MQ0509-c0",
+    "MQC-MQ0517-c3",
+    "MQC-MQ0520-c2",
+    "MQC-MQ0520-c3",
+    "MQC-MQ0521-c2",
+    "MQC-MQ0521-c3",
+    "MQC-MQ0524-c2",
+    "MQL-MQ0478-s12",
+    "MQL-MQ0505-s0",
+    "MQL-MQ0505-s1",
+    "MQL-MQ0510-s0",
+    "MQL-MQ0517-s0",
+    "MQL-MQ0517-s1",
+    "MQL-MQ0520-s0",
+    "MQL-MQ0520-s1",
+    "ORTHO-40.5_44.0"
+   ]
+  },
+  {
+   "id8": "fdc59178",
+   "id": "fdc59178-d148-43e0-a307-4742929b45a2",
+   "date": "2025-08-31",
+   "datetime": "2025-08-31T15:37:34.115313+00:00",
+   "fichier": "2025-08-31_fdc59178-d148-43e0-a307-4742929b45a2_hd.jpg",
+   "modele": "stenope",
+   "porteur": "voiture, Galaxy A52 par la vitre",
+   "intrinseques": {
+    "f": 2774.786,
+    "cx": 2016.0,
+    "cy": 907.0,
+    "k1": 0.0,
+    "source": "field_of_view Panoramax (horizontal)"
+   },
+   "gps": {
+    "lon": 5.7686,
+    "lat": 45.208,
+    "azimut_vrai": 231,
+    "gamma_deg": -2.0089,
+    "precision_m": 5.0
+   },
+   "pose_brute": {
+    "x": 29.8475,
+    "y": 38.5737,
+    "z": 1.5842,
+    "lacet": 228.9911,
+    "tangage": 0.0,
+    "roulis": 0.0
+   },
+   "sigma_a_priori": {
+    "xy": 5.0,
+    "z": 0.4,
+    "lacet": 25.0,
+    "tangage": 8.0,
+    "roulis": 5.0
+   },
+   "recalage_grossier": [],
+   "orientation_horizon": {
+    "reference": "eeb2f8f1",
+    "distance_m": 3.4,
+    "ncc": 0.176,
+    "pose": {
+     "x": 29.8475,
+     "y": 38.5737,
+     "z": 1.5842,
+     "lacet": 236.3911,
+     "tangage": 5.25,
+     "roulis": 3.75
+    }
+   },
+   "departs": [
+    {
+     "depart": "horizon",
+     "n_obs": 5,
+     "n_inliers": 5,
+     "score": 1.88,
+     "moy_deg": 0.046
+    }
+   ],
+   "depart_retenu": "horizon",
+   "pose": {
+    "x": 30.1794,
+    "y": 39.4634,
+    "z": 1.6521,
+    "lacet": 237.2772,
+    "tangage": 4.9657,
+    "roulis": 2.9622
+   },
+   "ecart_type": {
+    "x": 0.1654,
+    "y": 0.1077,
+    "z": 0.1733,
+    "lacet": 0.2187,
+    "tangage": 1.1872,
+    "roulis": 0.9764
+   },
+   "qualite": {
+    "n_gcp": 5,
+    "n_mats": 1,
+    "n_sol": 4,
+    "n_points_sol": 2,
+    "n_lignes_distinctes": 1,
+    "n_obs": 5,
+    "n_inliers": 5,
+    "n_equations": 8,
+    "residu_loo_moy_deg": 1.807,
+    "secteurs_45": 2,
+    "rapport_profondeur_sol": 2.478,
+    "etendue_azimut_deg": 48.75,
+    "etendue_elevation_deg": 15.075,
+    "residu_moy_deg": 0.046,
+    "residu_max_deg": 0.091,
+    "residu_moy_px": 2.382,
+    "residu_max_px": 5.008,
+    "decalage_gps_m": 0.95,
+    "correction_lacet_deg": 8.286,
+    "hauteur_sol_m": 1.408
+   },
+   "accepte": false,
+   "raison": "trop peu de GCP inliers ; validation croisée (leave-one-out) défavorable",
+   "gcp_utilises": [
+    "MAT-feu_NE_TPC",
+    "MQC-MQ0506-c2",
+    "MQL-MQ0505-s0",
+    "MQL-MQ0505-s1",
+    "ORTHO-26.3_33.6"
+   ]
+  }
+ ]
+}

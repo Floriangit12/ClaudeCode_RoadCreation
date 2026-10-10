@@ -1,0 +1,144 @@
+#usda 1.0
+(
+    customLayerData = {
+        string origine_locale_L93_NGF = "917279.43 6460289.98 216.3"
+        string source = "recon/out/paquet_jardin/v2/description + fabrique"
+    }
+    defaultPrim = "World"
+    doc = "Caméras de contrôle de la zone pilote v2 (recon/pcg/houdini/pj_rendu.py) : repère local (L93 − O, Z = NGF − 216,30), mètres, Z haut ; ouverture 36 x 36 mm, notée 0,36 (dixièmes d'unité, convention USD) ; rendus carrés. Couche à empiler au-dessus de la scène (rendu_pilote.usda)."
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "World"
+{
+    def Scope "Cameras_v2"
+    {
+        def Camera "a_pieton_file_joints" (
+            customData = {
+                double3 cible_locale_m = (30.304315924378397, 17.217200534580147, 0.3894892202889245)
+                double exposition_ev = 0
+                double hfov_deg = 50
+                double3 oeil_local_m = (33.03422269290386, 20.759733734051718, 1.8433510029105131)
+            }
+            doc = "piéton (œil 1,60 m) sur la chaussée contre une file de T2 de 1 m (K-0369), regard plongeant le long de la file : joints, arrondi d'arête, massifs BRF derrière (photo utilisateur 2)"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 0.386011
+            float focusDistance = 4.702728
+            float fStop = 8
+            float horizontalAperture = 0.36
+            token projection = "perspective"
+            float verticalAperture = 0.36
+            matrix4d xformOp:transform = ( (-0.7920962387346089, 0.6103962226148569, 2.775557561562892e-17, 0), (-0.18870575186877048, -0.24487883565615196, 0.9510123527375077, 0), (0.5804943477710424, 0.7532933075935309, 0.30915288279534225, -0), (33.03422269290387, 20.75973373405172, 1.8433510029105125, 1.0000000000000002) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "b_abaisse_traversee_bev" (
+            customData = {
+                double3 cible_locale_m = (15.90330259200571, 2.24213742289016, -0.1466302717219159)
+                double exposition_ev = 0
+                double hfov_deg = 50
+                double3 oeil_local_m = (13.098916426173574, 3.645506585853129, 1.683648379945249)
+            }
+            doc = "abaissé de la traversée NE (A-0385-1) : bateau T2 à 0,02 m, deux chartières de 1 m, BEV à 0,50 m du nez, zébra"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 0.386011
+            float focusDistance = 3.6309705
+            float fStop = 8
+            float horizontalAperture = 0.36
+            token projection = "perspective"
+            float verticalAperture = 0.36
+            matrix4d xformOp:transform = ( (-0.4475135979172669, -0.8942771268902854, 0, 0), (0.4507820532835087, -0.22558007185415302, 0.8636603334759445, -0), (-0.7723516816299729, 0.3864997432122463, 0.504074229037967, 0), (13.098916426173576, 3.6455065858531306, 1.68364837994525, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "c_entree_charretiere" (
+            customData = {
+                double3 cible_locale_m = (47.3, 65.9, 0.4001117161659048)
+                double exposition_ev = 0
+                double hfov_deg = 55
+                double3 oeil_local_m = (44.6, 68.4, 1.5579766535753152)
+            }
+            doc = "entrée charretière de l'accès riverain (S-0265) : bordures abaissées A2 / T2 bateau à 0,04 m (A-0177-1, A-0182-1) entre l'accès en enrobé et la piste (photo utilisateur 1)"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 0.345777
+            float focusDistance = 3.8575447
+            float fStop = 8
+            float horizontalAperture = 0.36
+            token projection = "perspective"
+            float verticalAperture = 0.36
+            matrix4d xformOp:transform = ( (-0.6794080314983055, -0.7337606740181688, -2.7755575615628907e-17, 0), (0.22024262065413105, -0.2039283524575291, 0.9538901483458972, -0), (-0.6999270781895767, 0.6480806279533129, 0.30015593428856563, 0), (44.6, 68.4, 1.5579766535753143, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "d_ilot_brf" (
+            customData = {
+                double3 cible_locale_m = (11.179219811248846, -4.402428439353114, -0.010582726378236151)
+                double exposition_ev = 0
+                double hfov_deg = 50
+                double3 oeil_local_m = (9.111896045519849, -5.154872754669585, 1.6618468675788534)
+            }
+            doc = "îlot en goutte de BRF (I-0297) et sa ceinture de bordures, regard plongeant (photo utilisateur 2)"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 0.386011
+            float focusDistance = 2.763516
+            float fStop = 8
+            float horizontalAperture = 0.36
+            token projection = "perspective"
+            float verticalAperture = 0.36
+            matrix4d xformOp:transform = ( (0.3420201433256687, -0.9396926207859084, -2.7755575615628907e-17, 0), (0.5686848715875844, 0.20698436593537822, 0.796087299914866, 0), (-0.748077361231378, -0.2722778924166271, 0.6051817998868256, 0), (9.111896045519849, -5.154872754669586, 1.6618468675788534, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "e_ilot_gravier" (
+            customData = {
+                double3 cible_locale_m = (2.67521287209226, -12.571245896248612, 0.06274257773304398)
+                double exposition_ev = 0
+                double hfov_deg = 50
+                double3 oeil_local_m = (0.8565595241449389, -11.521245896248614, 1.6030373732483212)
+            }
+            doc = "îlot gravillonné du Vercors (I-0390, gravier concassé 6/10) dans sa ceinture T2, regard plongeant (photo utilisateur 3)"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 0.386011
+            float focusDistance = 2.6043248
+            float fStop = 8
+            float horizontalAperture = 0.36
+            token projection = "perspective"
+            float verticalAperture = 0.36
+            matrix4d xformOp:transform = ( (-0.49999999999999956, -0.8660254037844388, 0, 0), (0.5121997008851125, -0.2957186351848652, 0.8063510124118416, -0), (-0.6983204611159562, 0.4031755062059205, 0.5914372703697308, 0), (0.8565595241449384, -11.521245896248614, 1.6030373732483205, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "f_vue_ensemble" (
+            customData = {
+                double3 cible_locale_m = (14, 6, 0.12420233464254693)
+                double exposition_ev = 0
+                double hfov_deg = 64
+                double3 oeil_local_m = (1.9999999999999964, -14.784609690826528, 14.124202334642547)
+            }
+            doc = "vue d'ensemble de la zone pilote depuis 14 m (traversée NE, TPC, îlots BRF et Vercors)"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 0.28806
+            float focusDistance = 27.784887
+            float fStop = 0
+            float horizontalAperture = 0.36
+            token projection = "perspective"
+            float verticalAperture = 0.36
+            matrix4d xformOp:transform = ( (0.8660254037844385, -0.5, 2.77555756156289e-17, 0), (0.251935512762043, 0.43636510833477576, 0.8637789008984332, 0), (-0.4318894504492167, -0.7480544714310443, 0.503871025524086, 0), (1.999999999999997, -14.784609690826525, 14.124202334642543, 0.9999999999999998) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+    }
+}
+

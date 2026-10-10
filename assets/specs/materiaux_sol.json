@@ -1,0 +1,1712 @@
+{
+ "schema": "pj_specs/materiaux_sol/1.0",
+ "version": 1,
+ "date": "2026-10-10",
+ "role": "Catalogue des materiau_id du sol V2 (surfaces, remplissages d'îlots, bordures, caniveaux, BEV) : description, texture CC0 locale, taille de tuile, albédo cible, rugosité, appareillage ou couche, et chemins Unreal (matériau maison, candidats CARLA et City Sample). pj_sol / pj_ilot écrivent materiau_id sur les primitives USD ; Karma lit les .usda CC0 ; UE remappe vers /Game/PJ/Materials/MI_<id>.",
+ "conventions": {
+  "albedo": "albédo diffus linéaire (RGB, 0-1) ; la cible vient de manifeste_cc0.json (mesure ortho 2022 étalonnée ou rapport photo) quand elle existe ; texture_mesuree = moyenne linéaire de la texture corrigée (meta.json). La cible est la conversion linéaire de la moyenne Lab visée : la moyenne linéaire de la texture, tirée par les grains clairs, est un peu plus haute (ex. paves_granit 0,45 contre 0,36) ; c'est normal",
+  "facteur_albedo": "multiplicateur par canal appliqué à la texture source quand un materiau_id réutilise la texture d'un autre (ex. beton_bordure_clair)",
+  "rugosite": "rugosité PBR (0 lisse - 1 mat) visée en moyenne ; la carte de la texture module autour de cette valeur",
+  "tile_m": "taille réelle d'une répétition de texture ; UV st1 en mètres, UsdTransform2d scale = 1/tile_m",
+  "normales": "OpenGL (+Y) ; Unreal : Flip Green Channel à l'import",
+  "ue_cc0": "matériau maison à créer dans D:/ClaudeADAS (MI_<id> sur M_PJ_Sol, textures CC0 importées) ; chemin de référence du remappage USD",
+  "ue_carla": "candidats CARLA (CC-BY 4.0, attribution ; chemins /Game/Carla conservés) : secours ou décalques, à vérifier visuellement",
+  "ue_citysample": "candidats City Sample : contenu réservé à Unreal (jamais dans Houdini/Karma) ; chemins du projet City Sample, à confirmer après migration",
+  "statut_source": "ok = texture dédiée téléchargée ; proxy = texture d'un autre matériau en attendant une source dédiée ; candidats = sources CC0 à évaluer (non téléchargées)",
+  "licences": "CC0 (assets/lib/materiaux) seul utilisable dans Houdini/Karma ; City Sample et PVE réservés à UE"
+ },
+ "materiaux": {
+  "enrobe_bbsg_ancien": {
+   "description": "Enrobé BBSG 0/10 ancien, gris clair oxydé, fissures pontées (chaussées inchangées depuis 2022, parkings, accès riverains)",
+   "source_cc0": {
+    "nom": "enrobe_bbsg_ancien",
+    "dossier": "assets/lib/materiaux/enrobe_bbsg_ancien/",
+    "origine": "ambientCG Asphalt031",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.2783,
+     0.2874,
+     0.2651
+    ],
+    "rugosite_moyenne": 0.524,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/enrobe_bbsg_ancien/enrobe_bbsg_ancien.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.26,
+    0.269,
+    0.247
+   ],
+   "albedo_cible_source": "manifeste_cc0.json enrobe_bbsg_ancien.cible (ortho 2022 : chaussée inchangée (médiane IQR, hors ombres/végétation, n=336 011 px))",
+   "rugosite": {
+    "valeur": 0.85,
+    "plage": [
+     0.75,
+     0.95
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_enrobe_bbsg_ancien",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Asphalt/MI_Asphalt08",
+     "/Game/Carla/Static/GenericMaterials/WetPavement/MI_WetRoad_1 (variante mouillée)"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Road/Material/MI/M_Asphalt_Master_Inst",
+     "/Game/Megascans/Surfaces/Asphalt_Dried01_2x2 (textures)"
+    ]
+   },
+   "confiance": "haute"
+  },
+  "enrobe_bbsg_neuf_2025": {
+   "description": "Enrobé neuf 2025 (réfection C1 : centre du carrefour, Vercors), sombre et homogène",
+   "source_cc0": {
+    "nom": "enrobe_bbsg_neuf",
+    "dossier": "assets/lib/materiaux/enrobe_bbsg_neuf/",
+    "origine": "ambientCG Asphalt033",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.5,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.1384,
+     0.1431,
+     0.1369
+    ],
+    "rugosite_moyenne": 0.745,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/enrobe_bbsg_neuf/enrobe_bbsg_neuf.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.135,
+    0.14,
+    0.134
+   ],
+   "albedo_cible_source": "manifeste_cc0.json enrobe_bbsg_neuf.cible (photo f8d91bb1 2026-07-28 r01_c03 : Vercors refait 2025 / allée ancienne = 0,52 (linéaire))",
+   "rugosite": {
+    "valeur": 0.8,
+    "plage": [
+     0.7,
+     0.9
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_enrobe_bbsg_neuf_2025",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Asphalt/MI_Asphalt08 (assombri)"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Megascans/Surfaces/Asphalt_Fresh_2x2_M_00 (textures)",
+     "/Game/Road/Material/MI/MI_FreewayAsphalt_RoadDark"
+    ]
+   },
+   "confiance": "moyenne",
+   "notes": "id manifeste : enrobe_bbsg_neuf"
+  },
+  "enrobe_reprise_tranchee": {
+   "description": "Reprises d'enrobé (tranchées, rapiéçages), plus sombres et plus lisses, joints nets",
+   "source_cc0": {
+    "nom": "enrobe_reprise_tranchee",
+    "dossier": "assets/lib/materiaux/enrobe_reprise_tranchee/",
+    "origine": "Poly Haven asphalt_pit_lane",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.1894,
+     0.1947,
+     0.1785
+    ],
+    "rugosite_moyenne": 0.781,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/enrobe_reprise_tranchee/enrobe_reprise_tranchee.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.182,
+    0.188,
+    0.173
+   ],
+   "albedo_cible_source": "manifeste_cc0.json enrobe_reprise_tranchee.cible (rapport ≈ 0,70 : contraste −20 % mesuré sur l'ortho (abords_est) et bc579b89 2025-05-18 r01_c02 (0,83-0,92 avec marquage jaune))",
+   "rugosite": {
+    "valeur": 0.75,
+    "plage": [
+     0.65,
+     0.85
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_enrobe_reprise_tranchee",
+    "ue_carla": [
+     "/Game/Carla/Static/Decals/Road/RoadPatch (décalques, CC-BY)"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Megascans/Surfaces/Cracked_Asphalt_2x2_M_00 (textures)",
+     "Megascans/Atlases Tar_Patch_00, Asphalt_Patch_01"
+    ]
+   },
+   "confiance": "moyenne"
+  },
+  "enrobe_piste_cyclable": {
+   "description": "Enrobé de la piste bidirectionnelle Chronovélo, plus récent et plus sombre",
+   "source_cc0": {
+    "nom": "enrobe_piste_cyclable",
+    "dossier": "assets/lib/materiaux/enrobe_piste_cyclable/",
+    "origine": "ambientCG Asphalt015",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.1967,
+     0.2083,
+     0.1819
+    ],
+    "rugosite_moyenne": 0.528,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/enrobe_piste_cyclable/enrobe_piste_cyclable.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.18,
+    0.191,
+    0.166
+   ],
+   "albedo_cible_source": "manifeste_cc0.json enrobe_piste_cyclable.cible (ortho 2022 piste (139,138,128) et analyse verdun_so (131,138,134))",
+   "rugosite": {
+    "valeur": 0.8,
+    "plage": [
+     0.7,
+     0.9
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_enrobe_piste_cyclable",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Asphalt/MI_Asphalt08"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Road/Material/MI/M_Asphalt_Master_Inst"
+    ]
+   },
+   "confiance": "moyenne"
+  },
+  "enrobe_trottoir": {
+   "description": "Enrobé de trottoir BB 0/6 (3-5 cm), gris plus sombre et plus rugueux que la chaussée (photo utilisateur 1)",
+   "source_cc0": {
+    "nom": "enrobe_trottoir",
+    "dossier": "assets/lib/materiaux/enrobe_trottoir/",
+    "origine": "Poly Haven tarred_gravel",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.2,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.2113,
+     0.2151,
+     0.1878
+    ],
+    "rugosite_moyenne": 0.86,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/enrobe_trottoir/enrobe_trottoir.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.207,
+    0.211,
+    0.184
+   ],
+   "albedo_cible_source": "manifeste_cc0.json enrobe_trottoir.cible (ortho 2022 trottoirs en enrobé (n=68 492 px))",
+   "rugosite": {
+    "valeur": 0.9,
+    "plage": [
+     0.8,
+     0.95
+    ]
+   },
+   "appareillage": {
+    "type": "continu",
+    "devers_pct": [
+     1,
+     2
+    ],
+    "note": "pente vers la chaussée"
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_enrobe_trottoir",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Sidewalk/MI_Sidewalk_02 (à vérifier visuellement)",
+     "/Game/Carla/Static/GenericMaterials/Asphalt/MI_Asphalt08"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Megascans/Surfaces/Dirty_Sidewalk_2x2_M_00 (textures)"
+    ]
+   },
+   "confiance": "moyenne"
+  },
+  "enrobe_clair_granulats": {
+   "description": "Enrobé clair grenaillé / surface à granulats apparents (surface centrale, refuges)",
+   "source_cc0": {
+    "nom": "enrobe_clair_granulats",
+    "dossier": "assets/lib/materiaux/enrobe_clair_granulats/",
+    "origine": "Poly Haven pebble_cemented_floor",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 1.56,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.4643,
+     0.4444,
+     0.3876
+    ],
+    "rugosite_moyenne": 0.725,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/enrobe_clair_granulats/enrobe_clair_granulats.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.398,
+    0.374,
+    0.317
+   ],
+   "albedo_cible_source": "manifeste_cc0.json enrobe_clair_granulats.cible (photo 0fe67f82 2020-05-21 r01_c01 : surface claire / enrobé voisin)",
+   "rugosite": {
+    "valeur": 0.85,
+    "plage": [
+     0.75,
+     0.95
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_enrobe_clair_granulats",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Concrete/MI_Concrete_03 (à vérifier)"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Megascans/Surfaces/Gravel_Pebbledash_ugzmbcrn_2K_surface_ms (textures)"
+    ]
+   },
+   "confiance": "moyenne"
+  },
+  "enrobe_colore_ocre": {
+   "description": "Enrobé ou résine ocre-orangé délavé (îlots à niveau de la Revirée)",
+   "source_cc0": {
+    "nom": "enrobe_colore_ocre",
+    "dossier": "assets/lib/materiaux/enrobe_colore_ocre/",
+    "origine": "Poly Haven asphalt_04",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 4.04,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.3635,
+     0.2903,
+     0.2295
+    ],
+    "rugosite_moyenne": 0.853,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/enrobe_colore_ocre/enrobe_colore_ocre.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.355,
+    0.283,
+    0.223
+   ],
+   "albedo_cible_source": "manifeste_cc0.json enrobe_colore_ocre.cible (ortho 2022 îlots ocre de la Revirée (R−B ≈ +29))",
+   "rugosite": {
+    "valeur": 0.85,
+    "plage": [
+     0.75,
+     0.95
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_enrobe_colore_ocre",
+    "ue_carla": null,
+    "ue_citysample": null
+   },
+   "confiance": "moyenne"
+  },
+  "resine_verte": {
+   "description": "Résine verte délavée des traversées cyclables de la Revirée",
+   "source_cc0": {
+    "nom": "resine_verte",
+    "dossier": "assets/lib/materiaux/resine_verte/",
+    "origine": "ambientCG Asphalt023L",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.5,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.2581,
+     0.3128,
+     0.2667
+    ],
+    "rugosite_moyenne": 0.593,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/resine_verte/resine_verte.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.252,
+    0.306,
+    0.26
+   ],
+   "albedo_cible_source": "manifeste_cc0.json resine_verte.cible (ortho 2022 traversées cyclables vertes (≈ analyse coeur 150/162/151))",
+   "rugosite": {
+    "valeur": 0.6,
+    "plage": [
+     0.5,
+     0.75
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_resine_verte",
+    "ue_carla": null,
+    "ue_citysample": null
+   },
+   "confiance": "moyenne",
+   "notes": "résine gravillonnée : rugosité plus faible que l'enrobé, usure par masque (peinture.json)"
+  },
+  "resine_cyan": {
+   "description": "Résine / peinture cyan pâle (rectangles de traversée de piste NO)",
+   "source_cc0": {
+    "nom": "resine_cyan",
+    "dossier": "assets/lib/materiaux/resine_cyan/",
+    "origine": "ambientCG Asphalt023L",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.5,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.3127,
+     0.347,
+     0.3318
+    ],
+    "rugosite_moyenne": 0.593,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/resine_cyan/resine_cyan.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.306,
+    0.34,
+    0.325
+   ],
+   "albedo_cible_source": "manifeste_cc0.json resine_cyan.cible (ortho 2022 rectangles cyan (analyse coeur 164/181/180))",
+   "rugosite": {
+    "valeur": 0.6,
+    "plage": [
+     0.5,
+     0.75
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_resine_cyan",
+    "ue_carla": null,
+    "ue_citysample": null
+   },
+   "confiance": "moyenne"
+  },
+  "beton_balaye": {
+   "description": "Béton coulé en place, finition balayée (stries transversales), joints sciés",
+   "source_cc0": {
+    "nom": "beton_bordure",
+    "dossier": "assets/lib/materiaux/beton_bordure/",
+    "origine": "ambientCG Concrete037",
+    "licence": "CC0-1.0",
+    "statut": "proxy (texture beton_bordure, stries de balai à ajouter en normale procédurale)",
+    "candidats": [
+     "Poly Haven anti_slip_concrete (2,50 m, CC0) : à ajouter au manifeste si une surface balayée est observée"
+    ]
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.3671,
+     0.3826,
+     0.35
+    ],
+    "rugosite_moyenne": 0.608,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/beton_bordure/beton_bordure.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.354,
+    0.369,
+    0.336
+   ],
+   "albedo_cible_source": "manifeste_cc0.json beton_bordure.cible (photo 2374105b 2025-05-18 r01_c03 : bordure de quai / enrobé du plateau)",
+   "rugosite": {
+    "valeur": 0.85,
+    "plage": [
+     0.75,
+     0.95
+    ]
+   },
+   "appareillage": {
+    "type": "coulé",
+    "joints_scies_m": [
+     3.0,
+     4.0
+    ],
+    "largeur_joint_mm": 5,
+    "stries": "pas 3-6 mm perpendiculaires au cheminement"
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_beton_balaye",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Concrete/MI_Concrete_01"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Megascans/Surfaces/Rough_Concrete_Floor_2x2 (textures)"
+    ]
+   },
+   "confiance": "faible",
+   "notes": "aucune surface balayée confirmée sur le site (catalogue_besoins) : id réservé"
+  },
+  "beton_desactive": {
+   "description": "Béton désactivé à granulats apparents 4/10 ou 6/10 (12 cm), joints sciés tous les 3-4 m",
+   "source_cc0": {
+    "nom": "beton_galets",
+    "dossier": "assets/lib/materiaux/beton_galets/",
+    "origine": "Poly Haven rock_embedded_concrete",
+    "licence": "CC0-1.0",
+    "statut": "proxy (texture beton_galets : granulats apparents plus gros que 6/10)",
+    "candidats": [
+     "ambientCG Gravel043 (1,60 m) ou Poly Haven gravel_embedded_concrete (2,00 m) : granulats plus fins, à évaluer"
+    ]
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.2038,
+     0.2076,
+     0.1844
+    ],
+    "rugosite_moyenne": 0.893,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/beton_galets/beton_galets.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.199,
+    0.203,
+    0.18
+   ],
+   "albedo_cible_source": "manifeste_cc0.json beton_galets.cible (ortho 2022 îlot B en galets (verdun_so-09))",
+   "rugosite": {
+    "valeur": 0.9,
+    "plage": [
+     0.8,
+     0.95
+    ]
+   },
+   "appareillage": {
+    "type": "coulé",
+    "joints_scies_m": [
+     3.0,
+     4.0
+    ],
+    "largeur_joint_mm": 5,
+    "fabrication": "joints sciés en géométrie (rainure 5 mm x 10 mm) dans pj_sol"
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_beton_desactive",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Concrete/MI_Concrete_05 (à vérifier)"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Megascans/Surfaces/Gravel_Pebbledash_ugzmbcrn_2K_surface_ms (textures)"
+    ]
+   },
+   "confiance": "faible"
+  },
+  "dalles_beton": {
+   "description": "Dalles béton NF EN 1339 30x30 / 40x40 / 50x50 (4-8 cm) sur lit de pose, joints 3-5 mm",
+   "source_cc0": {
+    "nom": "beton_bordure",
+    "dossier": "assets/lib/materiaux/beton_bordure/",
+    "origine": "ambientCG Concrete037",
+    "licence": "CC0-1.0",
+    "statut": "proxy (texture beton_bordure sur chaque dalle, joints en géométrie)",
+    "candidats": [
+     "Poly Haven concrete_pavement_03 (2,10 m) ; checkered_pavement_tiles (2,00 m)"
+    ]
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.3671,
+     0.3826,
+     0.35
+    ],
+    "rugosite_moyenne": 0.608,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/beton_bordure/beton_bordure.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.354,
+    0.369,
+    0.336
+   ],
+   "albedo_cible_source": "manifeste_cc0.json beton_bordure.cible (photo 2374105b 2025-05-18 r01_c03 : bordure de quai / enrobé du plateau)",
+   "rugosite": {
+    "valeur": 0.8,
+    "plage": [
+     0.7,
+     0.9
+    ]
+   },
+   "appareillage": {
+    "module_cm": [
+     30,
+     40,
+     50
+    ],
+    "defaut_cm": 40,
+    "joint_mm": [
+     3,
+     5
+    ],
+    "fabrication": "UV alignées sur le module ; dalles en géométrie (léger chanfrein 2 mm, décalage de hauteur ±1 mm) ou masque de joints"
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_dalles_beton",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Sidewalk/MI_Sidewalk_Residential",
+     "/Game/Carla/Static/GenericMaterials/LargeMap_materials/largeM_sidewalk/tile01/MI_largeM_tile02"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Road/Material/MI/MI_Sidewalk",
+     "/Game/Megascans/Surfaces/Tile_Sidewalk_ug4kbdus (textures)"
+    ]
+   },
+   "confiance": "faible"
+  },
+  "paves_beton": {
+   "description": "Pavés béton NF EN 1338 20x10 (6-8 cm), joints sablés 5-10 mm (photos utilisateur 3 et 4 : pavés clairs)",
+   "source_cc0": {
+    "nom": "beton_bordure",
+    "dossier": "assets/lib/materiaux/beton_bordure/",
+    "origine": "ambientCG Concrete037",
+    "licence": "CC0-1.0",
+    "statut": "proxy (texture beton_bordure par pavé, appareillage en géométrie ou masque)",
+    "candidats": [
+     "ambientCG PavingStones (série) : choisir un 20x10 en chevrons ou en panneresse, à ajouter au manifeste"
+    ]
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.3671,
+     0.3826,
+     0.35
+    ],
+    "rugosite_moyenne": 0.608,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/beton_bordure/beton_bordure.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.354,
+    0.369,
+    0.336
+   ],
+   "albedo_cible_source": "manifeste_cc0.json beton_bordure.cible (photo 2374105b 2025-05-18 r01_c03 : bordure de quai / enrobé du plateau)",
+   "rugosite": {
+    "valeur": 0.8,
+    "plage": [
+     0.7,
+     0.9
+    ]
+   },
+   "appareillage": {
+    "module_cm": [
+     20,
+     10
+    ],
+    "joint_mm": [
+     5,
+     10
+    ],
+    "motifs": [
+     "panneresse",
+     "chevrons 45°",
+     "chevrons 90°"
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_paves_beton",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Brick/MI_Brick03 (à vérifier)",
+     "/Game/Carla/Static/GenericMaterials/Sidewalk/MI_Sidewalk_11"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Megascans/Surfaces/Patterned_Stone_Tiles_2x2_M_00 (textures)"
+    ]
+   },
+   "confiance": "faible",
+   "notes": "trottoirs en pavés : 3 polygones (10,4 m²) sur le site"
+  },
+  "paves_granit": {
+   "description": "Pavés de granit gris clair 10x10 / 14x20 (anneaux d'îlots, rangée affleurante de l'allée sud), joints 10-15 mm",
+   "source_cc0": {
+    "nom": "paves_granit",
+    "dossier": "assets/lib/materiaux/paves_granit/",
+    "origine": "ambientCG PavingStones119",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 1.15,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.4492,
+     0.4404,
+     0.382
+    ],
+    "rugosite_moyenne": 0.546,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/paves_granit/paves_granit.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.362,
+    0.353,
+    0.299
+   ],
+   "albedo_cible_source": "manifeste_cc0.json paves_granit.cible (photo 119d9094 2025-05-18 r01_c00 : anneau de pavés / enrobé)",
+   "rugosite": {
+    "valeur": 0.7,
+    "plage": [
+     0.6,
+     0.8
+    ]
+   },
+   "appareillage": {
+    "module_cm": [
+     [
+      10,
+      10
+     ],
+     [
+      14,
+      20
+     ],
+     [
+      14,
+      14
+     ]
+    ],
+    "joint_mm": [
+     10,
+     15
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_paves_granit",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Brick/MI_Brick05 (à vérifier)"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Road/Textures/Plaza/Tile_Pavestone_ugfnfifo (textures)"
+    ]
+   },
+   "confiance": "haute"
+  },
+  "beton_bordure_gris": {
+   "description": "Béton gris des bordures et caniveaux (vieilli : épaufrures, mousses, salissures au fil d'eau)",
+   "source_cc0": {
+    "nom": "beton_bordure",
+    "dossier": "assets/lib/materiaux/beton_bordure/",
+    "origine": "ambientCG Concrete037",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.3671,
+     0.3826,
+     0.35
+    ],
+    "rugosite_moyenne": 0.608,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/beton_bordure/beton_bordure.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.354,
+    0.369,
+    0.336
+   ],
+   "albedo_cible_source": "manifeste_cc0.json beton_bordure.cible (photo 2374105b 2025-05-18 r01_c03 : bordure de quai / enrobé du plateau)",
+   "rugosite": {
+    "valeur": 0.75,
+    "plage": [
+     0.6,
+     0.85
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_beton_bordure_gris",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Gutters_Curbs/Curb/MI_dirtyCurb",
+     "/Game/Carla/Static/GenericMaterials/LargeMap_materials/largeM_curb/MI_largeM_curb01",
+     "/Game/Carla/Static/GenericMaterials/Gutters_Curbs/Gutter/MI_dirtyGutter (caniveaux)"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Road/Kit_Small_Curb_A/Material/M_Concrete_Curb"
+    ]
+   },
+   "confiance": "haute",
+   "notes": "la v1 utilisait un albédo de 0,66 : 1,8 x trop clair ; teinte par élément ±4 % (bordures_elements.json)"
+  },
+  "beton_bordure_clair": {
+   "description": "Béton de bordure très clair, presque blanc (îlots du Vercors, éléments neufs ; photo utilisateur 2)",
+   "source_cc0": {
+    "nom": "beton_bordure",
+    "dossier": "assets/lib/materiaux/beton_bordure/",
+    "origine": "ambientCG Concrete037",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.3671,
+     0.3826,
+     0.35
+    ],
+    "rugosite_moyenne": 0.608,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/beton_bordure/beton_bordure.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.45,
+    0.455,
+    0.43
+   ],
+   "albedo_cible_source": "a priori : constat p2025_01_vercors-26 « bordures claires, presque blanches » ; photo utilisateur 2 (rapport tête de bordure / enrobé 1,94 x 0,24 = 0,47)",
+   "facteur_albedo": [
+    1.271,
+    1.233,
+    1.28
+   ],
+   "rugosite": {
+    "valeur": 0.75,
+    "plage": [
+     0.6,
+     0.85
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_beton_bordure_clair",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/LargeMap_materials/largeM_curb/MI_largeM_curb01_2 (à vérifier)"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Road/Kit_Small_Curb_A/Material/M_Concrete_Curb (éclairci)"
+    ]
+   },
+   "confiance": "faible",
+   "notes": "même texture que beton_bordure_gris, albédo multiplié par facteur_albedo (UsdUVTexture inputs:scale côté Karma, paramètre de MI côté UE)"
+  },
+  "granit_bordure": {
+   "description": "Bordure en granit gris bouchardé ou flammé (option ; aucune relevée sur le site)",
+   "source_cc0": {
+    "nom": "paves_granit",
+    "dossier": "assets/lib/materiaux/paves_granit/",
+    "origine": "ambientCG PavingStones119",
+    "licence": "CC0-1.0",
+    "statut": "proxy (texture de pavés : à remplacer par un granit bouchardé CC0 si une bordure granit est observée)",
+    "candidats": [
+     "ambientCG Granite00x (plans de travail polis : non adaptés) ; Poly Haven granite_tile_03 (dalles)"
+    ]
+   },
+   "tile_m": 1.15,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.4492,
+     0.4404,
+     0.382
+    ],
+    "rugosite_moyenne": 0.546,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/paves_granit/paves_granit.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.362,
+    0.353,
+    0.299
+   ],
+   "albedo_cible_source": "manifeste_cc0.json paves_granit.cible (photo 119d9094 2025-05-18 r01_c00 : anneau de pavés / enrobé)",
+   "rugosite": {
+    "valeur": 0.7,
+    "plage": [
+     0.6,
+     0.8
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_granit_bordure",
+    "ue_carla": null,
+    "ue_citysample": null
+   },
+   "confiance": "faible"
+  },
+  "calcaire_bordure": {
+   "description": "Bordure en pierre calcaire claire sciée (photo utilisateur 4), beige pâle à fins lits",
+   "source_cc0": {
+    "nom": "calcaire_bordure",
+    "dossier": "assets/lib/materiaux/calcaire_bordure/",
+    "origine": "ambientCG Travertine009",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 1.2,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.4606,
+     0.4307,
+     0.3609
+    ],
+    "rugosite_moyenne": 0.696,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/calcaire_bordure/calcaire_bordure.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.46,
+    0.43,
+    0.36
+   ],
+   "albedo_cible_source": "manifeste_cc0.json calcaire_bordure.cible (a priori : calcaire clair beige (photo utilisateur 4.webp, bordures calcaire autour d'un îlot pavé ; non mesurable : pas de référence d'albé)",
+   "rugosite": {
+    "valeur": 0.7,
+    "plage": [
+     0.6,
+     0.8
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_calcaire_bordure",
+    "ue_carla": null,
+    "ue_citysample": null
+   },
+   "confiance": "faible",
+   "notes": "lits orientés le long de l'élément (U = s) ; aucune bordure calcaire relevée sur le site (option d'aspect)"
+  },
+  "caniveau_beton": {
+   "description": "Caniveaux CS1/CS2/CS3 en béton, plus sales que la bordure (dépôts au fil d'eau)",
+   "source_cc0": {
+    "nom": "beton_bordure",
+    "dossier": "assets/lib/materiaux/beton_bordure/",
+    "origine": "ambientCG Concrete037",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.3671,
+     0.3826,
+     0.35
+    ],
+    "rugosite_moyenne": 0.608,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/beton_bordure/beton_bordure.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.354,
+    0.369,
+    0.336
+   ],
+   "albedo_cible_source": "manifeste_cc0.json beton_bordure.cible (photo 2374105b 2025-05-18 r01_c03 : bordure de quai / enrobé du plateau)",
+   "rugosite": {
+    "valeur": 0.75,
+    "plage": [
+     0.6,
+     0.85
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_caniveau_beton",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Gutters_Curbs/Gutter/MI_dirtyGutter",
+     "/Game/Carla/Static/GenericMaterials/LargeMap_materials/largeM_gutter/MI_largeM_gutter01"
+    ],
+    "ue_citysample": null
+   },
+   "confiance": "moyenne",
+   "notes": "salissure 0,5-0,8 (bordures_elements.json, aspect)"
+  },
+  "bev_podotactile": {
+   "description": "Dalles podotactiles 40x40 à plots (BEV), gris clair ou blanches",
+   "source_cc0": {
+    "nom": "bev_podotactile",
+    "dossier": "assets/lib/materiaux/bev_podotactile/",
+    "origine": "ambientCG TactilePaving006",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 1.2,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.4148,
+     0.4304,
+     0.3911
+    ],
+    "rugosite_moyenne": 0.514,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/bev_podotactile/bev_podotactile.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.377,
+    0.39,
+    0.346
+   ],
+   "albedo_cible_source": "manifeste_cc0.json bev_podotactile.cible (dalles podotactiles gris clair : estimées ≈ béton de bordure + 6 % (photos ab4cfacd 2025-08-31, 5c0d1d39 2024-08-24))",
+   "rugosite": {
+    "valeur": 0.7,
+    "plage": [
+     0.6,
+     0.8
+    ]
+   },
+   "appareillage": {
+    "module_cm": [
+     40,
+     40
+    ],
+    "joint_mm": 3,
+    "plots": "Ø 25 mm, h 5 mm, entraxe 75 mm en quinconce (mobilier.json)"
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_bev_podotactile",
+    "ue_carla": null,
+    "ue_citysample": null
+   },
+   "confiance": "haute"
+  },
+  "brf_bois_concasse": {
+   "description": "BRF / bois concassé brun en couche de 7-10 cm (îlots, massifs, pieds d'arbres) ; photo utilisateur 2",
+   "source_cc0": {
+    "nom": "brf_bois_concasse",
+    "dossier": "assets/lib/materiaux/brf_bois_concasse/",
+    "origine": "ambientCG WoodChips003",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 1.6,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.0727,
+     0.0586,
+     0.0484
+    ],
+    "rugosite_moyenne": 0.594,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/brf_bois_concasse/brf_bois_concasse.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.138,
+    0.12,
+    0.108
+   ],
+   "albedo_cible_source": "photo utilisateur 2 (Heinrich & Bock, hors site, lumière diffuse), revue UE du 2026-10-10 : rapport BRF / enrobé voisin 0,70-0,75 par moyennes linéaires et 0,30-0,35 par médianes (copeaux clairs très contrastés) ; cible = lit vu (copeaux bruns + ~25 % de brf_bois_gris) = 0,47 x enrobe_bbsg_ancien, chromie de la photo (R/G 1,15, B/G 0,90). L'ancienne cible du manifeste (0,062/0,047/0,038, médianes : 0,206) rendait le lit 3 à 4 fois trop sombre une fois enfoncé et ombré ; la texture de assets/lib (corrigée vers l'ancienne cible) reste à recaler pour Karma",
+   "rugosite": {
+    "valeur": 0.9,
+    "plage": [
+     0.8,
+     1.0
+    ]
+   },
+   "couche": {
+    "epaisseur_m": [
+     0.07,
+     0.1
+    ],
+    "elements_m": [
+     0.02,
+     0.05
+    ],
+    "retrait_sous_bordure_m": [
+     0.03,
+     0.05
+    ],
+    "bombement_m": [
+     0.01,
+     0.03
+    ],
+    "debordement": "copeaux épars sur la tête de bordure et la chaussée (PG_Ilots), 0-3 par mètre de bordure",
+    "vieillissement": "mélange avec brf_bois_gris par masque de bruit (îlots plantés avant 2025)"
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_brf_bois_concasse",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Ground/MI_Dirt (secours, sans copeaux)"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Prop/Kit_Dirt_A (maillages de terre, secours)"
+    ]
+   },
+   "confiance": "faible"
+  },
+  "brf_bois_gris": {
+   "description": "BRF vieilli grisé (gris argent après environ 1 an)",
+   "source_cc0": {
+    "nom": "brf_bois_gris",
+    "dossier": "assets/lib/materiaux/brf_bois_gris/",
+    "origine": "ambientCG WoodChips001",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 1.8,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.2613,
+     0.2351,
+     0.2045
+    ],
+    "rugosite_moyenne": 0.587,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/brf_bois_gris/brf_bois_gris.usda"
+   },
+   "albedo_cible_lineaire": null,
+   "albedo_cible_source": "pas de cible : couleur propre de la texture (WoodChips001)",
+   "rugosite": {
+    "valeur": 0.9,
+    "plage": [
+     0.8,
+     1.0
+    ]
+   },
+   "couche": {
+    "epaisseur_m": [
+     0.05,
+     0.08
+    ],
+    "retrait_sous_bordure_m": [
+     0.03,
+     0.05
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_brf_bois_gris",
+    "ue_carla": null,
+    "ue_citysample": null
+   },
+   "confiance": "faible"
+  },
+  "gravier_concasse_6_10": {
+   "description": "Gravier concassé anguleux 6/10 à 10/14 gris (îlots gravillonnés du Vercors, pieds de mâts) ; photos utilisateur 3 et 4",
+   "source_cc0": {
+    "nom": "gravier_concasse_6_10",
+    "dossier": "assets/lib/materiaux/gravier_concasse_6_10/",
+    "origine": "Poly Haven gravel_floor_02",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.3369,
+     0.3373,
+     0.3168
+    ],
+    "rugosite_moyenne": 0.473,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/gravier_concasse_6_10/gravier_concasse_6_10.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.311,
+    0.311,
+    0.292
+   ],
+   "albedo_cible_source": "manifeste_cc0.json gravier_concasse_6_10.cible (reprise de la cible de gravillons_ilot (ortho 2022, îlot effilé gravillonné du Vercors) : même matériau en place, texture concassée plus fid)",
+   "rugosite": {
+    "valeur": 0.85,
+    "plage": [
+     0.75,
+     0.95
+    ]
+   },
+   "couche": {
+    "epaisseur_m": [
+     0.05,
+     0.1
+    ],
+    "elements_m": [
+     0.006,
+     0.014
+    ],
+    "sous_couche": "géotextile 100-300 g/m²",
+    "retrait_sous_bordure_m": [
+     0.03,
+     0.05
+    ],
+    "bombement_m": [
+     0.0,
+     0.02
+    ],
+    "debordement": "gravillons épars sur la chaussée au pied de la bordure (PG_Ilots), 2-10 par mètre"
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_gravier_concasse_6_10",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Ground/Textures/HD/T_Pebbles_01_dh (textures seules, sans MI)"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Megascans/Surfaces/Gravel_Pavement_2x2 (textures)"
+    ]
+   },
+   "confiance": "moyenne",
+   "notes": "remplace gravillons_ilot (gravier roulé) pour les îlots concassés ; cible identique (ortho du Vercors)"
+  },
+  "gravillons_ilot": {
+   "description": "Gravillons roulés clairs 6-20 mm (variante roulée, rivière)",
+   "source_cc0": {
+    "nom": "gravillons_ilot",
+    "dossier": "assets/lib/materiaux/gravillons_ilot/",
+    "origine": "ambientCG Gravel035",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 1.9,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.3317,
+     0.3334,
+     0.315
+    ],
+    "rugosite_moyenne": 0.453,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/gravillons_ilot/gravillons_ilot.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.311,
+    0.311,
+    0.292
+   ],
+   "albedo_cible_source": "manifeste_cc0.json gravillons_ilot.cible (ortho 2022 îlot effilé gravillonné du Vercors)",
+   "rugosite": {
+    "valeur": 0.8,
+    "plage": [
+     0.7,
+     0.9
+    ]
+   },
+   "couche": {
+    "epaisseur_m": [
+     0.05,
+     0.1
+    ],
+    "retrait_sous_bordure_m": [
+     0.03,
+     0.05
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_gravillons_ilot",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Ground/Textures/HD/T_Pebbles_02_dh (textures seules)"
+    ],
+    "ue_citysample": null
+   },
+   "confiance": "moyenne"
+  },
+  "galets_20_40": {
+   "description": "Galets roulés 20/40 (25/40) en paillage minéral, couche d'environ 6 cm",
+   "source_cc0": {
+    "nom": "paillage_mineral",
+    "dossier": "assets/lib/materiaux/paillage_mineral/",
+    "origine": "Poly Haven clean_pebbles",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.1387,
+     0.1508,
+     0.1134
+    ],
+    "rugosite_moyenne": 0.768,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/paillage_mineral/paillage_mineral.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.135,
+    0.148,
+    0.111
+   ],
+   "albedo_cible_source": "manifeste_cc0.json paillage_mineral.cible (photo ffc2e8ac 2026-07-28 r01_c00 : paillage de galets / enrobé du parking)",
+   "rugosite": {
+    "valeur": 0.75,
+    "plage": [
+     0.65,
+     0.85
+    ]
+   },
+   "couche": {
+    "epaisseur_m": [
+     0.05,
+     0.07
+    ],
+    "elements_m": [
+     0.02,
+     0.04
+    ],
+    "retrait_sous_bordure_m": [
+     0.03,
+     0.05
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_galets_20_40",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Ground/Textures/HD/T_Pebbles_01_dh (textures seules)"
+    ],
+    "ue_citysample": null
+   },
+   "confiance": "moyenne",
+   "notes": "même source que paillage_mineral (clean_pebbles, galets 2-4 cm à 2,00 m)"
+  },
+  "paillage_mineral": {
+   "description": "Paillage minéral (galets / gravier) au pied des jeunes arbres",
+   "source_cc0": {
+    "nom": "paillage_mineral",
+    "dossier": "assets/lib/materiaux/paillage_mineral/",
+    "origine": "Poly Haven clean_pebbles",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.1387,
+     0.1508,
+     0.1134
+    ],
+    "rugosite_moyenne": 0.768,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/paillage_mineral/paillage_mineral.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.135,
+    0.148,
+    0.111
+   ],
+   "albedo_cible_source": "manifeste_cc0.json paillage_mineral.cible (photo ffc2e8ac 2026-07-28 r01_c00 : paillage de galets / enrobé du parking)",
+   "rugosite": {
+    "valeur": 0.75,
+    "plage": [
+     0.65,
+     0.85
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_paillage_mineral",
+    "ue_carla": null,
+    "ue_citysample": null
+   },
+   "confiance": "moyenne"
+  },
+  "beton_galets": {
+   "description": "Galets sertis dans le béton (îlots du raccordement SE de Verdun)",
+   "source_cc0": {
+    "nom": "beton_galets",
+    "dossier": "assets/lib/materiaux/beton_galets/",
+    "origine": "Poly Haven rock_embedded_concrete",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.2038,
+     0.2076,
+     0.1844
+    ],
+    "rugosite_moyenne": 0.893,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/beton_galets/beton_galets.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.199,
+    0.203,
+    0.18
+   ],
+   "albedo_cible_source": "manifeste_cc0.json beton_galets.cible (ortho 2022 îlot B en galets (verdun_so-09))",
+   "rugosite": {
+    "valeur": 0.85,
+    "plage": [
+     0.75,
+     0.95
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_beton_galets",
+    "ue_carla": null,
+    "ue_citysample": null
+   },
+   "confiance": "moyenne"
+  },
+  "stabilise_beige": {
+   "description": "Sable stabilisé / grave fine 0/6 beige (cheminements, 8-10 cm)",
+   "source_cc0": {
+    "nom": "stabilise_beige",
+    "dossier": "assets/lib/materiaux/stabilise_beige/",
+    "origine": "Poly Haven sandy_gravel",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.1,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.2557,
+     0.2345,
+     0.1837
+    ],
+    "rugosite_moyenne": 0.871,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/stabilise_beige/stabilise_beige.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.252,
+    0.231,
+    0.18
+   ],
+   "albedo_cible_source": "manifeste_cc0.json stabilise_beige.cible (ortho 2022 contre-allées en stabilisé (abords_est-22))",
+   "rugosite": {
+    "valeur": 0.9,
+    "plage": [
+     0.85,
+     1.0
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_stabilise_beige",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Ground/MI_Dirt"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Megascans/Surfaces/sand_sand_pjuuP0/M_sand"
+    ]
+   },
+   "confiance": "moyenne"
+  },
+  "gazon_tondu": {
+   "description": "Gazon tondu 4-8 cm (sol sous les cartes d'herbe PCG)",
+   "source_cc0": {
+    "nom": "gazon_tondu",
+    "dossier": "assets/lib/materiaux/gazon_tondu/",
+    "origine": "ambientCG Grass004",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 1.4,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.0426,
+     0.0941,
+     0.0207
+    ],
+    "rugosite_moyenne": 0.263,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/gazon_tondu/gazon_tondu.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.035,
+    0.083,
+    0.017
+   ],
+   "albedo_cible_source": "manifeste_cc0.json gazon_tondu.cible (moyenne ortho 2022 (espaces verts ensoleillés) et photo 26ea5f01 2024-05-01)",
+   "rugosite": {
+    "valeur": 0.9,
+    "plage": [
+     0.8,
+     1.0
+    ]
+   },
+   "couche": {
+    "hauteur_herbe_m": [
+     0.04,
+     0.08
+    ],
+    "pcg": "PG_Herbe (densité et hauteur par attribut)"
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_gazon_tondu",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Ground/MI_Grass_Cutted_2",
+     "/Game/Carla/Static/GenericMaterials/Ground/MI_Grass_Cutted_Yard"
+    ],
+    "ue_citysample": null
+   },
+   "confiance": "haute",
+   "notes": "City Sample n'a ni gazon ni haies"
+  },
+  "herbe_haute": {
+   "description": "Herbe haute non tondue 20-60 cm (accotements NE, bandes piste/chaussée)",
+   "source_cc0": {
+    "nom": "herbe_haute",
+    "dossier": "assets/lib/materiaux/herbe_haute/",
+    "origine": "Poly Haven forrest_ground_01",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.1392,
+     0.2079,
+     0.0646
+    ],
+    "rugosite_moyenne": 0.936,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/herbe_haute/herbe_haute.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.13,
+    0.199,
+    0.054
+   ],
+   "albedo_cible_source": "manifeste_cc0.json herbe_haute.cible (photo e5d79de9 2025-05-18 r01_c04 : herbe haute ensoleillée / enrobé)",
+   "rugosite": {
+    "valeur": 0.95,
+    "plage": [
+     0.85,
+     1.0
+    ]
+   },
+   "couche": {
+    "hauteur_herbe_m": [
+     0.2,
+     0.6
+    ],
+    "pcg": "PG_Herbe, débordement sur la bordure (constat p2025_05_360-32)"
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_herbe_haute",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Ground/MI_Grass_Park"
+    ],
+    "ue_citysample": null
+   },
+   "confiance": "moyenne"
+  },
+  "gazon_sec": {
+   "description": "Gazon grillé d'été avec feuilles mortes (variante saisonnière)",
+   "source_cc0": {
+    "nom": "gazon_sec",
+    "dossier": "assets/lib/materiaux/gazon_sec/",
+    "origine": "Poly Haven withered_grass",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.307,
+     0.2392,
+     0.144
+    ],
+    "rugosite_moyenne": 0.808,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/gazon_sec/gazon_sec.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.292,
+    0.223,
+    0.131
+   ],
+   "albedo_cible_source": "manifeste_cc0.json gazon_sec.cible (photo ded07efa 2026-07-28 r01_c02 : gazon grillé + feuilles / enrobé du parking)",
+   "rugosite": {
+    "valeur": 0.95,
+    "plage": [
+     0.85,
+     1.0
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_gazon_sec",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Ground/MI_LargeLandscape_Grass_2 (à vérifier)"
+    ],
+    "ue_citysample": null
+   },
+   "confiance": "moyenne"
+  },
+  "noue_plantee": {
+   "description": "Noue / bande plantée (terre, prairie, jeunes arbres)",
+   "source_cc0": {
+    "nom": "noue_plantee",
+    "dossier": "assets/lib/materiaux/noue_plantee/",
+    "origine": "ambientCG Ground003",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 2.0,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.0768,
+     0.1085,
+     0.0548
+    ],
+    "rugosite_moyenne": 0.684,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/noue_plantee/noue_plantee.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.069,
+    0.094,
+    0.047
+   ],
+   "albedo_cible_source": "manifeste_cc0.json noue_plantee.cible (mélange terre nue (photo 4d9fa65d) et prairie (ortho) : pas de photo de la noue 2025)",
+   "rugosite": {
+    "valeur": 0.95,
+    "plage": [
+     0.85,
+     1.0
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_noue_plantee",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Ground/MI_Grass_Park_2"
+    ],
+    "ue_citysample": null
+   },
+   "confiance": "moyenne"
+  },
+  "terre_nue": {
+   "description": "Terre nue remaniée (bandes en attente de plantation, massifs)",
+   "source_cc0": {
+    "nom": "terre_nue",
+    "dossier": "assets/lib/materiaux/terre_nue/",
+    "origine": "Poly Haven brown_mud_dry",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 1.3,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.1292,
+     0.1169,
+     0.0818
+    ],
+    "rugosite_moyenne": 0.527,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/terre_nue/terre_nue.usda"
+   },
+   "albedo_cible_lineaire": [
+    0.104,
+    0.094,
+    0.067
+   ],
+   "albedo_cible_source": "manifeste_cc0.json terre_nue.cible (photo 4d9fa65d 2025-01-12 r02_c01 (ciel couvert) : terre remaniée / chaussée)",
+   "rugosite": {
+    "valeur": 0.9,
+    "plage": [
+     0.8,
+     1.0
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_terre_nue",
+    "ue_carla": [
+     "/Game/Carla/Static/GenericMaterials/Ground/MI_Dirt"
+    ],
+    "ue_citysample": [
+     "projet City Sample (UE 5.7, contenu réservé à Unreal) : /Game/Prop/Kit_Dirt_A (maillages Dirt_200x200_A-D)"
+    ]
+   },
+   "confiance": "moyenne"
+  },
+  "feuilles_mortes": {
+   "description": "Couche de feuilles mortes d'octobre (mélange par hauteur sur gazon, BRF, pieds de bordure)",
+   "source_cc0": {
+    "nom": "overlay_feuilles_mortes",
+    "dossier": "assets/lib/materiaux/overlay_feuilles_mortes/",
+    "origine": "ambientCG ScatteredLeaves009",
+    "licence": "CC0-1.0",
+    "statut": "ok"
+   },
+   "tile_m": 1.7,
+   "texture_mesuree": {
+    "albedo_moyen_lineaire": [
+     0.2988,
+     0.1628,
+     0.0487
+    ],
+    "rugosite_moyenne": 0.679,
+    "resolution": "2K",
+    "usd": "assets/lib/materiaux/overlay_feuilles_mortes/overlay_feuilles_mortes.usda"
+   },
+   "albedo_cible_lineaire": null,
+   "albedo_cible_source": "couleur propre de la texture (pas de cible)",
+   "rugosite": {
+    "valeur": 0.8,
+    "plage": [
+     0.7,
+     0.9
+    ]
+   },
+   "ue": {
+    "ue_cc0": "/Game/PJ/Materials/MI_feuilles_mortes",
+    "ue_carla": [
+     "/Game/Carla/Static/Decals/Road/RoadDirt (décalques, CC-BY)"
+    ],
+    "ue_citysample": null
+   },
+   "confiance": "moyenne",
+   "notes": "couche : mélange HeightLerp (UE) / masque (Karma), pas une surface autonome"
+  }
+ },
+ "remplissages_ilots": {
+  "ids": [
+   "brf_bois_concasse",
+   "brf_bois_gris",
+   "gravier_concasse_6_10",
+   "gravillons_ilot",
+   "galets_20_40",
+   "gazon_tondu",
+   "herbe_haute",
+   "terre_nue",
+   "paves_beton",
+   "paves_granit",
+   "enrobe_bbsg_ancien"
+  ],
+  "surface": "3 à 5 cm sous le dessus de la ceinture de bordures (retrait_sous_bordure_m), légèrement bombée (bombement_m), raccord étanche sur l'arête arrière des bordures",
+  "geometrie": "pj_ilot : maillage du remplissage + zone zones/ilots.json pour la dispersion PCG (copeaux, gravillons, plantations)",
+  "src_par_defaut": "a_priori:materiaux_sol.remplissages_ilots ; Vercors = gravier_concasse_6_10 (constat coeur-31, décision utilisateur n° 5)",
+  "source": "pratique (ADEME, fiches fabricants ; non normatif) ; inventaire normes V2",
+  "confiance": "moyenne (épaisseurs), faible (affectation par îlot sans photo 2026)"
+ },
+ "correspondances_v1": {
+  "enrobe": "enrobe_bbsg_ancien (chaussée inchangée), enrobe_bbsg_neuf_2025 (modifie_2025), enrobe_trottoir (trottoir)",
+  "beton": "beton_balaye / beton_desactive / dalles_beton selon l'observation ; défaut dalles_beton pour trottoir/beton (a priori)",
+  "paves": "paves_beton (trottoir) ou paves_granit (anneaux d'îlots)",
+  "herbe": "gazon_tondu (défaut) ou herbe_haute (accotements NE)",
+  "terre": "terre_nue",
+  "massif_plante": "terre_nue + brf_bois_concasse (pieds) + palette PCG",
+  "stabilise": "stabilise_beige",
+  "ilot (beton en v1)": "gravier_concasse_6_10 pour les îlots du Vercors (constat coeur-31), sinon à décider (décision n° 5)"
+ },
+ "historique": [
+  {
+   "version": 1,
+   "date": "2026-10-10",
+   "contenu": "création V2 : 34 materiau_id, textures CC0 mesurées, 4 nouveaux matériaux CC0 (BRF brun et gris, gravier concassé, calcaire), candidats CARLA et City Sample"
+  },
+  {
+   "version": 1,
+   "date": "2026-10-10",
+   "contenu": "révision (revue UE) : albédo cible de brf_bois_concasse relevé de 0,049 à 0,123 en luminance (lit vu, photo 2)"
+  }
+ ]
+}

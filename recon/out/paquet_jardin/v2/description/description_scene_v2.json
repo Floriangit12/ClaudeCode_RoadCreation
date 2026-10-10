@@ -1,0 +1,1210 @@
+{
+ "schema": "description_scene_v2/0.1",
+ "site": {
+  "id": "paquet_jardin",
+  "nom": "carrefour Paquet Jardin, Meylan (Isère)",
+  "crs": "EPSG:2154",
+  "altitudes": "NGF-IGN69",
+  "origine_l93_ngf": [
+   917279.43,
+   6460289.98,
+   216.3
+  ],
+  "repere_local": "local = L93 - O ; z = NGF - 216,30 ; m, Z haut, X est, Y nord (Unreal : X = x·100, Y = -y·100, Z = z·100)",
+  "unites": "m",
+  "date_etat": "2026-10",
+  "saison": {
+   "nom": "automne",
+   "mois": 10,
+   "feuillage": "automne, jaunissement en cours",
+   "jaunissement": 0.4,
+   "feuilles_mortes_sol": 0.3
+  }
+ },
+ "references": {
+  "bordures_hauteurs": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/relief/bordures_hauteurs.geojson",
+   "sha256": "30e9781618bdcace35bec0173bcc44975ffa5062310850576bf210e2a7bbc732",
+   "role": "tronçons de bordure de 1 m (h_vue, statut, fil d'eau 2021)"
+  },
+  "relief_zones": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/relief/relief_zones_2026.geojson",
+   "sha256": "1a74ea3b2109eda3932454d5a49fe732b417106fc70b7704ba1863d77e5a0477",
+   "role": "traversées abaissées, chaussée 2026"
+  },
+  "mnt_2026": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/relief/heightmap_3025_10cm.png",
+   "sha256": "fd69d391dfbd2eb0de3b2c00aff8c6a7a6266e96cf43c4aa4a93f795b55f35d8",
+   "role": "sol nu octobre 2026, 10 cm (Z de toute la description)"
+  },
+  "mnt_2026_echelle": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/relief/heightmap_3025_10cm.json",
+   "sha256": "b0edebd400a20caf7cb459eaa2f7dd5af5283f1fd9ad74cb519099d4c39a23f9",
+   "role": "décodage de la heightmap"
+  },
+  "surfaces_v1": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/surfaces/surfaces_2026.geojson",
+   "sha256": "cc3d29be355d796c05d74049a1f5c3cef90811b480531e81227c31857d2daa2c",
+   "role": "polygones de surface v1"
+  },
+  "marquages_v1": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/marquages/marquages_2026.geojson",
+   "sha256": "05b98b47f8824814cfe1fe2ede64efed09ffb2bdc176136e4dcb32ee08aa3657",
+   "role": "bandes de passages piétons"
+  },
+  "mobilier_v1": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/objets/mobilier.geojson",
+   "sha256": "0de627af919caf8a39e4841a394a28459e9a5ca88c0c79903d614517c30808d6",
+   "role": "objets portés par les îlots"
+  },
+  "arbres_v1": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/objets/arbres.geojson",
+   "sha256": "00f8280770fc67b196e60510c165ab5f243818eee7c4ea70a16ee4433e988206",
+   "role": "plantations des îlots"
+  },
+  "gam_bordure_pct": {
+   "fichier": "data/sites/paquet_jardin/etat_2026/bordure_pct_L93.geojson",
+   "sha256": "c87e3aa0e910148326ce5aeadb11e2ba7083fafb0cdee9dc26659701283d9273",
+   "role": "blocs CHARTIERE du levé GAM"
+  },
+  "osm_crossings": {
+   "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson",
+   "sha256": "9f165b8115c39fe2673c8280ec349361d70d926297d1d9cb4aad9c53a4bdcfed",
+   "role": "tactile_paving des traversées"
+  },
+  "panoramax_index": {
+   "fichier": "data/sites/paquet_jardin/panoramax_pictures.geojson",
+   "sha256": "9ae5f44ce49949bd6c8a9aeb9b0a875c30df4dfa6d532221d760ec3c67c53e39",
+   "role": "photos Panoramax du site"
+  },
+  "constats": {
+   "fichier": "analysis/paquet_jardin/constats_verifies.json",
+   "sha256": "a075d00b84dbeffe73098e78d46fd559144419659dc51445ef6adc05df049c6f",
+   "role": "constats vérifiés (deux vérificateurs)"
+  },
+  "spec_bordures": {
+   "fichier": "assets/specs/bordures.json",
+   "sha256": "3d95240ff2288cf4e55aa45ec77c88a4364d6b10ae2237e28a685ef51d25c060",
+   "role": "profils NF, regles_affectation, abaissés"
+  },
+  "spec_mobilier": {
+   "fichier": "assets/specs/mobilier.json",
+   "sha256": "8f57cdb8998c36da14e290ba2013e6700dd0a48c559a572e9b60302c9ec6c9b6",
+   "role": "BEV (bev_podotactile)"
+  },
+  "spec_peinture": {
+   "fichier": "assets/specs/peinture.json",
+   "sha256": "39df47771046a3ab3089348f7e1e624add988ceda5b69cf41e431a3e325ac990",
+   "role": "aspect des marquages (non utilisé en 0.1)"
+  },
+  "manifeste_cc0": {
+   "fichier": "assets/manifeste_cc0.json",
+   "sha256": "7e4d8e977638d034fca7a33c40d6b1845a95fca401826a3c544de1d25d644d5b",
+   "role": "librairie de matériaux CC0"
+  },
+  "materiaux_description": {
+   "fichier": "recon/pcg/schema/materiaux_description.json",
+   "sha256": "e9d5da445ef3acc4aab9b2e0b79a4add822e19a6bf760c4bde403171660abaad",
+   "role": "identifiants de matériaux de la description"
+  },
+  "schema": {
+   "fichier": "recon/pcg/schema/description_scene_v2.schema.json",
+   "sha256": "88f115060dc81ffd7a26dade4ddc01306cef72fce8d78e81ea4b8426277da8f1",
+   "role": "schéma description_scene_v2/0.1"
+  },
+  "zone_pilote": {
+   "fichier": "recon/pcg/zone_pilote.geojson",
+   "sha256": "1507760703930341db8e732ed589de0f10d0bd93500636ed77efa2c11b25a959",
+   "role": "emprise de la zone pilote"
+  }
+ },
+ "zone_pilote": {
+  "fichier": "recon/pcg/zone_pilote.geojson",
+  "id": "ZP-01",
+  "emprise_local_m": {
+   "x_min": -11.0,
+   "y_min": -28.0,
+   "x_max": 60.0,
+   "y_max": 72.0
+  },
+  "emprise_l93": {
+   "x_min": 917268.43,
+   "y_min": 6460261.98,
+   "x_max": 917339.43,
+   "y_max": 6460361.98
+  },
+  "photos_panoramax": 50
+ },
+ "couches": {
+  "bordures": {
+   "fichier": "base/bordures.geojson",
+   "n": 64,
+   "sha256": "8198793b9a9d77d674fabf5500ca788053f2f83f7a79a1cca5d581fa63e8e32d"
+  },
+  "surfaces": {
+   "fichier": "base/surfaces.geojson",
+   "n": 58,
+   "sha256": "c98fddefe5c5e5f58d38bda9b9e93838bf31cd929117659f397a615317001fe4"
+  },
+  "ilots": {
+   "fichier": "base/ilots.geojson",
+   "n": 5,
+   "sha256": "51c8aa64071f4de484dbe86c1672cab1ee7ae76a7a5a0556e4aa36b0f2c7136b"
+  },
+  "ponctuels_sol": {
+   "fichier": "base/ponctuels_sol.geojson",
+   "n": 7,
+   "sha256": "0beea68a7d9dd118366e51b1a424bdf0a888195c631d475e1591039bc58af996"
+  }
+ },
+ "comptes": {
+  "bordures": 64,
+  "bordures_synthetiques": 3,
+  "abaisses_traversee": 14,
+  "abaisses_charretiere": 3,
+  "chartieres": 15,
+  "bev": 7,
+  "surfaces": 58,
+  "ilots": 5,
+  "preuves": 16
+ },
+ "statistiques": {
+  "longueur_bordures_m": 802.66,
+  "longueur_par_profil_m": {
+   "A2": 239.504,
+   "P1": 330.098,
+   "T2": 188.188,
+   "T2_bateau": 29.995,
+   "T3": 14.875
+  },
+  "longueur_par_materiau_m": {
+   "beton_clair": 115.736,
+   "beton_gris": 686.924
+  },
+  "abaisses": [
+   {
+    "id": "A-0177-1",
+    "bordure": "K-0177",
+    "type": "charretiere",
+    "s0": 3.723,
+    "s1": 4.964,
+    "longueur_m": 1.241,
+    "vue_m": 0.04,
+    "profil": "A2",
+    "chartieres": 1,
+    "bev": false,
+    "sources": [
+     "passage:PP-0586",
+     "acces_riverain:surf_0265"
+    ]
+   },
+   {
+    "id": "A-0178-1",
+    "bordure": "K-0178",
+    "type": "traversee",
+    "s0": 3.748,
+    "s1": 4.948,
+    "longueur_m": 1.2,
+    "vue_m": 0.02,
+    "profil": "A2",
+    "chartieres": 1,
+    "bev": false,
+    "sources": [
+     "passage:PP-0586"
+    ]
+   },
+   {
+    "id": "A-0182-1",
+    "bordure": "K-0182",
+    "type": "charretiere",
+    "s0": 0.0,
+    "s1": 3.655,
+    "longueur_m": 3.655,
+    "vue_m": 0.04,
+    "profil": "T2_bateau",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0265"
+    ]
+   },
+   {
+    "id": "A-0339-1",
+    "bordure": "K-0339",
+    "type": "traversee",
+    "s0": 0.754,
+    "s1": 3.771,
+    "longueur_m": 3.017,
+    "vue_m": 0.01,
+    "profil": "P1",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "passage:PP-0570"
+    ]
+   },
+   {
+    "id": "A-0341-1",
+    "bordure": "K-0341",
+    "type": "traversee",
+    "s0": 4.995,
+    "s1": 7.492,
+    "longueur_m": 2.497,
+    "vue_m": 0.01,
+    "profil": "P1",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "bordures_hauteurs:traversee"
+    ]
+   },
+   {
+    "id": "A-0346-1",
+    "bordure": "K-0346",
+    "type": "charretiere",
+    "s0": 0.0,
+    "s1": 2.001,
+    "longueur_m": 2.001,
+    "vue_m": 0.02,
+    "profil": "P1",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0265"
+    ]
+   },
+   {
+    "id": "A-0348-1",
+    "bordure": "K-0348",
+    "type": "traversee",
+    "s0": 11.52,
+    "s1": 14.275,
+    "longueur_m": 2.755,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": true,
+    "sources": [
+     "passage:PP-0348"
+    ]
+   },
+   {
+    "id": "A-0348-2",
+    "bordure": "K-0348",
+    "type": "traversee",
+    "s0": 22.038,
+    "s1": 25.043,
+    "longueur_m": 3.005,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": true,
+    "sources": [
+     "passage:PP-0573"
+    ]
+   },
+   {
+    "id": "A-0352-1",
+    "bordure": "K-0352",
+    "type": "traversee",
+    "s0": 0.0,
+    "s1": 1.2,
+    "longueur_m": 1.2,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": true,
+    "sources": [
+     "passage:PP-0348"
+    ]
+   },
+   {
+    "id": "A-0354-1",
+    "bordure": "K-0354",
+    "type": "traversee",
+    "s0": 25.779,
+    "s1": 28.783,
+    "longueur_m": 3.004,
+    "vue_m": 0.01,
+    "profil": "P1",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "passage:PP-0570"
+    ]
+   },
+   {
+    "id": "A-0372-1",
+    "bordure": "K-0372",
+    "type": "traversee",
+    "s0": 0.0,
+    "s1": 3.325,
+    "longueur_m": 3.325,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 0,
+    "bev": true,
+    "sources": [
+     "passage:PP-0444"
+    ]
+   },
+   {
+    "id": "A-0373-1",
+    "bordure": "K-0373",
+    "type": "traversee",
+    "s0": 0.0,
+    "s1": 2.939,
+    "longueur_m": 2.939,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": false,
+    "sources": [
+     "passage:PP-0875"
+    ]
+   },
+   {
+    "id": "A-0381-1",
+    "bordure": "K-0381",
+    "type": "traversee",
+    "s0": 10.915,
+    "s1": 12.404,
+    "longueur_m": 1.489,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": true,
+    "sources": [
+     "passage:PP-0348"
+    ]
+   },
+   {
+    "id": "A-0385-1",
+    "bordure": "K-0385",
+    "type": "traversee",
+    "s0": 3.65,
+    "s1": 6.639,
+    "longueur_m": 2.989,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": true,
+    "sources": [
+     "chartiere_gam",
+     "passage:PP-0580"
+    ]
+   },
+   {
+    "id": "A-0385-2",
+    "bordure": "K-0385",
+    "type": "traversee",
+    "s0": 17.124,
+    "s1": 20.663,
+    "longueur_m": 3.539,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "chartiere_gam",
+     "passage:PP-0444"
+    ]
+   },
+   {
+    "id": "A-0388-1",
+    "bordure": "K-0388",
+    "type": "traversee",
+    "s0": 5.223,
+    "s1": 7.302,
+    "longueur_m": 2.079,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": true,
+    "sources": [
+     "chartiere_gam",
+     "passage:PP-0442"
+    ]
+   },
+   {
+    "id": "A-0389-1",
+    "bordure": "K-0389",
+    "type": "traversee",
+    "s0": 0.0,
+    "s1": 3.02,
+    "longueur_m": 3.02,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 0,
+    "bev": true,
+    "sources": [
+     "passage:PP-0442"
+    ]
+   }
+  ],
+  "remplissages_ilots": [
+   {
+    "ilot": "I-0332",
+    "type": "refuge",
+    "materiau_id": "beton_balaye",
+    "aire_m2": 5.388,
+    "retrait_sous_bordure_m": 0.0,
+    "ceinture": [
+     "K-0332"
+    ],
+    "src": "plan2025",
+    "conf": "faible"
+   },
+   {
+    "ilot": "I-0386",
+    "type": "terre_plein_central",
+    "materiau_id": "enrobe_trottoir",
+    "aire_m2": 21.986,
+    "retrait_sous_bordure_m": 0.0,
+    "ceinture": [
+     "K-0386",
+     "K-0386z"
+    ],
+    "src": "constat:p2025_05_360-06",
+    "conf": "moyenne"
+   },
+   {
+    "ilot": "I-0390",
+    "type": "ilot_separateur",
+    "materiau_id": "gravier_concasse_6_10",
+    "aire_m2": 18.523,
+    "retrait_sous_bordure_m": 0.04,
+    "ceinture": [
+     "K-0390"
+    ],
+    "src": "constat:coeur-31",
+    "conf": "faible"
+   },
+   {
+    "ilot": "I-0629",
+    "type": "ilot_separateur",
+    "materiau_id": "gravier_concasse_6_10",
+    "aire_m2": 8.85,
+    "retrait_sous_bordure_m": 0.04,
+    "ceinture": [
+     "K-0629",
+     "K-0629z"
+    ],
+    "src": "constat:p2025_01_vercors-26",
+    "conf": "faible"
+   },
+   {
+    "ilot": "I-0297",
+    "type": "massif_goutte",
+    "materiau_id": "brf_bois_concasse",
+    "aire_m2": 27.049,
+    "retrait_sous_bordure_m": 0.04,
+    "ceinture": [
+     "K-0385",
+     "K-0417",
+     "K-9297a"
+    ],
+    "src": "photo_utilisateur",
+    "conf": "faible"
+   }
+  ],
+  "surfaces_par_materiau_m2": {
+   "beton_balaye": 66.789,
+   "brf_bois_concasse": 126.607,
+   "enrobe_bbsg_ancien": 1281.524,
+   "enrobe_bbsg_neuf_2025": 1021.285,
+   "enrobe_piste_cyclable": 334.952,
+   "enrobe_trottoir": 1203.125,
+   "gazon_tondu": 1935.367,
+   "herbe_haute": 189.527,
+   "noue_plantee": 396.71,
+   "paves_beton": 3.623,
+   "stabilise_beige": 2.195,
+   "terre_nue": 15.492
+  },
+  "bev_m": 17.55,
+  "dedoublonnage": {
+   "decisions_par_critere": {
+    "cote_haut": 20,
+    "mnt": 16,
+    "paire": 42,
+    "superposees": 1
+   },
+   "orientation_par_critere": {
+    "mnt_2026": 70,
+    "cote_haut_relief": 42,
+    "surfaces_v1": 1
+   },
+   "lignes_sources_supprimees": [
+    2,
+    3,
+    6,
+    10,
+    168,
+    169,
+    170,
+    175,
+    176,
+    179,
+    180,
+    181,
+    187,
+    188,
+    191,
+    333,
+    340,
+    344,
+    345,
+    591,
+    593,
+    594,
+    599,
+    610,
+    613,
+    614,
+    618,
+    620
+   ]
+  },
+  "ecart_fil_eau_2021_mnt_m": {
+   "mediane": 0.011,
+   "p90": 0.046,
+   "n_bordures": 25
+  }
+ },
+ "preuves": {
+  "constat:coeur-31": {
+   "type": "constat",
+   "ref": "coeur-31",
+   "date": null,
+   "texte": "Le terre-plein central (TPC) de Verdun NE mesure environ 2,35 m entre bordures, porte 2 tampons carrés et est coupé à niveau au droit du zébra. Côté Vercors : un îlot triangulaire d'environ 3,5 m (gravillons, bordures béton claires, feu à la pointe) et un îlot effilé d'environ 13 m × 2,5 m au plus, ",
+   "fichier": "analysis/paquet_jardin/constats_verifies.json"
+  },
+  "constat:p2025_01_vercors-26": {
+   "type": "constat",
+   "ref": "p2025_01_vercors-26",
+   "date": "2025-01-12",
+   "texte": "Îlots du Vercors. Leurs bordures sont claires, presque blanches, continues et en bon état (a1ff r01_c00).\n\n1) Îlot effilé gravillonné, d'un seul tenant :\n- tête large vers 917285,2-917287,5 / ≈6460274, portant un mât de feux ;\n- nez vers 917290,9 / 6460262,6 ;\n- le nez est prolongé par un coin peint",
+   "fichier": "analysis/paquet_jardin/constats_verifies.json"
+  },
+  "constat:p2025_05_360-06": {
+   "type": "constat",
+   "ref": "p2025_05_360-06",
+   "date": "2025-05-18",
+   "texte": "Îlot central étroit à l'approche NE, entre les deux chaussées. Il va du passage NE (≈917291,6460299) à son nez NE (≈917298,6460306), soit environ 10 m. Il a des bordures béton, un dessus en enrobé sombre avec des herbes, et un mât de feu à son extrémité SO. Au nez se trouve une balise J5 (panneau bl",
+   "fichier": "analysis/paquet_jardin/constats_verifies.json"
+  },
+  "constat:p2025_05_360-32": {
+   "type": "constat",
+   "ref": "p2025_05_360-32",
+   "date": "2025-05-18",
+   "texte": "Végétation et mobilier :\n- accotement enherbé non tondu à l'approche NE ; l'herbe déborde sur la bordure béton, mais pas sur la ligne de rive ;\n- herbes dans les joints des îlots ;\n- haies, cèdre et serres « Paquet Jardin » côté Revirée ;\n- affiches de cirque (« LANDRI ») sur poteaux bois et candéla",
+   "fichier": "analysis/paquet_jardin/constats_verifies.json"
+  },
+  "norme:NF_EN_1340": {
+   "type": "norme",
+   "ref": "NF_EN_1340",
+   "date": null,
+   "texte": "éléments 0,994 m + joint 6 mm ; 0,50 m si R < 12 m",
+   "fichier": null
+  },
+  "norme:NF_P98-351": {
+   "type": "norme",
+   "ref": "NF_P98-351",
+   "date": null,
+   "texte": "mobilier.json bev_podotactile : première ligne de plots à 0,50 m du nez ; dalles 0,40 ; rognée hors îlots",
+   "fichier": null
+  },
+  "norme:arrete_2007-01-15_art1_ressaut_2cm": {
+   "type": "norme",
+   "ref": "arrete_2007-01-15_art1_ressaut_2cm",
+   "date": null,
+   "texte": "passage:PP-0442",
+   "fichier": null
+  },
+  "osm": {
+   "type": "osm",
+   "ref": "osm",
+   "date": null,
+   "texte": "surf_0445 (limites:osm_bdtopo_batiment ; classe:ortho_2024)",
+   "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
+  },
+  "osm:node/1959022961": {
+   "type": "osm",
+   "ref": "node/1959022961",
+   "date": null,
+   "texte": "tactile_paving=no à 2.0 m",
+   "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
+  },
+  "osm:node/1959022964": {
+   "type": "osm",
+   "ref": "node/1959022964",
+   "date": null,
+   "texte": "tactile_paving=yes à 0.6 m",
+   "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
+  },
+  "osm:node/1959022973": {
+   "type": "osm",
+   "ref": "node/1959022973",
+   "date": null,
+   "texte": "tactile_paving=yes à 4.2 m",
+   "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
+  },
+  "osm:node/1959022976": {
+   "type": "osm",
+   "ref": "node/1959022976",
+   "date": null,
+   "texte": "tactile_paving=yes à 3.8 m",
+   "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
+  },
+  "osm:node/6569623985": {
+   "type": "osm",
+   "ref": "node/6569623985",
+   "date": null,
+   "texte": "tactile_paving=yes à 1.2 m",
+   "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
+  },
+  "osm:node/6569623986": {
+   "type": "osm",
+   "ref": "node/6569623986",
+   "date": null,
+   "texte": "tactile_paving=yes à 2.5 m",
+   "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
+  },
+  "panoramax:9834f494/r01_c01": {
+   "type": "panoramax",
+   "ref": "9834f494-dbcb-4c89-b8f7-0c3a8cb42433 r01_c01",
+   "date": "2025-05-18",
+   "texte": "licence CC-BY-SA-4.0, producteur Eric S, azimut 227",
+   "fichier": "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd_r01_c01.jpg"
+  },
+  "photo_utilisateur": {
+   "type": "photo_utilisateur",
+   "ref": "photos de référence de l'utilisateur (bordures béton en éléments, BRF, gravier)",
+   "date": "2026-10",
+   "texte": "références de rendu, pas des observations du site",
+   "fichier": null
+  }
+ },
+ "a_priori": [
+  {
+   "src": "a_priori:bordure_existante_beton_gris",
+   "attribut": "materiau",
+   "entites": [
+    "K-0005",
+    "K-0007",
+    "K-0008",
+    "K-0012",
+    "K-0167",
+    "K-0172",
+    "K-0174",
+    "K-0177",
+    "K-0178",
+    "K-0182",
+    "K-0185",
+    "K-0186",
+    "K-0189",
+    "K-0194",
+    "K-0241",
+    "K-0314",
+    "K-0315",
+    "K-0332",
+    "K-0339",
+    "K-0341",
+    "K-0346",
+    "K-0348",
+    "K-0352",
+    "K-0353",
+    "K-0354",
+    "K-0356",
+    "K-0357",
+    "K-0360",
+    "K-0361",
+    "K-0369",
+    "K-0370",
+    "K-0373",
+    "K-0381",
+    "K-0385",
+    "K-0386",
+    "K-0386z",
+    "K-0411",
+    "K-0412",
+    "K-0413",
+    "K-0415",
+    "K-0416",
+    "K-0417",
+    "K-0507",
+    "K-0595",
+    "K-0600",
+    "K-0609",
+    "K-0612",
+    "K-0617",
+    "K-0619",
+    "K-0666",
+    "K-0669",
+    "K-9297a"
+   ]
+  },
+  {
+   "src": "a_priori:bordure_neuve_2025_beton_clair",
+   "attribut": "materiau",
+   "entites": [
+    "K-0388",
+    "K-0394",
+    "K-0397",
+    "K-0592",
+    "K-0596",
+    "K-0611",
+    "K-0628"
+   ]
+  },
+  {
+   "src": "a_priori:charretiere_vue_2_4cm",
+   "attribut": "abaisses",
+   "entites": [
+    "K-0346"
+   ]
+  },
+  {
+   "src": "a_priori:correspondance_materiau_v1",
+   "attribut": "revetement",
+   "entites": [
+    "S-0094",
+    "S-0120",
+    "S-0123",
+    "S-0125",
+    "S-0129",
+    "S-0168",
+    "S-0191",
+    "S-0192",
+    "S-0195",
+    "S-0204",
+    "S-0205",
+    "S-0206",
+    "S-0207",
+    "S-0211",
+    "S-0212",
+    "S-0213",
+    "S-0265",
+    "S-0269",
+    "S-0306",
+    "S-0312",
+    "S-0313",
+    "S-0314",
+    "S-0315",
+    "S-0316",
+    "S-0317",
+    "S-0318",
+    "S-0319",
+    "S-0320",
+    "S-0321",
+    "S-0323",
+    "S-0324a",
+    "S-0324b",
+    "S-0340",
+    "S-0341",
+    "S-0342",
+    "S-0359",
+    "S-0361",
+    "S-0362",
+    "S-0363",
+    "S-0410",
+    "S-0411",
+    "S-0415a",
+    "S-0415b",
+    "S-0430",
+    "S-0431",
+    "S-0444",
+    "S-0445"
+   ]
+  },
+  {
+   "src": "a_priori:fermeture_ceinture_ilot",
+   "attribut": "geometrie",
+   "entites": [
+    "K-0386z",
+    "K-0629z"
+   ]
+  },
+  {
+   "src": "a_priori:fil_eau_bordure_refermee",
+   "attribut": "z",
+   "entites": [
+    "K-0386z",
+    "K-0629z"
+   ]
+  },
+  {
+   "src": "a_priori:interieur_ilot_a_gauche",
+   "attribut": "face_vue",
+   "entites": [
+    "K-0386z",
+    "K-0629z",
+    "K-9297a"
+   ]
+  },
+  {
+   "src": "a_priori:limite_espace_vert_p1",
+   "attribut": "intervalles",
+   "entites": [
+    "K-0241",
+    "K-0314",
+    "K-0315",
+    "K-0346",
+    "K-0356",
+    "K-0370",
+    "K-0592"
+   ]
+  },
+  {
+   "src": "a_priori:limite_ilot_sans_bordure_levee",
+   "attribut": "geometrie",
+   "entites": [
+    "K-9297a"
+   ]
+  },
+  {
+   "src": "a_priori:limite_imposee_v1",
+   "attribut": "geometrie",
+   "entites": [
+    "S-0334",
+    "S-0344"
+   ]
+  },
+  {
+   "src": "a_priori:limite_massif_p1",
+   "attribut": "intervalles",
+   "entites": [
+    "K-9297a"
+   ]
+  },
+  {
+   "src": "a_priori:massif_2025_en_creux_noue",
+   "attribut": "revetement",
+   "entites": [
+    "S-0294"
+   ]
+  },
+  {
+   "src": "a_priori:massif_2025_paillage_bois",
+   "attribut": "revetement",
+   "entites": [
+    "S-0284",
+    "S-0293",
+    "S-0295",
+    "S-0296",
+    "S-0297",
+    "S-0298",
+    "S-0299",
+    "S-0334"
+   ]
+  },
+  {
+   "src": "a_priori:mnt_2026",
+   "attribut": "niveau",
+   "entites": [
+    "S-0094",
+    "S-0120",
+    "S-0121",
+    "S-0123",
+    "S-0125",
+    "S-0129",
+    "S-0168",
+    "S-0191",
+    "S-0192",
+    "S-0195",
+    "S-0204",
+    "S-0205",
+    "S-0206",
+    "S-0207",
+    "S-0211",
+    "S-0212",
+    "S-0213",
+    "S-0265",
+    "S-0269",
+    "S-0284",
+    "S-0293",
+    "S-0294",
+    "S-0295",
+    "S-0296",
+    "S-0297",
+    "S-0298",
+    "S-0299",
+    "S-0306",
+    "S-0312",
+    "S-0313",
+    "S-0314",
+    "S-0315",
+    "S-0316",
+    "S-0317",
+    "S-0318",
+    "S-0319",
+    "S-0320",
+    "S-0321",
+    "S-0323",
+    "S-0324a",
+    "S-0324b",
+    "S-0334",
+    "S-0340",
+    "S-0341",
+    "S-0342",
+    "S-0359",
+    "S-0361",
+    "S-0362",
+    "S-0363",
+    "S-0410",
+    "S-0411",
+    "S-0415a",
+    "S-0415b",
+    "S-0430",
+    "S-0431",
+    "S-0444",
+    "S-0445"
+   ]
+  },
+  {
+   "src": "a_priori:mnt_2026_fil_eau",
+   "attribut": "z",
+   "entites": [
+    "K-0005",
+    "K-0007",
+    "K-0008",
+    "K-0012",
+    "K-0167",
+    "K-0172",
+    "K-0174",
+    "K-0177",
+    "K-0178",
+    "K-0182",
+    "K-0185",
+    "K-0186",
+    "K-0189",
+    "K-0194",
+    "K-0241",
+    "K-0314",
+    "K-0315",
+    "K-0332",
+    "K-0339",
+    "K-0341",
+    "K-0346",
+    "K-0348",
+    "K-0352",
+    "K-0353",
+    "K-0354",
+    "K-0356",
+    "K-0357",
+    "K-0360",
+    "K-0361",
+    "K-0369",
+    "K-0370",
+    "K-0372",
+    "K-0373",
+    "K-0381",
+    "K-0385",
+    "K-0386",
+    "K-0388",
+    "K-0389",
+    "K-0390",
+    "K-0394",
+    "K-0397",
+    "K-0411",
+    "K-0412",
+    "K-0413",
+    "K-0415",
+    "K-0416",
+    "K-0417",
+    "K-0507",
+    "K-0592",
+    "K-0595",
+    "K-0596",
+    "K-0600",
+    "K-0609",
+    "K-0611",
+    "K-0612",
+    "K-0617",
+    "K-0619",
+    "K-0628",
+    "K-0629",
+    "K-0666",
+    "K-0669",
+    "K-9297a"
+   ]
+  },
+  {
+   "src": "a_priori:polygone_v1_recale",
+   "attribut": "geometrie",
+   "entites": [
+    "I-0297"
+   ]
+  },
+  {
+   "src": "a_priori:pratique_remplissage_ilot",
+   "attribut": "retrait",
+   "entites": [
+    "I-0297",
+    "I-0332",
+    "I-0386",
+    "I-0390",
+    "I-0629"
+   ]
+  },
+  {
+   "src": "a_priori:profil_voisin",
+   "attribut": "intervalles",
+   "entites": [
+    "K-0386z",
+    "K-0629z"
+   ]
+  },
+  {
+   "src": "a_priori:relief_hauteur_standard",
+   "attribut": "intervalles",
+   "entites": [
+    "K-0372",
+    "K-0388",
+    "K-0390",
+    "K-0394",
+    "K-0397",
+    "K-0416",
+    "K-0596",
+    "K-0611",
+    "K-0617",
+    "K-0619",
+    "K-0628",
+    "K-0629"
+   ]
+  },
+  {
+   "src": "a_priori:usure_par_age",
+   "attribut": "aspect",
+   "entites": [
+    "K-0005",
+    "K-0007",
+    "K-0008",
+    "K-0012",
+    "K-0167",
+    "K-0172",
+    "K-0174",
+    "K-0177",
+    "K-0178",
+    "K-0182",
+    "K-0185",
+    "K-0186",
+    "K-0189",
+    "K-0194",
+    "K-0241",
+    "K-0314",
+    "K-0315",
+    "K-0332",
+    "K-0339",
+    "K-0341",
+    "K-0346",
+    "K-0348",
+    "K-0352",
+    "K-0356",
+    "K-0357",
+    "K-0360",
+    "K-0361",
+    "K-0369",
+    "K-0370",
+    "K-0373",
+    "K-0381",
+    "K-0385",
+    "K-0386",
+    "K-0386z",
+    "K-0388",
+    "K-0394",
+    "K-0397",
+    "K-0411",
+    "K-0412",
+    "K-0413",
+    "K-0415",
+    "K-0416",
+    "K-0417",
+    "K-0507",
+    "K-0592",
+    "K-0595",
+    "K-0596",
+    "K-0600",
+    "K-0609",
+    "K-0611",
+    "K-0612",
+    "K-0617",
+    "K-0619",
+    "K-0628",
+    "K-0666",
+    "K-0669",
+    "K-9297a"
+   ]
+  },
+  {
+   "src": "photo_utilisateur",
+   "attribut": "remplissage",
+   "entites": [
+    "I-0297"
+   ]
+  }
+ ],
+ "regles_pcg": [
+  {
+   "id": "R-joints-herbe",
+   "cible": {
+    "famille": "bordures",
+    "attribut": "aspect.herbe_joints"
+   },
+   "action": "dispersion_joints",
+   "densite_par_joint": "aspect.herbe_joints",
+   "asset": "herbe_joint_*"
+  },
+  {
+   "id": "R-joints-mousse",
+   "cible": {
+    "famille": "bordures",
+    "attribut": "aspect.mousse_joints"
+   },
+   "action": "decal_joints",
+   "intensite": "aspect.mousse_joints"
+  },
+  {
+   "id": "R-debordement-ilots",
+   "cible": {
+    "famille": "ilots",
+    "attribut": "remplissage.debordement"
+   },
+   "action": "dispersion_bord_chaussee",
+   "largeur_m": "remplissage.debordement.largeur_m",
+   "densite": "remplissage.debordement.densite",
+   "asset": "copeaux_* | gravillons_*"
+  },
+  {
+   "id": "R-feuilles-automne",
+   "cible": {
+    "famille": "surfaces"
+   },
+   "action": "feuilles_mortes",
+   "densite": "site.saison.feuilles_mortes_sol",
+   "exclusion": "chaussee hors fil d'eau"
+  },
+  {
+   "id": "R-visibilite-traversees",
+   "type": "exclusion",
+   "zone": "2 m autour des abaissés de type traversee",
+   "h_max_m": 0.6
+  }
+ ],
+ "generateur": {
+  "commande": "python recon/pcg/decrire/composer.py",
+  "scripts": {
+   "recon/pcg/decrire/commun.py": "5cc425cbffb234623fc0bfa24f837a2d6ee999243030af14414ff2ab4bff1b5d",
+   "recon/pcg/decrire/contexte.py": "99b92680fa844cc6462a34f16499b2fc83f16fb7f1117a55a6c480f2c9036f3a",
+   "recon/pcg/decrire/bordures.py": "352c0119bc0dc4597bebf4dc8e49c431280e28e559f100583642b8406601a33b",
+   "recon/pcg/decrire/surfaces.py": "f27a3560c6ca59c494b20a9644429a55df888dffd96593ef3f464f7dc49867f5",
+   "recon/pcg/decrire/ilots.py": "57819ffc0af70859ee8277a1922834b1f2670b2719d82ff3ca49952fcac8eb22",
+   "recon/pcg/decrire/composer.py": "74be4c48292efaf7829265690c9bdb1a6628081279ba449352e82b32d74116e7",
+   "recon/pcg/decrire/valider.py": "330d75032f82f9bfdf08048b4a9f793568b0dd34017a205436d78a0f626833fd",
+   "recon/pcg/decrire/apercu.py": "27b2021151a374e32265153d75229c940f25b6bb0f17f12f774b3d5892ace3b6"
+  },
+  "interpreteur": "CPython 3.11.9 ; numpy 2.4.6"
+ },
+ "hash_description": "c20cdceeac4f0ee7a60bbc791828b3ba421055d32d58ee43326436579d14c157"
+}

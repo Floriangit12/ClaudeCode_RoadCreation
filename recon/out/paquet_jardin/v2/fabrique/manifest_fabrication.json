@@ -1,0 +1,2223 @@
+{
+ "schema": "pj_manifest_fabrication/0.1",
+ "version_regles": "pj_fabrique/0.1",
+ "houdini": "22.0.459",
+ "licence": "Indie",
+ "usd": [
+  0,
+  26,
+  5
+ ],
+ "description": {
+  "hash": "c20cdceeac4f0ee7a60bbc791828b3ba421055d32d58ee43326436579d14c157",
+  "dossier": "recon/out/paquet_jardin/v2/description"
+ },
+ "zone": [
+  -11.0,
+  -28.0,
+  60.0,
+  72.0
+ ],
+ "entrees": {
+  "recon/out/paquet_jardin/v2/description/description_scene_v2.json": "5544c8044ba443e544c8f153f887b9035508ec7f8cae4d152d57038621c34f03",
+  "recon/out/paquet_jardin/v2/description/base/bordures.geojson": "8198793b9a9d77d674fabf5500ca788053f2f83f7a79a1cca5d581fa63e8e32d",
+  "recon/out/paquet_jardin/v2/description/base/surfaces.geojson": "c98fddefe5c5e5f58d38bda9b9e93838bf31cd929117659f397a615317001fe4",
+  "recon/out/paquet_jardin/v2/description/base/ilots.geojson": "51c8aa64071f4de484dbe86c1672cab1ee7ae76a7a5a0556e4aa36b0f2c7136b",
+  "recon/out/paquet_jardin/v2/description/base/ponctuels_sol.geojson": "0beea68a7d9dd118366e51b1a424bdf0a888195c631d475e1591039bc58af996",
+  "assets/specs/bordures.json": "3d95240ff2288cf4e55aa45ec77c88a4364d6b10ae2237e28a685ef51d25c060",
+  "assets/specs/bordures_elements.json": "31673a9cab9f6b71845dbdb08d262a4c21a47987bb629764c8aff893fbcf0e46",
+  "assets/specs/materiaux_sol.json": "e242855ec8671fce7522ecc8850540003d91a6b0d9dd0249f2c46be7b30502ef",
+  "assets/specs/materiaux_rendu_v2.json": "833c52d49bb8526b2e7b51d883a98fee0cc77070b0178315b97f1d79dee64d9f",
+  "recon/out/paquet_jardin/package/donnees/relief/heightmap_3025_10cm.png": "fd69d391dfbd2eb0de3b2c00aff8c6a7a6266e96cf43c4aa4a93f795b55f35d8",
+  "recon/out/paquet_jardin/package/donnees/relief/heightmap_3025_10cm.json": "b0edebd400a20caf7cb459eaa2f7dd5af5283f1fd9ad74cb519099d4c39a23f9",
+  "recon/out/paquet_jardin/package/paquet_jardin_2026.usda": "ee973d7aa572cbd514cb2c47f70e23484fdebbee7973c1911153c836a393004c",
+  "recon/out/paquet_jardin/package/layers/batiments.usdc": "1e6fdfd26cc045464a986c06de875e10757566588fdbcf981f418e03f70a1176",
+  "recon/out/paquet_jardin/package/layers/bordures.usdc": "56d4d5c0cee4333a57b352dcd384978a6df0783760f730fbbdf9694d1a3605b6",
+  "recon/out/paquet_jardin/package/layers/marquages.usdc": "a069e89d33701a574ff11cc354d6edf86a378853bbf13469e854919f8ec2ffd3",
+  "recon/out/paquet_jardin/package/layers/materiaux.usda": "6438e834dc63300e90b640fb83802e6ab70caa1d836b07caae221cec698a290c",
+  "recon/out/paquet_jardin/package/layers/mobilier.usdc": "d0c42a50d4f8982049a3c48fa25ee4ebda4450a7d13b02c64bb3c48c87ebc1b0",
+  "recon/out/paquet_jardin/package/layers/terrain.usdc": "dbbdd1001b570032c91ecf477061816722b5f435a38c1ea91bfa0c1e46401432",
+  "recon/out/paquet_jardin/package/layers/vegetation.usdc": "b35a9798986a81eb45422273e21d5b2f5fd6ee353e6216d7a7ee8099e816be55",
+  "recon/out/paquet_jardin/package/layers/voirie.usdc": "d233ec7da6b785e5dea74b1c49d799f0cea9f783e63c8d6c952f43e017daf959"
+ },
+ "scripts": {
+  "fabriquer.py": "36c9cddc60eea282ed66a6b4bfca6d5fb04af1c55916b91bd34aabf983793bb3",
+  "pj_bordure_pose.py": "229063be02dc54884ea1a21e25336f0daf9b1c2c908052f8119dfee274e48a2d",
+  "pj_bordure_prototypes.py": "bd2d04f2f7c2c120236691de8eb7a59a2c4c13e6d312331c0b1c8b8f667be333",
+  "pj_commun.py": "bd40918dae512ca591c5c243baaccd071c7c8e66c05778ec8d2b5dc6e860f01f",
+  "pj_contexte.py": "482ea090a73f0fbd6c733f85616910d8f32a838ea4107119cb7c2e3100f53dd9",
+  "pj_controles.py": "1839d9674278ac8db8d2d36aafa30d1869727052841d3997a1901550d34de4b7",
+  "pj_decals.py": "c15c02dc1b3af43cda08db17b1f77b4e4368b3274d54a30b26b8bcf2ae26c486",
+  "pj_ilot.py": "1c5ef433a6424db10f1b70c8de0300a308cda6fdbca60b8e7857b7c885dfa6dc",
+  "pj_limites.py": "e8322339f6283168e87ea0abc2d3a2680b90aed056f5e43cf28c267f9f5599c5",
+  "pj_materiaux.py": "b8d1bd470687d4b01fe53d1685ec9db82ef8b4b00b665ea6d51d7f005ad16f74",
+  "pj_rendu.py": "91531c32d0262ce00f0188163d5efa97599ae941ff490ab23d07817ae0d948c2",
+  "pj_sol.py": "dadbfb353710b1aa13496dbde5cbe19de9bf77fc094636510c6ee6c60ea61ca2",
+  "pj_usd.py": "fec5d0c6cb1990c07a4398066560a81f6fe1bc9e4b4dfdf0fd87bbdc0013421c",
+  "rendre_pilote.py": "3d85a5c6027ebbcb6bc1f94bb9e4bfc1a6e1daeeea5e8f5f53d6483089bdb1c3"
+ },
+ "comptes": {
+  "elements": 916,
+  "joints": 852,
+  "elements_par_profil_type": {
+   "A2/bateau": 3,
+   "A2/bateau/coupe": 1,
+   "A2/chartiere": 24,
+   "A2/courbe": 27,
+   "A2/courbe/coupe": 4,
+   "A2/droit": 181,
+   "A2/droit/coupe": 28,
+   "P1/bateau": 13,
+   "P1/bateau/coupe": 1,
+   "P1/courbe": 12,
+   "P1/courbe/coupe": 6,
+   "P1/droit": 306,
+   "P1/droit/coupe": 37,
+   "T2/chartiere": 9,
+   "T2/courbe": 45,
+   "T2/courbe/coupe": 6,
+   "T2/droit": 130,
+   "T2/droit/coupe": 20,
+   "T2_bateau/bateau": 32,
+   "T2_bateau/bateau/coupe": 12,
+   "T3/chartiere": 2,
+   "T3/droit": 10,
+   "T3/droit/coupe": 7
+  },
+  "longueur_elements_par_profil_m": {
+   "A2": 237.03,
+   "P1": 327.13,
+   "T2": 185.26,
+   "T2_bateau": 29.72,
+   "T3": 14.76
+  },
+  "variantes": {
+   "v0": 600,
+   "v1": 178,
+   "v2": 98,
+   "v3": 40
+  },
+  "prototypes": 253,
+  "prototypes_courbes": 117,
+  "eclats_epars": {
+   "copeau_brf": 56,
+   "gravier_6_10": 171
+  },
+  "eclats_couverture": {
+   "copeau_brf": 189734,
+   "gravier_6_10": 92096
+  },
+  "caniveaux": 14
+ },
+ "controles": {
+  "sol": {
+   "triangles": 126743,
+   "triangles_bandes_retires": 36773,
+   "maillages": {
+    "beton_balaye": 361,
+    "bev_podotactile": 1717,
+    "brf_bois_concasse": 4424,
+    "enrobe_bbsg_ancien": 18672,
+    "enrobe_bbsg_neuf_2025": 17062,
+    "enrobe_piste_cyclable": 10650,
+    "enrobe_trottoir": 30781,
+    "gazon_tondu": 31155,
+    "gravier_concasse_6_10": 2434,
+    "herbe_haute": 2400,
+    "noue_plantee": 5685,
+    "paves_beton": 305,
+    "stabilise_beige": 221,
+    "terre_nue": 876
+   },
+   "rampes_abaisses": [
+    {
+     "bordure": "K-0178",
+     "s0": 3.75,
+     "s1": 4.95,
+     "triangles": 23,
+     "rampe_p95_pct": 20.96,
+     "rampe_mediane_pct": 4.64,
+     "part_sup_5pct": 0.435,
+     "pente_totale_p95_pct": 31.73
+    },
+    {
+     "bordure": "K-0339",
+     "s0": 0.75,
+     "s1": 3.77,
+     "triangles": 119,
+     "rampe_p95_pct": 3.48,
+     "rampe_mediane_pct": 0.98,
+     "part_sup_5pct": 0.05,
+     "pente_totale_p95_pct": 5.6
+    },
+    {
+     "bordure": "K-0341",
+     "s0": 5.0,
+     "s1": 7.49,
+     "triangles": 77,
+     "rampe_p95_pct": 7.26,
+     "rampe_mediane_pct": 3.99,
+     "part_sup_5pct": 0.143,
+     "pente_totale_p95_pct": 8.59
+    },
+    {
+     "bordure": "K-0346",
+     "s0": 0.0,
+     "s1": 2.0,
+     "triangles": 62,
+     "rampe_p95_pct": 4.07,
+     "rampe_mediane_pct": 1.26,
+     "part_sup_5pct": 0.016,
+     "pente_totale_p95_pct": 6.27
+    },
+    {
+     "bordure": "K-0348",
+     "s0": 11.52,
+     "s1": 14.28,
+     "triangles": 122,
+     "rampe_p95_pct": 3.37,
+     "rampe_mediane_pct": 2.93,
+     "part_sup_5pct": 0.0,
+     "pente_totale_p95_pct": 3.38
+    },
+    {
+     "bordure": "K-0348",
+     "s0": 22.04,
+     "s1": 25.05,
+     "triangles": 110,
+     "rampe_p95_pct": 4.75,
+     "rampe_mediane_pct": 2.91,
+     "part_sup_5pct": 0.045,
+     "pente_totale_p95_pct": 4.86
+    },
+    {
+     "bordure": "K-0352",
+     "s0": 0.0,
+     "s1": 1.2,
+     "triangles": 62,
+     "rampe_p95_pct": 3.95,
+     "rampe_mediane_pct": 2.97,
+     "part_sup_5pct": 0.0,
+     "pente_totale_p95_pct": 6.79
+    },
+    {
+     "bordure": "K-0354",
+     "s0": 25.78,
+     "s1": 28.78,
+     "triangles": 100,
+     "rampe_p95_pct": 3.27,
+     "rampe_mediane_pct": 2.33,
+     "part_sup_5pct": 0.0,
+     "pente_totale_p95_pct": 4.46
+    },
+    {
+     "bordure": "K-0372",
+     "s0": 0.0,
+     "s1": 3.33,
+     "triangles": 113,
+     "rampe_p95_pct": 10.97,
+     "rampe_mediane_pct": 1.02,
+     "part_sup_5pct": 0.097,
+     "pente_totale_p95_pct": 15.01
+    },
+    {
+     "bordure": "K-0373",
+     "s0": 0.0,
+     "s1": 2.94,
+     "triangles": 197,
+     "rampe_p95_pct": 3.46,
+     "rampe_mediane_pct": 1.73,
+     "part_sup_5pct": 0.015,
+     "pente_totale_p95_pct": 6.6
+    },
+    {
+     "bordure": "K-0381",
+     "s0": 10.91,
+     "s1": 12.4,
+     "triangles": 107,
+     "rampe_p95_pct": 5.19,
+     "rampe_mediane_pct": 3.84,
+     "part_sup_5pct": 0.084,
+     "pente_totale_p95_pct": 6.79
+    },
+    {
+     "bordure": "K-0385",
+     "s0": 3.65,
+     "s1": 6.64,
+     "triangles": 128,
+     "rampe_p95_pct": 9.05,
+     "rampe_mediane_pct": 1.21,
+     "part_sup_5pct": 0.07,
+     "pente_totale_p95_pct": 30.96
+    },
+    {
+     "bordure": "K-0385",
+     "s0": 17.12,
+     "s1": 20.66,
+     "triangles": 78,
+     "rampe_p95_pct": 12.16,
+     "rampe_mediane_pct": 3.96,
+     "part_sup_5pct": 0.359,
+     "pente_totale_p95_pct": 12.72
+    },
+    {
+     "bordure": "K-0388",
+     "s0": 5.22,
+     "s1": 7.3,
+     "triangles": 61,
+     "rampe_p95_pct": 9.57,
+     "rampe_mediane_pct": 4.11,
+     "part_sup_5pct": 0.213,
+     "pente_totale_p95_pct": 10.94
+    },
+    {
+     "bordure": "K-0389",
+     "s0": 0.0,
+     "s1": 3.02,
+     "triangles": 547,
+     "rampe_p95_pct": 21.97,
+     "rampe_mediane_pct": 1.41,
+     "part_sup_5pct": 0.132,
+     "pente_totale_p95_pct": 22.68
+    }
+   ],
+   "devers_trottoirs_pct": {
+    "mediane": 0.98,
+    "p10": -3.35,
+    "p90": 2.95,
+    "n_bordures": 28
+   },
+   "retraits_ilots": {
+    "I-0297": {
+     "retrait_min_m": 0.02,
+     "retrait_max_m": 0.1537,
+     "retrait_bord_m": 0.1121,
+     "sommets": 401
+    },
+    "I-0332": {
+     "retrait_min_m": 0.004,
+     "retrait_max_m": 0.004,
+     "retrait_bord_m": 0.004,
+     "sommets": 173
+    },
+    "I-0386": {
+     "retrait_min_m": 0.004,
+     "retrait_max_m": 0.004,
+     "retrait_bord_m": 0.004,
+     "sommets": 924
+    },
+    "I-0390": {
+     "retrait_min_m": 0.03,
+     "retrait_max_m": 0.04,
+     "retrait_bord_m": 0.04,
+     "sommets": 1103
+    },
+    "I-0629": {
+     "retrait_min_m": 0.03,
+     "retrait_max_m": 0.0609,
+     "retrait_bord_m": 0.0511,
+     "sommets": 255
+    }
+   },
+   "sol_moins_mnt": {
+    "beton_balaye": {
+     "mediane_m": 0.02,
+     "p5_m": -0.01,
+     "p95_m": 0.1,
+     "part_sup_10cm": 0.053
+    },
+    "bev_podotactile": {
+     "mediane_m": 0.009,
+     "p5_m": -0.033,
+     "p95_m": 0.063,
+     "part_sup_10cm": 0.005
+    },
+    "brf_bois_concasse": {
+     "mediane_m": -0.033,
+     "p5_m": -0.104,
+     "p95_m": 0.062,
+     "part_sup_10cm": 0.081
+    },
+    "enrobe_bbsg_ancien": {
+     "mediane_m": 0.0,
+     "p5_m": -0.078,
+     "p95_m": 0.063,
+     "part_sup_10cm": 0.056
+    },
+    "enrobe_bbsg_neuf_2025": {
+     "mediane_m": 0.0,
+     "p5_m": -0.078,
+     "p95_m": 0.054,
+     "part_sup_10cm": 0.075
+    },
+    "enrobe_piste_cyclable": {
+     "mediane_m": 0.0,
+     "p5_m": -0.021,
+     "p95_m": 0.024,
+     "part_sup_10cm": 0.005
+    },
+    "enrobe_trottoir": {
+     "mediane_m": 0.0,
+     "p5_m": -0.045,
+     "p95_m": 0.045,
+     "part_sup_10cm": 0.011
+    },
+    "gazon_tondu": {
+     "mediane_m": 0.0,
+     "p5_m": -0.036,
+     "p95_m": 0.016,
+     "part_sup_10cm": 0.004
+    },
+    "gravier_concasse_6_10": {
+     "mediane_m": -0.028,
+     "p5_m": -0.101,
+     "p95_m": 0.112,
+     "part_sup_10cm": 0.197
+    },
+    "herbe_haute": {
+     "mediane_m": 0.009,
+     "p5_m": -0.031,
+     "p95_m": 0.055,
+     "part_sup_10cm": 0.011
+    },
+    "noue_plantee": {
+     "mediane_m": 0.0,
+     "p5_m": -0.008,
+     "p95_m": 0.011,
+     "part_sup_10cm": 0.014
+    },
+    "paves_beton": {
+     "mediane_m": -0.007,
+     "p5_m": -0.078,
+     "p95_m": 0.016,
+     "part_sup_10cm": 0.0
+    },
+    "stabilise_beige": {
+     "mediane_m": 0.0,
+     "p5_m": 0.0,
+     "p95_m": 0.0,
+     "part_sup_10cm": 0.0
+    },
+    "terre_nue": {
+     "mediane_m": 0.0,
+     "p5_m": 0.0,
+     "p95_m": 0.0,
+     "part_sup_10cm": 0.0
+    }
+   },
+   "limites": {
+    "regle": "regle:pj_limites.regularisation",
+    "arcs": 163,
+    "noeuds": 106,
+    "sommets_avant": 3438,
+    "sommets_apres": 1547,
+    "sommets_cales_sur_bordure": 842,
+    "arcs_scies_neuf_ancien": 4,
+    "arcs_rendus_a_l_origine": 0,
+    "ecart_max_m": 1.017
+   },
+   "massifs_decaisses_sommets": 2128
+  },
+  "bordures": {
+   "joint_mm": {
+    "min": 5.0,
+    "max": 8.0,
+    "median": 6.48
+   },
+   "coupes": {
+    "n": 122,
+    "min_m": 0.137
+   },
+   "fleche_elements_droits_mm": {
+    "max": 18.6,
+    "p95": 2.62
+   },
+   "recouvrement_sol_sous_bordure_mm": 12.0,
+   "interstice_face_avant_mm": {
+    "max": 0.0,
+    "p99": 0.0,
+    "points_sup_5mm": 0,
+    "points": 5330
+   },
+   "interstice_face_arriere_mm": {
+    "max": 72.2,
+    "p99": 0.0,
+    "points_sup_5mm": 1,
+    "points": 5523,
+    "elements_sup_5mm": [
+     [
+      "K-0629/E015",
+      "droit",
+      72.2
+     ]
+    ]
+   },
+   "vue_bateaux_traversee_m": {
+    "n": 54,
+    "min": 0.0097,
+    "max": 0.0211,
+    "mediane": 0.0197
+   }
+  },
+  "pose_reelle": {
+   "methode": "abouts (4 coins par face d'about) et têtes des prototypes transformés par la pose réelle ; sol = maillage sol.usda ; joint_reel_mm = écart minimal aux 4 coins, joint_reel_max_coins_mm = maximal",
+   "triplets_pas_alternes_1_05_1": 29,
+   "ceintures_ilots_longueurs": {
+    "K-0385": {
+     "decrit_m": 36.75,
+     "pose_m": 36.74
+    },
+    "K-0417": {
+     "decrit_m": 8.97,
+     "pose_m": 8.96
+    },
+    "K-9297a": {
+     "decrit_m": 3.5,
+     "pose_m": 3.5
+    },
+    "K-0332": {
+     "decrit_m": 8.78,
+     "pose_m": 8.59
+    },
+    "K-0386": {
+     "decrit_m": 19.17,
+     "pose_m": 18.86
+    },
+    "K-0386z": {
+     "decrit_m": 3.31,
+     "pose_m": 3.31
+    },
+    "K-0390": {
+     "decrit_m": 16.48,
+     "pose_m": 16.23
+    },
+    "K-0629": {
+     "decrit_m": 16.02,
+     "pose_m": 15.41
+    },
+    "K-0629z": {
+     "decrit_m": 0.76,
+     "pose_m": 0.76
+    }
+   },
+   "retrait_massifs_derriere_bordure_m": {
+    "brf_bois_concasse": {
+     "n": 159,
+     "min": 0.0024,
+     "p5": 0.0353,
+     "mediane": 0.0391,
+     "p95": 0.0448,
+     "max": 0.0771
+    }
+   },
+   "joint_reel_mm": {
+    "n": 852,
+    "min": 0.85,
+    "p5": 3.86,
+    "mediane": 5.73,
+    "p95": 7.55,
+    "max": 9.21
+   },
+   "joint_reel_max_coins_mm": {
+    "n": 852,
+    "min": 4.09,
+    "p5": 5.55,
+    "mediane": 7.17,
+    "p95": 9.24,
+    "max": 18.34
+   },
+   "joints_hors_3_10_mm": [
+    [
+     "K-0177/E004",
+     6.0,
+     18.3
+    ],
+    [
+     "K-0178/E000",
+     2.7,
+     9.5
+    ],
+    [
+     "K-0178/E003",
+     1.4,
+     4.1
+    ],
+    [
+     "K-0178/E004",
+     4.4,
+     11.0
+    ],
+    [
+     "K-0314/E000",
+     5.2,
+     11.9
+    ],
+    [
+     "K-0314/E003",
+     2.3,
+     9.2
+    ],
+    [
+     "K-0315/E003",
+     3.0,
+     8.9
+    ],
+    [
+     "K-0315/E006",
+     4.5,
+     10.4
+    ],
+    [
+     "K-0332/E005",
+     9.0,
+     10.4
+    ],
+    [
+     "K-0348/E006",
+     0.8,
+     6.6
+    ],
+    [
+     "K-0353/E063",
+     9.2,
+     11.1
+    ],
+    [
+     "K-0361/E008",
+     4.9,
+     13.3
+    ],
+    [
+     "K-0386/E002",
+     8.8,
+     11.6
+    ],
+    [
+     "K-0411/E004",
+     2.8,
+     8.9
+    ],
+    [
+     "K-0507/E005",
+     4.5,
+     10.1
+    ],
+    [
+     "K-0595/E002",
+     4.8,
+     10.1
+    ],
+    [
+     "K-0600/E004",
+     4.7,
+     10.3
+    ],
+    [
+     "K-0609/E004",
+     1.5,
+     9.8
+    ],
+    [
+     "K-0609/E006",
+     4.8,
+     11.2
+    ],
+    [
+     "K-0617/E001",
+     4.1,
+     12.1
+    ],
+    [
+     "K-0617/E002",
+     1.0,
+     10.2
+    ],
+    [
+     "K-0629/E014",
+     2.9,
+     4.7
+    ]
+   ],
+   "angles_vifs_onglet": 2,
+   "n_joints_hors_3_10_mm": 22,
+   "marche_tete_mm": {
+    "n": 852,
+    "min": 0.0,
+    "p5": 0.01,
+    "mediane": 1.34,
+    "p95": 4.33,
+    "max": 10.79
+   },
+   "marches_sup_10_mm": [
+    [
+     "K-0353/E063",
+     "K-0353/E064",
+     -10.8
+    ]
+   ],
+   "n_marches_sup_10_mm": 1,
+   "tete_moins_sol_devant_m": {
+    "n": 2441,
+    "min": 0.0039,
+    "p5": 0.0093,
+    "mediane": 0.0283,
+    "p95": 0.1527,
+    "max": 0.2141
+   },
+   "elements_enterres": [],
+   "n_elements_enterres": 0,
+   "tete_moins_sol_derriere_m": {
+    "n": 2421,
+    "min": -0.0025,
+    "p5": 0.0007,
+    "mediane": 0.0038,
+    "p95": 0.0393,
+    "max": 0.1643
+   },
+   "sol_au_dessus_de_la_tete": [],
+   "n_sol_au_dessus_de_la_tete": 0,
+   "recouvrements_de_bandes": []
+  },
+  "conformite": {
+   "fidelite": {
+    "methode": "fil d'eau = pivot + z_pied au milieu de la corde, z décrit interpolé sur le tracé levé au droit du pivot ; plan : pied de face posé tous les 5 cm (hors nez arrondis ± 0,3 m) à la polyligne levée",
+    "fil_eau_pose_moins_decrit_m": {
+     "n": 916,
+     "min": -0.0097,
+     "p5": -0.0057,
+     "mediane": 0.0001,
+     "p95": 0.0058,
+     "max": 0.0095
+    },
+    "n_ecart_z_sup_1cm": 0,
+    "ecarts_z_sup_1cm": [],
+    "ecart_plan_m": {
+     "n": 906,
+     "min": 0.0,
+     "p5": 0.0006,
+     "mediane": 0.0028,
+     "p95": 0.0069,
+     "max": 0.0451
+    },
+    "n_ecart_plan_sup_5cm": 0,
+    "ecarts_plan_sup_5cm": [],
+    "ecart_lissage_par_bordure": {
+     "K-0005": {
+      "hors_nez_m": 0.0052,
+      "nez_m": 0.0
+     },
+     "K-0007": {
+      "hors_nez_m": 0.0049,
+      "nez_m": 0.0
+     },
+     "K-0008": {
+      "hors_nez_m": 0.0059,
+      "nez_m": 0.0
+     },
+     "K-0012": {
+      "hors_nez_m": 0.0054,
+      "nez_m": 0.0
+     },
+     "K-0167": {
+      "hors_nez_m": 0.0004,
+      "nez_m": 0.0
+     },
+     "K-0172": {
+      "hors_nez_m": 0.0003,
+      "nez_m": 0.0
+     },
+     "K-0174": {
+      "hors_nez_m": 0.0007,
+      "nez_m": 0.0
+     },
+     "K-0177": {
+      "hors_nez_m": 0.0001,
+      "nez_m": 0.0
+     },
+     "K-0178": {
+      "hors_nez_m": 0.0008,
+      "nez_m": 0.0
+     },
+     "K-0182": {
+      "hors_nez_m": 0.0007,
+      "nez_m": 0.0
+     },
+     "K-0185": {
+      "hors_nez_m": 0.0007,
+      "nez_m": 0.0
+     },
+     "K-0186": {
+      "hors_nez_m": 0.0007,
+      "nez_m": 0.0
+     },
+     "K-0189": {
+      "hors_nez_m": 0.0008,
+      "nez_m": 0.0
+     },
+     "K-0194": {
+      "hors_nez_m": 0.0007,
+      "nez_m": 0.0
+     },
+     "K-0241": {
+      "hors_nez_m": 0.0066,
+      "nez_m": 0.0
+     },
+     "K-0314": {
+      "hors_nez_m": 0.0007,
+      "nez_m": 0.0
+     },
+     "K-0315": {
+      "hors_nez_m": 0.0006,
+      "nez_m": 0.0
+     },
+     "K-0332": {
+      "hors_nez_m": 0.0038,
+      "nez_m": 0.1204
+     },
+     "K-0339": {
+      "hors_nez_m": 0.0148,
+      "nez_m": 0.0862
+     },
+     "K-0341": {
+      "hors_nez_m": 0.0069,
+      "nez_m": 0.0
+     },
+     "K-0346": {
+      "hors_nez_m": 0.0056,
+      "nez_m": 0.0
+     },
+     "K-0348": {
+      "hors_nez_m": 0.0147,
+      "nez_m": 0.0
+     },
+     "K-0352": {
+      "hors_nez_m": 0.0001,
+      "nez_m": 0.0
+     },
+     "K-0353": {
+      "hors_nez_m": 0.0052,
+      "nez_m": 0.2238
+     },
+     "K-0354": {
+      "hors_nez_m": 0.0007,
+      "nez_m": 0.0
+     },
+     "K-0356": {
+      "hors_nez_m": 0.0063,
+      "nez_m": 0.0
+     },
+     "K-0357": {
+      "hors_nez_m": 0.0007,
+      "nez_m": 0.0
+     },
+     "K-0360": {
+      "hors_nez_m": 0.0003,
+      "nez_m": 0.0
+     },
+     "K-0361": {
+      "hors_nez_m": 0.0062,
+      "nez_m": 0.0
+     },
+     "K-0369": {
+      "hors_nez_m": 0.0079,
+      "nez_m": 0.0
+     },
+     "K-0370": {
+      "hors_nez_m": 0.0006,
+      "nez_m": 0.0
+     },
+     "K-0372": {
+      "hors_nez_m": 0.0006,
+      "nez_m": 0.0
+     },
+     "K-0373": {
+      "hors_nez_m": 0.0006,
+      "nez_m": 0.0
+     },
+     "K-0381": {
+      "hors_nez_m": 0.0034,
+      "nez_m": 0.0
+     },
+     "K-0385": {
+      "hors_nez_m": 0.0063,
+      "nez_m": 0.0
+     },
+     "K-0386": {
+      "hors_nez_m": 0.0087,
+      "nez_m": 0.1039
+     },
+     "K-0386z": {
+      "hors_nez_m": 0.0003,
+      "nez_m": 0.0
+     },
+     "K-0388": {
+      "hors_nez_m": 0.0111,
+      "nez_m": 0.0
+     },
+     "K-0389": {
+      "hors_nez_m": 0.0053,
+      "nez_m": 0.0
+     },
+     "K-0390": {
+      "hors_nez_m": 0.0447,
+      "nez_m": 0.116
+     },
+     "K-0394": {
+      "hors_nez_m": 0.0007,
+      "nez_m": 0.0
+     },
+     "K-0397": {
+      "hors_nez_m": 0.0004,
+      "nez_m": 0.0
+     },
+     "K-0411": {
+      "hors_nez_m": 0.0319,
+      "nez_m": 0.1371
+     },
+     "K-0412": {
+      "hors_nez_m": 0.0003,
+      "nez_m": 0.0
+     },
+     "K-0413": {
+      "hors_nez_m": 0.002,
+      "nez_m": 0.0
+     },
+     "K-0415": {
+      "hors_nez_m": 0.0005,
+      "nez_m": 0.0
+     },
+     "K-0416": {
+      "hors_nez_m": 0.0003,
+      "nez_m": 0.0
+     },
+     "K-0417": {
+      "hors_nez_m": 0.0017,
+      "nez_m": 0.0
+     },
+     "K-0507": {
+      "hors_nez_m": 0.0005,
+      "nez_m": 0.0
+     },
+     "K-0592": {
+      "hors_nez_m": 0.0009,
+      "nez_m": 0.0
+     },
+     "K-0595": {
+      "hors_nez_m": 0.0005,
+      "nez_m": 0.0
+     },
+     "K-0596": {
+      "hors_nez_m": 0.0009,
+      "nez_m": 0.0
+     },
+     "K-0600": {
+      "hors_nez_m": 0.0003,
+      "nez_m": 0.0
+     },
+     "K-0609": {
+      "hors_nez_m": 0.0029,
+      "nez_m": 0.0
+     },
+     "K-0611": {
+      "hors_nez_m": 0.0009,
+      "nez_m": 0.0
+     },
+     "K-0612": {
+      "hors_nez_m": 0.0003,
+      "nez_m": 0.0
+     },
+     "K-0617": {
+      "hors_nez_m": 0.0004,
+      "nez_m": 0.0
+     },
+     "K-0619": {
+      "hors_nez_m": 0.0006,
+      "nez_m": 0.0
+     },
+     "K-0628": {
+      "hors_nez_m": 0.0002,
+      "nez_m": 0.1459
+     },
+     "K-0629": {
+      "hors_nez_m": 0.0008,
+      "nez_m": 0.0433
+     },
+     "K-0629z": {
+      "hors_nez_m": 0.0,
+      "nez_m": 0.0
+     },
+     "K-0666": {
+      "hors_nez_m": 0.0011,
+      "nez_m": 0.0
+     },
+     "K-0669": {
+      "hors_nez_m": 0.0003,
+      "nez_m": 0.0
+     },
+     "K-9297a": {
+      "hors_nez_m": 0.0059,
+      "nez_m": 0.0
+     }
+    }
+   },
+   "interstices_denses": {
+    "methode": "sondes tous les 2 cm à 3 mm de la face vue (avant) et du dos (arrière) ; trou = aucun triangle de sol.usda, hors caniveau devant et hors bande d'une autre bordure",
+    "sondes": {
+     "avant": 40053,
+     "arriere": 40008
+    },
+    "elements_avec_trou_avant": [],
+    "elements_avec_trou_arriere": [],
+    "points_trou_avant": 0,
+    "points_trou_arriere": 0
+   },
+   "rampes_marchables": {
+    "methode": "5 profils par élément de bateau de traversée, de base + 3 cm à base + 2,03 m, revêtements marchables seulement (arrêt au premier non marchable ou à 0,30 m d'une autre bordure : son fil d'eau n'est pas le cheminement), pente sur 0,25 m",
+    "abaisses": {
+     "A-0178-1": {
+      "bordure": "K-0178",
+      "elements": 2,
+      "longueur_marchable_mediane_m": 0.0,
+      "pente_p50_pct": 15.55,
+      "pente_p95_pct": 19.32,
+      "pente_max_pct": 19.71,
+      "part_sup_5pct": 1.0,
+      "ressaut_max_m": 0.0109
+     },
+     "A-0339-1": {
+      "bordure": "K-0339",
+      "elements": 3,
+      "longueur_marchable_mediane_m": 2.0,
+      "pente_p50_pct": 1.23,
+      "pente_p95_pct": 3.66,
+      "pente_max_pct": 5.5,
+      "part_sup_5pct": 0.006,
+      "ressaut_max_m": 0.0029
+     },
+     "A-0341-1": {
+      "bordure": "K-0341",
+      "elements": 6,
+      "longueur_marchable_mediane_m": 1.48,
+      "pente_p50_pct": 3.99,
+      "pente_p95_pct": 5.78,
+      "pente_max_pct": 7.38,
+      "part_sup_5pct": 0.094,
+      "ressaut_max_m": 0.0052
+     },
+     "A-0348-1": {
+      "bordure": "K-0348",
+      "elements": 3,
+      "longueur_marchable_mediane_m": 2.0,
+      "pente_p50_pct": 3.02,
+      "pente_p95_pct": 3.41,
+      "pente_max_pct": 4.12,
+      "part_sup_5pct": 0.0,
+      "ressaut_max_m": 0.0049
+     },
+     "A-0348-2": {
+      "bordure": "K-0348",
+      "elements": 3,
+      "longueur_marchable_mediane_m": 2.0,
+      "pente_p50_pct": 2.62,
+      "pente_p95_pct": 4.1,
+      "pente_max_pct": 5.87,
+      "part_sup_5pct": 0.013,
+      "ressaut_max_m": 0.0032
+     },
+     "A-0352-1": {
+      "bordure": "K-0352",
+      "elements": 2,
+      "longueur_marchable_mediane_m": 0.28,
+      "pente_p50_pct": 2.11,
+      "pente_p95_pct": 3.0,
+      "pente_max_pct": 3.02,
+      "part_sup_5pct": 0.0,
+      "ressaut_max_m": 0.0021
+     },
+     "A-0354-1": {
+      "bordure": "K-0354",
+      "elements": 3,
+      "longueur_marchable_mediane_m": 2.0,
+      "pente_p50_pct": 2.34,
+      "pente_p95_pct": 3.49,
+      "pente_max_pct": 3.67,
+      "part_sup_5pct": 0.0,
+      "ressaut_max_m": 0.0018
+     },
+     "A-0372-1": {
+      "bordure": "K-0372",
+      "elements": 4,
+      "longueur_marchable_mediane_m": 1.9,
+      "pente_p50_pct": 0.7,
+      "pente_p95_pct": 3.79,
+      "pente_max_pct": 17.01,
+      "part_sup_5pct": 0.031,
+      "ressaut_max_m": 0.0103
+     },
+     "A-0373-1": {
+      "bordure": "K-0373",
+      "elements": 3,
+      "longueur_marchable_mediane_m": 1.25,
+      "pente_p50_pct": 1.87,
+      "pente_p95_pct": 3.18,
+      "pente_max_pct": 4.36,
+      "part_sup_5pct": 0.0,
+      "ressaut_max_m": 0.0034
+     },
+     "A-0381-1": {
+      "bordure": "K-0381",
+      "elements": 2,
+      "longueur_marchable_mediane_m": 0.83,
+      "pente_p50_pct": 3.48,
+      "pente_p95_pct": 4.06,
+      "pente_max_pct": 4.35,
+      "part_sup_5pct": 0.0,
+      "ressaut_max_m": 0.0026
+     },
+     "A-0385-1": {
+      "bordure": "K-0385",
+      "elements": 3,
+      "longueur_marchable_mediane_m": 2.0,
+      "pente_p50_pct": 1.14,
+      "pente_p95_pct": 3.58,
+      "pente_max_pct": 17.28,
+      "part_sup_5pct": 0.028,
+      "ressaut_max_m": 0.0154
+     },
+     "A-0385-2": {
+      "bordure": "K-0385",
+      "elements": 7,
+      "longueur_marchable_mediane_m": 0.1,
+      "pente_p50_pct": 3.36,
+      "pente_p95_pct": 8.11,
+      "pente_max_pct": 17.26,
+      "part_sup_5pct": 0.165,
+      "ressaut_max_m": 0.0166
+     },
+     "A-0388-1": {
+      "bordure": "K-0388",
+      "elements": 6,
+      "longueur_marchable_mediane_m": 1.38,
+      "pente_p50_pct": 4.08,
+      "pente_p95_pct": 6.28,
+      "pente_max_pct": 10.35,
+      "part_sup_5pct": 0.14,
+      "ressaut_max_m": 0.0068
+     },
+     "A-0389-1": {
+      "bordure": "K-0389",
+      "elements": 7,
+      "longueur_marchable_mediane_m": 2.0,
+      "pente_p50_pct": 1.52,
+      "pente_p95_pct": 4.31,
+      "pente_max_pct": 21.17,
+      "part_sup_5pct": 0.036,
+      "ressaut_max_m": 0.0134
+     }
+    }
+   },
+   "faces_arriere": {
+    "methode": "tête − sol 5 cm derrière le dos, 3 points par élément (dos à dos exclus) ; admis : 3 cm, + le retrait voulu d'un massif ou d'un remplissage (BRF 4 cm, gravier 3-4 cm, + 1 cm de bombement)",
+    "face_arriere_a_nu_m": {
+     "n": 2503,
+     "min": -0.003,
+     "p5": 0.0002,
+     "mediane": 0.0036,
+     "p95": 0.0394,
+     "max": 0.0724
+    },
+    "n_sup_3cm": 6,
+    "cas_sup_3cm": [
+     [
+      "K-0177/E004",
+      48.9,
+      "enrobe_bbsg_ancien"
+     ],
+     [
+      "K-0241/E005",
+      47.9,
+      "gazon_tondu"
+     ],
+     [
+      "K-0629/E000",
+      39.8,
+      "enrobe_bbsg_neuf_2025"
+     ],
+     [
+      "K-0177/E005",
+      38.6,
+      "enrobe_bbsg_ancien"
+     ],
+     [
+      "K-0388/E023",
+      34.1,
+      "enrobe_piste_cyclable"
+     ],
+     [
+      "K-0177/E003",
+      31.9,
+      "enrobe_bbsg_ancien"
+     ]
+    ]
+   },
+   "remplissages": {
+    "I-0297": {
+     "materiau_id": "brf_bois_concasse",
+     "retrait_decrit_m": 0.04,
+     "retrait_m": {
+      "n": 663,
+      "min": 0.0345,
+      "p5": 0.0359,
+      "mediane": 0.0391,
+      "p95": 0.0448,
+      "max": 0.147
+     },
+     "n_sondes": 663,
+     "n_hors_3_5cm": 27,
+     "hors_3_5cm": [
+      [
+       "K-0417/E000",
+       0.03,
+       8.1
+      ],
+      [
+       "K-0417/E000",
+       0.06,
+       7.8
+      ],
+      [
+       "K-0417/E000",
+       0.1,
+       7.3
+      ],
+      [
+       "K-0417/E000",
+       0.03,
+       6.5
+      ],
+      [
+       "K-0417/E000",
+       0.06,
+       6.5
+      ],
+      [
+       "K-0417/E000",
+       0.1,
+       6.1
+      ],
+      [
+       "K-9297a/E000",
+       0.03,
+       9.2
+      ],
+      [
+       "K-9297a/E000",
+       0.06,
+       9.2
+      ],
+      [
+       "K-9297a/E000",
+       0.1,
+       9.2
+      ],
+      [
+       "K-9297a/E000",
+       0.03,
+       9.2
+      ],
+      [
+       "K-9297a/E000",
+       0.06,
+       9.2
+      ],
+      [
+       "K-9297a/E000",
+       0.1,
+       9.2
+      ],
+      [
+       "K-9297a/E000",
+       0.03,
+       5.2
+      ],
+      [
+       "K-9297a/E000",
+       0.06,
+       5.7
+      ],
+      [
+       "K-9297a/E000",
+       0.1,
+       6.3
+      ]
+     ]
+    },
+    "I-0390": {
+     "materiau_id": "gravier_concasse_6_10",
+     "retrait_decrit_m": 0.04,
+     "retrait_m": {
+      "n": 531,
+      "min": 0.022,
+      "p5": 0.038,
+      "mediane": 0.0396,
+      "p95": 0.042,
+      "max": 0.0518
+     },
+     "n_sondes": 531,
+     "n_hors_3_5cm": 2,
+     "hors_3_5cm": [
+      [
+       "K-0390/E000",
+       0.03,
+       2.2
+      ],
+      [
+       "K-0390/E000",
+       0.1,
+       2.7
+      ]
+     ]
+    },
+    "I-0629": {
+     "materiau_id": "gravier_concasse_6_10",
+     "retrait_decrit_m": 0.04,
+     "retrait_m": {
+      "n": 427,
+      "min": 0.0321,
+      "p5": 0.0355,
+      "mediane": 0.0382,
+      "p95": 0.0471,
+      "max": 0.0601
+     },
+     "n_sondes": 427,
+     "n_hors_3_5cm": 7,
+     "hors_3_5cm": [
+      [
+       "K-0629z/E000",
+       0.1,
+       5.3
+      ],
+      [
+       "K-0629z/E000",
+       0.03,
+       5.9
+      ],
+      [
+       "K-0629z/E000",
+       0.06,
+       6.0
+      ],
+      [
+       "K-0629z/E000",
+       0.1,
+       6.0
+      ],
+      [
+       "K-0629z/E000",
+       0.03,
+       5.3
+      ],
+      [
+       "K-0629z/E000",
+       0.06,
+       5.3
+      ],
+      [
+       "K-0629z/E000",
+       0.1,
+       5.4
+      ]
+     ]
+    }
+   },
+   "vues_traversees": {
+    "methode": "tête de l'élément (6 cm derrière la face) − sol 5 cm devant, au milieu de chaque élément de bateau de traversée",
+    "vue_reelle_m": {
+     "n": 52,
+     "min": 0.0097,
+     "p5": 0.01,
+     "mediane": 0.0198,
+     "p95": 0.0204,
+     "max": 0.0211
+    },
+    "hors_0_02_pm_0_005": [
+     [
+      "K-0339/E001",
+      0.01,
+      0.0104
+     ],
+     [
+      "K-0339/E002",
+      0.01,
+      0.0101
+     ],
+     [
+      "K-0339/E003",
+      0.01,
+      0.0099
+     ],
+     [
+      "K-0341/E007",
+      0.01,
+      0.0104
+     ],
+     [
+      "K-0341/E008",
+      0.01,
+      0.0097
+     ],
+     [
+      "K-0341/E009",
+      0.01,
+      0.01
+     ],
+     [
+      "K-0341/E010",
+      0.01,
+      0.01
+     ],
+     [
+      "K-0341/E011",
+      0.01,
+      0.01
+     ],
+     [
+      "K-0341/E012",
+      0.01,
+      0.0101
+     ],
+     [
+      "K-0354/E032",
+      0.01,
+      0.0114
+     ],
+     [
+      "K-0354/E033",
+      0.01,
+      0.0106
+     ],
+     [
+      "K-0354/E034",
+      0.01,
+      0.0118
+     ]
+    ],
+    "ecart_a_la_vue_decrite_m": {
+     "n": 52,
+     "min": -0.004,
+     "p5": -0.0022,
+     "mediane": 0.0,
+     "p95": 0.0009,
+     "max": 0.0018
+    }
+   }
+  },
+  "decals": {
+   "pontages": {
+    "regle": "regle:pj_decals.pontage",
+    "longueur_fissures_m": 141.7,
+    "par_type_m": {
+     "joint_voie": 34.9,
+     "rive": 48.1,
+     "roulement_int": 25.0,
+     "transversale": 33.7
+    },
+    "densite_m_par_m2": 0.1,
+    "joint_reprise_neuf_ancien_m": 59.5,
+    "rubans": 45
+   },
+   "zebras": {
+    "source": "recon/out/paquet_jardin/package/donnees/marquages/marquages_2026.geojson",
+    "regle": "regle:pj_decals.zebra_provisoire (phase 2 : pj_marquages)",
+    "bandes": 42,
+    "ids_v1": [
+     "MQ0348",
+     "MQ0349",
+     "MQ0350",
+     "MQ0351",
+     "MQ0352",
+     "MQ0353",
+     "MQ0354",
+     "MQ0355",
+     "MQ0356",
+     "MQ0357",
+     "MQ0442",
+     "MQ0443",
+     "MQ0444",
+     "MQ0445",
+     "MQ0446",
+     "MQ0447",
+     "MQ0448",
+     "MQ0449",
+     "MQ0569",
+     "MQ0570",
+     "MQ0571",
+     "MQ0572",
+     "MQ0573",
+     "MQ0574",
+     "MQ0575",
+     "MQ0576",
+     "MQ0577",
+     "MQ0578",
+     "MQ0579",
+     "MQ0580",
+     "MQ0581",
+     "MQ0582",
+     "MQ0583",
+     "MQ0584",
+     "MQ0585",
+     "MQ0588",
+     "MQ0878",
+     "MQ0879",
+     "MQ0880",
+     "MQ0881",
+     "MQ0882",
+     "MQ0883"
+    ]
+   },
+   "touffes": {
+    "regle": "regle:pj_decals.touffes",
+    "joints": 612,
+    "limites_gazon": 5920
+   },
+   "bev_dalles": {
+    "regle": "regle:pj_decals.bev",
+    "dalles": 39,
+    "plots_par_dalle": 60,
+    "modules_par_bev": {
+     "BEV-0348-1": 6,
+     "BEV-0348-2": 7,
+     "BEV-0372-1": 7,
+     "BEV-0381-1": 2,
+     "BEV-0385-1": 7,
+     "BEV-0388-1": 4,
+     "BEV-0389-1": 7
+    }
+   }
+  },
+  "masque_v1": {
+   "/World/Voirie/acces_riverain": {
+    "faces_masquees": 249,
+    "faces": 5658,
+    "sommets_fondus": 232,
+    "faces_raccord": 24
+   },
+   "/World/Voirie/chaussee": {
+    "faces_masquees": 3232,
+    "faces": 25488,
+    "sommets_fondus": 2367,
+    "faces_raccord": 92
+   },
+   "/World/Voirie/chaussee_2025": {
+    "faces_masquees": 2682,
+    "faces": 7168,
+    "sommets_fondus": 1918,
+    "faces_raccord": 100
+   },
+   "/World/Voirie/ilot": {
+    "faces_masquees": 169,
+    "faces": 681,
+    "sommets_fondus": 130,
+    "faces_raccord": 0
+   },
+   "/World/Voirie/ilot_2025": {
+    "faces_masquees": 374,
+    "faces": 442,
+    "sommets_fondus": 295,
+    "faces_raccord": 0
+   },
+   "/World/Voirie/piste_cyclable": {
+    "faces_masquees": 1253,
+    "faces": 5099,
+    "sommets_fondus": 974,
+    "faces_raccord": 17
+   },
+   "/World/Voirie/piste_cyclable_2025": {
+    "faces_masquees": 163,
+    "faces": 2295,
+    "sommets_fondus": 211,
+    "faces_raccord": 31
+   },
+   "/World/Voirie/trottoir": {
+    "faces_masquees": 3934,
+    "faces": 34710,
+    "sommets_fondus": 3336,
+    "faces_raccord": 83
+   },
+   "/World/Voirie/trottoir_2025": {
+    "faces_masquees": 2607,
+    "faces": 9448,
+    "sommets_fondus": 2205,
+    "faces_raccord": 65
+   },
+   "/World/Terrain/autre": {
+    "faces_masquees": 59,
+    "faces": 15125,
+    "sommets_fondus": 79,
+    "faces_raccord": 11
+   },
+   "/World/Terrain/batiment": {
+    "faces_masquees": 624,
+    "faces": 15510,
+    "sommets_fondus": 502,
+    "faces_raccord": 47
+   },
+   "/World/Terrain/espace_vert": {
+    "faces_masquees": 4110,
+    "faces": 58936,
+    "sommets_fondus": 3345,
+    "faces_raccord": 178
+   },
+   "/World/Terrain/espace_vert_2025": {
+    "faces_masquees": 1637,
+    "faces": 8107,
+    "sommets_fondus": 1361,
+    "faces_raccord": 57
+   },
+   "/World/Terrain/jupe_emprise": {
+    "faces_masquees": 286,
+    "faces": 4652,
+    "sommets_fondus": 572,
+    "faces_raccord": 0
+   },
+   "/World/Terrain/terre_plein_vegetal_2025": {
+    "faces_masquees": 25,
+    "faces": 887,
+    "sommets_fondus": 44,
+    "faces_raccord": 9
+   },
+   "/World/Bordures/faces_verticales": {
+    "faces_masquees": 6174,
+    "faces": 66136,
+    "sommets_fondus": 0,
+    "faces_raccord": 0
+   },
+   "/World/Marquages/blanc_usure_0": {
+    "faces_masquees": 6912,
+    "faces": 26488,
+    "sommets_fondus": 0,
+    "faces_raccord": 0
+   },
+   "/World/Marquages/blanc_usure_1": {
+    "faces_masquees": 557,
+    "faces": 5795,
+    "sommets_fondus": 0,
+    "faces_raccord": 0
+   },
+   "/World/Marquages/blanc_usure_2": {
+    "faces_masquees": 7433,
+    "faces": 15881,
+    "sommets_fondus": 0,
+    "faces_raccord": 0
+   },
+   "/World/Marquages/blanc_usure_3": {
+    "faces_masquees": 5409,
+    "faces": 12467,
+    "sommets_fondus": 0,
+    "faces_raccord": 0
+   },
+   "/World/Marquages/blanc_usure_F": {
+    "faces_masquees": 504,
+    "faces": 2626,
+    "sommets_fondus": 0,
+    "faces_raccord": 0
+   },
+   "/World/Marquages/jaune_usure_0": {
+    "faces_masquees": 314,
+    "faces": 2186,
+    "sommets_fondus": 0,
+    "faces_raccord": 0
+   },
+   "/World/Marquages/jaune_usure_F": {
+    "faces_masquees": 273,
+    "faces": 400,
+    "sommets_fondus": 0,
+    "faces_raccord": 0
+   },
+   "/World/Mobilier/clotures": {
+    "faces_masquees": 76,
+    "faces": 564,
+    "sommets_fondus": 0,
+    "faces_raccord": 0
+   },
+   "reassis": {
+    "/World/Mobilier/divers": {
+     "instances": 8,
+     "dz_min_m": -0.027,
+     "dz_max_m": 0.003
+    },
+    "/World/Mobilier/eclairage": {
+     "instances": 6,
+     "dz_min_m": -0.022,
+     "dz_max_m": 0.055
+    },
+    "/World/Mobilier/feux": {
+     "instances": 32,
+     "dz_min_m": -0.148,
+     "dz_max_m": 0.009
+    },
+    "/World/Mobilier/panneaux": {
+     "instances": 25,
+     "dz_min_m": -0.03,
+     "dz_max_m": 0.044
+    },
+    "/World/Vegetation/vegetation": {
+     "instances": 45,
+     "dz_min_m": -0.09,
+     "dz_max_m": 0.053
+    }
+   },
+   "reassis_controle": {
+    "base_moins_appui_v2_m": {
+     "n": 70,
+     "min": -0.0,
+     "p5": -0.0,
+     "mediane": 0.0,
+     "p95": 0.0,
+     "max": 0.0
+    },
+    "instances": 70,
+    "n_sup_2cm": 0,
+    "cas_sup_2cm": []
+   }
+  },
+  "rendu": {
+   "ciel": {
+    "fichier": "ciel_clair.hdr",
+    "facteur": 0.3229,
+    "eclairement_horizontal_ciel": 0.5541,
+    "eclairement_horizontal_soleil": 1.9392,
+    "rapport": 3.5,
+    "carte_grise_rvb": [
+     0.9942,
+     1.0,
+     1.048
+    ],
+    "gains_balance_blancs": [
+     1.0058,
+     1.0,
+     0.8969
+    ],
+    "soleil": {
+     "azimut_deg": 220.0,
+     "hauteur_deg": 29.0,
+     "exposition": 2.0
+    },
+    "ciel_zenith": [
+     0.3,
+     0.42,
+     0.7
+    ]
+   },
+   "decor": {
+    "arbres_masques": 453,
+    "distance_m": -1.0,
+    "materiaux_decor": {
+     "/World/Batiments/murs": "decor_enduit",
+     "/World/Batiments/toits": "decor_toit",
+     "/World/Terrain/espace_vert": "decor_gazon",
+     "/World/Terrain/espace_vert_2025": "decor_gazon",
+     "/World/Terrain/terre_plein_vegetal": "decor_gazon",
+     "/World/Terrain/terre_plein_vegetal_2025": "decor_gazon"
+    }
+   }
+  }
+ },
+ "cameras": {
+  "a_pieton_file_joints": {
+   "oeil_local": [
+    33.034,
+    20.76,
+    1.843
+   ],
+   "cible_local": [
+    30.304,
+    17.217,
+    0.389
+   ],
+   "hfov_deg": 50,
+   "f_stop": 8.0,
+   "exposition_ev": 0.0,
+   "azimut_deg": 217.6,
+   "plongee_deg": -18.0,
+   "oeil_L93_NGF": [
+    917312.464,
+    6460310.74,
+    218.143
+   ],
+   "doc": "piéton (œil 1,60 m) sur la chaussée contre une file de T2 de 1 m (K-0369), regard plongeant le long de la file : joints, arrondi d'arête, massifs BRF derrière (photo utilisateur 2)"
+  },
+  "b_abaisse_traversee_bev": {
+   "oeil_local": [
+    13.099,
+    3.646,
+    1.684
+   ],
+   "cible_local": [
+    15.903,
+    2.242,
+    -0.147
+   ],
+   "hfov_deg": 50,
+   "f_stop": 8.0,
+   "exposition_ev": 0.0,
+   "azimut_deg": 116.6,
+   "plongee_deg": -30.3,
+   "oeil_L93_NGF": [
+    917292.529,
+    6460293.626,
+    217.984
+   ],
+   "doc": "abaissé de la traversée NE (A-0385-1) : bateau T2 à 0,02 m, deux chartières de 1 m, BEV à 0,50 m du nez, zébra"
+  },
+  "c_entree_charretiere": {
+   "oeil_local": [
+    44.6,
+    68.4,
+    1.558
+   ],
+   "cible_local": [
+    47.3,
+    65.9,
+    0.4
+   ],
+   "hfov_deg": 55,
+   "f_stop": 8.0,
+   "exposition_ev": 0.0,
+   "azimut_deg": 132.8,
+   "plongee_deg": -17.5,
+   "oeil_L93_NGF": [
+    917324.03,
+    6460358.38,
+    217.858
+   ],
+   "doc": "entrée charretière de l'accès riverain (S-0265) : bordures abaissées A2 / T2 bateau à 0,04 m (A-0177-1, A-0182-1) entre l'accès en enrobé et la piste (photo utilisateur 1)"
+  },
+  "d_ilot_brf": {
+   "oeil_local": [
+    9.112,
+    -5.155,
+    1.662
+   ],
+   "cible_local": [
+    11.179,
+    -4.402,
+    -0.011
+   ],
+   "hfov_deg": 50,
+   "f_stop": 8.0,
+   "exposition_ev": 0.0,
+   "azimut_deg": 70.0,
+   "plongee_deg": -37.2,
+   "oeil_L93_NGF": [
+    917288.542,
+    6460284.825,
+    217.962
+   ],
+   "doc": "îlot en goutte de BRF (I-0297) et sa ceinture de bordures, regard plongeant (photo utilisateur 2)"
+  },
+  "e_ilot_gravier": {
+   "oeil_local": [
+    0.857,
+    -11.521,
+    1.603
+   ],
+   "cible_local": [
+    2.675,
+    -12.571,
+    0.063
+   ],
+   "hfov_deg": 50,
+   "f_stop": 8.0,
+   "exposition_ev": 0.0,
+   "azimut_deg": 120.0,
+   "plongee_deg": -36.3,
+   "oeil_L93_NGF": [
+    917280.287,
+    6460278.459,
+    217.903
+   ],
+   "doc": "îlot gravillonné du Vercors (I-0390, gravier concassé 6/10) dans sa ceinture T2, regard plongeant (photo utilisateur 3)"
+  },
+  "f_vue_ensemble": {
+   "oeil_local": [
+    2.0,
+    -14.785,
+    14.124
+   ],
+   "cible_local": [
+    14.0,
+    6.0,
+    0.124
+   ],
+   "hfov_deg": 64,
+   "f_stop": 0.0,
+   "exposition_ev": 0.0,
+   "azimut_deg": 30.0,
+   "plongee_deg": -30.3,
+   "oeil_L93_NGF": [
+    917281.43,
+    6460275.195,
+    230.424
+   ],
+   "doc": "vue d'ensemble de la zone pilote depuis 14 m (traversée NE, TPC, îlots BRF et Vercors)"
+  }
+ },
+ "sorties": {
+  "bordures.usda": "bb89e4a4d2187aa2d5351a2f6e0859875b57f0c9da2a5b135a79d42e5f5291e0",
+  "ciel/ciel_clair.hdr": "ef258479cdd9a5f434d147a3de5e2d99a4af422142ed9dde98a2caa9a86f5272",
+  "contexte/decor_rendu.usda": "29ec3330a2634537d367d49ad134f453d397b4d14078f24b6db3e657479dc1d8",
+  "contexte/masque_v1_pilote.usdc": "e5f273bd86efccaf40e791d2a5aad892e59ff6c6a13625db83972c011fb5c55f",
+  "decals_sol.usda": "42a21a3927d52d514d0848482a2d6d6483844c782655325787f49e53709aba55",
+  "ilots.usda": "4ce4210da070cb0be14925225edf96a0f1add53fb8963366e6b7d00cdc0b9275",
+  "ilots_couverture.usdc": "8beb5d9ae306b465109a94d7bef84ec7823f201de5e12572341bdaa268954cda",
+  "marquages_pilote.usda": "cc5193cf83e2670810f05dce4771534628759e6b427cf5e42bcb58c32ff79df5",
+  "materiaux_v2.usda": "18eb2ba223c95917f4092ed0abc221957b4b5e0aa5d77aef62e0bd0ee984a614",
+  "points/bordures.json": "b91951d36b593e2b14043787a8460ea944db60fdd426ef924831609cef7cdc1c",
+  "points/ilots_epars.json": "f805e999f707b3b9571a1701a13cf4bcd0f6e0023508cdb1b0fd327204293021",
+  "prototypes/caniveau_CS2_coupe_L444.usda": "22803119c19bc8d3eb1a58566910f509f2fd5588d4dfbe4d5b5f35b289abc737",
+  "prototypes/caniveau_CS2_coupe_L494.usda": "12c32c5ae375fcd09a3ceedf7a675b4235fa02a0c7a7782368bf259369c8dcac",
+  "prototypes/caniveau_CS2_L994.usda": "82e8599e68ea2dbc4190248cc34af61706f1cb8f7b9c766033bdc87ec521aa29",
+  "prototypes/chartiere_A2022_P1015_L493_asc.usda": "4c1e71c68d01db340770b50850694a20c965106385a84b42bb1ed3456c9f5338",
+  "prototypes/chartiere_A2023_P1010_L494_desc.usda": "a6d17df8d999cb898817c7382da3d6c34245e04d920670f520eff38d7a0a0061",
+  "prototypes/chartiere_A2025_P1010_L493_asc.usda": "5e3bc5d771ea40df3052e8dad0d89501f83828cc532df5664293690a9f88cce6",
+  "prototypes/chartiere_A2028_P1015_L493_desc.usda": "b38ec2de66b9a32d8bcff34838f9933335f90dddb22420cf06eae3a3dfeba6eb",
+  "prototypes/chartiere_A2030_A2022_L493_asc.usda": "f168ed8752164de0e5e10c4a7fe4a10af19f02a365252d323f7db459017c087d",
+  "prototypes/chartiere_A2030_P1025_L494_asc.usda": "e454aa146ba1de35a07792e3633841b312421fd9cd616e58a157bd66410d338e",
+  "prototypes/chartiere_A2030_T2_bateau020_L992_desc.usda": "fb6092e96d6371bc7f4b70ba40c6db37de35a60279f4d44b568bc9bdb939bf33",
+  "prototypes/chartiere_A2030_T2_bateau020_L993_asc.usda": "017a4970aa43d52f4cc11ccaa55dbc0ef8e69d3b63a305b77533b299f76edd8d",
+  "prototypes/chartiere_A2030_T2_bateau020_L994_asc.usda": "0a300198ba276d8f74440efccd9465b7314917c9d47fbbf0624e929b256ec046",
+  "prototypes/chartiere_A2030_T2_bateau020_L994_desc.usda": "a6fb0196515d1f380099d02f4bda654042df4079fabb46f1475b8189281dca96",
+  "prototypes/chartiere_A2033_P1010_L495_desc.usda": "72c701a54ea6a47c95fd5909381b0d53be2f00fdaeacbf96f67eab0368fe0c9c",
+  "prototypes/chartiere_A2035_A2023_L493_desc.usda": "7cfc7b875b3b7ff035f5fe7d9eeb1fb8c5479f02a0bc54fcaf0af1e650600f41",
+  "prototypes/chartiere_A2035_A2030_L493_asc.usda": "68290b52ee8bf361afc9f19c81f6c291573bb160469801e651a5ba5850b2d96b",
+  "prototypes/chartiere_A2040_A2025_L494_asc.usda": "6081104eb717ea78d5d0fa99ace6b6c1fa5348543271377b6fd6066e6098cd43",
+  "prototypes/chartiere_A2040_A2028_L492_desc.usda": "2c6164e80c21a08dafd8a5f3bf39a9709b08cac5ef21aeeda4cfb5e3593d12c3",
+  "prototypes/chartiere_A2042_P1025_L493_desc.usda": "8eb7c972c77a17416e09e196d057ed34361b7bfb59a0884d48e7417978646d61",
+  "prototypes/chartiere_A2050_T2_bateau020_L421_asc.usda": "2c4433da85de8c191b41b3252cf7d6f1b9fbb7318644ddbb18e3ba6ded1730c8",
+  "prototypes/chartiere_A2055_A2033_L493_desc.usda": "4068b2dff14a69af088c57bc46fd0e27b3ab7bd0e36f41566fb37eee3c335da9",
+  "prototypes/chartiere_A2055_A2040_L991_desc.usda": "0512594be382148bdc18157e8e77187595335673e684c22f76230943ea5f0a45",
+  "prototypes/chartiere_A2060_A2042_L493_desc.usda": "b3caed6e59dfb1a6c6fa15cd0a5e80828a53a984994de37e64dd877ce7f15a6b",
+  "prototypes/chartiere_A2080_A2020_L994_desc.usda": "57e45d184f03f97f06469a5637e7dfdf648b94a59dbdbd1876341778154eaa1c",
+  "prototypes/chartiere_courbe_K0348_E024.usda": "09ad40541ad51e345c92059f63b40b78adfa70d1c4e72bd25282512bd2799dff",
+  "prototypes/chartiere_courbe_K0385_E007.usda": "0a460a1c82f241a38abafb9f2684299a8b6c8443eee371265c51308aacb118b4",
+  "prototypes/chartiere_courbe_K0385_E019.usda": "b1ebfdfa1a8e8ff66a4ef7e7167d95730e5f4c55cf0ad44f18cc3d7d1d910ad7",
+  "prototypes/chartiere_courbe_K0385_E027.usda": "baf239efd5247ce96c00750a7193c982ac5df2ee4f2ea3fc0d8d771a9e661ebf",
+  "prototypes/chartiere_courbe_K0388_E006.usda": "2fb669f2a606e6c3bd99c4faf6afca262ca17dd57baee78e81a0cf96f8e42327",
+  "prototypes/chartiere_courbe_K0388_E013.usda": "1c25b8db190ed57469516637bbf09898cde4c4af07449303579f51fefc836544",
+  "prototypes/chartiere_courbe_K0411_E007.usda": "85186fcd969a7a45f325836c6e9585313cf506b80cb68580840b38a202c29d18",
+  "prototypes/chartiere_courbe_K0411_E008.usda": "a78cf51a0b893485066a62cecb50a1b5aef3768b25af67e01f4eaeb85cb7ff43",
+  "prototypes/chartiere_T2113_A2070_L494_desc.usda": "b77aa6180dd532b68e1cddc213954e46d036f476adfecd4a6c0182d8b9596f92",
+  "prototypes/chartiere_T2145_T2_bateau020_L994_asc.usda": "63399c8a0841f79500971b70798335b130922399960d484e87a85d22bbcc0508",
+  "prototypes/chartiere_T2150_T2_bateau020_L994_desc.usda": "4a8a6532c4b758a57e1a4a7f262a5b44f35c50970fdf340da2de925c84295f75",
+  "prototypes/chartiere_T2155_T2113_L494_desc.usda": "7a9cb176846e09acb7285788df77d5cdf5967432c5f0acb9f4be892c1c5a66ea",
+  "prototypes/chartiere_T3177_T2150_L494_asc.usda": "2abf76ff5844b945e398d55abbce9e6f55bde65a8119ddfc38d30d292f9b0b54",
+  "prototypes/chartiere_T3205_T3177_L493_asc.usda": "6f9cf1104915324276ca125a8f900b2727eb2b6ccf5603367b456ae122041a0a",
+  "prototypes/coupe_A2_L244.usda": "70c16e242f775eed657bb885f9b973bc2ee202233b71bd48cedc544f54803691",
+  "prototypes/coupe_A2_L294.usda": "9a110aaf3fa87c9f9c6178daf354e5cde72dd65d33af9efc4f1de54926bb5191",
+  "prototypes/coupe_A2_L444.usda": "9ae06f45522654393eeb9d2f4f876ba32722e9d4e1c9b83f2ac536453d5d6e35",
+  "prototypes/coupe_A2_L494.usda": "8c0e46fa10b2f711f30ccdba6fca45c5d5ee5d7d2316155851dc058b083f1a8b",
+  "prototypes/coupe_A2_L594.usda": "9a6d4a429f73cad6a9010400fd27253d22dee4b9d3005cb76609614a654a5c9c",
+  "prototypes/coupe_A2_L694.usda": "1ade913614e8f92feffcb3f9fbc6514f72e90e095722a753abfbc76969b035b2",
+  "prototypes/coupe_A2_L794.usda": "362b47c36a7d2393a445240db6e340a3e8a421e831c69eacdce3e44ca5d30c87",
+  "prototypes/coupe_A2_L894.usda": "628a6c8dcf4f9ff4875c096004aaa0daf1acaeb9b0b51273f1a0a8c4dd0de5c9",
+  "prototypes/coupe_A2_L994.usda": "b72e056f0f1a0e5d327a2767a14f8ec2c94a1f5f113519ce9cdcea33016e8cf7",
+  "prototypes/coupe_P1_L244.usda": "9d4dc15c3b15b545b6d55bebcf2a0b3603c210edc49894e04c607a6e40223366",
+  "prototypes/coupe_P1_L344.usda": "0e7c9492469592f798756a8f910ed98dffef12a242c4fafb20ae09a67e824273",
+  "prototypes/coupe_P1_L394.usda": "7dbf165ed66503b2c649ddf3ae6409b12fc573cef3d6b204db695a8927d5f19f",
+  "prototypes/coupe_P1_L444.usda": "9ab57eb936fabbdffe860e9fc52045d99724b0efddfea35191942b6ca2d6f91f",
+  "prototypes/coupe_P1_L494.usda": "2a86598514e268c269a0b59a41cd1655849f51f06b4d1429ac881510d3ba6d07",
+  "prototypes/coupe_P1_L594.usda": "dcf8bcc43851dbbb69ca3c2310d22b9bbe01471513330091804e8ab925cbac9d",
+  "prototypes/coupe_P1_L694.usda": "8f8a4a6719cee59c82f0c1a94eb5bfca50925be14001bd410e43a15049092c6b",
+  "prototypes/coupe_P1_L794.usda": "8d8f0cb28d05729dc1edf481193ebe57dc4cec8027a51f656120b0023120526d",
+  "prototypes/coupe_P1_L894.usda": "19708aec39ee9656f570bc9ba27b4b4ff78685aa4bfafa630563aa705a391c0a",
+  "prototypes/coupe_T2_bateau_L194.usda": "784473e6d8e2385d2f8adeffd835a58ddda9232bffe453f0b3536f4ebe2b3122",
+  "prototypes/coupe_T2_bateau_L244.usda": "08dc9054f2a1684e481edde9df16537553ada4120d29031eb7ad83960a5c49e0",
+  "prototypes/coupe_T2_bateau_L344.usda": "b874251b1919ff0538a4122c3023f2117c6bd3fedbc70f6f57767dc001541729",
+  "prototypes/coupe_T2_bateau_L494.usda": "6ca8530cc09bcab7b6061b44a67d64c0d4c2505d9756227edbd7c4b58d907aa2",
+  "prototypes/coupe_T2_bateau_L594.usda": "b696eba194228a833ace1ee3fc9b9c274f4a7127ba6c46456084a37719f95104",
+  "prototypes/coupe_T2_bateau_L694.usda": "66aa190e4484619436daf73a9c55c40434415c5d55a4f63db9ea67269a649e57",
+  "prototypes/coupe_T2_bateau_L794.usda": "582540afe4563016400628eb14b3e12bbaafd818fa10bf8f98dce39d1de64fbc",
+  "prototypes/coupe_T2_bateau_L994.usda": "3d8850fd4895b5e9d3e454c0481f0c8ed218156b1ed1bc2b657d7db1dfb851bf",
+  "prototypes/coupe_T2_L244.usda": "665fc035826820afaa86fc26e01b68ed16dacebaea40d5b087617116e93b1480",
+  "prototypes/coupe_T2_L344.usda": "911b5c71c6dd910166a213e9e44ae502c275bd561e9fed9330c07207fe75ab48",
+  "prototypes/coupe_T2_L494.usda": "4a1e130777a870d6bd921579d2cc6c3e3b9ae011b33d7c0b911f84faa615129a",
+  "prototypes/coupe_T2_L594.usda": "6ad7eaa40855f089709fb91fb9be8ede940815e50e019428673b520d8449e1af",
+  "prototypes/coupe_T2_L694.usda": "ce4eb9e7873348e44263a74b8881b6a73ec3406babbb12b9c9e4fcb76a0b51fa",
+  "prototypes/coupe_T2_L794.usda": "318e6a620341f46138d7b24054c01db64949fa0a46b53e9d77ddfae3b10bbf71",
+  "prototypes/coupe_T2_L894.usda": "e2fa9cd45fe4690950fe90a99053f6df9309e3d2f3408200d7a79f3089c9d050",
+  "prototypes/coupe_T3_L444.usda": "cadd33c5f8897e19e76ade8365b638037fd9710a3199809db71e171e679353dc",
+  "prototypes/coupe_T3_L594.usda": "768a609d961db418bd567c9ba83a8b023ee5a347006b11164dacaa4527f2ee7c",
+  "prototypes/coupe_T3_L694.usda": "c54c903ac680d50698dc987b0f0d9774d2f9806286468b3c3a365b83ea6316b1",
+  "prototypes/courbes/caniveau_courbe_K0381_C003.usda": "c2f5f4457bbc5ff185912c66b7c4308600a637548b076fb36384f2ed7b27263d",
+  "prototypes/courbes/caniveau_courbe_K0381_C004.usda": "e94467ebff3e18f3f464777b1c2015c2303154923441945589a92741b70506f9",
+  "prototypes/courbes/caniveau_courbe_K0381_C005.usda": "ff85472edc6450db69b5cba841fb89089b0fd647bac62a7f27d400305d9a7a57",
+  "prototypes/courbes/caniveau_courbe_K0381_C006.usda": "e58beafb6f21491c6be28895c05df16790a1d26efd65b33b386129442b993e08",
+  "prototypes/courbes/caniveau_courbe_K0381_C007.usda": "75c184fa44dc808b6560308b70060740dada99c12271df42fc0a08e7e6c28127",
+  "prototypes/courbes/caniveau_courbe_K0381_C011.usda": "04a98d166d1388d8a840c07c734d5ea7fea873212ab5840fd6a768bd5c6e32fd",
+  "prototypes/courbes/courbe_K0005_E001.usda": "230bb16bebc282e0cb45c0428d85d9008c26a2713ef43eb62e5f98619c0cbec9",
+  "prototypes/courbes/courbe_K0005_E003.usda": "3e791a5bbf29feb28e1642144355f0387311622f1c7e6dde5f73159cf7cb6b9a",
+  "prototypes/courbes/courbe_K0007_E000.usda": "d0fb7fa951ab466d5c1bd1ff9b218251916053dd2b73ea674319e6f6296bfeef",
+  "prototypes/courbes/courbe_K0007_E001.usda": "5a6162c20045221c06ad975d38a6ffd61d70d956cce32a0aef47016c264434d8",
+  "prototypes/courbes/courbe_K0007_E002.usda": "43435d5e88d8769276da8c84b81406188107d83d3602df4fb7bef56e7a3e9e56",
+  "prototypes/courbes/courbe_K0008_E000.usda": "9997451e2eeb621de7f3fcad4bba9e7a75eb39de4bf4b01c2191d0179ca34ebf",
+  "prototypes/courbes/courbe_K0008_E002.usda": "52736bb970df78aebfd9a230352382837db06aa937b481ed4a1032554520be87",
+  "prototypes/courbes/courbe_K0241_E005.usda": "8f89a8d3974b990bc27f849b03922c203604c3be54125ca6da948873eba91ca3",
+  "prototypes/courbes/courbe_K0241_E006.usda": "aacc8a591daa36ffb72c4552c5023124348dfad3ea1fc97f93d3c3ea5eb246ee",
+  "prototypes/courbes/courbe_K0332_E001.usda": "1cf74c528563c25f3ef0db0cbd80c732c6c062163444ff69739c61dd64162c4c",
+  "prototypes/courbes/courbe_K0332_E002.usda": "4037350989aabd0b039ecae750c1297b7a9fe6793b30b501f4ce3632cd11598b",
+  "prototypes/courbes/courbe_K0332_E003.usda": "7e69822a31329d5f4c9382ae67c9b6c789afebe6abbb6b2cb5c680d2c47fac62",
+  "prototypes/courbes/courbe_K0332_E004.usda": "119af352e5802a15aa06d120a23d97fe12e23c6cfd22309743f0f82f74db2374",
+  "prototypes/courbes/courbe_K0332_E005.usda": "821e494be4c7316cdf05368251c637911e3f8acb852d877f9e68b09f9d2ce67b",
+  "prototypes/courbes/courbe_K0332_E006.usda": "d0a45497e64bb1a6a8d060ee5a3c052e6431491dec27aa2a1be89b003d98b668",
+  "prototypes/courbes/courbe_K0339_E008.usda": "e744232bf740f625f168b9e97f4909bd27c58623e64fe8691b7d15ebef2aec75",
+  "prototypes/courbes/courbe_K0339_E009.usda": "077417116ece2ae98b01b55e0e6c347ae6a2ef8d1aa6ada2947bb3be703bfd2c",
+  "prototypes/courbes/courbe_K0339_E010.usda": "f38d421a78a6c6f7e03d20bc57bb4bd89dbfd553672f9e2a93cfd05f88a26679",
+  "prototypes/courbes/courbe_K0339_E011.usda": "f25fe5c4a1364a6a86dd207f7331dc65c838bd59f90370e1ee6081d19e6c4cf2",
+  "prototypes/courbes/courbe_K0339_E019.usda": "7dff6b887ddd65b8f4418e463511c0b0733c163384c5bc0f44ca7f9783dc584a",
+  "prototypes/courbes/courbe_K0341_E011.usda": "5955e98bc131692d256680a25d93ebf4102ab09846b365d56c6b3dc7bda42029",
+  "prototypes/courbes/courbe_K0348_E008.usda": "e969ed7acaeeafff9c33cd381ea9eefd1908a68cc20e5f14542ed806e0871781",
+  "prototypes/courbes/courbe_K0348_E019.usda": "657607c8a23a48847a85a21325c981d26b391bef1575e94cf8ad34a92c9bc45c",
+  "prototypes/courbes/courbe_K0348_E020.usda": "b30866c1d2a7303f8d4d32c8e627a4b2fd0da55e22055ad2e24941c97746cdd6",
+  "prototypes/courbes/courbe_K0348_E021.usda": "0addd037434bcce8d9d4c05b75f11ece2ef9ffd9d141dd1e4de9ee896f28665b",
+  "prototypes/courbes/courbe_K0348_E022.usda": "0ab90ccdb6b1e309580a0ac658b6485bb08f689a4547842425dd6c0dfef82b2a",
+  "prototypes/courbes/courbe_K0348_E023.usda": "adb7095cb230bfc328d0b20cd5eb66040e35fbd2f490b80edc3d892720482297",
+  "prototypes/courbes/courbe_K0348_E029.usda": "e8d6d46eee22e4310bfd38d2d322d2d912c17fecc45755e83fac2db09f5b2bb6",
+  "prototypes/courbes/courbe_K0353_E019.usda": "f270f19cdbff69ac2067396bad04920433b4afa838c7bed713f8819eb9131dc7",
+  "prototypes/courbes/courbe_K0353_E054.usda": "88ce34922d149904ee553bd2b93fe5aff39cfd92aa5d66b67c430428363799a0",
+  "prototypes/courbes/courbe_K0353_E055.usda": "11cef4add4a1bb9c0a0a78c95c53c810d108300919420bf0cd225ed34372b559",
+  "prototypes/courbes/courbe_K0353_E056.usda": "adccab210fbb6af51db1a2425011c103cad7c00bc9009535eea6eb73a9f934cc",
+  "prototypes/courbes/courbe_K0353_E057.usda": "58fe078d48e01dfa5a9e6b0dfa306542980d723b0c64520110977fa38f902e75",
+  "prototypes/courbes/courbe_K0353_E058.usda": "9b948a7d7af15e97385c1e949cfc46ca7462fbf2d420a5895d895a8c7692eac5",
+  "prototypes/courbes/courbe_K0353_E059.usda": "12d144487c7c9aa5832231aaedec88092dd7eec57a2ad1f956d2088f3883ccf8",
+  "prototypes/courbes/courbe_K0353_E061.usda": "da33da89e8496e11ddf9fbc59a63f5af335e06d8b5bce60c7bdbde3d17b1a1fc",
+  "prototypes/courbes/courbe_K0353_E062.usda": "bcd0f6e9dd3d2fd62058638f82172c70b3ad61e5186298302f4a8a2102616dfb",
+  "prototypes/courbes/courbe_K0353_E063.usda": "18b9b52ce0bfc46375d1e1dd49fb4aedffd3ec02bbf8c6e73426ccf871c65766",
+  "prototypes/courbes/courbe_K0353_E064.usda": "3c4ec71d32d9c9dae03f65541a27f82b6861d39b6828edb130b617ba1e3be21d",
+  "prototypes/courbes/courbe_K0356_E001.usda": "76c60bc0a22074f3a4bbdfc04c5a1abb2f51c82707e35a32c5b65a4da205fd73",
+  "prototypes/courbes/courbe_K0356_E002.usda": "6a8eadbd313aa3f85e3ee257face56536bec07b58800154a3cab7e574e4d4c9c",
+  "prototypes/courbes/courbe_K0356_E003.usda": "5839f8ab1581d593453392a542fcfa1417c88b7f1a6dec33aa46d22d07a64be7",
+  "prototypes/courbes/courbe_K0361_E004.usda": "87352eac28f6661549b5c4d3fac34ba061a24d52bf257e1f92fa941d3912cfc9",
+  "prototypes/courbes/courbe_K0361_E006.usda": "a598825dd92944498eaf560c8499e31e68bd7fbe6897385aae7d0415c6c0fa90",
+  "prototypes/courbes/courbe_K0361_E011.usda": "a0232dce3b8c34d9415ebe10b765158d69a2fcb07bd5733146fcf662195b43ff",
+  "prototypes/courbes/courbe_K0361_E012.usda": "14e7e05453dd6cfa7208ddc8ea922f22d551cdc7fdedfe72b2913fc537762c5e",
+  "prototypes/courbes/courbe_K0361_E014.usda": "e9a949f409650d61abca6d11470a42cecd8ee6f95c8d6a56bb4162dc61be1d62",
+  "prototypes/courbes/courbe_K0369_E002.usda": "cf8175ee2f650f07a48eb20b9a8bb7eaf9b5210afa82ca5a24e581d9bf5839ce",
+  "prototypes/courbes/courbe_K0381_E003.usda": "ae49cc13cc5ad4b75a6cf20ff17d89568b58bcd9cfbaaf17093f82516283a64f",
+  "prototypes/courbes/courbe_K0381_E004.usda": "74fa4102aa124577a26f43170a13906fe2ce9d1d65d855aa5e35117767194d1a",
+  "prototypes/courbes/courbe_K0381_E005.usda": "e25e575541b1ac6932436098420ba440b275196fecf046f6ddb6de5cf9057cd0",
+  "prototypes/courbes/courbe_K0381_E006.usda": "3969dc44021db0a26d30a91b9a353e1560804facd4073f2b61799d769a96e632",
+  "prototypes/courbes/courbe_K0381_E007.usda": "f0420d2d2994acb88c48f3c20e282555db6eca69e14cf345b41c8b2bd55bdbc2",
+  "prototypes/courbes/courbe_K0385_E008.usda": "aaa76a29668cd1880b343f7f8bf9ffb54024657742d54e6f605bfe1a038a91b5",
+  "prototypes/courbes/courbe_K0385_E010.usda": "523877aa1846a1280ea08829167e2bdbae73cd82c3965ca00d22d4dd2019a167",
+  "prototypes/courbes/courbe_K0385_E011.usda": "e417299f011e9b3c56fa692fab395341563bdba109abf40ba87004fe30d4f132",
+  "prototypes/courbes/courbe_K0385_E013.usda": "07ba1c66d5c58ec90cdc60362fe21c4d1215b024a3e2547f4635d70a8986dc5b",
+  "prototypes/courbes/courbe_K0385_E015.usda": "c47e2bd7a888953439a57b3d71ee57ef9b82c7a5158390e55441a17b38872d18",
+  "prototypes/courbes/courbe_K0385_E017.usda": "2fa0f3c37cf0537a9343cd1d21ecfbac890a0c840f0d4041f56094c379fa1dcf",
+  "prototypes/courbes/courbe_K0385_E018.usda": "8f9e2a3424c5d1ba61270f9387b973b82668d6e6eb616c6fc72843a31014eac8",
+  "prototypes/courbes/courbe_K0386_E001.usda": "75200a1097983c3e2c3de4f53fbb99ab83f7b5e4b111f3e6d5437d83847ca4f3",
+  "prototypes/courbes/courbe_K0386_E003.usda": "06ea67906fb02323191bfaac7287c5156bfea921d589bf9fdd1f4a4283719534",
+  "prototypes/courbes/courbe_K0386_E004.usda": "fa61a14dffbb964fdbf19b0f980697f3beceefc421286fe277b0558d50c11357",
+  "prototypes/courbes/courbe_K0386_E012.usda": "f8764ab1defe172b6a8179696feeb190755b5dbb6726b8f37d5ed508bfdefd5b",
+  "prototypes/courbes/courbe_K0386_E013.usda": "43b5c336db469364db9e6d0740d35115e116bb8af2e435c6398842343488c2ae",
+  "prototypes/courbes/courbe_K0386_E014.usda": "2017c46673d1ae6221e80d82e80bc9e3f20bed0f75e2508bf22407c946ac605f",
+  "prototypes/courbes/courbe_K0386_E015.usda": "ed4b4897a2da4c3fbfeceb2126381c87e7cf297755fe24af7d82ee09753369c5",
+  "prototypes/courbes/courbe_K0386_E016.usda": "2e832e3fe3c333649a03248f4187ee5f6cf483f85d6ee9665a53e64e5668818d",
+  "prototypes/courbes/courbe_K0388_E001.usda": "7fc569ca71d803ecc37cb6f7582bd079f7afa5acbe6b2a6dc5ceb61b22f485aa",
+  "prototypes/courbes/courbe_K0388_E003.usda": "5207d0743e4551fbf7a5cf8ef94bd60aa60c05bb7120eaf9e2e02e6923ba7f75",
+  "prototypes/courbes/courbe_K0388_E005.usda": "8ecb901f7268d9b98c2d4e89770c7a716fc6a8c3ff25b2d1586f543a610c8092",
+  "prototypes/courbes/courbe_K0388_E010.usda": "2a37a375a164ab14e5925893f82c9073cd150e0a238dee29f232604bf48bc75b",
+  "prototypes/courbes/courbe_K0388_E014.usda": "dafadad4788e4e3feec8ee4ba1078db5f599f7392ee17f9b1fa9f49afa599db8",
+  "prototypes/courbes/courbe_K0388_E017.usda": "6a8e3355582e02581a1c07a5b80663052edb932b620e0cada8cfe6e76445c732",
+  "prototypes/courbes/courbe_K0388_E018.usda": "81b6bd3eff275614c50a79a67246cb2492f930b490df592fd45809cb27fc2826",
+  "prototypes/courbes/courbe_K0388_E022.usda": "b0dd3cd1bf31ef3f63a1e2a2a4f4b920eec3680ce28267f64be642cfe37e4858",
+  "prototypes/courbes/courbe_K0388_E024.usda": "115749b8543c36963efaf0a819adda58530710ee7e7e641b4827e19374a11b53",
+  "prototypes/courbes/courbe_K0390_E000.usda": "6da0d60bf53f547c2b39426a6d37d4ac38c1b618cf4a4177350953bcb2f325a8",
+  "prototypes/courbes/courbe_K0390_E001.usda": "d7e2081056c7c648f35ae18747767a2e5093b7822c6c4ec3847b2877e6ad141c",
+  "prototypes/courbes/courbe_K0390_E002.usda": "c33bcf9d6a120dd2c38ef419cb50d1c431e065164ae8b87da7095d70fd8f51d4",
+  "prototypes/courbes/courbe_K0390_E003.usda": "a4ffa4368b9852421edcf30330f201a887eb193ce8d37166d885ae579b07b2a2",
+  "prototypes/courbes/courbe_K0390_E004.usda": "298e30df8f10c9ef25c6bdb4018a2d430d105d30a4aa902b811e5da89d6dad4d",
+  "prototypes/courbes/courbe_K0390_E005.usda": "29695863e70af4181be9e4ce6792309febdf46ab9e521a245e56cc874c724d7d",
+  "prototypes/courbes/courbe_K0390_E006.usda": "31cf00ea25ba51c8503e70826806650aa2cb936b8a1590cb77778c4a094dffc9",
+  "prototypes/courbes/courbe_K0390_E010.usda": "02943edc1bb8b3c23bda4882182004c61dd3cc6df8c2ae61bcc72e9340b3fecf",
+  "prototypes/courbes/courbe_K0390_E011.usda": "cebf709b123fbcd6e599a412bad4b38307c0f3543a0b2b1e00728d98806357ea",
+  "prototypes/courbes/courbe_K0390_E013.usda": "f35999a2516bf8702993918858ee85ba14c16ac6ef87a8f5e6bb8cb7304c85b2",
+  "prototypes/courbes/courbe_K0390_E014.usda": "748bb3b87b3eca521aeb3e65780f650952894247664a887622f81c151a975b93",
+  "prototypes/courbes/courbe_K0390_E015.usda": "1015924222919e74e26a9c368a5fdd1a0bbd554bd32135fab6362b36d049b721",
+  "prototypes/courbes/courbe_K0390_E016.usda": "cec26d90996647ba97059e15f221f4147c0d2031f676a20cd695c70e5c561b06",
+  "prototypes/courbes/courbe_K0390_E017.usda": "ade08440cd82e4ecded7599e82c329acce734ac7812bb4ad55f31de550c4ff30",
+  "prototypes/courbes/courbe_K0390_E018.usda": "65cdee544055424043db5ea8c379cb512a8e8c162079d97f8aeaa63fff4729d3",
+  "prototypes/courbes/courbe_K0411_E006.usda": "2e0f149503715be58e83fb8ab7217ef5f983430b21256a1be84199e5eef8f313",
+  "prototypes/courbes/courbe_K0411_E010.usda": "2099724ad10f91152c97fca98a7472532dc0bcf7472d9726975a819048115095",
+  "prototypes/courbes/courbe_K0411_E011.usda": "b9d8ba0ad6142215de3c31a606f26dbedb8591aa3d105babdb926913763739c1",
+  "prototypes/courbes/courbe_K0413_E009.usda": "062594c66e396b6d0683ec13a177937e01229109b93ce064cd01400d7034323b",
+  "prototypes/courbes/courbe_K0417_E005.usda": "b7330d9d99fb4b22362b6dcab5bebc038a905169389e2012df70d0df9e86e0ea",
+  "prototypes/courbes/courbe_K0592_E001.usda": "43aa665fc3abb91b81514fe8e3e6dffd40bbafeb4747ece7921312bb3a0e6fe4",
+  "prototypes/courbes/courbe_K0592_E002.usda": "b288bf9ee37a0fb50429101614a03bcb55079db0b382d85dfacce38f2968c1e7",
+  "prototypes/courbes/courbe_K0609_E000.usda": "505b6ebe2fdc8115d72ac6c98bdf4e76e562ac12329b4b0831c91ed8d1f74aa8",
+  "prototypes/courbes/courbe_K0609_E001.usda": "4c60b0de2030a9f715d49b7d9352fdf8243bc9bb2526d0ce63852b1996932c98",
+  "prototypes/courbes/courbe_K0609_E002.usda": "4965a37474bb85091fff8ab9a56426fd432613ff63aea50ab898a8185af66677",
+  "prototypes/courbes/courbe_K0609_E003.usda": "77cc68cd4828e6f30d604a270d0b9a055efd429c8577e46ed9bde5a6fd98a914",
+  "prototypes/courbes/courbe_K0609_E004.usda": "93bcaf5ef21cebfc85389b29188c963682b2b9ef08266ce7b83f4136eadd38fc",
+  "prototypes/courbes/courbe_K0609_E008.usda": "81d076d584faee74fadcb68624ba5be52bafcac4770ee2bdfd4ea5ea8704b77d",
+  "prototypes/courbes/courbe_K0609_E009.usda": "69fb657c01e7768f875435f844274c063a09a80dc332dcb79c50a87749e0ed3f",
+  "prototypes/courbes/courbe_K0628_E001.usda": "349d5eafe3df14c8343c90f9b7b2fdf5a956827b1ff670bacf00199967e207db",
+  "prototypes/courbes/courbe_K0628_E002.usda": "56c60b75204efa900e9a109686cc66d7b49fc6d9cfec98a120440975edbc86ea",
+  "prototypes/courbes/courbe_K0628_E003.usda": "1edd9dbd87fad089563c8da6e26295e8340f46e74c48a61661dea9f17ea98a55",
+  "prototypes/courbes/courbe_K0628_E004.usda": "04d787d2cdd9fdfa693e722d5063da9e6a8bf342d921c6e79c2100b4444e02e0",
+  "prototypes/courbes/courbe_K0629_E005.usda": "caf77f3f71c8a4b1f04110bf65787b9fe924a048eadaa3a98592c3acc597712e",
+  "prototypes/courbes/courbe_K0629_E006.usda": "07653fea94b3e101c91c10be1a3f60161ff16d1d6af2c36b4005b21d62fcc2d2",
+  "prototypes/courbes/courbe_K0629_E007.usda": "1c3c1f006a84a2c7a2bc9e0fd6efe89dfb06e7f9e7fc8a9d9ca507413e211843",
+  "prototypes/courbes/courbe_K0629_E013.usda": "a6d5836c501a1efc82653ba00ba1e2a4dfdfedc1363b230367462b9fccc8bc60",
+  "prototypes/courbes/courbe_K0629_E014.usda": "5e5483490c9104ae6be5e8dbfeb425bd95f4cf42694140ca73994926ab88f958",
+  "prototypes/courbes/courbe_K9297a_E000.usda": "0f970c585179108c0e2590cd9cda6dc22d67b182ef8741a585818c6ff4ba1e27",
+  "prototypes/courbes/courbe_K9297a_E001.usda": "89e57923371c5f115b97c4a59ba58a6e6e5254e177db77d06fce4f5938d873a1",
+  "prototypes/eclats/copeau_brf_v00.usda": "2dc813eadd63a6a02e525a0dff41481d45a0834b7c6db4bd60825b3f41b2166d",
+  "prototypes/eclats/copeau_brf_v01.usda": "94e4573f7088d6b9aac8fe31a99bdbf2243cadf3e254398d5a7e99096fb394e5",
+  "prototypes/eclats/copeau_brf_v02.usda": "9d1c244fc7fa549c22333fbad84827e52ca30955b8a072dadd96d77176ea9689",
+  "prototypes/eclats/copeau_brf_v03.usda": "5fd9ba065ff27ed8043ea963a2c76ad6ae840ff7e44141200a022f5de7cd53c5",
+  "prototypes/eclats/copeau_brf_v04.usda": "c1ba58e9d976c3556a1d4c5fed9d3b1162615cb8ca90708746901e4f7a3932d4",
+  "prototypes/eclats/copeau_brf_v05.usda": "9caeb1cca4ba8bb11343e2f14c2890d8c17fbe052ce80d731942c713ac25314c",
+  "prototypes/eclats/copeau_brf_v06.usda": "70a4f13852eeca4045a6f99423d155a998bbbc89d156a0fa5e98aa65efa65b0e",
+  "prototypes/eclats/copeau_brf_v07.usda": "6c0f0ab1dfe1b0511d4fe8d9c42629065995f48aa6419b1caf45c49467c2eaf3",
+  "prototypes/eclats/copeau_brf_v08.usda": "a835f3f0f13541370f3af740673cfacb15024a358f51ec6512f9f450381fd2d1",
+  "prototypes/eclats/copeau_brf_v09.usda": "f923029a81b3fcbdaaf7334a3247159765991669d3b2e56224e7d73853e78f9f",
+  "prototypes/eclats/copeau_brf_v10.usda": "958b52fa0ad9ec7a162b595384364251f0bb91c1c1864e719ee2cf1719bdea1e",
+  "prototypes/eclats/copeau_brf_v11.usda": "d1935a8e126264cf210855ad7f0ec0433d4209a79355a088985e1b31b8a35180",
+  "prototypes/eclats/copeau_brf_v12.usda": "a98c200ead6011ec8bd61fa36b10f55e8437a51130d0a8c7ec2f6bc159781564",
+  "prototypes/eclats/copeau_brf_v13.usda": "9e6bffbc11120656a4d4d2b849303f81df74fd6f0110e2ac323cd9c932f71169",
+  "prototypes/eclats/copeau_brf_v14.usda": "1019d37a3dc02a6179ea08e5b3c5fbaefac2b3d0e579a849e7cffe14ec8fc1cf",
+  "prototypes/eclats/copeau_brf_v15.usda": "d7f8a3af7720b0c04e6e61063b571c519c46f07f122fde9471004babc0c2c6fc",
+  "prototypes/eclats/gravier_6_10_v00.usda": "c115d34b1e1fa0faeb84d9b153ee05b57f502585c3aa0b54431cf716c7e21e36",
+  "prototypes/eclats/gravier_6_10_v01.usda": "38f4fe0e3110f82ca48a18d7bcc1445f771c80d377f92176da7db69b5f04863c",
+  "prototypes/eclats/gravier_6_10_v02.usda": "001e8a005fec1bb94daafeea0512fcd1226c4020ec966c670a31988b64cb9e60",
+  "prototypes/eclats/gravier_6_10_v03.usda": "922842edafb8b245f82939ea4007d5212013c7ca50a5cba613c4f1cfb2aa15c8",
+  "prototypes/eclats/gravier_6_10_v04.usda": "6cab2c41200587d589b659d20a9c2798e1c8fe0f7d2fb3759694e0c56c942c11",
+  "prototypes/eclats/gravier_6_10_v05.usda": "1c74fa325922b9a12a2b9ec8614a58ce3d67a16afb384b862a6575586902dbe0",
+  "prototypes/eclats/gravier_6_10_v06.usda": "1e16c533bb9320c2b87e71de345dea94a0023e1668a9dda91bc4521861c62960",
+  "prototypes/eclats/gravier_6_10_v07.usda": "4f09a2684e33f4d82b437b3216ed5447bbee54e6ed43cc9a998e7ad9c5b7f24c",
+  "prototypes/eclats/gravier_6_10_v08.usda": "18cc29f7d8e3c34c0e20ffba61117be02934191b20a3813d10812cb0bb950c28",
+  "prototypes/eclats/gravier_6_10_v09.usda": "a010de94518db46992b593449260b09d649f8494437b56fd1c7b9433d5e2df35",
+  "prototypes/eclats/gravier_6_10_v10.usda": "d261148955265f35e2016bcf8256be2536f8543c552a43471f0cdc6d2cb47478",
+  "prototypes/eclats/gravier_6_10_v11.usda": "3ebf58e7e5aa462fc6ba1c92800973d3d368fa07efed1b18d09dcce6e7ee9d83",
+  "prototypes/element_A2_L494_v0.usda": "b57a761d79f7b638038662a07a987e37cd533edcdcfc8bea6575f526129640e8",
+  "prototypes/element_A2_L494_v1.usda": "a2bbead8f451ac9737328430ad19f529b1e222058346423635b9c88d071c8016",
+  "prototypes/element_A2_L494_v2.usda": "be139ec2c6582705b7bf51cb8e01ed92460271f05f22374f0b12910d0b9b6da8",
+  "prototypes/element_A2_L494_v3.usda": "0610e2c2f96513b089439bb2815caf685dba3b85d8dfff11808362d81f6a7ed3",
+  "prototypes/element_A2_L994_v0.usda": "83e6008d01df563ba3acae434b4fdd96808103ef96ab6df49975a14810e5adad",
+  "prototypes/element_A2_L994_v1.usda": "447af21392d3037653618d694161479467a44bd4cf6ce908bb352bae63c02125",
+  "prototypes/element_A2_L994_v2.usda": "3b68692ad830f9124b083c31ca581d816edd48b84931fbe6d52aa04481c9b073",
+  "prototypes/element_A2_L994_v3.usda": "418a2e9d119bd3da72114554d815782332e72973f7cf0b984a4368da572fb966",
+  "prototypes/element_P1_L494_v0.usda": "ec86842953711ed9c056aebe91a56673323c58adda84071b19fc11bbae5ca1c0",
+  "prototypes/element_P1_L494_v1.usda": "81c67bf2a9f0ffbd0c319fb847f57a616a800a31a1f62210eb099a4bd188eb00",
+  "prototypes/element_P1_L494_v2.usda": "de428d5afec3b462f2c98ee6e00750331d62033475dfbba3f04091e18f9c9d6c",
+  "prototypes/element_P1_L494_v3.usda": "bff017c4585272d15c9c233509c8c4195cd530a2591334bb64e9bf6c4c125103",
+  "prototypes/element_P1_L994_v0.usda": "3918ca0a14e75f973810c0f20d039752715fecd8a2c5705ad40d882de714450d",
+  "prototypes/element_P1_L994_v1.usda": "3f12072033e7e3643cc5d6b9bc69c64f76143b7aeae1221f798c8d2916581956",
+  "prototypes/element_P1_L994_v2.usda": "4d85c00aedc13b51eb420313823dfa1cedc97ec1cf108b28621a59f9a5f02264",
+  "prototypes/element_P1_L994_v3.usda": "23f08de5f816a1739e78eb64fe15c553be4a469c54465f646edd13da502a0894",
+  "prototypes/element_T2_bateau_L494_v0.usda": "4217ebb3162e9cdc1671f5eb0b2c7f3e4035f5ed89c19fae3f87eee425be3944",
+  "prototypes/element_T2_bateau_L494_v1.usda": "2342e6b96ef55802d8936b53be03615f9f7b279d216360aa1b34ce1bf2bb1c27",
+  "prototypes/element_T2_bateau_L494_v2.usda": "b55901d86bbf2a7bc7487a8f48bf0163dfc2fd963ccc3bd7f5688312923a747e",
+  "prototypes/element_T2_bateau_L494_v3.usda": "7d960777c34d627b484fc2483159c8fbfd9f6047e9cd822368a23f465cafeeaa",
+  "prototypes/element_T2_bateau_L994_v0.usda": "7107d0a4a4fb4aa23a1bda369fa25f39f289e0982b7f08a46c22552b71980d5b",
+  "prototypes/element_T2_bateau_L994_v1.usda": "b1e0ada9e97c1021a6ee79be0a91cf4280160fde130a338f0a0bd334ebf27fa1",
+  "prototypes/element_T2_bateau_L994_v2.usda": "a7f798152e9bc41c80f9e98de4596abd63df00450b8a5eba40b544c5e9bf65c7",
+  "prototypes/element_T2_bateau_L994_v3.usda": "317d9a49e568e7ed52cb5c54fb3c28a422a1392d46db52e6078e0e7bddd6ff19",
+  "prototypes/element_T2_L494_v0.usda": "33f7d1599939943ddf0dcc522a47177abe203dacb98e34d0f535d058a58b507e",
+  "prototypes/element_T2_L494_v1.usda": "6b7acdf3501cb7260b86c9614c42084599be23c2065045a246bc87f64fcdd064",
+  "prototypes/element_T2_L494_v2.usda": "9a634993005a9913dd1d645931d6dcf07689d3844ff1bf4d0fe387bb0f2c977f",
+  "prototypes/element_T2_L494_v3.usda": "eed555c8424e05f4463110e9213f47088c23ad8e6a002d8e2c68e816df6461b9",
+  "prototypes/element_T2_L994_v0.usda": "f58ea0e5c2db78f4b9cae95d54821123d103c26499d6c0ccfb0a5bcdde1aee1b",
+  "prototypes/element_T2_L994_v1.usda": "c7aa90f4624a9e22310643f017613083f40fe067bd4a75df97b55afe6cd85f1c",
+  "prototypes/element_T2_L994_v2.usda": "06e94414ff6635710c8427d1e01a7c7b6954f7557732dbdc05f85a3c506a5383",
+  "prototypes/element_T2_L994_v3.usda": "2422db8075d60c49eafce71a858b01e45509e2e8ba36acf605369bad7f5d5ad4",
+  "prototypes/element_T3_L494_v0.usda": "6164892cbc277327ac6d6a4eab900cfa55273a64c004801f75ae7f1eaa236589",
+  "prototypes/element_T3_L494_v1.usda": "9479c1df81b176ed4cd6132326cca891c043cee225ff16975483de902021bc7f",
+  "prototypes/element_T3_L494_v2.usda": "97c20c1e9afce6990e52439d94bf63ebd6370266de3dd4da7a79cfdeb3c0e5c8",
+  "prototypes/element_T3_L494_v3.usda": "6addb1805c106185d0fc0959d6d3d55e5d955eebd860b5d5b0319269c4236bd7",
+  "prototypes/element_T3_L994_v0.usda": "19a7c90c6c5c3c8307464451c5fa8795ff9333d71778fa61cc20ad6e9e4a9f60",
+  "prototypes/element_T3_L994_v1.usda": "7d107b693f98d54010a687bf5ca6f61c1a3e4b66ce0eb36d765f4a06e725ab0e",
+  "prototypes/element_T3_L994_v2.usda": "4b967bdb30dbb1c382097116b0499307f3dcffb22ba66cacc188d29a135e89c1",
+  "prototypes/element_T3_L994_v3.usda": "60d179325e757dbf3cb150de4c6f0b8edf9bc2a516fc005c3c8b2e6125108b6f",
+  "prototypes/index.json": "3ccad40fa7179096ac5ea5770abdfa320da4698548524debb0949bcaeaf796c9",
+  "prototypes/joint_A2.usda": "44b35135197a462f37a743b5ebf50e7935b1c603e04f8328def378424514732a",
+  "prototypes/joint_CS2.usda": "daba674169f6f7e98a8d5aee522409eed90ca549496305bd881b6d6c3314d0ea",
+  "prototypes/joint_P1.usda": "4d49d297ae73b446c8969cbb272bb47ab2ceb8b7091805d4493cf28a96cc0c91",
+  "prototypes/joint_T2.usda": "ac47a467e24c67d7794182811f54ba3f09f34201b0ed9c12d54ac12f745ea5e3",
+  "prototypes/joint_T2_bateau.usda": "cf5ae4b9815f6a7aab88df6ad62deb884f5f1e84ead32cf86ef979305a53eb3f",
+  "prototypes/joint_T3.usda": "66acdf92374084cf345ba5e10b134ab836c79f2c9a38b2d3e114fb2f9008ca98",
+  "prototypes/jointf_A2.usda": "5205d10618d673a326e1a3765ae27da5dbe9e168ff6be4161efa6eaf493abf30",
+  "prototypes/jointf_P1.usda": "5b3685f0b1c76a2a8725244b837a21824578f5293950989d14f284f861fa36f7",
+  "prototypes/jointf_T2.usda": "8b98018bfc9b3334c2b0eb0886c3e6fa80b6f29b66a8020be50108a7130382cf",
+  "prototypes/jointf_T2_bateau.usda": "93e397f44e67ff2c958b191bd70076dfd911863c76fcca79ea7516ed38e8875c",
+  "prototypes/jointf_T3.usda": "7a7dfb27a61280c159b5664b646e5e3a0282cacdb4adfd1f9d9fbc22252985d2",
+  "prototypes/quart_I1_R025.usda": "f099c69be10c036caad1d775648af48d83774a9b52429efba23f36d39677c663",
+  "prototypes/quart_I2_R025.usda": "dae02be1022ebb4635befabbaf42d5a2b9ea614a766b8155ba62e7afe8c05b0d",
+  "prototypes/quart_T2_R050.usda": "2235301acd49871aadb5cb61fee6a674b4592040f5746bc706bc96eec3dee121",
+  "prototypes/quart_T3_R050.usda": "ae4e4806d8c615d954a2a215931f654f8c86b57add327ca6ff6590028c1b2c11",
+  "prototypes/quart_TU_R025.usda": "00e96a187822c7dc0ec730479823750cfe993b506f0804c6c7bc80f7f65e7480",
+  "rendu_pilote.usda": "c6e63f28733b2ad1190aaa5da6404bda1d853a105a092e42f99859f452550b32",
+  "sol.usda": "e06335c87832e340c7d458523f222836fc784345889be7481fc1a6c9334f4998",
+  "zones/ilots.json": "645dac5e57da999135ee7d1e8bd9e13909b9a68eeb6f9b70cb36783b7af6c0f8"
+ },
+ "hash_sorties": "f02614a77b9c687f1cad3cb3d2655367a884e31477025db0503ca647a293bc77",
+ "phase1": {
+  "joints_3_10_mm": {
+   "conforme": false,
+   "mesure": "4 coins de chaque about : min 0.85 mm, max 18.34 mm (médianes 5.73 / 7.17), 22 joint(s) hors 3-10 mm sur 852"
+  },
+  "marches_tete": {
+   "conforme": false,
+   "mesure": "1 marche(s) de tête > 10 mm"
+  },
+  "enterres": {
+   "conforme": true,
+   "mesure": "0 tranche(s) avec la chaussée au-dessus de la tête, 0 avec le sol arrière au-dessus"
+  },
+  "vue_traversees": {
+   "conforme": false,
+   "mesure": "vue réelle 0.0097-0.0211 m (médiane 0.0198) ; hors 0,02 ± 0,005 : 12 élément(s)"
+  },
+  "rampes_5pct": {
+   "conforme": false,
+   "mesure": "p95 sur profils marchables : max 19.32 % ; > 5 % : [('A-0178-1', 19.32), ('A-0341-1', 5.78), ('A-0385-2', 8.11), ('A-0388-1', 6.28)]"
+  },
+  "interstices_5mm": {
+   "conforme": true,
+   "mesure": "sondes tous les 2 cm : 0 trou(s) devant, 0 derrière"
+  },
+  "remplissages_3_5cm": {
+   "conforme": false,
+   "mesure": "I-0297 0.0391 m, 27/663 hors 3-5 cm; I-0390 0.0396 m, 2/531 hors 3-5 cm; I-0629 0.0382 m, 7/427 hors 3-5 cm"
+  },
+  "doublons": {
+   "conforme": true,
+   "mesure": "0 recouvrement(s) de bandes"
+  },
+  "z_fil_eau_1cm": {
+   "conforme": true,
+   "mesure": "fil d'eau posé − décrit -0.0097 à 0.0095 m ; 0 élément(s) > 1 cm"
+  },
+  "plan_2cm_p95_5cm_max": {
+   "conforme": true,
+   "mesure": "écart en plan face posée − levé : p95 0.0069 m, max 0.0451 m (nez exclus)"
+  },
+  "mobilier_2cm": {
+   "conforme": true,
+   "mesure": "0 instance(s) v1 posée(s) au sol à plus de 2 cm de leur appui v2"
+  },
+  "faces_arriere_3cm": {
+   "conforme": false,
+   "mesure": "6 élément(s) avec plus de 3 cm de face arrière à nu"
+  }
+ },
+ "determinisme": {
+  "methode": "deuxième exécution complète dans un autre processus hython, même description et mêmes specs ; comparaison sha256 fichier par fichier",
+  "fichiers_compares": 296,
+  "differences": [],
+  "identique_a_l_octet": true,
+  "hash_sorties_execution_2": "f02614a77b9c687f1cad3cb3d2655367a884e31477025db0503ca647a293bc77",
+  "duree_s": 132
+ }
+}

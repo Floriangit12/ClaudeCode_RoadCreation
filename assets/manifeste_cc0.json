@@ -4084,6 +4084,583 @@
    },
    "alternatives_examinees": [],
    "notes": "Couche optionnelle ; mélanger par la carte de hauteur (HeightLerp dans Unreal)."
+  },
+  {
+   "nom": "brf_bois_concasse",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "libelle": "BRF / bois concassé brun (plaquettes et broyat de 2-5 cm) en couche de 7-10 cm, 3-5 cm sous le dessus des bordures",
+   "priorite": 2,
+   "usage_scene": {
+    "classes": [
+     "ilot/remplissage brf_bois_concasse",
+     "massifs et pieds d'arbres paillés (a priori 2025)"
+    ],
+    "looks": []
+   },
+   "source": "ambientCG",
+   "id": "WoodChips003",
+   "page": "https://ambientcg.com/a/WoodChips003",
+   "auteur": "Lennart Demes (ambientCG)",
+   "type_source": "Material",
+   "methode": "Height field photogrammetry",
+   "cartes_disponibles": [
+    "color",
+    "displacement",
+    "normal",
+    "roughness",
+    "ambient-occlusion"
+   ],
+   "telechargements": {
+    "1K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=WoodChips003_1K-JPG.zip",
+     "taille_o": 10396262,
+     "fichier": "WoodChips003_1K-JPG.zip"
+    },
+    "2K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=WoodChips003_2K-JPG.zip",
+     "taille_o": 35459194,
+     "fichier": "WoodChips003_2K-JPG.zip"
+    },
+    "4K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=WoodChips003_4K-JPG.zip",
+     "taille_o": 126660748,
+     "fichier": "WoodChips003_4K-JPG.zip"
+    }
+   },
+   "cartes_zip": {
+    "albedo": "*_Color.jpg",
+    "normale": "*_NormalGL.jpg",
+    "rugosite": "*_Roughness.jpg",
+    "ao": "*_AmbientOcclusion.jpg",
+    "hauteur": "*_Displacement.jpg",
+    "opacite": "*_Opacity.jpg",
+    "metal": "*_Metalness.jpg"
+   },
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 1.6,
+   "tile_m_source": "API (1.60 m)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres de la scène (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "correction_teinte": {
+    "espace": "CIE L*a*b* (D65), sur l'albédo sRGB",
+    "formule": "L' = gain_L·L + decalage_L ; a' = gain_ab·a + decalage_a ; b' = gain_ab·b + decalage_b",
+    "gain_L": 0.9,
+    "decalage_L": -24.82,
+    "gain_ab": 0.6,
+    "decalage_a": -1.39,
+    "decalage_b": -8.68,
+    "lab_moyen_source": [
+     57.13,
+     6.9,
+     23.45
+    ],
+    "lab_cible": [
+     26.6,
+     2.75,
+     5.39
+    ],
+    "delta_E_avant": 35.7,
+    "delta_E_apres": 0.0,
+    "mode_script": "'cible' : le script recalcule les décalages sur la texture téléchargée pour que la moyenne atteigne lab_cible avec ces gains ; 'manifeste' applique les valeurs telles quelles"
+   },
+   "cible": {
+    "albedo_lineaire": [
+     0.062,
+     0.047,
+     0.038
+    ],
+    "srgb8": [
+     70,
+     61,
+     55
+    ],
+    "lab": [
+     26.6,
+     2.75,
+     5.39
+    ],
+    "mesure": "photo utilisateur 2.png (Heinrich & Bock, hors site, 2026-10-10) : rapport linéaire BRF / enrobé voisin = 0,206 (médianes de zones éclairées de la même façon) × albédo d'enrobé vieilli 0,24 (a priori, entre enrobe_trottoir 0,21 et enrobe_bbsg_ancien 0,26) ; confiance faible (photo de catalogue retouchée possible)"
+   },
+   "rugosite": {
+    "gain": 1.0,
+    "decalage": 0.0,
+    "motif": null
+   },
+   "photos_reference": [
+    "photo utilisateur 2.png (référence d'aspect, hors site ; non versionnée)"
+   ],
+   "qa": {
+    "validation": [],
+    "selection": null
+   },
+   "alternatives_examinees": [
+    {
+     "source": "acg",
+     "id": "WoodChips001",
+     "delta_E_brut": 27.9,
+     "ecart_type_L": 10.47
+    },
+    {
+     "source": "acg",
+     "id": "WoodChips002",
+     "delta_E_brut": 52.4,
+     "ecart_type_L": 11.02
+    },
+    {
+     "source": "ph",
+     "id": "wood_chip_path",
+     "delta_E_brut": 24.9,
+     "ecart_type_L": 6.85
+    }
+   ],
+   "notes": "Choix par comparaison à échelle égale (0,6 m) avec la photo utilisateur 2 : copeaux et broyat mêlés, bruns, comme le BRF en place. WoodChips002 écarté : texture 2:1 (1024 x 512 en 1K, incompatible avec le contrôle carré de telecharger_cc0.py) et copeaux de pin frais trop clairs. Teinte : brun foncé humide d'octobre ; gain_ab 0,6 pour désaturer l'orangé de la source."
+  },
+  {
+   "nom": "brf_bois_gris",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "libelle": "BRF / plaquettes de bois vieillies, grisées (gris argent après environ 1 an)",
+   "priorite": 3,
+   "usage_scene": {
+    "classes": [
+     "ilot/remplissage brf_bois_concasse (variante vieillie)",
+     "massifs paillés anciens"
+    ],
+    "looks": []
+   },
+   "source": "ambientCG",
+   "id": "WoodChips001",
+   "page": "https://ambientcg.com/a/WoodChips001",
+   "auteur": "Lennart Demes (ambientCG)",
+   "type_source": "Material",
+   "methode": "Height field photogrammetry",
+   "cartes_disponibles": [
+    "color",
+    "displacement",
+    "normal",
+    "roughness",
+    "ambient-occlusion"
+   ],
+   "telechargements": {
+    "1K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=WoodChips001_1K-JPG.zip",
+     "taille_o": 9925585,
+     "fichier": "WoodChips001_1K-JPG.zip"
+    },
+    "2K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=WoodChips001_2K-JPG.zip",
+     "taille_o": 29935772,
+     "fichier": "WoodChips001_2K-JPG.zip"
+    },
+    "4K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=WoodChips001_4K-JPG.zip",
+     "taille_o": 98048517,
+     "fichier": "WoodChips001_4K-JPG.zip"
+    }
+   },
+   "cartes_zip": {
+    "albedo": "*_Color.jpg",
+    "normale": "*_NormalGL.jpg",
+    "rugosite": "*_Roughness.jpg",
+    "ao": "*_AmbientOcclusion.jpg",
+    "hauteur": "*_Displacement.jpg",
+    "opacite": "*_Opacity.jpg",
+    "metal": "*_Metalness.jpg"
+   },
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 1.8,
+   "tile_m_source": "estimé d'après la taille des copeaux (3-5 cm, comme WoodChips002 à 1,80 m) ; API sans dimension",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres de la scène (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "correction_teinte": null,
+   "cible": null,
+   "rugosite": {
+    "gain": 1.0,
+    "decalage": 0.0,
+    "motif": null
+   },
+   "photos_reference": [],
+   "qa": {
+    "validation": [],
+    "selection": null
+   },
+   "alternatives_examinees": [
+    {
+     "source": "acg",
+     "id": "WoodChips003",
+     "delta_E_brut": 23.3,
+     "ecart_type_L": 13.1
+    }
+   ],
+   "notes": "Variante vieillie du BRF, couleur propre de la texture (pas de cible mesurée) ; à mélanger avec brf_bois_concasse par masque de bruit pour les îlots plantés avant 2025."
+  },
+  {
+   "nom": "gravier_concasse_6_10",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "libelle": "Gravier concassé anguleux 6/10-10/14 gris (îlots et pieds de mâts gravillonnés), 5-10 cm sur géotextile",
+   "priorite": 2,
+   "usage_scene": {
+    "classes": [
+     "ilot/remplissage gravier_concasse_6_10",
+     "îlots gravillonnés du Vercors (constat coeur-31)",
+     "pieds de mâts"
+    ],
+    "looks": []
+   },
+   "source": "Poly Haven",
+   "id": "gravel_floor_02",
+   "page": "https://polyhaven.com/a/gravel_floor_02",
+   "auteur": "Jenelle van Heerden (Processing), Dimitrios Savva (Photography)",
+   "type_source": "texture",
+   "cartes_disponibles": [
+    "Diffuse",
+    "nor_dx",
+    "nor_gl",
+    "arm",
+    "AO",
+    "Displacement",
+    "Rough"
+   ],
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_floor_02/gravel_floor_02_diff_1k.jpg",
+       "taille_o": 1240441,
+       "md5": "9e420814367b8ee7a25bcfea10ff4b08"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/gravel_floor_02/gravel_floor_02_nor_gl_1k.png",
+       "taille_o": 6128277,
+       "md5": "4492b4c93c241d44ffb23277147a9aaf"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_floor_02/gravel_floor_02_rough_1k.jpg",
+       "taille_o": 680926,
+       "md5": "f6d14a303ac3555e5f10b3aa22dbdc3d"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_floor_02/gravel_floor_02_ao_1k.jpg",
+       "taille_o": 1176081,
+       "md5": "041fa4d6e90d44ddccf2a55be5fbdf46"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/gravel_floor_02/gravel_floor_02_disp_1k.png",
+       "taille_o": 1867229,
+       "md5": "109e285e39768415725cac5be9e5f9ec"
+      }
+     },
+     "taille_o": 11092954
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gravel_floor_02/gravel_floor_02_diff_2k.jpg",
+       "taille_o": 4698557,
+       "md5": "db7865191e53523b2b9eabc85a7f73c3"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/gravel_floor_02/gravel_floor_02_nor_gl_2k.png",
+       "taille_o": 24189112,
+       "md5": "ee91478f957e090e4059ea6273a3e248"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gravel_floor_02/gravel_floor_02_rough_2k.jpg",
+       "taille_o": 2698006,
+       "md5": "e523a3ce827dc5dee008d8ff7f318246"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gravel_floor_02/gravel_floor_02_ao_2k.jpg",
+       "taille_o": 4279088,
+       "md5": "90923e99cfe6e2e686b8efdf82a04fa2"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/gravel_floor_02/gravel_floor_02_disp_2k.png",
+       "taille_o": 7098121,
+       "md5": "68ed8323e660e7857378688882d4e5ff"
+      }
+     },
+     "taille_o": 42962884
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/gravel_floor_02/gravel_floor_02_diff_4k.jpg",
+       "taille_o": 17244260,
+       "md5": "bbe0e57e29eae935ec6e4de6954510da"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/gravel_floor_02/gravel_floor_02_nor_gl_4k.png",
+       "taille_o": 95437600,
+       "md5": "6244322eedc6ac52ad559e8f8749965c"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/gravel_floor_02/gravel_floor_02_rough_4k.jpg",
+       "taille_o": 10650548,
+       "md5": "2d0b20f78b5d5766e02e95ee468eb7ad"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/gravel_floor_02/gravel_floor_02_ao_4k.jpg",
+       "taille_o": 15422999,
+       "md5": "44f6c0fe114c30e96d026917e0eb6be1"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/gravel_floor_02/gravel_floor_02_disp_4k.png",
+       "taille_o": 26774286,
+       "md5": "5cd5a24da8a0d868f04b2f8d9529c087"
+      }
+     },
+     "taille_o": 165529693
+    }
+   },
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 2.0,
+   "tile_m_source": "API (2.00 m)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres de la scène (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "correction_teinte": {
+    "espace": "CIE L*a*b* (D65), sur l'albédo sRGB",
+    "formule": "L' = gain_L·L + decalage_L ; a' = gain_ab·a + decalage_a ; b' = gain_ab·b + decalage_b",
+    "gain_L": 1.0,
+    "decalage_L": -5.6,
+    "gain_ab": 0.8,
+    "decalage_a": -0.38,
+    "decalage_b": -2.73,
+    "lab_moyen_source": [
+     68.08,
+     -0.55,
+     6.22
+    ],
+    "lab_cible": [
+     62.48,
+     -0.82,
+     2.25
+    ],
+    "delta_E_avant": 6.9,
+    "delta_E_apres": 0.0,
+    "mode_script": "'cible' : le script recalcule les décalages sur la texture téléchargée pour que la moyenne atteigne lab_cible avec ces gains ; 'manifeste' applique les valeurs telles quelles"
+   },
+   "cible": {
+    "albedo_lineaire": [
+     0.311,
+     0.311,
+     0.292
+    ],
+    "srgb8": [
+     151,
+     151,
+     147
+    ],
+    "lab": [
+     62.48,
+     -0.82,
+     2.25
+    ],
+    "mesure": "reprise de la cible de gravillons_ilot (ortho 2022, îlot effilé gravillonné du Vercors) : même matériau en place, texture concassée plus fidèle"
+   },
+   "rugosite": {
+    "gain": 1.0,
+    "decalage": 0.0,
+    "motif": null
+   },
+   "photos_reference": [
+    "photo utilisateur 3.png et 4.webp (aspect concassé anguleux ; hors site, non versionnées)",
+    "data/raw/panoramax/paquet_jardin/tiles/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd/2025-01-12_a1ffea74-72b7-4ebc-a34d-e1930f71ecc0_hd_r01_c00.jpg"
+   ],
+   "qa": {
+    "validation": [],
+    "selection": null
+   },
+   "alternatives_examinees": [
+    {
+     "source": "acg",
+     "id": "Gravel035",
+     "delta_E_brut": 9.8,
+     "ecart_type_L": 11.43
+    },
+    {
+     "source": "acg",
+     "id": "Rocks006",
+     "delta_E_brut": 18.0,
+     "ecart_type_L": 14.17
+    },
+    {
+     "source": "ph",
+     "id": "bicolour_gravel",
+     "delta_E_brut": 18.9,
+     "ecart_type_L": 13.63
+    },
+    {
+     "source": "ph",
+     "id": "gravel_stones",
+     "delta_E_brut": 29.2,
+     "ecart_type_L": 5.43
+    }
+   ],
+   "notes": "Gravel035 (gravillons_ilot) est un gravier roulé de rivière : arêtes arrondies, peu crédible de près pour un concassé. gravel_floor_02 montre des grains anguleux de 8-15 mm à 2,00 m, comme les photos utilisateur 3 et 4. Même cible que gravillons_ilot."
+  },
+  {
+   "nom": "calcaire_bordure",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "libelle": "Pierre calcaire claire (bordures et pavés calcaire sciés), beige pâle à fins lits",
+   "priorite": 3,
+   "usage_scene": {
+    "classes": [
+     "bordures calcaire (materiau calcaire de bordures_elements.json)",
+     "photo utilisateur 4"
+    ],
+    "looks": []
+   },
+   "source": "ambientCG",
+   "id": "Travertine009",
+   "page": "https://ambientcg.com/a/Travertine009",
+   "auteur": "Lennart Demes (ambientCG)",
+   "type_source": "Material",
+   "methode": "Height field photogrammetry",
+   "cartes_disponibles": [
+    "color",
+    "displacement",
+    "normal",
+    "roughness",
+    "ambient-occlusion"
+   ],
+   "telechargements": {
+    "1K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Travertine009_1K-JPG.zip",
+     "taille_o": 3292870,
+     "fichier": "Travertine009_1K-JPG.zip"
+    },
+    "2K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Travertine009_2K-JPG.zip",
+     "taille_o": 9116254,
+     "fichier": "Travertine009_2K-JPG.zip"
+    },
+    "4K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Travertine009_4K-JPG.zip",
+     "taille_o": 32850019,
+     "fichier": "Travertine009_4K-JPG.zip"
+    }
+   },
+   "cartes_zip": {
+    "albedo": "*_Color.jpg",
+    "normale": "*_NormalGL.jpg",
+    "rugosite": "*_Roughness.jpg",
+    "ao": "*_AmbientOcclusion.jpg",
+    "hauteur": "*_Displacement.jpg",
+    "opacite": "*_Opacity.jpg",
+    "metal": "*_Metalness.jpg"
+   },
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 1.2,
+   "tile_m_source": "API (1.20 m)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres de la scène (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "correction_teinte": {
+    "espace": "CIE L*a*b* (D65), sur l'albédo sRGB",
+    "formule": "L' = gain_L·L + decalage_L ; a' = gain_ab·a + decalage_a ; b' = gain_ab·b + decalage_b",
+    "gain_L": 0.6,
+    "decalage_L": 22.08,
+    "gain_ab": 0.6,
+    "decalage_a": -1.64,
+    "decalage_b": -3.37,
+    "lab_moyen_source": [
+     82.61,
+     1.95,
+     18.28
+    ],
+    "lab_cible": [
+     71.65,
+     -0.47,
+     7.6
+    ],
+    "delta_E_avant": 15.5,
+    "delta_E_apres": 0.0,
+    "mode_script": "'cible' : le script recalcule les décalages sur la texture téléchargée pour que la moyenne atteigne lab_cible avec ces gains ; 'manifeste' applique les valeurs telles quelles"
+   },
+   "cible": {
+    "albedo_lineaire": [
+     0.46,
+     0.43,
+     0.36
+    ],
+    "srgb8": [
+     181,
+     175,
+     162
+    ],
+    "lab": [
+     71.65,
+     -0.47,
+     7.6
+    ],
+    "mesure": "a priori : calcaire clair beige (photo utilisateur 4.webp, bordures calcaire autour d'un îlot pavé ; non mesurable : pas de référence d'albédo dans l'image) ; confiance faible"
+   },
+   "rugosite": {
+    "gain": 1.0,
+    "decalage": 0.66,
+    "motif": "travertin poli de la source (rugosité ≈ 0,04) ramené à une pierre sciée ou bouchardée mate (≈ 0,70)"
+   },
+   "photos_reference": [
+    "photo utilisateur 4.webp (référence d'aspect, hors site ; non versionnée)"
+   ],
+   "qa": {
+    "validation": [],
+    "selection": null
+   },
+   "alternatives_examinees": [
+    {
+     "source": "acg",
+     "id": "Travertine001",
+     "delta_E_brut": 10.4,
+     "ecart_type_L": 6.19
+    },
+    {
+     "source": "acg",
+     "id": "Concrete034",
+     "delta_E_brut": 8.3,
+     "ecart_type_L": 2.27
+    }
+   ],
+   "notes": "Aucune bordure calcaire CC0 ; travertin clair (calcaire) scié, lits orientés le long de l'élément (U le long de la bordure). gain_L 0,6 atténue le veinage poli trop marqué. Usage : matériau 'calcaire' des éléments de bordure, pas de bordure calcaire relevée sur le site (a priori)."
   }
  ]
 }

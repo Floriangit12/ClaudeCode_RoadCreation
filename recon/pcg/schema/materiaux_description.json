@@ -1,0 +1,32 @@
+{
+ "schema": "description_scene_v2/0.1#materiaux",
+ "role": "Identifiants de matériaux autorisés dans la description v2 (revetement.materiau_id, remplissage.materiau_id, materiau des bordures, ponctuels) et leur résolution vers la librairie CC0 (assets/manifeste_cc0.json, assets/lib/materiaux/<nom>/). Houdini et Unreal résolvent par cette table ; aucun matériau City Sample côté Karma.",
+ "statuts": {
+  "disponible": "matériau CC0 présent dans assets/lib/materiaux/<bibliotheque>/",
+  "substitut": "pas de matériau dédié : la librairie fournit un proche (teinte et grain), à remplacer quand le dédié sera téléchargé",
+  "derive": "matériau de la librairie avec un réglage (gain d'albédo, salissure) appliqué à la fabrication",
+  "a_telecharger": "aucun équivalent dans la librairie (décision utilisateur D4 de l'architecture v2)"
+ },
+ "materiaux": {
+  "enrobe_bbsg_ancien": {"famille": "sol", "bibliotheque": "enrobe_bbsg_ancien", "statut": "disponible", "libelle": "enrobé BBSG ancien, gris clair oxydé (chaussée inchangée)"},
+  "enrobe_bbsg_neuf_2025": {"famille": "sol", "bibliotheque": "enrobe_bbsg_neuf", "statut": "disponible", "libelle": "enrobé neuf des travaux 2025 (noir, fermé)"},
+  "enrobe_trottoir": {"famille": "sol", "bibliotheque": "enrobe_trottoir", "statut": "disponible", "libelle": "enrobé de trottoir 0/6, plus rugueux"},
+  "enrobe_piste_cyclable": {"famille": "sol", "bibliotheque": "enrobe_piste_cyclable", "statut": "disponible", "libelle": "enrobé de la piste bidirectionnelle (Chronovélo)"},
+  "beton_balaye": {"famille": "sol", "bibliotheque": "beton_bordure", "statut": "substitut", "libelle": "béton coulé balayé (dalle d'îlot, trottoir), joints sciés 3-4 m"},
+  "beton_desactive": {"famille": "sol", "bibliotheque": "enrobe_clair_granulats", "statut": "substitut", "libelle": "béton désactivé à granulats apparents"},
+  "paves_beton": {"famille": "sol", "bibliotheque": "paves_granit", "statut": "substitut", "libelle": "pavés béton 20 x 10 (substitut : pavés granit clairs)"},
+  "stabilise_beige": {"famille": "sol", "bibliotheque": "stabilise_beige", "statut": "disponible", "libelle": "stabilisé renforcé 0/6 beige"},
+  "gazon_tondu": {"famille": "sol", "bibliotheque": "gazon_tondu", "statut": "disponible", "libelle": "gazon tondu"},
+  "herbe_haute": {"famille": "sol", "bibliotheque": "herbe_haute", "statut": "disponible", "libelle": "herbe haute non tondue"},
+  "terre_nue": {"famille": "sol", "bibliotheque": "terre_nue", "statut": "disponible", "libelle": "terre nue remaniée"},
+  "noue_plantee": {"famille": "sol", "bibliotheque": "noue_plantee", "statut": "disponible", "libelle": "noue plantée (eaux pluviales)"},
+  "brf_bois_concasse": {"famille": "remplissage", "bibliotheque": null, "statut": "a_telecharger", "libelle": "bois raméal fragmenté / plaquettes 2-5 cm, brun-roux grisaillant après un an", "candidats": ["ambientCG WoodChips001", "ambientCG WoodChips002", "ambientCG WoodChips003"]},
+  "gravier_concasse_6_10": {"famille": "remplissage", "bibliotheque": "gravillons_ilot", "statut": "substitut", "libelle": "gravier concassé 6/10 clair (îlots du Vercors)"},
+  "galets_20_40": {"famille": "remplissage", "bibliotheque": "paillage_mineral", "statut": "substitut", "libelle": "galets roulés 20/40"},
+  "bev_podotactile": {"famille": "ponctuel", "bibliotheque": "bev_podotactile", "statut": "disponible", "libelle": "dalles d'éveil de vigilance 40 x 40 à plots"},
+  "beton_gris": {"famille": "bordure", "bibliotheque": "beton_bordure", "statut": "disponible", "libelle": "béton de bordure existant, gris, sali (albédo linéaire mesuré ≈ 0,35)", "reglage": {"gain_albedo": 1.0, "salissure_min": 0.3}},
+  "beton_clair": {"famille": "bordure", "bibliotheque": "beton_bordure", "statut": "derive", "libelle": "béton de bordure neuf ou très clair (îlots du Vercors « presque blancs »)", "reglage": {"gain_albedo": 1.25, "salissure_min": 0.05}},
+  "granit": {"famille": "bordure", "bibliotheque": "paves_granit", "statut": "substitut", "libelle": "bordure granit"},
+  "peint_blanc": {"famille": "bordure", "bibliotheque": "beton_bordure", "statut": "derive", "libelle": "bordure béton à tête et face vue peintes en blanc (peinture.json)"}
+ }
+}

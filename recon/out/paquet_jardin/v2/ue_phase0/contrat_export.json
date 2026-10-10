@@ -1,0 +1,232 @@
+{
+ "date": "2026-10-10T05:21:01",
+ "echantillon": {
+  "usd": "D:/ClaudeCode_RoadCreation/recon/pcg/ue/contrat/echantillon_contrat.usda",
+  "prims": [
+   "/World",
+   "/World/Looks",
+   "/World/Looks/beton_bordure_gris",
+   "/World/Looks/beton_bordure_gris/Apercu",
+   "/World/Looks/beton_bordure_gris/Unreal",
+   "/World/Looks/enrobe_trottoir",
+   "/World/Looks/enrobe_trottoir/Apercu",
+   "/World/Looks/enrobe_trottoir/Unreal",
+   "/World/Looks/beton_balaye",
+   "/World/Looks/beton_balaye/Apercu",
+   "/World/Looks/beton_balaye/Unreal",
+   "/World/Bordures",
+   "/World/Bordures/K_essai_0001",
+   "/World/Bordures/K_essai_0001/geo",
+   "/World/Sol",
+   "/World/Sol/S_essai_0001",
+   "/World/Sol/S_essai_0001/geo",
+   "/World/Sol/S_essai_0001/geo/enrobe_trottoir",
+   "/World/Sol/S_essai_0001/geo/beton_balaye"
+  ]
+ },
+ "verif_echantillon": {
+  "usd": "D:/ClaudeCode_RoadCreation/recon/pcg/ue/contrat/echantillon_contrat.usda",
+  "erreurs": [],
+  "avertissements": [],
+  "meshes": [
+   {
+    "prim": "/World/Bordures/K_essai_0001/geo",
+    "erreurs": [],
+    "avertissements": [],
+    "faces": 21,
+    "points": 30,
+    "normales": "faceVarying",
+    "aretes_vives_lissees": 0,
+    "aretes_douces_cassees": 0,
+    "uv": [
+     "st"
+    ],
+    "st_echelle_mediane": 1.0,
+    "st_faces_degenerees": 0,
+    "materiaux": [
+     "beton_bordure_gris"
+    ],
+    "component": "/World/Bordures/K_essai_0001"
+   },
+   {
+    "prim": "/World/Sol/S_essai_0001/geo",
+    "erreurs": [],
+    "avertissements": [],
+    "faces": 96,
+    "points": 117,
+    "normales": "faceVarying",
+    "aretes_vives_lissees": 0,
+    "aretes_douces_cassees": 0,
+    "uv": [
+     "st"
+    ],
+    "st_echelle_mediane": 0.9999,
+    "st_faces_degenerees": 0,
+    "materiaux": [
+     "beton_balaye",
+     "enrobe_trottoir"
+    ],
+    "component": "/World/Sol/S_essai_0001"
+   }
+  ],
+  "stage": {
+   "metersPerUnit": 1.0,
+   "upAxis": "Z",
+   "defaultPrim": "/World"
+  },
+  "cusp_deg": 30.0,
+  "ok": true
+ },
+ "verif_v1": {
+  "usd": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/package/layers/bordures.usdc",
+  "erreurs": [
+   "/World/Bordures/faces_verticales : E2 normales absentes",
+   "/World/Bordures/faces_verticales : E3 66136 faces degenerees en UV (tangentes impossibles)",
+   "/World/Bordures/faces_verticales : E3 st pas en metres : echelle mediane 0.000 (1 attendu)",
+   "/World/Bordures/faces_verticales : E5 liaison vers /World/Looks/bordure absent de la scene composee (definir /World/Looks ou sous-couche)",
+   "/World/Bordures/faces_verticales : E5 faces sans materiau lie",
+   "/World/Bordures/faces_verticales : E6 aucun ancetre de kind component"
+  ],
+  "avertissements": [
+   "/World/Bordures/faces_verticales : A UV metriques en st1 seul (UE : UV0 ; nom canonique st, cf. CONTRAT_EXPORT.md)"
+  ],
+  "stage": {
+   "metersPerUnit": 1.0,
+   "upAxis": "Z",
+   "defaultPrim": "/World"
+  },
+  "cusp_deg": 30.0,
+  "ok": false
+ },
+ "import": {
+  "ok": true,
+  "nb": 2,
+  "objets": [
+   "/Game/PJ/Test_Contrat/Echantillon/echantillon_contrat/StaticMeshes/SM_S_essai_0001.SM_S_essai_0001",
+   "/Game/PJ/Test_Contrat/Echantillon/echantillon_contrat/StaticMeshes/SM_K_essai_0001.SM_K_essai_0001"
+  ],
+  "meshes": [
+   {
+    "mesh": "/Game/PJ/Test_Contrat/Echantillon/echantillon_contrat/StaticMeshes/SM_S_essai_0001.SM_S_essai_0001",
+    "sommets": 117,
+    "uv": 1,
+    "nanite": false,
+    "recompute_normals": false,
+    "recompute_tangents": false,
+    "use_full_precision_u_vs": true,
+    "use_mikk_t_space": true,
+    "materiaux": [
+     "/Game/PJ/Materials/MI_enrobe_trottoir.MI_enrobe_trottoir",
+     "/Game/PJ/Materials/MI_beton_balaye.MI_beton_balaye"
+    ]
+   },
+   {
+    "mesh": "/Game/PJ/Test_Contrat/Echantillon/echantillon_contrat/StaticMeshes/SM_K_essai_0001.SM_K_essai_0001",
+    "sommets": 90,
+    "uv": 1,
+    "nanite": false,
+    "recompute_normals": false,
+    "recompute_tangents": false,
+    "use_full_precision_u_vs": true,
+    "use_mikk_t_space": true,
+    "materiaux": [
+     "/Game/PJ/Materials/MI_beton_bordure_gris.MI_beton_bordure_gris"
+    ]
+   }
+  ],
+  "journal": {},
+  "acceptation": {
+   "avertissements_logstaticmesh": 0,
+   "ok": true
+  },
+  "duree_s": 0.6,
+  "options": {
+   "kinds_to_collapse": "2",
+   "use_prim_kinds_for_collapsing": "True",
+   "render_context_to_import": "unreal"
+  }
+ },
+ "import_v1": {
+  "ok": true,
+  "nb": 2,
+  "meshes": [
+   {
+    "mesh": "/Game/PJ/Test_Contrat/V1/bordures/StaticMeshes/SM_faces_verticales.SM_faces_verticales",
+    "sommets": 120621,
+    "uv": 1,
+    "nanite": false,
+    "recompute_normals": false,
+    "recompute_tangents": false,
+    "use_full_precision_u_vs": true,
+    "use_mikk_t_space": true,
+    "materiaux": [
+     "/Game/PJ/Test_Contrat/V1/bordures/Materials/MI_DisplayColor.MI_DisplayColor"
+    ]
+   }
+  ],
+  "journal": {
+   "LogStaticMesh": [
+    "LogStaticMesh: Warning: SM_faces_verticales has degenerate tangent bases which will result in incorrect shading. Consider enabling Recompute Tangents in the mesh's Build Settings.",
+    "LogStaticMesh: Warning: SM_faces_verticales has some nearly zero tangents which can create some issues. (Tolerance of 1E-4)",
+    "LogStaticMesh: Warning: SM_faces_verticales has some nearly zero bi-normals which can create some issues. (Tolerance of 1E-4)"
+   ]
+  },
+  "acceptation": {
+   "avertissements_logstaticmesh": 3,
+   "ok": false
+  },
+  "duree_s": 0.93
+ },
+ "retrait_v1": {
+  "retires": [
+   "World",
+   "bordures"
+  ],
+  "dossier_supprime": null
+ },
+ "controles": {
+  "verificateur_echantillon_ok": true,
+  "verificateur_refuse_v1": true,
+  "zero_avertissement_logstaticmesh": true,
+  "meshes_par_component": true,
+  "normales_importees": true,
+  "uv_pleine_precision_1_canal": true,
+  "dalle_2_slots": true,
+  "detecteur_avertissements_v1": true
+ },
+ "ok": true,
+ "capture": {
+  "ok": true,
+  "png": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/contrat_echantillon.png",
+  "exr": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/contrat_echantillon.exr",
+  "phase": "fini",
+  "images": 150,
+  "chauffe": 32,
+  "ev100": 14.0,
+  "exposition": "manuelle",
+  "auto_cible": 118.0,
+  "fov_deg": 60.0,
+  "largeur": 1920,
+  "hauteur": 1080,
+  "ue_cm": [
+   -9600.0,
+   12300.0,
+   120.00000476837158
+  ],
+  "rot_ue": [
+   0.0,
+   -13.699999809265137,
+   -125.5
+  ],
+  "t0": 1791602469.6271589,
+  "reglages_refuses": [],
+  "monde": "/Game/PJ/Maps/PJ_Phase0.PJ_Phase0",
+  "exr_octets": 5147993,
+  "octets": 2274822,
+  "conversion_s": 1.97,
+  "moyenne": 118.6,
+  "duree_s": 5.25,
+  "fini": true,
+  "en_cours": false
+ }
+}

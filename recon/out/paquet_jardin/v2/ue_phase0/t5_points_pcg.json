@@ -1,0 +1,763 @@
+{
+ "essai": "t5",
+ "date": "2026-10-10T05:18:52",
+ "json": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/points_test_arbres.json",
+ "nb_points": 200,
+ "echantillon": [
+  "arbre_215",
+  "arbre_164",
+  "arbre_271",
+  "arbre_285",
+  "arbre_066"
+ ],
+ "preparation": {
+  "retires": [
+   "PJ_PCG_Points_Test"
+  ],
+  "graphes_vides": {
+   "/Game/PJ/PCG/PG_Points_Test": 2,
+   "/Game/PJ/PCG/PG_Points_Test_PDP": 2
+  },
+  "graphe_b": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test",
+  "pda_existe": true,
+  "graphe_a": "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP",
+  "noeuds_a": [
+   "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP:PythonDataProcessor_0",
+   "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP:StaticMeshSpawner_0"
+  ]
+ },
+ "b_cuisson": {
+  "ok": true,
+  "asset": "/Game/PJ/PCG/Donnees/PDA_Points_Test",
+  "nb_points": 200,
+  "script": "D:/ClaudeADAS/Saved/PJ\\pdp\\PDA_Points_Test.py",
+  "fini": true,
+  "asset_existe": true,
+  "duree_s": 0.78
+ },
+ "b_graphe": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test",
+ "b_noeuds": [
+  "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:Charger_Points",
+  "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:Poser_Meshes"
+ ],
+ "b_maj_attribut": "echec : SetObjectProperties on '/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:Poser_Meshes.PCGStaticMeshSpawnerSettings_7' (PCGStaticMeshSpawnerSettings): the following properties could not be set: meshSelectorParameters\nSetObjectProperties on '/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:Poser_Meshes.PCGStaticMeshSpawnerSettings_7' (PCGStaticMeshSpawnerSettings): the following properties could not be set: meshSelectorParameters\r\n\tClass /Script/PCGToolset.PCGToolset\r\n\tFunction /Script/PCGToolset.PCGT",
+ "b_attribut_lu": {
+  "spawners": [
+   {
+    "noeud": "Poser_Meshes",
+    "selecteur": "PCGMeshSelectorByAttribute",
+    "attribut_avant": "None",
+    "attribut": "Mesh",
+    "repli_python": true
+   }
+  ],
+  "pins_sortie": {
+   "Charger_Points": [
+    "In"
+   ],
+   "Poser_Meshes": [
+    "Out"
+   ]
+  }
+ },
+ "b_broche_load": "In",
+ "b_volume": "/Game/PJ/Maps/PJ_Phase0.PJ_Phase0:PersistentLevel.PJ_PCG_Points_Test_qu3syxht9awp2_1117095286",
+ "b_execution": {
+  "issues": [],
+  "duree_s": 0.06,
+  "verif": {
+   "nb_instances": 200,
+   "nb_points": 200,
+   "nb_composants": 2,
+   "composants": [
+    [
+     "ISM_SM_Maple_M_v1_0",
+     "InstancedStaticMeshComponent",
+     "SM_Maple_M_v1",
+     101
+    ],
+    [
+     "ISM_SM_Oak_M_v1_0",
+     "InstancedStaticMeshComponent",
+     "SM_Oak_M_v1",
+     99
+    ]
+   ],
+   "manquants": 0,
+   "instances_en_trop": 0,
+   "d_pos_max_cm": 0.0,
+   "d_yaw_max_deg": 5.684341886080802e-14,
+   "d_rot_max_deg": 6.000674644153597e-06,
+   "d_s_max": 1.8891357478345583e-07,
+   "mesh_faux": 0,
+   "echantillon": [
+    {
+     "id": "arbre_215",
+     "attendu_cm": [
+      -1664.3000000000002,
+      748.4,
+      -2.0
+     ],
+     "instance_cm": [
+      -1664.3000000000002,
+      748.4,
+      -2.0
+     ],
+     "d_pos_cm": 0.0,
+     "attendu_yaw_ue": -44.199998210412105,
+     "instance_yaw_ue": -44.19999821041212,
+     "d_yaw_deg": 0.0,
+     "d_rot_deg": 4.825330808162448e-07,
+     "attendu_s": [
+      0.2296,
+      0.2296,
+      0.5128
+     ],
+     "instance_s": [
+      0.22959999955096028,
+      0.22959999955096028,
+      0.5128
+     ],
+     "d_s": 4.490397220724418e-10,
+     "mesh_ok": true
+    },
+    {
+     "id": "arbre_271",
+     "attendu_cm": [
+      -3872.3999999999996,
+      -3554.5,
+      30.0
+     ],
+     "instance_cm": [
+      -3872.3999999999996,
+      -3554.5,
+      30.0
+     ],
+     "d_pos_cm": 0.0,
+     "attendu_yaw_ue": 175.29999992517435,
+     "instance_yaw_ue": 175.29999992517435,
+     "d_yaw_deg": 0.0,
+     "d_rot_deg": 1.6821662696944422e-06,
+     "attendu_s": [
+      0.9578,
+      0.9578,
+      1.4584
+     ],
+     "instance_s": [
+      0.9577999440413438,
+      0.9577999440413438,
+      1.4584
+     ],
+     "d_s": 5.595865615326545e-08,
+     "mesh_ok": true
+    },
+    {
+     "id": "arbre_285",
+     "attendu_cm": [
+      -5776.5,
+      -5440.1,
+      63.0
+     ],
+     "instance_cm": [
+      -5776.5,
+      -5440.1,
+      63.0
+     ],
+     "d_pos_cm": 0.0,
+     "attendu_yaw_ue": 50.2000006872245,
+     "instance_yaw_ue": 50.2000006872245,
+     "d_yaw_deg": 0.0,
+     "d_rot_deg": 2.106594836922175e-06,
+     "attendu_s": [
+      0.8166,
+      0.8166,
+      1.1964
+     ],
+     "instance_s": [
+      0.8165999914315177,
+      0.8165999914315177,
+      1.1964
+     ],
+     "d_s": 8.5684822570542e-09,
+     "mesh_ok": true
+    },
+    {
+     "id": "arbre_066",
+     "attendu_cm": [
+      4145.3,
+      9749.800000000001,
+      -158.0
+     ],
+     "instance_cm": [
+      4145.3,
+      9749.800000000001,
+      -158.0
+     ],
+     "d_pos_cm": 0.0,
+     "attendu_yaw_ue": -75.50000453241424,
+     "instance_yaw_ue": -75.50000453241427,
+     "d_yaw_deg": -2.842170943040401e-14,
+     "d_rot_deg": 4.388522329571629e-06,
+     "attendu_s": [
+      0.3191,
+      0.3191,
+      0.5697
+     ],
+     "instance_s": [
+      0.3191000131632808,
+      0.3191000131632808,
+      0.5697
+     ],
+     "d_s": 1.3163280798700328e-08,
+     "mesh_ok": true
+    },
+    {
+     "id": "arbre_164",
+     "attendu_cm": [
+      -10925.0,
+      5075.0,
+      37.0
+     ],
+     "instance_cm": [
+      -10925.0,
+      5075.0,
+      37.0
+     ],
+     "d_pos_cm": 0.0,
+     "attendu_yaw_ue": 128.69999757076704,
+     "instance_yaw_ue": 128.69999757076704,
+     "d_yaw_deg": 0.0,
+     "d_rot_deg": 9.244892248169503e-07,
+     "attendu_s": [
+      0.4192,
+      0.4192,
+      1.4902
+     ],
+     "instance_s": [
+      0.4191999913337544,
+      0.4191999913337544,
+      1.4902
+     ],
+     "d_s": 8.666245610022827e-09,
+     "mesh_ok": true
+    }
+   ]
+  }
+ },
+ "a_volume": "/Game/PJ/Maps/PJ_Phase0.PJ_Phase0:PersistentLevel.PJ_PCG_Points_Test_PDP_qu3syxht9awp2_2043880553",
+ "a_execution": {
+  "issues": [],
+  "duree_s": 0.06,
+  "verif": {
+   "nb_instances": 200,
+   "nb_points": 200,
+   "nb_composants": 2,
+   "composants": [
+    [
+     "ISM_SM_Maple_M_v1_0",
+     "InstancedStaticMeshComponent",
+     "SM_Maple_M_v1",
+     101
+    ],
+    [
+     "ISM_SM_Oak_M_v1_0",
+     "InstancedStaticMeshComponent",
+     "SM_Oak_M_v1",
+     99
+    ]
+   ],
+   "manquants": 0,
+   "instances_en_trop": 0,
+   "d_pos_max_cm": 0.0,
+   "d_yaw_max_deg": 5.684341886080802e-14,
+   "d_rot_max_deg": 6.000674644153597e-06,
+   "d_s_max": 1.8891357478345583e-07,
+   "mesh_faux": 0,
+   "echantillon": [
+    {
+     "id": "arbre_215",
+     "attendu_cm": [
+      -1664.3000000000002,
+      748.4,
+      -2.0
+     ],
+     "instance_cm": [
+      -1664.3000000000002,
+      748.4,
+      -2.0
+     ],
+     "d_pos_cm": 0.0,
+     "attendu_yaw_ue": -44.199998210412105,
+     "instance_yaw_ue": -44.19999821041212,
+     "d_yaw_deg": 0.0,
+     "d_rot_deg": 4.825330808162448e-07,
+     "attendu_s": [
+      0.2296,
+      0.2296,
+      0.5128
+     ],
+     "instance_s": [
+      0.22959999955096028,
+      0.22959999955096028,
+      0.5128
+     ],
+     "d_s": 4.490397220724418e-10,
+     "mesh_ok": true
+    },
+    {
+     "id": "arbre_271",
+     "attendu_cm": [
+      -3872.3999999999996,
+      -3554.5,
+      30.0
+     ],
+     "instance_cm": [
+      -3872.3999999999996,
+      -3554.5,
+      30.0
+     ],
+     "d_pos_cm": 0.0,
+     "attendu_yaw_ue": 175.29999992517435,
+     "instance_yaw_ue": 175.29999992517435,
+     "d_yaw_deg": 0.0,
+     "d_rot_deg": 1.6821662696944422e-06,
+     "attendu_s": [
+      0.9578,
+      0.9578,
+      1.4584
+     ],
+     "instance_s": [
+      0.9577999440413438,
+      0.9577999440413438,
+      1.4584
+     ],
+     "d_s": 5.595865615326545e-08,
+     "mesh_ok": true
+    },
+    {
+     "id": "arbre_285",
+     "attendu_cm": [
+      -5776.5,
+      -5440.1,
+      63.0
+     ],
+     "instance_cm": [
+      -5776.5,
+      -5440.1,
+      63.0
+     ],
+     "d_pos_cm": 0.0,
+     "attendu_yaw_ue": 50.2000006872245,
+     "instance_yaw_ue": 50.2000006872245,
+     "d_yaw_deg": 0.0,
+     "d_rot_deg": 2.106594836922175e-06,
+     "attendu_s": [
+      0.8166,
+      0.8166,
+      1.1964
+     ],
+     "instance_s": [
+      0.8165999914315177,
+      0.8165999914315177,
+      1.1964
+     ],
+     "d_s": 8.5684822570542e-09,
+     "mesh_ok": true
+    },
+    {
+     "id": "arbre_066",
+     "attendu_cm": [
+      4145.3,
+      9749.800000000001,
+      -158.0
+     ],
+     "instance_cm": [
+      4145.3,
+      9749.800000000001,
+      -158.0
+     ],
+     "d_pos_cm": 0.0,
+     "attendu_yaw_ue": -75.50000453241424,
+     "instance_yaw_ue": -75.50000453241427,
+     "d_yaw_deg": -2.842170943040401e-14,
+     "d_rot_deg": 4.388522329571629e-06,
+     "attendu_s": [
+      0.3191,
+      0.3191,
+      0.5697
+     ],
+     "instance_s": [
+      0.3191000131632808,
+      0.3191000131632808,
+      0.5697
+     ],
+     "d_s": 1.3163280798700328e-08,
+     "mesh_ok": true
+    },
+    {
+     "id": "arbre_164",
+     "attendu_cm": [
+      -10925.0,
+      5075.0,
+      37.0
+     ],
+     "instance_cm": [
+      -10925.0,
+      5075.0,
+      37.0
+     ],
+     "d_pos_cm": 0.0,
+     "attendu_yaw_ue": 128.69999757076704,
+     "instance_yaw_ue": 128.69999757076704,
+     "d_yaw_deg": 0.0,
+     "d_rot_deg": 9.244892248169503e-07,
+     "attendu_s": [
+      0.4192,
+      0.4192,
+      1.4902
+     ],
+     "instance_s": [
+      0.4191999913337544,
+      0.4191999913337544,
+      1.4902
+     ],
+     "d_s": 8.666245610022827e-09,
+     "mesh_ok": true
+    }
+   ]
+  }
+ },
+ "a_graphe_structure": {
+  "name": "PG_Points_Test_PDP",
+  "description": "",
+  "nodes": [
+   {
+    "name": "PythonDataProcessor_0",
+    "path": "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP:PythonDataProcessor_0",
+    "position": "(0, 0)",
+    "title": "Python Data Processor",
+    "bEnabled": true,
+    "comment": "",
+    "nodeType": "Python Data Processor",
+    "paramOverrides": {
+     "scriptInputMethod": "File",
+     "scriptPath": {
+      "filePath": "D:/ClaudeCode_RoadCreation/recon/pcg/ue/graphes/PG_Points_Test_PDP_lire.py"
+     }
+    }
+   },
+   {
+    "name": "StaticMeshSpawner_0",
+    "path": "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP:StaticMeshSpawner_0",
+    "position": "(400, 0)",
+    "title": "Static Mesh Spawner",
+    "bEnabled": true,
+    "comment": "",
+    "nodeType": "Static Mesh Spawner",
+    "paramOverrides": {
+     "meshSelectorType": {
+      "refPath": "/Script/PCG.PCGMeshSelectorByAttribute"
+     },
+     "meshSelectorParameters": {
+      "refPath": "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP:StaticMeshSpawner_0.PCGStaticMeshSpawnerSettings_5.PCGMeshSelectorByAttribute_0"
+     }
+    }
+   },
+   {
+    "name": "DefaultInputNode",
+    "path": "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP:DefaultInputNode",
+    "position": "(0, 0)",
+    "title": "Input Node",
+    "bEnabled": true,
+    "comment": "",
+    "nodeType": "Input Node",
+    "paramOverrides": {
+     "pins": [
+      {
+       "label": "In",
+       "usage": "Normal",
+       "allowedTypes": {
+        "ids": [
+         {
+          "struct": {
+           "refPath": "/Script/PCG.PCGDataTypeInfoSpatial"
+          }
+         }
+        ],
+        "customSubtype": -1
+       },
+       "bAllowMultipleData": true,
+       "pinStatus": "Advanced",
+       "bInvisiblePin": false,
+       "tooltip": "Default input pin.",
+       "bAllowMultipleConnections": true
+      }
+     ]
+    }
+   },
+   {
+    "name": "DefaultOutputNode",
+    "path": "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP:DefaultOutputNode",
+    "position": "(200, 0)",
+    "title": "Output Node",
+    "bEnabled": true,
+    "comment": "",
+    "nodeType": "Output Node",
+    "paramOverrides": {
+     "pins": [
+      {
+       "label": "Out",
+       "usage": "Normal",
+       "allowedTypes": {
+        "ids": [
+         {
+          "struct": {
+           "refPath": "/Script/PCG.PCGDataTypeInfo"
+          }
+         }
+        ],
+        "customSubtype": -1
+       },
+       "bAllowMultipleData": true,
+       "pinStatus": "Advanced",
+       "bInvisiblePin": false,
+       "tooltip": "",
+       "bAllowMultipleConnections": true
+      }
+     ]
+    }
+   }
+  ],
+  "edges": [
+   {
+    "srcNode": "StaticMeshSpawner_0",
+    "srcPin": "Out",
+    "destNode": "DefaultOutputNode",
+    "destPin": "Out"
+   },
+   {
+    "srcNode": "DefaultInputNode",
+    "srcPin": "In",
+    "destNode": "PythonDataProcessor_0",
+    "destPin": "Input"
+   },
+   {
+    "srcNode": "PythonDataProcessor_0",
+    "srcPin": "Output",
+    "destNode": "StaticMeshSpawner_0",
+    "destPin": "In"
+   }
+  ]
+ },
+ "a_retrait": {
+  "retire": "PJ_PCG_Points_Test_PDP"
+ },
+ "b_graphe_structure": {
+  "name": "PG_Points_Test",
+  "description": "Phase 0, voie (b) : PCGDataAsset (cuit depuis pj_points/0.1 par pj_tools.charger_points) -> Load PCG Data Asset -> Static Mesh Spawner (MeshSelectorByAttribute, attribut Mesh).",
+  "nodes": [
+   {
+    "name": "Charger_Points",
+    "path": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:Charger_Points",
+    "position": "(0, 0)",
+    "title": "Charger Points (P CGData Asset)",
+    "bEnabled": true,
+    "comment": "voie b : asset cuit par pj_tools.charger_points",
+    "nodeType": "Load PCG Data Asset",
+    "paramOverrides": {
+     "asset": {
+      "refPath": "/Game/PJ/PCG/Donnees/PDA_Points_Test.PDA_Points_Test"
+     },
+     "pins": [
+      {
+       "label": "In",
+       "usage": "Normal",
+       "allowedTypes": {
+        "ids": [
+         {
+          "struct": {
+           "refPath": "/Script/PCG.PCGDataTypeInfoPoint"
+          }
+         }
+        ],
+        "customSubtype": -1
+       },
+       "bAllowMultipleData": true,
+       "pinStatus": "Normal",
+       "bInvisiblePin": false,
+       "tooltip": "",
+       "bAllowMultipleConnections": true
+      }
+     ],
+     "bTagOutputsBasedOnOutputPins": false,
+     "bSynchronousLoad": true
+    }
+   },
+   {
+    "name": "Poser_Meshes",
+    "path": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:Poser_Meshes",
+    "position": "(400, 0)",
+    "title": "Poser Meshes (Attribut Mesh)",
+    "bEnabled": true,
+    "comment": "MeshSelectorByAttribute sur Mesh",
+    "nodeType": "Static Mesh Spawner",
+    "paramOverrides": {
+     "meshSelectorType": {
+      "refPath": "/Script/PCG.PCGMeshSelectorByAttribute"
+     },
+     "meshSelectorParameters": {
+      "refPath": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:Poser_Meshes.PCGStaticMeshSpawnerSettings_7.PCGMeshSelectorByAttribute_0"
+     }
+    }
+   },
+   {
+    "name": "DefaultInputNode",
+    "path": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:DefaultInputNode",
+    "position": "(0, 0)",
+    "title": "Input Node",
+    "bEnabled": true,
+    "comment": "",
+    "nodeType": "Input Node",
+    "paramOverrides": {
+     "pins": [
+      {
+       "label": "In",
+       "usage": "Normal",
+       "allowedTypes": {
+        "ids": [
+         {
+          "struct": {
+           "refPath": "/Script/PCG.PCGDataTypeInfoSpatial"
+          }
+         }
+        ],
+        "customSubtype": -1
+       },
+       "bAllowMultipleData": true,
+       "pinStatus": "Advanced",
+       "bInvisiblePin": false,
+       "tooltip": "Default input pin.",
+       "bAllowMultipleConnections": true
+      }
+     ]
+    }
+   },
+   {
+    "name": "DefaultOutputNode",
+    "path": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:DefaultOutputNode",
+    "position": "(200, 0)",
+    "title": "Output Node",
+    "bEnabled": true,
+    "comment": "",
+    "nodeType": "Output Node",
+    "paramOverrides": {
+     "pins": [
+      {
+       "label": "Out",
+       "usage": "Normal",
+       "allowedTypes": {
+        "ids": [
+         {
+          "struct": {
+           "refPath": "/Script/PCG.PCGDataTypeInfo"
+          }
+         }
+        ],
+        "customSubtype": -1
+       },
+       "bAllowMultipleData": true,
+       "pinStatus": "Advanced",
+       "bInvisiblePin": false,
+       "tooltip": "",
+       "bAllowMultipleConnections": true
+      }
+     ]
+    }
+   }
+  ],
+  "edges": [
+   {
+    "srcNode": "Poser_Meshes",
+    "srcPin": "Out",
+    "destNode": "DefaultOutputNode",
+    "destPin": "Out"
+   },
+   {
+    "srcNode": "Charger_Points",
+    "srcPin": "In",
+    "destNode": "Poser_Meshes",
+    "destPin": "In"
+   }
+  ]
+ },
+ "captures": {
+  "t5_pcg_vue_haute": {
+   "ok": true,
+   "png": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/t5_pcg_vue_haute.png",
+   "exr": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/t5_pcg_vue_haute.exr",
+   "phase": "fini",
+   "images": 130,
+   "chauffe": 32,
+   "ev100": 14.0,
+   "exposition": "manuelle",
+   "auto_cible": 118.0,
+   "fov_deg": 80.0,
+   "largeur": 1920,
+   "hauteur": 1080,
+   "ue_cm": [
+    -150.0,
+    9500.0,
+    6000.0
+   ],
+   "rot_ue": [
+    0.0,
+    -35.0,
+    -90.0
+   ],
+   "t0": 1791602334.162268,
+   "reglages_refuses": [],
+   "monde": "/Game/PJ/Maps/PJ_Phase0.PJ_Phase0",
+   "exr_octets": 6729560,
+   "octets": 3132757,
+   "conversion_s": 1.89,
+   "moyenne": 98.2,
+   "duree_s": 5.01,
+   "fini": true,
+   "en_cours": false
+  },
+  "t5_pcg_vue_rue": {
+   "ok": true,
+   "png": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/t5_pcg_vue_rue.png",
+   "exr": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/t5_pcg_vue_rue.exr",
+   "phase": "fini",
+   "images": 125,
+   "chauffe": 32,
+   "ev100": 14.0,
+   "exposition": "manuelle",
+   "auto_cible": 118.0,
+   "fov_deg": 75.0,
+   "largeur": 1920,
+   "hauteur": 1080,
+   "ue_cm": [
+    -2500.0,
+    2200.0,
+    160.0000023841858
+   ],
+   "rot_ue": [
+    0.0,
+    3.0,
+    -50.0
+   ],
+   "t0": 1791602339.4527657,
+   "reglages_refuses": [],
+   "monde": "/Game/PJ/Maps/PJ_Phase0.PJ_Phase0",
+   "exr_octets": 5715540,
+   "octets": 2967290,
+   "conversion_s": 1.93,
+   "moyenne": 110.5,
+   "duree_s": 5.11,
+   "fini": true,
+   "en_cours": false
+  }
+ }
+}

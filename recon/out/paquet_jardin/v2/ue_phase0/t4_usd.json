@@ -1,0 +1,801 @@
+{
+ "essai": "t4",
+ "date": "2026-10-10T05:18:32",
+ "nettoyage": {
+  "retires": [
+   "World",
+   "bordures_remap"
+  ],
+  "dossier_supprime": true
+ },
+ "import_a": {
+  "ok": true,
+  "nb": 2,
+  "objets": [
+   "/Game/PJ/Test_USD/Bordures/bordures/Materials/MI_DisplayColor.MI_DisplayColor",
+   "/Game/PJ/Test_USD/Bordures/bordures/StaticMeshes/SM_faces_verticales.SM_faces_verticales"
+  ],
+  "meshes": [
+   {
+    "mesh": "/Game/PJ/Test_USD/Bordures/bordures/StaticMeshes/SM_faces_verticales.SM_faces_verticales",
+    "sommets": 120621,
+    "uv": 1,
+    "nanite": false,
+    "recompute_normals": false,
+    "recompute_tangents": false,
+    "use_full_precision_u_vs": true,
+    "use_mikk_t_space": true,
+    "materiaux": [
+     "/Game/PJ/Test_USD/Bordures/bordures/Materials/MI_DisplayColor.MI_DisplayColor"
+    ]
+   }
+  ],
+  "options_refusees": [],
+  "options": {
+   "existing_actor_policy": "<ReplaceActorPolicy.REPLACE: 1>",
+   "existing_asset_cache": "<Struct 'SoftObjectPath' (0x00000140985E7FD8) {}>",
+   "existing_asset_policy": "<ReplaceAssetPolicy.REPLACE: 1>",
+   "fallback_collision_type": "<UsdCollisionType.NONE: 0>",
+   "groom_interpolation_settings": "[]",
+   "import_actors": "True",
+   "import_at_specific_time_code": "False",
+   "import_geometry": "True",
+   "import_groom_assets": "False",
+   "import_level_sequences": "False",
+   "import_materials": "True",
+   "import_only_used_materials": "False",
+   "import_skeletal_animations": "False",
+   "import_sounds": "False",
+   "import_sparse_volume_textures": "False",
+   "import_time_code": "0.0",
+   "interpret_lo_ds": "True",
+   "interpret_lods": "True",
+   "kinds_to_collapse": "0",
+   "material_purpose": "preview",
+   "merge_identical_material_slots": "True",
+   "metadata_options": "<Struct 'UsdMetadataImportOptions' (0x00000140985E8028) {collect_metadata: True, collect_from_entire_subtrees: True, collect_on_components: False, blocked_prefix_filters: , invert_filters: False}>",
+   "nanite_triangle_threshold": "2147483647",
+   "override_stage_options": "False",
+   "prim_path_folder_structure": "False",
+   "prims_to_import": "[\"/\"]",
+   "purposes_to_import": "7",
+   "render_context_to_import": "unreal",
+   "root_motion_handling": "<UsdRootMotionHandling.NO_ADDITIONAL_ROOT_MOTION: 0>",
+   "share_assets_for_identical_prims": "True",
+   "stage_options": "<Struct 'UsdStageOptions' (0x00000140985E8050) {meters_per_unit: 0.010000, up_axis: ZAxis}>",
+   "subdivision_level": "0",
+   "use_existing_asset_cache": "False",
+   "use_prim_kinds_for_collapsing": "True"
+  },
+  "journal": {
+   "LogStaticMesh": [
+    "LogStaticMesh: Warning: SM_faces_verticales has degenerate tangent bases which will result in incorrect shading. Consider enabling Recompute Tangents in the mesh's Build Settings.",
+    "LogStaticMesh: Warning: SM_faces_verticales has some nearly zero tangents which can create some issues. (Tolerance of 1E-4)",
+    "LogStaticMesh: Warning: SM_faces_verticales has some nearly zero bi-normals which can create some issues. (Tolerance of 1E-4)"
+   ]
+  },
+  "acceptation": {
+   "avertissements_logstaticmesh": 3,
+   "ok": false
+  },
+  "duree_s": 0.81
+ },
+ "verif_a": {
+  "prims": [
+   {
+    "prim": "/World/Bordures/faces_verticales",
+    "usd": {
+     "n_sommets": 132272,
+     "min_m": [
+      -150.0,
+      -150.0,
+      -3.7671782970428467
+     ],
+     "max_m": [
+      150.0,
+      150.0,
+      2.6892731189727783
+     ],
+     "centroide_m": [
+      -28.10041252495173,
+      -7.157588942678018,
+      -0.28303629302026695
+     ]
+    },
+    "attendu_ue_cm": {
+     "min": [
+      -15000.0,
+      -15000.0,
+      -376.71782970428467
+     ],
+     "max": [
+      15000.0,
+      15000.0,
+      268.92731189727783
+     ],
+     "centroide": [
+      -2810.041252495173,
+      715.7588942678018,
+      -28.303629302026696
+     ]
+    },
+    "ue": {
+     "acteur": "World",
+     "mesh": "/Game/PJ/Test_USD/Bordures/bordures/StaticMeshes/SM_faces_verticales.SM_faces_verticales",
+     "n_sommets_rendu": 120621,
+     "min_cm": [
+      -15000.0,
+      -15000.0,
+      -376.71783447265625
+     ],
+     "max_cm": [
+      15000.0,
+      15000.0,
+      268.92730712890625
+     ],
+     "centroide_cm": [
+      -2948.8711083413687,
+      677.964126258768,
+      -27.916586852264192
+     ],
+     "transform_composant": "<Struct 'Transform' (0x0000013FB5C16220) {rotation: {x: 0.000000, y: 0.000000, z: 0.000000, w: 1.000000}, translation: {x: 0.000000, y: 0.000000, z: 0.000000}, scale3d: {x: 1.000000, y: 1.000000, z: 1.000000}}>",
+     "materiaux": [
+      "/Game/PJ/Test_USD/Bordures/bordures/Materials/MI_DisplayColor.MI_DisplayColor"
+     ],
+     "nanite": false
+    },
+    "ecart_boite_cm": 4.76837158203125e-06,
+    "ecart_centroide_cm": 143.88301902931445,
+    "sommets_extremes": {
+     "xmin": {
+      "usd_m": [
+       -150.0,
+       -147.5,
+       -0.873974621295929
+      ],
+      "attendu_ue_cm": [
+       -15000.0,
+       14750.0,
+       -87.3974621295929
+      ],
+      "ecart_cm": 0.0
+     },
+     "xmax": {
+      "usd_m": [
+       150.0,
+       117.4000015258789,
+       1.1917145252227783
+      ],
+      "attendu_ue_cm": [
+       15000.0,
+       -11740.00015258789,
+       119.17145252227783
+      ],
+      "ecart_cm": 0.0002
+     },
+     "ymin": {
+      "usd_m": [
+       -131.6999969482422,
+       -150.0,
+       -0.600811779499054
+      ],
+      "attendu_ue_cm": [
+       -13169.999694824219,
+       15000.0,
+       -60.081177949905396
+      ],
+      "ecart_cm": 0.0003
+     },
+     "ymax": {
+      "usd_m": [
+       -132.6999969482422,
+       150.0,
+       1.3511230945587158
+      ],
+      "attendu_ue_cm": [
+       -13269.999694824219,
+       -15000.0,
+       135.11230945587158
+      ],
+      "ecart_cm": 0.0003
+     },
+     "zmin": {
+      "usd_m": [
+       -5.044000148773193,
+       -149.83099365234375,
+       -3.7671782970428467
+      ],
+      "attendu_ue_cm": [
+       -504.40001487731934,
+       14983.099365234375,
+       -376.71782970428467
+      ],
+      "ecart_cm": 0.0002
+     },
+     "zmax": {
+      "usd_m": [
+       143.76300048828125,
+       149.75,
+       2.6892731189727783
+      ],
+      "attendu_ue_cm": [
+       14376.300048828125,
+       -14975.0,
+       268.92731189727783
+      ],
+      "ecart_cm": 0.0002
+     },
+     "x+y": {
+      "usd_m": [
+       143.6999969482422,
+       150.0,
+       2.681689500808716
+      ],
+      "attendu_ue_cm": [
+       14369.999694824219,
+       -15000.0,
+       268.1689500808716
+      ],
+      "ecart_cm": 0.0003
+     },
+     "x-y": {
+      "usd_m": [
+       143.88800048828125,
+       -145.43699645996094,
+       -2.1054656505584717
+      ],
+      "attendu_ue_cm": [
+       14388.800048828125,
+       14543.699645996094,
+       -210.54656505584717
+      ],
+      "ecart_cm": 0.0005
+     }
+    },
+    "ecart_extremes_max_cm": 0.0005
+   }
+  ],
+  "stage": {
+   "metersPerUnit": 1.0,
+   "upAxis": "Z"
+  },
+  "composants": [
+   [
+    "World",
+    "faces_verticales_0",
+    "/Game/PJ/Test_USD/Bordures/bordures/StaticMeshes/SM_faces_verticales.SM_faces_verticales"
+   ]
+  ]
+ },
+ "retrait_a": {
+  "retires": [
+   "World",
+   "bordures"
+  ],
+  "dossier_supprime": null
+ },
+ "import_b": {
+  "ok": true,
+  "nb": 2,
+  "objets": [
+   "/Game/PJ/Test_USD/Remap/bordures_remap/StaticMeshes/SM_faces_verticales.SM_faces_verticales",
+   "/Game/PJ/Test_USD/Remap/bordures_remap/StaticMeshes/SM_Boite_asym.SM_Boite_asym"
+  ],
+  "meshes": [
+   {
+    "mesh": "/Game/PJ/Test_USD/Remap/bordures_remap/StaticMeshes/SM_faces_verticales.SM_faces_verticales",
+    "sommets": 120621,
+    "uv": 1,
+    "nanite": false,
+    "recompute_normals": false,
+    "recompute_tangents": false,
+    "use_full_precision_u_vs": true,
+    "use_mikk_t_space": true,
+    "materiaux": [
+     "/Game/Carla/Static/GenericMaterials/Concrete/MI_Concrete_01.MI_Concrete_01"
+    ]
+   },
+   {
+    "mesh": "/Game/PJ/Test_USD/Remap/bordures_remap/StaticMeshes/SM_Boite_asym.SM_Boite_asym",
+    "sommets": 8,
+    "uv": 1,
+    "nanite": false,
+    "recompute_normals": false,
+    "recompute_tangents": false,
+    "use_full_precision_u_vs": true,
+    "use_mikk_t_space": true,
+    "materiaux": [
+     "/Game/Carla/Static/GenericMaterials/Concrete/MI_Concrete_01.MI_Concrete_01"
+    ]
+   }
+  ],
+  "options_refusees": [],
+  "options": {
+   "existing_actor_policy": "<ReplaceActorPolicy.REPLACE: 1>",
+   "existing_asset_cache": "<Struct 'SoftObjectPath' (0x00000141BEB42718) {}>",
+   "existing_asset_policy": "<ReplaceAssetPolicy.REPLACE: 1>",
+   "fallback_collision_type": "<UsdCollisionType.NONE: 0>",
+   "groom_interpolation_settings": "[]",
+   "import_actors": "True",
+   "import_at_specific_time_code": "False",
+   "import_geometry": "True",
+   "import_groom_assets": "False",
+   "import_level_sequences": "False",
+   "import_materials": "True",
+   "import_only_used_materials": "False",
+   "import_skeletal_animations": "False",
+   "import_sounds": "False",
+   "import_sparse_volume_textures": "False",
+   "import_time_code": "0.0",
+   "interpret_lo_ds": "True",
+   "interpret_lods": "True",
+   "kinds_to_collapse": "0",
+   "material_purpose": "preview",
+   "merge_identical_material_slots": "True",
+   "metadata_options": "<Struct 'UsdMetadataImportOptions' (0x00000141BEB42768) {collect_metadata: True, collect_from_entire_subtrees: True, collect_on_components: False, blocked_prefix_filters: , invert_filters: False}>",
+   "nanite_triangle_threshold": "2147483647",
+   "override_stage_options": "False",
+   "prim_path_folder_structure": "False",
+   "prims_to_import": "[\"/\"]",
+   "purposes_to_import": "7",
+   "render_context_to_import": "unreal",
+   "root_motion_handling": "<UsdRootMotionHandling.NO_ADDITIONAL_ROOT_MOTION: 0>",
+   "share_assets_for_identical_prims": "True",
+   "stage_options": "<Struct 'UsdStageOptions' (0x00000141BEB42790) {meters_per_unit: 0.010000, up_axis: ZAxis}>",
+   "subdivision_level": "0",
+   "use_existing_asset_cache": "False",
+   "use_prim_kinds_for_collapsing": "True"
+  },
+  "journal": {
+   "LogStaticMesh": [
+    "LogStaticMesh: Warning: SM_faces_verticales has degenerate tangent bases which will result in incorrect shading. Consider enabling Recompute Tangents in the mesh's Build Settings.",
+    "LogStaticMesh: Warning: SM_faces_verticales has some nearly zero tangents which can create some issues. (Tolerance of 1E-4)",
+    "LogStaticMesh: Warning: SM_faces_verticales has some nearly zero bi-normals which can create some issues. (Tolerance of 1E-4)",
+    "LogStaticMesh: Warning: SM_faces_verticales has degenerate tangent bases which will result in incorrect shading. Consider enabling Recompute Tangents in the mesh's Build Settings.",
+    "LogStaticMesh: Warning: SM_faces_verticales has some nearly zero tangents which can create some issues. (Tolerance of 1E-4)",
+    "LogStaticMesh: Warning: SM_faces_verticales has some nearly zero bi-normals which can create some issues. (Tolerance of 1E-4)"
+   ]
+  },
+  "acceptation": {
+   "avertissements_logstaticmesh": 6,
+   "ok": false
+  },
+  "duree_s": 0.87
+ },
+ "verif_b": {
+  "prims": [
+   {
+    "prim": "/World/Bordures/faces_verticales",
+    "usd": {
+     "n_sommets": 132272,
+     "min_m": [
+      -150.0,
+      -150.0,
+      -3.7671782970428467
+     ],
+     "max_m": [
+      150.0,
+      150.0,
+      2.6892731189727783
+     ],
+     "centroide_m": [
+      -28.10041252495173,
+      -7.157588942678018,
+      -0.28303629302026695
+     ]
+    },
+    "attendu_ue_cm": {
+     "min": [
+      -15000.0,
+      -15000.0,
+      -376.71782970428467
+     ],
+     "max": [
+      15000.0,
+      15000.0,
+      268.92731189727783
+     ],
+     "centroide": [
+      -2810.041252495173,
+      715.7588942678018,
+      -28.303629302026696
+     ]
+    },
+    "ue": {
+     "acteur": "World",
+     "mesh": "/Game/PJ/Test_USD/Remap/bordures_remap/StaticMeshes/SM_faces_verticales.SM_faces_verticales",
+     "n_sommets_rendu": 120621,
+     "min_cm": [
+      -15000.0,
+      -15000.0,
+      -376.71783447265625
+     ],
+     "max_cm": [
+      15000.0,
+      15000.0,
+      268.92730712890625
+     ],
+     "centroide_cm": [
+      -2948.8711083413687,
+      677.964126258768,
+      -27.916586852264192
+     ],
+     "transform_composant": "<Struct 'Transform' (0x0000013FB5C15140) {rotation: {x: 0.000000, y: 0.000000, z: 0.000000, w: 1.000000}, translation: {x: 0.000000, y: 0.000000, z: 0.000000}, scale3d: {x: 1.000000, y: 1.000000, z: 1.000000}}>",
+     "materiaux": [
+      "/Game/Carla/Static/GenericMaterials/Concrete/MI_Concrete_01.MI_Concrete_01"
+     ],
+     "nanite": false
+    },
+    "ecart_boite_cm": 4.76837158203125e-06,
+    "ecart_centroide_cm": 143.88301902931445,
+    "sommets_extremes": {
+     "xmin": {
+      "usd_m": [
+       -150.0,
+       -147.5,
+       -0.873974621295929
+      ],
+      "attendu_ue_cm": [
+       -15000.0,
+       14750.0,
+       -87.3974621295929
+      ],
+      "ecart_cm": 0.0
+     },
+     "xmax": {
+      "usd_m": [
+       150.0,
+       117.4000015258789,
+       1.1917145252227783
+      ],
+      "attendu_ue_cm": [
+       15000.0,
+       -11740.00015258789,
+       119.17145252227783
+      ],
+      "ecart_cm": 0.0002
+     },
+     "ymin": {
+      "usd_m": [
+       -131.6999969482422,
+       -150.0,
+       -0.600811779499054
+      ],
+      "attendu_ue_cm": [
+       -13169.999694824219,
+       15000.0,
+       -60.081177949905396
+      ],
+      "ecart_cm": 0.0003
+     },
+     "ymax": {
+      "usd_m": [
+       -132.6999969482422,
+       150.0,
+       1.3511230945587158
+      ],
+      "attendu_ue_cm": [
+       -13269.999694824219,
+       -15000.0,
+       135.11230945587158
+      ],
+      "ecart_cm": 0.0003
+     },
+     "zmin": {
+      "usd_m": [
+       -5.044000148773193,
+       -149.83099365234375,
+       -3.7671782970428467
+      ],
+      "attendu_ue_cm": [
+       -504.40001487731934,
+       14983.099365234375,
+       -376.71782970428467
+      ],
+      "ecart_cm": 0.0002
+     },
+     "zmax": {
+      "usd_m": [
+       143.76300048828125,
+       149.75,
+       2.6892731189727783
+      ],
+      "attendu_ue_cm": [
+       14376.300048828125,
+       -14975.0,
+       268.92731189727783
+      ],
+      "ecart_cm": 0.0002
+     },
+     "x+y": {
+      "usd_m": [
+       143.6999969482422,
+       150.0,
+       2.681689500808716
+      ],
+      "attendu_ue_cm": [
+       14369.999694824219,
+       -15000.0,
+       268.1689500808716
+      ],
+      "ecart_cm": 0.0003
+     },
+     "x-y": {
+      "usd_m": [
+       143.88800048828125,
+       -145.43699645996094,
+       -2.1054656505584717
+      ],
+      "attendu_ue_cm": [
+       14388.800048828125,
+       14543.699645996094,
+       -210.54656505584717
+      ],
+      "ecart_cm": 0.0005
+     }
+    },
+    "ecart_extremes_max_cm": 0.0005
+   },
+   {
+    "prim": "/World/Essai/Boite_asym",
+    "usd": {
+     "n_sommets": 8,
+     "min_m": [
+      2.0,
+      1.0,
+      0.0
+     ],
+     "max_m": [
+      5.0,
+      1.5,
+      0.1599999964237213
+     ],
+     "centroide_m": [
+      3.5,
+      1.25,
+      0.07999999821186066
+     ]
+    },
+    "attendu_ue_cm": {
+     "min": [
+      200.0,
+      -150.0,
+      0.0
+     ],
+     "max": [
+      500.0,
+      -100.0,
+      15.999999642372131
+     ],
+     "centroide": [
+      350.0,
+      -125.0,
+      7.999999821186066
+     ]
+    },
+    "ue": {
+     "acteur": "World",
+     "mesh": "/Game/PJ/Test_USD/Remap/bordures_remap/StaticMeshes/SM_Boite_asym.SM_Boite_asym",
+     "n_sommets_rendu": 8,
+     "min_cm": [
+      200.0,
+      -150.0,
+      0.0
+     ],
+     "max_cm": [
+      500.0,
+      -100.0,
+      16.0
+     ],
+     "centroide_cm": [
+      350.0,
+      -125.0,
+      8.0
+     ],
+     "transform_composant": "<Struct 'Transform' (0x000001400E7059B0) {rotation: {x: 0.000000, y: 0.000000, z: 0.000000, w: 1.000000}, translation: {x: 0.000000, y: 0.000000, z: 0.000000}, scale3d: {x: 1.000000, y: 1.000000, z: 1.000000}}>",
+     "materiaux": [
+      "/Game/Carla/Static/GenericMaterials/Concrete/MI_Concrete_01.MI_Concrete_01"
+     ],
+     "nanite": false
+    },
+    "ecart_boite_cm": 3.5762786865234375e-07,
+    "ecart_centroide_cm": 1.7881393432617188e-07,
+    "sommets_extremes": {
+     "xmin": {
+      "usd_m": [
+       2.0,
+       1.0,
+       0.0
+      ],
+      "attendu_ue_cm": [
+       200.0,
+       -100.0,
+       0.0
+      ],
+      "ecart_cm": 0.0
+     },
+     "xmax": {
+      "usd_m": [
+       5.0,
+       1.0,
+       0.0
+      ],
+      "attendu_ue_cm": [
+       500.0,
+       -100.0,
+       0.0
+      ],
+      "ecart_cm": 0.0
+     },
+     "ymin": {
+      "usd_m": [
+       2.0,
+       1.0,
+       0.0
+      ],
+      "attendu_ue_cm": [
+       200.0,
+       -100.0,
+       0.0
+      ],
+      "ecart_cm": 0.0
+     },
+     "ymax": {
+      "usd_m": [
+       5.0,
+       1.5,
+       0.0
+      ],
+      "attendu_ue_cm": [
+       500.0,
+       -150.0,
+       0.0
+      ],
+      "ecart_cm": 0.0
+     },
+     "zmin": {
+      "usd_m": [
+       2.0,
+       1.0,
+       0.0
+      ],
+      "attendu_ue_cm": [
+       200.0,
+       -100.0,
+       0.0
+      ],
+      "ecart_cm": 0.0
+     },
+     "zmax": {
+      "usd_m": [
+       2.0,
+       1.0,
+       0.1599999964237213
+      ],
+      "attendu_ue_cm": [
+       200.0,
+       -100.0,
+       15.999999642372131
+      ],
+      "ecart_cm": 0.0
+     },
+     "x+y": {
+      "usd_m": [
+       5.0,
+       1.5,
+       0.0
+      ],
+      "attendu_ue_cm": [
+       500.0,
+       -150.0,
+       0.0
+      ],
+      "ecart_cm": 0.0
+     },
+     "x-y": {
+      "usd_m": [
+       5.0,
+       1.0,
+       0.0
+      ],
+      "attendu_ue_cm": [
+       500.0,
+       -100.0,
+       0.0
+      ],
+      "ecart_cm": 0.0
+     }
+    },
+    "ecart_extremes_max_cm": 0.0
+   }
+  ],
+  "stage": {
+   "metersPerUnit": 1.0,
+   "upAxis": "Z"
+  },
+  "composants": [
+   [
+    "World",
+    "faces_verticales_0",
+    "/Game/PJ/Test_USD/Remap/bordures_remap/StaticMeshes/SM_faces_verticales.SM_faces_verticales"
+   ],
+   [
+    "World",
+    "Boite_asym_0",
+    "/Game/PJ/Test_USD/Remap/bordures_remap/StaticMeshes/SM_Boite_asym.SM_Boite_asym"
+   ]
+  ]
+ },
+ "ecart_max_cm": 0.0005,
+ "remap_ok": true,
+ "captures": {
+  "t4_usd_bordures": {
+   "ok": true,
+   "png": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/t4_usd_bordures.png",
+   "exr": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/t4_usd_bordures.exr",
+   "phase": "fini",
+   "images": 119,
+   "chauffe": 32,
+   "ev100": 14.0,
+   "exposition": "manuelle",
+   "auto_cible": 118.0,
+   "fov_deg": 70.0,
+   "largeur": 1920,
+   "hauteur": 1080,
+   "ue_cm": [
+    -150.0,
+    2600.0,
+    400.0
+   ],
+   "rot_ue": [
+    0.0,
+    -8.0,
+    -90.0
+   ],
+   "t0": 1791602321.5037277,
+   "reglages_refuses": [],
+   "monde": "/Game/PJ/Maps/PJ_Phase0.PJ_Phase0",
+   "exr_octets": 6329040,
+   "octets": 2988941,
+   "conversion_s": 1.93,
+   "moyenne": 104.3,
+   "duree_s": 5.04,
+   "fini": true,
+   "en_cours": false
+  },
+  "t4_usd_boite": {
+   "ok": true,
+   "png": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/t4_usd_boite.png",
+   "exr": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/t4_usd_boite.exr",
+   "phase": "fini",
+   "images": 156,
+   "chauffe": 32,
+   "ev100": 14.0,
+   "exposition": "manuelle",
+   "auto_cible": 118.0,
+   "fov_deg": 60.0,
+   "largeur": 1920,
+   "hauteur": 1080,
+   "ue_cm": [
+    350.0,
+    220.00000476837158,
+    100.0
+   ],
+   "rot_ue": [
+    0.0,
+    -22.0,
+    -90.0
+   ],
+   "t0": 1791602326.8889802,
+   "reglages_refuses": [],
+   "monde": "/Game/PJ/Maps/PJ_Phase0.PJ_Phase0",
+   "exr_octets": 4848700,
+   "octets": 1849886,
+   "conversion_s": 2.0,
+   "moyenne": 120.1,
+   "duree_s": 5.14,
+   "fini": true,
+   "en_cours": false
+  }
+ }
+}

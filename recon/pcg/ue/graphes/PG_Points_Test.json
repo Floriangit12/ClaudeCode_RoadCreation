@@ -1,0 +1,377 @@
+{
+ "graphe": "PG_Points_Test",
+ "asset": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test",
+ "route_retenue": "b",
+ "description": "pj_points/0.1 (JSON) -> pj_tools.charger_points (cuisson par le graphe outil /Game/PJ/PCG/Outils/PG_Cuisson_Points : Python Data Processor -> Save PCG Data Asset) -> /Game/PJ/PCG/Donnees/PDA_Points_Test -> Load PCG Data Asset -> Static Mesh Spawner (PCGMeshSelectorByAttribute, Mesh)",
+ "construction_mcp": [
+  {
+   "outil": "CreateGraph",
+   "args": {
+    "name": "PG_Points_Test",
+    "path": "/Game/PJ/PCG"
+   },
+   "note": "seulement si le graphe n existe pas ; sinon vide par t5_preparer et reutilise"
+  },
+  {
+   "outil": "AddNode",
+   "args": {
+    "nativeNodeType": "Load PCG Data Asset",
+    "nodeName": "Charger_Points",
+    "jsonParams": {
+     "asset": {
+      "refPath": "/Game/PJ/PCG/Donnees/PDA_Points_Test.PDA_Points_Test"
+     },
+     "bSynchronousLoad": true
+    }
+   }
+  },
+  {
+   "outil": "AddNode",
+   "args": {
+    "nativeNodeType": "Static Mesh Spawner",
+    "nodeName": "Poser_Meshes",
+    "jsonParams": {
+     "meshSelectorType": {
+      "refPath": "/Script/PCG.PCGMeshSelectorByAttribute"
+     }
+    }
+   }
+  },
+  {
+   "outil": "UpdateNode",
+   "args": {
+    "node": "Poser_Meshes",
+    "jsonParams": {
+     "meshSelectorParameters": {
+      "attributeName": "Mesh"
+     }
+    }
+   },
+   "resultat": "refuse par PCGToolset (sous-objet instancie) ; repli Python : settings.mesh_selector_parameters.attribute_name = Mesh (tests_phase0/ue/t5_attribut.py)"
+  },
+  {
+   "outil": "ConnectNodePins",
+   "args": [
+    "Charger_Points.In (libelle de broche stocke dans l asset)",
+    "Poser_Meshes.In"
+   ]
+  },
+  {
+   "outil": "ConnectNodePins",
+   "args": [
+    "Poser_Meshes.Out",
+    "Output.Out"
+   ]
+  },
+  {
+   "outil": "SpawnGraphInstance",
+   "args": {
+    "name": "PJ_PCG_Points_Test",
+    "scale": [
+     25,
+     25,
+     10
+    ]
+   }
+  },
+  {
+   "outil": "ExecuteGraphInstance"
+  }
+ ],
+ "reglage_attribut": {
+  "spawners": [
+   {
+    "noeud": "Poser_Meshes",
+    "selecteur": "PCGMeshSelectorByAttribute",
+    "attribut_avant": "None",
+    "attribut": "Mesh",
+    "repli_python": true
+   }
+  ],
+  "pins_sortie": {
+   "Charger_Points": [
+    "In"
+   ],
+   "Poser_Meshes": [
+    "Out"
+   ]
+  }
+ },
+ "mesures": {
+  "nb_instances": 200,
+  "manquants": 0,
+  "d_pos_max_cm": 0.0,
+  "d_yaw_max_deg": 5.684341886080802e-14,
+  "d_rot_max_deg": 6.000674644153597e-06,
+  "d_s_max": 1.8891357478345583e-07,
+  "mesh_faux": 0
+ },
+ "structure": {
+  "name": "PG_Points_Test",
+  "description": "Phase 0, voie (b) : PCGDataAsset (cuit depuis pj_points/0.1 par pj_tools.charger_points) -> Load PCG Data Asset -> Static Mesh Spawner (MeshSelectorByAttribute, attribut Mesh).",
+  "nodes": [
+   {
+    "name": "Charger_Points",
+    "path": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:Charger_Points",
+    "position": "(0, 0)",
+    "title": "Charger Points (P CGData Asset)",
+    "bEnabled": true,
+    "comment": "voie b : asset cuit par pj_tools.charger_points",
+    "nodeType": "Load PCG Data Asset",
+    "paramOverrides": {
+     "asset": {
+      "refPath": "/Game/PJ/PCG/Donnees/PDA_Points_Test.PDA_Points_Test"
+     },
+     "pins": [
+      {
+       "label": "In",
+       "usage": "Normal",
+       "allowedTypes": {
+        "ids": [
+         {
+          "struct": {
+           "refPath": "/Script/PCG.PCGDataTypeInfoPoint"
+          }
+         }
+        ],
+        "customSubtype": -1
+       },
+       "bAllowMultipleData": true,
+       "pinStatus": "Normal",
+       "bInvisiblePin": false,
+       "tooltip": "",
+       "bAllowMultipleConnections": true
+      }
+     ],
+     "bTagOutputsBasedOnOutputPins": false,
+     "bSynchronousLoad": true
+    }
+   },
+   {
+    "name": "Poser_Meshes",
+    "path": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:Poser_Meshes",
+    "position": "(400, 0)",
+    "title": "Poser Meshes (Attribut Mesh)",
+    "bEnabled": true,
+    "comment": "MeshSelectorByAttribute sur Mesh",
+    "nodeType": "Static Mesh Spawner",
+    "paramOverrides": {
+     "meshSelectorType": {
+      "refPath": "/Script/PCG.PCGMeshSelectorByAttribute"
+     },
+     "meshSelectorParameters": {
+      "refPath": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:Poser_Meshes.PCGStaticMeshSpawnerSettings_7.PCGMeshSelectorByAttribute_0"
+     }
+    }
+   },
+   {
+    "name": "DefaultInputNode",
+    "path": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:DefaultInputNode",
+    "position": "(0, 0)",
+    "title": "Input Node",
+    "bEnabled": true,
+    "comment": "",
+    "nodeType": "Input Node",
+    "paramOverrides": {
+     "pins": [
+      {
+       "label": "In",
+       "usage": "Normal",
+       "allowedTypes": {
+        "ids": [
+         {
+          "struct": {
+           "refPath": "/Script/PCG.PCGDataTypeInfoSpatial"
+          }
+         }
+        ],
+        "customSubtype": -1
+       },
+       "bAllowMultipleData": true,
+       "pinStatus": "Advanced",
+       "bInvisiblePin": false,
+       "tooltip": "Default input pin.",
+       "bAllowMultipleConnections": true
+      }
+     ]
+    }
+   },
+   {
+    "name": "DefaultOutputNode",
+    "path": "/Game/PJ/PCG/PG_Points_Test.PG_Points_Test:DefaultOutputNode",
+    "position": "(200, 0)",
+    "title": "Output Node",
+    "bEnabled": true,
+    "comment": "",
+    "nodeType": "Output Node",
+    "paramOverrides": {
+     "pins": [
+      {
+       "label": "Out",
+       "usage": "Normal",
+       "allowedTypes": {
+        "ids": [
+         {
+          "struct": {
+           "refPath": "/Script/PCG.PCGDataTypeInfo"
+          }
+         }
+        ],
+        "customSubtype": -1
+       },
+       "bAllowMultipleData": true,
+       "pinStatus": "Advanced",
+       "bInvisiblePin": false,
+       "tooltip": "",
+       "bAllowMultipleConnections": true
+      }
+     ]
+    }
+   }
+  ],
+  "edges": [
+   {
+    "srcNode": "Poser_Meshes",
+    "srcPin": "Out",
+    "destNode": "DefaultOutputNode",
+    "destPin": "Out"
+   },
+   {
+    "srcNode": "Charger_Points",
+    "srcPin": "In",
+    "destNode": "Poser_Meshes",
+    "destPin": "In"
+   }
+  ]
+ },
+ "variante_a": {
+  "graphe": "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP",
+  "structure": {
+   "name": "PG_Points_Test_PDP",
+   "description": "",
+   "nodes": [
+    {
+     "name": "PythonDataProcessor_0",
+     "path": "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP:PythonDataProcessor_0",
+     "position": "(0, 0)",
+     "title": "Python Data Processor",
+     "bEnabled": true,
+     "comment": "",
+     "nodeType": "Python Data Processor",
+     "paramOverrides": {
+      "scriptInputMethod": "File",
+      "scriptPath": {
+       "filePath": "D:/ClaudeCode_RoadCreation/recon/pcg/ue/graphes/PG_Points_Test_PDP_lire.py"
+      }
+     }
+    },
+    {
+     "name": "StaticMeshSpawner_0",
+     "path": "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP:StaticMeshSpawner_0",
+     "position": "(400, 0)",
+     "title": "Static Mesh Spawner",
+     "bEnabled": true,
+     "comment": "",
+     "nodeType": "Static Mesh Spawner",
+     "paramOverrides": {
+      "meshSelectorType": {
+       "refPath": "/Script/PCG.PCGMeshSelectorByAttribute"
+      },
+      "meshSelectorParameters": {
+       "refPath": "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP:StaticMeshSpawner_0.PCGStaticMeshSpawnerSettings_5.PCGMeshSelectorByAttribute_0"
+      }
+     }
+    },
+    {
+     "name": "DefaultInputNode",
+     "path": "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP:DefaultInputNode",
+     "position": "(0, 0)",
+     "title": "Input Node",
+     "bEnabled": true,
+     "comment": "",
+     "nodeType": "Input Node",
+     "paramOverrides": {
+      "pins": [
+       {
+        "label": "In",
+        "usage": "Normal",
+        "allowedTypes": {
+         "ids": [
+          {
+           "struct": {
+            "refPath": "/Script/PCG.PCGDataTypeInfoSpatial"
+           }
+          }
+         ],
+         "customSubtype": -1
+        },
+        "bAllowMultipleData": true,
+        "pinStatus": "Advanced",
+        "bInvisiblePin": false,
+        "tooltip": "Default input pin.",
+        "bAllowMultipleConnections": true
+       }
+      ]
+     }
+    },
+    {
+     "name": "DefaultOutputNode",
+     "path": "/Game/PJ/PCG/PG_Points_Test_PDP.PG_Points_Test_PDP:DefaultOutputNode",
+     "position": "(200, 0)",
+     "title": "Output Node",
+     "bEnabled": true,
+     "comment": "",
+     "nodeType": "Output Node",
+     "paramOverrides": {
+      "pins": [
+       {
+        "label": "Out",
+        "usage": "Normal",
+        "allowedTypes": {
+         "ids": [
+          {
+           "struct": {
+            "refPath": "/Script/PCG.PCGDataTypeInfo"
+           }
+          }
+         ],
+         "customSubtype": -1
+        },
+        "bAllowMultipleData": true,
+        "pinStatus": "Advanced",
+        "bInvisiblePin": false,
+        "tooltip": "",
+        "bAllowMultipleConnections": true
+       }
+      ]
+     }
+    }
+   ],
+   "edges": [
+    {
+     "srcNode": "StaticMeshSpawner_0",
+     "srcPin": "Out",
+     "destNode": "DefaultOutputNode",
+     "destPin": "Out"
+    },
+    {
+     "srcNode": "DefaultInputNode",
+     "srcPin": "In",
+     "destNode": "PythonDataProcessor_0",
+     "destPin": "Input"
+    },
+    {
+     "srcNode": "PythonDataProcessor_0",
+     "srcPin": "Output",
+     "destNode": "StaticMeshSpawner_0",
+     "destPin": "In"
+    }
+   ]
+  },
+  "script": "D:/ClaudeCode_RoadCreation/recon/pcg/ue/graphes/PG_Points_Test_PDP_lire.py"
+ },
+ "cuisson": {
+  "graphe_outil": "/Game/PJ/PCG/Outils/PG_Cuisson_Points",
+  "outil_mcp": "pj_tools.charger_points"
+ }
+}

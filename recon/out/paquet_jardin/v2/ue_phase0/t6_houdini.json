@@ -1,0 +1,173 @@
+{
+ "essai": "t6",
+ "date": "2026-10-10T05:19:24",
+ "hda": "D:/ClaudeCode_RoadCreation/recon/pcg/ue/tests_phase0/hda/pj_test_boite.hdalc",
+ "nettoyer": {
+  "mode": "nettoyer",
+  "session_valide_avant": false,
+  "wrapper_supprime": false,
+  "acteur_detruit": true
+ },
+ "lancer": {
+  "mode": "lancer",
+  "session_valide_avant": false,
+  "session_valide": true,
+  "params_regles": [
+   true,
+   true,
+   true
+  ],
+  "acteur": "/Game/PJ/Maps/PJ_Phase0.PJ_Phase0:PersistentLevel.HoudiniAssetActor_1",
+  "erreur_api": null
+ },
+ "etat": {
+  "mode": "etat",
+  "session_valide_avant": true,
+  "session_valide": true,
+  "params_appliques": true,
+  "sorties": [
+   {
+    "index": 0,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objets": [
+     {
+      "objet": "/Game/HoudiniEngine/Temp/pj_test_boite/2B4E9A7D/pj_test_boite_3_5_0_main_geo.pj_test_boite_3_5_0_main_geo",
+      "classe": "StaticMesh",
+      "proxy": false,
+      "bornes_cm": [
+       [
+        -150.0,
+        -30.000001907348633,
+        0.0
+       ],
+       [
+        150.0,
+        30.000001907348633,
+        120.00000762939453
+       ]
+      ],
+      "triangles_lod0": 12
+     }
+    ]
+   }
+  ],
+  "acteur_cm": [
+   -3000.0,
+   -1000.0,
+   0.0
+  ],
+  "composants": [
+   {
+    "classe": "StaticMeshComponent",
+    "nom": "StaticMeshComponent_0",
+    "centre_cm": [
+     -3000.0,
+     -1000.0,
+     60.000003814697266
+    ],
+    "demi_etendue_cm": [
+     150.0,
+     30.000001907348633,
+     60.000003814697266
+    ],
+    "visible": true
+   },
+   {
+    "classe": "HoudiniStaticMeshComponent",
+    "nom": "HoudiniStaticMeshComponent_0",
+    "centre_cm": [
+     -3000.0,
+     -1000.0,
+     60.000003814697266
+    ],
+    "demi_etendue_cm": [
+     150.0,
+     30.000001907348633,
+     60.000003814697266
+    ],
+    "visible": false
+   }
+  ],
+  "params_lus": [
+   3.0,
+   1.2000000476837158,
+   0.6000000238418579
+  ],
+  "erreur_api": null,
+  "journal_houdini": [
+   "LogConfig: Warning: Found a deprecated 'D:/ClaudeADAS/Plugins/HoudiniEngine/Config/BaseHoudiniEngine.ini' - Rename to Default<PluginName>.ini'",
+   "[2026.10.10-01.42.49:887][  0]LogHoudiniEngine: Loaded libHAPIL.dll from Registry path C:/Program Files/Side Effects Software/Houdini 22.0.459/bin",
+   "[2026.10.10-01.42.49:903][  0]LogLinker: Warning: [AssetLog] D:\\ClaudeADAS\\Plugins\\HoudiniEngine\\Content\\Textures\\icon_houdini_logo_128.uasset: Asset has been saved with empty engine version. The asset will be loaded but may be incompatible.",
+   "[2026.10.10-03.19.28:847][765]LogHoudiniEngine: HAPI Asynchronous Instantiation Started for pj_test_boite: Asset=pj::Sop/test_boite::1.0, HoudiniAsset = 0xdb2915e0",
+   "[2026.10.10-03.19.29:180][766]LogHoudiniEngine: HAPI Asynchronous Cooking Started for PJ_HDA_Boite., AssetId = 0",
+   "[2026.10.10-03.19.29:347][767]LogHoudiniEngine:    PJ_HDA_Boite FinishedCooking."
+  ]
+ },
+ "duree_s": 6.5,
+ "hserver_l": [
+  "Hostname:\tFlorian-12\t[Microsoft Windows 11 Famille x64]",
+  "Uptime:\t\t2 days, 18:03:03\t[Started: Wed Oct  7 11:16:30 2026]",
+  "License Server:\thttps://www.sidefx.com/license/sesinetd",
+  "Connected To:\thttps://www.sidefx.com/license/sesinetd",
+  "Server Version:\tsesinetd22.0.10917",
+  "Version:\tHoudini22.0.459",
+  "ReadAccess (Ipv4):\t",
+  "WriteAccess (Ipv4):\t",
+  "ReadAccess (Ipv6):\t",
+  "WriteAccess (Ipv6):\t",
+  "Using Http: Yes",
+  "Enabled IPv6: false",
+  "Used Licenses: ",
+  "    + Houdini Engine Indie 22.0",
+  "\t\tUser(s): pid=44232(using: true) ",
+  "",
+  "    4,595 of 31,861 MB available",
+  "    CPU Usage:27% load",
+  ""
+ ],
+ "attendu_demi_etendue_cm": [
+  150.0,
+  30.0,
+  60.0
+ ],
+ "attendu_centre_cm": [
+  -3000.0,
+  -1000.0,
+  60.0
+ ],
+ "ecart_cm": 3.814697265625e-06,
+ "capture": {
+  "ok": true,
+  "png": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/t6_houdini_boite.png",
+  "exr": "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/ue_phase0/t6_houdini_boite.exr",
+  "phase": "fini",
+  "images": 124,
+  "chauffe": 32,
+  "ev100": 14.0,
+  "exposition": "manuelle",
+  "auto_cible": 118.0,
+  "fov_deg": 60.0,
+  "largeur": 1920,
+  "hauteur": 1080,
+  "ue_cm": [
+   -3000.0,
+   -400.0,
+   179.99999523162842
+  ],
+  "rot_ue": [
+   0.0,
+   -8.0,
+   -90.0
+  ],
+  "t0": 1791602374.0198028,
+  "reglages_refuses": [],
+  "monde": "/Game/PJ/Maps/PJ_Phase0.PJ_Phase0",
+  "exr_octets": 6459450,
+  "octets": 3080591,
+  "conversion_s": 1.86,
+  "moyenne": 114.8,
+  "duree_s": 5.07,
+  "fini": true,
+  "en_cours": false
+ }
+}

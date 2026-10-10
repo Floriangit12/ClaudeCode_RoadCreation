@@ -1,0 +1,54 @@
+#usda 1.0
+(
+    doc = """Essai phase 0 : remappage du materiau USD 'bordure' vers un materiau UE existant
+    (contexte de rendu 'unreal', info:unreal:sourceAsset) + boite asymetrique de controle du repere.
+    Sous-couche : couche bordures du paquet v1 (non modifiee)."""
+    defaultPrim = "World"
+    metersPerUnit = 1
+    upAxis = "Z"
+    subLayers = [
+        @../../../../out/paquet_jardin/package/layers/bordures.usdc@
+    ]
+)
+
+over "World"
+{
+    def Scope "Looks"
+    {
+        def Material "bordure"
+        {
+            token outputs:surface.connect = </World/Looks/bordure/Apercu.outputs:surface>
+            token outputs:unreal:surface.connect = </World/Looks/bordure/Unreal.outputs:out>
+
+            def Shader "Apercu"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.55, 0.53, 0.5)
+                float inputs:roughness = 0.8
+                token outputs:surface
+            }
+
+            def Shader "Unreal"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:unreal:sourceAsset = @/Game/Carla/Static/GenericMaterials/Concrete/MI_Concrete_01.MI_Concrete_01@
+                token outputs:out
+            }
+        }
+    }
+
+    def Xform "Essai"
+    {
+        def Mesh "Boite_asym" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            float3[] extent = [(2, 1, 0), (5, 1.5, 0.16)]
+            int[] faceVertexCounts = [4, 4, 4, 4, 4, 4]
+            int[] faceVertexIndices = [0, 3, 2, 1, 4, 5, 6, 7, 0, 1, 5, 4, 2, 3, 7, 6, 3, 0, 4, 7, 1, 2, 6, 5]
+            point3f[] points = [(2, 1, 0), (5, 1, 0), (5, 1.5, 0), (2, 1.5, 0), (2, 1, 0.16), (5, 1, 0.16), (5, 1.5, 0.16), (2, 1.5, 0.16)]
+            uniform token subdivisionScheme = "none"
+            rel material:binding = </World/Looks/bordure>
+        }
+    }
+}

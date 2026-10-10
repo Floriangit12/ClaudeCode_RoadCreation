@@ -1,0 +1,2206 @@
+{
+ "schema": "pj_specs/marquages_geometrie/1.0",
+ "version": 1,
+ "date": "2026-10-10",
+ "role": "Géométrie normative des marques sur chaussée pour la fabrication V2 (Houdini pj_marquages, prototypes de symboles) : modulations, largeurs, lignes transversales, passages, hachures, zigzags, damiers et polygones exacts des flèches et symboles. L'aspect (couleurs, usure, rétroréflexion) reste dans peinture.json.",
+ "source_principale": {
+  "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025)",
+  "url": "https://equipementsdelaroute.cerema.fr/IMG/pdf/iisr_7epartie_vc_20250404.pdf",
+  "articles": "113-1 (p. 5-7), 113-2 (p. 8-10), 114-5 (p. 15), 115-3 (p. 20-23), 117-2 (p. 37-38), 117-4 (p. 41-43), 118 (p. 44), 118-1 (p. 44-46), 118-3 (p. 50-51) ; annexes B1 (p. 61), B2 (p. 62), B3 (p. 63), C3 (p. 65), D1 (p. 66), D7 (p. 79)",
+  "valeur": "version consolidée à valeur documentaire (seuls font foi les textes publiés au JO)"
+ },
+ "repere": {
+  "unites": "mètres",
+  "gabarits": "repère local du gabarit : x latéral (positif à droite du sens de circulation), y longitudinal (sens de circulation), Z nul (posé à +3 mm sur la chaussée par pj_marquages)",
+  "pose": "point d'insertion = origine du gabarit ; orientation = tangente de la voie (OpenDRIVE) au point ; repère de scène : local = Lambert-93 - O (917279.43, 6460289.98), z = NGF - 216.30",
+  "polygones": "anneau extérieur dans le sens trigonométrique (aire > 0), trous dans le sens horaire, non fermés (dernier sommet ≠ premier), sommets en m arrondis au 0,1 mm",
+  "discretisation": "arcs et ellipses : erreur de corde ≤ 1 mm"
+ },
+ "unite_u": {
+  "valeurs_m": {
+   "autoroute_chaussees_separees": 0.075,
+   "route_grande_circulation": 0.06,
+   "autres_routes": 0.05,
+   "pistes_cyclables": 0.03
+  },
+  "regle": "u homogène sur un itinéraire",
+  "site": "u non décidé (statut route à grande circulation inconnu) : défaut u = 0,05 ; u = 0,06 sur l'axe de Verdun (0,12 mesuré dominant, décision utilisateur n° 10) ; garder largeur_m mesurée quand elle existe",
+  "largeurs_m": {
+   "2u": {
+    "u5": 0.1,
+    "u6": 0.12
+   },
+   "3u": {
+    "u5": 0.15,
+    "u6": 0.18
+   },
+   "5u": {
+    "u5": 0.25,
+    "u6": 0.3
+   }
+  },
+  "source": {
+   "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 113-1 C (p. 7) et 113-2",
+   "page": 7
+  },
+  "confiance": "haute"
+ },
+ "largeurs_par_ligne": {
+  "table": [
+   {
+    "ligne": "axe ou délimitation de voies, continue",
+    "modulation": "continue",
+    "largeur_u": 2,
+    "u5_m": 0.1,
+    "u6_m": 0.12,
+    "u3_piste_m": 0.06
+   },
+   {
+    "ligne": "axe ou délimitation de voies en agglomération",
+    "modulation": "T1, T'1 ou T3",
+    "largeur_u": 2,
+    "u5_m": 0.1,
+    "u6_m": 0.12,
+    "u3_piste_m": 0.06
+   },
+   {
+    "ligne": "annonce de ligne continue",
+    "modulation": "T3",
+    "largeur_u": 2,
+    "u5_m": 0.1,
+    "u6_m": 0.12,
+    "u3_piste_m": 0.06
+   },
+   {
+    "ligne": "rive (en ville souvent la bordure seule)",
+    "modulation": "T2",
+    "largeur_u": 3,
+    "u5_m": 0.15,
+    "u6_m": 0.18,
+    "u3_piste_m": 0.09
+   },
+   {
+    "ligne": "rive aux abords de carrefour (à partir de la 1re flèche de rabattement)",
+    "modulation": "T'3",
+    "largeur_u": 3,
+    "u5_m": 0.15,
+    "u6_m": 0.18,
+    "u3_piste_m": 0.09
+   },
+   {
+    "ligne": "contour d'îlot, de TPC, de giratoire",
+    "modulation": "continue",
+    "largeur_u": 3,
+    "u5_m": 0.15,
+    "u6_m": 0.18,
+    "u3_piste_m": 0.09
+   },
+   {
+    "ligne": "bande cyclable, couloir bus, voie pour véhicules lents",
+    "modulation": "T3",
+    "largeur_u": 5,
+    "u5_m": 0.25,
+    "u6_m": 0.3,
+    "u3_piste_m": 0.15
+   },
+   {
+    "ligne": "couloir bus permanent ou à contresens",
+    "modulation": "continue",
+    "largeur_u": 5,
+    "u5_m": 0.25,
+    "u6_m": 0.3,
+    "u3_piste_m": 0.15
+   },
+   {
+    "ligne": "voie d'insertion / de décélération, séparation de courants",
+    "modulation": "T2",
+    "largeur_u": 5,
+    "u5_m": 0.25,
+    "u6_m": 0.3,
+    "u3_piste_m": 0.15
+   },
+   {
+    "ligne": "voies spécialisées ou affectées en agglomération",
+    "modulation": "T3 (T2 5u si contrainte)",
+    "largeur_u": 2,
+    "u5_m": 0.1,
+    "u6_m": 0.12,
+    "u3_piste_m": 0.06
+   },
+   {
+    "ligne": "accès riverain (interruption d'une continue sur ≈ 2,50 m)",
+    "modulation": "T'2",
+    "largeur_u": "2-3"
+   },
+   {
+    "ligne": "stationnement (blanc ou bleu), interdiction (jaune)",
+    "modulation": "T'2 ou continue",
+    "largeur_u": 2,
+    "u5_m": 0.1,
+    "u6_m": 0.12,
+    "u3_piste_m": 0.06
+   }
+  ],
+  "regles": [
+   "avant un îlot, la ligne passe à 3u sur L/6",
+   "espace non peint de 2u entre une ligne 3u et les hachures ou la bordure",
+   "accès riverain : une ligne continue est interrompue sur ≈ 2,50 m par une T'2 2u (art. 114-5)"
+  ],
+  "source": {
+   "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 113-2 (p. 8-10), 114-5 (p. 15), 117-2 (p. 37-38)",
+   "page": 8
+  },
+  "confiance": "haute"
+ },
+ "modulations": {
+  "table": {
+   "T1": {
+    "trait_m": 3.0,
+    "vide_m": 10.0,
+    "periode_m": 13.0,
+    "plein_sur_vide": 0.3,
+    "emploi": "axe / délimitation de voies (rase campagne)"
+   },
+   "T'1": {
+    "trait_m": 1.5,
+    "vide_m": 5.0,
+    "periode_m": 6.5,
+    "plein_sur_vide": 0.3,
+    "emploi": "axe / délimitation de voies en agglomération ; axe des pistes cyclables"
+   },
+   "T2": {
+    "trait_m": 3.0,
+    "vide_m": 3.5,
+    "periode_m": 6.5,
+    "plein_sur_vide": 0.857,
+    "emploi": "rive ; voies d'insertion et de décélération (5u)"
+   },
+   "T'2": {
+    "trait_m": 0.5,
+    "vide_m": 0.5,
+    "periode_m": 1.0,
+    "plein_sur_vide": 1.0,
+    "emploi": "lignes transversales (cédez, effet des feux, effet des passages piétons), accès riverains, stationnement"
+   },
+   "T3": {
+    "trait_m": 3.0,
+    "vide_m": 1.33,
+    "periode_m": 4.33,
+    "plein_sur_vide": 2.256,
+    "emploi": "annonce de ligne continue, bandes cyclables et couloirs bus (5u), voies affectées"
+   },
+   "T'3": {
+    "trait_m": 20.0,
+    "vide_m": 6.0,
+    "periode_m": 26.0,
+    "plein_sur_vide": 3.333,
+    "emploi": "rive aux abords des carrefours"
+   },
+   "T4": {
+    "trait_m": 39.0,
+    "vide_m": 13.0,
+    "periode_m": 52.0,
+    "plein_sur_vide": 3.0,
+    "emploi": "bande d'arrêt d'urgence"
+   }
+  },
+  "regle": "modulations (trait + vide) multiples ou sous-multiples de 13 m, sauf T'2 (1 m)",
+  "phase": "phase_m (abscisse du début du premier trait) portée par la description ; phasage sur les 155 tirets GAM quand ils existent",
+  "source": {
+   "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 113-1 B (tableau p. 6, schéma p. 7)",
+   "page": 6
+  },
+  "confiance": "haute"
+ },
+ "lignes_transversales": {
+  "STOP": {
+   "modulation": "continue",
+   "largeur_m": 0.5,
+   "etendue": "toute la largeur des voies concernées",
+   "jamais_sans": "panneau AB4",
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 117-4 A",
+    "page": 41
+   },
+   "confiance": "haute"
+  },
+  "CEDEZ": {
+   "modulation": "T'2",
+   "largeur_m": 0.5,
+   "motif": "pavés 0,50 x 0,50 espacés de 0,50",
+   "jamais_sans": "panneau AB3a",
+   "triangle_amont": "gabarits.CEDEZ_V60 / CEDEZ_V60P (facultatif), pointe vers les véhicules qui arrivent",
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 117-4 B",
+    "page": 41
+   },
+   "confiance": "haute"
+  },
+  "EFFET_FEUX": {
+   "modulation": "T'2",
+   "largeur_m": 0.15,
+   "trait_m": 0.5,
+   "vide_m": 0.5,
+   "etendue": "uniquement les voies commandées par le feu",
+   "position": "en amont du feu ou du passage piéton s'il existe",
+   "note": "0,15 m de large et non 0,50 (les 23 lignes du site mesurent 0,50 x 0,15 : un tiret)",
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 117-4 C et 118",
+    "page": 42
+   },
+   "confiance": "haute"
+  },
+  "EFFET_FEUX_MIXTE_TC": {
+   "description": "T'2 0,15 + continue 0,15 espacées de 2u, la continue du côté du site TC",
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 117-4",
+    "page": 43
+   },
+   "confiance": "haute"
+  },
+  "EFFET_PASSAGE_PIETONS": {
+   "modulation": "T'2",
+   "largeur_m": 0.15,
+   "distance_amont_m": [
+    2.0,
+    5.0
+   ],
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 117-4 F",
+    "page": 43
+   },
+   "confiance": "haute"
+  },
+  "CEDEZ_CYCLISTE": {
+   "modulation": "0,25 / 0,25",
+   "largeur_m": 0.25,
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 118-1",
+    "page": 45
+   },
+   "confiance": "moyenne"
+  },
+  "STOP_CYCLISTE": {
+   "modulation": "continue",
+   "largeur_m": 0.25,
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 118-1",
+    "page": 45
+   },
+   "confiance": "moyenne"
+  },
+  "GUIDAGE_CARREFOUR": {
+   "description": "T'2 de 0,10 (tourne-à-gauche, baïonnette) ou de 0,15 doublée d'une continue 0,15 (carrefour complexe)",
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 117-4",
+    "page": 42
+   },
+   "confiance": "moyenne"
+  },
+  "annonce_longitudinale": "STOP et cédez sur route à double sens sans îlot : continue 2u sur 10 à 20 m en amont (ou T3 si chaussée étroite)"
+ },
+ "passages_pietons": {
+  "bande_largeur_m": 0.5,
+  "intervalle_m": {
+   "min": 0.5,
+   "max": 0.8,
+   "defaut_site": 0.5
+  },
+  "longueur_bande_m": {
+   "ville_min": 2.5,
+   "rase_campagne": [
+    4.0,
+    6.0
+   ]
+  },
+  "orientation": "bandes parallèles à l'axe de la chaussée",
+  "nombre_bandes": [
+   {
+    "largeur_roulable_m": [
+     4,
+     6
+    ],
+    "bandes": [
+     3,
+     5
+    ]
+   },
+   {
+    "largeur_roulable_m": [
+     6,
+     8
+    ],
+    "bandes": [
+     5,
+     7
+    ]
+   },
+   {
+    "largeur_roulable_m": [
+     8,
+     10
+    ],
+    "bandes": [
+     6,
+     9
+    ]
+   },
+   {
+    "largeur_roulable_m": [
+     10,
+     12
+    ],
+    "bandes": [
+     8,
+     11
+    ]
+   },
+   {
+    "largeur_roulable_m": [
+     12,
+     14
+    ],
+    "bandes": [
+     9,
+     13
+    ]
+   }
+  ],
+  "interruption_lignes_m": 0.5,
+  "regle_interruption": "le marquage axial et de délimitation des voies s'arrête à 0,50 m de part et d'autre du passage",
+  "plateau_trapezoidal": "bandes prolongées de 0,50 m de part et d'autre du plateau",
+  "coupure_refuge": "bandes interrompues au droit d'un refuge (dans la description : intervalles de coupure)",
+  "site": "pas mesuré ≈ 1,00 (bande 0,50 + vide 0,50) sur l'ortho 2022 et le GAM ; bandes GAM 0,50 x 2,80-3,50",
+  "source": {
+   "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 118",
+   "page": 44
+  },
+  "confiance": "haute"
+ },
+ "hachures": {
+  "bande_m": 0.5,
+  "espacement_entre_paralleles_m": 1.35,
+  "pas_perpendiculaire_m": 1.85,
+  "inclinaison": "2 (parallèlement à la rive) pour 1 (perpendiculairement)",
+  "angle_avec_rive_deg": 26.565,
+  "le_long_de_la_rive_m": {
+   "bande": 1.118,
+   "vide": 3.019,
+   "pas": 4.137,
+   "note": "le schéma C3 arrondit à 1,12 + 3,00 (pas 4,12)"
+  },
+  "sens": "l'inclinaison ramène le conducteur vers la chaussée circulable",
+  "espace_non_peint_u": 2,
+  "contour": "continue 3u",
+  "pointe_aplat_m": 0.3,
+  "regle_pointe": "aplat blanc là où la largeur disponible est < 0,30 m",
+  "reduction": "réduction homothétique possible pour les petits îlots",
+  "source": {
+   "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 117-2 A et schéma C3",
+   "page": 37
+  },
+  "confiance": "haute"
+ },
+ "chevrons": {
+  "regle": "mêmes dimensions que les hachures, inclinées par rapport à la bissectrice, pointe vers le conducteur",
+  "site": "chevrons GAM 0,77 x 0,76, trait 0,12 (16 entités)",
+  "source": {
+   "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 117-2",
+   "page": 37
+  },
+  "confiance": "haute"
+ },
+ "zigzag_bus": {
+  "couleur": "jaune",
+  "largeur_trait_u": 2,
+  "angle_deg": 45,
+  "amplitude_m": 2.5,
+  "demi_periode_m": 2.5,
+  "periode_m": 5.0,
+  "longueur_min_m": 10.0,
+  "extremites": "trait perpendiculaire à la bordure de 2,50 m à chaque extrémité (le motif commence et finit en sommet)",
+  "longueur": "multiple de 5,00 m (site : 30,00 et 34,97 m = 6 et 7 périodes)",
+  "lecture": "amplitude à l'axe du trait, depuis la bordure ; emprise = 2,50 + u (site : 2,55-2,58 m, trait 0,12)",
+  "source": {
+   "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 118-3 C et schéma",
+   "page": 51
+  },
+  "confiance": "haute"
+ },
+ "zones": {
+  "damier_bus": {
+   "carre_m": {
+    "min": 0.8,
+    "max": 1.2,
+    "defaut": 1.0
+   },
+   "couleur": "blanc",
+   "gabarit": "DAMIER_BUS",
+   "disposition": "échiquier sur la largeur de la voie TC, 2 rangées alternées (pratique courante ; disposition non cotée par l'IISR)",
+   "emploi": "traversée d'un carrefour ou d'une voie TC, début de voie réservée",
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 118-3 D",
+    "page": 51
+   },
+   "confiance": "faible (disposition)"
+  },
+  "damier_chronovelo": {
+   "gabarit": "PAVE_CHRONOVELO",
+   "pas_m": 0.6,
+   "pave_m": [
+    0.7,
+    0.37
+   ],
+   "couleur": "jaune",
+   "disposition": "une file de chaque côté de la traversée cyclable, grand côté perpendiculaire à la file",
+   "source": {
+    "texte": "pratique du site (plan projet 2025, charte Chronovélo), NON IISR",
+    "page": null
+   },
+   "confiance": "moyenne",
+   "normatif": false
+  },
+  "carres_traversee_cyclable": {
+   "gabarit": "CARRE_TRAVERSEE_CYCLABLE",
+   "pas_m": 1.0,
+   "carre_m": 0.5,
+   "couleur": "blanc (jaune sur la traversée SW)",
+   "source": {
+    "texte": "pratique du site, NON IISR",
+    "page": null
+   },
+   "confiance": "moyenne",
+   "normatif": false
+  }
+ },
+ "cycles": {
+  "u_m": 0.03,
+  "axe_piste": "continue 2u (0,06) ou T'1 2u",
+  "rive_piste": "3u (0,09)",
+  "bande_cyclable": "T3 5u ; début/fin : trait oblique 5u coupé de 0,50 m en son milieu",
+  "bandes_traversee": "homothétie 1/2 des bandes piétonnes : 0,25 m, espacées de 0,40 (min 0,25)",
+  "figurine": "gabarits.VELO (0,80 x 1,28 ; demi-taille 0,40 x 0,64 autorisée)",
+  "fleches_velo": "flèches directionnelles à l'homothétie 1/2 (2,00 m)",
+  "sas_velo": "deux lignes d'effet des feux T'2 0,15 distantes de 3 à 5 m, figurine dans l'axe de chaque voie",
+  "doubles_chevrons": "autorisés, aucune cote officielle",
+  "source": {
+   "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 118-1 et annexe D1",
+   "page": 45
+  },
+  "confiance": "haute"
+ },
+ "symboles_a_vectoriser": {
+  "PMR": {
+   "boite_m": {
+    "limite": [
+     0.5,
+     0.6
+    ],
+    "limite_petit": [
+     0.25,
+     0.3
+    ],
+    "centre_place": [
+     1.0,
+     1.2
+    ]
+   },
+   "statut": "à vectoriser (annexe sans contour exploitable ici)",
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 118-2 C",
+    "page": 48
+   }
+  },
+  "recharge_electrique": {
+   "boite_m": [
+    [
+     0.6,
+     0.3
+    ],
+    [
+     0.3,
+     0.15
+    ]
+   ],
+   "statut": "à vectoriser",
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 118-2 C",
+    "page": 48
+   }
+  },
+  "chiffres_30_50": {
+   "hauteur_caractere_m": "≥ 1,50 si V ≤ 50 ; 4 (3 min) si V > 50",
+   "statut": "à vectoriser (annexes D3-D6, images)",
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 118-7, annexes D3-D6",
+    "page": 70
+   }
+  },
+  "BUS_TRAM": {
+   "statut": "à vectoriser (lettres art. 118-7)",
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 118-3 E",
+    "page": 51
+   }
+  }
+ },
+ "homotheties": {
+  "autoroute": 1.3333,
+  "velo": 0.5,
+  "regle": "flèches directionnelles x 4/3 sur autoroutes et routes à chaussées séparées à carrefours dénivelés ; x 1/2 pour les voies cyclables (art. 118-1)"
+ },
+ "implantation_fleches": {
+  "directionnelles": [
+   "au milieu de chaque voie, toutes dans un même profil en travers",
+   "3 par voie (2 en agglomération si la place manque), interdistance constante",
+   "la dernière au plus près de la ligne d'arrêt ou du point de divergence",
+   "dès qu'une voie est affectée, toutes les voies adjacentes sont équipées",
+   "types autorisés à l'exclusion de tout autre : TD, TAD, TAG, TD_TAD, TD_TAG"
+  ],
+  "rabattement": {
+   "nombre": "3 (2 en agglomération si la longueur manque)",
+   "transversal": "à cheval sur la ligne d'annonce (route à 2 voies) ; dans l'axe de la voie supprimée (3 voies et plus)",
+   "premiere": "à L/2 en amont du début de la ligne oblique (réduction de voies, rétrécissement)",
+   "L_m": [
+    39,
+    78,
+    117,
+    156,
+    195,
+    234
+   ],
+   "interdistances_m": [
+    {
+     "L": 234,
+     "i1": 91,
+     "i2": 78,
+     "d_continue": 65
+    },
+    {
+     "L": 195,
+     "i1": 78,
+     "i2": 65,
+     "d_continue": 52
+    },
+    {
+     "L": 156,
+     "i1": 65,
+     "i2": 52,
+     "d_continue": 39
+    },
+    {
+     "L": 117,
+     "i1": 52,
+     "i2": 39,
+     "d_continue": 26
+    },
+    {
+     "L": 78,
+     "i1": 39,
+     "i2": 26,
+     "d_continue": 13
+    }
+   ],
+   "note": "L = 39 : ligne du tableau illisible dans l'extraction (26 / 13) ; correspondance V15 -> L mal alignée dans l'extraction (valeurs L sûres) ; en ville, ligne T3 de longueur L sans flèches possible à faible vitesse",
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 115-3 A et B",
+    "page": 21
+   },
+   "confiance": "moyenne"
+  },
+  "source": {
+   "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 115-3 C",
+   "page": 23
+  },
+  "confiance": "haute"
+ },
+ "gabarits": {
+  "TD": {
+   "libelle": "tout droit",
+   "famille": "fleche",
+   "couleur": "blanc",
+   "longueur_m": 4.0,
+   "largeur_m": 0.7,
+   "origine": "milieu du pied de la tige (y = 0), x latéral positif à droite, y dans le sens de circulation",
+   "polygone": [
+    [
+     -0.075,
+     0.0
+    ],
+    [
+     0.075,
+     0.0
+    ],
+    [
+     0.075,
+     2.0
+    ],
+    [
+     0.35,
+     2.0
+    ],
+    [
+     0.0,
+     4.0
+    ],
+    [
+     -0.35,
+     2.0
+    ],
+    [
+     -0.075,
+     2.0
+    ]
+   ],
+   "aire_m2": 1.0,
+   "n_sommets": 7,
+   "boite": {
+    "x": [
+     -0.35,
+     0.35
+    ],
+    "y": [
+     0.0,
+     4.0
+    ]
+   },
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), annexe B.2 « Flèches directionnelles » (art. 115-3 C)",
+    "page": 62,
+    "url": "https://equipementsdelaroute.cerema.fr/IMG/pdf/iisr_7epartie_vc_20250404.pdf",
+    "methode": "sommets calculés depuis les cotes du schéma (0,15 / 0,70 / 2,00 / 4,00 / 0,50 / 0,35 / 0,25 / 2,25 / 2,60)"
+   },
+   "confiance": "haute",
+   "notes": "tige 0,15 x 2,00 ; tête triangulaire 0,70 x 2,00"
+  },
+  "TAD": {
+   "libelle": "tourne-à-droite",
+   "famille": "fleche",
+   "couleur": "blanc",
+   "longueur_m": 4.0,
+   "largeur_m": 1.0,
+   "origine": "milieu du pied de la tige (y = 0), x latéral positif à droite, y dans le sens de circulation",
+   "polygone": [
+    [
+     -0.075,
+     0.0
+    ],
+    [
+     0.075,
+     0.0
+    ],
+    [
+     0.075,
+     2.25
+    ],
+    [
+     0.575,
+     2.75
+    ],
+    [
+     0.575,
+     2.0
+    ],
+    [
+     0.925,
+     3.0
+    ],
+    [
+     0.575,
+     4.0
+    ],
+    [
+     0.575,
+     3.25
+    ],
+    [
+     -0.075,
+     2.6
+    ]
+   ],
+   "aire_m2": 1.0012,
+   "n_sommets": 9,
+   "boite": {
+    "x": [
+     -0.075,
+     0.925
+    ],
+    "y": [
+     0.0,
+     4.0
+    ]
+   },
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), annexe B.2 « Flèches directionnelles » (art. 115-3 C)",
+    "page": 62,
+    "url": "https://equipementsdelaroute.cerema.fr/IMG/pdf/iisr_7epartie_vc_20250404.pdf",
+    "methode": "sommets calculés depuis les cotes du schéma (0,15 / 0,70 / 2,00 / 4,00 / 0,50 / 0,35 / 0,25 / 2,25 / 2,60)"
+   },
+   "confiance": "haute",
+   "notes": "branche à 45° (largeur perpendiculaire 0,354), tête 0,35 x 2,00 dont le dos est à 0,50 à droite de la tige ; encoches à 0,25 de part et d'autre de la pointe"
+  },
+  "TAG": {
+   "libelle": "tourne-à-gauche",
+   "famille": "fleche",
+   "couleur": "blanc",
+   "longueur_m": 4.0,
+   "largeur_m": 1.0,
+   "origine": "milieu du pied de la tige (y = 0), x latéral positif à droite, y dans le sens de circulation",
+   "polygone": [
+    [
+     0.075,
+     2.6
+    ],
+    [
+     -0.575,
+     3.25
+    ],
+    [
+     -0.575,
+     4.0
+    ],
+    [
+     -0.925,
+     3.0
+    ],
+    [
+     -0.575,
+     2.0
+    ],
+    [
+     -0.575,
+     2.75
+    ],
+    [
+     -0.075,
+     2.25
+    ],
+    [
+     -0.075,
+     0.0
+    ],
+    [
+     0.075,
+     0.0
+    ]
+   ],
+   "aire_m2": 1.0012,
+   "n_sommets": 9,
+   "boite": {
+    "x": [
+     -0.925,
+     0.075
+    ],
+    "y": [
+     0.0,
+     4.0
+    ]
+   },
+   "derive_de": {
+    "gabarit": "TAD",
+    "transformation": "symétrie x -> -x (ordre des sommets inversé)"
+   },
+   "source": {
+    "texte": "art. 115-3 C (p. 23) : « la flèche de tourne-à-gauche se déduit par symétrie de la flèche de tourne-à-droite »",
+    "page": 23,
+    "url": "https://equipementsdelaroute.cerema.fr/IMG/pdf/iisr_7epartie_vc_20250404.pdf"
+   },
+   "confiance": "haute"
+  },
+  "TD_TAD": {
+   "libelle": "tout droit + tourne-à-droite",
+   "famille": "fleche",
+   "couleur": "blanc",
+   "longueur_m": 4.0,
+   "largeur_m": 1.275,
+   "origine": "milieu du pied de la tige (y = 0), x latéral positif à droite, y dans le sens de circulation",
+   "polygone": [
+    [
+     -0.075,
+     0.0
+    ],
+    [
+     0.075,
+     0.0
+    ],
+    [
+     0.075,
+     0.75
+    ],
+    [
+     0.575,
+     1.25
+    ],
+    [
+     0.575,
+     0.5
+    ],
+    [
+     0.925,
+     1.5
+    ],
+    [
+     0.575,
+     2.5
+    ],
+    [
+     0.575,
+     1.75
+    ],
+    [
+     0.075,
+     1.25
+    ],
+    [
+     0.075,
+     2.0
+    ],
+    [
+     0.35,
+     2.0
+    ],
+    [
+     0.0,
+     4.0
+    ],
+    [
+     -0.35,
+     2.0
+    ],
+    [
+     -0.075,
+     2.0
+    ]
+   ],
+   "aire_m2": 1.6,
+   "n_sommets": 14,
+   "boite": {
+    "x": [
+     -0.35,
+     0.925
+    ],
+    "y": [
+     0.0,
+     4.0
+    ]
+   },
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), annexe B.3 « Flèche bidirectionnelle » (art. 115-3 C)",
+    "page": 63,
+    "url": "https://equipementsdelaroute.cerema.fr/IMG/pdf/iisr_7epartie_vc_20250404.pdf",
+    "methode": "sommets calculés depuis les cotes du schéma (0,15 / 0,50 / 0,35 / 0,25 / 0,50 / 1,00 / 1,25 / 2,00 / 4,00)"
+   },
+   "confiance": "haute",
+   "notes": "branche à 45° de y 0,75-1,25 (bord bas) à 1,25-1,75 (bord haut) ; tête droite de y 0,50 à 2,50, pointe à x = 0,925, y = 1,50"
+  },
+  "TD_TAG": {
+   "libelle": "tout droit + tourne-à-gauche",
+   "famille": "fleche",
+   "couleur": "blanc",
+   "longueur_m": 4.0,
+   "largeur_m": 1.275,
+   "origine": "milieu du pied de la tige (y = 0), x latéral positif à droite, y dans le sens de circulation",
+   "polygone": [
+    [
+     0.075,
+     2.0
+    ],
+    [
+     0.35,
+     2.0
+    ],
+    [
+     0.0,
+     4.0
+    ],
+    [
+     -0.35,
+     2.0
+    ],
+    [
+     -0.075,
+     2.0
+    ],
+    [
+     -0.075,
+     1.25
+    ],
+    [
+     -0.575,
+     1.75
+    ],
+    [
+     -0.575,
+     2.5
+    ],
+    [
+     -0.925,
+     1.5
+    ],
+    [
+     -0.575,
+     0.5
+    ],
+    [
+     -0.575,
+     1.25
+    ],
+    [
+     -0.075,
+     0.75
+    ],
+    [
+     -0.075,
+     0.0
+    ],
+    [
+     0.075,
+     0.0
+    ]
+   ],
+   "aire_m2": 1.6,
+   "n_sommets": 14,
+   "boite": {
+    "x": [
+     -0.925,
+     0.35
+    ],
+    "y": [
+     0.0,
+     4.0
+    ]
+   },
+   "derive_de": {
+    "gabarit": "TD_TAD",
+    "transformation": "symétrie x -> -x (ordre des sommets inversé)"
+   },
+   "source": {
+    "texte": "art. 115-3 C (p. 23) : « la flèche de tourne-à-gauche se déduit par symétrie de la flèche de tourne-à-droite »",
+    "page": 23,
+    "url": "https://equipementsdelaroute.cerema.fr/IMG/pdf/iisr_7epartie_vc_20250404.pdf"
+   },
+   "confiance": "haute"
+  },
+  "RAB_D": {
+   "libelle": "rabattement vers la droite",
+   "famille": "fleche",
+   "couleur": "blanc",
+   "longueur_m": 6.0,
+   "largeur_m": 0.86,
+   "origine": "intersection de l'axe de la voie (ou de la chaussée, ou de la ligne d'annonce) et de la ligne de référence perpendiculaire ; x positif du côté du rabattement, y dans le sens de circulation",
+   "polygone": [
+    [
+     -0.36,
+     0.0
+    ],
+    [
+     -0.11,
+     0.0
+    ],
+    [
+     -0.1279,
+     0.3924
+    ],
+    [
+     -0.1385,
+     0.7852
+    ],
+    [
+     -0.1418,
+     1.178
+    ],
+    [
+     -0.1377,
+     1.5708
+    ],
+    [
+     -0.1262,
+     1.9635
+    ],
+    [
+     -0.1074,
+     2.3559
+    ],
+    [
+     -0.0813,
+     2.7479
+    ],
+    [
+     -0.0478,
+     3.1394
+    ],
+    [
+     -0.007,
+     3.5301
+    ],
+    [
+     0.041,
+     3.92
+    ],
+    [
+     0.26,
+     3.5
+    ],
+    [
+     0.5,
+     6.0
+    ],
+    [
+     -0.24,
+     4.5
+    ],
+    [
+     -0.0428,
+     4.12
+    ],
+    [
+     -0.1092,
+     3.7459
+    ],
+    [
+     -0.1679,
+     3.3705
+    ],
+    [
+     -0.2188,
+     2.994
+    ],
+    [
+     -0.2619,
+     2.6164
+    ],
+    [
+     -0.2972,
+     2.2381
+    ],
+    [
+     -0.3247,
+     1.8592
+    ],
+    [
+     -0.3443,
+     1.4797
+    ],
+    [
+     -0.3561,
+     1.0999
+    ],
+    [
+     -0.36,
+     0.72
+    ]
+   ],
+   "aire_m2": 1.4953,
+   "n_sommets": 25,
+   "boite": {
+    "x": [
+     -0.36,
+     0.5
+    ],
+    "y": [
+     0.0,
+     6.0
+    ]
+   },
+   "construction": {
+    "pied": {
+     "x": [
+      -0.36,
+      -0.11
+     ],
+     "largeur": 0.25,
+     "cote": "0,36 et 0,11 depuis l'axe"
+    },
+    "bord_droit": {
+     "type": "arc",
+     "rayon": 21.0,
+     "tangente_verticale_y": 1.155,
+     "x_tangente": -0.1418,
+     "x_pied": -0.11,
+     "de_y": 0.0,
+     "a_y": 3.92,
+     "segments": 10,
+     "lecture": "la cote R = 21 est horizontale à y = 1,155 : tangente verticale en ce point, arc passant par x = -0,11 au pied"
+    },
+    "bord_gauche": {
+     "type": "vertical puis arc",
+     "x": -0.36,
+     "vertical_jusqu_a_y": 0.72,
+     "rayon": 18.38,
+     "a_y": 4.12,
+     "segments": 9,
+     "lecture": "vertical jusqu'à 0,72 puis arc R 18,38 (RMS 1,5 cm sur le schéma contre 2,6 cm pour un arc tangent en 0,72 et passant par -0,36 au pied)"
+    },
+    "tete": {
+     "pointe": [
+      0.5,
+      6.0
+     ],
+     "barbe_gauche": [
+      -0.24,
+      4.5
+     ],
+     "barbe_droite": [
+      0.26,
+      3.5
+     ],
+     "encoche": [
+      0.041,
+      3.92
+     ],
+     "cassure": [
+      -0.0428,
+      4.12
+     ],
+     "cotes_y_iisr": {
+      "barbe_droite": 3.5,
+      "encoche": 3.92,
+      "cassure": 4.12,
+      "barbe_gauche": 4.5,
+      "pointe": 6.0
+     },
+     "x_mesures": "pas de cote horizontale pour la tête : x de la pointe et des barbes mesurés sur l'image native du schéma B1 (197,5 px/m ; ajustement de droites sur le contour, résidu RMS ≤ 3 mm) : pointe 0,50 (intersection des bords à y = 5,98), barbe gauche -0,24 (y = 4,48), barbe droite 0,26 (y = 3,49) ; l'encoche (0,041 ; 3,92) tombe exactement sur l'arc R 21 (mesure 0,041), la cassure sur l'arc R 18,38 (mesure -0,048 à y = 4,09)",
+     "incertitude_m": 0.02
+    },
+    "tolerance_corde_m": 0.001
+   },
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), annexe B.1 « Flèche de rabattement » (art. 115-3 B)",
+    "page": 61,
+    "url": "https://equipementsdelaroute.cerema.fr/IMG/pdf/iisr_7epartie_vc_20250404.pdf",
+    "methode": "arcs et cotes verticales du schéma ; x de la tête mesurés sur l'image native"
+   },
+   "confiance": "moyenne",
+   "notes": "largeur = boîte (pied à -0,36, pointe à +0,50) ; le pied fait 0,25 m ; à cheval sur la ligne d'annonce (route à 2 voies) ou dans l'axe de la voie supprimée"
+  },
+  "RAB_G": {
+   "libelle": "rabattement vers la gauche",
+   "famille": "fleche",
+   "couleur": "blanc",
+   "longueur_m": 6.0,
+   "largeur_m": 0.86,
+   "origine": "comme RAB_D, x positif à droite",
+   "polygone": [
+    [
+     0.36,
+     0.72
+    ],
+    [
+     0.3561,
+     1.0999
+    ],
+    [
+     0.3443,
+     1.4797
+    ],
+    [
+     0.3247,
+     1.8592
+    ],
+    [
+     0.2972,
+     2.2381
+    ],
+    [
+     0.2619,
+     2.6164
+    ],
+    [
+     0.2188,
+     2.994
+    ],
+    [
+     0.1679,
+     3.3705
+    ],
+    [
+     0.1092,
+     3.7459
+    ],
+    [
+     0.0428,
+     4.12
+    ],
+    [
+     0.24,
+     4.5
+    ],
+    [
+     -0.5,
+     6.0
+    ],
+    [
+     -0.26,
+     3.5
+    ],
+    [
+     -0.041,
+     3.92
+    ],
+    [
+     0.007,
+     3.5301
+    ],
+    [
+     0.0478,
+     3.1394
+    ],
+    [
+     0.0813,
+     2.7479
+    ],
+    [
+     0.1074,
+     2.3559
+    ],
+    [
+     0.1262,
+     1.9635
+    ],
+    [
+     0.1377,
+     1.5708
+    ],
+    [
+     0.1418,
+     1.178
+    ],
+    [
+     0.1385,
+     0.7852
+    ],
+    [
+     0.1279,
+     0.3924
+    ],
+    [
+     0.11,
+     0.0
+    ],
+    [
+     0.36,
+     0.0
+    ]
+   ],
+   "aire_m2": 1.4953,
+   "n_sommets": 25,
+   "boite": {
+    "x": [
+     -0.5,
+     0.36
+    ],
+    "y": [
+     0.0,
+     6.0
+    ]
+   },
+   "derive_de": {
+    "gabarit": "RAB_D",
+    "transformation": "symétrie x -> -x (ordre des sommets inversé)"
+   },
+   "source": {
+    "texte": "symétrie de B.1 (flèche dessinée pour un rabattement à droite)",
+    "page": 61,
+    "url": "https://equipementsdelaroute.cerema.fr/IMG/pdf/iisr_7epartie_vc_20250404.pdf"
+   },
+   "confiance": "moyenne"
+  },
+  "CEDEZ_V60": {
+   "libelle": "triangle cédez-le-passage, V ≤ 60 km/h",
+   "famille": "symbole",
+   "couleur": "blanc",
+   "longueur_m": 2.0,
+   "largeur_m": 1.0,
+   "origine": "pointe du triangle (côté des véhicules qui arrivent), y vers la base (sens de circulation) ; base parallèle à la ligne T'2",
+   "polygone": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.5,
+     2.0
+    ],
+    [
+     -0.5,
+     2.0
+    ]
+   ],
+   "trous": [
+    [
+     [
+      0.0,
+      0.4123
+     ],
+     [
+      -0.2719,
+      1.5
+     ],
+     [
+      0.2719,
+      1.5
+     ]
+    ]
+   ],
+   "aire_m2": 0.7043,
+   "n_sommets": 6,
+   "boite": {
+    "x": [
+     -0.5,
+     0.5
+    ],
+    "y": [
+     0.0,
+     2.0
+    ]
+   },
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), annexe D.7 « Présignalisation au sol du cédez-le-passage » (art. 117-4 B)",
+    "page": 79,
+    "url": "https://equipementsdelaroute.cerema.fr/IMG/pdf/iisr_7epartie_vc_20250404.pdf"
+   },
+   "confiance": "moyenne",
+   "notes": "base 1,00, longueur 2,00, trait 0,10, bandeau de base 0,50 ; trait mesuré perpendiculairement aux côtés (lecture retenue : la cote est portée entre deux traits parallèles au côté) ; lecture horizontale : pointe intérieure à 0.400 au lieu de 0.412"
+  },
+  "CEDEZ_V60P": {
+   "libelle": "triangle cédez-le-passage, V > 60 km/h",
+   "famille": "symbole",
+   "couleur": "blanc",
+   "longueur_m": 6.0,
+   "largeur_m": 2.0,
+   "origine": "comme CEDEZ_V60",
+   "polygone": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     1.0,
+     6.0
+    ],
+    [
+     -1.0,
+     6.0
+    ]
+   ],
+   "trous": [
+    [
+     [
+      0.0,
+      0.9124
+     ],
+     [
+      -0.6813,
+      5.0
+     ],
+     [
+      0.6813,
+      5.0
+     ]
+    ]
+   ],
+   "aire_m2": 3.2151,
+   "n_sommets": 6,
+   "boite": {
+    "x": [
+     -1.0,
+     1.0
+    ],
+    "y": [
+     0.0,
+     6.0
+    ]
+   },
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), annexe D.7 « Présignalisation au sol du cédez-le-passage » (art. 117-4 B)",
+    "page": 79,
+    "url": "https://equipementsdelaroute.cerema.fr/IMG/pdf/iisr_7epartie_vc_20250404.pdf"
+   },
+   "confiance": "moyenne",
+   "notes": "base 2,00, longueur 6,00, trait 0,15, bandeau 1,00 ; trait mesuré perpendiculairement aux côtés (lecture retenue : la cote est portée entre deux traits parallèles au côté) ; lecture horizontale : pointe intérieure à 0.900 au lieu de 0.912"
+  },
+  "VELO": {
+   "libelle": "figurine vélo",
+   "famille": "symbole",
+   "couleur": "blanc",
+   "longueur_m": 1.28,
+   "largeur_m": 0.8,
+   "origine": "milieu du bas de la boîte 0,80 x 1,28 (bas des roues), y vers le haut de la figure = sens de circulation",
+   "polygone": [
+    [
+     -0.1026,
+     1.241
+    ],
+    [
+     -0.1028,
+     1.123
+    ],
+    [
+     -0.0942,
+     1.1183
+    ],
+    [
+     -0.0871,
+     1.0986
+    ],
+    [
+     -0.0711,
+     1.0864
+    ],
+    [
+     -0.0402,
+     1.0762
+    ],
+    [
+     -0.0336,
+     1.0254
+    ],
+    [
+     -0.0942,
+     0.9128
+    ],
+    [
+     -0.1019,
+     0.9112
+    ],
+    [
+     -0.1051,
+     0.8931
+    ],
+    [
+     -0.1942,
+     0.7316
+    ],
+    [
+     -0.2019,
+     0.7299
+    ],
+    [
+     -0.2079,
+     0.6815
+    ],
+    [
+     -0.2,
+     0.6578
+    ],
+    [
+     -0.1846,
+     0.6581
+    ],
+    [
+     -0.1731,
+     0.6662
+    ],
+    [
+     -0.1058,
+     0.7813
+    ],
+    [
+     -0.0978,
+     0.7833
+    ],
+    [
+     -0.0917,
+     0.8056
+    ],
+    [
+     -0.0482,
+     0.8809
+    ],
+    [
+     -0.0392,
+     0.8789
+    ],
+    [
+     -0.0038,
+     0.7772
+    ],
+    [
+     -0.0025,
+     0.7527
+    ],
+    [
+     0.0058,
+     0.7496
+    ],
+    [
+     0.0399,
+     0.649
+    ],
+    [
+     -0.1,
+     0.6163
+    ],
+    [
+     -0.1231,
+     0.6004
+    ],
+    [
+     -0.1329,
+     0.5615
+    ],
+    [
+     -0.1039,
+     0.4822
+    ],
+    [
+     -0.1025,
+     0.4598
+    ],
+    [
+     -0.0942,
+     0.4567
+    ],
+    [
+     -0.0712,
+     0.3978
+    ],
+    [
+     -0.0404,
+     0.3982
+    ],
+    [
+     -0.0233,
+     0.4313
+    ],
+    [
+     -0.0421,
+     0.5127
+    ],
+    [
+     0.0154,
+     0.5237
+    ],
+    [
+     0.0221,
+     0.5188
+    ],
+    [
+     0.0058,
+     0.4473
+    ],
+    [
+     -0.0026,
+     0.4435
+    ],
+    [
+     -0.0156,
+     0.3438
+    ],
+    [
+     -0.0025,
+     0.116
+    ],
+    [
+     0.0163,
+     0.1058
+    ],
+    [
+     0.0179,
+     0.0977
+    ],
+    [
+     0.0327,
+     0.0967
+    ],
+    [
+     0.0513,
+     0.116
+    ],
+    [
+     0.0551,
+     0.1302
+    ],
+    [
+     0.0463,
+     0.354
+    ],
+    [
+     0.0942,
+     0.4632
+    ],
+    [
+     0.1024,
+     0.4659
+    ],
+    [
+     0.1039,
+     0.4842
+    ],
+    [
+     0.1566,
+     0.6002
+    ],
+    [
+     0.1633,
+     0.6775
+    ],
+    [
+     0.1611,
+     0.6998
+    ],
+    [
+     0.1035,
+     0.8626
+    ],
+    [
+     0.102,
+     0.887
+    ],
+    [
+     0.0942,
+     0.889
+    ],
+    [
+     0.0546,
+     1.0009
+    ],
+    [
+     0.0362,
+     1.0192
+    ],
+    [
+     0.0045,
+     1.0945
+    ],
+    [
+     0.0025,
+     1.239
+    ],
+    [
+     -0.0058,
+     1.2419
+    ],
+    [
+     -0.0327,
+     1.2782
+    ],
+    [
+     -0.0614,
+     1.2817
+    ]
+   ],
+   "aire_m2": 0.4134,
+   "n_sommets": 143,
+   "boite": {
+    "x": [
+     -0.4,
+     0.4
+    ],
+    "y": [
+     0.0,
+     1.2817
+    ],
+    "note": "boîte de la figure complète (corps, tête, roues)"
+   },
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), annexe D.1 « Figurine pour voie cyclable » (art. 118-1)",
+    "page": 66,
+    "url": "https://equipementsdelaroute.cerema.fr/IMG/pdf/iisr_7epartie_vc_20250404.pdf",
+    "methode": "image native de l'annexe (grille 8 x 13 cases de 0,10 m ; 520 px/m en x, 491,5 px/m en y) : lignes de grille effacées, isovaleur à mi-chemin fond/blanc (marching squares), Douglas-Peucker 4 mm ; roues = ellipses exactes 0,30 x 0,55"
+   },
+   "confiance": "moyenne",
+   "notes": "polygone = corps + tête (une seule composante) ; roues dans 'parties' ; demi-taille autorisée (homothétie 1/2 : 0,40 x 0,64) ; incertitude du tracé ±5 mm",
+   "parties": {
+    "roue_arriere": {
+     "polygone": [
+      [
+       -0.1,
+       0.275
+      ],
+      [
+       -0.1018,
+       0.318
+      ],
+      [
+       -0.1073,
+       0.36
+      ],
+      [
+       -0.1163,
+       0.3998
+      ],
+      [
+       -0.1286,
+       0.4366
+      ],
+      [
+       -0.1439,
+       0.4695
+      ],
+      [
+       -0.1618,
+       0.4975
+      ],
+      [
+       -0.1819,
+       0.52
+      ],
+      [
+       -0.2036,
+       0.5365
+      ],
+      [
+       -0.2265,
+       0.5466
+      ],
+      [
+       -0.25,
+       0.55
+      ],
+      [
+       -0.2735,
+       0.5466
+      ],
+      [
+       -0.2964,
+       0.5365
+      ],
+      [
+       -0.3181,
+       0.52
+      ],
+      [
+       -0.3382,
+       0.4975
+      ],
+      [
+       -0.3561,
+       0.4695
+      ],
+      [
+       -0.3714,
+       0.4366
+      ],
+      [
+       -0.3837,
+       0.3998
+      ],
+      [
+       -0.3927,
+       0.36
+      ],
+      [
+       -0.3982,
+       0.318
+      ],
+      [
+       -0.4,
+       0.275
+      ],
+      [
+       -0.3982,
+       0.232
+      ],
+      [
+       -0.3927,
+       0.19
+      ],
+      [
+       -0.3837,
+       0.1502
+      ],
+      [
+       -0.3714,
+       0.1134
+      ],
+      [
+       -0.3561,
+       0.0805
+      ],
+      [
+       -0.3382,
+       0.0525
+      ],
+      [
+       -0.3181,
+       0.03
+      ],
+      [
+       -0.2964,
+       0.0135
+      ],
+      [
+       -0.2735,
+       0.0034
+      ],
+      [
+       -0.25,
+       0.0
+      ],
+      [
+       -0.2265,
+       0.0034
+      ],
+      [
+       -0.2036,
+       0.0135
+      ],
+      [
+       -0.1819,
+       0.03
+      ],
+      [
+       -0.1618,
+       0.0525
+      ],
+      [
+       -0.1439,
+       0.0805
+      ],
+      [
+       -0.1286,
+       0.1134
+      ],
+      [
+       -0.1163,
+       0.1502
+      ],
+      [
+       -0.1073,
+       0.19
+      ],
+      [
+       -0.1018,
+       0.232
+      ]
+     ],
+     "ellipse": {
+      "centre": [
+       -0.25,
+       0.275
+      ],
+      "demi_axes": [
+       0.15,
+       0.275
+      ]
+     }
+    },
+    "roue_avant": {
+     "polygone": [
+      [
+       0.4,
+       0.275
+      ],
+      [
+       0.3982,
+       0.318
+      ],
+      [
+       0.3927,
+       0.36
+      ],
+      [
+       0.3837,
+       0.3998
+      ],
+      [
+       0.3714,
+       0.4366
+      ],
+      [
+       0.3561,
+       0.4695
+      ],
+      [
+       0.3382,
+       0.4975
+      ],
+      [
+       0.3181,
+       0.52
+      ],
+      [
+       0.2964,
+       0.5365
+      ],
+      [
+       0.2735,
+       0.5466
+      ],
+      [
+       0.25,
+       0.55
+      ],
+      [
+       0.2265,
+       0.5466
+      ],
+      [
+       0.2036,
+       0.5365
+      ],
+      [
+       0.1819,
+       0.52
+      ],
+      [
+       0.1618,
+       0.4975
+      ],
+      [
+       0.1439,
+       0.4695
+      ],
+      [
+       0.1286,
+       0.4366
+      ],
+      [
+       0.1163,
+       0.3998
+      ],
+      [
+       0.1073,
+       0.36
+      ],
+      [
+       0.1018,
+       0.318
+      ],
+      [
+       0.1,
+       0.275
+      ],
+      [
+       0.1018,
+       0.232
+      ],
+      [
+       0.1073,
+       0.19
+      ],
+      [
+       0.1163,
+       0.1502
+      ],
+      [
+       0.1286,
+       0.1134
+      ],
+      [
+       0.1439,
+       0.0805
+      ],
+      [
+       0.1618,
+       0.0525
+      ],
+      [
+       0.1819,
+       0.03
+      ],
+      [
+       0.2036,
+       0.0135
+      ],
+      [
+       0.2265,
+       0.0034
+      ],
+      [
+       0.25,
+       0.0
+      ],
+      [
+       0.2735,
+       0.0034
+      ],
+      [
+       0.2964,
+       0.0135
+      ],
+      [
+       0.3181,
+       0.03
+      ],
+      [
+       0.3382,
+       0.0525
+      ],
+      [
+       0.3561,
+       0.0805
+      ],
+      [
+       0.3714,
+       0.1134
+      ],
+      [
+       0.3837,
+       0.1502
+      ],
+      [
+       0.3927,
+       0.19
+      ],
+      [
+       0.3982,
+       0.232
+      ]
+     ],
+     "ellipse": {
+      "centre": [
+       0.25,
+       0.275
+      ],
+      "demi_axes": [
+       0.15,
+       0.275
+      ]
+     }
+    },
+    "tolerance_corde_m": 0.001,
+    "segments_ellipse": 40,
+    "aire_totale_m2": 0.4134
+   }
+  },
+  "DAMIER_BUS": {
+   "libelle": "carré de damier bus / TC",
+   "famille": "damier",
+   "couleur": "blanc",
+   "longueur_m": 1.0,
+   "largeur_m": 1.0,
+   "origine": "centre du carré",
+   "polygone": [
+    [
+     -0.5,
+     -0.5
+    ],
+    [
+     0.5,
+     -0.5
+    ],
+    [
+     0.5,
+     0.5
+    ],
+    [
+     -0.5,
+     0.5
+    ]
+   ],
+   "aire_m2": 1.0,
+   "n_sommets": 4,
+   "boite": {
+    "x": [
+     -0.5,
+     0.5
+    ],
+    "y": [
+     -0.5,
+     0.5
+    ]
+   },
+   "source": {
+    "texte": "IISR 7e partie, version consolidée VC20250404 (Cerema, 04/04/2025), art. 118-3 D (carrés blancs de 0,80 m à 1,20 m de côté)",
+    "page": 51,
+    "url": "https://equipementsdelaroute.cerema.fr/IMG/pdf/iisr_7epartie_vc_20250404.pdf"
+   },
+   "confiance": "haute (dimension) / faible (disposition)",
+   "notes": "côté paramétrable 0,80-1,20 (défaut 1,00) ; disposition en échiquier non cotée par l'IISR : voir zones.damier_bus"
+  },
+  "PAVE_CHRONOVELO": {
+   "libelle": "pavé jaune Chronovélo (traversée cyclable)",
+   "famille": "damier",
+   "couleur": "jaune",
+   "longueur_m": 0.37,
+   "largeur_m": 0.7,
+   "origine": "centre du pavé ; y le long de la file",
+   "polygone": [
+    [
+     -0.35,
+     -0.185
+    ],
+    [
+     0.35,
+     -0.185
+    ],
+    [
+     0.35,
+     0.185
+    ],
+    [
+     -0.35,
+     0.185
+    ]
+   ],
+   "aire_m2": 0.259,
+   "n_sommets": 4,
+   "boite": {
+    "x": [
+     -0.35,
+     0.35
+    ],
+    "y": [
+     -0.185,
+     0.185
+    ]
+   },
+   "source": {
+    "texte": "pratique du site, NON IISR : plan projet 2025 et charte Chronovélo (Grenoble-Alpes Métropole) ; mesuré sur marquages_2026.geojson (42 pavés : 0,700 x 0,371, pas 0,58 le long de la file, grand côté perpendiculaire à la file)",
+    "page": null,
+    "url": null
+   },
+   "confiance": "moyenne",
+   "notes": "non normatif (hors IISR) ; pas 0,60 le long de la file (vide 0,23)"
+  },
+  "CARRE_TRAVERSEE_CYCLABLE": {
+   "libelle": "carré blanc 0,50 de traversée cyclable",
+   "famille": "damier",
+   "couleur": "blanc",
+   "longueur_m": 0.5,
+   "largeur_m": 0.5,
+   "origine": "centre du carré",
+   "polygone": [
+    [
+     -0.25,
+     -0.25
+    ],
+    [
+     0.25,
+     -0.25
+    ],
+    [
+     0.25,
+     0.25
+    ],
+    [
+     -0.25,
+     0.25
+    ]
+   ],
+   "aire_m2": 0.25,
+   "n_sommets": 4,
+   "boite": {
+    "x": [
+     -0.25,
+     0.25
+    ],
+    "y": [
+     -0.25,
+     0.25
+    ]
+   },
+   "source": {
+    "texte": "pratique du site, NON IISR : 19 carrés relevés (0,50 x 0,50, pas 0,97-1,00)",
+    "page": null,
+    "url": null
+   },
+   "confiance": "moyenne",
+   "notes": "pas 1,00 le long de la traversée (carré 0,50 + vide 0,50)"
+  }
+ },
+ "ecarts_site": {
+  "fleches_gam": "les gabarits GAM / plan projet du site sont plus étroits que l'IISR (TD+TAD 1,10 contre 1,275 ; TAG 0,69-0,92 contre 1,00) : on pose les gabarits IISR sauf preuve photo contraire (décision utilisateur n° 10)",
+  "largeur_T3": "T3 à 0,12 (xodr, 130 lignes) ou 0,15 (63 tirets) : harmonisation à décider ; la spec ne tranche pas",
+  "velo_site": "symbole vélo mesuré 1,32 x 0,69 (IISR 1,28 x 0,80)"
+ },
+ "historique": [
+  {
+   "version": 1,
+   "date": "2026-10-10",
+   "contenu": "création V2 : modulations, u, transversales, passages, hachures, zigzag, damiers, 13 gabarits polygonaux (flèches B1-B3, triangles D7, figurine D1 vectorisée, éléments de damiers) ; contrôles de simplicité, d'orientation et de dimensions"
+  }
+ ]
+}

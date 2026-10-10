@@ -1,0 +1,134 @@
+{
+ "schema": "pj_specs/materiaux_rendu_v2/0.1",
+ "version": 2,
+ "date": "2026-10-10",
+ "role": "Surcharges de RENDU des matériaux v2 (Karma, fabrique/materiaux_v2.usda), lues par recon/pcg/houdini/pj_materiaux.py après assets/specs/materiaux_sol.json. Les materiau_id de la description ne changent pas : seule la source CC0 (textures), l'albédo visé ou les réglages de famille changent. Côté UE, les MI_<materiau_id> peuvent suivre les mêmes choix.",
+ "conventions": {
+  "source": "materiau_id de materiaux_sol.json dont on reprend les textures (source_cc0), tile_m et texture_mesuree",
+  "albedo_cible": "albédo linéaire moyen visé : facteur_albedo = albedo_cible / albedo_moyen_lineaire de la texture source",
+  "facteur_albedo": "gain direct (remplace celui de materiaux_sol.json)",
+  "gain_rvb": "teinte appliquée après albedo_cible / facteur_albedo (gain RVB)",
+  "famille": "bordure | sol | gazon | remplissage | bev | eclat (pj_materiaux.FAMILLES)",
+  "familles": "réglages numériques par famille (pj_materiaux.FAMILLES) : macro, freq, sal, contraste, normale, tuile, falloff (fondu du tuilage hexagonal), ao (part de l'AO), moucheture et vieillissement (bordures)"
+ },
+ "surcharges": {
+  "enrobe_trottoir": {
+   "source": "enrobe_piste_cyclable",
+   "tile_m": 1.6,
+   "albedo_cible": 0.15,
+   "raison": "revue réalisme r1 : tarred_gravel (Poly Haven) = liant lisse à éclats blancs, lu comme un enduit gravillonné ; enrobé fin 0/6 sombre et homogène de la photo utilisateur 1 -> Asphalt015 (ambientCG), grain fin, albédo 0,15"
+  },
+  "enrobe_bbsg_ancien": {
+   "facteur_albedo": [
+    0.65,
+    0.65,
+    0.65
+   ],
+   "raison": "revue réalisme r1 : Asphalt031 mesuré à 0,278, plus clair que le trottoir (bordure sans contraste) ; vieil enrobé ≈ 0,18"
+  },
+  "gravier_concasse_6_10": {
+   "tile_m": 1.0,
+   "albedo_cible": 0.14,
+   "gain_rvb": [
+    1.0,
+    0.98,
+    0.93
+   ],
+   "famille": "remplissage",
+   "raison": "revue réalisme r2 : Gravel035 (galets roulés clairs gris-bleu) lu comme des éclats de coquillage ; îlots du Vercors en concassé sombre et anguleux (Panoramax 2025-01-12 a1ff r01_c00, photo utilisateur 3) -> fond gravel_floor_02 (concassé anguleux) assombri à 0,14, légèrement chaud ; le relief vient des pierres 3D (pj_ilot)"
+  },
+  "brf_bois_concasse": {
+   "famille": "remplissage",
+   "albedo_cible": 0.05,
+   "raison": "revue réalisme r2 : interstices du BRF trop clairs (sRGB 108/100/95 contre 97/85/78 sur la photo 2) ; fond sombre sous les copeaux 3D"
+  },
+  "gravillons_ilot": {
+   "famille": "remplissage"
+  },
+  "gazon_tondu": {
+   "facteur_albedo": [
+    1.3,
+    0.8,
+    1.5
+   ],
+   "famille": "gazon",
+   "raison": "revue réalisme r2 : Grass004 (0,043/0,094/0,021) trop saturé pour un gazon d'octobre (vert-jaune terne sur Panoramax) -> ≈ (0,055/0,075/0,032)"
+  },
+  "herbe_haute": {
+   "famille": "gazon"
+  },
+  "bev_podotactile": {
+   "source": "dalles_beton",
+   "tile_m": 1.2,
+   "facteur_albedo": [
+    0.85,
+    0.85,
+    0.85
+   ],
+   "famille": "bev",
+   "raison": "revue réalisme r2 : plots en texture plate (TactilePaving006), dalles plus claires que la bordure (190 contre 170 sRGB) -> dalles 3D à plots en calotte (pj_decals.dalles_bev) en béton (Concrete037) x 0,85 ; le sol BEV n'est plus que le lit des joints"
+  }
+ },
+ "familles": {
+  "sol": {
+   "falloff": 0.12,
+   "raison": "revue réalisme r2 : fondu hexagonal de 0,35 (trois échantillons tournés mélangés) = enrobé feutré de près"
+  },
+  "gazon": {
+   "macro": 0.25,
+   "freq": 0.3,
+   "sal": 0.3,
+   "hex": true,
+   "contraste": 1.0,
+   "normale": 1.0,
+   "tuile": 1.0,
+   "falloff": 0.2,
+   "raison": "revue réalisme r2 : gazon uniforme ; variation macro plus forte (plaques sèches)"
+  },
+  "bordure": {
+   "normale": 0.02,
+   "tuile": 0.6,
+   "contraste": 0.3,
+   "sal": 0.8,
+   "ao": 0.0,
+   "falloff": 0.12,
+   "pied_bas_m": -0.005,
+   "pied_haut_m": 0.03,
+   "mouch_freq": 700.0,
+   "mouch_sombre_part": 0.05,
+   "mouch_sombre_gain": 0.6,
+   "mouch_clair_part": 0.04,
+   "mouch_clair_gain": 1.15,
+   "vieil_assombri": 0.3,
+   "crasse_face": 0.25,
+   "crasse_face_m": 0.12,
+   "lichen_freq": 40.0,
+   "lichen_couverture": 0.15,
+   "mousse_joint_m": 0.025,
+   "raison": "revue réalisme r2 : normale de Concrete037 (granulats en relief) à 0,08 et tuile de 0,4 m = crépi sous soleil rasant (contraste passe-haut 0,119 contre 0,077 sur la photo 3) -> normale 0,02, tuile 1,2 m, sans AO, moucheté d'agrégats fins (cellnoise 700 /m) ; vieillissement piloté par l'aspect décrit (salissure : assombrissement global, crasse en dégradé sur la face, lichens sur la tête ; mousse_joints : mousse aux abouts) ; rugosité ≥ 0,6 (texels brillants de Concrete037 = paillettes sur la tête) ; lichens de 5-10 mm (worley 40 /m), mousse sur 25 mm aux abouts",
+   "rugosite_min": 0.6
+  },
+  "remplissage": {
+   "macro": 0.18,
+   "freq": 0.5,
+   "sal": 0.0,
+   "hex": true,
+   "contraste": 1.6,
+   "normale": 2.0,
+   "tuile": 1.0,
+   "ao_plein": true,
+   "raison": "revue réalisme r1 : remplissages d'îlots plats (écart-type de luminance 4 à 7 fois inférieur aux photos) ; contraste de l'albédo x 1,6, normale x 2, AO pleine"
+  },
+  "bev": {
+   "macro": 0.06,
+   "freq": 0.3,
+   "sal": 0.3,
+   "hex": false,
+   "contraste": 0.6,
+   "normale": 0.15,
+   "tuile": 1.0,
+   "ao": 0.0,
+   "raison": "revue réalisme r2 : béton de dalle lisse (normale de Concrete037 réduite), sans AO de texture"
+  }
+ }
+}

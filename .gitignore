@@ -22,3 +22,14 @@ recon/out/*
 recon/out/paquet_jardin/*
 !recon/out/paquet_jardin/package/
 assets/__pycache__/
+
+# --- V2 procédurale (recon/pcg) : on versionne la description, les manifestes, les points et les planches ;
+# les sorties lourdes et régénérables (USD fabriqués, EXR, captures brutes UE, caches Karma) restent locales
+!recon/out/paquet_jardin/v2/
+recon/out/paquet_jardin/v2/fabrique/**/*.usd
+recon/out/paquet_jardin/v2/fabrique/**/*.usda
+recon/out/paquet_jardin/v2/fabrique/**/*.usdc
+recon/out/paquet_jardin/v2/**/*.exr
+recon/out/paquet_jardin/v2/ue_*/**/*.png
+!recon/out/paquet_jardin/v2/ue_*/**/planche_*.png
+*.rat

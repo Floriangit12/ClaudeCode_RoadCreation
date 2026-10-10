@@ -1,0 +1,380 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "description_scene_v2.schema.json",
+ "title": "description_scene_v2/0.1",
+ "description": "Description sémantique vectorielle du carrefour Paquet Jardin (Meylan), état octobre 2026. La racine décrit le manifeste description_scene_v2.json ; chaque famille est un FeatureCollection GeoJSON en Lambert-93 (EPSG:2154, altitudes NGF-IGN69) validé par $defs/collection_<famille>. Repère local : L93 − O (917279.43, 6460289.98, 216.30), m, Z haut. Chaque attribut porte sa provenance dans prov {attribut: {src, ref, conf}}.",
+ "type": "object",
+ "required": ["schema", "site", "references", "zone_pilote", "couches", "comptes", "statistiques", "preuves", "a_priori", "generateur", "hash_description"],
+ "additionalProperties": false,
+ "properties": {
+  "schema": {"const": "description_scene_v2/0.1"},
+  "site": {
+   "type": "object",
+   "required": ["id", "nom", "crs", "origine_l93_ngf", "repere_local", "unites", "date_etat", "saison"],
+   "additionalProperties": false,
+   "properties": {
+    "id": {"const": "paquet_jardin"},
+    "nom": {"type": "string"},
+    "crs": {"const": "EPSG:2154"},
+    "altitudes": {"type": "string"},
+    "origine_l93_ngf": {"type": "array", "prefixItems": [{"const": 917279.43}, {"const": 6460289.98}, {"const": 216.3}], "items": false, "minItems": 3},
+    "repere_local": {"type": "string"},
+    "unites": {"type": "string"},
+    "date_etat": {"const": "2026-10"},
+    "saison": {
+     "type": "object",
+     "required": ["nom"],
+     "properties": {
+      "nom": {"const": "automne"},
+      "mois": {"type": "integer", "minimum": 1, "maximum": 12},
+      "feuillage": {"type": "string"},
+      "jaunissement": {"type": "number", "minimum": 0, "maximum": 1},
+      "feuilles_mortes_sol": {"type": "number", "minimum": 0, "maximum": 1}
+     }
+    }
+   }
+  },
+  "references": {
+   "type": "object",
+   "description": "Fichiers d'entrée et specs (chemins relatifs à la racine du dépôt) avec leur sha256.",
+   "additionalProperties": {"$ref": "#/$defs/fichier_ref"}
+  },
+  "zone_pilote": {
+   "type": "object",
+   "required": ["fichier", "id", "emprise_local_m", "emprise_l93"],
+   "properties": {
+    "fichier": {"type": "string"},
+    "id": {"type": "string"},
+    "emprise_local_m": {"$ref": "#/$defs/emprise"},
+    "emprise_l93": {"$ref": "#/$defs/emprise"},
+    "photos_panoramax": {"type": "integer", "minimum": 0}
+   }
+  },
+  "couches": {
+   "type": "object",
+   "required": ["bordures", "surfaces", "ilots", "ponctuels_sol"],
+   "additionalProperties": false,
+   "properties": {
+    "bordures": {"$ref": "#/$defs/couche"},
+    "surfaces": {"$ref": "#/$defs/couche"},
+    "ilots": {"$ref": "#/$defs/couche"},
+    "ponctuels_sol": {"$ref": "#/$defs/couche"}
+   }
+  },
+  "comptes": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+  "statistiques": {"type": "object"},
+  "preuves": {
+   "type": "object",
+   "description": "Index des preuves citées par les prov (constats vérifiés, photos Panoramax, nœuds OSM, normes, photos de l'utilisateur).",
+   "additionalProperties": {"$ref": "#/$defs/preuve"}
+  },
+  "a_priori": {
+   "type": "array",
+   "description": "Règles a priori appliquées (src a_priori:<règle> ou photo_utilisateur) et entités concernées.",
+   "items": {
+    "type": "object",
+    "required": ["src", "attribut", "entites"],
+    "properties": {
+     "src": {"$ref": "#/$defs/src"},
+     "attribut": {"type": "string"},
+     "entites": {"type": "array", "items": {"type": "string"}},
+     "note": {"type": "string"}
+    }
+   }
+  },
+  "regles_pcg": {"type": "array"},
+  "generateur": {
+   "type": "object",
+   "required": ["commande", "scripts"],
+   "properties": {
+    "commande": {"type": "string"},
+    "scripts": {"type": "object", "additionalProperties": {"$ref": "#/$defs/sha256"}},
+    "interpreteur": {"type": "string"}
+   }
+  },
+  "hash_description": {"$ref": "#/$defs/sha256"}
+ },
+ "$defs": {
+  "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+  "fichier_ref": {
+   "type": "object",
+   "required": ["fichier", "sha256"],
+   "properties": {"fichier": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"}, "role": {"type": "string"}}
+  },
+  "emprise": {
+   "type": "object",
+   "required": ["x_min", "y_min", "x_max", "y_max"],
+   "properties": {"x_min": {"type": "number"}, "y_min": {"type": "number"}, "x_max": {"type": "number"}, "y_max": {"type": "number"}}
+  },
+  "couche": {
+   "type": "object",
+   "required": ["fichier", "n", "sha256"],
+   "properties": {"fichier": {"type": "string"}, "n": {"type": "integer", "minimum": 0}, "sha256": {"$ref": "#/$defs/sha256"}}
+  },
+  "src": {
+   "type": "string",
+   "description": "gam | pcrs2019 | lidar2021 | xodr | ortho2022 | plan2025 | terrain2026 | photo_utilisateur | panoramax:<id8>/<tuile rRR_cCC> | constat:<id> | norme:<réf> | a_priori:<règle> | osm[:node/<n>] | regle:<spec>",
+   "pattern": "^(gam|pcrs2019|lidar2021|xodr|ortho2022|plan2025|terrain2026|photo_utilisateur|panoramax:[0-9a-f]{8}/r[0-9]{2}_c[0-9]{2}|constat:[A-Za-z0-9_.-]+|norme:[A-Za-z0-9_.\\-]+|a_priori:[a-z0-9_]+|osm(:node/[0-9]+)?|regle:[A-Za-z0-9_.\\[\\]-]+)$"
+  },
+  "conf": {"enum": ["haute", "moyenne", "faible"]},
+  "prov_entree": {
+   "type": "object",
+   "required": ["src", "ref", "conf"],
+   "additionalProperties": false,
+   "properties": {"src": {"$ref": "#/$defs/src"}, "ref": {"type": "string"}, "conf": {"$ref": "#/$defs/conf"}, "date": {"type": "string"}}
+  },
+  "prov": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/prov_entree"}},
+  "preuve": {
+   "type": "object",
+   "required": ["type", "ref"],
+   "properties": {
+    "type": {"enum": ["constat", "panoramax", "osm", "norme", "photo_utilisateur", "spec"]},
+    "ref": {"type": "string"},
+    "date": {"type": ["string", "null"]},
+    "texte": {"type": "string"},
+    "fichier": {"type": ["string", "null"]}
+   }
+  },
+  "xy": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+  "xyz_l93": {
+   "type": "array",
+   "prefixItems": [{"type": "number", "minimum": 917000, "maximum": 917600}, {"type": "number", "minimum": 6460000, "maximum": 6460600}, {"type": "number", "minimum": 200, "maximum": 240}],
+   "items": false, "minItems": 3
+  },
+  "xy_l93": {
+   "type": "array",
+   "prefixItems": [{"type": "number", "minimum": 917000, "maximum": 917600}, {"type": "number", "minimum": 6460000, "maximum": 6460600}],
+   "items": {"type": "number"}, "minItems": 2, "maxItems": 3
+  },
+  "anneau_l93": {"type": "array", "items": {"$ref": "#/$defs/xy_l93"}, "minItems": 4},
+  "polygone": {
+   "oneOf": [
+    {"type": "object", "required": ["type", "coordinates"], "properties": {"type": {"const": "Polygon"}, "coordinates": {"type": "array", "items": {"$ref": "#/$defs/anneau_l93"}, "minItems": 1}}},
+    {"type": "object", "required": ["type", "coordinates"], "properties": {"type": {"const": "MultiPolygon"}, "coordinates": {"type": "array", "minItems": 2, "items": {"type": "array", "items": {"$ref": "#/$defs/anneau_l93"}, "minItems": 1}}}}
+   ]
+  },
+  "profil": {"enum": ["T1", "T2", "T3", "T2_bateau", "A1", "A2", "P1", "P2", "P3", "CS1", "CS2", "CS3", "CC1", "CC2", "I1", "I2", "IL", "TU", "AC1", "QUAI_BUS", "PAVES_GRANIT", "MURET_TALUS"]},
+  "materiau_id": {"enum": ["enrobe_bbsg_ancien", "enrobe_bbsg_neuf_2025", "enrobe_trottoir", "enrobe_piste_cyclable", "beton_balaye", "beton_desactive", "paves_beton", "stabilise_beige", "gazon_tondu", "herbe_haute", "terre_nue", "noue_plantee", "brf_bois_concasse", "gravier_concasse_6_10", "galets_20_40", "bev_podotactile"]},
+  "metre": {"type": "number", "minimum": 0},
+  "intervalle": {
+   "type": "object",
+   "required": ["s0", "s1", "profil", "vue_m", "role"],
+   "additionalProperties": false,
+   "properties": {
+    "s0": {"$ref": "#/$defs/metre"}, "s1": {"$ref": "#/$defs/metre"},
+    "profil": {"$ref": "#/$defs/profil"},
+    "vue_m": {"type": "number", "minimum": 0, "maximum": 1.5},
+    "vue_m_fin": {"type": "number", "minimum": 0, "maximum": 1.5, "description": "vue en s1 (chartière : variation linéaire de vue_m à vue_m_fin)"},
+    "role": {"enum": ["courant", "bateau", "chartiere"]},
+    "abaisse": {"type": "string", "pattern": "^A-"}
+   }
+  },
+  "raccord": {
+   "type": "object",
+   "required": ["s0", "s1", "cote", "vue_m", "vue_m_fin", "profil"],
+   "properties": {
+    "s0": {"$ref": "#/$defs/metre"}, "s1": {"$ref": "#/$defs/metre"},
+    "cote": {"enum": ["debut", "fin"]},
+    "vue_m": {"type": "number"}, "vue_m_fin": {"type": "number"},
+    "profil": {"$ref": "#/$defs/profil"}
+   }
+  },
+  "abaisse": {
+   "type": "object",
+   "required": ["id", "type", "s0", "s1", "vue_m", "profil", "raccords", "bev", "sources"],
+   "additionalProperties": false,
+   "properties": {
+    "id": {"type": "string", "pattern": "^A-[0-9]{4}[a-z]?-[0-9]+$"},
+    "type": {"enum": ["traversee", "charretiere", "quai"]},
+    "s0": {"$ref": "#/$defs/metre"}, "s1": {"$ref": "#/$defs/metre"},
+    "vue_m": {"type": "number", "minimum": 0, "maximum": 0.06},
+    "profil": {"$ref": "#/$defs/profil"},
+    "raccords": {"type": "array", "items": {"$ref": "#/$defs/raccord"}, "maxItems": 2},
+    "bev": {"oneOf": [{"type": "null"}, {"type": "object", "required": ["present", "prov"], "properties": {"present": {"type": "boolean"}, "prov": {"$ref": "#/$defs/prov_entree"}}}]},
+    "passages": {"type": "array", "items": {"type": "string"}},
+    "acces_riverains": {"type": "array", "items": {"type": "string"}},
+    "sources": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+   }
+  },
+  "aspect": {
+   "type": "object",
+   "required": ["epaufrures", "mousse_joints", "herbe_joints", "salissure"],
+   "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+  },
+  "entete": {
+   "type": "object",
+   "required": ["schema", "famille", "zone_pilote"],
+   "properties": {"schema": {"const": "description_scene_v2/0.1"}, "famille": {"type": "string"}, "zone_pilote": {"type": "string"}, "repere": {"type": "string"}}
+  },
+  "bordure": {
+   "type": "object",
+   "required": ["type", "geometry", "properties"],
+   "properties": {
+    "type": {"const": "Feature"},
+    "geometry": {"type": "object", "required": ["type", "coordinates"], "properties": {"type": {"const": "LineString"}, "coordinates": {"type": "array", "items": {"$ref": "#/$defs/xyz_l93"}, "minItems": 2}}},
+    "properties": {
+     "type": "object",
+     "required": ["id", "famille", "ligne_ref", "face_vue", "longueur_m", "intervalles", "abaisses", "materiau", "finition", "element_m", "joint_mm", "phase_m", "courbes", "caniveau", "aspect", "z_ref", "zone_travaux_2025", "coupe_zone", "source", "prov"],
+     "additionalProperties": false,
+     "properties": {
+      "id": {"type": "string", "pattern": "^K-[0-9]{4}[a-z]?$"},
+      "famille": {"const": "bordures"},
+      "ligne_ref": {"const": "arete_avant", "description": "la polyligne est l'arête avant de la bordure, u = 0 du contour de bordures.json (profil_pose) ; Z des sommets = fil d'eau NGF"},
+      "face_vue": {"enum": ["droite", "gauche"], "description": "côté (par rapport au sens de la polyligne) vers lequel regarde la face vue ; la v2 oriente toutes les bordures face vue à droite (côté haut à gauche)"},
+      "longueur_m": {"type": "number", "exclusiveMinimum": 0},
+      "intervalles": {"type": "array", "items": {"$ref": "#/$defs/intervalle"}, "minItems": 1},
+      "abaisses": {"type": "array", "items": {"$ref": "#/$defs/abaisse"}},
+      "materiau": {"enum": ["beton_gris", "beton_clair", "granit", "peint_blanc", "brique", "pave"]},
+      "finition": {"enum": ["lisse", "granite", "bouchardee", "desactivee"]},
+      "element_m": {"oneOf": [{"const": "auto"}, {"enum": [1.0, 0.5]}], "description": "auto : 1,00 m si R ≥ 12 m, 0,50 m si 3 ≤ R < 12 m, pièces courbes en dessous (voir courbes)"},
+      "joint_mm": {"type": "number", "minimum": 3, "maximum": 10},
+      "phase_m": {"type": ["number", "null"]},
+      "courbes": {"type": "array", "items": {"type": "object", "required": ["s0", "s1", "r_min_m", "pose"], "properties": {"s0": {"type": "number"}, "s1": {"type": "number"}, "r_min_m": {"type": "number"}, "pose": {"enum": ["element_0_50", "piece_courbe"]}}}},
+      "caniveau": {"oneOf": [{"type": "null"}, {"type": "object", "required": ["profil", "cote", "intervalles"], "properties": {"profil": {"enum": ["CS1", "CS2", "CS3", "CC1", "CC2"]}, "cote": {"enum": ["avant"]}, "largeur_m": {"type": "number"}, "intervalles": {"type": "array", "items": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2}}, "lignes_gam": {"type": "array", "items": {"type": "integer"}}}}]},
+      "aspect": {"$ref": "#/$defs/aspect"},
+      "z_ref": {"enum": ["fil_eau_2021", "modele_2026"]},
+      "zone_travaux_2025": {"type": "boolean"},
+      "coupe_zone": {"type": "object", "required": ["debut", "fin"], "properties": {"debut": {"type": "boolean"}, "fin": {"type": "boolean"}}},
+      "chartieres_gam": {"type": "array", "items": {"type": "object", "required": ["bloc", "s", "ref"]}},
+      "source": {"type": "object", "required": ["ligne", "sens", "doublons_supprimes"]},
+      "prov": {"allOf": [{"$ref": "#/$defs/prov"}, {"required": ["geometrie", "face_vue", "intervalles", "materiau", "z"]}]}
+     }
+    }
+   }
+  },
+  "surface": {
+   "type": "object",
+   "required": ["type", "geometry", "properties"],
+   "properties": {
+    "type": {"const": "Feature"},
+    "geometry": {"$ref": "#/$defs/polygone"},
+    "properties": {
+     "type": "object",
+     "required": ["id", "famille", "classe", "revetement", "niveau", "bords", "ilots", "limite_raster", "aire_m2", "lien_v1", "prov"],
+     "additionalProperties": false,
+     "properties": {
+      "id": {"type": "string", "pattern": "^S-[0-9]{4}[a-z]?$"},
+      "famille": {"const": "surfaces"},
+      "classe": {"enum": ["chaussee", "piste_cyclable", "trottoir", "ilot", "terre_plein_vegetal", "espace_vert", "quai_bus", "parking", "acces_riverain", "chantier", "autre"]},
+      "sous_classe": {"type": ["string", "null"]},
+      "revetement": {
+       "type": "object",
+       "required": ["materiau_id", "age", "salissure"],
+       "properties": {
+        "materiau_id": {"$ref": "#/$defs/materiau_id"},
+        "age": {"enum": ["ancien", "recent", "neuf_2025", "inconnu"]},
+        "salissure": {"type": "number", "minimum": 0, "maximum": 1},
+        "appareillage": {"type": "string"},
+        "module_cm": {"type": "array", "items": {"type": "number"}},
+        "joint_mm": {"type": "number"},
+        "joints_scies_m": {"type": "number"},
+        "granulometrie_mm": {"type": "array", "items": {"type": "number"}},
+        "epaisseur_m": {"type": "number"}
+       }
+      },
+      "niveau": {
+       "type": "object",
+       "required": ["ref", "z_med_ngf"],
+       "properties": {
+        "ref": {"enum": ["mnt_2026", "chaussee_adjacente"]},
+        "z_med_ngf": {"type": "number", "minimum": 200, "maximum": 240},
+        "z_min_ngf": {"type": "number"}, "z_max_ngf": {"type": "number"},
+        "devers_pct": {"type": ["number", "null"]}, "devers_azimut_deg": {"type": ["number", "null"]},
+        "dz_bordure_m": {"type": ["number", "null"]}, "dz_fil_eau_m": {"type": ["number", "null"]},
+        "arasement": {"type": ["object", "null"]}
+       }
+      },
+      "bords": {"type": "array", "items": {"type": "object", "required": ["bordure", "cote", "longueur_m"], "properties": {"bordure": {"type": "string", "pattern": "^K-"}, "cote": {"enum": ["arriere", "avant"]}, "longueur_m": {"type": "number"}}}},
+      "ilots": {"type": "array", "items": {"type": "string", "pattern": "^I-"}},
+      "limite_raster": {"type": "boolean", "description": "limites issues d'un raster 10 cm en v1 : à recaler sur l'arête arrière des bordures"},
+      "aire_m2": {"type": "number", "exclusiveMinimum": 0},
+      "lien_v1": {"type": "string"},
+      "etat_v1": {"type": "string"},
+      "prov": {"allOf": [{"$ref": "#/$defs/prov"}, {"required": ["geometrie", "classe", "revetement", "niveau"]}]}
+     }
+    }
+   }
+  },
+  "ilot": {
+   "type": "object",
+   "required": ["type", "geometry", "properties"],
+   "properties": {
+    "type": {"const": "Feature"},
+    "geometry": {"$ref": "#/$defs/polygone"},
+    "properties": {
+     "type": "object",
+     "required": ["id", "famille", "type", "surface", "remplissage", "niveau", "ceinture", "nez", "objets_portes", "plantation", "franchissable", "aire_m2", "prov"],
+     "additionalProperties": false,
+     "properties": {
+      "id": {"type": "string", "pattern": "^I-[0-9]{4}[a-z]?$"},
+      "famille": {"const": "ilots"},
+      "type": {"enum": ["refuge", "ilot", "ilot_separateur", "terre_plein_central", "massif_goutte", "massif"]},
+      "surface": {"type": "array", "items": {"type": "string", "pattern": "^S-"}},
+      "lien_v1": {"type": ["string", "null"]},
+      "remplissage": {
+       "type": "object",
+       "required": ["materiau_id", "epaisseur_m", "retrait_sous_bordure_m", "retrait_bordure_m"],
+       "properties": {
+        "materiau_id": {"$ref": "#/$defs/materiau_id"},
+        "epaisseur_m": {"type": "number", "minimum": 0, "maximum": 0.3},
+        "retrait_sous_bordure_m": {"type": "number", "minimum": 0, "maximum": 0.08, "description": "dessus du remplissage sous le dessus de bordure (3 à 5 cm pour BRF et gravier)"},
+        "retrait_bordure_m": {"type": "number", "minimum": 0, "maximum": 0.4, "description": "retrait horizontal depuis l'arête avant (largeur du profil)"},
+        "granulometrie_mm": {"type": "array", "items": {"type": "number"}},
+        "bombement_m": {"type": "number", "minimum": 0, "maximum": 0.1},
+        "debordement": {"oneOf": [{"type": "null"}, {"type": "object", "required": ["largeur_m", "densite"]}]},
+        "teinte": {"type": "string"}
+       }
+      },
+      "niveau": {"type": "object", "required": ["z_dessus_bordure_ngf", "z_remplissage_ngf"]},
+      "ceinture": {"type": "array", "items": {"type": "string", "pattern": "^K-"}, "minItems": 1},
+      "nez": {"oneOf": [{"type": "null"}, {"type": "object", "required": ["rayon_m", "position", "peint"], "properties": {"rayon_m": {"type": "number", "minimum": 0.25}, "position": {"$ref": "#/$defs/xy_l93"}, "peint": {"type": "boolean"}}}]},
+      "objets_portes": {"type": "array", "items": {"type": "string"}},
+      "plantation": {"type": "array", "items": {"type": "string"}},
+      "franchissable": {"type": "boolean"},
+      "aire_m2": {"type": "number", "exclusiveMinimum": 0},
+      "prov": {"allOf": [{"$ref": "#/$defs/prov"}, {"required": ["geometrie", "remplissage"]}]}
+     }
+    }
+   }
+  },
+  "ponctuel": {
+   "type": "object",
+   "required": ["type", "geometry", "properties"],
+   "properties": {
+    "type": {"const": "Feature"},
+    "geometry": {"oneOf": [{"$ref": "#/$defs/polygone"}, {"type": "object", "required": ["type", "coordinates"], "properties": {"type": {"const": "Point"}, "coordinates": {"$ref": "#/$defs/xy_l93"}}}]},
+    "properties": {
+     "type": "object",
+     "required": ["id", "famille", "type", "materiau_id", "ancrage", "prov"],
+     "properties": {
+      "id": {"type": "string", "pattern": "^(BEV|TAM|AVA|BOU)-"},
+      "famille": {"const": "ponctuels_sol"},
+      "type": {"enum": ["bev", "tampon", "avaloir", "boucle_detection"]},
+      "materiau_id": {"$ref": "#/$defs/materiau_id"},
+      "module_m": {"type": "array", "items": {"type": "number"}},
+      "profondeur_m": {"type": "number"},
+      "retrait_nez_m": {"type": "number"},
+      "longueur_m": {"type": "number"},
+      "nb_dalles": {"type": "integer", "minimum": 1},
+      "ancrage": {"type": "object", "required": ["bordure"], "properties": {"bordure": {"type": "string", "pattern": "^K-"}, "abaisse": {"type": "string", "pattern": "^A-"}}},
+      "prov": {"allOf": [{"$ref": "#/$defs/prov"}, {"required": ["geometrie"]}]}
+     }
+    }
+   }
+  },
+  "collection": {
+   "type": "object",
+   "required": ["type", "name", "crs", "description_v2", "features"],
+   "properties": {
+    "type": {"const": "FeatureCollection"},
+    "name": {"type": "string"},
+    "crs": {"const": {"type": "name", "properties": {"name": "urn:ogc:def:crs:EPSG::2154"}}},
+    "description_v2": {"$ref": "#/$defs/entete"}
+   }
+  },
+  "collection_bordures": {"allOf": [{"$ref": "#/$defs/collection"}, {"properties": {"name": {"const": "bordures"}, "features": {"type": "array", "items": {"$ref": "#/$defs/bordure"}}}}]},
+  "collection_surfaces": {"allOf": [{"$ref": "#/$defs/collection"}, {"properties": {"name": {"const": "surfaces"}, "features": {"type": "array", "items": {"$ref": "#/$defs/surface"}}}}]},
+  "collection_ilots": {"allOf": [{"$ref": "#/$defs/collection"}, {"properties": {"name": {"const": "ilots"}, "features": {"type": "array", "items": {"$ref": "#/$defs/ilot"}}}}]},
+  "collection_ponctuels_sol": {"allOf": [{"$ref": "#/$defs/collection"}, {"properties": {"name": {"const": "ponctuels_sol"}, "features": {"type": "array", "items": {"$ref": "#/$defs/ponctuel"}}}}]}
+ }
+}

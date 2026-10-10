@@ -1,0 +1,130 @@
+{
+ "agent": "ORTHOS-RECENTES",
+ "note": "Verdicts visuels de Claude sur les planches-contacts (planches/vignettes/*.jpg) : ils priment sur le contrôle automatique.",
+ "bordures": {
+  "confirmees_visuel": {
+   "ids": [
+    "K-0435",
+    "K-0437",
+    "K-0454",
+    "K-0455",
+    "K-0456",
+    "K-0457",
+    "K-0458",
+    "K-0461",
+    "K-0462",
+    "K-0463",
+    "K-0465",
+    "K-0473",
+    "K-0478",
+    "K-0503",
+    "K-0522",
+    "K-0530",
+    "K-0545",
+    "K-0581",
+    "K-0604",
+    "K-0606",
+    "K-0617",
+    "K-0619",
+    "K-9510"
+   ],
+   "planches": [
+    "planches/vignettes/bordures_construit_vu2024_1.jpg",
+    "planches/vignettes/bordures_construit_vu2024_2.jpg",
+    "planches/vignettes/bordures_construit_vu2024_3.jpg"
+   ],
+   "raison": "bord net (chaussée / trottoir, jardinière, îlot planté, pelouse) le long de la ligne décrite en août 2024"
+  },
+  "rejetees_visuel": {
+   "ids": [
+    "K-0428",
+    "K-0438",
+    "K-0443",
+    "K-0450",
+    "K-0451",
+    "K-0466",
+    "K-0471",
+    "K-0472",
+    "K-0481",
+    "K-0488",
+    "K-0489",
+    "K-0493",
+    "K-0502",
+    "K-0504",
+    "K-0514",
+    "K-0515",
+    "K-0526",
+    "K-0528",
+    "K-0552",
+    "K-0563",
+    "K-0570",
+    "K-0571",
+    "K-0573",
+    "K-0579",
+    "K-0588",
+    "K-0598",
+    "K-0600",
+    "K-0601",
+    "K-0609",
+    "K-0612"
+   ],
+   "raison": "pic de bord dû au toit déversé d'un immeuble neuf, à une ombre portée ou à une voiture ; aucun bord propre visible : non vérifiable sur l'IGN 2024"
+  },
+  "rejetees_echantillon_2_dates": {
+   "ids": [
+    "K-0032",
+    "K-0236",
+    "K-0439",
+    "K-0482",
+    "K-0540",
+    "K-0652"
+   ],
+   "raison": "échantillon visuel des confirmations automatiques 2022 + 2024 : segment court transversal ou bord de bâtiment / chantier"
+  },
+  "echantillons": {
+   "vu_2022_2024": {
+    "vus": 23,
+    "corrects": 17,
+    "planches": [
+     "planches/vignettes/bordures_2dates_echantillon_1.jpg",
+     "planches/vignettes/bordures_2dates_echantillon_2.jpg"
+    ]
+   },
+   "vu_2024_seul_secteur_construit": {
+    "vus": 53,
+    "corrects": 23
+   }
+  }
+ },
+ "marquages": {
+  "rejetes_visuel": {
+   "ids": [
+    "ML-0100",
+    "ML-0245",
+    "ML-0935"
+   ],
+   "raison": "contraste dû au feuillage, à une voiture blanche ou à une lisière d'ombre"
+  },
+  "echantillons": {
+   "conserve_vu": {
+    "vus": 22,
+    "corrects": 18,
+    "planches": [
+     "planches/vignettes/marquages_conserve_vu_echantillon_1.jpg",
+     "planches/vignettes/marquages_conserve_vu_echantillon_2.jpg"
+    ]
+   },
+   "conserve_absent": {
+    "vus": 24,
+    "absents_confirmes": 2,
+    "presents": 1,
+    "non_concluants": 21,
+    "planches": [
+     "planches/vignettes/marquages_conserve_absents_1.jpg",
+     "planches/vignettes/marquages_conserve_absents_2.jpg"
+    ],
+    "remarque": "les « absents » automatiques sont surtout des ombres d'arbres, des voitures ou des traits fins (10 cm) illisibles à 20 cm : jamais émis sans revue"
+   }
+  }
+ }
+}

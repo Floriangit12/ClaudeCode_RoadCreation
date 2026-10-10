@@ -1,0 +1,620 @@
+{
+ "id8": "6b2c66d7",
+ "id": "6b2c66d7-bab2-4e2c-9135-529f631109d3",
+ "date": "2026-07-28",
+ "datetime": "2026-07-28T13:39:00+00:00",
+ "fichier": "2026-07-28_6b2c66d7-bab2-4e2c-9135-529f631109d3_hd.jpg",
+ "modele": "equirect",
+ "porteur": "GoPro Max sur voiture",
+ "intrinseques": {
+  "f": 0.0,
+  "cx": 0.0,
+  "cy": 0.0,
+  "k1": 0.0,
+  "source": "equirectangulaire 360°"
+ },
+ "gps": {
+  "lon": 5.7681,
+  "lat": 45.2064,
+  "azimut_vrai": 84,
+  "gamma_deg": -2.0086,
+  "precision_m": 4.0
+ },
+ "pose_brute": {
+  "x": 0.0226,
+  "y": -136.209,
+  "z": -0.859,
+  "lacet": 81.9914,
+  "tangage": 0.0,
+  "roulis": 0.0
+ },
+ "sigma_a_priori": {
+  "xy": 0.6,
+  "z": 0.3,
+  "lacet": 1.5,
+  "tangage": 1.5,
+  "roulis": 1.5
+ },
+ "a_priori_externe": {
+  "source": "pose grossière (résection sur pointage visuel (GAM 2026, mâts), 2026-07-28, calage_sequence.py) : score None, résidu moyen 0.298°, lacet de départ 83.5",
+  "pose": {
+   "x": -5.0516,
+   "y": -140.499,
+   "z": -0.7131,
+   "lacet": 83.8077,
+   "tangage": 3.7629,
+   "roulis": 2.3405
+  },
+  "sigma": {
+   "xy": 0.6,
+   "z": 0.3,
+   "lacet": 1.5,
+   "tangage": 1.5,
+   "roulis": 1.5
+  }
+ },
+ "recalage_grossier": [],
+ "departs": [
+  {
+   "depart": "a_priori",
+   "n_obs": 3,
+   "n_inliers": 3,
+   "score": 1.27,
+   "moy_deg": 0.195
+  }
+ ],
+ "depart_retenu": "a_priori",
+ "pose": {
+  "x": -5.5741,
+  "y": -140.6667,
+  "z": -0.4677,
+  "lacet": 83.6516,
+  "tangage": 3.245,
+  "roulis": 2.696
+ },
+ "ecart_type": {
+  "x": 0.4419,
+  "y": 0.1958,
+  "z": 0.1371,
+  "lacet": 0.2627,
+  "tangage": 0.2979,
+  "roulis": 0.6745
+ },
+ "qualite": {
+  "n_gcp": 11,
+  "n_mats": 0,
+  "n_sol": 11,
+  "n_points_sol": 10,
+  "n_lignes_distinctes": 1,
+  "n_obs": 12,
+  "n_inliers": 11,
+  "n_equations": 23,
+  "residu_loo_moy_deg": 0.34,
+  "secteurs_45": 1,
+  "rapport_profondeur_sol": 2.435,
+  "etendue_azimut_deg": 45.0,
+  "etendue_elevation_deg": 6.719,
+  "residu_moy_deg": 0.249,
+  "residu_max_deg": 0.495,
+  "residu_moy_px": 4.011,
+  "residu_max_px": 7.917,
+  "decalage_gps_m": 7.155,
+  "correction_lacet_deg": 1.66,
+  "hauteur_sol_m": 2.351
+ },
+ "accepte": false,
+ "raison": "refus après relecture : position le long de l'allée ambiguë : les tirets d'axe (usés, alignés avec la visée) et une seule ligne de place visible laissent plusieurs solutions à ±2–4 m (identités SH339/SH340/SH338 compatibles à moins de 0,5° selon l'hypothèse sur les tirets) ; le nez du massif de galets et la voiture jaune garée suggèrent x ≈ −3,5 à −4,5 sans le démontrer. Pose approchée pour usage qualitatif seulement.",
+ "gcp_utilises": [
+  "GAM:SH354:0",
+  "GAM:SH354:1",
+  "GAM:SH355:0",
+  "GAM:SH355:1",
+  "GAM:SH356:0",
+  "GAM:SH356:1",
+  "GAM:SH357:0",
+  "GAM:SH357:1",
+  "GAML:SH339",
+  "MQC-MQ0078-c2",
+  "MQC-MQ0080-c3"
+ ],
+ "observations": [
+  {
+   "gcp": "MAT-lamp_9514828431",
+   "type": "ligne",
+   "uv": [
+    [
+     2973.6274,
+     1510.6436
+    ],
+    [
+     2976.1823,
+     1450.7188
+    ]
+   ],
+   "az": 91.1178,
+   "el": [
+    1.1307,
+    4.8794
+   ],
+   "score": 2.481,
+   "distinction": 4094305503.1799,
+   "coherence": 0.712,
+   "force": 4.0943,
+   "bande_deg": [
+    -0.7436,
+    6.7538
+   ],
+   "ecart_prediction_deg": -0.1306,
+   "recherche_deg": 1.5,
+   "distance_m": 38.0506,
+   "auto": true,
+   "poids": 0.2915,
+   "residu_deg": 0.9238,
+   "residu_px": 14.78,
+   "inlier": false
+  },
+  {
+   "gcp": "MQC-MQ0078-c2",
+   "type": "point",
+   "uv": [
+    2718.3766,
+    1616.1814
+   ],
+   "ncc": 0.6407,
+   "distinction": 0.1041,
+   "decalage_px": [
+    3.9121,
+    -6.0053
+   ],
+   "recherche_px": 24,
+   "echelle": 0.5,
+   "distance_m": 13.4632,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.4813,
+   "residu_deg": 0.2519,
+   "residu_px": 4.08,
+   "inlier": true
+  },
+  {
+   "gcp": "MQC-MQ0080-c3",
+   "type": "point",
+   "uv": [
+    2727.0327,
+    1605.9559
+   ],
+   "ncc": 0.6843,
+   "distinction": 0.1614,
+   "decalage_px": [
+    3.1559,
+    -4.7952
+   ],
+   "recherche_px": 24,
+   "echelle": 0.5,
+   "distance_m": 14.9233,
+   "gabarit": "vecteur",
+   "auto": true,
+   "bord": false,
+   "poids": 0.5685,
+   "residu_deg": 0.1005,
+   "residu_px": 1.61,
+   "inlier": true
+  },
+  {
+   "gcp": "GAM:SH354:1",
+   "type": "point",
+   "uv": [
+    2680.0,
+    1652.5
+   ],
+   "poids": 1.0,
+   "pointage": "visuel",
+   "note": "tiret d'axe avant, extrémité ouest (peinture usée, bout incertain)",
+   "residu_deg": 0.2968,
+   "residu_px": 4.84,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     4.8872,
+     -137.2041,
+     -2.579
+    ],
+    "sigma_m": 0.05,
+    "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 354 sommet 1",
+    "type": "gam_2026"
+   }
+  },
+  {
+   "gcp": "GAM:SH354:0",
+   "type": "point",
+   "uv": [
+    2707.5,
+    1624.5
+   ],
+   "poids": 1.0,
+   "pointage": "visuel",
+   "note": "même tiret, extrémité est",
+   "residu_deg": 0.4569,
+   "residu_px": 7.34,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     7.7559,
+     -136.7746,
+     -2.5219
+    ],
+    "sigma_m": 0.05,
+    "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 354 sommet 0",
+    "type": "gam_2026"
+   }
+  },
+  {
+   "gcp": "GAM:SH355:1",
+   "type": "point",
+   "uv": [
+    2718.75,
+    1607.5
+   ],
+   "poids": 1.0,
+   "pointage": "visuel",
+   "note": "tiret suivant, extrémité ouest",
+   "residu_deg": 0.35,
+   "residu_px": 5.66,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     9.2193,
+     -136.5444,
+     -2.4888
+    ],
+    "sigma_m": 0.05,
+    "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 355 sommet 1",
+    "type": "gam_2026"
+   }
+  },
+  {
+   "gcp": "GAM:SH355:0",
+   "type": "point",
+   "uv": [
+    2741.0,
+    1585.0
+   ],
+   "poids": 1.0,
+   "pointage": "visuel",
+   "note": "même tiret, extrémité est",
+   "residu_deg": 0.1365,
+   "residu_px": 2.19,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     12.0529,
+     -136.1205,
+     -2.4239
+    ],
+    "sigma_m": 0.05,
+    "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 355 sommet 0",
+    "type": "gam_2026"
+   }
+  },
+  {
+   "gcp": "GAM:SH356:1",
+   "type": "point",
+   "uv": [
+    2748.75,
+    1573.75
+   ],
+   "poids": 1.0,
+   "pointage": "visuel",
+   "note": "tiret suivant, extrémité ouest",
+   "residu_deg": 0.0587,
+   "residu_px": 0.94,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     13.4951,
+     -135.8932,
+     -2.3817
+    ],
+    "sigma_m": 0.05,
+    "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 356 sommet 1",
+    "type": "gam_2026"
+   }
+  },
+  {
+   "gcp": "GAM:SH356:0",
+   "type": "point",
+   "uv": [
+    2758.75,
+    1562.5
+   ],
+   "poids": 1.0,
+   "pointage": "visuel",
+   "note": "même tiret, extrémité est",
+   "residu_deg": 0.0881,
+   "residu_px": 1.41,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     16.2293,
+     -135.4117,
+     -2.3131
+    ],
+    "sigma_m": 0.05,
+    "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 356 sommet 0",
+    "type": "gam_2026"
+   }
+  },
+  {
+   "gcp": "GAM:SH357:1",
+   "type": "point",
+   "uv": [
+    2763.75,
+    1548.75
+   ],
+   "poids": 1.0,
+   "pointage": "visuel",
+   "note": "dernier tiret avant la traversée, extrémité ouest",
+   "residu_deg": 0.4083,
+   "residu_px": 6.53,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     17.6985,
+     -135.1946,
+     -2.2723
+    ],
+    "sigma_m": 0.05,
+    "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 357 sommet 1",
+    "type": "gam_2026"
+   }
+  },
+  {
+   "gcp": "GAM:SH357:0",
+   "type": "point",
+   "uv": [
+    2772.5,
+    1545.0
+   ],
+   "poids": 1.0,
+   "pointage": "visuel",
+   "note": "même tiret, extrémité est",
+   "residu_deg": 0.0983,
+   "residu_px": 1.58,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     20.5844,
+     -134.7155,
+     -2.1753
+    ],
+    "sigma_m": 0.05,
+    "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 357 sommet 0",
+    "type": "gam_2026"
+   }
+  },
+  {
+   "gcp": "GAML:SH339",
+   "type": "ligne",
+   "uv": [
+    [
+     2158.8,
+     1604.1
+    ],
+    [
+     2255.0,
+     1620.0
+    ],
+    [
+     2352.9,
+     1636.5
+    ]
+   ],
+   "poids": 1.0,
+   "pointage": "visuel",
+   "note": "ligne de place entre la voiture violette et la grise (parking L'Horloge), axe",
+   "residu_deg": 0.4948,
+   "residu_px": 7.92,
+   "inlier": true,
+   "gcp_def": {
+    "point": [
+     1.6558,
+     -131.8628,
+     -2.367
+    ],
+    "pied": [
+     2.0585,
+     -134.0729,
+     -2.4519
+    ],
+    "sommet": [
+     1.253,
+     -129.6527,
+     -2.2846
+    ],
+    "sigma_m": 0.05,
+    "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 339, axe sommets 0-1",
+    "type": "ligne_marquage"
+   }
+  }
+ ],
+ "duree_s": 12.8,
+ "pose_grossiere": {
+  "id8": "6b2c66d7",
+  "methode": "résection sur pointage visuel (GAM 2026, mâts)",
+  "lacet_depart": 83.5,
+  "pose": [
+   -5.0516,
+   -140.499,
+   -0.7131,
+   83.8077,
+   3.7629,
+   2.3405
+  ],
+  "residu_moy_deg": 0.298,
+  "score": null,
+  "accepte_criteres_poses": true,
+  "raison": "ok",
+  "qualite": {
+   "n_gcp": 9,
+   "n_mats": 0,
+   "n_sol": 9,
+   "n_points_sol": 8,
+   "n_lignes_distinctes": 1,
+   "n_obs": 9,
+   "n_inliers": 9,
+   "n_equations": 19,
+   "residu_loo_moy_deg": 0.622,
+   "secteurs_45": 1,
+   "rapport_profondeur_sol": 2.51,
+   "etendue_azimut_deg": 45.0,
+   "etendue_elevation_deg": 6.719,
+   "residu_moy_deg": 0.298,
+   "residu_max_deg": 0.557,
+   "residu_moy_px": 4.796,
+   "residu_max_px": 8.935,
+   "decalage_gps_m": 6.645,
+   "correction_lacet_deg": 1.816,
+   "hauteur_sol_m": 2.097
+  },
+  "ecart_type": {
+   "x": 0.5471,
+   "y": 0.2623,
+   "z": 0.1112,
+   "lacet": 0.3454,
+   "tangage": 0.2655,
+   "roulis": 1.033
+  },
+  "source_lacet_depart": "point de fuite de l'allée (≈ 84° grille) ; tirets d'axe avant comptés depuis la traversée (SH357 contre le zébra) ; identité de la ligne de place entre la voiture violette et la grise = SH339, établie sur 00c1ba9a calée (mêmes voitures garées 2 s plus tard) ; hypothèses concurrentes rejetées (résidu de la ligne 2,4 à 24°)"
+ },
+ "calage_automatique": {
+  "accepte": false,
+  "raison": "trop peu de GCP inliers ; validation croisée (leave-one-out) défavorable",
+  "pose": {
+   "x": -5.3057,
+   "y": -140.2884,
+   "z": -0.739,
+   "lacet": 84.8052,
+   "tangage": 4.0326,
+   "roulis": 2.2164
+  },
+  "qualite": {
+   "n_gcp": 3,
+   "n_mats": 1,
+   "n_sol": 2,
+   "n_points_sol": 2,
+   "n_lignes_distinctes": 0,
+   "n_obs": 3,
+   "n_inliers": 3,
+   "n_equations": 6,
+   "residu_loo_moy_deg": 99.0,
+   "secteurs_45": 2,
+   "rapport_profondeur_sol": 1.109,
+   "etendue_azimut_deg": 90.0,
+   "etendue_elevation_deg": 10.341,
+   "residu_moy_deg": 0.195,
+   "residu_max_deg": 0.378,
+   "residu_moy_px": 3.126,
+   "residu_max_px": 6.043,
+   "decalage_gps_m": 6.711,
+   "correction_lacet_deg": 2.814,
+   "hauteur_sol_m": 2.067
+  }
+ },
+ "n_obs_auto": 3,
+ "n_obs_visuel": 9,
+ "gcp_defs_visuels": {
+  "GAM:SH354:1": {
+   "point": [
+    4.8872,
+    -137.2041,
+    -2.579
+   ],
+   "sigma_m": 0.05,
+   "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 354 sommet 1"
+  },
+  "GAM:SH354:0": {
+   "point": [
+    7.7559,
+    -136.7746,
+    -2.5219
+   ],
+   "sigma_m": 0.05,
+   "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 354 sommet 0"
+  },
+  "GAM:SH355:1": {
+   "point": [
+    9.2193,
+    -136.5444,
+    -2.4888
+   ],
+   "sigma_m": 0.05,
+   "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 355 sommet 1"
+  },
+  "GAM:SH355:0": {
+   "point": [
+    12.0529,
+    -136.1205,
+    -2.4239
+   ],
+   "sigma_m": 0.05,
+   "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 355 sommet 0"
+  },
+  "GAM:SH356:1": {
+   "point": [
+    13.4951,
+    -135.8932,
+    -2.3817
+   ],
+   "sigma_m": 0.05,
+   "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 356 sommet 1"
+  },
+  "GAM:SH356:0": {
+   "point": [
+    16.2293,
+    -135.4117,
+    -2.3131
+   ],
+   "sigma_m": 0.05,
+   "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 356 sommet 0"
+  },
+  "GAM:SH357:1": {
+   "point": [
+    17.6985,
+    -135.1946,
+    -2.2723
+   ],
+   "sigma_m": 0.05,
+   "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 357 sommet 1"
+  },
+  "GAM:SH357:0": {
+   "point": [
+    20.5844,
+    -134.7155,
+    -2.1753
+   ],
+   "sigma_m": 0.05,
+   "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 357 sommet 0"
+  },
+  "GAML:SH339": {
+   "point": [
+    1.6558,
+    -131.8628,
+    -2.367
+   ],
+   "pied": [
+    2.0585,
+    -134.0729,
+    -2.4519
+   ],
+   "sommet": [
+    1.253,
+    -129.6527,
+    -2.2846
+   ],
+   "sigma_m": 0.05,
+   "source": "levé GAM 2026 signalisation_horizontale_lin_L93.geojson entité 339, axe sommets 0-1"
+  }
+ },
+ "methode_finale": "ajustement commun : GCP pointés automatiquement + pointages visuels GAM 2026"
+}

@@ -750,8 +750,11 @@ def passe(ph, intr, p_brut, sigma, p, img, img_flou, gidx, cfg, graine, focale_l
 
 
 # --------------------------------------------------------------------------- calage d'une photo
-def caler(pid, verbeux=True, planche=False, sequence=False):
-    """Calage complet d'une photo ; écrit par_photo/<id8>.json et renvoie l'enregistrement."""
+def caler(pid, verbeux=True, planche=False, sequence=False, a_priori=None):
+    """Calage complet d'une photo ; écrit par_photo/<id8>.json et renvoie l'enregistrement.
+    `a_priori` (facultatif) : dict(pose (6,), sigma, source) externe, p. ex. lacet cherché sur 360°
+    par calage_sequence.py quand l'azimut GNSS est faux ; il remplace la pose brute comme départ et
+    centre du vote (l'écart au GNSS reste mesuré à la pose brute). None : comportement inchangé."""
     t0 = time.time()
     ph = photo(pid)
     intr = intrinseques(ph)
@@ -781,6 +784,18 @@ def caler(pid, verbeux=True, planche=False, sequence=False):
         if verbeux:
             print(f"[{ph.id8}] a priori de séquence {seq['voisins']} d={np.round(p_ap[:6] - p_brut[:6], 2)} "
                   f"sigma={sigma}", flush=True)
+    base = p_brut
+    if a_priori is not None:                      # a priori externe (additif, voir docstring)
+        seq = None
+        rec.pop("a_priori_sequence", None)
+        p_ap = np.asarray(a_priori["pose"], dtype=np.float64).copy()
+        sigma = dict(a_priori["sigma"])
+        base = p_ap
+        cam0 = camera(ph, p_ap, intr)
+        rec["a_priori_externe"] = dict(source=a_priori.get("source", ""), pose=_pose_dict(p_ap), sigma=sigma)
+        rec["sigma_a_priori"] = sigma
+        if verbeux:
+            print(f"[{ph.id8}] a priori externe d={np.round(p_ap[:6] - p_brut[:6], 2)} sigma={sigma}", flush=True)
     # ---- 1. hypothèses : pose brute + vote grossier sur les mâts
     R = float(np.clip(2.5 * sigma["xy"], 1.0, 9.0))
     fixes = G.selection(ph, cam0, dmax=40.0, marge=R)
@@ -792,8 +807,10 @@ def caler(pid, verbeux=True, planche=False, sequence=False):
     departs = [("brute", p_brut.copy())]
     if seq is not None:
         departs = [("sequence", p_ap.copy())] + departs
+    if a_priori is not None:
+        departs = [("a_priori", p_ap.copy())]
     for k, h in enumerate(hyps):
-        q = p_brut.copy()
+        q = base.copy()
         q[0] += h["dx"]
         q[1] += h["dy"]
         q[3] += h["dlacet"]
@@ -1145,7 +1162,8 @@ def requalifier(pid):
     inl = np.array([o["inlier"] for o in rec["observations"] if o["gcp"] in gidx])
     pb = rec["pose_brute"]
     p_brut = np.array([pb["x"], pb["y"], pb["z"], pb["lacet"], pb["tangage"], pb["roulis"]])
-    ap = rec.get("a_priori_sequence", {}).get("pose") or pb
+    ap = (rec.get("a_priori_externe", {}).get("pose") or rec.get("a_priori_sequence", {}).get("pose")
+          or pb)
     p_ap = np.array([ap["x"], ap["y"], ap["z"], ap["lacet"], ap["tangage"], ap["roulis"]])
     q = rec["pose"]
     pp = np.array([q["x"], q["y"], q["z"], q["lacet"], q["tangage"], q["roulis"]])

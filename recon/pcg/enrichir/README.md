@@ -45,7 +45,8 @@ Python 3.11 système (numpy, Pillow, pyproj ; ni OpenCV ni SciPy). Lancer depuis
 | `tronc` | troncs levés GAM | axe | désactivé par défaut (haies et voitures font accrocher un mât voisin) |
 
 Une photo antérieure à un objet ne prouve rien sur lui, et réciproquement : chaque GCP porte
-`[valide_de, valide_a]`. Aucune photo ne montre le cœur après les travaux (dernière : 31/08/2025).
+`[valide_de, valide_a]`. Aucune photo ne montre le cœur après les travaux (dernière photo du cœur : 31/08/2025 ;
+les 7 photos Panoramax du 28/07/2026 sont sur la place, environ 135 m au sud, voir `calage_sequence.py`).
 
 ## Pointage automatique
 
@@ -182,3 +183,142 @@ C, d = rayon("119d9094", (2900.5, 1500.0))            # rayon 3D local
 img, cv = decoupe_perspective("119d9094", lacet=60, tangage=-5, fov=60, taille=800)
 t = trianguler([("119d9094", (u1, v1)), ("e5d79de9", (u2, v2))])
 ```
+
+## Orthos récentes (`orthos_recentes.py`, agent ORTHOS-RECENTES)
+
+Recherche des orthophotos ouvertes postérieures au PCRS 5 cm du 10/05/2022, téléchargement à la
+résolution native, recalage sur le PCRS et mini-recensement (cœur ± 75 m et secteur construit
+2023-2024 à l'est / sud-est). Réutilise `pipeline/ortho.py` (grille 1000 px, `fetch_tile`, fichier monde).
+
+```
+python orthos_recentes.py --decouvrir     # GetCapabilities IGN / CRAIG / GAM, WebDAV PCRS, couverture, dates
+python orthos_recentes.py --telecharger   # -> data/raw/ortho_recentes/<couche>/ (jpg + jgw + index.json, git-ignoré)
+python orthos_recentes.py --recaler       # décalage / PCRS 2022 -> ortho_recentes/recalage.json
+python orthos_recentes.py --planches      # planches 2 x 2 (PCRS 2022 | IGN 2024 / + description | Pléiades 2025)
+python orthos_recentes.py --controles     # contrôle auto bordures (2022 + 2024) et marquages (2024) + planches colorées
+python orthos_recentes.py --decoupe XL0 YL0 XL1 YL1   # planche libre en coordonnées locales
+python orthos_recentes.py --obs           # saisie/*.json + controles_2024.json -> obs_ortho_recentes.json
+```
+
+Couches trouvées sur l'emprise (consultation du 10/10/2026, `catalogue_orthos.json`) :
+
+| couche | date sur Meylan | résolution | décision |
+|---|---|---|---|
+| IGN `ORTHOIMAGERY.ORTHOPHOTOS2024` (= `HR.`, `ORTHOPHOTOS`, `BDORTHO`) | **2024-08-09** (graphe de mosaïquage WFS : toute l'emprise) | 20 cm | téléchargée (référence) |
+| IGN `ORTHOPHOTOS.IRC.2024` (= `IRC`) | 2024-08-09 | 20 cm | téléchargée |
+| IGN `ORTHO-EXPRESS.2024`, `IRC-EXPRESS.2024` | même vol (NCC 0,84 / 0,80) | 20 cm | téléchargées |
+| CRAIG `ortho_2024` (= `ortho`) | même vol (NCC 0,93) | 20 cm | téléchargée |
+| IGN `ORTHO-ASP_PAC2025` | image 2024 recompressée (NCC 0,99) | — | doublon |
+| IGN `ORTHO-SAT.PLEIADES.2025` | 2025, sans métadonnée ; avant le chantier du cœur (voir ci-dessous) | 50 cm | téléchargée |
+| IGN `ORTHO-SAT.SPOT.2022` à `2025` | année seule | 1,5 m | téléchargées (peu utiles) |
+| IGN `ORTHO-EXPRESS.2025`, `RVB-EXPRESS.2026`, `IRC-EXPRESS.2025/2026`, `PAC2026`, `PLEIADES.2026` (bord à 2 km au sud), `ORTHOPHOTOS2023`, `PCRS.LAMB93`, `THR` | — | — | vides sur Meylan |
+| IGN `ORTHOPHOTOS2021-2023`, `OI.*`, `PAC2022`, GAM `ortho_gam2021`, `Ortho_gam` | 2021-08-13 | 20 cm | antérieures au PCRS |
+| CRAIG PCRS 5 cm open data (WebDAV) | seule `2022/grenoble_alpes` couvre le site | 5 cm | déjà exploitée |
+| CRAIG RTGE PCRS 5 cm 2025 (juin-juillet 2025) | — | 5 cm | **accès restreint (HTTP 401)** |
+
+Recalage (`recalage.json`, corrélation de phase passe-haut, groupe de mesures le plus dense) : IGN 2024
+(+0,04 ; +0,03) m ± 0,1 m par rapport au PCRS (négligeable) ; Pléiades 2025 (+0,47 ; +1,17) m ± (0,12 ; 0,32)
+sur le sol, les toits d'immeubles étant déversés de 3 à 7 m. Les planches sont recalées (cadre PCRS).
+
+Résultats :
+- **aucune ortho ouverte ne montre le cœur pendant ni après les travaux** : l'IGN 2024 est antérieure (le cœur
+  y montre des reprises d'enrobé de 2024) ; le Pléiades 2025 montre encore les zébras, îlots et kiosque de 2024
+  sans emprise de chantier (date non publiée : feuillage complet, probablement avant le 23/06/2025) ;
+- l'IGN 2024 est en revanche **la seule image aérienne du secteur est / sud-est achevé** (chantier en 2022) :
+  bâtiments, parc, allées, stationnements et jeunes plantations ;
+- arbres : les arbres du levé GAM plantés en 2023-2024 dans le parc est ont reçu la hauteur et la couronne du
+  MNH LiDAR 2021, c'est-à-dire de l'ancienne végétation abattue (`arbre_160` : 10,6 m / 10,6 m pour un jeune
+  arbre de 1–1,5 m de houppier en 2024) ; `arbre_175` (sommet MNH 2021) est abattu ; le contrôle NDVI
+  `controle_ortho2024_vegetation` confond pelouse et houppier ;
+- surfaces : allée stabilisée, trottoir et une place de stationnement absents de S-0352a ; bâtiment bas neuf
+  rangé dans S-0352b (noue plantée) ; lits minéraux 2024 du parc est (enherbés sur Pléiades 2025) ;
+- bordures : deux doublons géométriques (K-0470 = K-0469 inversée, K-0472 = K-0471) ;
+- contrôles automatiques, revus sur planches-contacts (`planches/vignettes/`, verdicts dans
+  `saisie/revue_controles.json`) : bordure vue au même endroit en 2022 et 2024, longueur >= 2 m, à plus de 12 m
+  des immeubles neufs : 16 / 20 correctes à l'échantillon ; bordure vue en 2024 seule dans le secteur construit :
+  23 / 53 (toits déversés et ombres portées) -> seules les 23 revues sont émises ; marquage « conservé » vu en
+  2024 : 18 / 22 (erreurs : voiture blanche, feuillage) ; les « absents » automatiques sont presque tous des
+  ombres ou des traits de 10 cm illisibles à 20 cm : aucune absence n'est émise sans revue.
+
+`obs_ortho_recentes.json` : 203 observations (24 relevés visuels dont 2 doublons de bordures, 23 bordures revues visuellement, 54 bordures
+confirmées sur deux dates, 102 marquages conservés vus en 2024 ; 182 valides 2026, 19 incertaines aux abords
+de la zone de travaux 2025 ou de l'avenue du Vercors, 2 historiques). Licences : Etalab 2.0 (IGN, CRAIG) ;
+Pléiades et SPOT attribués au CNES (couche WMS) ; images jamais versionnées.
+
+## Images Mapillary (`mapillary.py`)
+
+Inventaire Graph API v4 (bbox 5,7662–5,7702 E × 45,2063–45,2090 N, dallage 4×4) : **1 867 images, 23 séquences,
+2017-06 → 2025-05** (`data/raw/mapillary/paquet_jardin/images.json`, sans jeton ; attribution par image).
+Jeton lu dans `MAPILLARY_TOKEN` ou le fichier `MAPILLARY_TOKEN_FILE` / `--jeton-fichier`, passé en en-tête
+`Authorization`, jamais écrit. Sélection déterministe de 400 images (`selection.json`) : 2022-2025 à ≤ 90 m du
+centre ou à ≤ 15 m de l'emprise construite 2023-2024, puis 2022-2025 jusqu'à 170 m (éclaircies à 5 m), puis
+2019-2020 et 2017-2018 à ≤ 90 m (4 m) ; vignettes `thumb_2048` (perspectives) et originaux 5760×2880
+(sphériques) dans `img/` (CC-BY-SA 4.0, non versionnées).
+
+Caméras : `CameraMly` (sous-classe de `camera.Camera`, sans modifier camera.py) applique les modèles OpenSfM
+`perspective` / `fisheye` [f, k1, k2] normalisés par max(W, H) ; `spherical` = `equirect`. `computed_rotation`
+(R_cw, monde ENU) -> repère local par la convergence γ ; décomposition en (lacet, tangage, roulis) de
+`matrice_rotation` (contrôle : azimut reconstruit = `computed_compass_angle` à 0,01° près). z = MNT 2026 + hauteur
+a priori (`computed_altitude` est relatif).
+
+Poses (`recensement/mapillary/poses/poses_mapillary.json`, règle de priorité) :
+
+| statut | n | méthode | σ position |
+|---|---|---|---|
+| calee_panoramax | 13 | même prise que Panoramax (± 0,5 s, < 4 m, < 5°) : pose calée de poses.json | 0,15 m |
+| calee_gcp | 5 | `poses.py` (vote, RANSAC, LM, qualité) depuis le SfM Mapillary | 0,25 m |
+| calee_bordures | 27 | sphériques : alignement des bordures GAM hors travaux (tenseur de structure, 2 échelles) | 0,30 m |
+| a_priori | 355 | SfM Mapillary seul : jamais utilisé pour mesurer (sphériques : identification seulement) | 2–10 m |
+
+Écarts SfM Mapillary / pose calée Panoramax (13 sphériques) : 0,2–1,9 m, lacet −2,8° à +0,3°. Les photos à plat
+(téléphones 2017-2024) ont un retard GNSS jusqu'à ~10 m le long de la marche et peu de GCP lisibles en 2048 px :
+le calage GCP n'aboutit pas, le recalage sur les bordures (séquence : τ·v + Δ ; image) converge mais la revue
+visuelle (`validation/validation_2018-08-09_*.jpg`, planches bordures_03/04) montre des erreurs de 1–3 m ->
+**toutes les perspectives sont rejetées** (pose recalée gardée dans `pose_bordures`). Validation
+(`validation/validation.json`, 10 planches, mâts LiDAR pointés indépendamment) : poses Panoramax 0,22–0,28° (7–8
+mâts), GCP 0,52° (1 mât) ; recalage bordures : contrôle visuel (bordures et emprises bâties à ≤ 0,3 m à 10–20 m).
+
+Recensement : `--census` produit les cibles (39 conflits ouverts, entités sans preuve image : 369 bordures hors
+travaux, 220 surfaces, 191 arbres, 76 mobiliers, 68 marquages, 6 îlots/BEV), la meilleure vue posée de chaque
+cible (date valide, proximité, statut de pose ; au plus une image par séquence) et des planches brute | annotée
+(`planches/*.jpg`, découpes `preuves/<groupe>/<entité>__<image>.jpg`). La revue visuelle (Claude, une ligne par
+clé de planche) est dans `revue_mapillary.json` ; `--obs` en fait `recensement/obs_mapillary.json` (format OBS,
+`source = mly:<id>`, attribution et pose dans `attributs.image`, valide_2026 par date et zones de travaux,
+attributs alignés sur la table d'alias de la fusion). `triangulation_mixte.json` : axes de mâts pointés
+(`gcp.detecter_mat`) sur toutes les vues sphériques calées Mapillary + Panoramax (RANSAC sur paires, revue
+obligatoire au-delà de 0,75 m).
+
+Résultat (10/10/2026) : **355 observations** sur 354 entités, dont **325 sans preuve image valable auparavant**
+(87 bordures, 121 surfaces, 54 arbres, 36 mobiliers, 23 marquages) ; 173 confirmations, 72 attributs corrigés
+(clôtures : barreaudages / grillages / palissades des résidences 2023-2024 ; surfaces : places en stabilisé,
+parvis en pavés béton, prairies en herbe haute au lieu de gazon tondu, îlots enherbés classés chaussée),
+25 absences (dont 8 marquages tombant sur des bandes plantées : faux positifs indépendants de la date ; arc de
+bordures K-0078…K-0086 absent avant travaux, comme attendu), 2 positions (lamp_lidar_VERC_E triangulé à 0,45 m
+de la description, la correction de 0,77 m proposée n'est pas retrouvée ; poteau_reseau_12888056356 = même
+support bois que lamp_lidar_SW_NO), 83 incertaines ; 135 vues jugées non lisibles (sans observation).
+Conflits tranchés ou éclairés : CF-ENR-001 (brun-rouille), -006 (arbre_224 : garder, la cible proposée est un
+autre arbre), -009, -012, -023/-025 (sous-zones), -056…-062 (absences attendues), -063 (MZ-5002 hors chaussée),
+-065…-067, -074 (barrière présente dès 2024), -076, -077, -079…-081 (pan_J5_1 : panneau B21 posé entre 06/2022 et
+08/2024). Limites : aucune image Mapillary postérieure au 18/05/2025 (cœur du carrefour : rien de valable 2026) ;
+la fusion 0.2 lit `obs_mapillary.json` (source `mly:`, photo classée selon sa date).
+
+## Fusion du recensement (`fusion_recensement.py` 0.2) et contrôle automatique (`controle_auto.py`)
+
+`python fusion_recensement.py [--sans-carte]` lit **tous** les `recensement/obs_*.json` (ordre alphabétique) et
+`web/obs_web.json`, plus les arbitrages de revue `description/enrichi/arbitrages_fusion.json`, et écrit la couche
+`description/enrichi/` (détail des règles FUS-* et des comptes dans son `RESUME.md`). Nouveautés de la 0.2 :
+
+- sources `ortho_recente:<couche>` (IGN 2024 -> ortho_2024, Pléiades 2025 -> ortho_2025) et `mly:` (photos) ;
+  catégorie **photo_2026** (photo ≥ 05/12/2025), prioritaire pour l'existence, les attributs et la position (FUS-DATE-01) ;
+- confirmations automatiques de marquages sans masque véhicules / ombres requalifiées « incertain » sauf
+  corroboration manuelle (FUS-AUTO-01) ; contrat des futurs contrôles automatiques (FUS-AUTO-02) :
+  `attributs.controle_auto` calculé par `controle_auto.py` (masque des taches claires ou sombres ≥ 3 m² et ≥ 1,2 m de
+  large et des ombres portées ; réponse de ligne fine 0,10-0,15 m sur ≥ 80 % de la longueur, PCRS 5 cm requis ;
+  part peinte ≥ 0,3 pour les flèches et symboles) :
+  `python controle_auto.py --entites ML-0294 MF-5042 [--ortho pcrs2022|<dossier de dalles jgw>] [--planche f.jpg]` ;
+- ajouts : entité de même classe levée GAM à moins de 1,5 m -> conflit `ajout_contre_leve_gam` au lieu d'un ajout
+  (FUS-ADD-04) ; arbitrages de revue par identifiant d'observation (FUS-ARB-01 : ne_pas_instancier,
+  ancrer_bord_ilot, mesure_position) ;
+- chronologie des présences / absences (FUS-EXI-03) ; couverture par tranche de date de la preuve concluante
+  (2026, 2025, 2020-2024, ortho 2022 ; FUS-COUV-01) dans `couverture.json` et `couverture_preuves.png`.
+

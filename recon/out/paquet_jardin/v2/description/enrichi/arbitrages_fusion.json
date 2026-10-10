@@ -1,0 +1,51 @@
+{
+ "schema": "pj_enrichi_arbitrages/0.1",
+ "role": "décisions de revue appliquées par fusion_recensement.py (règle FUS-ARB-01). Fichier d'entrée tenu à la main : la fusion le lit, ne l'écrit jamais. Clés = identifiants d'observations (stables) ; jamais les ENR-* (renumérotés à chaque exécution).",
+ "actions": {
+  "ne_pas_instancier": "l'ajout qui contient l'observation reste candidat (instancier = false), avec le motif",
+  "ancrer_bord_ilot": "l'ajout ponctuel est ramené au point le plus proche du bord d'un îlot ou d'un espace vert (classes_hote) dans rayon_m, puis décalé de retrait_m vers l'intérieur",
+  "mesure_position": "les coordonnées de l'observation deviennent une mesure de position de l'entité (methode, sigma_m), pondérée par confiance x validité (FUS-POS-01) ; les règles FUS-POS-05/06 s'appliquent ensuite"
+ },
+ "arbitrages": [
+  {
+   "id": "ARB-001",
+   "action": "ne_pas_instancier",
+   "obs": ["ORTHO-B-187"],
+   "ajout_au_10_10_2026": "ENR-PON-011",
+   "motif": "tache d'enrobé sombre aux bords flous, sans anneau ni cadre : pas un tampon (le tampon rond voisin, net, est un autre objet)",
+   "source": "critique de complétude du 10/10/2026 (revue visuelle des ajouts instanciés)",
+   "preuves": [
+    "recon/out/paquet_jardin/v2/description/enrichi/arbitrages/ARB-001_ORTHO-B-187_tache_ortho2022.jpg",
+    "recon/out/paquet_jardin/v2/description/enrichi/arbitrages/ARB-001_ORTHO-B-187_contexte_ortho2022.jpg",
+    "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_B/preuves/ORTHO-B-187_917150_6460400.jpg"
+   ]
+  },
+  {
+   "id": "ARB-002",
+   "action": "ancrer_bord_ilot",
+   "obs": ["VISION-PANORAMAX-1-78"],
+   "ajout_au_10_10_2026": "ENR-MAT-005",
+   "parametres": {"rayon_m": 3.0, "retrait_m": 0.3, "classes_hote": ["espace_vert"]},
+   "motif": "le mât (4,5 m, gris clair) se dresse dans le petit îlot planté rond bordé, à la sortie de la voie privée des Saules Blancs (photo 81f3f695 du 24/08/2024) ; le rayon au sol vient d'une pose a priori (± 1,5 m) et tombe 1,3 m hors de l'îlot, sur le trottoir",
+   "source": "critique de complétude du 10/10/2026 ; îlot vérifié sur l'IGN 2024 (20 cm) et sur la photo",
+   "preuves": [
+    "recon/out/paquet_jardin/v2/enrichi/recensement/pano_1/preuves/81f3f695_v0_brut.jpg",
+    "recon/out/paquet_jardin/v2/description/enrichi/arbitrages/ARB-002_VISION-PANORAMAX-1-78_ilot_ign2024.jpg"
+   ]
+  },
+  {
+   "id": "ARB-003",
+   "action": "mesure_position",
+   "obs": ["DOC-LOCALE-018"],
+   "entite": "arbre_224",
+   "parametres": {"methode": "coordonnees_inventaire", "sigma_m": 3.0},
+   "motif": "le point de l'inventaire Métropole MEY00085 (peuplier noir) est à 1,2 m du tronc triangulé par VISION-PANORAMAX-2-13 et à 8,5 m de arbre_224 (levé GAM) : deux sources indépendantes concordent ; σ 3 m (écarts de 2 à 4 m constatés entre inventaire et levé). Mapillary (MLY) juge que la position proposée vise un autre arbre : déplacement soumis à revue (FUS-POS-06), un ou deux sujets à trancher sur le terrain (station S2)",
+   "source": "critique de complétude du 10/10/2026",
+   "preuves": [
+    "recon/out/paquet_jardin/v2/enrichi/recensement/web/preuves/patrimoine_arbore_gam2023_site.json",
+    "recon/out/paquet_jardin/v2/enrichi/recensement/pano_2/preuves/7651c539_L_tronc.jpg",
+    "recon/out/paquet_jardin/v2/description/enrichi/arbitrages/ARB-003_arbre_224_ortho2022.jpg"
+   ]
+  }
+ ]
+}

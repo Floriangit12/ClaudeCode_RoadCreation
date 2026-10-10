@@ -1,0 +1,700 @@
+{
+ "agent": "ORTHOS-RECENTES",
+ "note": "Relevés de Claude sur les planches (coordonnées locales lues sur la grille de 5 m / 1 m des planches, cadre PCRS 2022 : couches déjà recalées). Converties en L93 et en pixels de dalle par orthos_recentes.py --obs.",
+ "observations": [
+  {
+   "id": "OR-V-001",
+   "source": "pleiades2025",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vue_pleiades_coeur.jpg",
+   "xy_local": [
+    0.0,
+    0.0
+   ],
+   "precision_m": 75.0,
+   "classe": "autre",
+   "sous_type": "contexte_image_pleiades_2025",
+   "statut": "incertain",
+   "lien_description": null,
+   "attributs": {
+    "observe": "Pléiades 2025 (50 cm, recalé de +0,47 / +1,17 m sur l'IGN 2024 ; toits déversés de 3 à 7 m) : au cœur, zébras, îlots et kiosque bleu de 2024 en place, aucune emprise de chantier visible (pas de clôture, de décroûtage ni d'engin) ; secteur est identique à 2024 ; ombres orientées vers le nord ; feuillage complet",
+    "date_estimee": "2025, feuillage complet, avant ou au tout début du chantier du cœur (probablement avant le 23/06/2025) ; aucune métadonnée de date publique",
+    "consequence": "aucune image aérienne ouverte ne montre l'état 2026 du cœur ; le PCRS 5 cm 2025 de la Métropole (juin-juillet 2025) reste en accès restreint (flux RTGE, HTTP 401)"
+   },
+   "valide_2026": {
+    "valeur": false,
+    "raison": "image antérieure (ou du tout début) des travaux 2025 du cœur"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-002",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/coeur_C.jpg",
+   "xy_local": [
+    0.0,
+    2.0
+   ],
+   "precision_m": 15.0,
+   "classe": "autre",
+   "sous_type": "chantier_2024_reprises_enrobe",
+   "statut": "incertain",
+   "lien_description": null,
+   "attributs": {
+    "observe": "IGN 09/08/2024 : enrobés sombres neufs en bandes et rectangles au centre du carrefour (de (−15 ; +5) à (+15 ; +15), (−12 ; −12), (−5 ; +18), (+12 ; +8)) : reprises de tranchées antérieures au chantier 2025 ; zébras blancs de 2024 aux quatre traversées",
+    "comparaison_2022": "PCRS 10/05/2022 : passage cyclable jaune (pavés Chronovélo) et zébras ; pas de reprises sombres"
+   },
+   "valide_2026": {
+    "valeur": false,
+    "raison": "état provisoire 2024, cœur refait en 2025"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-003",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/arbres_parc_est.jpg",
+   "xy_local": [
+    139.25,
+    -53.25
+   ],
+   "precision_m": 1.0,
+   "classe": "arbre",
+   "sous_type": "arbre_abattu",
+   "statut": "absent_sur_image",
+   "lien_description": "arbre_175",
+   "attributs": {
+    "observe": "le grand feuillu (houppier ≈ 15 m) du PCRS 2022, en bordure du chantier, a disparu : en août 2024 pelouse et lits minéraux du parc est ; seuls de jeunes arbres (houppiers ≈ 1–1,5 m) à 2–4 m au sud (arbre_160 à 163)",
+    "remarque": "controle_ortho2024_vegetation = 1,0 dans la description : la pelouse a été prise pour le houppier (contrôle automatique NDVI non probant)",
+    "action_proposee": "retirer arbre_175 (sommet MNH LiDAR 2021 d'un arbre abattu en 2022-2024)"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "arbre attesté par le LiDAR 2021 et le PCRS 2022, absent en août 2024 après l'aménagement du parc (hors zone de travaux 2025)"
+   },
+   "confiance": "haute"
+  },
+  {
+   "id": "OR-V-004",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/arbres_secteur_construit_lidar2021_1.jpg",
+   "xy_local": [
+    138.305,
+    -57.947
+   ],
+   "precision_m": 1.0,
+   "classe": "arbre",
+   "sous_type": "jeune_arbre_plantation_2023_2024",
+   "statut": "attribut_corrige",
+   "lien_description": "arbre_160",
+   "attributs": {
+    "hauteur_m": 4.5,
+    "couronne_m": 2.0,
+    "observe": "jeune arbre de la plantation du parc est (houppier ≈ 1–1,5 m en août 2024, symbole GAM à l'échelle 0,526) ; aucune couronne de 10 m",
+    "remarque": "hauteur 10,6 m et couronne 10,6 m de la description héritées du MNH LiDAR 2021 (ancien grand arbre abattu, voir arbre_175) ; valeurs 2026 estimées (2 saisons de pousse)"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "plantation postérieure aux travaux 2023-2024, hors zone de travaux 2025 ; dimensions 2026 estimées"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-005",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/arbres_secteur_construit_lidar2021_1.jpg",
+   "xy_local": [
+    142.842,
+    -55.065
+   ],
+   "precision_m": 1.0,
+   "classe": "arbre",
+   "sous_type": "jeune_arbre_plantation_2023_2024",
+   "statut": "attribut_corrige",
+   "lien_description": "arbre_161",
+   "attributs": {
+    "hauteur_m": 4.5,
+    "couronne_m": 2.0,
+    "observe": "jeune arbre (houppier ≈ 1 m en août 2024)",
+    "remarque": "hauteur 9,9 m héritée du MNH LiDAR 2021 (ancien arbre abattu)"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "plantation 2023-2024 hors zone de travaux 2025 ; dimensions 2026 estimées"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-006",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/arbres_secteur_construit_lidar2021_1.jpg",
+   "xy_local": [
+    146.345,
+    -55.935
+   ],
+   "precision_m": 1.0,
+   "classe": "arbre",
+   "sous_type": "jeune_arbre_plantation_2023_2024",
+   "statut": "attribut_corrige",
+   "lien_description": "arbre_162",
+   "attributs": {
+    "hauteur_m": 4.5,
+    "couronne_m": 2.0,
+    "observe": "jeune arbre (houppier ≤ 1,5 m en août 2024), aucune couronne de 7,5 m",
+    "remarque": "hauteur 11,6 m / couronne 7,5 m héritées du MNH LiDAR 2021"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "plantation 2023-2024 hors zone de travaux 2025 ; dimensions 2026 estimées"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-007",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/arbres_secteur_construit_lidar2021_2.jpg",
+   "xy_local": [
+    149.183,
+    -57.507
+   ],
+   "precision_m": 1.0,
+   "classe": "arbre",
+   "sous_type": "jeune_arbre_plantation_2023_2024",
+   "statut": "attribut_corrige",
+   "lien_description": "arbre_163",
+   "attributs": {
+    "hauteur_m": 4.5,
+    "couronne_m": 2.0,
+    "observe": "pas de houppier visible au point en août 2024 (jeune plant au plus) ; allée claire à 1–2 m",
+    "remarque": "hauteur 10,9 m héritée du MNH LiDAR 2021"
+   },
+   "valide_2026": {
+    "valeur": "incertain",
+    "raison": "plant non visible à 20 cm en 2024 (plantation possible à l'automne 2024)"
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "OR-V-008",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/arbres_secteur_construit_lidar2021_2.jpg",
+   "xy_local": [
+    143.928,
+    -50.686
+   ],
+   "precision_m": 1.0,
+   "classe": "arbre",
+   "sous_type": "jeune_arbre_plantation_2023_2024",
+   "statut": "attribut_corrige",
+   "lien_description": "arbre_176",
+   "attributs": {
+    "hauteur_m": 4.5,
+    "observe": "jeune arbre (houppier ≈ 1 m en août 2024) au bord du lit minéral sud",
+    "remarque": "hauteur 8,0 m héritée du MNH LiDAR 2021 (le MNH IGN donne 1,1 m)"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "plantation 2023-2024 hors zone de travaux 2025 ; hauteur 2026 estimée"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-009",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/arbres_secteur_construit_lidar2021_1.jpg",
+   "xy_local": [
+    76.3,
+    -102.6
+   ],
+   "precision_m": 1.5,
+   "classe": "arbre",
+   "sous_type": "bosquet_2022_remplace",
+   "statut": "attribut_corrige",
+   "lien_description": "arbre_068",
+   "attributs": {
+    "couronne_m": 2.0,
+    "hauteur_m": 4.0,
+    "observe": "le massif arboré de 2022 (≈ 7 m) a disparu : en août 2024 rangée de places de stationnement (voitures) et jardinière étroite avec un jeune arbre au point",
+    "remarque": "hauteur 10,4 m / couronne 7,3 m héritées du MNH LiDAR 2021"
+   },
+   "valide_2026": {
+    "valeur": "incertain",
+    "raison": "jeune arbre en jardinière : dimensions 2026 estimées"
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "OR-V-010",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/arbres_secteur_construit_lidar2021_1.jpg",
+   "xy_local": [
+    84.2,
+    -77.3
+   ],
+   "precision_m": 1.5,
+   "classe": "arbre",
+   "sous_type": "bosquet_2022_remplace",
+   "statut": "attribut_corrige",
+   "lien_description": "arbre_103",
+   "attributs": {
+    "couronne_m": 1.5,
+    "hauteur_m": 3.5,
+    "observe": "bosquet de 2022 abattu ; en août 2024 pelouse et allée courbe, aucun houppier au point (plant éventuel < 1 m)",
+    "remarque": "hauteur 11,4 m héritée du MNH LiDAR 2021"
+   },
+   "valide_2026": {
+    "valeur": "incertain",
+    "raison": "plantation possible après août 2024"
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "OR-V-011",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/arbres_secteur_construit_lidar2021_1.jpg",
+   "xy_local": [
+    84.1,
+    -73.2
+   ],
+   "precision_m": 1.5,
+   "classe": "arbre",
+   "sous_type": "bosquet_2022_remplace",
+   "statut": "attribut_corrige",
+   "lien_description": "arbre_135",
+   "attributs": {
+    "couronne_m": 1.5,
+    "hauteur_m": 3.5,
+    "observe": "grand arbre de 2022 (houppier ≈ 12 m) abattu ; en août 2024 pelouse et allée courbe, aucun houppier au point",
+    "remarque": "hauteur 14,3 m / couronne 13,5 m héritées du MNH LiDAR 2021"
+   },
+   "valide_2026": {
+    "valeur": "incertain",
+    "raison": "le grand houppier ne peut réapparaître ; plant éventuel après août 2024"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-012",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/arbres_secteur_construit_lidar2021_3.jpg",
+   "xy_local": [
+    135.4,
+    84.1
+   ],
+   "precision_m": 1.5,
+   "classe": "arbre",
+   "sous_type": "dimensions_heritees_lidar_2021",
+   "statut": "attribut_corrige",
+   "lien_description": "arbre_362",
+   "attributs": {
+    "couronne_m": 2.0,
+    "hauteur_m": 4.0,
+    "observe": "sol nu de chantier au point en mai 2022 (le houppier le plus proche, l'alignement de Verdun, est à > 4 m au NO) ; en août 2024 angle d'immeuble dans l'ombre portée, aucun houppier de 14 m",
+    "remarque": "hauteur 25,4 m / couronne 13,9 m héritées du MNH LiDAR 2021 (alignement voisin)"
+   },
+   "valide_2026": {
+    "valeur": "incertain",
+    "raison": "point dans l'ombre portée en 2024 ; jeune arbre non vérifiable"
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "OR-V-013",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/arbres_secteur_construit_lidar2021_3.jpg",
+   "xy_local": [
+    140.4,
+    91.2
+   ],
+   "precision_m": 1.5,
+   "classe": "arbre",
+   "sous_type": "dimensions_heritees_lidar_2021",
+   "statut": "attribut_corrige",
+   "lien_description": "arbre_383",
+   "attributs": {
+    "couronne_m": 2.0,
+    "hauteur_m": 4.0,
+    "observe": "sol nu de chantier au point en mai 2022 ; en août 2024 ombre portée de l'immeuble, aucun houppier visible",
+    "remarque": "hauteur 22,7 m héritée du MNH LiDAR 2021"
+   },
+   "valide_2026": {
+    "valeur": "incertain",
+    "raison": "point dans l'ombre portée en 2024"
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "OR-V-014",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/arbres_disparus_candidats.jpg",
+   "xy_local": [
+    122.939,
+    6.628
+   ],
+   "precision_m": 2.0,
+   "classe": "arbre",
+   "sous_type": "dimensions_incoherentes",
+   "statut": "incertain",
+   "lien_description": "arbre_234",
+   "attributs": {
+    "observe": "couronne 14,3 m pour une hauteur de 5,1 m (incohérent) ; mai 2022 : chantier sans arbre au point ; août 2024 : pied d'immeuble dans l'ombre portée, aucun houppier visible",
+    "action_proposee": "revue : dimensions par défaut d'un jeune arbre ou retrait"
+   },
+   "valide_2026": {
+    "valeur": "incertain",
+    "raison": "ombre portée en 2024"
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "OR-V-015",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/bordures_construit_vu2024_1.jpg",
+   "xy_local": [
+    78.46,
+    -109.64
+   ],
+   "precision_m": 0.1,
+   "classe": "bordure",
+   "sous_type": "doublon_geometrique",
+   "statut": "absent_sur_image",
+   "lien_description": "K-0470",
+   "attributs": {
+    "observe": "K-0470 reprend K-0469 en sens inverse (même ligne GAM à 6 cm près, faces vues opposées : élément de 6 cm invraisemblable)",
+    "action_proposee": "à retirer : doublon de K-0469"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "artefact de la description (doublon géométrique, constat indépendant de la date)"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-016",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/bordures_construit_vu2024_1.jpg",
+   "xy_local": [
+    77.72,
+    -106.8
+   ],
+   "precision_m": 0.1,
+   "classe": "bordure",
+   "sous_type": "doublon_geometrique",
+   "statut": "absent_sur_image",
+   "lien_description": "K-0472",
+   "attributs": {
+    "observe": "K-0472 double K-0471 (même sens, même face, écart 6 cm)",
+    "action_proposee": "à retirer : doublon de K-0471"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "artefact de la description (doublon géométrique, constat indépendant de la date)"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-017",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/decoupe_+40_-120_+80_-80.jpg",
+   "xy_local": [
+    50.8,
+    -100.0
+   ],
+   "precision_m": 0.4,
+   "classe": "surface_ilot",
+   "sous_type": "allee_stabilisee",
+   "statut": "absent_de_description",
+   "lien_description": null,
+   "geometrie_local": [
+    [
+     46.0,
+     -80.0
+    ],
+    [
+     48.0,
+     -84.0
+    ],
+    [
+     49.5,
+     -88.0
+    ],
+    [
+     50.5,
+     -92.0
+    ],
+    [
+     51.0,
+     -97.0
+    ],
+    [
+     51.0,
+     -103.0
+    ],
+    [
+     51.0,
+     -109.0
+    ],
+    [
+     51.5,
+     -115.0
+    ],
+    [
+     52.0,
+     -120.0
+    ]
+   ],
+   "attributs": {
+    "largeur_m": 1.3,
+    "materiau": "stabilisé clair",
+    "observe": "cheminement piéton courbe en stabilisé clair (≈ 1,3 m) dans la pelouse du parc sud (surface S-0352a décrite en gazon) ; visible aussi sur Pléiades 2025",
+    "hote": "S-0352a (sous-zone)"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "aménagement 2023-2024 achevé en août 2024, hors zone de travaux 2025, présent sur Pléiades 2025"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-018",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/decoupe_+40_-120_+80_-80.jpg",
+   "xy_local": [
+    58.0,
+    -111.0
+   ],
+   "precision_m": 0.5,
+   "classe": "surface_ilot",
+   "sous_type": "trottoir_beton",
+   "statut": "absent_de_description",
+   "lien_description": null,
+   "geometrie_local": [
+    [
+     56.0,
+     -104.0
+    ],
+    [
+     57.3,
+     -108.5
+    ],
+    [
+     58.5,
+     -113.0
+    ],
+    [
+     61.0,
+     -119.0
+    ]
+   ],
+   "attributs": {
+    "largeur_m": 1.6,
+    "materiau": "béton clair",
+    "observe": "bande piétonne claire le long de la rangée ouest de places, prolongée au sud jusqu'à la voie ; partie sud (y < −104) classée gazon dans S-0352a",
+    "hote": "S-0352a (sous-zone)"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "aménagement 2023-2024 hors zone de travaux 2025"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-019",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/decoupe_+40_-120_+80_-80.jpg",
+   "xy_local": [
+    59.3,
+    -101.3
+   ],
+   "precision_m": 0.7,
+   "classe": "surface_ilot",
+   "sous_type": "sous_zone_parking",
+   "statut": "absent_de_description",
+   "lien_description": null,
+   "geometrie_local": [
+    [
+     57.0,
+     -99.0
+    ],
+    [
+     61.5,
+     -99.0
+    ],
+    [
+     61.5,
+     -103.5
+    ],
+    [
+     57.0,
+     -103.5
+    ]
+   ],
+   "attributs": {
+    "observe": "place de stationnement (voiture rouge en août 2024) au sud de la rangée ouest, hors des polygones parking S-0465 (classée gazon dans S-0352a)",
+    "hote": "S-0352a (sous-zone)"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "stationnement 2023-2024 hors zone de travaux 2025"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-020",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/decoupe_+110_-70_+150_-30.jpg",
+   "xy_local": [
+    137.0,
+    -45.0
+   ],
+   "precision_m": 0.7,
+   "classe": "surface_ilot",
+   "sous_type": "lits_mineraux_2024",
+   "statut": "absent_de_description",
+   "lien_description": null,
+   "geometrie_local": [
+    [
+     128.5,
+     -45.0
+    ],
+    [
+     147.0,
+     -41.0
+    ]
+   ],
+   "attributs": {
+    "largeur_m": 2.0,
+    "observe": "deux bandes claires de galets / gravier (≈ 2 et 2,5 m) dans la noue enherbée du parc est en août 2024 : (128,5 ; −45) → (147 ; −41) et (118,5 ; −50,5) → (147 ; −46), bordées d'un liseré clair ; non visibles sur Pléiades 2025 (enherbées ou couvertes ?)",
+    "seconde_bande_local": [
+     [
+      118.5,
+      -50.5
+     ],
+     [
+      147.0,
+      -46.0
+     ]
+    ],
+    "hote": "S-0374a (gazon)"
+   },
+   "valide_2026": {
+    "valeur": "incertain",
+    "raison": "visibles en 2024, plus visibles sur Pléiades 2025"
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "OR-V-021",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/coeur_SE.jpg",
+   "xy_local": [
+    46.0,
+    -51.5
+   ],
+   "precision_m": 1.0,
+   "classe": "autre",
+   "sous_type": "batiment_bas",
+   "statut": "incertain",
+   "lien_description": "S-0352b",
+   "geometrie_local": [
+    [
+     46.87,
+     -35.38
+    ],
+    [
+     49.97,
+     -46.28
+    ],
+    [
+     54.67,
+     -64.48
+    ],
+    [
+     44.57,
+     -67.28
+    ],
+    [
+     37.27,
+     -37.98
+    ]
+   ],
+   "attributs": {
+    "observe": "bâtiment bas neuf (toit gris-bleu ≈ 9 × 31 m, ombre au NO) sur le chantier de 2022 ; emprise BD TOPO BATIMENT0000002490989928 (créée le 04/07/2025) ; la description le range dans S-0352b (espace vert, noue plantée)",
+    "action_proposee": "retirer l'emprise du bâtiment de S-0352b (≈ 300 m² sur 762 m²)"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "bâtiment achevé en août 2024, hors zone de travaux 2025, présent sur Pléiades 2025"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-022",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/marquages_conserve_absents_1.jpg",
+   "xy_local": [
+    52.0,
+    57.97
+   ],
+   "precision_m": 0.3,
+   "classe": "marquage",
+   "sous_type": "faux_positif_marquage",
+   "statut": "absent_sur_image",
+   "lien_description": "ML-5141",
+   "attributs": {
+    "observe": "aucune peinture le long de ML-5141 (oblique à la file de carrés du damier cyclable) ni sur le PCRS 2022 ni sur l'IGN 2024 ; chaussée dégagée aux deux dates",
+    "action_proposee": "retirer"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "marquage « conservé » (attesté 2022) absent aux deux dates sur fond dégagé : artefact"
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "OR-V-023",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/marquages_conserve_absents_1.jpg",
+   "xy_local": [
+    46.22,
+    58.28
+   ],
+   "precision_m": 0.3,
+   "classe": "marquage",
+   "sous_type": "faux_positif_marquage",
+   "statut": "absent_sur_image",
+   "lien_description": "ML-5208",
+   "attributs": {
+    "observe": "trait de 1 m posé en lisière de haie / pelouse : aucune peinture visible en 2022 ni en 2024",
+    "action_proposee": "retirer"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "marquage posé sur un espace vert : artefact"
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "OR-V-024",
+   "source": "ign2024",
+   "planche": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/planches/vignettes/marquages_conserve_absents_1.jpg",
+   "xy_local": [
+    50.71,
+    54.49
+   ],
+   "precision_m": 0.4,
+   "classe": "marquage",
+   "sous_type": "damier_cyclable",
+   "statut": "confirme",
+   "lien_description": "ML-0526",
+   "attributs": {
+    "observe": "file de carrés blancs (damier de bande cyclable) présente en 2022 et en 2024 ; l'axe décrit court sur le bord SE des carrés (écart ≤ 0,4 m)",
+    "remarque": "le contrôle automatique le donnait absent (contraste mesuré à côté de la file)"
+   },
+   "valide_2026": {
+    "valeur": true,
+    "raison": "marquage conservé hors zone de travaux 2025, vu aux deux dates"
+   },
+   "confiance": "moyenne"
+  }
+ ]
+}

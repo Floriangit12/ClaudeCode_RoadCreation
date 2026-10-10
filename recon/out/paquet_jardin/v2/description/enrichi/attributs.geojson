@@ -9,7 +9,7 @@
  },
  "description_v2": {
   "schema": "description_scene_v2/enrichi/0.1",
-  "generateur": "fusion_recensement/0.1",
+  "generateur": "fusion_recensement/0.2",
   "couche": "attributs",
   "repere": "EPSG:2154 ; local = L93 - (917279.43, 6460289.98)",
   "role": "mises à jour d'attributs, d'existence et de type des entités existantes, avec provenance",
@@ -43,6 +43,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "non_valable_2026",
+    "tranche_preuve": "non_valable_2026",
     "date_max_valide": null,
     "provenance": [
      {
@@ -58,8 +59,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917288.101,
-     6460295.537
+     917288.102,
+     6460295.538
     ]
    }
   },
@@ -110,6 +111,7 @@
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -180,6 +182,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -204,7 +207,203 @@
     "type": "Point",
     "coordinates": [
      917283.064,
-     6460276.144
+     6460276.143
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "I-0658",
+    "famille": "ilots",
+    "type": "refuge",
+    "classe_fusion": "surface_ilot",
+    "maj": {},
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-032"
+      ]
+     },
+     "priorite_2026": true,
+     "obs_anterieures_ecartees": [
+      "MLY-ILO-003"
+     ],
+     "verdict_anterieur": "present"
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "PANO2026-032",
+      "date": "2026-07-28",
+      "texte": "petit terre-plein entre le zébra et la piste cyclable (constat 17) ; contour décrit cohérent avec la photo ; le panneau blanc à deux poteaux (PANO2026-017) est juste à l'ouest, hors de l'îlot."
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "MLY-ILO-003",
+      "source": "mly:474170828770792",
+      "date": "2024-08-24",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-032",
+      "source": "pnx:ded07efa",
+      "date": "2026-07-28",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917305.201,
+     6460150.375
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "K-0470",
+    "famille": "bordures",
+    "type": null,
+    "classe_fusion": "bordure",
+    "maj": {},
+    "existence": {
+     "verdict": "retirer",
+     "poids": {
+      "retrait": 0.6
+     },
+     "obs": {
+      "retrait": [
+       "OR-V-015"
+      ]
+     }
+    },
+    "instancier": false,
+    "doublon_de": "K-0469",
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-BOR-047",
+      "date": "2024-08-24",
+      "texte": "bande plantée (prairie) ; aucune bordure saillante sur le tracé"
+     },
+     {
+      "obs": "OR-V-015",
+      "date": "2024-08-09",
+      "texte": "K-0470 reprend K-0469 en sens inverse (même ligne GAM à 6 cm près, faces vues opposées : élément de 6 cm invraisemblable)"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-EXI-02",
+     "FUS-VAL-02"
+    ],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-BOR-047",
+      "source": "mly:2223409328008829",
+      "date": "2024-08-24",
+      "statut": "incertain",
+      "confiance": "faible",
+      "valide_2026": true
+     },
+     {
+      "obs": "OR-V-015",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917357.897,
+     6460180.336
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "K-0472",
+    "famille": "bordures",
+    "type": null,
+    "classe_fusion": "bordure",
+    "maj": {},
+    "existence": {
+     "verdict": "retirer",
+     "poids": {
+      "retrait": 0.6
+     },
+     "obs": {
+      "retrait": [
+       "OR-V-016"
+      ]
+     }
+    },
+    "instancier": false,
+    "doublon_de": "K-0471",
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "OR-V-016",
+      "date": "2024-08-09",
+      "texte": "K-0472 double K-0471 (même sens, même face, écart 6 cm)"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-EXI-02",
+     "FUS-VAL-02"
+    ],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
+    "provenance": [
+     {
+      "obs": "OR-V-016",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917357.144,
+     6460183.173
     ]
    }
   },
@@ -232,6 +431,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "OR-MF-0286",
+      "date": "2024-08-09",
+      "texte": "peinture visible sur l'IGN du 09/08/2024 à l'emplacement décrit (seconde date après le PCRS 2022)"
+     },
+     {
       "obs": "ORTHO-B-102",
       "date": "2022-05-10",
       "texte": "pas de flèche : MF-0286 (gabarit TD) enveloppe un simple tiret blanc (≈3 m), déjà décrit comme tiret de ML-6232 ; flèche à supprimer (doublon d'un tiret)"
@@ -240,11 +444,21 @@
     "revue_texte": true,
     "conflits": [],
     "regles": [
+     "FUS-AUTO-01",
      "FUS-EXI-02"
     ],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-MF-0286",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO-B-102",
       "source": "ortho2022",
@@ -292,6 +506,7 @@
      "FUS-VAL-03"
     ],
     "categorie_preuve": "non_valable_2026",
+    "tranche_preuve": "non_valable_2026",
     "date_max_valide": null,
     "provenance": [
      {
@@ -351,6 +566,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -394,10 +610,11 @@
     "existence": {
      "verdict": "present",
      "poids": {
-      "presence": 1.42
+      "presence": 1.84
      },
      "obs": {
       "presence": [
+       "OR-MF-6003",
        "ORTHO_A-0175",
        "pano_0-37"
       ]
@@ -413,8 +630,17 @@
      "FUS-POS-07"
     ],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
+     {
+      "obs": "OR-MF-6003",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0175",
       "source": "ortho2022",
@@ -477,6 +703,7 @@
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -533,6 +760,7 @@
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -577,6 +805,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "OR-ML-0107",
+      "date": "2024-08-09",
+      "texte": "peinture visible sur l'IGN du 09/08/2024 à l'emplacement décrit (seconde date après le PCRS 2022)"
+     },
+     {
       "obs": "ORTHO-B-211",
       "date": "2022-05-10",
       "texte": "ML-0107 (ligne continue « conserve ») est posée sur la toiture du bâtiment (acrotère) : aucun marquage possible, entité à supprimer"
@@ -585,12 +818,22 @@
     "revue_texte": true,
     "conflits": [],
     "regles": [
+     "FUS-AUTO-01",
      "FUS-EXI-02",
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-0107",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO-B-211",
       "source": "ortho2022",
@@ -645,6 +888,7 @@
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -689,6 +933,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "OR-ML-0121",
+      "date": "2024-08-09",
+      "texte": "peinture visible sur l'IGN du 09/08/2024 à l'emplacement décrit (seconde date après le PCRS 2022)"
+     },
+     {
       "obs": "ORTHO_A-0084",
       "date": "2022-05-10",
       "texte": "aucune peinture : l'entité suit acrotère blanc de la toiture du bâtiment (pas au sol)"
@@ -697,12 +946,22 @@
     "revue_texte": true,
     "conflits": [],
     "regles": [
+     "FUS-AUTO-01",
      "FUS-EXI-02",
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-0121",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0084",
       "source": "ortho2022",
@@ -757,6 +1016,7 @@
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -801,6 +1061,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "OR-ML-0132",
+      "date": "2024-08-09",
+      "texte": "peinture visible sur l'IGN du 09/08/2024 à l'emplacement décrit (seconde date après le PCRS 2022)"
+     },
+     {
       "obs": "ORTHO_A-0052",
       "date": "2022-05-10",
       "texte": "aucune peinture : l'entité suit tête de bordure entre pelouse et allée de desserte"
@@ -809,12 +1074,22 @@
     "revue_texte": true,
     "conflits": [],
     "regles": [
+     "FUS-AUTO-01",
      "FUS-EXI-02",
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-0132",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0052",
       "source": "ortho2022",
@@ -869,6 +1144,7 @@
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -913,6 +1189,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "OR-ML-0135",
+      "date": "2024-08-09",
+      "texte": "peinture visible sur l'IGN du 09/08/2024 à l'emplacement décrit (seconde date après le PCRS 2022)"
+     },
+     {
       "obs": "ORTHO_A-0054",
       "date": "2022-05-10",
       "texte": "aucune peinture : l'entité suit tête de bordure entre pelouse et allée de desserte"
@@ -921,12 +1202,22 @@
     "revue_texte": true,
     "conflits": [],
     "regles": [
+     "FUS-AUTO-01",
      "FUS-EXI-02",
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-0135",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0054",
       "source": "ortho2022",
@@ -981,6 +1272,7 @@
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -1037,6 +1329,7 @@
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -1093,6 +1386,7 @@
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -1108,8 +1402,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917217.722,
-     6460148.154
+     917217.724,
+     6460148.157
     ]
    }
   },
@@ -1137,6 +1431,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "OR-ML-0161",
+      "date": "2024-08-09",
+      "texte": "peinture visible sur l'IGN du 09/08/2024 à l'emplacement décrit (seconde date après le PCRS 2022)"
+     },
+     {
       "obs": "ORTHO_A-0106",
       "date": "2022-05-10",
       "texte": "pas de peinture : l'entité suit les barreaux blancs du portail coulissant de la jardinerie (917232–917241, 6460320–6460329) ou les jours clairs en arc de son ombre portée"
@@ -1145,12 +1444,22 @@
     "revue_texte": true,
     "conflits": [],
     "regles": [
+     "FUS-AUTO-01",
      "FUS-EXI-02",
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-0161",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0106",
       "source": "ortho2022",
@@ -1193,6 +1502,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "OR-ML-0162",
+      "date": "2024-08-09",
+      "texte": "peinture visible sur l'IGN du 09/08/2024 à l'emplacement décrit (seconde date après le PCRS 2022)"
+     },
+     {
       "obs": "ORTHO_A-0107",
       "date": "2022-05-10",
       "texte": "pas de peinture : l'entité suit les barreaux blancs du portail coulissant de la jardinerie (917232–917241, 6460320–6460329) ou les jours clairs en arc de son ombre portée"
@@ -1201,12 +1515,22 @@
     "revue_texte": true,
     "conflits": [],
     "regles": [
+     "FUS-AUTO-01",
      "FUS-EXI-02",
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-0162",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0107",
       "source": "ortho2022",
@@ -1249,6 +1573,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "OR-ML-0163",
+      "date": "2024-08-09",
+      "texte": "peinture visible sur l'IGN du 09/08/2024 à l'emplacement décrit (seconde date après le PCRS 2022)"
+     },
+     {
       "obs": "ORTHO_A-0108",
       "date": "2022-05-10",
       "texte": "pas de peinture : l'entité suit les barreaux blancs du portail coulissant de la jardinerie (917232–917241, 6460320–6460329) ou les jours clairs en arc de son ombre portée"
@@ -1257,12 +1586,22 @@
     "revue_texte": true,
     "conflits": [],
     "regles": [
+     "FUS-AUTO-01",
      "FUS-EXI-02",
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-0163",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0108",
       "source": "ortho2022",
@@ -1305,6 +1644,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "OR-ML-0168",
+      "date": "2024-08-09",
+      "texte": "peinture visible sur l'IGN du 09/08/2024 à l'emplacement décrit (seconde date après le PCRS 2022)"
+     },
+     {
       "obs": "ORTHO_A-0109",
       "date": "2022-05-10",
       "texte": "pas de peinture : l'entité suit les barreaux blancs du portail coulissant de la jardinerie (917232–917241, 6460320–6460329) ou les jours clairs en arc de son ombre portée"
@@ -1313,12 +1657,22 @@
     "revue_texte": true,
     "conflits": [],
     "regles": [
+     "FUS-AUTO-01",
      "FUS-EXI-02",
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-0168",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0109",
       "source": "ortho2022",
@@ -1373,6 +1727,7 @@
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -1428,6 +1783,7 @@
      "FUS-EXI-01"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -1471,10 +1827,11 @@
     "existence": {
      "verdict": "present",
      "poids": {
-      "presence": 1.0
+      "presence": 1.21
      },
      "obs": {
       "presence": [
+       "OR-ML-0212",
        "ORTHO_A-0040"
       ]
      }
@@ -1494,9 +1851,18 @@
     "regles": [
      "FUS-POS-07"
     ],
-    "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-0212",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0040",
       "source": "ortho2022",
@@ -1510,7 +1876,7 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917183.386,
+     917183.385,
      6460170.541
     ]
    }
@@ -1551,6 +1917,7 @@
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -1607,6 +1974,7 @@
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -1624,6 +1992,120 @@
     "coordinates": [
      917216.14,
      6460143.506
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-0238",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {},
+    "existence": {
+     "verdict": "retirer",
+     "poids": {
+      "retrait": 0.6
+     },
+     "obs": {
+      "retrait": [
+       "MLY-MAR-002"
+      ]
+     }
+    },
+    "instancier": false,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-MAR-002",
+      "date": "2024-08-24",
+      "texte": "le tracé tombe sur la bande plantée (haie taillée continue) : aucun marquage"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-EXI-02",
+     "FUS-VAL-02"
+    ],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-MAR-002",
+      "source": "mly:429556670090943",
+      "date": "2024-08-24",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917239.323,
+     6460279.656
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-0240",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {},
+    "existence": {
+     "verdict": "retirer",
+     "poids": {
+      "retrait": 0.6
+     },
+     "obs": {
+      "retrait": [
+       "MLY-MAR-003"
+      ]
+     }
+    },
+    "instancier": false,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-MAR-003",
+      "date": "2024-08-24",
+      "texte": "le tracé tombe sur la bande plantée (haie taillée) : aucun marquage"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-EXI-02",
+     "FUS-VAL-02"
+    ],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-MAR-003",
+      "source": "mly:429556670090943",
+      "date": "2024-08-24",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917241.538,
+     6460280.823
     ]
    }
   },
@@ -1658,12 +2140,13 @@
     ],
     "revue_texte": true,
     "conflits": [
-     "CF-ENR-017"
+     "CF-ENR-030"
     ],
     "regles": [
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -1717,6 +2200,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -1770,6 +2254,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -1793,6 +2278,77 @@
   {
    "type": "Feature",
    "properties": {
+    "id": "ML-0432",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {},
+    "existence": {
+     "verdict": "retirer",
+     "poids": {
+      "retrait": 1.0
+     },
+     "obs": {
+      "retrait": [
+       "PANO2026-004"
+      ]
+     }
+    },
+    "instancier": false,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "ORTHO-B-379",
+      "date": "2022-05-10",
+      "texte": "peinture présente sur 87 % de l'empreinte décrite (contrôle automatique relu sur les vues)"
+     },
+     {
+      "obs": "PANO2026-004",
+      "date": "2026-07-28",
+      "texte": "à la position décrite (33,1 ; −137,6), herbe de l'îlot derrière le nez de bordure, sans aucune peinture, sur les deux photos calées les plus proches (f8d91bb1 à 20 m, ded07efa à 19 m) ; la ligne d'effet du STOP 2026 passe 0,7 à 1,5 m plus au nord-est (PANO2026-010). Tiret v1 iso…"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-AUTO-01",
+     "FUS-DATE-01",
+     "FUS-EXI-02"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "ORTHO-B-379",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-004",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "absent_sur_image",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917312.552,
+     6460152.421
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
     "id": "ML-0545",
     "famille": "marquages",
     "type": "ligne",
@@ -1801,10 +2357,11 @@
     "existence": {
      "verdict": "present",
      "poids": {
-      "presence": 0.6
+      "presence": 0.81
      },
      "obs": {
       "presence": [
+       "OR-ML-0545",
        "ORTHO_A-0186"
       ]
      }
@@ -1821,14 +2378,23 @@
     ],
     "revue_texte": true,
     "conflits": [
-     "CF-ENR-018"
+     "CF-ENR-031"
     ],
     "regles": [
      "FUS-POS-07"
     ],
-    "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-0545",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0186",
       "source": "ortho2022",
@@ -1883,6 +2449,7 @@
      "FUS-VAL-02"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -1900,6 +2467,63 @@
     "coordinates": [
      917142.707,
      6460163.538
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-0935",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {},
+    "existence": {
+     "verdict": "retirer",
+     "poids": {
+      "retrait": 0.6
+     },
+     "obs": {
+      "retrait": [
+       "MLY-MAR-006"
+      ]
+     }
+    },
+    "instancier": false,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-MAR-006",
+      "date": "2025-05-18",
+      "texte": "le tracé tombe sur la bande plantée (massif arbustif en bord de chaussée) : aucun marquage"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-EXI-02",
+     "FUS-VAL-02"
+    ],
+    "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
+    "date_max_valide": "2025-05-18",
+    "provenance": [
+     {
+      "obs": "MLY-MAR-006",
+      "source": "mly:680749908195718",
+      "date": "2025-05-18",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917148.337,
+     6460174.603
     ]
    }
   },
@@ -1926,10 +2550,11 @@
     "existence": {
      "verdict": "present",
      "poids": {
-      "presence": 0.6
+      "presence": 0.81
      },
      "obs": {
       "presence": [
+       "OR-ML-0939",
        "ORTHO_A-0049"
       ]
      }
@@ -1943,9 +2568,18 @@
     "regles": [
      "FUS-POS-07"
     ],
-    "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-0939",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0049",
       "source": "ortho2022",
@@ -1961,6 +2595,60 @@
     "coordinates": [
      917156.304,
      6460161.076
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-0950",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {},
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "MLY-MAR-008"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-MAR-008",
+      "date": "2025-05-18",
+      "texte": "ligne de stationnement très effacée (peinture résiduelle), exactement sur l'axe projeté ; la ligne voisine est refaite (blanc vif)"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
+    "date_max_valide": "2025-05-18",
+    "provenance": [
+     {
+      "obs": "MLY-MAR-008",
+      "source": "mly:680749908195718",
+      "date": "2025-05-18",
+      "statut": "attribut_corrige",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917162.79,
+     6460167.783
     ]
    }
   },
@@ -2030,6 +2718,7 @@
      "FUS-POS-07"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -2061,8 +2750,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917358.323,
-     6460368.845
+     917358.328,
+     6460368.842
     ]
    }
   },
@@ -2099,6 +2788,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -2116,6 +2806,77 @@
     "coordinates": [
      917328.214,
      6460355.838
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-5141",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {},
+    "existence": {
+     "verdict": "retirer",
+     "poids": {
+      "retrait": 1.2
+     },
+     "obs": {
+      "retrait": [
+       "MLY-MAR-011",
+       "OR-V-022"
+      ]
+     }
+    },
+    "instancier": false,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-MAR-011",
+      "date": "2024-08-24",
+      "texte": "le tracé tombe sur la bande plantée (pelouse) : aucun marquage"
+     },
+     {
+      "obs": "OR-V-022",
+      "date": "2024-08-09",
+      "texte": "aucune peinture le long de ML-5141 (oblique à la file de carrés du damier cyclable) ni sur le PCRS 2022 ni sur l'IGN 2024 ; chaussée dégagée aux deux dates"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-EXI-02",
+     "FUS-VAL-02"
+    ],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-MAR-011",
+      "source": "mly:1058726022258889",
+      "date": "2024-08-24",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "OR-V-022",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917331.425,
+     6460347.945
     ]
    }
   },
@@ -2152,6 +2913,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -2183,10 +2945,11 @@
     "existence": {
      "verdict": "present",
      "poids": {
-      "presence": 0.6
+      "presence": 0.81
      },
      "obs": {
       "presence": [
+       "OR-ML-5143",
        "ORTHO-B-093"
       ]
      }
@@ -2203,10 +2966,21 @@
     ],
     "revue_texte": true,
     "conflits": [],
-    "regles": [],
-    "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "regles": [
+     "FUS-POS-07"
+    ],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-5143",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO-B-093",
       "source": "ortho2022",
@@ -2236,10 +3010,11 @@
     "existence": {
      "verdict": "present",
      "poids": {
-      "presence": 0.6
+      "presence": 0.81
      },
      "obs": {
       "presence": [
+       "OR-ML-5144",
        "ORTHO-B-093"
       ]
      }
@@ -2256,10 +3031,21 @@
     ],
     "revue_texte": true,
     "conflits": [],
-    "regles": [],
-    "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "regles": [
+     "FUS-POS-07"
+    ],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-ML-5144",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO-B-093",
       "source": "ortho2022",
@@ -2311,6 +3097,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -2366,6 +3153,7 @@
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -2415,6 +3203,7 @@
      "FUS-VAL-03"
     ],
     "categorie_preuve": "non_valable_2026",
+    "tranche_preuve": "non_valable_2026",
     "date_max_valide": null,
     "provenance": [
      {
@@ -2431,7 +3220,7 @@
     "type": "Point",
     "coordinates": [
      917176.611,
-     6460178.613
+     6460178.612
     ]
    }
   },
@@ -2458,10 +3247,11 @@
     "existence": {
      "verdict": "present",
      "poids": {
-      "presence": 1.6
+      "presence": 2.02
      },
      "obs": {
       "presence": [
+       "OR-ML-5185",
        "ORTHO_A-0168",
        "VISION-PANORAMAX-2-59"
       ]
@@ -2473,14 +3263,23 @@
     "notes": null,
     "revue_texte": false,
     "conflits": [
-     "CF-ENR-020"
+     "CF-ENR-033"
     ],
     "regles": [
      "FUS-POS-07"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
+     {
+      "obs": "OR-ML-5185",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0168",
       "source": "ortho2022",
@@ -2502,7 +3301,7 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917306.501,
+     917306.502,
      6460323.866
     ]
    }
@@ -2536,6 +3335,7 @@
      "FUS-VAL-03"
     ],
     "categorie_preuve": "non_valable_2026",
+    "tranche_preuve": "non_valable_2026",
     "date_max_valide": null,
     "provenance": [
      {
@@ -2553,6 +3353,551 @@
     "coordinates": [
      917266.377,
      6460310.488
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-5337",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {
+     "usure": {
+      "avant": 2.0,
+      "apres": 1.0,
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-014"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-014"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "PANO2026-014",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917274.302,
+     6460157.001
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-5338",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {
+     "usure": {
+      "avant": 2.0,
+      "apres": 1.0,
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-014"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-014"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "PANO2026-014",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917278.82,
+     6460157.738
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-5339",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {
+     "usure": {
+      "avant": 2.0,
+      "apres": 1.0,
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-014"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-014"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "PANO2026-014",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917281.086,
+     6460158.117
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-5340",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {
+     "usure": {
+      "avant": 2.0,
+      "apres": 1.0,
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-014"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-014"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "ORTHO_A-0133",
+      "date": "2022-05-10",
+      "texte": "trait de place masqué par un véhicule stationné (contraste nul) ; traits voisins ML-5341..ML-5344 visibles"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "ORTHO_A-0133",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "incertain",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-014",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917283.4,
+     6460158.486
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-5341",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {
+     "usure": {
+      "avant": 2.0,
+      "apres": 1.0,
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-014"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-014"
+      ]
+     },
+     "priorite_2026": true,
+     "obs_anterieures_ecartees": [
+      "MLY-MAR-016"
+     ],
+     "verdict_anterieur": "retirer"
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-MAR-016",
+      "date": "2024-08-24",
+      "texte": "le tracé tombe sur la bande plantée (haie et pelouse derrière les places de stationnement) : aucun marquage"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [
+     "CF-ENR-007"
+    ],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "MLY-MAR-016",
+      "source": "mly:1546760642583408",
+      "date": "2024-08-24",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-014",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917294.764,
+     6460160.389
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-5344",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {
+     "usure": {
+      "avant": 2.0,
+      "apres": 1.0,
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-014"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-014"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-MAR-019",
+      "date": "2024-08-24",
+      "texte": "limite de la file de stationnement ; peinture non discernable à 28 m"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "MLY-MAR-019",
+      "source": "mly:474170828770792",
+      "date": "2024-08-24",
+      "statut": "incertain",
+      "confiance": "faible",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-014",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917287.897,
+     6460159.229
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-5345",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {
+     "usure": {
+      "avant": 2.0,
+      "apres": 1.0,
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-014"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-014"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "PANO2026-014",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917285.673,
+     6460158.87
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-5358",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {
+     "usure": {
+      "avant": 2.0,
+      "apres": 1.0,
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-014"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-014"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "PANO2026-014",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917276.558,
+     6460157.347
     ]
    }
   },
@@ -2585,6 +3930,7 @@
      "FUS-VAL-03"
     ],
     "categorie_preuve": "non_valable_2026",
+    "tranche_preuve": "non_valable_2026",
     "date_max_valide": null,
     "provenance": [
      {
@@ -2602,6 +3948,177 @@
     "coordinates": [
      917302.015,
      6460229.187
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ML-5452",
+    "famille": "marquages",
+    "type": "ligne",
+    "classe_fusion": "marquage",
+    "maj": {
+     "etat": {
+      "avant": "refait_2025_identique",
+      "apres": "conserve",
+      "conf": "haute",
+      "poids": 1.6,
+      "obs": [
+       "PANO2026-012",
+       "PANO2026-013"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     },
+     "usure": {
+      "avant": 0.0,
+      "apres": 1.375,
+      "conf": "haute",
+      "poids": 1.6,
+      "obs": [
+       "PANO2026-012",
+       "PANO2026-013"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.6
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-012",
+       "PANO2026-013"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "PANO2026-012",
+      "date": "2026-07-28",
+      "texte": "tirets d'axe de l'allée près du débouché : blancs, continus, minces, contraste modéré (usure 1) ; le tiret vers x ≈ 917291–295 est fragmenté (usure 2–3 localement). Tirets alignés sur le levé GAM (ils ont servi de points d'appui). Aucune remise en peinture : état « conservé » et…"
+     },
+     {
+      "obs": "PANO2026-013",
+      "date": "2026-07-28",
+      "texte": "tirets presque invisibles dos au soleil (usure 3 dans cette condition, 6b2c66d7 et 845de418), lisibles mais fragmentés en contre-jour (≈ 2, f8d91bb1 vue arrière) : peinture mince et usée ; détection ADAS dépendante de l'éclairage. Plus à l'ouest (x ≤ 917260), tirets continus (us…"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "PANO2026-012",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "attribut_corrige",
+      "confiance": "haute",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-013",
+      "source": "pnx:6b2c66d7",
+      "date": "2026-07-28",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917283.626,
+     6460152.656
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MP-0085",
+    "famille": "marquages",
+    "type": "passage",
+    "classe_fusion": "marquage",
+    "maj": {
+     "etat": {
+      "avant": "refait_2025_identique",
+      "apres": "conserve",
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-001"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-001"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "PANO2026-001",
+      "date": "2026-07-28",
+      "texte": "zébra du débouché de l'allée blanc franc, bords nets, aucune lacune dans les traces de roues ; l'axe décrit se projette au milieu des bandes sur les 3 photos calées. Déjà blanc net en 2020, 2024-08 et 2025-01 (constat 03) : aucune remise en peinture 2025 démontrée, état « conser…"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "ORTHO-B-131",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-001",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "attribut_corrige",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917301.823,
+     6460155.174
     ]
    }
   },
@@ -2659,7 +4176,8 @@
     "revue_texte": false,
     "conflits": [],
     "regles": [],
-    "categorie_preuve": "web",
+    "categorie_preuve": "non_concluant",
+    "tranche_preuve": "non_concluant",
     "date_max_valide": "2026-03-07",
     "provenance": [
      {
@@ -2709,6 +4227,7 @@
      "FUS-VAL-03"
     ],
     "categorie_preuve": "non_valable_2026",
+    "tranche_preuve": "non_valable_2026",
     "date_max_valide": null,
     "provenance": [
      {
@@ -2790,6 +4309,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "web",
+    "tranche_preuve": "web",
     "date_max_valide": "2026-02-27",
     "provenance": [
      {
@@ -2840,11 +4360,14 @@
      }
     ],
     "revue_texte": true,
-    "conflits": [],
+    "conflits": [
+     "CF-ENR-005"
+    ],
     "regles": [
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -2862,6 +4385,180 @@
     "coordinates": [
      917332.44,
      6460354.821
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MS-5515",
+    "famille": "marquages",
+    "type": "symbole",
+    "classe_fusion": "marquage",
+    "maj": {
+     "etat": {
+      "avant": "refait_2025_identique",
+      "apres": "conserve",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "PANO2026-003"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     },
+     "usure": {
+      "avant": 0.0,
+      "apres": 3.0,
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "PANO2026-003"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-003"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "PANO2026-003",
+      "date": "2026-07-28",
+      "texte": "logo vélo nord (voie d'entrée) réduit à des vestiges très effacés à la position GAM (usure 3) ; net en 2020, déjà grisé en 2024-08 et 2025-01 : usure antérieure aux travaux (roues, âge)."
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "ORTHO-B-129",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-003",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917306.551,
+     6460158.617
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MS-5516",
+    "famille": "marquages",
+    "type": "symbole",
+    "classe_fusion": "marquage",
+    "maj": {
+     "etat": {
+      "avant": "refait_2025_identique",
+      "apres": "conserve",
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-002"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     },
+     "usure": {
+      "avant": 0.0,
+      "apres": 1.0,
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-002"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-002"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "PANO2026-002",
+      "date": "2026-07-28",
+      "texte": "logo vélo sud (voie de sortie) lisible mais plus terne que le zébra, quelques manques (usure 1, localement 2) ; le symbole GAM se projette sur la figure. Présent et net en 2020, 2024-08, 2025-01 : pas de réfection 2025."
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "ORTHO-B-128",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-002",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "attribut_corrige",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917305.86,
+     6460154.326
     ]
    }
   },
@@ -2903,7 +4600,7 @@
      }
     },
     "instancier": null,
-    "doublon_de": "MT-8002",
+    "doublon_de": null,
     "textes_lus": null,
     "notes": [
      {
@@ -2928,6 +4625,7 @@
      "FUS-POS-07"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-08-31",
     "provenance": [
      {
@@ -2967,6 +4665,82 @@
   {
    "type": "Feature",
    "properties": {
+    "id": "MZ-5002",
+    "famille": "marquages",
+    "type": "zone",
+    "classe_fusion": "marquage",
+    "maj": {},
+    "existence": {
+     "verdict": "retirer",
+     "poids": {
+      "retrait": 0.6
+     },
+     "obs": {
+      "retrait": [
+       "MLY-CON-017"
+      ]
+     },
+     "absences_non_probantes": [
+      "ORTHO-B-091"
+     ]
+    },
+    "instancier": false,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-CON-017",
+      "date": "2024-08-24",
+      "texte": "aucun marquage peint : le polygone en Y de MZ-5002 tombe sur l'accotement enherbé / la bordure de la haie (24/08/2024 à 10 m, 18/05/2025)"
+     },
+     {
+      "obs": "ORTHO-B-091",
+      "date": "2022-05-10",
+      "texte": "rien de peint au point de MZ-5002 (forme en Y, « conserve ») : enrobé de piste nu en 2022 (déjà rien au point de MS-0595 v0.2)"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [
+     "CF-ENR-080"
+    ],
+    "regles": [
+     "FUS-EXI-02",
+     "FUS-VAL-02",
+     "FUS-VAL-03"
+    ],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-CON-017",
+      "source": "mly:1058726022258889",
+      "date": "2024-08-24",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": "incertain"
+     },
+     {
+      "obs": "ORTHO-B-091",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917332.083,
+     6460359.044
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
     "id": "RETIRE:MZ-0921",
     "famille": "retire_v03",
     "type": "zone",
@@ -2997,6 +4771,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -3016,11 +4791,11 @@
    "properties": {
     "id": "S-0071b",
     "famille": "surfaces",
-    "type": "trottoir",
+    "type": "espace_vert",
     "classe_fusion": "surface_ilot",
     "maj": {
      "materiau_id": {
-      "avant": "enrobe_trottoir",
+      "avant": "gazon_tondu",
       "apres": "massif",
       "conf": "faible",
       "poids": 0.48,
@@ -3053,11 +4828,14 @@
      }
     ],
     "revue_texte": false,
-    "conflits": [],
+    "conflits": [
+     "CF-ENR-035"
+    ],
     "regles": [
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -3073,8 +4851,68 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917203.95,
-     6460187.297
+     917240.757,
+     6460149.437
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0081a",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "gazon_tondu",
+      "apres": "enrobe_bbsg_ancien",
+      "conf": "faible",
+      "poids": 0.3,
+      "obs": [
+       "MLY-SUR-009"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.3
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-009"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-009",
+      "source": "mly:429556670090943",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": "incertain"
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917252.5,
+     6460294.083
     ]
    }
   },
@@ -3104,6 +4942,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "MLY-CON-008",
+      "date": "2025-05-18",
+      "texte": "S-0094a (gazon_tondu, 11 599 m²) : la partie vue depuis la voie est boisée, pas un gazon"
+     },
+     {
       "obs": "ORTHO-B-039",
       "date": "2022-05-10",
       "texte": "S-0094a est décrit en gazon tondu ; l'ortho montre surtout un couvert arboré dense (arbres a274-a278, a289-a292) avec massifs arbustifs et pelouse ombragée en lisière du bâtiment"
@@ -3121,15 +4964,24 @@
     ],
     "revue_texte": true,
     "conflits": [
-     "CF-ENR-023"
+     "CF-ENR-038"
     ],
     "regles": [
      "FUS-ATT-05",
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2025-05-18",
     "provenance": [
+     {
+      "obs": "MLY-CON-008",
+      "source": "mly:1800715220514134",
+      "date": "2025-05-18",
+      "statut": "incertain",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO-B-039",
       "source": "ortho2022",
@@ -3159,8 +5011,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917290.695,
-     6460395.541
+     917290.441,
+     6460395.077
     ]
    }
   },
@@ -3211,6 +5063,7 @@
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -3226,8 +5079,271 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917307.645,
-     6460163.248
+     917307.623,
+     6460163.242
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0120a",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "noue_plantee",
+      "apres": "gazon_tondu",
+      "conf": "faible",
+      "poids": 0.3,
+      "obs": [
+       "MLY-SUR-015"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.3
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-015"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-SUR-015",
+      "date": "2025-05-18",
+      "texte": "noue plantée décrite non retrouvée (état avant travaux)"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
+    "date_max_valide": "2025-05-18",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-015",
+      "source": "mly:1207034570953803",
+      "date": "2025-05-18",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917327.143,
+     6460322.143
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0129a",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "gazon_tondu",
+      "apres": "herbe_haute",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-017"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-017"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
+    "date_max_valide": "2025-05-18",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-017",
+      "source": "mly:709411034902126",
+      "date": "2025-05-18",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917338.635,
+     6460398.178
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0129g",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "gazon_tondu",
+      "apres": "herbe_haute",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-021"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-021"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
+    "date_max_valide": "2025-05-18",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-021",
+      "source": "mly:709411034902126",
+      "date": "2025-05-18",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917350.676,
+     6460394.106
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0136h",
+    "famille": "surfaces",
+    "type": "parking",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "classe": {
+      "avant": "parking",
+      "apres": "espace_vert",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-034"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     },
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "gazon_tondu",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-034"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-034"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-SUR-034",
+      "date": "2024-08-24",
+      "texte": "classe « parking » erronée pour ce morceau : îlot enherbé"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-034",
+      "source": "mly:1271367370906808",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917199.074,
+     6460180.24
     ]
    }
   },
@@ -3273,11 +5389,14 @@
      }
     ],
     "revue_texte": false,
-    "conflits": [],
+    "conflits": [
+     "CF-ENR-036"
+    ],
     "regles": [
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -3293,8 +5412,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917164.382,
-     6460145.125
+     917204.029,
+     6460178.667
     ]
    }
   },
@@ -3355,6 +5474,7 @@
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -3378,8 +5498,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917199.986,
-     6460142.731
+     917195.968,
+     6460143.932
     ]
    }
   },
@@ -3407,6 +5527,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "MLY-CON-009",
+      "date": "2024-08-24",
+      "texte": "S-0159a vue seulement par ses bords : pas de découpage possible"
+     },
+     {
       "obs": "ORTHO-B-088",
       "date": "2022-05-10",
       "texte": "S-0159a (parking enrobé, 4 101 m², pureté 0,45) englobe le bois et les pelouses à l'E du bâtiment des Mitaillères et les massifs à l'O ; ≈430 m² de végétation sur 1 200 m² vus dans la dalle : à découper"
@@ -3414,15 +5539,24 @@
     ],
     "revue_texte": true,
     "conflits": [
-     "CF-ENR-024"
+     "CF-ENR-039"
     ],
     "regles": [
      "FUS-ATT-05",
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2024-08-24",
     "provenance": [
+     {
+      "obs": "MLY-CON-009",
+      "source": "mly:1271367370906808",
+      "date": "2024-08-24",
+      "statut": "incertain",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO-B-088",
       "source": "ortho2022",
@@ -3436,8 +5570,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917258.903,
-     6460194.9
+     917261.514,
+     6460197.671
     ]
    }
   },
@@ -3468,6 +5602,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "MLY-CON-010",
+      "date": "2024-08-24",
+      "texte": "confirme la nature parking/enrobé de la partie vue ; le gravier et le bassin (ORTHO-B-077/149) ne sont pas visibles d'ici"
+     },
+     {
       "obs": "ORTHO-B-077",
       "date": "2022-05-10",
       "texte": "aire de vente de végétaux en plein air (planches de plantes en pots sur gravier, allées, petits abris) de ≈1 000 m² au pied de la serre, décrite comme parking enrobé (S-0161a)"
@@ -3495,15 +5634,24 @@
     ],
     "revue_texte": true,
     "conflits": [
-     "CF-ENR-025"
+     "CF-ENR-040"
     ],
     "regles": [
      "FUS-ATT-05",
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2024-08-24",
     "provenance": [
+     {
+      "obs": "MLY-CON-010",
+      "source": "mly:1271367370906808",
+      "date": "2024-08-24",
+      "statut": "incertain",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO-B-077",
       "source": "ortho2022",
@@ -3549,8 +5697,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917180.401,
-     6460274.853
+     917177.768,
+     6460274.151
     ]
    }
   },
@@ -3589,6 +5737,7 @@
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -3604,8 +5753,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917198.449,
-     6460367.326
+     917198.447,
+     6460367.319
     ]
    }
   },
@@ -3642,6 +5791,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -3657,7 +5807,7 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917219.874,
+     917219.878,
      6460359.889
     ]
    }
@@ -3695,6 +5845,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -3710,8 +5861,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917212.205,
-     6460360.677
+     917212.206,
+     6460360.673
     ]
    }
   },
@@ -3748,6 +5899,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -3763,8 +5915,477 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917213.663,
+     917213.662,
      6460367.739
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0202a",
+    "famille": "surfaces",
+    "type": "chaussee",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "classe": {
+      "avant": "chaussee",
+      "apres": "espace_vert",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-052"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     },
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "gazon_tondu",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-052"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-052"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-SUR-052",
+      "date": "2024-08-24",
+      "texte": "le polygone « chaussée » couvre l'îlot enherbé"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-052",
+      "source": "mly:1546760642583408",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917310.104,
+     6460145.276
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0268a",
+    "famille": "surfaces",
+    "type": "chaussee",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "enrobe_bbsg_neuf_2025",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "PANO2026-034"
+      ],
+      "regle": "FUS-ATT-04 ; FUS-DATE-01",
+      "conflit": false,
+      "obs_anterieures_ecartees": [
+       "MLY-SUR-060"
+      ]
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-034"
+      ]
+     },
+     "priorite_2026": true,
+     "obs_anterieures_ecartees": [
+      "MLY-SUR-060"
+     ],
+     "verdict_anterieur": "present"
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "PANO2026-034",
+      "date": "2026-07-28",
+      "texte": "enrobé neuf sombre et homogène (≈ 144/141/138 contre ≈ 207/198/188 sur l'allée, f8d91bb1) ; limite avec l'enrobé ancien au bord est de la traversée cyclable (rangée jaune est, x ≈ 917308–309), la ligne de STOP est posée dessus. Clair sur l'ortho 2024, gris et faïencé en 2024-08 …"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-060",
+      "source": "mly:1030942088305008",
+      "date": "2024-08-24",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": "incertain"
+     },
+     {
+      "obs": "PANO2026-034",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917305.585,
+     6460208.337
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0268c",
+    "famille": "surfaces",
+    "type": "chaussee",
+    "classe_fusion": "surface_ilot",
+    "maj": {},
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-036"
+      ]
+     },
+     "priorite_2026": true,
+     "obs_anterieures_ecartees": [
+      "MLY-SUR-062"
+     ],
+     "verdict_anterieur": "present"
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-SUR-062",
+      "date": "2024-08-24",
+      "texte": "préciser le plateau / ralentisseur"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-062",
+      "source": "mly:1546760642583408",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-036",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917304.484,
+     6460156.045
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0268d",
+    "famille": "surfaces",
+    "type": "chaussee",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "enrobe_bbsg_neuf_2025",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "PANO2026-035"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-035"
+      ]
+     },
+     "priorite_2026": true,
+     "obs_anterieures_ecartees": [
+      "MLY-SUR-063"
+     ],
+     "verdict_anterieur": "present"
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "PANO2026-035",
+      "date": "2026-07-28",
+      "texte": "bouche de l'allée à l'est de la rangée jaune est : enrobé neuf sombre continu avec Vercors (constat 13)."
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-063",
+      "source": "mly:1546760642583408",
+      "date": "2024-08-24",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-035",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917308.702,
+     6460157.308
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0268e",
+    "famille": "surfaces",
+    "type": "chaussee",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "enrobe_bbsg_neuf_2025",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "PANO2026-035"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-035"
+      ]
+     },
+     "priorite_2026": true,
+     "obs_anterieures_ecartees": [
+      "MLY-SUR-064"
+     ],
+     "verdict_anterieur": "present"
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "PANO2026-035",
+      "date": "2026-07-28",
+      "texte": "bouche de l'allée à l'est de la rangée jaune est : enrobé neuf sombre continu avec Vercors (constat 13)."
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-064",
+      "source": "mly:1546760642583408",
+      "date": "2024-08-24",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-035",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917309.914,
+     6460158.319
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0269o",
+    "famille": "surfaces",
+    "type": "chaussee",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "classe": {
+      "avant": "chaussee",
+      "apres": "espace_vert",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-074"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     },
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "herbe_haute",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-074"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-074"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-SUR-074",
+      "date": "2025-05-18",
+      "texte": "polygone « chaussée » sur un accotement enherbé"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
+    "date_max_valide": "2025-05-18",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-074",
+      "source": "mly:2124190118088849",
+      "date": "2025-05-18",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917338.325,
+     6460354.63
     ]
    }
   },
@@ -3803,6 +6424,7 @@
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -3818,8 +6440,68 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917171.727,
-     6460185.483
+     917171.726,
+     6460185.485
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0343a",
+    "famille": "surfaces",
+    "type": "ilot",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_trottoir",
+      "apres": "gazon_tondu",
+      "conf": "faible",
+      "poids": 0.3,
+      "obs": [
+       "MLY-SUR-076"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.3
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-076"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
+    "date_max_valide": "2025-05-18",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-076",
+      "source": "mly:680749908195718",
+      "date": "2025-05-18",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917179.793,
+     6460171.729
     ]
    }
   },
@@ -3870,6 +6552,7 @@
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -3885,8 +6568,908 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917166.668,
-     6460158.305
+     917166.665,
+     6460158.304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0350a",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {},
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-079"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-SUR-079",
+      "date": "2024-08-24",
+      "texte": "aménagement 2023-2024"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-079",
+      "source": "mly:807740837881423",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917346.026,
+     6460179.993
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0350b",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "terre_nue",
+      "apres": "brf_bois_concasse",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-080"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-080"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-080",
+      "source": "mly:2223409328008829",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917344.989,
+     6460184.517
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0351",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "terre_nue",
+      "apres": "brf_bois_concasse",
+      "conf": "faible",
+      "poids": 0.3,
+      "obs": [
+       "MLY-SUR-081"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.3
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-081"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-081",
+      "source": "mly:1057665449081914",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917339.894,
+     6460203.776
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0356",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "terre_nue",
+      "apres": "gazon_tondu",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-084"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-084"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-084",
+      "source": "mly:1295765004742551",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917351.412,
+     6460236.959
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0357",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "terre_nue",
+      "apres": "gazon_tondu",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-085"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-085"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-085",
+      "source": "mly:1125677382460681",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917348.149,
+     6460249.245
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0374b",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "gazon_tondu",
+      "apres": "herbe_haute",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-088"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-088"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-088",
+      "source": "mly:807740837881423",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917400.384,
+     6460210.774
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0374c",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "gazon_tondu",
+      "apres": "herbe_haute",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-089"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-089"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-089",
+      "source": "mly:1057665449081914",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917399.143,
+     6460198.796
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0374d",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "gazon_tondu",
+      "apres": "brf_bois_concasse",
+      "conf": "faible",
+      "poids": 0.3,
+      "obs": [
+       "MLY-SUR-090"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.3
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-090"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-090",
+      "source": "mly:807740837881423",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917354.298,
+     6460202.354
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0374e",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "gazon_tondu",
+      "apres": "herbe_haute",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-091"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-091"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-091",
+      "source": "mly:1057665449081914",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917371.075,
+     6460204.994
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0374g",
+    "famille": "surfaces",
+    "type": "espace_vert",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "gazon_tondu",
+      "apres": "herbe_haute",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-092"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-092"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-092",
+      "source": "mly:1057665449081914",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917383.982,
+     6460220.632
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0415d",
+    "famille": "surfaces",
+    "type": "trottoir",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_trottoir",
+      "apres": "paves_beton",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-094"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-094"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-SUR-094",
+      "date": "2024-08-24",
+      "texte": "aménagement 2023-2024"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-094",
+      "source": "mly:477138968528752",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917365.192,
+     6460254.805
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0415e",
+    "famille": "surfaces",
+    "type": "trottoir",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_trottoir",
+      "apres": "paves_beton",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-095"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-095"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-095",
+      "source": "mly:1733208607423129",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917341.876,
+     6460236.532
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0415j",
+    "famille": "surfaces",
+    "type": "trottoir",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_trottoir",
+      "apres": "stabilise_beige",
+      "conf": "faible",
+      "poids": 0.3,
+      "obs": [
+       "MLY-SUR-097"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.3
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-097"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-097",
+      "source": "mly:1125677382460681",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917352.599,
+     6460253.812
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0415n",
+    "famille": "surfaces",
+    "type": "trottoir",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_trottoir",
+      "apres": "gravier_concasse_6_10",
+      "conf": "faible",
+      "poids": 0.3,
+      "obs": [
+       "MLY-SUR-099"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.3
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-099"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-099",
+      "source": "mly:1125677382460681",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917331.304,
+     6460277.559
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0415p",
+    "famille": "surfaces",
+    "type": "trottoir",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_trottoir",
+      "apres": "paves_beton",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-100"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-100"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-100",
+      "source": "mly:477138968528752",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917360.214,
+     6460255.326
     ]
    }
   },
@@ -3922,11 +7505,6 @@
       "obs": "ORTHO-B-048",
       "date": "2022-05-10",
       "texte": "la chaussée de la desserte n'existe pas en mai 2022 (piste de chantier) : enrobé posé en 2023-2024, « enrobe_bbsg_ancien » à remplacer par un enrobé récent (2 à 3 ans) ; idem S-0430a et S-0431b/c"
-     },
-     {
-      "obs": "ORTHO-B-146",
-      "date": "2022-05-10",
-      "texte": "la desserte NE du quartier est déjà revêtue d'un enrobé noir neuf en mai 2022 (sans marquage, rive SE encore en grave) : en 2026 enrobé de ≈4 ans, à ne pas rendre « neuf » ; bordures GAM le long des deux rives conformes au tracé"
      }
     ],
     "revue_texte": true,
@@ -3936,6 +7514,7 @@
      "FUS-VAL-03"
     ],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -3955,14 +7534,6 @@
       "valide_2026": true
      },
      {
-      "obs": "ORTHO-B-146",
-      "source": "ortho2022",
-      "date": "2022-05-10",
-      "statut": "attribut_corrige",
-      "confiance": "moyenne",
-      "valide_2026": "incertain"
-     },
-     {
       "obs": "VISION-PANORAMAX-1-79",
       "source": "pnx:81f3f695",
       "date": "2024-08-24",
@@ -3975,8 +7546,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917349.732,
-     6460281.203
+     917368.188,
+     6460263.322
     ]
    }
   },
@@ -3987,11 +7558,29 @@
     "famille": "surfaces",
     "type": "chaussee",
     "classe_fusion": "surface_ilot",
-    "maj": {},
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "gravier_concasse_6_10",
+      "conf": "faible",
+      "poids": 0.3,
+      "obs": [
+       "MLY-SUR-104"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
     "existence": {
-     "verdict": "non_verifie",
-     "poids": {},
-     "obs": {}
+     "verdict": "present",
+     "poids": {
+      "presence": 0.3
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-104"
+      ]
+     }
     },
     "instancier": null,
     "doublon_de": null,
@@ -4008,14 +7597,23 @@
       "texte": "la chaussée de la desserte n'existe pas en mai 2022 (piste de chantier) : enrobé posé en 2023-2024, « enrobe_bbsg_ancien » à remplacer par un enrobé récent (2 à 3 ans) ; idem S-0430a et S-0431b/c"
      }
     ],
-    "revue_texte": true,
+    "revue_texte": false,
     "conflits": [],
     "regles": [
      "FUS-VAL-03"
     ],
-    "categorie_preuve": "non_valable_2026",
-    "date_max_valide": null,
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
     "provenance": [
+     {
+      "obs": "MLY-SUR-104",
+      "source": "mly:1125677382460681",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO-B-046",
       "source": "ortho2022",
@@ -4038,7 +7636,71 @@
     "type": "Point",
     "coordinates": [
      917330.392,
-     6460276.586
+     6460276.592
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0431a",
+    "famille": "surfaces",
+    "type": "chaussee",
+    "classe_fusion": "surface_ilot",
+    "maj": {},
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.3
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-105"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "ORTHO-B-146",
+      "date": "2022-05-10",
+      "texte": "la desserte NE du quartier est déjà revêtue d'un enrobé noir neuf en mai 2022 (sans marquage, rive SE encore en grave) : en 2026 enrobé de ≈4 ans, à ne pas rendre « neuf » ; bordures GAM le long des deux rives conformes au tracé"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-VAL-03"
+    ],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-105",
+      "source": "mly:1295765004742551",
+      "date": "2024-08-24",
+      "statut": "confirme",
+      "confiance": "faible",
+      "valide_2026": true
+     },
+     {
+      "obs": "ORTHO-B-146",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": "incertain"
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917338.054,
+     6460292.749
     ]
    }
   },
@@ -4071,6 +7733,7 @@
      "FUS-VAL-03"
     ],
     "categorie_preuve": "non_valable_2026",
+    "tranche_preuve": "non_valable_2026",
     "date_max_valide": null,
     "provenance": [
      {
@@ -4086,8 +7749,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917384.032,
-     6460354.569
+     917393.36,
+     6460359.408
     ]
    }
   },
@@ -4112,7 +7775,52 @@
       "obs": "ORTHO-B-048",
       "date": "2022-05-10",
       "texte": "la chaussée de la desserte n'existe pas en mai 2022 (piste de chantier) : enrobé posé en 2023-2024, « enrobe_bbsg_ancien » à remplacer par un enrobé récent (2 à 3 ans) ; idem S-0430a et S-0431b/c"
-     },
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-VAL-03"
+    ],
+    "categorie_preuve": "non_valable_2026",
+    "tranche_preuve": "non_valable_2026",
+    "date_max_valide": null,
+    "provenance": [
+     {
+      "obs": "ORTHO-B-048",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917386.165,
+     6460356.543
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0431d",
+    "famille": "surfaces",
+    "type": "chaussee",
+    "classe_fusion": "surface_ilot",
+    "maj": {},
+    "existence": {
+     "verdict": "non_verifie",
+     "poids": {},
+     "obs": {}
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
      {
       "obs": "ORTHO-B-196",
       "date": "2022-05-10",
@@ -4125,16 +7833,9 @@
      "FUS-VAL-03"
     ],
     "categorie_preuve": "non_valable_2026",
+    "tranche_preuve": "non_valable_2026",
     "date_max_valide": null,
     "provenance": [
-     {
-      "obs": "ORTHO-B-048",
-      "source": "ortho2022",
-      "date": "2022-05-10",
-      "statut": "attribut_corrige",
-      "confiance": "moyenne",
-      "valide_2026": true
-     },
      {
       "obs": "ORTHO-B-196",
       "source": "ortho2022",
@@ -4148,8 +7849,188 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917418.115,
-     6460385.101
+     917418.089,
+     6460385.043
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0457a",
+    "famille": "surfaces",
+    "type": "acces_riverain",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "beton_desactive",
+      "conf": "faible",
+      "poids": 0.3,
+      "obs": [
+       "MLY-SUR-107"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.3
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-107"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-107",
+      "source": "mly:817746180482665",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917337.089,
+     6460161.617
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0459a",
+    "famille": "surfaces",
+    "type": "acces_riverain",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "paves_beton",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-108"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-108"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-108",
+      "source": "mly:1181618136465336",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917363.317,
+     6460229.373
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0459b",
+    "famille": "surfaces",
+    "type": "acces_riverain",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "stabilise_beige",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-109"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-109"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-109",
+      "source": "mly:1181618136465336",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917362.604,
+     6460228.627
     ]
    }
   },
@@ -4171,6 +8052,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "MLY-SUR-110",
+      "date": "2024-08-24",
+      "texte": "entrée du parking : chaussée en enrobé et îlot central bordé ; limite du parking peu lisible"
+     },
+     {
       "obs": "ORTHO-B-199",
       "date": "2022-05-10",
       "texte": "bande N du bâtiment en enrobé noir très frais en mai 2022 (traces de chantier autour) : revêtement de ≈4 ans en 2026"
@@ -4181,9 +8067,18 @@
     "regles": [
      "FUS-VAL-03"
     ],
-    "categorie_preuve": "non_valable_2026",
-    "date_max_valide": null,
+    "categorie_preuve": "non_concluant",
+    "tranche_preuve": "non_concluant",
+    "date_max_valide": "2024-08-24",
     "provenance": [
+     {
+      "obs": "MLY-SUR-110",
+      "source": "mly:1546760642583408",
+      "date": "2024-08-24",
+      "statut": "incertain",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO-B-199",
       "source": "ortho2022",
@@ -4197,8 +8092,494 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917375.419,
-     6460152.113
+     917380.87,
+     6460149.145
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0461d",
+    "famille": "surfaces",
+    "type": "parking",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "classe": {
+      "avant": "parking",
+      "apres": "espace_vert",
+      "conf": "faible",
+      "poids": 0.3,
+      "obs": [
+       "MLY-SUR-112"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.3
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-112"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-SUR-112",
+      "date": "2024-08-24",
+      "texte": "le polygone « parking » déborde sur la bande plantée"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-112",
+      "source": "mly:817746180482665",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917347.422,
+     6460161.137
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0465a",
+    "famille": "surfaces",
+    "type": "parking",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "stabilise_beige",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-113"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-113"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-113",
+      "source": "mly:807740837881423",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917347.433,
+     6460197.428
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0465b",
+    "famille": "surfaces",
+    "type": "parking",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "stabilise_beige",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-114"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-114"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-114",
+      "source": "mly:807740837881423",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917337.108,
+     6460189.838
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0465c",
+    "famille": "surfaces",
+    "type": "parking",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "stabilise_beige",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-115"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-115"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-115",
+      "source": "mly:1057665449081914",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917343.701,
+     6460189.356
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0465d",
+    "famille": "surfaces",
+    "type": "parking",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "stabilise_beige",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-116"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-116"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-116",
+      "source": "mly:1057665449081914",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917338.604,
+     6460208.665
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0465e",
+    "famille": "surfaces",
+    "type": "parking",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "stabilise_beige",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-117"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-117"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-117",
+      "source": "mly:807740837881423",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917341.164,
+     6460198.98
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0465g",
+    "famille": "surfaces",
+    "type": "parking",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "stabilise_beige",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-119"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-119"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-119",
+      "source": "mly:807740837881423",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917351.982,
+     6460201.867
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "S-0465h",
+    "famille": "surfaces",
+    "type": "parking",
+    "classe_fusion": "surface_ilot",
+    "maj": {
+     "materiau_id": {
+      "avant": "enrobe_bbsg_ancien",
+      "apres": "stabilise_beige",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-SUR-120"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-SUR-120"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-SUR-120",
+      "source": "mly:1057665449081914",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917349.392,
+     6460211.558
     ]
    }
   },
@@ -4243,6 +8624,7 @@
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -4258,8 +8640,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     917195.354,
-     6460188.945
+     917195.355,
+     6460188.946
     ]
    }
   },
@@ -4290,6 +8672,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "non_valable_2026",
+    "tranche_preuve": "non_valable_2026",
     "date_max_valide": null,
     "provenance": [
      {
@@ -4307,6 +8690,692 @@
     "coordinates": [
      917367.68,
      6460143.23
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_013",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {},
+    "existence": {
+     "verdict": "absent_2026",
+     "poids": {
+      "absence": 1.0
+     },
+     "obs": {
+      "absence": [
+       "PANO2026-026"
+      ]
+     }
+    },
+    "instancier": false,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "ORTHO-B-168",
+      "date": "2022-05-10",
+      "texte": "pelouse sans arbre en 2022 aux points de arbre_013 et arbre_015 (valeurs « h 5 m » par défaut) ; arbre_014 et arbre_016 sont de petites boules arbustives sombres bien visibles"
+     },
+     {
+      "obs": "PANO2026-026",
+      "date": "2026-07-28",
+      "texte": "pelouse rase à la position du levé GAM (ARBRE_FEUILLU, hauteur par défaut), aucun arbre ni arbuste"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01",
+     "FUS-EXI-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "ORTHO-B-168",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": "incertain"
+     },
+     {
+      "obs": "PANO2026-026",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "absent_sur_image",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917285.542,
+     6460146.23
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_014",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {
+     "type": {
+      "avant": "feuillu",
+      "apres": "arbuste",
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "PANO2026-028"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-028"
+      ]
+     },
+     "priorite_2026": true,
+     "obs_anterieures_ecartees": [
+      "ORTHO-B-168"
+     ],
+     "verdict_anterieur": "present"
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "ORTHO-B-168",
+      "date": "2022-05-10",
+      "texte": "pelouse sans arbre en 2022 aux points de arbre_013 et arbre_015 (valeurs « h 5 m » par défaut) ; arbre_014 et arbre_016 sont de petites boules arbustives sombres bien visibles"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01",
+     "FUS-POS-04"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "ORTHO-B-168",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": "incertain"
+     },
+     {
+      "obs": "PANO2026-028",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917289.783,
+     6460147.098
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_015",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {},
+    "existence": {
+     "verdict": "absent_2026",
+     "poids": {
+      "absence": 1.0
+     },
+     "obs": {
+      "absence": [
+       "PANO2026-027"
+      ]
+     }
+    },
+    "instancier": false,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "ORTHO-B-168",
+      "date": "2022-05-10",
+      "texte": "pelouse sans arbre en 2022 aux points de arbre_013 et arbre_015 (valeurs « h 5 m » par défaut) ; arbre_014 et arbre_016 sont de petites boules arbustives sombres bien visibles"
+     },
+     {
+      "obs": "PANO2026-027",
+      "date": "2026-07-28",
+      "texte": "pelouse à la position du levé GAM, aucun arbre (vu depuis 00c1ba9a et f8d91bb1)"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01",
+     "FUS-EXI-01"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "ORTHO-B-168",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": "incertain"
+     },
+     {
+      "obs": "PANO2026-027",
+      "source": "pnx:00c1ba9a",
+      "date": "2026-07-28",
+      "statut": "absent_sur_image",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917294.015,
+     6460147.901
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_016",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {
+     "hauteur_m": {
+      "avant": 5.0,
+      "apres": 3.0,
+      "conf": "faible",
+      "poids": 0.36,
+      "obs": [
+       "PANO2026-029"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-029"
+      ]
+     },
+     "priorite_2026": true,
+     "obs_anterieures_ecartees": [
+      "ORTHO-B-168"
+     ],
+     "verdict_anterieur": "present"
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "ORTHO-B-168",
+      "date": "2022-05-10",
+      "texte": "pelouse sans arbre en 2022 aux points de arbre_013 et arbre_015 (valeurs « h 5 m » par défaut) ; arbre_014 et arbre_016 sont de petites boules arbustives sombres bien visibles"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01",
+     "FUS-POS-04"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "ORTHO-B-168",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "absent_sur_image",
+      "confiance": "moyenne",
+      "valide_2026": "incertain"
+     },
+     {
+      "obs": "PANO2026-029",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917298.32,
+     6460148.801
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_030",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {
+     "hauteur_m": {
+      "avant": 5.0,
+      "apres": 6.0,
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-ARB-005"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-ARB-005"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-ARB-005",
+      "date": "2024-08-24",
+      "texte": "plantation récente (emprise 2023-2024)"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-ARB-005",
+      "source": "mly:1030942088305008",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917335.672,
+     6460159.59
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_031",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {
+     "hauteur_m": {
+      "avant": 5.0,
+      "apres": 6.0,
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-ARB-006"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-ARB-006"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-ARB-006",
+      "source": "mly:867040928642304",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917341.734,
+     6460161.209
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_053",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {
+     "hauteur_m": {
+      "avant": 5.0,
+      "apres": 7.0,
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "MLY-ARB-009"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "MLY-ARB-009"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-ARB-009",
+      "source": "mly:2223409328008829",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917344.771,
+     6460184.385
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_064",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {
+     "hauteur_m": {
+      "avant": 10.3,
+      "apres": 6.0,
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-ARB-013"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-ARB-013"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-ARB-013",
+      "source": "mly:1271367370906808",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917210.18,
+     6460187.23
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_067",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {
+     "hauteur_m": {
+      "avant": 5.0,
+      "apres": 7.0,
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "MLY-ARB-014"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-ARB-014"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": null,
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-ARB-014",
+      "source": "mly:1057665449081914",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917342.544,
+     6460194.074
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_068",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {
+     "couronne_m": {
+      "avant": 7.3,
+      "apres": 2.8,
+      "conf": "moyenne",
+      "poids": 0.75,
+      "obs": [
+       "MLY-ARB-015",
+       "OR-V-009"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.75
+     },
+     "obs": {
+      "presence": [
+       "MLY-ARB-015",
+       "OR-V-009"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "OR-V-009",
+      "date": "2024-08-09",
+      "texte": "le massif arboré de 2022 (≈ 7 m) a disparu : en août 2024 rangée de places de stationnement (voitures) et jardinière étroite avec un jeune arbre au point"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-ARB-015",
+      "source": "mly:2223409328008829",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "OR-V-009",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": "incertain"
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917355.729,
+     6460187.386
     ]
    }
   },
@@ -4371,6 +9440,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -4463,6 +9533,7 @@
      "FUS-VAL-03"
     ],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -4488,6 +9559,86 @@
     "coordinates": [
      917350.62,
      6460206.648
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_103",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {},
+    "existence": {
+     "verdict": "non_verifie",
+     "poids": {
+      "presence": 0.15
+     },
+     "obs": {
+      "presence": [
+       "OR-V-010"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-ARB-018",
+      "date": "2024-08-24",
+      "texte": "barreaudage blanc puis prairie ; aucun arbre net à la position (jeunes arbres plus loin)"
+     },
+     {
+      "obs": "OR-V-010",
+      "date": "2024-08-09",
+      "texte": "bosquet de 2022 abattu ; en août 2024 pelouse et allée courbe, aucun houppier au point (plant éventuel < 1 m)"
+     },
+     {
+      "obs": "ORTHO-B-159",
+      "date": "2022-05-10",
+      "texte": "bouquet de feuillus conservé à l'angle NO de la desserte (arbre_135, arbre_103)"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-ARB-018",
+      "source": "mly:1057665449081914",
+      "date": "2024-08-24",
+      "statut": "incertain",
+      "confiance": "faible",
+      "valide_2026": true
+     },
+     {
+      "obs": "OR-V-010",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": "incertain"
+     },
+     {
+      "obs": "ORTHO-B-159",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": false
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917363.65,
+     6460212.644
     ]
    }
   },
@@ -4552,6 +9703,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -4569,6 +9721,410 @@
     "coordinates": [
      917348.01,
      6460216.289
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_135",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {
+     "couronne_m": {
+      "avant": 13.5,
+      "apres": 1.5,
+      "conf": "faible",
+      "poids": 0.3,
+      "obs": [
+       "OR-V-011"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     },
+     "hauteur_m": {
+      "avant": 14.3,
+      "apres": 4.0,
+      "conf": "faible",
+      "poids": 0.3,
+      "obs": [
+       "MLY-ARB-022"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.6
+     },
+     "obs": {
+      "presence": [
+       "MLY-ARB-022",
+       "OR-V-011"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-ARB-022",
+      "date": "2024-08-24",
+      "texte": "couronne décrite très large : à vérifier"
+     },
+     {
+      "obs": "OR-V-011",
+      "date": "2024-08-09",
+      "texte": "grand arbre de 2022 (houppier ≈ 12 m) abattu ; en août 2024 pelouse et allée courbe, aucun houppier au point"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-ARB-022",
+      "source": "mly:1057665449081914",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": true
+     },
+     {
+      "obs": "OR-V-011",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": "incertain"
+     },
+     {
+      "obs": "ORTHO-B-159",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": false
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917363.525,
+     6460216.737
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_160",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {
+     "couronne_m": {
+      "avant": 10.6,
+      "apres": 2.0,
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "OR-V-004"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.6
+     },
+     "obs": {
+      "presence": [
+       "OR-V-004",
+       "ORTHO_A-0192"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "OR-V-004",
+      "date": "2024-08-09",
+      "texte": "jeune arbre de la plantation du parc est (houppier ≈ 1–1,5 m en août 2024, symbole GAM à l'échelle 0,526) ; aucune couronne de 10 m"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-POS-04"
+    ],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
+    "provenance": [
+     {
+      "obs": "OR-V-004",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "ORTHO_A-0192",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917417.735,
+     6460232.033
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_161",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {
+     "couronne_m": {
+      "avant": 3.5,
+      "apres": 2.0,
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "OR-V-005"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.6
+     },
+     "obs": {
+      "presence": [
+       "OR-V-005",
+       "ORTHO_A-0192"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "OR-V-005",
+      "date": "2024-08-09",
+      "texte": "jeune arbre (houppier ≈ 1 m en août 2024)"
+     },
+     {
+      "obs": "ORTHO_A-0192",
+      "date": "2022-05-10",
+      "texte": "groupe de feuillus conservés pendant le chantier, couronne commune ≈ 12 × 10 m centrée vers (917421.5, 6460233) ; cohérent avec arbre_160, 161, 162, 163, 175, 176"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
+    "provenance": [
+     {
+      "obs": "OR-V-005",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "ORTHO_A-0192",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917422.272,
+     6460234.915
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_162",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {
+     "couronne_m": {
+      "avant": 7.5,
+      "apres": 2.0,
+      "conf": "moyenne",
+      "poids": 0.6,
+      "obs": [
+       "OR-V-006"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.6
+     },
+     "obs": {
+      "presence": [
+       "OR-V-006",
+       "ORTHO_A-0192"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "OR-V-006",
+      "date": "2024-08-09",
+      "texte": "jeune arbre (houppier ≤ 1,5 m en août 2024), aucune couronne de 7,5 m"
+     },
+     {
+      "obs": "ORTHO_A-0192",
+      "date": "2022-05-10",
+      "texte": "groupe de feuillus conservés pendant le chantier, couronne commune ≈ 12 × 10 m centrée vers (917421.5, 6460233) ; cohérent avec arbre_160, 161, 162, 163, 175, 176"
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
+    "provenance": [
+     {
+      "obs": "OR-V-006",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "ORTHO_A-0192",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917425.775,
+     6460234.045
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_163",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {},
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.15
+     },
+     "obs": {
+      "presence": [
+       "OR-V-007",
+       "ORTHO_A-0192"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "OR-V-007",
+      "date": "2024-08-09",
+      "texte": "pas de houppier visible au point en août 2024 (jeune plant au plus) ; allée claire à 1–2 m"
+     },
+     {
+      "obs": "ORTHO_A-0192",
+      "date": "2022-05-10",
+      "texte": "groupe de feuillus conservés pendant le chantier, couronne commune ≈ 12 × 10 m centrée vers (917421.5, 6460233) ; cohérent avec arbre_160, 161, 162, 163, 175, 176"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
+    "provenance": [
+     {
+      "obs": "OR-V-007",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": "incertain"
+     },
+     {
+      "obs": "ORTHO_A-0192",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917428.613,
+     6460232.473
     ]
    }
   },
@@ -4631,6 +10187,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -4656,6 +10213,151 @@
     "coordinates": [
      917259.18,
      6460239.23
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_175",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {},
+    "existence": {
+     "verdict": "absent_2026",
+     "poids": {
+      "absence": 1.0,
+      "presence": 1.0
+     },
+     "obs": {
+      "absence": [
+       "OR-V-003"
+      ],
+      "presence": [
+       "ORTHO_A-0192"
+      ]
+     },
+     "chronologie": "retire_entre_dates"
+    },
+    "instancier": false,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "OR-V-003",
+      "date": "2024-08-09",
+      "texte": "le grand feuillu (houppier ≈ 15 m) du PCRS 2022, en bordure du chantier, a disparu : en août 2024 pelouse et lits minéraux du parc est ; seuls de jeunes arbres (houppiers ≈ 1–1,5 m) à 2–4 m au sud (arbre_160 à 163)"
+     },
+     {
+      "obs": "ORTHO_A-0192",
+      "date": "2022-05-10",
+      "texte": "groupe de feuillus conservés pendant le chantier, couronne commune ≈ 12 × 10 m centrée vers (917421.5, 6460233) ; cohérent avec arbre_160, 161, 162, 163, 175, 176"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [
+     "CF-ENR-010"
+    ],
+    "regles": [
+     "FUS-EXI-01",
+     "FUS-EXI-03"
+    ],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
+    "provenance": [
+     {
+      "obs": "OR-V-003",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "absent_sur_image",
+      "confiance": "haute",
+      "valide_2026": true
+     },
+     {
+      "obs": "ORTHO_A-0192",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917418.68,
+     6460236.73
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_176",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {},
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.6
+     },
+     "obs": {
+      "presence": [
+       "OR-V-008",
+       "ORTHO_A-0192"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "OR-V-008",
+      "date": "2024-08-09",
+      "texte": "jeune arbre (houppier ≈ 1 m en août 2024) au bord du lit minéral sud"
+     },
+     {
+      "obs": "ORTHO_A-0192",
+      "date": "2022-05-10",
+      "texte": "groupe de feuillus conservés pendant le chantier, couronne commune ≈ 12 × 10 m centrée vers (917421.5, 6460233) ; cohérent avec arbre_160, 161, 162, 163, 175, 176"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
+    "provenance": [
+     {
+      "obs": "OR-V-008",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "ORTHO_A-0192",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917423.358,
+     6460239.294
     ]
    }
   },
@@ -4704,6 +10406,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -4769,6 +10472,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -4834,6 +10538,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -4899,6 +10604,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -4964,6 +10670,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -5038,6 +10745,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -5111,6 +10819,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -5176,6 +10885,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -5241,6 +10951,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -5306,6 +11017,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2024-08-24",
     "provenance": [
      {
@@ -5329,6 +11041,60 @@
   {
    "type": "Feature",
    "properties": {
+    "id": "arbre_221",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {},
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 0.3
+     },
+     "obs": {
+      "presence": [
+       "MLY-ARB-035"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-ARB-035",
+      "date": "2024-08-24",
+      "texte": "essence à confirmer"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-ARB-035",
+      "source": "mly:474972785445048",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917390.49,
+     6460278.263
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
     "id": "arbre_224",
     "famille": "arbres",
     "type": "feuillu",
@@ -5337,11 +11103,12 @@
     "existence": {
      "verdict": "present",
      "poids": {
-      "presence": 1.32
+      "presence": 1.92
      },
      "obs": {
       "presence": [
        "DOC-LOCALE-018",
+       "MLY-CON-004",
        "ORTHO-B-389",
        "VISION-PANORAMAX-2-13"
       ]
@@ -5359,7 +11126,7 @@
     ],
     "revue_texte": true,
     "conflits": [
-     "CF-ENR-006"
+     "CF-ENR-018"
     ],
     "regles": [
      "FUS-POS-04",
@@ -5367,6 +11134,7 @@
      "FUS-POS-06"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -5375,6 +11143,14 @@
       "date": "2023-09-11",
       "statut": "attribut_corrige",
       "confiance": "faible",
+      "valide_2026": true
+     },
+     {
+      "obs": "MLY-CON-004",
+      "source": "mly:26694598346820241",
+      "date": "2024-08-24",
+      "statut": "confirme",
+      "confiance": "moyenne",
       "valide_2026": true
      },
      {
@@ -5439,6 +11215,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "OR-V-014",
+      "date": "2024-08-09",
+      "texte": "couronne 14,3 m pour une hauteur de 5,1 m (incohérent) ; mai 2022 : chantier sans arbre au point ; août 2024 : pied d'immeuble dans l'ombre portée, aucun houppier visible"
+     },
+     {
       "obs": "ORTHO-B-190",
       "date": "2022-05-10",
       "texte": "arbre_234 est décrit avec h 5,1 m et une couronne de 14,3 m (rapport incohérent) ; en mai 2022 son point est au bord de la dalle de l'immeuble en construction : plantation postérieure, couronne à ramener à ≈2-3 m"
@@ -5448,8 +11229,17 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "ortho_2022",
-    "date_max_valide": "2022-05-10",
+    "tranche_preuve": "ortho_2022",
+    "date_max_valide": "2024-08-09",
     "provenance": [
+     {
+      "obs": "OR-V-014",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "incertain",
+      "confiance": "faible",
+      "valide_2026": "incertain"
+     },
      {
       "obs": "ORTHO-B-190",
       "source": "ortho2022",
@@ -5517,6 +11307,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -5598,6 +11389,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -5669,6 +11461,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -5750,6 +11543,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "web",
+    "tranche_preuve": "web",
     "date_max_valide": "2023-09-11",
     "provenance": [
      {
@@ -5818,6 +11612,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -5883,6 +11678,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -5964,6 +11760,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "web",
+    "tranche_preuve": "web",
     "date_max_valide": "2023-09-11",
     "provenance": [
      {
@@ -6037,6 +11834,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "web",
+    "tranche_preuve": "web",
     "date_max_valide": "2023-09-11",
     "provenance": [
      {
@@ -6090,6 +11888,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -6107,6 +11906,154 @@
     "coordinates": [
      917216.061,
      6460371.656
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_362",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {},
+    "existence": {
+     "verdict": "non_verifie",
+     "poids": {
+      "presence": 0.15
+     },
+     "obs": {
+      "presence": [
+       "OR-V-012"
+      ]
+     },
+     "absences_non_probantes": [
+      "ORTHO-B-193"
+     ]
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "OR-V-012",
+      "date": "2024-08-09",
+      "texte": "sol nu de chantier au point en mai 2022 (le houppier le plus proche, l'alignement de Verdun, est à > 4 m au NO) ; en août 2024 angle d'immeuble dans l'ombre portée, aucun houppier de 14 m"
+     },
+     {
+      "obs": "ORTHO-B-193",
+      "date": "2022-05-10",
+      "texte": "au point de arbre_362 (h 25,4 m, couronne 13,9 m d'après le LiDAR 2021) il n'y a en mai 2022 que du sol de chantier nu : arbre abattu entre sept. 2021 et mai 2022 ; si le symbole GAM 2026 est réel, c'est une plantation récente (h 3-5 m), pas un sujet de 25 m"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [
+     "CF-ENR-086"
+    ],
+    "regles": [
+     "FUS-VAL-03"
+    ],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
+    "provenance": [
+     {
+      "obs": "OR-V-012",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": "incertain"
+     },
+     {
+      "obs": "ORTHO-B-193",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "absent_sur_image",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917414.796,
+     6460374.061
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arbre_383",
+    "famille": "arbres",
+    "type": "feuillu",
+    "classe_fusion": "arbre",
+    "maj": {},
+    "existence": {
+     "verdict": "non_verifie",
+     "poids": {
+      "presence": 0.15
+     },
+     "obs": {
+      "presence": [
+       "OR-V-013"
+      ]
+     },
+     "absences_non_probantes": [
+      "ORTHO-B-194"
+     ]
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "OR-V-013",
+      "date": "2024-08-09",
+      "texte": "sol nu de chantier au point en mai 2022 ; en août 2024 ombre portée de l'immeuble, aucun houppier visible"
+     },
+     {
+      "obs": "ORTHO-B-194",
+      "date": "2022-05-10",
+      "texte": "même cas que arbre_362 : h 22,7 m décrite, sol de chantier nu en mai 2022 ; hauteur LiDAR 2021 reportée sur un symbole GAM postérieur"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [
+     "CF-ENR-087"
+    ],
+    "regles": [
+     "FUS-VAL-03"
+    ],
+    "categorie_preuve": "ortho_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-09",
+    "provenance": [
+     {
+      "obs": "OR-V-013",
+      "source": "ortho_recente:ORTHOIMAGERY.ORTHOPHOTOS2024",
+      "date": "2024-08-09",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": "incertain"
+     },
+     {
+      "obs": "ORTHO-B-194",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "absent_sur_image",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917419.876,
+     6460381.211
     ]
    }
   },
@@ -6143,6 +12090,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "web",
+    "tranche_preuve": "web",
     "date_max_valide": "2023-09-11",
     "provenance": [
      {
@@ -6208,6 +12156,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "web",
+    "tranche_preuve": "web",
     "date_max_valide": "2023-09-11",
     "provenance": [
      {
@@ -6261,6 +12210,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "web",
+    "tranche_preuve": "web",
     "date_max_valide": "2023-09-11",
     "provenance": [
      {
@@ -6314,6 +12264,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "web",
+    "tranche_preuve": "web",
     "date_max_valide": "2023-09-11",
     "provenance": [
      {
@@ -6331,6 +12282,60 @@
     "coordinates": [
      917428.18,
      6460420.23
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cloture_gam_031",
+    "famille": "mobilier",
+    "type": "cloture",
+    "classe_fusion": "cloture_barriere",
+    "maj": {},
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "MLY-MOB-010"
+      ]
+     }
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "MLY-MOB-010",
+      "date": "2024-08-24",
+      "texte": "résidence neuve (emprise 2023-2024)"
+     }
+    ],
+    "revue_texte": true,
+    "conflits": [],
+    "regles": [],
+    "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
+    "date_max_valide": "2024-08-24",
+    "provenance": [
+     {
+      "obs": "MLY-MOB-010",
+      "source": "mly:1181618136465336",
+      "date": "2024-08-24",
+      "statut": "attribut_corrige",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917349.492,
+     6460219.556
     ]
    }
   },
@@ -6367,6 +12372,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2020_2024",
+    "tranche_preuve": "2020_2024",
     "date_max_valide": "2020-05-21",
     "provenance": [
      {
@@ -6430,6 +12436,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -6507,6 +12514,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -6569,6 +12577,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -6671,6 +12680,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -6726,6 +12736,89 @@
   {
    "type": "Feature",
    "properties": {
+    "id": "lamp_9514828517",
+    "famille": "mobilier",
+    "type": "lampadaire",
+    "classe_fusion": "candelabre_poteau",
+    "maj": {
+     "couleur_mat": {
+      "avant": null,
+      "apres": "gris galvanisé",
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-018"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-018"
+      ]
+     },
+     "priorite_2026": true,
+     "obs_anterieures_ecartees": [
+      "ORTHO-B-166"
+     ],
+     "verdict_anterieur": "present"
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "PANO2026-018",
+      "date": "2026-07-28",
+      "texte": "pied du fût à 0,70 m à l'est de la position du paquet (nœud OSM = lanterne vue sur l'ortho, ORTHO-B-166)."
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [],
+    "regles": [
+     "FUS-DATE-01",
+     "FUS-POS-04",
+     "FUS-POS-05"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "ORTHO-B-166",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-018",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "position_corrigee",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917291.984,
+     6460149.699
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
     "id": "lamp_9514830019",
     "famille": "mobilier",
     "type": "lampadaire",
@@ -6767,6 +12860,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -6860,6 +12954,11 @@
     "textes_lus": null,
     "notes": [
      {
+      "obs": "MLY-CON-002",
+      "date": "2025-05-18",
+      "texte": "2025-05-18 (pose GCP) : le fût est à gauche des deux positions, plus proche de la correction (magenta, ≈ 0,3 m) que de l'origine (≈ 0,8 m) ; 2024-08-24 (pose Panoramax) : fût plus proche de l'origine (vert) ; un poteau de panneau voisin brouille la lecture"
+     },
+     {
       "obs": "ORTHO_A-0167",
       "date": "2022-05-10",
       "texte": "pied du mât au départ de l'ombre (0,9 m à l'OSO de la position décrite), dans l'accotement enherbé ; 2 luminaires : un en tête de mât, un en bout de crosse à ≈ 2,5 m vers le SE au-dessus de la chaussée (azimut ≈ 135°)"
@@ -6867,7 +12966,7 @@
     ],
     "revue_texte": false,
     "conflits": [
-     "CF-ENR-002"
+     "CF-ENR-012"
     ],
     "regles": [
      "FUS-COH-01",
@@ -6875,8 +12974,17 @@
      "FUS-POS-05"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
+     {
+      "obs": "MLY-CON-002",
+      "source": "mly:1207034570953803",
+      "date": "2025-05-18",
+      "statut": "incertain",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO_A-0167",
       "source": "ortho2022",
@@ -6922,9 +13030,10 @@
      "couleur_mat": {
       "avant": null,
       "apres": "brun-rouille",
-      "conf": "moyenne",
-      "poids": 1.0,
+      "conf": "haute",
+      "poids": 1.6,
       "obs": [
+       "MLY-CON-001",
        "VISION-PANORAMAX-1-17",
        "VISION-PANORAMAX-1-43"
       ],
@@ -6961,10 +13070,11 @@
     "existence": {
      "verdict": "present",
      "poids": {
-      "presence": 6.2
+      "presence": 6.8
      },
      "obs": {
       "presence": [
+       "MLY-CON-001",
        "ORTHO-B-001",
        "VISION-PANORAMAX-1-17",
        "VISION-PANORAMAX-1-43",
@@ -6979,6 +13089,11 @@
     "doublon_de": null,
     "textes_lus": null,
     "notes": [
+     {
+      "obs": "MLY-CON-001",
+      "date": "2025-05-18",
+      "texte": "fût brun-rouille (acier patiné type corten), net au soleil le 24/08/2024 et à l'ombre le 18/05/2025 ; une crosse, lanterne vers la chaussée"
+     },
      {
       "obs": "ORTHO-B-001",
       "date": "2022-05-10",
@@ -7007,8 +13122,8 @@
     ],
     "revue_texte": false,
     "conflits": [
-     "CF-ENR-001",
-     "CF-ENR-003"
+     "CF-ENR-006",
+     "CF-ENR-013"
     ],
     "regles": [
      "FUS-COH-01",
@@ -7016,8 +13131,17 @@
      "FUS-POS-05"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
+     {
+      "obs": "MLY-CON-001",
+      "source": "mly:582914901005406",
+      "date": "2025-05-18",
+      "statut": "attribut_corrige",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
      {
       "obs": "ORTHO-B-001",
       "source": "ortho2022",
@@ -7142,6 +13266,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -7204,10 +13329,11 @@
     "existence": {
      "verdict": "present",
      "poids": {
-      "presence": 1.7
+      "presence": 2.0
      },
      "obs": {
       "presence": [
+       "MLY-CON-006",
        "VISION-PANORAMAX-1-5",
        "VISION-PANORAMAX-1-56",
        "VISION-PANORAMAX-2-2"
@@ -7218,6 +13344,11 @@
     "doublon_de": null,
     "textes_lus": null,
     "notes": [
+     {
+      "obs": "MLY-CON-006",
+      "date": "2024-08-24",
+      "texte": "affinage 0,45 m (triangulation mixte)"
+     },
      {
       "obs": "VISION-PANORAMAX-1-56",
       "date": "2025-05-18",
@@ -7235,17 +13366,23 @@
      }
     ],
     "revue_texte": false,
-    "conflits": [
-     "CF-ENR-009"
-    ],
+    "conflits": [],
     "regles": [
      "FUS-EXI-02",
-     "FUS-POS-04",
-     "FUS-POS-05"
+     "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
+     {
+      "obs": "MLY-CON-006",
+      "source": "mly:520896890305138",
+      "date": "2024-08-24",
+      "statut": "position_corrigee",
+      "confiance": "moyenne",
+      "valide_2026": "incertain"
+     },
      {
       "obs": "ORTHO-B-050",
       "source": "ortho2022",
@@ -7358,6 +13495,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -7450,6 +13588,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -7535,6 +13674,7 @@
      "FUS-COH-01"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-08-31",
     "provenance": [
      {
@@ -7617,6 +13757,7 @@
      "FUS-COH-01"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-08-31",
     "provenance": [
      {
@@ -7658,6 +13799,97 @@
     "coordinates": [
      917331.461,
      6460351.452
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pan_B6a1_1",
+    "famille": "mobilier",
+    "type": "panneau",
+    "classe_fusion": "panneau",
+    "maj": {
+     "couleur_mat": {
+      "avant": null,
+      "apres": "gris galvanisé",
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-018"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-018"
+      ]
+     },
+     "priorite_2026": true,
+     "obs_anterieures_ecartees": [
+      "ORTHO-B-166"
+     ],
+     "verdict_anterieur": "present"
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "ORTHO-B-166",
+      "date": "2022-05-10",
+      "texte": "lanterne blanche vue au point du candélabre n°0456 (porte pan_B6a1_1 et pan_C13a_1), en bord de dalle"
+     },
+     {
+      "obs": "PANO2026-018",
+      "date": "2026-07-28",
+      "texte": "pied du fût à 0,70 m à l'est de la position du paquet (nœud OSM = lanterne vue sur l'ortho, ORTHO-B-166)."
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [
+     "CF-ENR-015"
+    ],
+    "regles": [
+     "FUS-COH-01",
+     "FUS-DATE-01",
+     "FUS-POS-04",
+     "FUS-POS-05"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "ORTHO-B-166",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-018",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "position_corrigee",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917292.0,
+     6460149.7
     ]
    }
   },
@@ -7708,6 +13940,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-08-31",
     "provenance": [
      {
@@ -7814,6 +14047,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -7869,6 +14103,97 @@
   {
    "type": "Feature",
    "properties": {
+    "id": "pan_C13a_1",
+    "famille": "mobilier",
+    "type": "panneau",
+    "classe_fusion": "panneau",
+    "maj": {
+     "couleur_mat": {
+      "avant": null,
+      "apres": "gris galvanisé",
+      "conf": "moyenne",
+      "poids": 1.0,
+      "obs": [
+       "PANO2026-018"
+      ],
+      "regle": "FUS-ATT-04",
+      "conflit": false
+     }
+    },
+    "existence": {
+     "verdict": "present",
+     "poids": {
+      "presence": 1.0
+     },
+     "obs": {
+      "presence": [
+       "PANO2026-018"
+      ]
+     },
+     "priorite_2026": true,
+     "obs_anterieures_ecartees": [
+      "ORTHO-B-166"
+     ],
+     "verdict_anterieur": "present"
+    },
+    "instancier": null,
+    "doublon_de": null,
+    "textes_lus": null,
+    "notes": [
+     {
+      "obs": "ORTHO-B-166",
+      "date": "2022-05-10",
+      "texte": "lanterne blanche vue au point du candélabre n°0456 (porte pan_B6a1_1 et pan_C13a_1), en bord de dalle"
+     },
+     {
+      "obs": "PANO2026-018",
+      "date": "2026-07-28",
+      "texte": "pied du fût à 0,70 m à l'est de la position du paquet (nœud OSM = lanterne vue sur l'ortho, ORTHO-B-166)."
+     }
+    ],
+    "revue_texte": false,
+    "conflits": [
+     "CF-ENR-016"
+    ],
+    "regles": [
+     "FUS-COH-01",
+     "FUS-DATE-01",
+     "FUS-POS-04",
+     "FUS-POS-05"
+    ],
+    "categorie_preuve": "photo_2026",
+    "tranche_preuve": "2026",
+    "date_max_valide": "2026-07-28",
+    "provenance": [
+     {
+      "obs": "ORTHO-B-166",
+      "source": "ortho2022",
+      "date": "2022-05-10",
+      "statut": "confirme",
+      "confiance": "moyenne",
+      "valide_2026": true
+     },
+     {
+      "obs": "PANO2026-018",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "position_corrigee",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     917292.0,
+     6460149.7
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
     "id": "pan_D21_2",
     "famille": "mobilier",
     "type": "panneau",
@@ -7913,6 +14238,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -8018,6 +14344,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -8115,6 +14442,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -8192,6 +14520,7 @@
     "conflits": [],
     "regles": [],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -8268,6 +14597,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -8375,6 +14705,7 @@
      "FUS-POS-04"
     ],
     "categorie_preuve": "photo_2025",
+    "tranche_preuve": "2025",
     "date_max_valide": "2025-05-18",
     "provenance": [
      {
@@ -8477,6 +14808,7 @@
      "FUS-POS-07"
     ],
     "categorie_preuve": "ortho_2022",
+    "tranche_preuve": "ortho_2022",
     "date_max_valide": "2022-05-10",
     "provenance": [
      {
@@ -8541,6 +14873,7 @@
      "FUS-VAL-03"
     ],
     "categorie_preuve": "non_valable_2026",
+    "tranche_preuve": "non_valable_2026",
     "date_max_valide": null,
     "provenance": [
      {

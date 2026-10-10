@@ -1,0 +1,1038 @@
+{
+ "genere": "orthos_recentes.py --decouvrir",
+ "date_consultation": "2026-10-10",
+ "emprise_l93": [
+  917129.0,
+  6460140.0,
+  917429.0,
+  6460440.0
+ ],
+ "date_pcrs_reference": "2022-05-10",
+ "services": {
+  "ign_wms": {
+   "url": "https://data.geopf.fr/wms-r",
+   "n_couches": 455,
+   "sha256_capacites": "17ee60c78f79479418e5f6e2136f68acb52ab8b3162382bff274d3ffd946b135"
+  },
+  "craig_wms": {
+   "url": "https://wms.craig.fr/ortho",
+   "n_couches": 43,
+   "sha256_capacites": "44a49267f3252082565cf064291c5283daf0b015452fb2302797aa9d32bf3617"
+  },
+  "gam_wms": {
+   "url": "https://geoflux.grenoblealpesmetropole.fr/geoserver/wms",
+   "n_couches": 185,
+   "sha256_capacites": "03053ca6844e64f3d11e2eb890bfe3062f2e37a2ec0d441b5aa9690b51cc82aa"
+  },
+  "craig_rtge_pcrs": {
+   "url": "https://tiles.rtge.craig.fr/pcrs/service",
+   "http": 401,
+   "remarque": "PCRS 5 cm 2025 (RVB + IRC, juin-juillet 2025) : flux sur abonnement, non utilisé"
+  }
+ },
+ "couches": [
+  {
+   "couche": "HR.ORTHOIMAGERY.ORTHOPHOTOS",
+   "service": "ign",
+   "titre": "Ortho 20 cm",
+   "resume": "Le produit BD ORTHO® V3 est une collection de mosaïques d&apos;orthophotographies numériques en couleurs ou en Infra Rouge couleurs, rectifiées dans la projection adaptée au territoire couvert. La BD ",
+   "couverture_emprise": 1.0,
+   "ecart_type": 53.6,
+   "ncc_avec_ign_2024": 1.0,
+   "ncc_avec_ign_2021": 0.414,
+   "dates": [
+    "2024-08-09"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO (WFS, PVA 2024 Isère) ; même prise de vue que ORTHOPHOTOS2024 (NCC passe-haut 1.0)",
+   "posterieure_pcrs_2022": true,
+   "decision": "doublon",
+   "raison": "même image que ORTHOPHOTOS2024 (NCC 1.0) : téléchargée sous ce nom"
+  },
+  {
+   "couche": "IGNF_ORTHOIMAGERY.ORTHOPHOTOS-MIXTE.BDORTHO",
+   "service": "ign",
+   "titre": "ORTHO MIXTE Aérien / Satellite",
+   "resume": "Ce jeu de données est constitué de 2 orthoimages aux alentour de la ville de Gap. Une orthoimage issu de la BD Ortho®, possédant donc les mêmes spécifications (https://geoservices.ign.fr/bdortho). Une",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "IGNF_ORTHOIMAGERY.ORTHOPHOTOS-MIXTE.ORTHO-EXPRESS",
+   "service": "ign",
+   "titre": "ORTHO MIXTE Aérien / Satellite Express",
+   "resume": "Ce jeu de données Ortho-Express est constitué d’une orthoimage composée d’images aériennes dans la limite du département des Alpes-de-Haute-Provence (04) et d’images Pléiades Néo dans la limite du dép",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "OI.OrthoimageCoverage",
+   "service": "ign",
+   "titre": "Ortho 50 cm",
+   "resume": "Le produit BD ORTHO® V3 est une collection de mosaïques d&apos;orthophotographies numériques en couleurs ou en Infra Rouge couleurs, rectifiées dans la projection adaptée au territoire couvert. La BD ",
+   "couverture_emprise": 1.0,
+   "ecart_type": 48.6,
+   "ncc_avec_ign_2024": 0.414,
+   "ncc_avec_ign_2021": 0.997,
+   "dates": [
+    "2021-08-13"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO 2021-2023 (Isère : PVA 2021) ; même prise de vue que ORTHOPHOTOS2021 (NCC 0.997)",
+   "posterieure_pcrs_2022": false,
+   "decision": "ignoree",
+   "raison": "antérieure au PCRS 2022 (5 cm) déjà exploité"
+  },
+  {
+   "couche": "OI.OrthoimageCoverage.HR",
+   "service": "ign",
+   "titre": "Ortho 20 cm",
+   "resume": "Le produit BD ORTHO® V3 est une collection de mosaïques d&apos;orthophotographies numériques en couleurs ou en Infra Rouge couleurs, rectifiées dans la projection adaptée au territoire couvert. La BD ",
+   "couverture_emprise": 1.0,
+   "ecart_type": 48.5,
+   "ncc_avec_ign_2024": 0.414,
+   "ncc_avec_ign_2021": 1.0,
+   "dates": [
+    "2021-08-13"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO 2021-2023 (Isère : PVA 2021) ; même prise de vue que ORTHOPHOTOS2021 (NCC 1.0)",
+   "posterieure_pcrs_2022": false,
+   "decision": "ignoree",
+   "raison": "antérieure au PCRS 2022 (5 cm) déjà exploité"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHO-SAT.PLEIADES.2022",
+   "service": "ign",
+   "titre": "PLEIADES - 2022",
+   "resume": "Agrégation des images Pleiades de l&apos;année 2022",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHO-SAT.PLEIADES.2023",
+   "service": "ign",
+   "titre": "PLEIADES - 2023",
+   "resume": "Agrégation des images Pleiades de l&apos;année 2023",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHO-SAT.PLEIADES.2024",
+   "service": "ign",
+   "titre": "PLEIADES - 2024",
+   "resume": "Agrégation des images Pleiades de l&apos;année 2024",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHO-SAT.PLEIADES.2025",
+   "service": "ign",
+   "titre": "PLEIADES - 2025",
+   "resume": "Agrégation des images Pleiades de l&apos;année 2025",
+   "couverture_emprise": 1.0,
+   "ecart_type": 37.9,
+   "ncc_avec_ign_2024": 0.258,
+   "ncc_avec_ign_2021": 0.251,
+   "dates": [
+    "2025"
+   ],
+   "methode_date": "aucune métadonnée de date publique (couche annuelle CNES / IGN, CSW IGNF_ORTHO-SAT sans étendue temporelle) ; examen de l'image : feuillage complet, carrefour encore dans son état 2024 (zébras, îlots, kiosque), aucune emprise de chantier au cœur -> probablement avant le 23/06/2025 (planches vue_pleiades_*)",
+   "posterieure_pcrs_2022": true,
+   "decision": "telecharger",
+   "raison": "datée après mai 2022, couvrante"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHO-SAT.PLEIADES.2026",
+   "service": "ign",
+   "titre": "PLEIADES 2026",
+   "resume": "Agrégation des images PLEIADES 2026",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHO-SAT.SPOT.2022",
+   "service": "ign",
+   "titre": "SPOT 6-7 - 2022",
+   "resume": "Agrégation des images SPOT 2022",
+   "couverture_emprise": 1.0,
+   "ecart_type": 35.1,
+   "ncc_avec_ign_2024": 0.323,
+   "ncc_avec_ign_2021": 0.373,
+   "dates": [
+    "2022"
+   ],
+   "methode_date": "année du nom de couche (aucune métadonnée de date publique)",
+   "posterieure_pcrs_2022": null,
+   "decision": "telecharger",
+   "raison": "datée après mai 2022, couvrante"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHO-SAT.SPOT.2023",
+   "service": "ign",
+   "titre": "SPOT 6-7 - 2023",
+   "resume": "Agrégation des images SPOT 2023",
+   "couverture_emprise": 1.0,
+   "ecart_type": 45.3,
+   "ncc_avec_ign_2024": 0.346,
+   "ncc_avec_ign_2021": 0.286,
+   "dates": [
+    "2023"
+   ],
+   "methode_date": "année du nom de couche (aucune métadonnée de date publique)",
+   "posterieure_pcrs_2022": true,
+   "decision": "telecharger",
+   "raison": "datée après mai 2022, couvrante"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHO-SAT.SPOT.2024",
+   "service": "ign",
+   "titre": "SPOT 2024",
+   "resume": "Agrégation des images SPOT 2024",
+   "couverture_emprise": 1.0,
+   "ecart_type": 35.7,
+   "ncc_avec_ign_2024": 0.342,
+   "ncc_avec_ign_2021": 0.199,
+   "dates": [
+    "2024"
+   ],
+   "methode_date": "année du nom de couche (aucune métadonnée de date publique)",
+   "posterieure_pcrs_2022": true,
+   "decision": "telecharger",
+   "raison": "datée après mai 2022, couvrante"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHO-SAT.SPOT.2025",
+   "service": "ign",
+   "titre": "SPOT 2025",
+   "resume": "Agrégation des images SPOT 2025",
+   "couverture_emprise": 1.0,
+   "ecart_type": 35.1,
+   "ncc_avec_ign_2024": 0.385,
+   "ncc_avec_ign_2021": 0.269,
+   "dates": [
+    "2025"
+   ],
+   "methode_date": "année du nom de couche (aucune métadonnée de date publique)",
+   "posterieure_pcrs_2022": true,
+   "decision": "telecharger",
+   "raison": "datée après mai 2022, couvrante"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS",
+   "service": "ign",
+   "titre": "Photographies aériennes",
+   "resume": "Photographies aériennes. Date de prise de vue aérienne disponible via cet url: https://data.geopf.fr/annexes/ressources/fiches/photographies-aeriennes-RVB/geoportail_dates_des_prises_de_vues_aeriennes",
+   "couverture_emprise": 1.0,
+   "ecart_type": 53.6,
+   "ncc_avec_ign_2024": 1.0,
+   "ncc_avec_ign_2021": 0.414,
+   "dates": [
+    "2024-08-09"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO (WFS, PVA 2024 Isère) ; même prise de vue que ORTHOPHOTOS2024 (NCC passe-haut 1.0)",
+   "posterieure_pcrs_2022": true,
+   "decision": "doublon",
+   "raison": "même image que ORTHOPHOTOS2024 (NCC 1.0) : téléchargée sous ce nom"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.BDORTHO",
+   "service": "ign",
+   "titre": "Ortho 50 cm",
+   "resume": "Le produit BD ORTHO® est une collection de mosaïques d&apos;orthophotographies numériques en couleurs ou en Infra Rouge couleurs, rectifiées dans la projection adaptée au territoire couvert. Date de p",
+   "couverture_emprise": 1.0,
+   "ecart_type": 53.6,
+   "ncc_avec_ign_2024": 1.0,
+   "ncc_avec_ign_2021": 0.414,
+   "dates": [
+    "2024-08-09"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO (WFS, PVA 2024 Isère) ; même prise de vue que ORTHOPHOTOS2024 (NCC passe-haut 1.0)",
+   "posterieure_pcrs_2022": true,
+   "decision": "doublon",
+   "raison": "même image que ORTHOPHOTOS2024 (NCC 1.0) : téléchargée sous ce nom"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.IRC",
+   "service": "ign",
+   "titre": "BDORTHO en infrarouge fausses couleurs",
+   "resume": "BDORTHO en infrarouge fausses couleurs. Date de prise de vue aérienne disponible via cet url: https://data.geopf.fr/annexes/ressources/fiches/photographies-aeriennes-IRC/geoportail_dates_des_prises_de",
+   "couverture_emprise": 1.0,
+   "ecart_type": 50.5,
+   "ncc_avec_ign_2024": 0.972,
+   "ncc_avec_ign_2021": 0.379,
+   "dates": [
+    "2024-08-09"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO (WFS, PVA 2024 Isère) ; même prise de vue que ORTHOPHOTOS2024 (NCC passe-haut 0.972)",
+   "posterieure_pcrs_2022": true,
+   "decision": "doublon",
+   "raison": "même image que ORTHOPHOTOS2024 (NCC 0.972) : téléchargée sous ce nom"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.IRC-EXPRESS.2023",
+   "service": "ign",
+   "titre": "ortho-express IRC 2023",
+   "resume": "L’Ortho Express est une mosaïque d’ortho‐images numériques. Elle se différencie des autres produits orthophotographiques de l’IGN par le fait que, par souci de minimiser les délais de sa production, e",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.IRC-EXPRESS.2024",
+   "service": "ign",
+   "titre": "Ortho-express IRC 2024",
+   "resume": "L’Ortho Express est une mosaïque d’ortho‐images numériques. Elle se différencie des autres produits orthophotographiques de l’IGN par le fait que, par souci de minimiser les délais de sa production, e",
+   "couverture_emprise": 1.0,
+   "ecart_type": 39.0,
+   "ncc_avec_ign_2024": 0.801,
+   "ncc_avec_ign_2021": 0.388,
+   "dates": [
+    "2024-08-09"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO (WFS, PVA 2024 Isère) ; même prise de vue que ORTHOPHOTOS2024 (NCC passe-haut 0.801)",
+   "posterieure_pcrs_2022": true,
+   "decision": "telecharger",
+   "raison": "datée après mai 2022, couvrante"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.IRC-EXPRESS.2025",
+   "service": "ign",
+   "titre": "Ortho-express IRC 2025",
+   "resume": "L’Ortho Express est une mosaïque d’ortho‐images numériques. Elle se différencie des autres produits orthophotographiques de l’IGN par le fait que, par souci de minimiser les délais de sa production, e",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.IRC-EXPRESS.2026",
+   "service": "ign",
+   "titre": "Ortho-express IRC 2026",
+   "resume": "L’Ortho Express est une mosaïque d’ortho‐images numériques. Elle se différencie des autres produits orthophotographiques de l’IGN par le fait que, par souci de minimiser les délais de sa production, e",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.IRC.2022",
+   "service": "ign",
+   "titre": "BDORTHO 2022 en infrarouge fausses couleurs",
+   "resume": "BDORTHO 2022 en infrarouge fausses couleurs",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.IRC.2023",
+   "service": "ign",
+   "titre": "BDORTHO 2023 en infrarouge fausses couleurs",
+   "resume": "BDORTHO 2023 en infrarouge fausses couleurs",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.IRC.2024",
+   "service": "ign",
+   "titre": "BDORTHO 2024 en infrarouge fausses couleurs",
+   "resume": "BDORTHO 2024 en infrarouge fausses couleurs",
+   "couverture_emprise": 1.0,
+   "ecart_type": 50.5,
+   "ncc_avec_ign_2024": 0.972,
+   "ncc_avec_ign_2021": 0.379,
+   "dates": [
+    "2024-08-09"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO (WFS, PVA 2024 Isère)",
+   "posterieure_pcrs_2022": true,
+   "decision": "telecharger",
+   "raison": "datée après mai 2022, couvrante"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.ORTHO-ASP_PAC2022",
+   "service": "ign",
+   "titre": "ORTHO-ASP_PAC2022",
+   "resume": "ortho ASP PAC 2022",
+   "couverture_emprise": 1.0,
+   "ecart_type": 48.6,
+   "ncc_avec_ign_2024": 0.414,
+   "ncc_avec_ign_2021": 0.997,
+   "dates": [
+    "2021-08-13"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO 2021-2023 (Isère : PVA 2021) ; même prise de vue que ORTHOPHOTOS2021 (NCC 0.997)",
+   "posterieure_pcrs_2022": false,
+   "decision": "ignoree",
+   "raison": "antérieure au PCRS 2022 (5 cm) déjà exploité"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.ORTHO-ASP_PAC2024",
+   "service": "ign",
+   "titre": "ORTHO-ASP_PAC2024",
+   "resume": "ortho ASP PAC 2024",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.ORTHO-ASP_PAC2025",
+   "service": "ign",
+   "titre": "ORTHO-ASP_PAC2025",
+   "resume": "ortho ASP PAC 2025",
+   "couverture_emprise": 1.0,
+   "ecart_type": 53.6,
+   "ncc_avec_ign_2024": 0.994,
+   "ncc_avec_ign_2021": 0.415,
+   "dates": [
+    "2024-08-09"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO (WFS, PVA 2024 Isère) ; même prise de vue que ORTHOPHOTOS2024 (NCC passe-haut 0.994)",
+   "posterieure_pcrs_2022": true,
+   "decision": "doublon",
+   "raison": "image identique à ORTHOPHOTOS2024"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.ORTHO-ASP_PAC2026",
+   "service": "ign",
+   "titre": "Ortho ASP PAC 2026",
+   "resume": "orthos ASP PAC 2026",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.ORTHO-EXPRESS.2023",
+   "service": "ign",
+   "titre": "ortho-express 2023",
+   "resume": "L’Ortho Express est une mosaïque d’ortho‐images numériques. Elle se différencie des autres produits orthophotographiques de l’IGN par le fait que, par souci de minimiser les délais de sa production, e",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.ORTHO-EXPRESS.2024",
+   "service": "ign",
+   "titre": "Ortho-express 2024",
+   "resume": "L’Ortho Express est une mosaïque d’ortho‐images numériques. Elle se différencie des autres produits orthophotographiques de l’IGN par le fait que, par souci de minimiser les délais de sa production, e",
+   "couverture_emprise": 1.0,
+   "ecart_type": 47.3,
+   "ncc_avec_ign_2024": 0.837,
+   "ncc_avec_ign_2021": 0.432,
+   "dates": [
+    "2024-08-09"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO (WFS, PVA 2024 Isère) ; même prise de vue que ORTHOPHOTOS2024 (NCC passe-haut 0.837)",
+   "posterieure_pcrs_2022": true,
+   "decision": "telecharger",
+   "raison": "datée après mai 2022, couvrante"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.ORTHO-EXPRESS.2025",
+   "service": "ign",
+   "titre": "Ortho-express RVB 2025",
+   "resume": "L’Ortho Express est une mosaïque d’ortho‐images numériques. Elle se différencie des autres produits orthophotographiques de l’IGN par le fait que, par souci de minimiser les délais de sa production, e",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS.RVB-EXPRESS.2026",
+   "service": "ign",
+   "titre": "Ortho-express RVB 2026",
+   "resume": "L’Ortho Express est une mosaïque d’ortho‐images numériques. Elle se différencie des autres produits orthophotographiques de l’IGN par le fait que, par souci de minimiser les délais de sa production, e",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS2021-2023",
+   "service": "ign",
+   "titre": "Photographies aériennes 2021-2023",
+   "resume": "Prises de vues aériennes des territoires pour les années 2021 à 2023",
+   "couverture_emprise": 1.0,
+   "ecart_type": 48.5,
+   "ncc_avec_ign_2024": 0.414,
+   "ncc_avec_ign_2021": 1.0,
+   "dates": [
+    "2021-08-13"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO 2021-2023 (Isère : PVA 2021)",
+   "posterieure_pcrs_2022": false,
+   "decision": "ignoree",
+   "raison": "antérieure au PCRS 2022 (5 cm) déjà exploité"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS2022",
+   "service": "ign",
+   "titre": "Photographies aériennes 2022",
+   "resume": "Prises de vues aériennes des territoires disponibles à la fin de l&apos;année 2022",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS2023",
+   "service": "ign",
+   "titre": "Photographies aériennes 2023",
+   "resume": "Prises de vues aériennes des territoires disponibles à la fin de l&apos;année 2023",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "ORTHOIMAGERY.ORTHOPHOTOS2024",
+   "service": "ign",
+   "titre": "Photographies aériennes 2024",
+   "resume": "Prises de vues aériennes des territoires disponibles à la fin de l&apos;année 2024",
+   "couverture_emprise": 1.0,
+   "ecart_type": 53.6,
+   "ncc_avec_ign_2024": 1.0,
+   "ncc_avec_ign_2021": 0.414,
+   "dates": [
+    "2024-08-09"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO (WFS, PVA 2024 Isère)",
+   "posterieure_pcrs_2022": true,
+   "decision": "telecharger",
+   "raison": "datée après mai 2022, couvrante"
+  },
+  {
+   "couche": "PCRS.LAMB93",
+   "service": "ign",
+   "titre": "PCRS",
+   "resume": "Données du Plan Corps de Rue Simplifié",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "THR.ORTHOIMAGERY.ORTHOPHOTOS",
+   "service": "ign",
+   "titre": "Photographies aériennes très haute résolution",
+   "resume": "Orthophotographies aériennes d&apos;une résolution de 10cm à 5cm selon disponibilité.",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "craig:ortho",
+   "service": "craig",
+   "titre": "Orthophotographie sur la région AURA",
+   "resume": "Résolution de 20cm, datant de: 2025 (03, 15, 42, 43, 63, 74), 2024 (01, 38, 73), 2023 (07, 26, 69)",
+   "couverture_emprise": 0.999,
+   "ecart_type": 55.6,
+   "ncc_avec_ign_2024": 0.934,
+   "ncc_avec_ign_2021": 0.383,
+   "dates": [
+    "2024-08-09"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO (WFS, PVA 2024 Isère) ; même prise de vue que ORTHOPHOTOS2024 (NCC passe-haut 0.934)",
+   "posterieure_pcrs_2022": true,
+   "decision": "doublon",
+   "raison": "même image que ORTHOPHOTOS2024 (NCC 0.934) : téléchargée sous ce nom"
+  },
+  {
+   "couche": "craig:ortho_2025",
+   "service": "craig",
+   "titre": "Ortho 2025 (03, 15, 42, 43, 63, 74) IGN",
+   "resume": "Orthophotographie à 20cm sur l'Allier, le Cantal, la Loire, la Haute-Loire, le Puy-de-Dôme et la Haute-Savoie (2025)",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "craig:ortho_2024",
+   "service": "craig",
+   "titre": "Ortho 2024 (01, 38, 73) IGN",
+   "resume": "Orthophotographie à 20cm sur l'Ain, l'Isère et la Savoie (2024)",
+   "couverture_emprise": 0.999,
+   "ecart_type": 55.6,
+   "ncc_avec_ign_2024": 0.934,
+   "ncc_avec_ign_2021": 0.383,
+   "dates": [
+    "2024-08-09"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO (WFS, PVA 2024 Isère) ; même prise de vue que ORTHOPHOTOS2024 (NCC passe-haut 0.934)",
+   "posterieure_pcrs_2022": true,
+   "decision": "telecharger",
+   "raison": "datée après mai 2022, couvrante"
+  },
+  {
+   "couche": "craig:ortho_2023",
+   "service": "craig",
+   "titre": "Ortho 2023 (07, 26, 69, 74) IGN",
+   "resume": "Orthophotographie à 20cm sur l'Ardèche, la Drôme, le Rhône et la Haute-Savoie (2023)",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "craig:ortho_2022",
+   "service": "craig",
+   "titre": "Ortho 2022 (03, 15, 42, 43, 63, 73) IGN",
+   "resume": "Orthophotographie à 20cm sur l'Allier, le Cantal, la Loire, la Haute-Loire, le Puy-de-Dôme et la Savoie (2022)",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "craig:lyon_2022",
+   "service": "craig",
+   "titre": "Grand Lyon 5cm hiver 2022",
+   "resume": "Orthophotographie à 5cm de résolution sur la Métropole de Lyon",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "craig:grand_lyon_2023",
+   "service": "craig",
+   "titre": "Grand Lyon 5 cm été 2023",
+   "resume": "Orthophotographie à 5cm de résolution sur la Métropole de Lyon",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "craig:veneon_juin_2024",
+   "service": "craig",
+   "titre": "Vallée du Vénéon 10 cm juin 2024 (DDT 38)",
+   "resume": "Orthophotographie à 10 cm de résolution sur la vallée du Vénéon",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "craig:veneon_octobre_2024",
+   "service": "craig",
+   "titre": "Vallée du Vénéon 10 cm octobre 2024 (DDT 38)",
+   "resume": "Orthophotographie à 10 cm de résolution sur la vallée du Vénéon",
+   "couverture_emprise": 0.0,
+   "ecart_type": 0.0,
+   "dates": [],
+   "methode_date": null,
+   "posterieure_pcrs_2022": null,
+   "decision": "ignoree",
+   "raison": "pas de données sur l'emprise (couverture < 50 %)"
+  },
+  {
+   "couche": "gam:app-sygetrack:app-sygetrack-Ortho_gam",
+   "service": "gam",
+   "titre": "app-sygetrack-Ortho_gam",
+   "resume": "L'ORTHO HR® (orthophotographie Haute Résolution) est composée d’images&#13; aériennes d’une résolution supérieure à la BD ORTHO® (50 cm). Produites en&#13; partenariat avec les collectivités territori",
+   "couverture_emprise": 1.0,
+   "ecart_type": 48.4,
+   "ncc_avec_ign_2024": 0.408,
+   "ncc_avec_ign_2021": 0.966,
+   "dates": [
+    "2021-08-13"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO 2021-2023 (Isère : PVA 2021) ; même prise de vue que ORTHOPHOTOS2021 (NCC 0.966)",
+   "posterieure_pcrs_2022": false,
+   "decision": "ignoree",
+   "raison": "antérieure au PCRS 2022 (5 cm) déjà exploité"
+  },
+  {
+   "couche": "gam:ref_metro_ortho:ortho_2018",
+   "service": "gam",
+   "titre": "ortho_2018",
+   "resume": "IGN&#13; RGF 93&#13; 25cm&#13; 2 juillet 2018&#13; &#13; https://ids.craig.fr/geocat/srv/fre/catalog.search#/metadata/f5e23714-5524-4702-bd59-1f0ce6de841c&#13; Téléchargement donnée et métadonnée: ftp",
+   "couverture_emprise": 1.0,
+   "ecart_type": 47.7,
+   "ncc_avec_ign_2024": 0.374,
+   "ncc_avec_ign_2021": 0.39,
+   "dates": [
+    "2018"
+   ],
+   "methode_date": "année du nom de couche (aucune métadonnée de date publique)",
+   "posterieure_pcrs_2022": false,
+   "decision": "ignoree",
+   "raison": "antérieure au PCRS 2022 (5 cm) déjà exploité"
+  },
+  {
+   "couche": "gam:ref_metro_ortho:ortho_gam2018",
+   "service": "gam",
+   "titre": "ortho_gam2018",
+   "resume": "Le produit Orthophotographie couleur - Département de l'Isère est une orthophotographie numérique en couleurs, rectifiée dans la projection associée au système géodésique RGF93. Résolution : 0,25m / p",
+   "couverture_emprise": 1.0,
+   "ecart_type": 47.7,
+   "ncc_avec_ign_2024": 0.379,
+   "ncc_avec_ign_2021": 0.395,
+   "dates": [
+    "2018"
+   ],
+   "methode_date": "année du nom de couche (aucune métadonnée de date publique)",
+   "posterieure_pcrs_2022": false,
+   "decision": "ignoree",
+   "raison": "antérieure au PCRS 2022 (5 cm) déjà exploité"
+  },
+  {
+   "couche": "gam:ref_metro_ortho:ortho_gam2021",
+   "service": "gam",
+   "titre": "ortho_gam2021",
+   "resume": "L'ORTHO HR® (orthophotographie Haute Résolution) est composée d’images&#13; aériennes d’une résolution supérieure à la BD ORTHO® (50 cm). Produites en&#13; partenariat avec les collectivités territori",
+   "couverture_emprise": 1.0,
+   "ecart_type": 48.4,
+   "ncc_avec_ign_2024": 0.408,
+   "ncc_avec_ign_2021": 0.966,
+   "dates": [
+    "2021-08-13"
+   ],
+   "methode_date": "graphe de mosaïquage BD ORTHO 2021-2023 (Isère : PVA 2021) ; même prise de vue que ORTHOPHOTOS2021 (NCC 0.966)",
+   "posterieure_pcrs_2022": false,
+   "decision": "ignoree",
+   "raison": "antérieure au PCRS 2022 (5 cm) déjà exploité"
+  }
+ ],
+ "pcrs_craig_opendata": [
+  {
+   "annee": 2017,
+   "campagne": "lyon",
+   "n_dalles": 3831,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2017,
+   "campagne": "yssingeaux",
+   "n_dalles": 73,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2018,
+   "campagne": "langogne",
+   "n_dalles": 529,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2018,
+   "campagne": "lyon",
+   "n_dalles": 772,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2018,
+   "campagne": "valence_romans",
+   "n_dalles": 24156,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2019,
+   "campagne": "isere_bievre",
+   "n_dalles": 18180,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2019,
+   "campagne": "isere_lot1",
+   "n_dalles": 26591,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2019,
+   "campagne": "montagne_ardeche",
+   "n_dalles": 15954,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2019,
+   "campagne": "ouest_ain",
+   "n_dalles": 214,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2020,
+   "campagne": "haute-loire_est",
+   "n_dalles": 965,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2020,
+   "campagne": "isere_dauphine",
+   "n_dalles": 17091,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2020,
+   "campagne": "isere_roussillonnais",
+   "n_dalles": 10201,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2020,
+   "campagne": "isere_voironnais",
+   "n_dalles": 12911,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2021,
+   "campagne": "bugey_sud",
+   "n_dalles": 2,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2021,
+   "campagne": "chartreuse_gresivaudan",
+   "n_dalles": 24424,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2021,
+   "campagne": "vercors",
+   "n_dalles": 21600,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2022,
+   "campagne": "grenoble_alpes",
+   "n_dalles": 14231,
+   "dalles_site": [
+    "9170-64602",
+    "9170-64604",
+    "9170-64606",
+    "9172-64602",
+    "9172-64604",
+    "9172-64606",
+    "9174-64602",
+    "9174-64604",
+    "9174-64606"
+   ],
+   "couvre_site": true
+  },
+  {
+   "annee": 2022,
+   "campagne": "isere_sud",
+   "n_dalles": 54842,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2022,
+   "campagne": "mezenc",
+   "n_dalles": 198,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2022,
+   "campagne": "pays_lyonnais",
+   "n_dalles": 570,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2022,
+   "campagne": "pays_saugues",
+   "n_dalles": 5,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2023,
+   "campagne": "arche",
+   "n_dalles": 28874,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2023,
+   "campagne": "dombes_bugey",
+   "n_dalles": 32,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2024,
+   "campagne": "ardeche",
+   "n_dalles": 30885,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2024,
+   "campagne": "drome_centre",
+   "n_dalles": 45562,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2024,
+   "campagne": "pilat",
+   "n_dalles": 257,
+   "dalles_site": [],
+   "couvre_site": false
+  },
+  {
+   "annee": 2024,
+   "campagne": "portes_isere",
+   "n_dalles": 6428,
+   "dalles_site": [],
+   "couvre_site": false
+  }
+ ],
+ "graphe_bdortho": {
+  "courant": [
+   {
+    "date_vol": "2024-08-09",
+    "pva": 2024,
+    "res_cm": 20,
+    "echelle": 50,
+    "dep": "38",
+    "aire_emprise_m2": 90000.0
+   },
+   {
+    "date_vol": "2024-08-09",
+    "pva": 2024,
+    "res_cm": 20,
+    "echelle": 20,
+    "dep": "38",
+    "aire_emprise_m2": 90000.0
+   }
+  ],
+  "dates_aux_points": {
+   "centre": "2024-08-09",
+   "coeur_NO": "2024-08-09",
+   "coeur_NE": "2024-08-09",
+   "coeur_SO": "2024-08-09",
+   "coeur_SE": "2024-08-09",
+   "est": "2024-08-09",
+   "sud_est": "2024-08-09",
+   "nord_est": "2024-08-09",
+   "sud": "2024-08-09",
+   "ouest": "2024-08-09",
+   "nord": "2024-08-09"
+  },
+  "2021-2023": [
+   {
+    "date_vol": "2021-08-13",
+    "pva": 2021,
+    "res_cm": null,
+    "echelle": null,
+    "dep": "38",
+    "aire_emprise_m2": 90000.0
+   }
+  ]
+ }
+}

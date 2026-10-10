@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Fusion du recensement (ortho 2022, Panoramax, web) avec la description v2.
+"""Fusion du recensement (ortho 2022, orthos 2024-2025, Panoramax 2020-2026, Mapillary, web) avec la description v2.
 
 Entrées (lues, jamais modifiées) :
-  recon/out/paquet_jardin/v2/enrichi/recensement/obs_*.json, web/obs_web.json
+  recon/out/paquet_jardin/v2/enrichi/recensement/obs_*.json (tous, ordre alphabétique), web/obs_web.json
+  recon/out/paquet_jardin/v2/description/enrichi/arbitrages_fusion.json (décisions de revue, FUS-ARB-01)
   recon/out/paquet_jardin/v2/description/base/*.geojson (v0.3, régénérée en parallèle : lue telle quelle)
   recon/out/paquet_jardin/v2/description/coherence/{corrections.geojson, propositions_ajouts.geojson,
       rapport_coherence.json, carte/bordures_site.geojson}
@@ -14,7 +15,7 @@ Entrées (lues, jamais modifiées) :
 Sorties (couche séparée, fusionnée plus tard par le composeur) :
   recon/out/paquet_jardin/v2/description/enrichi/
     attributs.geojson, ajouts.geojson, corrections_position.geojson, conflits.json,
-    entites_verifiees.json, observations_index.json, couverture_preuves.png, RESUME.md
+    entites_verifiees.json, observations_index.json, couverture.json, couverture_preuves.png, RESUME.md
 
 Déterministe : aucun aléa, itérations triées, flottants arrondis. Chaque décision cite ses
 observations (id) et la règle FUS-* appliquée (table REGLES ci-dessous, recopiée dans RESUME.md).
@@ -35,7 +36,7 @@ from pathlib import Path
 
 import numpy as np
 
-VERSION = "fusion_recensement/0.1"
+VERSION = "fusion_recensement/0.2"
 ROOT = Path(__file__).resolve().parents[3]
 DESC = ROOT / "recon/out/paquet_jardin/v2/description"
 BASE = DESC / "base"
@@ -44,12 +45,24 @@ OUT = DESC / "enrichi"
 RECENS = ROOT / "recon/out/paquet_jardin/v2/enrichi/recensement"
 PKG = ROOT / "recon/out/paquet_jardin/package/donnees"
 SITE = ROOT / "data/sites/paquet_jardin"
+ARBITRAGES = OUT / "arbitrages_fusion.json"
+POSES_2026 = RECENS / "pano_2026/poses/poses_2026-07-28.json"
+MLY_IMAGES = ROOT / "data/raw/mapillary/paquet_jardin/images.json"
 
-FICHIERS_OBS = [
-    RECENS / "obs_ortho_A.json", RECENS / "obs_ortho_B.json",
-    RECENS / "obs_pano_0.json", RECENS / "obs_pano_1.json", RECENS / "obs_pano_2.json",
-    RECENS / "web/obs_web.json",
-]
+# tous les fichiers d'observations du recensement (ordre alphabétique : déterministe), puis le web
+FICHIERS_OBS = sorted(RECENS.glob("obs_*.json")) + [RECENS / "web/obs_web.json"]
+
+FIN_TRAVAUX = "2025-12-05"   # travaux du cœur 23/06-05/12/2025 (trottoirs du Vercors jusqu'au 30/01/2026)
+# catégories de preuve, de la plus récente à la plus ancienne (FUS-DATE-01) ; tranche = colonne de la couverture
+CATEGORIES = ["photo_2026", "photo_2025", "ortho_2025", "photo_2020_2024", "ortho_2024", "ortho_2022", "web"]
+TRANCHE = {"photo_2026": "2026", "photo_2025": "2025", "ortho_2025": "2025", "photo_2020_2024": "2020_2024",
+           "ortho_2024": "2020_2024", "ortho_2022": "ortho_2022", "web": "web"}
+TRANCHES = ["2026", "2025", "2020_2024", "ortho_2022", "web", "non_concluant", "non_valable_2026", "aucune"]
+PRESENCE = ("confirme", "attribut_corrige", "position_corrigee")
+COEUR_DEMI_M = 80.0          # cœur du carrefour : carré ± 80 m autour de l'origine (panneaux C/D de la carte)
+RAYON_DEDOUBLONNAGE_M = 1.5  # FUS-ADD-04
+# contrat d'un contrôle automatique acceptable (FUS-AUTO-02)
+AUTO_PART_MASQUEE_MAX = 0.2
 
 # --------------------------------------------------------------------------------------------
 # Règles de fusion (citées dans toutes les sorties)
@@ -70,7 +83,7 @@ REGLES = {
     "FUS-LIEN-08": "ids de la carte de cohérence (KS-xxxx-n) et des surfaces v1 (surf_xxxx) : remappés vers la description de base (K- de même ligne GAM, S- de même lien_v1) au plus proche de la mesure (≤ 2 m / ≤ 1 m).",
     "FUS-ATT-05": "surface de plus de 2 000 m² : une observation ponctuelle ne requalifie pas tout le polygone ; matériaux et classes proposés y deviennent des sous-zones (conflit surface_a_decouper).",
     "FUS-POS-08": "après correction, deux objets de même classe à moins de 0,75 m : conflit doublon_apres_correction (fusion à décider).",
-    "FUS-CONF-01": "poids de confiance : haute 1 ; moyenne 0,6 ; faible 0,3 ; contrôle automatique x0,7 ; valeur « probable » ou « ? » x0,6.",
+    "FUS-CONF-01": "poids de confiance : haute 1 ; moyenne 0,6 ; faible 0,3 ; contrôle automatique (automatique, automatique_2_dates, automatique_2e_date) x0,7 ; valeur « probable » ou « ? » x0,6.",
     "FUS-POS-01": "mesures de position : triangulation σ = max(préc. ; 0,05) et rayon au sol σ = 2·max(préc. ; 0,30) (tout statut) ; pixel ortho σ = 1,25·max(préc. ; 0,10) seulement pour position_corrigee (ailleurs le pixel peut désigner une lanterne ou une couronne) ; une observation « confirme » sans mesure (projection, pixel ortho) = confirmation à la position décrite, utilisée seulement sans autre mesure (σ = 1,5·max(préc. ; 0,15) en projection) ; pour la pondération, σ divisé par √(poids confiance x validité). Mesures identiques (≤ 1 cm, même méthode) comptées une fois.",
     "FUS-POS-02": "triangulation à angle d'intersection < 15° (lu dans l'observation) : σ x2.",
     "FUS-POS-03": "moyenne pondérée 1/σ², rejet itératif de la mesure au plus fort résidu normalisé (> 3 et > tolérance de classe) -> conflit position_desaccord.",
@@ -83,11 +96,19 @@ REGLES = {
     "FUS-ATT-03": "conflit d'attribut : catégoriel si le 2e poids ≥ 0,5 x le 1er (et ≥ 0,3) ; numérique si l'étendue dépasse max(tolérance absolue ; tolérance relative x moyenne) ; azimut si un vote s'écarte de > 30°.",
     "FUS-ATT-04": "mise à jour émise si poids gagnant ≥ 0,3 et écart à la description au-delà du seuil de l'attribut (valeur absente de la description : ajout d'attribut).",
     "FUS-EXI-01": "existence : présence (confirme, attribut_corrige, position_corrigee) contre absence (absent_sur_image) ; « absent_2026 » si poids absence ≥ 0,6 et ≥ 2 x présence ; conflit si les deux ≥ 0,3.",
+    "FUS-EXI-03": "chronologie : quand présence et absence probantes s'opposent, si toutes les absences sont postérieures à toutes les présences, l'objet est absent en 2026 (retiré entre deux prises de vue, absence ≥ 0,6) ; dans le cas inverse il est présent (posé entre deux prises de vue) ; conflit d'information changement_entre_dates.",
     "FUS-EXI-02": "retrait (artefact de la description : faux positif, « à retirer », « à supprimer », doublon) si poids ≥ 0,6 ; retypage (poteau réseau au lieu de lampadaire) si vote explicite ≥ 0,6.",
     "FUS-ADD-01": "ajouts : observations absent_de_description (et candidats incertains non appariés) regroupées par lien simple, même groupe de classe, distance ≤ tolérance + min(σi + σj ; 3 m) entre ateliers différents, ≤ tolérance et même sous-type dans un même atelier.",
     "FUS-ADD-02": "ajout à moins de la moitié de la tolérance d'une entité existante de même famille : conflit ajout_proche_existant, non instancié. Exceptions : sous-zone ou reprise de surface (la surface est son hôte) ; équipement porté (boîtier, plaque, panonceau : le support voisin est son hôte).",
     "FUS-ADD-03": "ajout instancié si au moins une observation valide 2026 (vrai) en confiance ≥ moyenne, non temporaire, famille cible connue ; croisé avec les propositions de cohérence (≤ 3 m) et le levé GAM 2026 des arbres (≤ 2 m).",
     "FUS-COH-01": "contrôle croisé avec coherence/corrections.geojson : accord si la position image est à ≤ max(0,35 ; 2σ) de la position corrigée ; désaccord si elle est à cette distance de la position d'origine seulement ; partiel si elle est loin des deux ; les deux dans la tolérance : tendance_accord / tendance_desaccord si l'écart les départage d'au moins σ, sinon indifférent ; confirmations sans mesure : non concluant ; azimut : accord à ≤ 30° ; propositions d'ajout rejointes par une observation : corroborées (datées).",
+    "FUS-SRC-01": "sources : « ortho2022 » (PCRS 5 cm du 10/05/2022) -> ortho_2022 ; « ortho_recente:<couche> » (IGN 20 cm du 09/08/2024 -> ortho_2024 ; Pléiades 2025 non datée, avant travaux -> ortho_2025) ; « pnx: » (Panoramax) et « mly: » (Mapillary) : photos, catégorie selon la date : photo_2026 (≥ 05/12/2025, fin des travaux), photo_2025, photo_2020_2024 ; autres : documents web.",
+    "FUS-DATE-01": "priorité photo_2026 : pour l'état 2026, dès qu'une observation photo_2026 de poids > 0 porte sur l'existence, un attribut ou la position d'une entité, elle seule décide de cet aspect ; les observations plus anciennes sont gardées comme antérieures (obs_anterieures_ecartees) ; un désaccord ouvre un conflit d'information changement_2026 ou position_anterieure_divergente (objet déplacé, refait ou retiré pendant les travaux).",
+    "FUS-AUTO-01": "confirmation automatique d'un marquage sur ortho (contrôles ortho_A / ortho_B 2022, orthos récentes 2024) sans masque véhicules / ombres : requalifiée « incertain » (ni présence, ni preuve de couverture) sauf si une observation manuelle (contrôle visuel ou photo) confirme la même entité avec un poids > 0. Deux contrôles automatiques ne se corroborent pas (erreurs corrélées : voitures garées aux mêmes places, ombres de supports fixes, lignes de places détectées à tort).",
+    "FUS-AUTO-02": "contrat de tout contrôle automatique futur : il n'est accepté comme confirmation (poids x0,7) que s'il déclare attributs.controle_auto = {masque_vehicules_ombres: true (taches claires ou sombres de plus de 3 m² et de largeur ≥ 1,2 m, ombres portées), part_masquee ≤ 0,2 le long de l'objet, et pour un marquage reponse_ligne_fine: true (trait de 0,10 à 0,15 m répondant sur toute la longueur) ou reponse_peinture: true (flèche, symbole : part peinte ≥ 0,3)} ; calcul de référence : controle_auto.py ; sinon FUS-AUTO-01 (marquages) ou drapeau « automatique seul » (autres classes).",
+    "FUS-ADD-04": "dédoublonnage des ajouts : entité existante de même classe (type de marquage compatible ; pavés de traversée = passage) dans un rayon max(1,5 m ; tolérance de classe) ; si elle vient d'un levé GAM (marquage, bordure, îlot, arbre, clôture), pas d'ajout : conflit ajout_contre_leve_gam (l'objet vu est probablement l'objet levé, mal placé ou mal typé ; à trancher sur photo 2026 ou terrain). Exception : l'atelier qui signale l'objet a aussi confirmé à la main l'entité levée, sans la retyper (deux objets distingués par le même observateur).",
+    "FUS-ARB-01": "arbitrages de revue (description/enrichi/arbitrages_fusion.json, clés = identifiants d'observations, jamais les ENR-* renumérotés) : ne_pas_instancier (ajout), ancrer_bord_ilot (ajout ponctuel ramené au bord de l'îlot ou de l'espace vert le plus proche, en retrait vers l'intérieur), mesure_position (coordonnées d'un document utilisées comme mesure de position, σ donné, pondérée comme FUS-POS-01). Chaque arbitrage cite son motif et sa preuve ; un arbitrage sans effet ouvre un conflit arbitrage_inapplicable.",
+    "FUS-COUV-01": "couverture : preuve image la plus récente, valable 2026 et concluante (présence, attribut, position, ou absence probante ; observations « incertain » et confirmations automatiques requalifiées exclues), par tranche : 2026 > 2025 > 2020-2024 (photos, ortho IGN 2024) > ortho 2022 > web seul ; « non concluant » : vue sans conclusion ; « non valable 2026 » : vue seulement avant sa forme 2026.",
 }
 
 CONF_W = {"haute": 1.0, "moyenne": 0.6, "faible": 0.3}
@@ -291,6 +312,18 @@ def dist_polyligne(p, C):
     d = np.hypot(p[0] - Q[:, 0], p[1] - Q[:, 1])
     i = int(d.argmin())
     return float(d[i]), Q[i].copy()
+
+
+def segment_le_plus_proche(p, C):
+    """Distance d'un point à une polyligne, point le plus proche et indice du segment."""
+    A, B = C[:-1], C[1:]
+    AB = B - A
+    L2 = (AB ** 2).sum(1)
+    t = np.where(L2 > 0, ((p - A) * AB).sum(1) / np.where(L2 > 0, L2, 1.0), 0.0).clip(0.0, 1.0)
+    Q = A + t[:, None] * AB
+    d = np.hypot(p[0] - Q[:, 0], p[1] - Q[:, 1])
+    i = int(d.argmin())
+    return float(d[i]), Q[i].copy(), i
 
 
 def dans_anneau(p, R) -> bool:
@@ -500,6 +533,35 @@ def atteste_2026(ent) -> bool:
     return ent["famille"] in ("mobilier", "arbres") and "2026 confirmé" in str(p.get("statut_2026") or "")
 
 
+def leve_gam(ent) -> bool:
+    """L'entité vient-elle du levé topographique GAM (postérieur aux travaux) ? (FUS-ADD-04)"""
+    p = ent["props"]
+    fam = ent["famille"]
+    geo = str(((p.get("prov") or {}).get("geometrie") or {}).get("src") or "").lower()
+    if fam == "marquages":
+        return str(p.get("src") or "").lower().startswith("gam") or geo.startswith("gam")
+    if fam in ("bordures", "ilots"):
+        return geo.startswith("gam")
+    if fam == "bordures_site":
+        return True
+    if fam in ("arbres", "mobilier"):
+        return bool(re.match(r"\s*GAM\b", str(p.get("source") or "")))
+    return False
+
+
+def type_marquage_obs(sous_type: str) -> str | None:
+    """Type de marquage de la description correspondant au sous-type observé (None : indéterminé, compatible)."""
+    s = (sous_type or "").lower()
+    for rx, t in ((r"pav[ée]s", "passage"), (r"symbole|v[ée]lo|pmr|logo|figurine|picto|chiffre|lettr|inscription", "symbole"),
+                  (r"fl[èe]che", "fleche"), (r"zebra|z[ée]bra|passage|bandes_traversee|pi[ée]ton", "passage"),
+                  (r"stop|c[ée]dez|effet|transversal", "transversale"),
+                  (r"hachur|zone|damier|ilot_peint|zigzag", "zone"),
+                  (r"ligne|tiret|place|stationnement|discontinu|continu", "ligne")):
+        if re.search(rx, s):
+            return t
+    return None
+
+
 def dates_texte(s: str) -> list[str]:
     out = [f"{m.group(1)}-{m.group(2)}-{m.group(3) or '15'}" for m in re.finditer(r"\b(20\d\d)-(\d\d)(?:-(\d\d))?", s)]
     if re.search(r"lidar", s, re.I):
@@ -606,6 +668,7 @@ def charger_index() -> Index:
         e["date_min"] = date_min_entite(e)
         e["atteste_2026"] = atteste_2026(e)
         e["date_attest"] = date_attestation(e)
+        e["leve_gam"] = leve_gam(e)
     # index de remappage (FUS-LIEN-08)
     ix.par_lien_v1 = defaultdict(list)
     for eid in ix.par_famille.get("surfaces", []):
@@ -637,19 +700,30 @@ def normaliser_obs(o, agent, ix):
          "attrs": attrs, "atxt": atxt, "raison": raison, "valide": vv, "drapeaux": []}
     if n["classe"] == "autre" and re.search(r"poteau", sous):
         n["classe"] = "autre_poteau"
+    if n["classe"] == "surface_ilot":
+        n["classe"] = "surface"
+    # source et catégorie de preuve (FUS-SRC-01)
     src = str(o.get("source") or "")
     if src.startswith("ortho2022"):
         n["source"], n["type_source"] = "ortho2022", "ortho2022"
+    elif src.startswith("ortho_recente:"):
+        n["source"], n["type_source"] = src, "ortho_recente"
     elif src.startswith("pnx:"):
         n["source"], n["type_source"] = "pnx:" + src[4:12], "panoramax"
+    elif src.startswith("mly:"):
+        n["source"], n["type_source"] = "mly:" + src[4:].split("-")[0], "mapillary"
     else:
         n["source"], n["type_source"] = src, "web"
+    d_ = n["date"] or ""
     if n["type_source"] == "ortho2022":
         n["categorie"] = "ortho_2022"
-    elif n["type_source"] == "panoramax":
-        n["categorie"] = "photo_2025" if (n["date"] or "") >= "2025-01-01" else "photo_2020_2024"
+    elif n["type_source"] == "ortho_recente":
+        n["categorie"] = "ortho_2025" if d_ >= "2025-01-01" else "ortho_2024"
+    elif n["type_source"] in ("panoramax", "mapillary"):
+        n["categorie"] = ("photo_2026" if d_ >= FIN_TRAVAUX else "photo_2025" if d_ >= "2025-01-01" else "photo_2020_2024")
     else:
         n["categorie"] = "web"
+    n["photo"] = n["type_source"] in ("panoramax", "mapillary")
     # poids de validité (FUS-VAL-01/02)
     w_val = 1.0 if vv is True else (0.5 if vv == "incertain" else 0.0)
     n["date_independant"] = bool(sous.startswith("faux_positif") or re.search(r"artefact|aucun marquage réel", raison)
@@ -660,9 +734,22 @@ def normaliser_obs(o, agent, ix):
         n["drapeaux"].append("FUS-VAL-02")
     n["w_val"] = w_val
     w_conf = CONF_W.get(n["conf"], 0.6)
-    if o.get("controle") == "automatique" or attrs.get("verification") == "automatique":
+    n["auto"] = bool(str(o.get("controle") or "").startswith("automatique") or attrs.get("verification") == "automatique")
+    ca = attrs.get("controle_auto")
+    try:
+        part = float(ca.get("part_masquee", 1.0)) if isinstance(ca, dict) else 1.0
+    except (TypeError, ValueError):
+        part = 1.0
+    # contrat FUS-AUTO-02 : masque véhicules / ombres et (marquage) réponse de ligne fine
+    n["auto_masque"] = bool(n["auto"] and isinstance(ca, dict) and ca.get("masque_vehicules_ombres") is True
+                            and part <= AUTO_PART_MASQUEE_MAX
+                            and (n["classe"] != "marquage" or ca.get("reponse_ligne_fine") is True
+                                 or ca.get("reponse_peinture") is True))
+    if n["auto"]:
         w_conf *= 0.7
         n["drapeaux"].append("controle_automatique")
+        if n["auto_masque"]:
+            n["drapeaux"].append("FUS-AUTO-02:masque")
     n["w_conf"] = w_conf
     # position
     pos = o.get("position") or {}
@@ -707,7 +794,8 @@ def geom_obs(o, p, O):
     def loc(L):
         return [np.array([c[0] + O[0], c[1] + O[1]], float) for c in L if isinstance(c, (list, tuple)) and len(c) >= 2]
 
-    for src, conv in ((pos.get("geometrie_l93"), l93), (a.get("geometrie_l93"), l93), (a.get("geometrie_l93_approx"), l93),
+    for src, conv in ((pos.get("geometrie_l93"), l93), (o.get("geometrie_l93"), l93), (a.get("geometrie_l93"), l93),
+                      (a.get("geometrie_l93_approx"), l93),
                       (a.get("trace_l93"), l93), (a.get("trace_local"), loc), (a.get("extremites_local"), loc)):
         if isinstance(src, list) and len(src) >= 2:
             pts = conv(src)
@@ -1205,18 +1293,50 @@ class Fusion:
         ix.entrees[rel(SITE / "etat_2026/arbre_pct_L93.geojson")] = sha256(SITE / "etat_2026/arbre_pct_L93.geojson")
         ix.entrees[rel(COH / "corrections.geojson")] = sha256(COH / "corrections.geojson")
         ix.entrees[rel(COH / "propositions_ajouts.geojson")] = sha256(COH / "propositions_ajouts.geojson")
+        self.requalifiees = {}                  # obs automatique -> verdict FUS-AUTO-01 (incertain | corroboree)
+        self.ajouts_refuses = []                # groupes d'ajout remplacés par un conflit (FUS-ADD-04)
+        # arbitrages de revue (FUS-ARB-01)
+        self.arbitrages = []
+        if ARBITRAGES.exists():
+            self.arbitrages = sorted(charger_json(ARBITRAGES).get("arbitrages", []), key=lambda a: a["id"])
+            ix.entrees[rel(ARBITRAGES)] = sha256(ARBITRAGES)
+        self.arb_par_obs = defaultdict(list)
+        for a in self.arbitrages:
+            a["_applique"] = []
+            for oid in a.get("obs", []):
+                self.arb_par_obs[oid].append(a)
+        par_id = {n["id"]: n for n in obs}
+        for a in self.arbitrages:
+            if a.get("action") != "mesure_position":
+                continue
+            for oid in a.get("obs", []):
+                n = par_id.get(oid)
+                if n is None or n["p"] is None:
+                    continue
+                pa = a.get("parametres") or {}
+                s = float(pa.get("sigma_m") or max(float(n["prec"] or 1.0), 1.0))
+                w = n["w_conf"] * n["w_val"]
+                n["methode"] = pa.get("methode") or "mesure_arbitree"
+                n["mesure_arbitree"] = a["id"]
+                n["sigma_brut"] = s
+                n["sigma"] = s / math.sqrt(w) if w > 0 else None
+                n["drapeaux"].append(f"FUS-ARB-01:{a['id']}")
+
+    def arbitrage(self, n, action):
+        return next((a for a in self.arb_par_obs.get(n["id"], []) if a.get("action") == action), None)
 
     # -------- conflits --------
-    def conflit(self, typ, gravite, cible, obs, detail, reco):
+    def conflit(self, typ, gravite, cible, obs, detail, reco, **extra):
         self.conflits.append({"type": typ, "gravite": gravite, "cible": cible, "obs": sorted(set(obs)),
-                              "detail": detail, "recommandation": reco})
+                              "detail": detail, "recommandation": reco, **extra})
 
     # -------- 1. liens --------
     def lier(self):
         ix = self.ix
         for n in self.obs:
-            tr = {"id": n["id"], "agent": n["agent"], "source": n["source"], "date": n["date"], "classe": n["o"].get("classe"),
-                  "statut": n["statut"], "valide_2026": n["valide"], "confiance": n["conf"],
+            tr = {"id": n["id"], "agent": n["agent"], "source": n["source"], "date": n["date"], "categorie": n["categorie"],
+                  "classe": n["o"].get("classe"),
+                  "statut": n["statut"], "valide_2026": n["valide"], "confiance": n["conf"], "controle_automatique": n["auto"],
                   "poids_validite": n["w_val"], "poids_confiance": round(n["w_conf"], 3), "liens": [], "role": None,
                   "drapeaux": list(n["drapeaux"])}
             self.index_obs[n["id"]] = tr
@@ -1310,6 +1430,49 @@ class Fusion:
                 tr["role"] = "non_apparie"
                 tr["regle"] = "FUS-LIEN-06"
 
+    # -------- 1b. contrôles automatiques des marquages (FUS-AUTO-01/02) --------
+    def requalifier_automatiques(self):
+        for eid in sorted(self.membres):
+            M = self.membres[eid]
+            ent = self.ix.E[eid]
+            autos = [m for m in M if m["statut"] == "confirme" and m["n"]["auto"] and not m["n"]["auto_masque"]
+                     and m["n"]["classe"] == "marquage" and m["n"]["type_source"] in ("ortho2022", "ortho_recente")]
+            if not autos:
+                continue
+            corrob = sorted({m["n"]["id"] for m in M if not m["n"]["auto"] and m["statut"] in PRESENCE
+                             and m["n"]["w_conf"] * m["n"]["w_val"] > 0 and self.poids_existence(ent, m)[0] > 0})
+            for m in autos:
+                oid = m["n"]["id"]
+                tr = self.index_obs[oid]
+                if corrob:
+                    m["corroboree_par"] = corrob
+                    if self.requalifiees.get(oid) != "incertain":
+                        self.requalifiees[oid] = "corroboree"
+                    tr.setdefault("corroboree_par", {})[eid] = corrob
+                else:
+                    m["statut"] = "incertain"
+                    m["requalifiee"] = "FUS-AUTO-01"
+                    self.requalifiees[oid] = "incertain"
+                    tr["statut_effectif"] = "incertain"
+                    tr["requalification"] = "FUS-AUTO-01 : confirmation automatique sans masque véhicules / ombres ni corroboration manuelle"
+        for oid, v in self.requalifiees.items():
+            fl = "FUS-AUTO-01:" + ("requalifiee_incertain" if v == "incertain" else "corroboree")
+            if fl not in self.index_obs[oid]["drapeaux"]:
+                self.index_obs[oid]["drapeaux"].append(fl)
+        # arbitrages de mesure : l'observation doit être liée à l'entité visée (FUS-ARB-01)
+        for a in self.arbitrages:
+            if a.get("action") != "mesure_position":
+                continue
+            cible = a.get("entite")
+            ok = [oid for oid in a.get("obs", []) if any(m["n"]["id"] == oid and m["role"] == "primaire"
+                                                         for m in self.membres.get(cible, []))]
+            if ok:
+                a["_applique"].append(cible)
+            else:
+                self.conflit("arbitrage_inapplicable", "a_verifier", cible or a["id"], a.get("obs", []),
+                             f"arbitrage {a['id']} (mesure_position) : observation non liée à {cible}",
+                             "mettre à jour arbitrages_fusion.json")
+
     # -------- 2. entités --------
     def poids_existence(self, ent, m):
         n = m["n"]
@@ -1345,29 +1508,19 @@ class Fusion:
             return "retrait", "FUS-EXI-02"
         return "absence", "FUS-EXI-01"
 
-    def fusion_entite(self, eid, M):
-        ix = self.ix
-        ent = ix.E[eid]
-        r = {"id": eid, "famille": ent["famille"], "type": ent["type"], "classe": ent["classe"],
-             "obs": sorted({m["n"]["id"] for m in M}), "sources": sorted({m["n"]["source"] for m in M}),
-             "conflits": [], "regles": set()}
-        valides = [m for m in M if m["n"]["w_val"] > 0 and self.poids_existence(ent, m)[0] > 0]
-        r["date_max_valide"] = max((m["n"]["date"] for m in valides if m["n"]["date"]), default=None)
-        r["date_max"] = max((m["n"]["date"] for m in M if m["n"]["date"]), default=None)
-        cats = [m["n"]["categorie"] for m in valides]
-        ordre_cat = ["photo_2025", "photo_2020_2024", "ortho_2022", "web"]
-        r["categorie_preuve"] = next((c for c in ordre_cat if c in cats), "non_valable_2026" if M else None)
-        # ---- existence (FUS-EXI-01/02, FUS-VAL-03) ----
+    def existence(self, ent, M, regles):
+        """Poids de présence / absence / retrait... d'un ensemble d'observations (FUS-EXI-01/02, FUS-VAL-03)."""
         W = Counter()
         qui = defaultdict(list)
-        non_probants, attendues = [], []
+        dates = defaultdict(list)
+        non_probants, attendues, doublon_de = [], [], None
         for m in M:
             n = m["n"]
             st = m["statut"]
             w_brut = n["w_conf"] * n["w_val"]
             if st == "absent_sur_image":
                 verdict, regle = self.evaluer_absence(ent, n)
-                r["regles"].add(regle)
+                regles.add(regle)
                 if verdict == "non_probant":
                     if w_brut > 0:
                         non_probants.append(n["id"])
@@ -1378,15 +1531,21 @@ class Fusion:
                 k = "retrait" if verdict == "retrait" else "absence"
                 W[k] += w_brut
                 qui[k].append(n["id"])
+                if w_brut > 0:
+                    dates[k].append(n["date"] or "")
+                md = re.search(r"doublon (?:géométrique )?de ([A-Za-z]{1,6}[-_][\w-]+)", n["atxt"])
+                if k == "retrait" and md and RE_ID.match(md.group(1)):
+                    doublon_de = md.group(1)
                 continue
             w, regle = self.poids_existence(ent, m)
             if regle:
-                r["regles"].add(regle)
+                regles.add(regle)
             if w <= 0:
                 continue
-            if st in ("confirme", "attribut_corrige", "position_corrigee"):
+            if st in PRESENCE:
                 W["presence"] += w
                 qui["presence"].append(n["id"])
+                dates["presence"].append(n["date"] or "")
             temp_explicite = n["temporaire"] and re.search(r"chantier|provisoire|temporaire", n["sous_type"] + " " +
                                                             texte(n["attrs"].get("type_observe", ""))) \
                 and not re.search(r"definitiv|définitiv", n["sous_type"] + n["atxt"])
@@ -1399,25 +1558,122 @@ class Fusion:
             if m["role"] == "primaire" and isinstance(n["attrs"].get("doublon"), str) and RE_ID.match(n["attrs"]["doublon"]):
                 W["doublon"] += w
                 qui["doublon"].append(n["id"])
-                r["doublon_de"] = n["attrs"]["doublon"]
-        ex = "non_verifie"
+                doublon_de = n["attrs"]["doublon"]
+        W["_dates"] = dates
+        return W, qui, non_probants, attendues, doublon_de
+
+    @staticmethod
+    def chronologie(W):
+        """FUS-EXI-03 : absences toutes postérieures aux présences (objet retiré) ou l'inverse (objet posé)."""
+        d = W.get("_dates") or {}
+        da, dp = [x for x in d.get("absence", []) if x], [x for x in d.get("presence", []) if x]
+        if W["absence"] >= 0.6 and W["presence"] >= 0.3 and da and dp and min(da) > max(dp):
+            return "retire_entre_dates"
+        if W["presence"] >= 0.3 and W["absence"] >= 0.3 and da and dp and min(dp) > max(da):
+            return "pose_entre_dates"
+        return None
+
+    @classmethod
+    def verdict_existence(cls, W, regles):
+        chrono = cls.chronologie(W)
         if W["retrait"] >= 0.6:
-            ex = "retirer"
-            r["regles"].add("FUS-EXI-02")
-        elif W["doublon"] >= 0.6:
-            ex = "retirer_doublon"
-            r["regles"].add("FUS-EXI-02")
-        elif W["non_instancier"] >= 0.3:
-            ex = "non_instancier"
-            r["regles"].add("FUS-TMP-01")
-        elif W["absence"] >= 0.6 and W["absence"] >= 2 * W["presence"]:
-            ex = "absent_2026"
-            r["regles"].add("FUS-EXI-01")
-        elif W["presence"] >= 0.3:
-            ex = "present"
-        r["existence"] = {"verdict": ex, "poids": {k: round(v, 3) for k, v in sorted(W.items())},
+            regles.add("FUS-EXI-02")
+            return "retirer"
+        if W["doublon"] >= 0.6:
+            regles.add("FUS-EXI-02")
+            return "retirer_doublon"
+        if W["non_instancier"] >= 0.3:
+            regles.add("FUS-TMP-01")
+            return "non_instancier"
+        if chrono == "retire_entre_dates":
+            regles.add("FUS-EXI-03")
+            return "absent_2026"
+        if chrono == "pose_entre_dates":
+            regles.add("FUS-EXI-03")
+            return "present"
+        if W["absence"] >= 0.6 and W["absence"] >= 2 * W["presence"]:
+            regles.add("FUS-EXI-01")
+            return "absent_2026"
+        if W["presence"] >= 0.3:
+            return "present"
+        return "non_verifie"
+
+    def preuve_concluante(self, ent, m) -> bool:
+        """Observation valable 2026 et concluante (FUS-COUV-01)."""
+        n = m["n"]
+        if n["w_conf"] * n["w_val"] <= 0:
+            return False
+        if m["statut"] in PRESENCE:
+            return self.poids_existence(ent, m)[0] > 0
+        if m["statut"] == "absent_sur_image":
+            v = self.evaluer_absence(ent, n)[0]
+            # absence attendue (l'observateur confirme le statut décrit) sur une image probante : concluante
+            return v in ("absence", "retrait") or (v == "attendue" and self.probant(ent, n))
+        return False
+
+    def fusion_entite(self, eid, M):
+        ix = self.ix
+        ent = ix.E[eid]
+        r = {"id": eid, "famille": ent["famille"], "type": ent["type"], "classe": ent["classe"],
+             "obs": sorted({m["n"]["id"] for m in M}), "sources": sorted({m["n"]["source"] for m in M}),
+             "conflits": [], "regles": set()}
+        valides = [m for m in M if m["n"]["w_val"] > 0 and self.poids_existence(ent, m)[0] > 0]
+        r["date_max_valide"] = max((m["n"]["date"] for m in valides if m["n"]["date"]), default=None)
+        r["date_max"] = max((m["n"]["date"] for m in M if m["n"]["date"]), default=None)
+        # ---- preuve la plus récente, valable 2026 et concluante (FUS-COUV-01) ----
+        concl = [m for m in M if self.preuve_concluante(ent, m)]
+        cats = {m["n"]["categorie"] for m in concl}
+        cat = next((c for c in CATEGORIES if c in cats), None)
+        if cat is None:
+            cat = "non_concluant" if valides else ("non_valable_2026" if M else None)
+        r["categorie_preuve"] = cat
+        r["tranche_preuve"] = TRANCHE.get(cat, cat)
+        r["obs_preuve"] = sorted({m["n"]["id"] for m in concl if m["n"]["categorie"] == cat})
+        r["preuve_automatique_seule"] = bool(concl) and all(m["n"]["auto"] for m in concl)
+        r["requalifiees"] = sorted({m["n"]["id"] for m in M if m.get("requalifiee")})
+        if r["requalifiees"]:
+            r["regles"].add("FUS-AUTO-01")
+        # ---- existence (FUS-EXI-01/02, FUS-VAL-03), priorité photo 2026 (FUS-DATE-01) ----
+        M26 = [m for m in M if m["n"]["categorie"] == "photo_2026" and m["n"]["w_conf"] * m["n"]["w_val"] > 0
+               and m["statut"] in PRESENCE + ("absent_sur_image",)]
+        W, qui, non_probants, attendues, doublon_de = self.existence(ent, M26 or M, r["regles"])
+        ex = self.verdict_existence(W, r["regles"])
+        if doublon_de and ex in ("retirer", "retirer_doublon"):
+            r["doublon_de"] = doublon_de
+        r["existence"] = {"verdict": ex, "poids": {k: round(v, 3) for k, v in sorted(W.items()) if not k.startswith("_")},
                           "obs": {k: sorted(v) for k, v in sorted(qui.items())}}
-        if W["absence"] >= 0.3 and W["presence"] >= 0.3:
+        chrono = self.chronologie(W)
+        if chrono:
+            r["existence"]["chronologie"] = chrono
+            dd = W["_dates"]
+            self.conflit("changement_entre_dates", "info", eid, qui["absence"] + qui["presence"],
+                         f"{'absent' if chrono == 'retire_entre_dates' else 'présent'} après "
+                         f"{max(x for x in (dd['presence'] if chrono == 'retire_entre_dates' else dd['absence']) if x)} : "
+                         f"objet {'retiré' if chrono == 'retire_entre_dates' else 'posé'} entre deux prises de vue (FUS-EXI-03)",
+                         "état le plus récent retenu")
+            r["conflits"].append("changement_entre_dates")
+        if M26:
+            r["regles"].add("FUS-DATE-01")
+            anter = [m for m in M if m not in M26 and m["statut"] in PRESENCE + ("absent_sur_image",)]
+            Wa, quia, _, _, _ = self.existence(ent, anter, set())
+            ex_a = self.verdict_existence(Wa, set())
+            ecartees = sorted({o for v in quia.values() for o in v})
+            if ecartees:
+                r["existence"]["priorite_2026"] = True
+                r["existence"]["obs_anterieures_ecartees"] = ecartees
+                r["existence"]["verdict_anterieur"] = ex_a
+            pres = {"present"}
+            abse = {"absent_2026", "retirer", "retirer_doublon", "non_instancier"}
+            if (ex_a in pres and ex in abse) or (ex_a in abse and ex in pres):
+                # un retrait « artefact » (constat indépendant de la date) contredit par 2026 reste à vérifier
+                grav = "a_verifier" if ex_a in ("retirer", "retirer_doublon") else "info"
+                self.conflit("changement_2026", grav, eid, sorted({o for v in qui.values() for o in v}) + ecartees,
+                             f"photo 2026 : {ex} ; images antérieures : {ex_a}"
+                             + (" (constat d'artefact indépendant de la date contredit par la photo 2026)" if grav == "a_verifier"
+                                else " (objet posé, refait ou retiré pendant les travaux 2025 ?)"),
+                             "état 2026 retenu (FUS-DATE-01)" + (" ; relire les deux vues" if grav == "a_verifier" else ""))
+                r["conflits"].append("changement_2026")
+        if W["absence"] >= 0.3 and W["presence"] >= 0.3 and not chrono:
             self.conflit("existence_desaccord", "a_verifier", eid, qui["absence"] + qui["presence"],
                          f"présence {W['presence']:.2f} contre absence {W['absence']:.2f}",
                          "trancher sur une image postérieure aux travaux ou sur le terrain")
@@ -1438,6 +1694,7 @@ class Fusion:
         votes = defaultdict(list)
         genres = {}
         sous_zones = []
+        cat_obs = {m["n"]["id"]: m["n"]["categorie"] for m in M}
         grande_surface = ent["famille"] == "surfaces" and float(ent["props"].get("aire_m2") or 0) > SURFACE_MAX_PONCTUELLE_M2
         for m in M:
             n = m["n"]
@@ -1448,10 +1705,18 @@ class Fusion:
                 if grande_surface and attr in ("materiau_id", "classe"):
                     sous_zones.append({"obs": n["id"], "attribut": attr, "valeur": val,
                                        "l93": [r3(n["p"][0]), r3(n["p"][1])] if n["p"] is not None else None,
-                                       "sous_type": n["sous_type"]})
+                                       "sous_type": n["sous_type"], "categorie": n["categorie"]})
                     continue
                 votes[attr].append((val, w * f, n["id"]))
                 genres[attr] = genre
+        # priorité photo 2026 par attribut (FUS-DATE-01)
+        anterieurs = {}
+        for attr in sorted(votes):
+            v26 = [v for v in votes[attr] if cat_obs.get(v[2]) == "photo_2026" and v[1] > 0]
+            if v26 and len(v26) < len(votes[attr]):
+                anterieurs[attr] = sorted({v[2] for v in votes[attr] if cat_obs.get(v[2]) != "photo_2026"})
+                votes[attr] = v26
+                r["regles"].add("FUS-DATE-01")
         if grande_surface:
             fourre_tout = [m["n"]["id"] for m in M if re.search(r"fourre_tout", m["n"]["sous_type"])]
             if sous_zones or fourre_tout:
@@ -1484,8 +1749,13 @@ class Fusion:
                              "obs": res["obs"], "regle": "FUS-ATT-04", "conflit": res["conflit"]}
                 if "alternatives" in res:
                     maj[attr]["alternatives"] = res["alternatives"]
+                if attr in anterieurs:
+                    maj[attr]["obs_anterieures_ecartees"] = anterieurs[attr]
+                    maj[attr]["regle"] = "FUS-ATT-04 ; FUS-DATE-01"
             elif desc is not None and not ecart_significatif(attr, res["valeur"], desc):
                 confirmes[attr] = {"valeur": desc, "obs": res["obs"]}
+                if attr in anterieurs:
+                    confirmes[attr]["obs_anterieures_ecartees"] = anterieurs[attr]
         r["maj"] = maj
         r["attributs_confirmes"] = confirmes
         if "type" in maj and maj["type"]["apres"] == "poteau_reseau":
@@ -1533,7 +1803,7 @@ class Fusion:
             w, regle = self.poids_existence(ent, m)
             if w <= 0:
                 continue
-            mesure = (n["methode"] in ("triangulation", "rayon_sol")
+            mesure = (n["methode"] in ("triangulation", "rayon_sol") or bool(n.get("mesure_arbitree"))
                       or (n["methode"] == "pixel_ortho" and m["statut"] == "position_corrigee"))
             if not mesure:
                 # « confirme » sans mesure du pied (projection de la description, pixel ortho d'une lanterne ou
@@ -1590,9 +1860,33 @@ class Fusion:
         if not ms:
             r["position"] = {"verdict": "non_mesure"}
             return
+        # priorité photo 2026 (FUS-DATE-01) : mesures (ou confirmations) 2026 seules, les autres restent antérieures
+        ms26 = [x for x in ms if x["n"]["categorie"] == "photo_2026"]
+        anterieures = []
+        if ms26 and len(ms26) < len(ms):
+            anterieures = [x for x in ms if x["n"]["categorie"] != "photo_2026" and x["methode"] != "confirmation"]
+            ms = ms26
+            reelles = [x for x in ms if x["methode"] != "confirmation"]
+            projections = sorted(x["obs"] for x in ms if x["methode"] == "confirmation")
+            r["regles"].add("FUS-DATE-01")
         if reelles:   # une projection de la description ne mesure rien : elle ne sert qu'en l'absence de mesure (FUS-POS-01)
             ms = reelles
         po, so, actifs, rejets = self.moyenne_robuste(ms, cls_tol)
+        if anterieures:
+            ant = []
+            for x in sorted(anterieures, key=lambda t: t["obs"]):
+                dx = float(np.hypot(*(x["p"] - po)))
+                ant.append({"obs": x["obs"], "methode": x["methode"], "categorie": x["n"]["categorie"],
+                            "l93": [r3(x["p"][0]), r3(x["p"][1])], "d_position_2026_m": r3(dx)})
+            r["mesures_anterieures"] = ant
+            loin = [a for a, x in zip(ant, sorted(anterieures, key=lambda t: t["obs"]))
+                    if a["d_position_2026_m"] > max(cls_tol, 3 * x["sigma_brut"])]
+            if loin:
+                self.conflit("position_anterieure_divergente", "info", ent["id"], [a["obs"] for a in loin] + sorted(x["obs"] for x in ms),
+                             "mesures antérieures aux travaux à " + ", ".join(f"{a['obs']} {a['d_position_2026_m']} m" for a in loin)
+                             + " de la position 2026 retenue (objet déplacé pendant les travaux ou mesure ancienne fausse)",
+                             "position 2026 retenue (FUS-DATE-01)")
+                r["conflits"].append("position_anterieure_divergente")
         for x in rejets:
             self.index_obs[x["obs"]]["mesure_rejetee"] = True
         if rejets:
@@ -1672,10 +1966,16 @@ class Fusion:
             v = n["p"] - ref
             ms.append({"obs": n["id"], "v": v, "d": float(np.hypot(*v)), "sigma": n["sigma_brut"], "statut": m["statut"],
                        "methode": n["methode"], "source": n["source"], "ref": mref, "w_val": n["w_val"], "q": ref,
-                       "p": n["p"], "conf": n["conf"]})
+                       "p": n["p"], "conf": n["conf"], "categorie": n["categorie"]})
         if not ms:
             r["position"] = {"verdict": "non_mesure"}
             return
+        ms26 = [x for x in ms if x["categorie"] == "photo_2026"]
+        if ms26 and len(ms26) < len(ms):   # priorité photo 2026 (FUS-DATE-01)
+            r["mesures_anterieures"] = [{"obs": x["obs"], "methode": x["methode"], "categorie": x["categorie"],
+                                         "ecart_m": r3(x["d"])} for x in sorted(ms, key=lambda t: t["obs"]) if x not in ms26]
+            ms = ms26
+            r["regles"].add("FUS-DATE-01")
         seuil_min = 0.10 if ent["famille"] in ("marquages", "retire_v03") else 0.20
         corr = [x for x in ms if x["statut"] == "position_corrigee"]
         conf_ = [x for x in ms if x["statut"] != "position_corrigee"]
@@ -1792,6 +2092,71 @@ class Fusion:
                 r["regles"].add("FUS-COH-01")
 
     # -------- 3. ajouts --------
+    def existant_leve_gam(self, cls, g, G, pt, rayon):
+        """Entité levée GAM de même classe (type de marquage compatible) à moins de `rayon` (FUS-ADD-04)."""
+        ix = self.ix
+        types_obs = {type_marquage_obs(n["sous_type"]) for n in g} if cls == "marquage" else set()
+        agents = {n["agent"] for n in g}
+        best = None
+        for fam, types in FAM_SPATIALE.get(cls, []):
+            for eid in ix.par_famille.get(fam, []):
+                e = ix.E[eid]
+                if not e.get("leve_gam") or e.get("G") is None:
+                    continue
+                if types is not None and e["type"] not in types:
+                    continue
+                if cls == "marquage" and None not in types_obs and e["type"] not in types_obs:
+                    continue
+                if not (e["G"]["bbox"][0] - rayon <= G["bbox"][2] and G["bbox"][0] - rayon <= e["G"]["bbox"][2]
+                        and e["G"]["bbox"][1] - rayon <= G["bbox"][3] and G["bbox"][1] - rayon <= e["G"]["bbox"][3]):
+                    continue
+                d = dist_geom(pt, e["G"])[0] if G["type"] == "point" else dist_geoms(G, e["G"])
+                if d > rayon + 1e-9:
+                    continue
+                # le même atelier a confirmé à la main l'entité levée : il distingue les deux objets
+                if any(m["n"]["agent"] in agents and not m["n"]["auto"] and m["role"] == "primaire"
+                       and (m["statut"] == "confirme" or (m["statut"] == "attribut_corrige" and not any(
+                           k in m["n"]["attrs"] for k in ("classe_proposee", "type_propose", "type_reel"))))
+                       for m in self.membres.get(eid, [])):
+                    continue
+                if best is None or (d, eid) < best:
+                    best = (d, eid)
+        return best
+
+    def ancrer_bord(self, pt, arb):
+        """Point ramené au bord de l'îlot / espace vert le plus proche, en retrait vers l'intérieur (FUS-ARB-01)."""
+        pa = arb.get("parametres") or {}
+        rayon = float(pa.get("rayon_m", 3.0))
+        retrait = float(pa.get("retrait_m", 0.3))
+        classes = set(pa.get("classes_hote") or ["espace_vert"])
+        best = None
+        for fam in ("ilots", "surfaces", "surfaces_v1"):
+            for eid in self.ix.par_famille.get(fam, []):
+                e = self.ix.E[eid]
+                if fam != "ilots" and e["type"] not in classes:
+                    continue
+                if not bbox_proche(e["G"]["bbox"], pt, rayon):
+                    continue
+                for pg in e["G"]["polys"]:
+                    d, q, k = segment_le_plus_proche(pt, pg[0])
+                    if d <= rayon and (best is None or (d, eid) < (best[0], best[1])):
+                        best = (d, eid, q, pg[0], k)
+        if best is None:
+            return None
+        d, eid, q, R, k = best
+        t = R[k + 1] - R[k]
+        nt = float(np.hypot(*t))
+        c = q
+        if nt > 0:
+            nrm = np.array([-t[1], t[0]]) / nt
+            for s in (1.0, -1.0):
+                if dans_anneau(q + s * retrait * nrm, R):
+                    c = q + s * retrait * nrm
+                    break
+        return c, {"hote": eid, "famille_hote": self.ix.E[eid]["famille"], "type_hote": self.ix.E[eid]["type"],
+                   "d_bord_m": r3(d), "deplacement_m": r3(float(np.hypot(*(c - pt)))), "retrait_m": retrait,
+                   "point_initial_l93": [r3(pt[0]), r3(pt[1])], "arbitrage": arb["id"], "regle": "FUS-ARB-01"}
+
     def regrouper_ajouts(self):
         L = sorted(self.non_lies, key=lambda n: n["id"])
         parent = list(range(len(L)))
@@ -1812,7 +2177,7 @@ class Fusion:
                 if a["agent"] == b["agent"]:
                     # un atelier ortho (une seule image) liste des objets distincts ; un atelier photo peut revoir
                     # le même objet sur deux photos : même sous-type, objets ponctuels, à la tolérance de classe
-                    if a["type_source"] != "panoramax" or a["sous_type"] != b["sous_type"] \
+                    if not a["photo"] or a["sous_type"] != b["sous_type"] \
                             or a["G"]["type"] != "point" or b["G"]["type"] != "point":
                         continue
                     seuil = tol
@@ -1862,6 +2227,23 @@ class Fusion:
                 pt = G["pt"]
                 so = float(n0["prec"] or 1.0)
                 geo_src = f"{n0['id']}:{G.get('source_geom')}"
+            # arbitrages de revue (FUS-ARB-01)
+            arb_non = next((a for n in g for a in [self.arbitrage(n, "ne_pas_instancier")] if a), None)
+            arb_anc = next((a for n in g for a in [self.arbitrage(n, "ancrer_bord_ilot")] if a), None)
+            ancrage = None
+            if arb_anc is not None:
+                res_anc = self.ancrer_bord(pt, arb_anc) if G["type"] == "point" else None
+                if res_anc:
+                    pt, ancrage = res_anc
+                    G = construire_geom([pt], [], [])
+                    geo_src += f" ; ancré au bord de {ancrage['hote']} ({arb_anc['id']})"
+                    arb_anc["_applique"].append(ancrage["hote"])
+                else:
+                    self.conflit("arbitrage_inapplicable", "a_verifier", arb_anc["id"], [n["id"] for n in g],
+                                 f"arbitrage {arb_anc['id']} (ancrer_bord_ilot) : aucun îlot ni espace vert à moins de "
+                                 f"{(arb_anc.get('parametres') or {}).get('rayon_m', 3.0)} m", "mettre à jour arbitrages_fusion.json")
+            if arb_non is not None:
+                arb_non["_applique"].append(",".join(n["id"] for n in g))
             valeurs = [n["valide"] for n in g]
             vmax = True if True in valeurs else ("incertain" if "incertain" in valeurs else False)
             conf_max = max((n["conf"] for n in g), key=lambda c: CONF_W.get(c, 0))
@@ -1902,16 +2284,39 @@ class Fusion:
                     hotes.append(b[1])
             elif cls in FAM_SPATIALE:
                 tol = TOL_CLASSE.get(cls, 1.0)
-                b = plus_proche(ix, pt, FAM_SPATIALE[cls], max(tol, 0.5))
+                rayon = max(RAYON_DEDOUBLONNAGE_M, tol)
+                b = plus_proche(ix, pt, FAM_SPATIALE[cls], rayon)
                 equipement = all(re.search(r"bo[iî]tier|tete|panonceau|plaque|camera", n["sous_type"]) for n in g)
                 if b:
-                    proche = {"entite": b[1], "d_m": r3(b[0])}
+                    proche = {"entite": b[1], "d_m": r3(b[0]), "leve_gam": bool(ix.E[b[1]].get("leve_gam"))}
                     if equipement:
                         # équipement porté (boîtier, plaque, panonceau) : le support voisin est son hôte, pas un doublon
                         if b[1] not in hotes:
                             hotes.append(b[1])
                     elif b[0] <= max(tol / 2.0, 0.25) and G["type"] == "point":
                         conflits.append(("ajout_proche_existant", [n["id"] for n in g]))
+                # dédoublonnage contre le levé GAM (FUS-ADD-04) : conflit au lieu d'un ajout
+                gam = None if equipement else self.existant_leve_gam(cls, g, G, pt, rayon)
+                if gam is not None:
+                    d_g, eid_g = gam
+                    e_g = ix.E[eid_g]
+                    sts = sorted({n["sous_type"] for n in g})
+                    prop = {"classe": cls, "sous_types": sts, "l93": [r3(pt[0]), r3(pt[1])],
+                            "local": [r3(pt[0] - ix.O[0]), r3(pt[1] - ix.O[1])], "geometrie": geojson_geom(G),
+                            "obs": [n["id"] for n in g], "d_m": r3(d_g), "valide_2026": [n["valide"] for n in g],
+                            "categories": sorted({n["categorie"] for n in g})}
+                    self.ajouts_refuses.append({"entite_gam": eid_g, **prop})
+                    self.conflit("ajout_contre_leve_gam", "a_verifier", eid_g, [n["id"] for n in g],
+                                 f"objet observé absent de la description ({', '.join(sts)}) à {d_g:.2f} m de {eid_g} "
+                                 f"({e_g['famille']} {e_g['type']}, levé GAM) : même objet probable ; ajout non créé (FUS-ADD-04)",
+                                 "trancher sur photo 2026 ou terrain : déplacer / retyper l'objet levé, ou créer l'ajout s'il est distinct",
+                                 proposition=prop)
+                    for n in g:
+                        tr = self.index_obs[n["id"]]
+                        tr["role"] = "conflit_ajout"
+                        tr["regle"] = "FUS-ADD-04"
+                        tr["entite_gam_proche"] = eid_g
+                    continue
             # références croisées (FUS-ADD-03)
             xref = {}
             for f in self.props_coh:
@@ -1940,11 +2345,18 @@ class Fusion:
                 raisons.append("entité existante très proche (FUS-ADD-02)")
             if all(n["statut"] == "incertain" for n in g):
                 raisons.append("observations « incertain » seulement")
+            if arb_non is not None:
+                raisons.append(f"arbitrage {arb_non['id']} (FUS-ARB-01) : {arb_non.get('motif', '')}")
+            if ancrage and ancrage["hote"] not in hotes:
+                hotes.append(ancrage["hote"])
+            cats_g = {n["categorie"] for n in g if n["w_val"] > 0}
             bruts.append({"groupe": groupe, "classe": cls, "G": G, "pt": pt, "sigma": so, "geo_src": geo_src,
                           "hotes": sorted(hotes), "liens_associes": associes,
                           "membres": g, "valide": vmax, "conf": conf_max, "attrs": attrs, "desc": desc, "proche": proche,
                           "xref": xref, "fam_cible": fam_cible, "instancier": not raisons, "raisons": raisons,
-                          "conflits": conflits})
+                          "conflits": conflits, "ancrage": ancrage,
+                          "categorie_preuve": next((c for c in CATEGORIES if c in cats_g), None),
+                          "arbitrages": sorted({a["id"] for a in (arb_non, arb_anc) if a is not None})})
         # identifiants déterministes
         compteur = Counter()
         for a in sorted(bruts, key=lambda a: (CODE_AJOUT.get(a["groupe"], "AUT"), round(float(a["pt"][0]), 2), round(float(a["pt"][1]), 2), a["membres"][0]["id"])):
@@ -1980,6 +2392,13 @@ class Fusion:
                 self.conflit("validite_2026_douteuse", "info", a["id"], [n["id"] for n in a["membres"]],
                              f"ajout vu seulement sur images non valables ou incertaines pour 2026 (valide {a['valide']})",
                              "non instancié ; à vérifier sur image 2026")
+        # arbitrages d'ajout sans effet (FUS-ARB-01)
+        for arb in self.arbitrages:
+            if arb.get("action") in ("ne_pas_instancier", "ancrer_bord_ilot") and not arb["_applique"] \
+                    and not any(c["type"] == "arbitrage_inapplicable" and c["cible"] == arb["id"] for c in self.conflits):
+                self.conflit("arbitrage_inapplicable", "a_verifier", arb["id"], arb.get("obs", []),
+                             f"arbitrage {arb['id']} ({arb.get('action')}) : observations hors des ajouts de cette exécution",
+                             "mettre à jour arbitrages_fusion.json")
 
     # -------- contrôles transverses --------
     def doublons_apres_correction(self):
@@ -2039,6 +2458,7 @@ class Fusion:
     # -------- exécution --------
     def executer(self):
         self.lier()
+        self.requalifier_automatiques()
         for eid in sorted(self.membres):
             self.res_entites[eid] = self.fusion_entite(eid, self.membres[eid])
         self.doublons_apres_correction()
@@ -2120,7 +2540,8 @@ def ecrire_sorties(F: Fusion, ix: Index):
                  "doublon_de": r.get("doublon_de"), "textes_lus": r.get("textes_lus"),
                  "notes": r.get("notes"), "revue_texte": bool(r.get("notes")) and not r["maj"],
                  "conflits": r["conflits_ids"], "regles": r["regles"], "categorie_preuve": r["categorie_preuve"],
-                 "date_max_valide": r["date_max_valide"], "provenance": provenance(F, r["obs"])}
+                 "tranche_preuve": r["tranche_preuve"], "date_max_valide": r["date_max_valide"],
+                 "provenance": provenance(F, r["obs"])}
         att["features"].append({"type": "Feature", "properties": props,
                                 "geometry": None if pt is None else {"type": "Point", "coordinates": [r3(pt[0]), r3(pt[1])]}})
     ecrire_json(OUT / "attributs.geojson", att)
@@ -2134,9 +2555,11 @@ def ecrire_sorties(F: Fusion, ix: Index):
                  "local": [r3(a["pt"][0] - O[0]), r3(a["pt"][1] - O[1])],
                  "valide_2026": a["valide"], "confiance": a["conf"], "instancier": a["instancier"],
                  "raisons_non_instanciation": a["raisons"], "hotes": a["hotes"], "liens_associes": a["liens_associes"],
-                 "entite_existante_proche": a["proche"],
+                 "entite_existante_proche": a["proche"], "ancrage": a["ancrage"], "arbitrages": a["arbitrages"],
+                 "categorie_preuve": a["categorie_preuve"], "tranche_preuve": TRANCHE.get(a["categorie_preuve"]),
                  "references_croisees": a["xref"], "conflits": a["conflits_ids"],
-                 "regles": ["FUS-ADD-01", "FUS-ADD-02", "FUS-ADD-03"], "provenance": provenance(F, [n["id"] for n in g])}
+                 "regles": ["FUS-ADD-01", "FUS-ADD-02", "FUS-ADD-03", "FUS-ADD-04"] + (["FUS-ARB-01"] if a["arbitrages"] else []),
+                 "provenance": provenance(F, [n["id"] for n in g])}
         adj["features"].append({"type": "Feature", "properties": props, "geometry": geojson_geom(a["G"])})
     ecrire_json(OUT / "ajouts.geojson", adj)
     # ---- corrections_position.geojson ----
@@ -2154,7 +2577,9 @@ def ecrire_sorties(F: Fusion, ix: Index):
                      "preuve_description": pos["preuve_description"], "sigma_description_m": pos["sigma_description_m"],
                      "p_description_local": [r3(a[0] - O[0]), r3(a[1] - O[1])], "p_fusion_local": [r3(b[0] - O[0]), r3(b[1] - O[1])],
                      "coherence": coh[0] if coh else {"verdict": "sans_correction_coherence"},
-                     "conflits": r["conflits_ids"], "regles": ["FUS-POS-01", "FUS-POS-03", "FUS-POS-04", "FUS-POS-05"],
+                     "mesures_anterieures": r.get("mesures_anterieures"),
+                     "conflits": r["conflits_ids"], "regles": ["FUS-POS-01", "FUS-POS-03", "FUS-POS-04", "FUS-POS-05"]
+                     + (["FUS-DATE-01"] if r.get("mesures_anterieures") else []),
                      "provenance": provenance(F, pos["obs"])}
             cp["features"].append({"type": "Feature", "properties": props,
                                    "geometry": {"type": "LineString", "coordinates": [a, b]}})
@@ -2190,9 +2615,13 @@ def ecrire_sorties(F: Fusion, ix: Index):
         r = F.res_entites[eid]
         pos = r.get("position") or {}
         ev[eid] = {"famille": r["famille"], "type": r["type"], "classe_fusion": r["classe"], "obs": r["obs"],
-                   "sources": r["sources"], "categorie_preuve": r["categorie_preuve"], "date_max": r["date_max"],
+                   "sources": r["sources"], "categorie_preuve": r["categorie_preuve"], "tranche_preuve": r["tranche_preuve"],
+                   "obs_preuve": r["obs_preuve"], "preuve_automatique_seule": r["preuve_automatique_seule"],
+                   "obs_requalifiees": r["requalifiees"], "date_max": r["date_max"],
                    "date_max_valide": r["date_max_valide"], "existence": r["existence"]["verdict"],
+                   "existence_obs_anterieures_ecartees": r["existence"].get("obs_anterieures_ecartees"),
                    "position": {k: pos.get(k) for k in ("verdict", "d_m", "sigma_m", "decision", "n_mesures_reelles") if k in pos},
+                   "mesures_anterieures": r.get("mesures_anterieures"),
                    "attributs_confirmes": r["attributs_confirmes"], "attributs_maj": sorted(r["maj"]),
                    "conflits": r["conflits_ids"], "regles": r["regles"]}
     ecrire_json(OUT / "entites_verifiees.json", {"schema": "pj_enrichi_entites/0.1", "generateur": VERSION,
@@ -2208,9 +2637,41 @@ def ecrire_sorties(F: Fusion, ix: Index):
 # --------------------------------------------------------------------------------------------
 
 PAL = {"fond": (252, 252, 251), "encre": (11, 11, 11), "encre2": (82, 81, 78), "muet": (150, 149, 144),
-       "seq_ortho": (0x86, 0xb6, 0xef), "seq_photo_old": (0x2a, 0x78, 0xd6), "seq_photo_2025": (0x10, 0x42, 0x81),
+       "seq_2022": (0x9d, 0xc3, 0xf0), "seq_2024": (0x4f, 0x8f, 0xdc), "seq_2025": (0x1f, 0x5c, 0xb0), "seq_2026": (0x0a, 0x24, 0x52),
        "orange": (0xeb, 0x68, 0x34), "aqua": (0x1b, 0xaf, 0x7a), "critique": (0xd0, 0x3b, 0x3b), "blanc": (255, 255, 255)}
-CAT_COUL = {"photo_2025": PAL["seq_photo_2025"], "photo_2020_2024": PAL["seq_photo_old"], "ortho_2022": PAL["seq_ortho"]}
+# rampe ordinale par tranche de date de la preuve (FUS-COUV-01) : clair = ancien, foncé = récent
+TRANCHE_COUL = {"ortho_2022": PAL["seq_2022"], "2020_2024": PAL["seq_2024"], "2025": PAL["seq_2025"], "2026": PAL["seq_2026"]}
+
+
+def positions_photos(F: Fusion):
+    """Positions L93 des photos citées : Panoramax (pose calée 2026 si acceptée, sinon GNSS) et Mapillary (SfM)."""
+    out = {"pnx": {}, "mly": {}, "p2026": {}}
+    try:
+        from pyproj import Transformer
+    except ImportError:  # pyproj absent : pas de positions de photos
+        return out
+    tr = Transformer.from_crs("EPSG:4326", "EPSG:2154", always_xy=True)
+    cites = {t["source"][4:] for t in F.index_obs.values() if t["source"].startswith("pnx:")}
+    cales = {}
+    if POSES_2026.exists():
+        for ph in charger_json(POSES_2026).get("photos", []):
+            if ph.get("accepte") and ph.get("pose"):
+                cales[ph["id8"]] = (ph["pose"]["x"] + F.ix.O[0], ph["pose"]["y"] + F.ix.O[1])
+    for f in charger_json(SITE / "panoramax_pictures.geojson").get("features", []):
+        pid = f["properties"]["id"][:8]
+        if pid not in cites:
+            continue
+        dt = (f["properties"].get("datetime") or "")[:10]
+        x, y = cales.get(pid) or tr.transform(*f["geometry"]["coordinates"][:2])
+        out["p2026" if dt >= FIN_TRAVAUX else "pnx"][pid] = (x, y)
+    cites_m = {t["source"][4:] for t in F.index_obs.values() if t["source"].startswith("mly:")}
+    if cites_m and MLY_IMAGES.exists():
+        for im in charger_json(MLY_IMAGES).get("images", []):
+            if str(im.get("id")) in cites_m:
+                g = im.get("computed_geometry") or im.get("geometry")
+                if g:
+                    out["mly"][str(im["id"])] = tr.transform(*g["coordinates"][:2])
+    return out
 
 
 def carte(F: Fusion, ix: Index, chemin: Path):
@@ -2244,21 +2705,16 @@ def carte(F: Fusion, ix: Index, chemin: Path):
 
     zones = [f for f in charger_json(PKG / "relief/relief_zones_2026.geojson").get("features", [])
              if (f["properties"].get("zone") or "") not in ("chaussee_2026",)]
-    ix.entrees[rel(PKG / "relief/relief_zones_2026.geojson")] = sha256(PKG / "relief/relief_zones_2026.geojson")
-    bords = [ix.E[e]["G"] for e in ix.par_famille.get("bordures", [])]
-    photos = {}
-    try:
-        from pyproj import Transformer
-        tr = Transformer.from_crs("EPSG:4326", "EPSG:2154", always_xy=True)
-        idx = charger_json(SITE / "panoramax_pictures.geojson").get("features", [])
-        cites = {t["source"][4:] for t in F.index_obs.values() if t["source"].startswith("pnx:")}
-        for f in idx:
-            pid = f["properties"]["id"][:8]
-            if pid in cites:
-                x, y = tr.transform(*f["geometry"]["coordinates"][:2])
-                photos[pid] = (x, y, (f["properties"].get("datetime") or "")[:10])
-    except Exception:  # pyproj absent : pas de positions de photos
-        photos = {}
+    bords = [(e, ix.E[e]["G"]) for e in sorted(ix.par_famille.get("bordures", []))]
+    photos = positions_photos(F)
+
+    def etoile(d, X, Y, r, fill):
+        pts = []
+        for k in range(10):
+            a = math.pi / 2 + k * math.pi / 5
+            rr = r if k % 2 == 0 else r * 0.45
+            pts.append((X + rr * math.cos(a), Y - rr * math.sin(a)))
+        d.polygon(pts, fill=fill, outline=PAL["blanc"])
 
     def panneau(x0, y0, x1, y1, ppm, mode):
         im = fond_ortho(x0, y0, x1, y1, ppm)
@@ -2284,9 +2740,17 @@ def carte(F: Fusion, ix: Index, chemin: Path):
             dh.line([(k, H), (k + H, 0)], fill=(205, 170, 130), width=2)
         im.paste(hach, (0, 0), mask.point(lambda v: 110 if v else 0))
         d = ImageDraw.Draw(im)
-        for g in bords:
+        centre, demi = ((x0 + x1) / 2, (y0 + y1) / 2), max(x1 - x0, y1 - y0)
+        # bordures : grises sans preuve ; en mode preuves, colorées par tranche de leur preuve concluante
+        larg = 2 if ppm < 3 else 3
+        for eid, g in bords:
+            if not bbox_proche(g["bbox"], centre, demi):
+                continue
+            t = (F.res_entites.get(eid) or {}).get("tranche_preuve") if mode == "preuves" else None
             for C in g["lignes"]:
-                if bbox_proche(g["bbox"], ((x0 + x1) / 2, (y0 + y1) / 2), max(x1 - x0, y1 - y0)):
+                if t in TRANCHE_COUL:
+                    d.line([px(p) for p in C], fill=TRANCHE_COUL[t], width=larg)
+                else:
                     d.line([px(p) for p in C], fill=(120, 119, 115), width=1)
         r0 = 2 if ppm < 3 else 3
 
@@ -2299,7 +2763,11 @@ def carte(F: Fusion, ix: Index, chemin: Path):
                        ("mobilier", "arbres", "ponctuels_sol", "marquages") and e["G"]["type"] in ("point", "poly", "ligne")
                        and not (e["famille"] == "mobilier" and e["type"] == "cloture")]
         if mode == "preuves":
-            for p_, (x, y, dt) in sorted(photos.items()):
+            for x, y in sorted(photos["mly"].values()):
+                if x0 <= x <= x1 and y0 <= y <= y1:
+                    X, Y = px((x, y))
+                    d.ellipse([X - 1.5, Y - 1.5, X + 1.5, Y + 1.5], fill=PAL["encre"])
+            for x, y in sorted(photos["pnx"].values()):
                 if x0 <= x <= x1 and y0 <= y <= y1:
                     X, Y = px((x, y))
                     d.line([(X - 4, Y), (X + 4, Y)], fill=PAL["encre"], width=1)
@@ -2312,10 +2780,10 @@ def carte(F: Fusion, ix: Index, chemin: Path):
                 if r is None:
                     rond(p, 1.5, fill=(175, 174, 170))
                     continue
-                c = r["categorie_preuve"]
-                if c in CAT_COUL:
-                    rond(p, r0 + 2, fill=CAT_COUL[c], out=PAL["blanc"], w=1)
-                elif c == "web":
+                t = r["tranche_preuve"]
+                if t in TRANCHE_COUL:
+                    rond(p, r0 + 2, fill=TRANCHE_COUL[t], out=PAL["blanc"], w=1)
+                elif t == "web":
                     rond(p, r0 + 2, out=PAL["encre"], w=2)
                 else:
                     rond(p, r0 + 2, out=PAL["muet"], w=2)
@@ -2323,12 +2791,15 @@ def carte(F: Fusion, ix: Index, chemin: Path):
                 p = a["pt"]
                 if not (x0 <= p[0] <= x1 and y0 <= p[1] <= y1):
                     continue
-                cats = [n["categorie"] for n in a["membres"] if n["w_val"] > 0]
-                c = next((k for k in ("photo_2025", "photo_2020_2024", "ortho_2022") if k in cats), None)
-                if c:
-                    rond(p, r0 + 2, fill=CAT_COUL[c], out=PAL["blanc"], w=1)
+                t = TRANCHE.get(a.get("categorie_preuve"))
+                if t in TRANCHE_COUL:
+                    rond(p, r0 + 2, fill=TRANCHE_COUL[t], out=PAL["blanc"], w=1)
                 else:
                     rond(p, r0 + 2, out=PAL["muet"], w=2)
+            for x, y in sorted(photos["p2026"].values()):
+                if x0 <= x <= x1 and y0 <= y <= y1:
+                    X, Y = px((x, y))
+                    etoile(d, X, Y, 9 if ppm >= 3 else 7, PAL["critique"])
         else:
             for e in sorted(dessinables, key=lambda e: e["id"]):
                 p = e["G"]["pt"]
@@ -2411,14 +2882,14 @@ def carte(F: Fusion, ix: Index, chemin: Path):
     pB = panneau(*site, "decisions")
     pC = panneau(*coeur, "preuves")
     pD = panneau(*coeur, "decisions")
-    marge, ent_h, leg_h = 24, 70, 150
+    marge, ent_h, leg_h = 24, 70, 190
     W = marge * 3 + pA.size[0] + pB.size[0]
     H = ent_h + 40 + pA.size[1] + 40 + pC.size[1] + leg_h + marge
     im = Image.new("RGB", (W, H), PAL["fond"])
     d = ImageDraw.Draw(im)
     d.text((marge, 18), "Paquet Jardin : preuves images par entité et décisions de la fusion du recensement", fill=PAL["encre"], font=f_titre)
     y = ent_h
-    d.text((marge, y), "A. Site : preuve image la plus récente valable 2026", fill=PAL["encre"], font=f_txt)
+    d.text((marge, y), "A. Site : preuve image concluante la plus récente (entités, bordures)", fill=PAL["encre"], font=f_txt)
     d.text((marge * 2 + pA.size[0], y), "B. Site : décisions de la fusion", fill=PAL["encre"], font=f_txt)
     y += 28
     im.paste(pA, (marge, y))
@@ -2439,14 +2910,18 @@ def carte(F: Fusion, ix: Index, chemin: Path):
     def r_(c, out=None, w=1, r=6):
         return lambda X, Y: d.ellipse([X - r, Y - r, X + r, Y + r], fill=c, outline=out, width=w)
 
-    col1 = [(r_(PAL["seq_photo_2025"], PAL["blanc"]), "photo Panoramax 2025 (≤ 31/08/2025)"),
-            (r_(PAL["seq_photo_old"], PAL["blanc"]), "photo Panoramax 2020–2024"),
-            (r_(PAL["seq_ortho"], PAL["blanc"]), "ortho PCRS 5 cm du 10/05/2022"),
+    col1 = [(r_(PAL["seq_2026"], PAL["blanc"]), "photo 2026 (28/07/2026, après travaux)"),
+            (r_(PAL["seq_2025"], PAL["blanc"]), "image 2025 (photos ≤ 31/08/2025, Pléiades)"),
+            (r_(PAL["seq_2024"], PAL["blanc"]), "image 2020-2024 (photos, IGN 09/08/2024)"),
+            (r_(PAL["seq_2022"], PAL["blanc"]), "ortho PCRS 5 cm du 10/05/2022"),
+            (lambda X, Y: d.line([(X - 9, Y), (X + 9, Y)], fill=PAL["seq_2024"], width=3), "bordure : couleur de sa preuve (gris : aucune)"),
             (r_(None, PAL["encre"], 2), "document web / inventaire seul")]
-    col2 = [(r_(None, PAL["muet"], 2), "preuve non valable 2026 (avant travaux)"),
-            (r_((175, 174, 170), None, 1, 2), "entité décrite sans preuve image"),
+    col2 = [(r_(None, PAL["muet"], 2), "vue sans preuve concluante ou avant travaux"),
+            (r_((175, 174, 170), None, 1, 2), "entité décrite sans observation"),
             (lambda X, Y: (d.line([(X - 5, Y), (X + 5, Y)], fill=PAL["encre"]), d.line([(X, Y - 5), (X, Y + 5)], fill=PAL["encre"])),
-             "position d'une photo citée"),
+             "photo Panoramax citée (2020-2025)"),
+            (lambda X, Y: d.ellipse([X - 2, Y - 2, X + 2, Y + 2], fill=PAL["encre"]), "photo Mapillary citée"),
+            (lambda X, Y: etoile(d, X, Y, 8, PAL["critique"]), "photo du 28/07/2026"),
             (lambda X, Y: d.rectangle([X - 8, Y - 6, X + 8, Y + 6], fill=(230, 205, 180)), "zone refaite 2025 (hachures)")]
     col3 = [(lambda X, Y: d.rectangle([X - 5, Y - 5, X + 5, Y + 5], fill=PAL["orange"]), "attribut corrigé"),
             (lambda X, Y: d.line([(X - 8, Y), (X + 8, Y)], fill=PAL["encre"], width=3), "déplacement (< 1 m : x5) : appliquer (épais) / revue (fin)"),
@@ -2471,15 +2946,106 @@ def carte(F: Fusion, ix: Index, chemin: Path):
 # Résumé
 # --------------------------------------------------------------------------------------------
 
-def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte):
+def zones_travaux_2025():
+    """Anneaux L93 des zones refaites en 2025 (surfaces « modifie_2025 » et zones de relief reprises), comme gcp.py."""
+    anneaux = []
+    for f in charger_json(PKG / "surfaces/surfaces_2026.geojson").get("features", []):
+        if f["properties"].get("etat") == "modifie_2025":
+            g = geom_norm(f.get("geometry"))
+            anneaux += [pg[0] for pg in (g or {}).get("polys", [])]
+    for f in charger_json(PKG / "relief/relief_zones_2026.geojson").get("features", []):
+        if f["properties"].get("zone") in ("ancienne_chaussee_rehaussee_2025", "traversee_bordure_abaissee",
+                                           "ancienne_chaussee_trottoir_par_defaut"):
+            g = geom_norm(f.get("geometry"))
+            anneaux += [pg[0] for pg in (g or {}).get("polys", [])]
+    return anneaux
+
+
+FAM_COUVERTURE = ("mobilier", "arbres", "marquages", "bordures", "surfaces", "ilots", "ponctuels_sol")
+TRANCHES_IMAGE = ("2026", "2025", "2020_2024", "ortho_2022")
+
+
+def couverture(F: Fusion, ix: Index):
+    """Couverture des entités décrites par tranche de date de la preuve concluante (FUS-COUV-01) : site, cœur, zone 2025."""
+    zt = zones_travaux_2025()
+    O = np.array(ix.O)
+    tab = {z: defaultdict(Counter) for z in ("site", "coeur", "zone_travaux_2025")}
+    for e in sorted(ix.E.values(), key=lambda e: e["id"]):
+        if e["famille"] not in FAM_COUVERTURE or e.get("G") is None:
+            continue
+        r = F.res_entites.get(e["id"])
+        t = (r or {}).get("tranche_preuve") or "aucune"
+        p = e["G"]["pt"]
+        zones = ["site"]
+        if float(np.max(np.abs(p - O))) <= COEUR_DEMI_M:
+            zones.append("coeur")
+        if any(bbox_proche((R[:, 0].min(), R[:, 1].min(), R[:, 0].max(), R[:, 1].max()), p, 0.0) and dans_anneau(p, R) for R in zt):
+            zones.append("zone_travaux_2025")
+        for z in zones:
+            c = tab[z][e["classe"]]
+            c["n"] += 1
+            c[t] += 1
+            if r and r.get("preuve_automatique_seule"):
+                c["automatique_seule"] += 1
+    out = {}
+    for z, T in tab.items():
+        out[z] = {}
+        tot = Counter()
+        for cls in ORDRE_CLASSES + sorted(set(T) - set(ORDRE_CLASSES)):
+            if cls not in T:
+                continue
+            c = T[cls]
+            tot.update(c)
+            out[z][cls] = couv_ligne(c)
+        out[z]["total"] = couv_ligne(tot)
+    return out
+
+
+def couv_ligne(c):
+    n = c["n"]
+    img = sum(c[t] for t in TRANCHES_IMAGE)
+    d = {"n": n, **{t: c[t] for t in TRANCHES}, "automatique_seule": c["automatique_seule"],
+         "avec_preuve_image": img, "pct_preuve_image": round(100.0 * img / n, 1) if n else 0.0,
+         "pct_2024_et_plus": round(100.0 * (c["2026"] + c["2025"] + c["2020_2024"]) / n, 1) if n else 0.0,
+         "pct_2026": round(100.0 * c["2026"] / n, 1) if n else 0.0}
+    return d
+
+
+def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
     L = []
     w = L.append
+    res = list(F.res_entites.values())
     w("# Fusion du recensement : couche `description/enrichi/`")
     w("")
     w(f"Générateur : `python recon/pcg/enrichir/fusion_recensement.py` ({VERSION}), déterministe. "
       "Couche séparée : ni la description de base, ni la cohérence, ni les observations ne sont modifiées. "
       "Le composeur la fusionnera (priorité arbitré > enrichi vérifié > base).")
     w("")
+    # ---- dates des images (corrige la version 0.1) ----
+    w("## Dates des images")
+    w("")
+    par_cat = defaultdict(list)
+    for n in F.obs:
+        if n["type_source"] != "web" and n["date"]:
+            par_cat[n["categorie"]].append(n["date"])
+    w("| catégorie (FUS-SRC-01) | source | dates des observations | observations |")
+    w("|---|---|---|---|")
+    lib = {"photo_2026": "Panoramax, 7 photos (3 calées)", "photo_2025": "Panoramax et Mapillary",
+           "ortho_2025": "Pléiades 2025, 50 cm (non datée)", "photo_2020_2024": "Panoramax et Mapillary",
+           "ortho_2024": "IGN BD ORTHO, 20 cm", "ortho_2022": "PCRS 5 cm"}
+    for c in CATEGORIES:
+        if c in par_cat:
+            ds = sorted(par_cat[c])
+            per = "2025 (sans date publiée)" if c == "ortho_2025" else (ds[0] if ds[0] == ds[-1] else f"{ds[0]} à {ds[-1]}")
+            w(f"| {c} | {lib.get(c, c)} | {per} | {len(ds)} |")
+    w("")
+    w("Les seules images de l'état 2026 sont les photos Panoramax du 28/07/2026 (après la fin des travaux, le 05/12/2025 ; "
+      "trottoirs du Vercors achevés le 30/01/2026). Elles ont été prises sur la place, environ 135 m au sud du cœur, "
+      "et ne voient pas le cœur du carrefour. Toutes les autres images sont antérieures aux travaux du cœur : "
+      "Panoramax jusqu'au 31/08/2025 (série à plat en plein chantier), Mapillary jusqu'au 18/05/2025, IGN du 09/08/2024, "
+      "Pléiades 2025 sans date (le cœur y est encore dans son état de 2024), PCRS du 10/05/2022.")
+    w("")
+    # ---- entrées ----
     w("## Entrées")
     w("")
     w("| fichier | observations |")
@@ -2488,36 +3054,112 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte):
         w(f"| `{rel(f)}` | {k} |")
     w("")
     w(f"Total : {len(F.obs)} observations. Description lue : base v0.3 (`{BASE.name}/`), objets du paquet, instances, "
-      "bordures du site (carte de cohérence), surfaces v1, corrections et propositions de cohérence, levé GAM 2026 des arbres. "
-      "Les empreintes SHA-256 de toutes les entrées sont dans `observations_index.json` (`meta.entrees`).")
+      "bordures du site (carte de cohérence), surfaces v1, corrections et propositions de cohérence, levé GAM 2026 des arbres, "
+      f"arbitrages de revue (`{ARBITRAGES.name}`). Les empreintes SHA-256 de toutes les entrées sont dans "
+      "`observations_index.json` (`meta.entrees`).")
     w("")
-    # synthèse chiffrée
-    res = list(F.res_entites.values())
+    # ---- synthèse ----
     n_mv = [r for r in res if (r.get("position") or {}).get("verdict") in ("affinage", "deplacement", "translation")]
     n_app = sum(1 for r in n_mv if r["position"].get("decision") == "appliquer")
     n_ret = sum(1 for r in res if r["existence"]["verdict"] in ("absent_2026", "retirer", "retirer_doublon", "non_instancier"))
+    n_conf = sum(1 for r in res if r["existence"]["verdict"] == "present" and not r["maj"]
+                 and (r.get("position") or {}).get("verdict") not in ("affinage", "deplacement", "translation"))
     vc_ = Counter(c.get("verdict") for c in F.controle_coh if c.get("verdict"))
     w("## Synthèse")
     w("")
-    w(f"- {len(res)} entités de la description reçoivent au moins une observation ; "
+    w(f"- {len(res)} entités de la description reçoivent au moins une observation ; {n_conf} sont confirmées sans correction ; "
       f"{sum(1 for r in res if r['maj'])} ont au moins un attribut corrigé ({sum(len(r['maj']) for r in res)} mises à jour).")
-    w(f"- Position : {len(n_mv)} corrections mesurées, dont {n_app} à appliquer et {len(n_mv) - n_app} en revue (règles FUS-POS-05/06).")
-    w(f"- Existence : {n_ret} entités à retirer ou absentes en 2026 (surtout des lignes de parking détectées à tort sur l'ortho 2022).")
-    w(f"- Ajouts : {len(F.ajouts)} objets nouveaux, dont {sum(1 for a in F.ajouts if a['instancier'])} instanciables "
-      "(tampons, avaloirs, marquages de stationnement, haies, massifs, blocs rocheux...).")
+    w(f"- Position : {len(n_mv)} corrections mesurées, dont {n_app} à appliquer et {len(n_mv) - n_app} en revue (FUS-POS-05/06).")
+    w(f"- Existence : {n_ret} entités à retirer ou absentes en 2026.")
+    w(f"- Ajouts : {len(F.ajouts)} objets nouveaux, dont {sum(1 for a in F.ajouts if a['instancier'])} "
+      f"instanciables ; {len(F.ajouts_refuses)} ajouts remplacés par un conflit avec le levé GAM (FUS-ADD-04).")
     w(f"- Conflits : {len(F.conflits)} ({sum(1 for c in F.conflits if c['gravite'] == 'a_verifier')} à vérifier, "
       f"{sum(1 for c in F.conflits if c['gravite'] == 'info')} pour information).")
     w(f"- Cohérence : {len(F.controle_coh)} corrections du solveur ont une preuve image ; "
       + ", ".join(f"{k} {v}" for k, v in sorted(vc_.items())) + ".")
     w("")
-    # comptes par classe
+    # ---- contrôles automatiques ----
+    w("## Contrôles automatiques des marquages (FUS-AUTO-01/02)")
+    w("")
+    auto = Counter()
+    for n in F.obs:
+        if n["auto"] and n["classe"] == "marquage" and n["statut"] == "confirme" and n["type_source"] in ("ortho2022", "ortho_recente"):
+            v = F.requalifiees.get(n["id"], "non_liee")
+            auto[(n["agent"], v)] += 1
+    w("| atelier | confirmations automatiques | requalifiées « incertain » | corroborées par une observation manuelle |")
+    w("|---|---|---|---|")
+    for ag in sorted({a for a, _ in auto}):
+        tot_ = sum(v for (a, _), v in auto.items() if a == ag)
+        w(f"| {ag} | {tot_} | {auto[(ag, 'incertain')]} | {auto[(ag, 'corroboree')]} |")
+    w("")
+    w("Aucune n'a de masque véhicules / ombres (FUS-AUTO-02) : les échantillons revus montraient des voitures, des ombres et "
+      "du feuillage pris pour de la peinture (ateliers 2022 ; 18 / 22 correctes en 2024). Une confirmation automatique "
+      "ne compte plus que si une observation manuelle (vue, photo) confirme la même entité ; deux contrôles automatiques "
+      "ne se corroborent pas. Contrat d'un futur contrôle automatique : `attributs.controle_auto` = "
+      "{masque_vehicules_ombres: true, part_masquee ≤ 0,2, reponse_ligne_fine: true (ligne) ou reponse_peinture: true "
+      "(flèche, symbole)}, calculé par `recon/pcg/enrichir/controle_auto.py`. Essai sur le PCRS 2022 "
+      "(`controle_auto_essai.jpg`) : les quatre fausses confirmations relevées par la critique (ML-0294, ML-0295, ML-0119, "
+      "ML-5360 : voitures, ombre de bâtiment) sont masquées ; quatre lignes réelles et une flèche sont confirmées ; "
+      "deux lignes ne sont pas confirmées (l'une sous une ombre d'arbre, l'autre décalée de 0,4 m). Le PCRS 5 cm est requis pour la réponse "
+      "de ligne fine : à 20 cm (IGN 2024), un trait de 0,10-0,15 m n'est pas résolu.")
+    w("")
+    # ---- priorité 2026 ----
+    def ecartees(r):
+        return sorted(set((r["existence"].get("obs_anterieures_ecartees") or [])
+                          + [x["obs"] for x in (r.get("mesures_anterieures") or [])]
+                          + [o for m in r["maj"].values() for o in (m.get("obs_anterieures_ecartees") or [])]
+                          + [o for m in r["attributs_confirmes"].values() for o in (m.get("obs_anterieures_ecartees") or [])]))
+    v26 = [r for r in res if any(m["n"]["categorie"] == "photo_2026" for m in F.membres[r["id"]])]
+    w("## Priorité des photos 2026 (FUS-DATE-01)")
+    w("")
+    w(f"{len(v26)} entités sont vues sur les photos du 28/07/2026 ({sum(1 for r in v26 if r['categorie_preuve'] == 'photo_2026')} "
+      f"avec une preuve concluante) ; pour {sum(1 for r in v26 if ecartees(r))} d'entre elles, la photo 2026 a écarté des "
+      "observations plus anciennes (existence, attribut ou position).")
+    w("")
+    w("| entité | existence | position | attributs | observations antérieures écartées |")
+    w("|---|---|---|---|---|")
+    for r in sorted(v26, key=lambda r: r["id"]):
+        pos = r.get("position") or {}
+        ant = ecartees(r)
+        pv = pos.get("verdict", "")
+        if pv in ("affinage", "deplacement"):
+            pv += f" {pos.get('d_m')} m ({pos.get('decision')})"
+        w(f"| `{r['id']}` | {r['existence']['verdict']} | {pv} | {', '.join(sorted(r['maj'])) or '-'} | {', '.join(ant) or '-'} |")
+    w("")
+    # ---- arbitrages ----
+    w("## Arbitrages de revue (FUS-ARB-01)")
+    w("")
+    if F.arbitrages:
+        w("| id | action | observations | effet | motif |")
+        w("|---|---|---|---|---|")
+        for a in F.arbitrages:
+            eff = "; ".join(a["_applique"]) or "sans effet (conflit arbitrage_inapplicable)"
+            if a.get("action") == "ancrer_bord_ilot":
+                aj = next((x for x in F.ajouts if x.get("ancrage") and x["ancrage"]["arbitrage"] == a["id"]), None)
+                if aj:
+                    eff = (f"{aj['id']} ancré au bord de {aj['ancrage']['hote']} ({aj['ancrage']['type_hote']}), "
+                           f"déplacé de {aj['ancrage']['deplacement_m']} m")
+            elif a.get("action") == "ne_pas_instancier":
+                aj = next((x for x in F.ajouts if a["id"] in x.get("arbitrages", [])), None)
+                if aj:
+                    eff = f"{aj['id']} non instancié"
+            elif a.get("action") == "mesure_position" and a["_applique"]:
+                pos = (F.res_entites.get(a.get("entite")) or {}).get("position") or {}
+                eff = (f"{a.get('entite')} : {pos.get('verdict')} {pos.get('d_m')} m, σ {pos.get('sigma_m')} m, "
+                       f"{pos.get('n_mesures_reelles')} mesures, décision {pos.get('decision')}")
+            w(f"| {a['id']} | {a.get('action')} | {', '.join(a.get('obs', []))} | {eff} | {court(a.get('motif', ''), 160)} |")
+    else:
+        w("Aucun arbitrage.")
+    w("")
+    # ---- comptes par classe ----
     w("## Comptes par classe")
     w("")
-    w("Une entité compte une fois par colonne. « confirmées » : présence ou position confirmée sans correction. "
-      "« non valables 2026 » : entités vues seulement sur des images antérieures à leur forme 2026.")
+    w("Une entité compte une fois par colonne. « confirmées » : présente sans correction. "
+      "« sans preuve concluante » : vue seulement par des observations incertaines (dont les confirmations automatiques "
+      "requalifiées) ou avant sa forme 2026.")
     w("")
     tab = defaultdict(Counter)
-    for r in F.res_entites.values():
+    for r in res:
         c = r["classe"]
         tab[c]["entites"] += 1
         ex = r["existence"]["verdict"]
@@ -2531,7 +3173,7 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte):
                 tab[c]["position_appliquer"] += 1
         if ex in ("absent_2026", "retirer", "retirer_doublon", "non_instancier"):
             tab[c]["retrait"] += 1
-        if r["categorie_preuve"] == "non_valable_2026":
+        if r["categorie_preuve"] in ("non_valable_2026", "non_concluant"):
             tab[c]["non_valable"] += 1
         elif ex == "present" and not r["maj"] and not corr_pos:
             tab[c]["confirme"] += 1
@@ -2544,8 +3186,11 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte):
             tab[c]["ajout_inst"] += 1
         if a["conflits_ids"]:
             tab[c]["conflit"] += 1
-    w("| classe | entités vues | confirmées | attribut corrigé | position corrigée (appliquer) | absentes / à retirer | non valables 2026 | ajouts (instanciés) | avec conflit |")
-    w("|---|---|---|---|---|---|---|---|---|")
+    for a in F.ajouts_refuses:
+        tab[CLASSE_OBS_FUSION.get(a["classe"], "autre")]["refus"] += 1
+    w("| classe | entités vues | confirmées | attribut corrigé | position corrigée (appliquer) | absentes / à retirer | "
+      "sans preuve concluante | ajouts (instanciés) | ajouts -> conflit GAM | avec conflit |")
+    w("|---|---|---|---|---|---|---|---|---|---|")
     tot = Counter()
     for c in ORDRE_CLASSES:
         t = tab.get(c)
@@ -2553,45 +3198,42 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte):
             continue
         tot.update(t)
         w(f"| {c} | {t['entites']} | {t['confirme']} | {t['attribut']} | {t['position']} ({t['position_appliquer']}) | "
-          f"{t['retrait']} | {t['non_valable']} | {t['ajout']} ({t['ajout_inst']}) | {t['conflit']} |")
+          f"{t['retrait']} | {t['non_valable']} | {t['ajout']} ({t['ajout_inst']}) | {t['refus']} | {t['conflit']} |")
     w(f"| **total** | {tot['entites']} | {tot['confirme']} | {tot['attribut']} | {tot['position']} ({tot['position_appliquer']}) | "
-      f"{tot['retrait']} | {tot['non_valable']} | {tot['ajout']} ({tot['ajout_inst']}) | {tot['conflit']} |")
+      f"{tot['retrait']} | {tot['non_valable']} | {tot['ajout']} ({tot['ajout_inst']}) | {tot['refus']} | {tot['conflit']} |")
     w("")
-    # couverture par date de preuve (entités de la description de base et des objets)
-    w("## Couverture : preuve image la plus récente valable 2026, par classe")
+    # ---- couverture ----
+    w("## Couverture : preuve image concluante la plus récente, valable 2026 (FUS-COUV-01)")
     w("")
-    w("Entités de la description (base v0.3 + objets du paquet). « non valable » : vue seulement avant sa forme 2026 "
-      "(chantier 2022, zone refaite 2025). Aucune image n'est postérieure au 31/08/2025.")
+    w("Entités de la description (base v0.3 + objets du paquet), par tranche de date de leur preuve la plus récente. "
+      "« % image » : part des entités ayant une preuve image concluante (2026, 2025, 2020-2024 ou ortho 2022). "
+      "« auto seul » : preuve venant uniquement de contrôles automatiques non requalifiés (couronnes d'arbres sur l'ortho 2022, "
+      "bordures vues sur les orthos 2022 et 2024 ; poids x0,7). "
+      "Cœur : carré ± 80 m autour de l'origine ; zone 2025 : surfaces refaites et zones de chaussée reprises en 2025.")
     w("")
-    fam_base = ("mobilier", "arbres", "marquages", "bordures", "surfaces", "ilots", "ponctuels_sol")
-    tot_cls = Counter(e["classe"] for e in ix.E.values() if e["famille"] in fam_base)
-    cov = defaultdict(Counter)
-    for r in F.res_entites.values():
-        if r["famille"] in fam_base:
-            cov[r["classe"]][r["categorie_preuve"] or "aucune"] += 1
-    cats = ["photo_2025", "photo_2020_2024", "ortho_2022", "web", "non_valable_2026"]
-    w("| classe | entités décrites | photo 2025 | photo 2020-2024 | ortho 2022 | web seul | non valable 2026 | sans preuve |")
-    w("|---|---|---|---|---|---|---|---|")
-    tc = Counter()
-    for c in ORDRE_CLASSES:
-        if not tot_cls.get(c):
-            continue
-        vu = sum(cov[c].values())
-        ligne = [cov[c][k] for k in cats]
-        tc.update({"tot": tot_cls[c], "sans": tot_cls[c] - vu, **dict(zip(cats, ligne))})
-        w(f"| {c} | {tot_cls[c]} | " + " | ".join(str(v) for v in ligne) + f" | {tot_cls[c] - vu} |")
-    w(f"| **total** | {tc['tot']} | " + " | ".join(str(tc[k]) for k in cats) + f" | {tc['sans']} |")
-    w("")
+    noms = {"site": "Site entier", "coeur": "Cœur du carrefour (± 80 m)", "zone_travaux_2025": "Zone des travaux 2025"}
+    for z in ("site", "coeur", "zone_travaux_2025"):
+        T = couv[z]
+        w(f"### {noms[z]}")
+        w("")
+        w("| classe | entités | 2026 | 2025 | 2020-2024 | ortho 2022 | web seul | non concluant | non valable 2026 | sans preuve | "
+          "auto seul | % image | % ≥ 2024 |")
+        w("|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+        for cls, d in T.items():
+            nom = "**total**" if cls == "total" else cls
+            w(f"| {nom} | {d['n']} | {d['2026']} | {d['2025']} | {d['2020_2024']} | {d['ortho_2022']} | {d['web']} | "
+              f"{d['non_concluant']} | {d['non_valable_2026']} | {d['aucune']} | {d['automatique_seule']} | "
+              f"{d['pct_preuve_image']} | {d['pct_2024_et_plus']} |")
+        w("")
     roles = Counter(t["role"] for t in F.index_obs.values())
     w(f"Rôle des observations : {', '.join(f'{k} {v}' for k, v in sorted(roles.items()))}. "
-      "« contexte » et « temporaire » ne sont jamais fusionnés (FUS-CTX-01, FUS-TMP-01) ; « non_apparie » : observations "
-      "sans lien ni candidat (voir l'index).")
+      "« contexte » et « temporaire » ne sont jamais fusionnés (FUS-CTX-01, FUS-TMP-01) ; « conflit_ajout » : ajout remplacé "
+      "par un conflit avec le levé GAM (FUS-ADD-04) ; « non_apparie » : observations sans lien ni candidat (voir l'index).")
     w("")
-    # attributs les plus fréquents
-    cnt_attr = Counter(a for r in F.res_entites.values() for a in r["maj"] if a != "texte_lu")
+    cnt_attr = Counter(a for r in res for a in r["maj"] if a != "texte_lu")
     w("Attributs mis à jour : " + ", ".join(f"{k} {v}" for k, v in sorted(cnt_attr.items(), key=lambda t: (-t[1], t[0]))) + ".")
     w("")
-    # cohérence
+    # ---- cohérence ----
     w("## Contrôle croisé avec la cohérence (`coherence/corrections.geojson`)")
     w("")
     vc = Counter(c.get("verdict") for c in F.controle_coh if c.get("verdict"))
@@ -2609,7 +3251,7 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte):
         w(f"| `{c['entite']}` | {c['nature']} {c.get('d_coherence_m') or ''} m | {v} | {c.get('d_image_corrige_m', '')} | "
           f"{c.get('d_image_origine_m', '')} | {', '.join(c.get('obs') or [])} |")
     w("")
-    # corrections de position
+    # ---- corrections de position ----
     w("## Corrections de position")
     w("")
     cps = [(eid, r["position"]) for eid, r in sorted(F.res_entites.items())
@@ -2621,7 +3263,7 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte):
         w(f"| `{eid}` | {p['verdict']} | {p.get('d_m')} | {p.get('sigma_m')} | {p.get('decision')} | {meth} | "
           f"{', '.join(p.get('obs') or [])} | {'; '.join(p.get('raisons') or [])} |")
     w("")
-    # existence
+    # ---- existence ----
     exs = [(eid, r) for eid, r in sorted(F.res_entites.items())
            if r["existence"]["verdict"] in ("absent_2026", "retirer", "retirer_doublon", "non_instancier")]
     w("## Existence : entités absentes en 2026 ou à retirer")
@@ -2629,9 +3271,10 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte):
     for eid, r in exs:
         e = r["existence"]
         oids = sorted({o for v in e["obs"].values() for o in v})
-        w(f"- `{eid}` ({r['type']}) : **{e['verdict']}**{(' (doublon de `' + r['doublon_de'] + '`)') if r.get('doublon_de') else ''} ; obs {', '.join(oids)}")
+        w(f"- `{eid}` ({r['type']}) : **{e['verdict']}**{(' (doublon de `' + r['doublon_de'] + '`)') if r.get('doublon_de') else ''}"
+          f"{' [' + e['chronologie'] + ']' if e.get('chronologie') else ''} ; obs {', '.join(oids)}")
     w("")
-    # ajouts
+    # ---- ajouts ----
     w("## Ajouts")
     w("")
     ca = Counter((a["classe"], a["instancier"]) for a in F.ajouts)
@@ -2639,18 +3282,25 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte):
       "Par classe (instanciés / candidats) : " + ", ".join(
           f"{c} {ca[(c, True)]}/{ca[(c, False)]}" for c in sorted({a['classe'] for a in F.ajouts})) + ".")
     w("")
-    w("| id | classe | sous-types | famille cible | valide 2026 | instancier | obs |")
-    w("|---|---|---|---|---|---|---|")
+    if F.ajouts_refuses:
+        w(f"{len(F.ajouts_refuses)} ajouts proposés sont remplacés par un conflit `ajout_contre_leve_gam` (FUS-ADD-04, rayon "
+          f"{RAYON_DEDOUBLONNAGE_M} m) : " + "; ".join(
+              f"{', '.join(a['obs'])} ({', '.join(a['sous_types'])}) à {a['d_m']} m de `{a['entite_gam']}`"
+              for a in sorted(F.ajouts_refuses, key=lambda a: a["obs"])) + ".")
+        w("")
+    w("| id | classe | sous-types | famille cible | preuve | valide 2026 | instancier | obs |")
+    w("|---|---|---|---|---|---|---|---|")
     for a in F.ajouts:
         st = ", ".join(sorted({n["sous_type"] for n in a["membres"]}))
-        w(f"| `{a['id']}` | {a['classe']} | {court(st, 60)} | {a['fam_cible'] or '-'} | {a['valide']} | "
+        w(f"| `{a['id']}` | {a['classe']} | {court(st, 60)} | {a['fam_cible'] or '-'} | {a['categorie_preuve'] or '-'} | {a['valide']} | "
           f"{'oui' if a['instancier'] else 'non : ' + '; '.join(a['raisons'])} | {', '.join(n['id'] for n in a['membres'])} |")
     w("")
-    # conflits
+    # ---- conflits ----
     w("## Conflits")
     w("")
     cc = Counter(c["type"] for c in F.conflits)
-    w(f"{len(F.conflits)} conflits : " + ", ".join(f"{k} {v}" for k, v in sorted(cc.items())) + ". Détail dans `conflits.json`.")
+    w(f"{len(F.conflits)} conflits : " + ", ".join(f"{k} {v}" for k, v in sorted(cc.items())) + ". Détail dans `conflits.json` "
+      "(les conflits d'information ne sont pas listés ici).")
     w("")
     w("| id | type | cible | obs | détail |")
     w("|---|---|---|---|---|")
@@ -2659,17 +3309,18 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte):
             continue
         w(f"| {c['id']} | {c['type']} | `{c['cible']}` | {', '.join(c['obs'])} | {court(texte(c['detail']), 200)} |")
     w("")
-    # carte
+    # ---- carte ----
     w("## Carte de couverture")
     w("")
     if avec_carte:
-        w("`couverture_preuves.png` : A/C preuve image la plus récente valable 2026 par entité (rampe bleue ordinale : "
-          "ortho 2022 clair, photos 2020-2024, photos 2025 foncé ; anneau noir : web seul ; anneau gris : preuve antérieure "
-          "non valable ; petit point : aucune preuve), zones refaites en 2025 hachurées, positions des photos citées ; "
-          "B/D décisions (carré orange : attribut, flèche : déplacement, à l'échelle au-delà de 1 m et x5 en dessous, losange aqua : ajout, croix : absent/retirer, "
-          "anneau rouge : conflit). Fond : ortho 2022 éclaircie, bordures v0.3 en gris.")
+        w("`couverture_preuves.png` : A/C preuve image concluante la plus récente par entité et par bordure (rampe bleue "
+          "ordinale : ortho 2022 clair, 2020-2024, 2025, 2026 foncé ; anneau noir : web seul ; anneau gris : vue sans preuve "
+          "concluante ou non valable 2026 ; petit point gris : aucune observation), zones refaites en 2025 hachurées, positions "
+          "des photos citées (croix : Panoramax, point : Mapillary, étoile : photo 2026) ; B/D décisions (carré orange : attribut, "
+          "flèche : déplacement, à l'échelle au-delà de 1 m et x5 en dessous, losange aqua : ajout, croix : absent / retirer, "
+          "anneau rouge : conflit). Fond : ortho 2022 éclaircie. `couverture.json` : tableaux de couverture complets.")
     else:
-        w("Carte non produite (`--sans-carte`).")
+        w("Carte non produite (`--sans-carte`) ; `couverture.json` : tableaux de couverture.")
     w("")
     w("## Règles de fusion")
     w("")
@@ -2678,8 +3329,10 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte):
     w("")
     w("## Limites")
     w("")
-    w("- Aucune image ne montre le cœur après les travaux (dernière photo : 31/08/2025) : les objets refaits en 2025 restent "
-      "« non valables 2026 » ou « revue_requise » ; une prise de vue 2026 avec la même chaîne trancherait.")
+    w("- Le cœur du carrefour n'a aucune image postérieure aux travaux : les 7 photos du 28/07/2026 sont sur la place, "
+      "environ 135 m au sud, et seules 3 sont calées. Les objets du cœur refaits en 2025 restent sans preuve concluante ou en "
+      "« revue_requise » ; une prise de vue terrain (protocole du critique, stations S1 à S12) trancherait.")
+    w("- Les confirmations automatiques requalifiées ne sont pas des absences : ces marquages restent décrits, sans preuve.")
     w("- La description de base est régénérée en parallèle : relancer ce script après chaque régénération "
       "(les liens disparus deviennent des conflits `lien_introuvable`).")
     w("- Les attributs en texte libre ne sont pas votés : ils restent dans `notes` (revue humaine, `revue_texte`).")
@@ -2712,6 +3365,14 @@ def main():
     F = Fusion(ix, obs, vocab)
     F.executer()
     ecrire_sorties(F, ix)
+    couv = couverture(F, ix)
+    ix.entrees[rel(PKG / "relief/relief_zones_2026.geojson")] = sha256(PKG / "relief/relief_zones_2026.geojson")
+    ecrire_json(OUT / "couverture.json", {
+        "schema": "pj_enrichi_couverture/0.1", "generateur": VERSION, "regle": "FUS-COUV-01",
+        "tranches": TRANCHES, "zones": {"site": "toutes les entités décrites",
+                                        "coeur": f"carré ± {COEUR_DEMI_M:.0f} m autour de l'origine",
+                                        "zone_travaux_2025": "surfaces modifie_2025 et zones de chaussée reprises en 2025"},
+        "couverture": couv})
     if not args.sans_carte:
         carte(F, ix, OUT / "couverture_preuves.png")
     # méta dans l'index (entrées et hash)
@@ -2719,7 +3380,7 @@ def main():
     idx["meta"] = {"generateur": VERSION, "commande": "python recon/pcg/enrichir/fusion_recensement.py",
                    "entrees": dict(sorted(ix.entrees.items())), "regles": REGLES}
     ecrire_json(OUT / "observations_index.json", idx)
-    resume(F, ix, par_fichier, not args.sans_carte)
+    resume(F, ix, par_fichier, not args.sans_carte, couv)
     print(f"observations {len(obs)} ; entités {len(F.res_entites)} ; ajouts {len(F.ajouts)} "
           f"({sum(1 for a in F.ajouts if a['instancier'])} instanciés) ; conflits {len(F.conflits)} ; "
           f"corrections {sum(1 for r in F.res_entites.values() if (r.get('position') or {}).get('verdict') in ('affinage', 'deplacement', 'translation'))}")

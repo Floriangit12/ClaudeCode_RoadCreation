@@ -9,7 +9,7 @@
  },
  "description_v2": {
   "schema": "description_scene_v2/enrichi/0.1",
-  "generateur": "fusion_recensement/0.1",
+  "generateur": "fusion_recensement/0.2",
   "couche": "corrections_position",
   "repere": "EPSG:2154 ; local = L93 - (917279.43, 6460289.98)",
   "role": "déplacements prouvés par image (et maintiens contre la cohérence), avec preuves",
@@ -54,7 +54,7 @@
      "verdict": "sans_correction_coherence"
     },
     "conflits": [
-     "CF-ENR-005"
+     "CF-ENR-017"
     ],
     "regles": [
      "FUS-POS-07"
@@ -91,19 +91,21 @@
     "famille": "arbres",
     "type": "feuillu",
     "nature": "deplacement",
-    "d_m": 7.619,
-    "sigma_m": 2.4,
+    "d_m": 7.823,
+    "sigma_m": 1.874,
     "decision": "revue_requise",
     "raisons": [
-     "σ fusion 2.40 m > 0,5 m",
-     "σ fusion 2.40 m > preuve de la description (0.05 m)",
+     "σ fusion 1.87 m > 0,5 m",
+     "σ fusion 1.87 m > preuve de la description (0.05 m)",
      "objet levé GAM : déplacement > 0,5 m (FUS-POS-06)"
     ],
     "methodes": [
+     "coordonnees_inventaire",
      "triangulation"
     ],
-    "n_mesures": 1,
+    "n_mesures": 2,
     "obs": [
+     "DOC-LOCALE-018",
      "VISION-PANORAMAX-2-13"
     ],
     "rejets": [],
@@ -114,14 +116,15 @@
      2.856
     ],
     "p_fusion_local": [
-     37.204,
-     10.257
+     37.038,
+     10.505
     ],
     "coherence": {
      "verdict": "sans_correction_coherence"
     },
+    "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-006"
+     "CF-ENR-018"
     ],
     "regles": [
      "FUS-POS-01",
@@ -130,6 +133,14 @@
      "FUS-POS-05"
     ],
     "provenance": [
+     {
+      "obs": "DOC-LOCALE-018",
+      "source": "web:data.gouv:patrimoine_arbore_gam:MEY00085",
+      "date": "2023-09-11",
+      "statut": "attribut_corrige",
+      "confiance": "faible",
+      "valide_2026": true
+     },
      {
       "obs": "VISION-PANORAMAX-2-13",
       "source": "pnx:6e97bb8c",
@@ -148,8 +159,8 @@
       6460292.836
      ],
      [
-      917316.634,
-      6460300.237
+      917316.468,
+      6460300.485
      ]
     ]
    }
@@ -188,8 +199,9 @@
     "coherence": {
      "verdict": "sans_correction_coherence"
     },
+    "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-007"
+     "CF-ENR-019"
     ],
     "regles": [
      "FUS-POS-01",
@@ -256,8 +268,9 @@
     "coherence": {
      "verdict": "sans_correction_coherence"
     },
+    "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-008"
+     "CF-ENR-020"
     ],
     "regles": [
      "FUS-POS-01",
@@ -322,6 +335,7 @@
     "coherence": {
      "verdict": "sans_correction_coherence"
     },
+    "mesures_anterieures": null,
     "conflits": [],
     "regles": [
      "FUS-POS-01",
@@ -350,6 +364,161 @@
      [
       917131.79,
       6460397.53
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lamp_9514828431",
+    "famille": "mobilier",
+    "type": "lampadaire",
+    "nature": "deplacement",
+    "d_m": 1.883,
+    "sigma_m": 0.6,
+    "decision": "revue_requise",
+    "raisons": [
+     "σ fusion 0.60 m > 0,5 m"
+    ],
+    "methodes": [
+     "triangulation"
+    ],
+    "n_mesures": 1,
+    "obs": [
+     "PANO2026-019"
+    ],
+    "rejets": [],
+    "preuve_description": "osm",
+    "sigma_description_m": 1.0,
+    "p_description_local": [
+     32.89,
+     -141.078
+    ],
+    "p_fusion_local": [
+     34.77,
+     -141.19
+    ],
+    "coherence": {
+     "entite": "lamp_9514828431",
+     "nature": "deplacement",
+     "statut_resolution": "corrige",
+     "d_coherence_m": 0.1,
+     "revue_coherence": null,
+     "verdict": "partiel",
+     "d_image_corrige_m": 1.979,
+     "d_image_origine_m": 1.883,
+     "sigma_image_m": 0.6,
+     "fusion_l93": [
+      917314.2,
+      6460148.79
+     ],
+     "coherence_resolu_l93": [
+      917312.223,
+      6460148.88
+     ],
+     "obs": [
+      "PANO2026-019"
+     ],
+     "regle": "FUS-COH-01"
+    },
+    "mesures_anterieures": null,
+    "conflits": [
+     "CF-ENR-011",
+     "CF-ENR-021"
+    ],
+    "regles": [
+     "FUS-POS-01",
+     "FUS-POS-03",
+     "FUS-POS-04",
+     "FUS-POS-05"
+    ],
+    "provenance": [
+     {
+      "obs": "PANO2026-019",
+      "source": "pnx:ded07efa",
+      "date": "2026-07-28",
+      "statut": "position_corrigee",
+      "confiance": "moyenne",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      917312.32,
+      6460148.902
+     ],
+     [
+      917314.2,
+      6460148.79
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lamp_9514828517",
+    "famille": "mobilier",
+    "type": "lampadaire",
+    "nature": "affinage",
+    "d_m": 0.699,
+    "sigma_m": 0.05,
+    "decision": "appliquer",
+    "raisons": [],
+    "methodes": [
+     "triangulation"
+    ],
+    "n_mesures": 1,
+    "obs": [
+     "PANO2026-018"
+    ],
+    "rejets": [],
+    "preuve_description": "constat",
+    "sigma_description_m": 1.0,
+    "p_description_local": [
+     12.554,
+     -140.281
+    ],
+    "p_fusion_local": [
+     13.25,
+     -140.34
+    ],
+    "coherence": {
+     "verdict": "sans_correction_coherence"
+    },
+    "mesures_anterieures": null,
+    "conflits": [],
+    "regles": [
+     "FUS-POS-01",
+     "FUS-POS-03",
+     "FUS-POS-04",
+     "FUS-POS-05"
+    ],
+    "provenance": [
+     {
+      "obs": "PANO2026-018",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "position_corrigee",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      917291.984,
+      6460149.699
+     ],
+     [
+      917292.68,
+      6460149.64
      ]
     ]
    }
@@ -386,6 +555,7 @@
     "coherence": {
      "verdict": "sans_correction_coherence"
     },
+    "mesures_anterieures": null,
     "conflits": [],
     "regles": [
      "FUS-POS-01",
@@ -470,8 +640,9 @@
      ],
      "regle": "FUS-COH-01"
     },
+    "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-002"
+     "CF-ENR-012"
     ],
     "regles": [
      "FUS-POS-01",
@@ -558,9 +729,10 @@
      ],
      "regle": "FUS-COH-01"
     },
+    "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-001",
-     "CF-ENR-003"
+     "CF-ENR-006",
+     "CF-ENR-013"
     ],
     "regles": [
      "FUS-POS-01",
@@ -597,74 +769,6 @@
      [
       917295.482,
       6460314.107
-     ]
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "lamp_lidar_VERC_E",
-    "famille": "mobilier",
-    "type": "lampadaire",
-    "nature": "deplacement",
-    "d_m": 0.772,
-    "sigma_m": 0.15,
-    "decision": "revue_requise",
-    "raisons": [
-     "aucune mesure valide 2026 pleine (images antérieures aux travaux ou incertaines)"
-    ],
-    "methodes": [
-     "triangulation"
-    ],
-    "n_mesures": 1,
-    "obs": [
-     "VISION-PANORAMAX-2-2"
-    ],
-    "rejets": [],
-    "preuve_description": "photo_pnp",
-    "sigma_description_m": 0.119,
-    "p_description_local": [
-     21.1,
-     -7.1
-    ],
-    "p_fusion_local": [
-     20.654,
-     -6.47
-    ],
-    "coherence": {
-     "verdict": "sans_correction_coherence"
-    },
-    "conflits": [
-     "CF-ENR-009"
-    ],
-    "regles": [
-     "FUS-POS-01",
-     "FUS-POS-03",
-     "FUS-POS-04",
-     "FUS-POS-05"
-    ],
-    "provenance": [
-     {
-      "obs": "VISION-PANORAMAX-2-2",
-      "source": "pnx:5c0d1d39",
-      "date": "2024-08-24",
-      "statut": "position_corrigee",
-      "confiance": "haute",
-      "valide_2026": "incertain"
-     }
-    ]
-   },
-   "geometry": {
-    "type": "LineString",
-    "coordinates": [
-     [
-      917300.53,
-      6460282.88
-     ],
-     [
-      917300.084,
-      6460283.51
      ]
     ]
    }
@@ -723,9 +827,10 @@
      ],
      "regle": "FUS-COH-01"
     },
+    "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-004",
-     "CF-ENR-010"
+     "CF-ENR-014",
+     "CF-ENR-022"
     ],
     "regles": [
      "FUS-POS-01",
@@ -761,35 +866,36 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "pan_AB4_2",
+    "id": "pan_AB3a_3",
     "famille": "mobilier",
     "type": "panneau",
     "nature": "deplacement",
-    "d_m": 3.796,
-    "sigma_m": 0.312,
+    "d_m": 4.147,
+    "sigma_m": 0.15,
     "decision": "appliquer",
     "raisons": [],
     "methodes": [
-     "pixel_ortho"
+     "triangulation"
     ],
     "n_mesures": 1,
     "obs": [
-     "ORTHO-B-123"
+     "PANO2026-016"
     ],
     "rejets": [],
-    "preuve_description": "constat",
-    "sigma_description_m": 1.5,
+    "preuve_description": "ortho2022",
+    "sigma_description_m": 0.25,
     "p_description_local": [
-     32.37,
-     -138.48
+     29.47,
+     -137.18
     ],
     "p_fusion_local": [
-     29.47,
-     -136.03
+     25.72,
+     -138.95
     ],
     "coherence": {
      "verdict": "sans_correction_coherence"
     },
+    "mesures_anterieures": null,
     "conflits": [],
     "regles": [
      "FUS-POS-01",
@@ -799,11 +905,90 @@
     ],
     "provenance": [
      {
-      "obs": "ORTHO-B-123",
-      "source": "ortho2022",
-      "date": "2022-05-10",
+      "obs": "PANO2026-016",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
       "statut": "position_corrigee",
-      "confiance": "moyenne",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      917308.9,
+      6460152.8
+     ],
+     [
+      917305.15,
+      6460151.03
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pan_AB4_2",
+    "famille": "mobilier",
+    "type": "panneau",
+    "nature": "deplacement",
+    "d_m": 0.922,
+    "sigma_m": 0.3,
+    "decision": "appliquer",
+    "raisons": [],
+    "methodes": [
+     "triangulation"
+    ],
+    "n_mesures": 1,
+    "obs": [
+     "PANO2026-015"
+    ],
+    "rejets": [],
+    "preuve_description": "constat",
+    "sigma_description_m": 1.5,
+    "p_description_local": [
+     32.37,
+     -138.48
+    ],
+    "p_fusion_local": [
+     32.22,
+     -137.57
+    ],
+    "coherence": {
+     "verdict": "sans_correction_coherence"
+    },
+    "mesures_anterieures": [
+     {
+      "obs": "ORTHO-B-123",
+      "methode": "pixel_ortho",
+      "categorie": "ortho_2022",
+      "l93": [
+       917308.9,
+       6460153.95
+      ],
+      "d_position_2026_m": 3.152
+     }
+    ],
+    "conflits": [
+     "CF-ENR-026"
+    ],
+    "regles": [
+     "FUS-POS-01",
+     "FUS-POS-03",
+     "FUS-POS-04",
+     "FUS-POS-05",
+     "FUS-DATE-01"
+    ],
+    "provenance": [
+     {
+      "obs": "PANO2026-015",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "position_corrigee",
+      "confiance": "haute",
       "valide_2026": true
      }
     ]
@@ -816,8 +1001,182 @@
       6460151.5
      ],
      [
-      917308.9,
-      6460153.95
+      917311.65,
+      6460152.41
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pan_B6a1_1",
+    "famille": "mobilier",
+    "type": "panneau",
+    "nature": "affinage",
+    "d_m": 0.683,
+    "sigma_m": 0.05,
+    "decision": "appliquer",
+    "raisons": [],
+    "methodes": [
+     "triangulation"
+    ],
+    "n_mesures": 1,
+    "obs": [
+     "PANO2026-018"
+    ],
+    "rejets": [],
+    "preuve_description": "constat",
+    "sigma_description_m": 1.0,
+    "p_description_local": [
+     12.57,
+     -140.28
+    ],
+    "p_fusion_local": [
+     13.25,
+     -140.34
+    ],
+    "coherence": {
+     "entite": "pan_B6a1_1",
+     "nature": "deplacement",
+     "statut_resolution": "conforme",
+     "d_coherence_m": 0.016,
+     "revue_coherence": null,
+     "verdict": "partiel",
+     "d_image_corrige_m": 0.698,
+     "d_image_origine_m": 0.683,
+     "sigma_image_m": 0.05,
+     "fusion_l93": [
+      917292.68,
+      6460149.64
+     ],
+     "coherence_resolu_l93": [
+      917291.984,
+      6460149.699
+     ],
+     "obs": [
+      "PANO2026-018"
+     ],
+     "regle": "FUS-COH-01"
+    },
+    "mesures_anterieures": null,
+    "conflits": [
+     "CF-ENR-015"
+    ],
+    "regles": [
+     "FUS-POS-01",
+     "FUS-POS-03",
+     "FUS-POS-04",
+     "FUS-POS-05"
+    ],
+    "provenance": [
+     {
+      "obs": "PANO2026-018",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "position_corrigee",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      917292.0,
+      6460149.7
+     ],
+     [
+      917292.68,
+      6460149.64
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pan_C13a_1",
+    "famille": "mobilier",
+    "type": "panneau",
+    "nature": "affinage",
+    "d_m": 0.683,
+    "sigma_m": 0.05,
+    "decision": "appliquer",
+    "raisons": [],
+    "methodes": [
+     "triangulation"
+    ],
+    "n_mesures": 1,
+    "obs": [
+     "PANO2026-018"
+    ],
+    "rejets": [],
+    "preuve_description": "constat",
+    "sigma_description_m": 1.0,
+    "p_description_local": [
+     12.57,
+     -140.28
+    ],
+    "p_fusion_local": [
+     13.25,
+     -140.34
+    ],
+    "coherence": {
+     "entite": "pan_C13a_1",
+     "nature": "deplacement",
+     "statut_resolution": "conforme",
+     "d_coherence_m": 0.016,
+     "revue_coherence": null,
+     "verdict": "partiel",
+     "d_image_corrige_m": 0.698,
+     "d_image_origine_m": 0.683,
+     "sigma_image_m": 0.05,
+     "fusion_l93": [
+      917292.68,
+      6460149.64
+     ],
+     "coherence_resolu_l93": [
+      917291.984,
+      6460149.699
+     ],
+     "obs": [
+      "PANO2026-018"
+     ],
+     "regle": "FUS-COH-01"
+    },
+    "mesures_anterieures": null,
+    "conflits": [
+     "CF-ENR-016"
+    ],
+    "regles": [
+     "FUS-POS-01",
+     "FUS-POS-03",
+     "FUS-POS-04",
+     "FUS-POS-05"
+    ],
+    "provenance": [
+     {
+      "obs": "PANO2026-018",
+      "source": "pnx:f8d91bb1",
+      "date": "2026-07-28",
+      "statut": "position_corrigee",
+      "confiance": "haute",
+      "valide_2026": true
+     }
+    ]
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      917292.0,
+      6460149.7
+     ],
+     [
+      917292.68,
+      6460149.64
      ]
     ]
    }
@@ -854,6 +1213,7 @@
     "coherence": {
      "verdict": "sans_correction_coherence"
     },
+    "mesures_anterieures": null,
     "conflits": [],
     "regles": [
      "FUS-POS-01",
@@ -918,8 +1278,9 @@
     "coherence": {
      "verdict": "sans_correction_coherence"
     },
+    "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-012"
+     "CF-ENR-024"
     ],
     "regles": [
      "FUS-POS-01",
@@ -986,8 +1347,9 @@
     "coherence": {
      "verdict": "sans_correction_coherence"
     },
+    "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-011"
+     "CF-ENR-023"
     ],
     "regles": [
      "FUS-POS-01",

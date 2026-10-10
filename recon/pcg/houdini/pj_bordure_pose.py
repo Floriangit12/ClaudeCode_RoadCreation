@@ -723,15 +723,15 @@ def points_json(desc, elements, joints, caniveaux=(), joints_caniveaux=()):
         e["mousse_joints"] = float(asp.get("mousse_joints", 0.0))
         cd = [float(asp.get("epaufrures", 0.0)), e["salissure"], float(asp.get("mousse_joints", 0.0)),
               float(asp.get("herbe_joints", 0.0)), teinte]
-        pts.append({"id": e["id"], "asset": e["asset"], "p": K.r3(e["p"], 4), "rpy_deg": K.r3(e["rpy"], 3),
-                    "s": K.r3(e["s"], 4), "graine": e["graine"], "cd": K.r3(cd, 3),
+        pts.append({"id": e["id"], "asset": e["asset"], "p": K.r3(e["p"], 4), "q": K.q_xyzw(e["rpy"]),
+                    "rpy_deg": K.r3(e["rpy"], 3), "s": K.r3(e["s"], 4), "graine": e["graine"], "cd": K.r3(cd, 3),
                     "x": {"bordure": e["bordure"], "type": e["type"], "profil": e["profil"], "vue_m": round(e["vue"], 3),
                           "s0": round(e["s0"], 3), "s1": round(e["s1"], 3), "longueur_m": round(e["longueur"], 4),
                           "coupe": e["coupe"], "variante": e.get("variante", 0), "materiau": e["materiau"],
                           "z_pied": round(e["z_pied"], 4), "couleur": K.r3(e["couleur"], 3)}})
     for j in list(joints) + list(joints_caniveaux):
-        pts.append({"id": j["id"], "asset": j["asset"], "p": K.r3(j["p"], 4), "rpy_deg": K.r3(j["rpy"], 3),
-                    "s": K.r3(j["s_ech"], 4), "graine": j["graine"], "cd": [],
+        pts.append({"id": j["id"], "asset": j["asset"], "p": K.r3(j["p"], 4), "q": K.q_xyzw(j["rpy"]),
+                    "rpy_deg": K.r3(j["rpy"], 3), "s": K.r3(j["s_ech"], 4), "graine": j["graine"], "cd": [],
                     "x": {"bordure": j["bordure"], "type": "joint", "profil": j["profil"], "s": round(j["s"], 3),
                           "ecart_m": round(j["ecart"], 4), "mortier": j.get("mortier", "sombre")}})
     return pts

@@ -147,6 +147,12 @@ class Specs:
     def materiau(self, mid):
         return self.materiaux["materiaux"][mid]
 
+    def apercu_ue(self, mid):
+        """(albédo linéaire, rugosité) du UsdPreviewSurface de repli de lier_ue : materiaux_sol.json, sinon gris."""
+        m = self.materiaux["materiaux"].get(mid) or {}
+        return (tuple(m.get("albedo_cible_lineaire") or (0.3, 0.3, 0.3)),
+                float((m.get("rugosite") or {}).get("valeur", 0.8)))
+
     def materiau_rendu(self, mid):
         """Spec de rendu : materiaux_sol.json + surcharges de materiaux_rendu_v2.json (source CC0,
         tile_m, albédo visé, famille)."""
@@ -694,3 +700,85 @@ def quat_de_matrice(R):
         return ((R[0, 2] - R[2, 0]) / s, (R[0, 1] + R[1, 0]) / s, 0.25 * s, (R[1, 2] + R[2, 1]) / s)
     s = math.sqrt(1.0 + R[2, 2] - R[0, 0] - R[1, 1]) * 2
     return ((R[1, 0] - R[0, 1]) / s, (R[0, 2] + R[2, 0]) / s, (R[1, 2] + R[2, 1]) / s, 0.25 * s)
+
+
+# --------------------------------------------------------------------------- export vers Unreal (CONTRAT_EXPORT.md)
+def q_xyzw(rpy_deg, nd=6):
+    """Quaternion local [x, y, z, w] (ordre de l'attribut orient, champ `q` de pj_points/0.1) de rpy_deg."""
+    w, x, y, z = quat_de_matrice(rotation_rpy(rpy_deg))
+    if w < 0:                                  # représentant à w >= 0 (lecture plus simple, même rotation)
+        w, x, y, z = -w, -x, -y, -z
+    return r3([x, y, z, w], nd)
+
+
+def typer_ue(st, composant):
+    """Kinds du contrat (§ 2) : /World assembly, prims intermédiaires group, `composant` component."""
+    from pxr import Kind, Sdf, Usd
+    chemin = Sdf.Path(composant)
+    for p in chemin.GetPrefixes():
+        prim = st.GetPrimAtPath(p)
+        Usd.ModelAPI(prim).SetKind(Kind.Tokens.component if p == chemin else
+                                   Kind.Tokens.assembly if p.pathElementCount == 1 else Kind.Tokens.group)
+
+
+def lier_ue(prim, mid, apercu=(0.3, 0.3, 0.3), rugosite=0.8):
+    """Liaison lue par l'import Unreal (CONTRAT_EXPORT.md § 5), sans effet sur Karma : Material
+    /<racine>/Looks/<mid> défini dans la couche (UsdPreviewSurface de repli + outputs:unreal:surface ->
+    /Game/PJ/Materials/MI_<mid>) et relation material:binding:preview (finalité lue par UE, material_purpose
+    = preview, repli allPurpose). La liaison material:binding (Karma : finalité full -> allPurpose, vers
+    /World/Looks_v2) n'est pas touchée."""
+    from pxr import Gf, Sdf, UsdShade
+    st = prim.GetStage()
+    looks = st.GetDefaultPrim().GetPath().AppendChild("Looks")
+    if not st.GetPrimAtPath(looks):
+        st.DefinePrim(looks, "Scope")
+    chemin = looks.AppendChild(mid)
+    mat = UsdShade.Material(st.GetPrimAtPath(chemin))
+    if not mat:
+        mat = UsdShade.Material.Define(st, chemin)
+        ap = UsdShade.Shader.Define(st, chemin.AppendChild("Apercu"))
+        ap.CreateIdAttr("UsdPreviewSurface")
+        ap.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f).Set(Gf.Vec3f(*map(float, apercu)))
+        ap.CreateInput("roughness", Sdf.ValueTypeNames.Float).Set(float(rugosite))
+        mat.CreateSurfaceOutput().ConnectToSource(ap.ConnectableAPI(), "surface")
+        ue = UsdShade.Shader.Define(st, chemin.AppendChild("Unreal"))
+        ue.CreateImplementationSourceAttr(UsdShade.Tokens.sourceAsset)
+        ue.SetSourceAsset(Sdf.AssetPath(f"/Game/PJ/Materials/MI_{mid}.MI_{mid}"), "unreal")
+        mat.CreateSurfaceOutput("unreal").ConnectToSource(ue.ConnectableAPI(), "out")
+    UsdShade.MaterialBindingAPI.Apply(prim)
+    UsdShade.MaterialBindingAPI(prim).Bind(mat, UsdShade.Tokens.fallbackStrength, UsdShade.Tokens.preview)
+    return mat
+
+
+def normales_cusp(P, counts, idx, cusp_deg=30.0, souder=0.0):
+    """Normales par sommet de face (faceVarying, alignées sur idx) avec angle de rupture (SOP Normal, cusp) :
+    moyenne, pondérée par l'aire, des faces incidentes au sommet dont la normale est à moins de cusp_deg de
+    celle de la face. souder > 0 : sommets confondus à `souder` m près (faces à points non partagés)."""
+    P = np.asarray(P, dtype=np.float64)
+    counts = np.asarray(counts, dtype=np.int64)
+    idx = np.asarray(idx, dtype=np.int64)
+    debut = np.r_[0, np.cumsum(counts)[:-1]]
+    nf = np.zeros((len(counts), 3))
+    for k in range(1, int(counts.max()) - 1):                      # éventail de triangles
+        sel = counts > k + 1
+        a = P[idx[debut[sel]]]
+        nf[sel] += np.cross(P[idx[debut[sel] + k]] - a, P[idx[debut[sel] + k + 1]] - a)
+    nu = nf / np.maximum(np.linalg.norm(nf, axis=1), 1e-30)[:, None]
+    v = idx
+    if souder > 0:
+        _, inv = np.unique(np.round(P / souder).astype(np.int64), axis=0, return_inverse=True)
+        v = inv.reshape(-1)[idx]
+    face = np.repeat(np.arange(len(counts)), counts)
+    ordre = np.argsort(v, kind="stable")
+    uniq, debut_v, nb_v = np.unique(v[ordre], return_index=True, return_counts=True)
+    iv = np.searchsorted(uniq, v)
+    rep = nb_v[iv]
+    coin = np.repeat(np.arange(len(v)), rep)
+    off = np.arange(int(rep.sum())) - np.repeat(np.cumsum(rep) - rep, rep)
+    g = face[ordre][debut_v[iv][coin] + off]
+    ok = np.einsum("ij,ij->i", nu[face[coin]], nu[g]) >= math.cos(math.radians(cusp_deg)) - 1e-9
+    N = np.zeros((len(v), 3))
+    np.add.at(N, coin[ok], nf[g[ok]])
+    n = np.linalg.norm(N, axis=1)
+    N = np.where(n[:, None] > 1e-30, N / np.maximum(n, 1e-30)[:, None], nu[face])
+    return N

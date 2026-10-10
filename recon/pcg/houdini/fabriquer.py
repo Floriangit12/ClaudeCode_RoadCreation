@@ -3,6 +3,7 @@
     hython recon/pcg/houdini/fabriquer.py                       # tout, dans recon/out/paquet_jardin/v2/fabrique
     hython recon/pcg/houdini/fabriquer.py --sortie DOSSIER      # ailleurs (essais, contrôle de déterminisme)
     hython recon/pcg/houdini/fabriquer.py --comparer AUTRE/manifest_fabrication.json
+    hython recon/pcg/houdini/fabriquer.py --marquages-seuls [--verifier-determinisme]   # pj_marquages seul (autres couches intactes)
 
 Étapes (pj_*) : pose des bordures et caniveaux (pj_bordure_pose) -> prototypes d'éléments
 (pj_bordure_prototypes, verbes SOP) -> bordures.usda + points/bordures.json ; limites de surfaces
@@ -72,7 +73,14 @@ def main():
     ap.add_argument("--verifier-determinisme", action="store_true",
                     help="relance la fabrication dans fabrique/_verif_determinisme (autre processus), compare les "
                          "hashes des sorties, écrit le résultat dans le manifeste puis supprime la copie")
+    ap.add_argument("--marquages-seuls", action="store_true",
+                    help="fabrique seulement les marquages (pj_marquages : marquages*.usda, points/marquages_symboles.json, "
+                         "marquages_manifest.json) sans effacer ni réécrire les autres couches")
     a = ap.parse_args()
+    if a.marquages_seuls:
+        import pj_marquages as MQ
+        MQ.executer(a.sortie, a.description, verifier=a.verifier_determinisme)
+        return
     t0 = time.time()
     sortie = Path(a.sortie).resolve()
     if sortie.exists():                                        # pas de sortie périmée dans le manifeste
@@ -172,6 +180,12 @@ def main():
     v1 = Usd.Stage.Open(str(K.PAQUET_V1 / "paquet_jardin_2026.usda"))
     masque = CX.masquer(v1, desc.zone, sol, sortie / "contexte/masque_v1_pilote.usdc", log=journal)
     masque["reassis_controle"] = _ctl_mobilier(v1, sortie / "contexte/masque_v1_pilote.usdc", desc.zone, sol)
+
+    # ---------------------------------------------------------------- marquages (phase 2 : remplace les zébras provisoires ;
+    # sol v2 et masque v1 requis)
+    journal("pj_marquages")
+    import pj_marquages as MQ
+    MQ.fabriquer(sortie, a.description, log=journal, sol_dossier=sortie, canon=canon)
 
     # ---------------------------------------------------------------- caméras et racine
     journal("pj_rendu")

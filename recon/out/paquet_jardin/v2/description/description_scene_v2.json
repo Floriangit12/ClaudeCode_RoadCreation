@@ -1,5 +1,5 @@
 {
- "schema": "description_scene_v2/0.1",
+ "schema": "description_scene_v2/0.2",
  "site": {
   "id": "paquet_jardin",
   "nom": "carrefour Paquet Jardin, Meylan (Isère)",
@@ -109,13 +109,53 @@
   },
   "schema": {
    "fichier": "recon/pcg/schema/description_scene_v2.schema.json",
-   "sha256": "88f115060dc81ffd7a26dade4ddc01306cef72fce8d78e81ea4b8426277da8f1",
+   "sha256": "86533b9efdcb6187c5128328f3c15fab72cf8a9bf072d5005c07f515d5711a1e",
    "role": "schéma description_scene_v2/0.1"
   },
   "zone_pilote": {
    "fichier": "recon/pcg/zone_pilote.geojson",
    "sha256": "1507760703930341db8e732ed589de0f10d0bd93500636ed77efa2c11b25a959",
-   "role": "emprise de la zone pilote"
+   "role": "emprise pilote : sol et bordures v2 de la description (dégagement des bordures)"
+  },
+  "opendrive": {
+   "fichier": "recon/out/paquet_jardin/package/paquet_jardin_2026.xodr",
+   "sha256": "2fed0ba78ddb1767629126743df7a8916b837174017d00f03ee9c30982a26bb1",
+   "role": "réseau OpenDRIVE 1.7 (bords de voie, roadMarks, objets)"
+  },
+  "lanes_v1": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/opendrive/lanes_2026.geojson",
+   "sha256": "8dcc6b02149c9e199906e4f88a774a0a16da8f3a561595715edda19ff346a15a",
+   "role": "polygones de voies (validation de l'échantillonneur)"
+  },
+  "marquages_v1_tous": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/marquages/marquages_2026.geojson",
+   "sha256": "05b98b47f8824814cfe1fe2ede64efed09ffb2bdc176136e4dcb32ee08aa3657",
+   "role": "996 marquages v1 (famille marquages)"
+  },
+  "gam_signalisation_lin": {
+   "fichier": "data/sites/paquet_jardin/etat_2026/signalisation_horizontale_lin_L93.geojson",
+   "sha256": "ae6b5e25e5bc85ddba16647f2d9a4f1dc3f354e70c1d810698653a8f9a480f4d",
+   "role": "levé GAM des marquages (axes, contours)"
+  },
+  "gam_signalisation_pct": {
+   "fichier": "data/sites/paquet_jardin/etat_2026/signalisation_horizontale_pct_L93.geojson",
+   "sha256": "1bc7009c3a0db201f825a660271616b7f19467a4ee4bea777c95f95800a4f774",
+   "role": "blocs GAM (SYMBOLE_VELO, PMR, flèches)"
+  },
+  "spec_marquages": {
+   "fichier": "assets/specs/marquages_geometrie.json",
+   "sha256": "55ff0a8923ca50b9078ce62c01cbaccb454f42dc5cb1506ee894bd82d53d1839",
+   "role": "marquages_geometrie.json : modulations, largeurs, gabarits IISR"
+  },
+  "ortho_pcrs_2022": {
+   "fichier": "data/sites/paquet_jardin/ortho5cm_2022/index.json",
+   "sha256": "fd86978f0dc93a3f845c37eb7d71ae0d23dfce5cf036818ea16cd3c3f0ec4d3a",
+   "role": "ortho PCRS 5 cm 2022 (dalles 50 m) : phase des tirets et pose des flèches conservées"
+  },
+  "surfaces_v1_batiments": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/surfaces/surfaces_2026.geojson",
+   "sha256": "cc3d29be355d796c05d74049a1f5c3cef90811b480531e81227c31857d2daa2c",
+   "role": "surfaces v1 : bâtiments (dalle hors sol) et sols surélevés (trottoir, espace vert, îlot : dégagement des bordures, hors emprise pilote)"
   }
  },
  "zone_pilote": {
@@ -155,6 +195,16 @@
    "fichier": "base/ponctuels_sol.geojson",
    "n": 7,
    "sha256": "0beea68a7d9dd118366e51b1a424bdf0a888195c631d475e1591039bc58af996"
+  },
+  "marquages": {
+   "fichier": "base/marquages.geojson",
+   "n": 597,
+   "sha256": "153f369cafc7eb93c33bf3f269528df7223b977432cac9ba52bdcbe36316971a"
+  },
+  "marquages_correspondance": {
+   "fichier": "base/marquages_correspondance.geojson",
+   "n": 996,
+   "sha256": "77c42c8e7a031d32ffcf080f33e22edc601e3f41299ecd6eb0c6527c9002447a"
   }
  },
  "comptes": {
@@ -166,7 +216,9 @@
   "bev": 7,
   "surfaces": 58,
   "ilots": 5,
-  "preuves": 16
+  "preuves": 21,
+  "marquages": 597,
+  "marquages_v1": 996
  },
  "statistiques": {
   "longueur_bordures_m": 802.66,
@@ -570,6 +622,2666 @@
    "mediane": 0.011,
    "p90": 0.046,
    "n_bordures": 25
+  },
+  "marquages": {
+   "schema": "description_scene_v2/0.2",
+   "comptes_par_classe": {
+    "fantome/fantome": 109,
+    "fleche/directionnelle": 31,
+    "ligne/continue": 170,
+    "ligne/discontinue": 59,
+    "ligne/segment": 88,
+    "passage/traversee_cyclable": 8,
+    "passage/zebra": 14,
+    "symbole/barre": 20,
+    "symbole/chevron": 16,
+    "symbole/dent_requin": 14,
+    "symbole/pmr": 11,
+    "symbole/point": 5,
+    "symbole/texte": 4,
+    "symbole/velo": 25,
+    "transversale/effet_feux": 4,
+    "zone/aplat": 2,
+    "zone/bande_isolee": 9,
+    "zone/divers": 2,
+    "zone/hachures": 2,
+    "zone/surface_coloree": 1,
+    "zone/t_stationnement": 1,
+    "zone/zigzag": 2
+   },
+   "n_entites": 597,
+   "couverture_v1": {
+    "total": 996,
+    "par_type": {
+     "chevrons": {
+      "genere": 16
+     },
+     "damier": {
+      "genere": 98
+     },
+     "fantome": {
+      "garde_simplifie": 14,
+      "genere": 104
+     },
+     "fleche": {
+      "garde_non_fabrique": 1,
+      "genere": 30,
+      "retire": 1
+     },
+     "hachures": {
+      "garde_simplifie": 1,
+      "genere": 12
+     },
+     "ligne_continue": {
+      "garde_non_fabrique": 1,
+      "genere": 177,
+      "retire": 10
+     },
+     "ligne_discontinue": {
+      "garde_non_fabrique": 5,
+      "genere": 305,
+      "retire": 16
+     },
+     "ligne_effet_feux": {
+      "genere": 23
+     },
+     "passage_pieton_bande": {
+      "genere": 97,
+      "retire": 3
+     },
+     "surface_coloree": {
+      "garde_simplifie": 1
+     },
+     "symbole": {
+      "garde_non_fabrique": 2,
+      "garde_simplifie": 2,
+      "genere": 45
+     },
+     "symbole_velo": {
+      "genere": 25,
+      "retire": 1
+     },
+     "texte": {
+      "genere": 4
+     },
+     "zigzag_arret_bus": {
+      "genere": 2
+     }
+    },
+    "par_devenir": {
+     "garde_non_fabrique": 9,
+     "garde_simplifie": 18,
+     "genere": 938,
+     "retire": 31
+    },
+    "contours_raster_v1": {
+     "n": 88,
+     "devenir": {
+      "garde_non_fabrique": 2,
+      "garde_simplifie": 15,
+      "genere": 71
+     }
+    }
+   },
+   "echantillonneur_xodr": {
+    "n_echantillons": 204318,
+    "p50_m": 0.0,
+    "p95_m": 0.001,
+    "max_m": 0.767
+   },
+   "lignes": {
+    "n": 317,
+    "ancrage": {
+     "axe/gam": 63,
+     "axe/v1": 196,
+     "xodr": 58
+    },
+    "types": {
+     "continue": 170,
+     "discontinue": 59,
+     "segment": 88
+    },
+    "modulations": {
+     "T'1_site/mesuree": 3,
+     "T'2/IISR": 6,
+     "T1/IISR": 3,
+     "T1_site/mesuree": 4,
+     "T2/IISR": 3,
+     "T3/IISR": 21,
+     "T3_site/mesuree": 14,
+     "mesuree/mesuree": 5
+    },
+    "lateral_gam_xodr_m": {
+     "n": 6647,
+     "p50": 0.003,
+     "p95": 0.021,
+     "max": 0.086
+    },
+    "lateral_gam_axe_m": {
+     "n": 4012,
+     "p50": 0.0,
+     "p95": 0.0,
+     "max": 0.03
+    },
+    "phase_tirets_gam_m": {
+     "n": 30,
+     "p50": 0.0,
+     "p95": 0.081,
+     "max": 0.087
+    },
+    "phase_tirets_gam_segments_2plus_m": {
+     "n": 22,
+     "p50": 0.018,
+     "p95": 0.086,
+     "max": 0.087
+    },
+    "segments_discontinus": 59,
+    "segments_un_tiret": 16,
+    "tirets_combles": 0,
+    "tirets_partiels_v1": 24,
+    "interrompues_zebras": 58,
+    "largeurs_m": {
+     "0.09": 9,
+     "0.1": 189,
+     "0.12": 105,
+     "0.15": 2,
+     "0.18": 10,
+     "0.25": 2
+    }
+   },
+   "fleches": {
+    "n": 32,
+    "iou": {
+     "min": 0.03,
+     "p50": 0.669,
+     "moyenne": 0.667
+    },
+    "par_gabarit": {
+     "TAG": 4,
+     "TD": 14,
+     "TD_TAD": 8,
+     "TD_TAG": 6
+    },
+    "accord_direction_v1": 32,
+    "accord_xodr": 12,
+    "objets_xodr_sans_fleche_v1": [],
+    "trois_par_voie": {
+     "1/-2": 3,
+     "1/-1": 2,
+     "2/-2": 3,
+     "2/-1": 3,
+     "3/-2": 2,
+     "3/-1": 2,
+     "5/1": 1,
+     "6/1": 2,
+     "6/2": 1,
+     "6/3": 1,
+     "107/-1": 1,
+     "114/-1": 1
+    },
+    "table": [
+     {
+      "mq": "MQ0021",
+      "groupe": "fleches_tourne_a_gauche_centre",
+      "direction_v1": "gauche",
+      "raster": false,
+      "gabarit": "TAG",
+      "iou": 0.667,
+      "cap_source": "xodr_objet",
+      "scores": {
+       "RAB_D": 0.162,
+       "RAB_G": 0.213,
+       "TAD": 0.149,
+       "TAG": 0.662,
+       "TD": 0.275,
+       "TD_TAD": 0.37,
+       "TD_TAG": 0.203
+      },
+      "cap_libre": [
+       "TAG",
+       0.662,
+       0.0
+      ],
+      "xodr": [
+       "900",
+       "arrow",
+       null
+      ],
+      "voie": [
+       "114",
+       -1
+      ]
+     },
+     {
+      "mq": "MQ0093",
+      "groupe": "fleches_parking",
+      "direction_v1": "tout_droit",
+      "raster": false,
+      "gabarit": "TD",
+      "iou": 0.926,
+      "cap_source": "axe_v1",
+      "scores": {
+       "RAB_D": 0.279,
+       "RAB_G": 0.275,
+       "TAD": 0.315,
+       "TAG": 0.31,
+       "TD": 0.93,
+       "TD_TAD": 0.594,
+       "TD_TAG": 0.588
+      },
+      "cap_libre": [
+       "TD",
+       0.93,
+       0.0
+      ],
+      "xodr": null,
+      "voie": null
+     },
+     {
+      "mq": "MQ0094",
+      "groupe": "fleches_parking",
+      "direction_v1": "tout_droit",
+      "raster": false,
+      "gabarit": "TD",
+      "iou": 0.914,
+      "cap_source": "axe_v1",
+      "scores": {
+       "RAB_D": 0.278,
+       "RAB_G": 0.277,
+       "TAD": 0.32,
+       "TAG": 0.316,
+       "TD": 0.903,
+       "TD_TAD": 0.577,
+       "TD_TAG": 0.584
+      },
+      "cap_libre": [
+       "TD",
+       0.903,
+       0.0
+      ],
+      "xodr": null,
+      "voie": null
+     },
+     {
+      "mq": "MQ0095",
+      "groupe": "fleches_parking",
+      "direction_v1": "tout_droit",
+      "raster": false,
+      "gabarit": "TD",
+      "iou": 0.906,
+      "cap_source": "axe_v1",
+      "scores": {
+       "RAB_D": 0.279,
+       "RAB_G": 0.277,
+       "TAD": 0.318,
+       "TAG": 0.313,
+       "TD": 0.914,
+       "TD_TAD": 0.581,
+       "TD_TAG": 0.589
+      },
+      "cap_libre": [
+       "TD",
+       0.914,
+       0.0
+      ],
+      "xodr": null,
+      "voie": null
+     },
+     {
+      "mq": "MQ0096",
+      "groupe": "fleches_parking",
+      "direction_v1": "tout_droit",
+      "raster": false,
+      "gabarit": "TD",
+      "iou": 0.924,
+      "cap_source": "axe_v1",
+      "scores": {
+       "RAB_D": 0.28,
+       "RAB_G": 0.276,
+       "TAD": 0.318,
+       "TAG": 0.312,
+       "TD": 0.927,
+       "TD_TAD": 0.588,
+       "TD_TAG": 0.581
+      },
+      "cap_libre": [
+       "TD",
+       0.927,
+       0.0
+      ],
+      "xodr": null,
+      "voie": null
+     },
+     {
+      "mq": "MQ0286",
+      "groupe": "ortho_symboles",
+      "direction_v1": "tout_droit",
+      "raster": true,
+      "gabarit": "TD",
+      "iou": 0.575,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.286,
+       "RAB_G": 0.27,
+       "TAD": 0.285,
+       "TAG": 0.298,
+       "TD": 0.611,
+       "TD_TAD": 0.449,
+       "TD_TAG": 0.402
+      },
+      "cap_libre": [
+       "TD",
+       0.617,
+       1.5
+      ],
+      "xodr": null,
+      "voie": [
+       "5",
+       1
+      ]
+     },
+     {
+      "mq": "MQ0396",
+      "groupe": "piste_chronovelo_fleches",
+      "direction_v1": "piste",
+      "raster": false,
+      "gabarit": "TD_TAG",
+      "iou": 0.483,
+      "cap_source": "axe_v1",
+      "scores": {
+       "RAB_D": 0.304,
+       "RAB_G": 0.316,
+       "TAD": 0.371,
+       "TAG": 0.304,
+       "TD": 0.381,
+       "TD_TAD": 0.376,
+       "TD_TAG": 0.482
+      },
+      "cap_libre": [
+       "TD_TAG",
+       0.482,
+       0.0
+      ],
+      "xodr": null,
+      "voie": null
+     },
+     {
+      "mq": "MQ0397",
+      "groupe": "fleches_vercors_entrant",
+      "direction_v1": "gauche",
+      "raster": false,
+      "gabarit": "TAG",
+      "iou": 0.529,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.165,
+       "RAB_G": 0.314,
+       "TAD": 0.168,
+       "TAG": 0.531,
+       "TD": 0.308,
+       "TD_TAD": 0.228,
+       "TD_TAG": 0.218
+      },
+      "cap_libre": [
+       "TAG",
+       0.609,
+       3.0
+      ],
+      "xodr": [
+       "1031",
+       "gauche",
+       "TAG"
+      ],
+      "voie": [
+       "6",
+       2
+      ]
+     },
+     {
+      "mq": "MQ0398",
+      "groupe": "piste_chronovelo_fleches",
+      "direction_v1": "piste",
+      "raster": true,
+      "gabarit": "TD_TAG",
+      "iou": 0.515,
+      "cap_source": "axe_v1",
+      "scores": {
+       "RAB_D": 0.293,
+       "RAB_G": 0.27,
+       "TAD": 0.336,
+       "TAG": 0.245,
+       "TD": 0.341,
+       "TD_TAD": 0.364,
+       "TD_TAG": 0.529
+      },
+      "cap_libre": [
+       "TD_TAG",
+       0.529,
+       0.0
+      ],
+      "xodr": null,
+      "voie": null
+     },
+     {
+      "mq": "MQ0399",
+      "groupe": "fleches_vercors_entrant",
+      "direction_v1": "tout_droit_droite",
+      "raster": false,
+      "gabarit": "TD_TAD",
+      "iou": 0.411,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.377,
+       "RAB_G": 0.26,
+       "TAD": 0.227,
+       "TAG": 0.27,
+       "TD": 0.325,
+       "TD_TAD": 0.415,
+       "TD_TAG": 0.285
+      },
+      "cap_libre": [
+       "TD_TAD",
+       0.683,
+       9.0
+      ],
+      "xodr": [
+       "1032",
+       "tout_droit_droite",
+       "TD_TAD"
+      ],
+      "voie": [
+       "6",
+       3
+      ]
+     },
+     {
+      "mq": "MQ0400",
+      "groupe": "fleches_vercors_entrant_amont",
+      "direction_v1": "gauche",
+      "raster": false,
+      "gabarit": "TAG",
+      "iou": 0.03,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.15,
+       "RAB_G": 0.268,
+       "TAD": 0.156,
+       "TAG": 0.493,
+       "TD": 0.213,
+       "TD_TAD": 0.243,
+       "TD_TAG": 0.152
+      },
+      "cap_libre": [
+       "TAG",
+       0.609,
+       4.5
+      ],
+      "xodr": null,
+      "voie": [
+       "6",
+       1
+      ]
+     },
+     {
+      "mq": "MQ0401",
+      "groupe": "ortho_symboles",
+      "direction_v1": "tout_droit_droite",
+      "raster": false,
+      "gabarit": "TD_TAD",
+      "iou": 0.327,
+      "cap_source": "axe_v1",
+      "scores": {
+       "RAB_D": 0.21,
+       "RAB_G": 0.25,
+       "TAD": 0.225,
+       "TAG": 0.38,
+       "TD": 0.605,
+       "TD_TAD": 0.68,
+       "TD_TAG": 0.239
+      },
+      "cap_libre": [
+       "TD_TAD",
+       0.68,
+       0.0
+      ],
+      "xodr": null,
+      "voie": null
+     },
+     {
+      "mq": "MQ0402",
+      "groupe": "ortho_symboles",
+      "direction_v1": "tout_droit",
+      "raster": true,
+      "gabarit": "TD",
+      "iou": 0.717,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.267,
+       "RAB_G": 0.318,
+       "TAD": 0.282,
+       "TAG": 0.28,
+       "TD": 0.718,
+       "TD_TAD": 0.521,
+       "TD_TAG": 0.503
+      },
+      "cap_libre": [
+       "TD",
+       0.755,
+       1.5
+      ],
+      "xodr": null,
+      "voie": [
+       "6",
+       1
+      ]
+     },
+     {
+      "mq": "MQ0460",
+      "groupe": "fleches_selection",
+      "direction_v1": "tout_droit_droite",
+      "raster": false,
+      "gabarit": "TD_TAD",
+      "iou": 0.542,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.195,
+       "RAB_G": 0.301,
+       "TAD": 0.167,
+       "TAG": 0.336,
+       "TD": 0.403,
+       "TD_TAD": 0.577,
+       "TD_TAG": 0.229
+      },
+      "cap_libre": [
+       "TD_TAD",
+       0.679,
+       4.5
+      ],
+      "xodr": [
+       "1028",
+       "tout_droit_droite",
+       "TD_TAD"
+      ],
+      "voie": [
+       "3",
+       -2
+      ]
+     },
+     {
+      "mq": "MQ0461",
+      "groupe": "fleches_selection",
+      "direction_v1": "tout_droit_gauche",
+      "raster": false,
+      "gabarit": "TD_TAG",
+      "iou": 0.487,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.266,
+       "RAB_G": 0.289,
+       "TAD": 0.341,
+       "TAG": 0.239,
+       "TD": 0.439,
+       "TD_TAD": 0.237,
+       "TD_TAG": 0.586
+      },
+      "cap_libre": [
+       "TD_TAG",
+       0.675,
+       3.0
+      ],
+      "xodr": [
+       "1027",
+       "tout_droit_gauche",
+       "TD_TAG"
+      ],
+      "voie": [
+       "3",
+       -1
+      ]
+     },
+     {
+      "mq": "MQ0462",
+      "groupe": "ortho_symboles",
+      "direction_v1": "tout_droit_droite",
+      "raster": true,
+      "gabarit": "TD_TAD",
+      "iou": 0.652,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.217,
+       "RAB_G": 0.253,
+       "TAD": 0.216,
+       "TAG": 0.351,
+       "TD": 0.586,
+       "TD_TAD": 0.66,
+       "TD_TAG": 0.235
+      },
+      "cap_libre": [
+       "TD_TAD",
+       0.66,
+       0.0
+      ],
+      "xodr": null,
+      "voie": [
+       "3",
+       -2
+      ]
+     },
+     {
+      "mq": "MQ0463",
+      "groupe": "ortho_symboles",
+      "direction_v1": "tout_droit_gauche",
+      "raster": true,
+      "gabarit": "TD_TAG",
+      "iou": 0.575,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.245,
+       "RAB_G": 0.215,
+       "TAD": 0.355,
+       "TAG": 0.218,
+       "TD": 0.57,
+       "TD_TAD": 0.254,
+       "TD_TAG": 0.645
+      },
+      "cap_libre": [
+       "TD_TAG",
+       0.647,
+       1.5
+      ],
+      "xodr": null,
+      "voie": [
+       "3",
+       -1
+      ]
+     },
+     {
+      "mq": "MQ0761",
+      "groupe": "fleches_verdun_sw_sortant",
+      "direction_v1": "tout_droit",
+      "raster": false,
+      "gabarit": "TD",
+      "iou": 0.94,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.275,
+       "RAB_G": 0.275,
+       "TAD": 0.312,
+       "TAG": 0.309,
+       "TD": 0.94,
+       "TD_TAD": 0.594,
+       "TD_TAG": 0.594
+      },
+      "cap_libre": [
+       "TD",
+       0.94,
+       0.0
+      ],
+      "xodr": null,
+      "voie": [
+       "2",
+       -2
+      ]
+     },
+     {
+      "mq": "MQ0762",
+      "groupe": "fleches_verdun_sw_sortant",
+      "direction_v1": "tout_droit",
+      "raster": false,
+      "gabarit": "TD",
+      "iou": 0.95,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.276,
+       "RAB_G": 0.274,
+       "TAD": 0.312,
+       "TAG": 0.309,
+       "TD": 0.94,
+       "TD_TAD": 0.594,
+       "TD_TAG": 0.594
+      },
+      "cap_libre": [
+       "TD",
+       0.94,
+       0.0
+      ],
+      "xodr": null,
+      "voie": [
+       "2",
+       -1
+      ]
+     },
+     {
+      "mq": "MQ0763",
+      "groupe": "fleches_verdun_sw_entrant",
+      "direction_v1": "tout_droit",
+      "raster": false,
+      "gabarit": "TD",
+      "iou": 0.941,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.277,
+       "RAB_G": 0.273,
+       "TAD": 0.314,
+       "TAG": 0.307,
+       "TD": 0.958,
+       "TD_TAD": 0.601,
+       "TD_TAG": 0.601
+      },
+      "cap_libre": [
+       "TD",
+       0.958,
+       0.0
+      ],
+      "xodr": null,
+      "voie": [
+       "1",
+       -2
+      ]
+     },
+     {
+      "mq": "MQ0764",
+      "groupe": "fleches_verdun_sw_sortant",
+      "direction_v1": "tout_droit",
+      "raster": false,
+      "gabarit": "TD",
+      "iou": 0.845,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.287,
+       "RAB_G": 0.271,
+       "TAD": 0.313,
+       "TAG": 0.308,
+       "TD": 0.849,
+       "TD_TAD": 0.544,
+       "TD_TAG": 0.54
+      },
+      "cap_libre": [
+       "TD",
+       0.94,
+       1.5
+      ],
+      "xodr": null,
+      "voie": [
+       "2",
+       -2
+      ]
+     },
+     {
+      "mq": "MQ0765",
+      "groupe": "fleches_verdun_sw_sortant",
+      "direction_v1": "tout_droit",
+      "raster": false,
+      "gabarit": "TD",
+      "iou": 0.806,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.287,
+       "RAB_G": 0.27,
+       "TAD": 0.315,
+       "TAG": 0.306,
+       "TD": 0.845,
+       "TD_TAD": 0.542,
+       "TD_TAG": 0.539
+      },
+      "cap_libre": [
+       "TD",
+       0.956,
+       1.5
+      ],
+      "xodr": null,
+      "voie": [
+       "2",
+       -1
+      ]
+     },
+     {
+      "mq": "MQ0766",
+      "groupe": "piste_chronovelo_fleches",
+      "direction_v1": "piste",
+      "raster": true,
+      "gabarit": "TD",
+      "iou": 0.543,
+      "cap_source": "axe_v1",
+      "scores": {
+       "RAB_D": 0.326,
+       "RAB_G": 0.301,
+       "TAD": 0.277,
+       "TAG": 0.291,
+       "TD": 0.539,
+       "TD_TAD": 0.43,
+       "TD_TAG": 0.462
+      },
+      "cap_libre": [
+       "TD",
+       0.539,
+       0.0
+      ],
+      "xodr": null,
+      "voie": null
+     },
+     {
+      "mq": "MQ0767",
+      "groupe": "fleches_verdun_sw_entrant",
+      "direction_v1": "tout_droit_gauche",
+      "raster": false,
+      "gabarit": "TD_TAG",
+      "iou": 0.675,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.255,
+       "RAB_G": 0.206,
+       "TAD": 0.378,
+       "TAG": 0.222,
+       "TD": 0.586,
+       "TD_TAD": 0.236,
+       "TD_TAG": 0.674
+      },
+      "cap_libre": [
+       "TD_TAG",
+       0.675,
+       1.5
+      ],
+      "xodr": [
+       "1023",
+       "tout_droit_gauche",
+       "TD_TAG"
+      ],
+      "voie": [
+       "1",
+       -1
+      ]
+     },
+     {
+      "mq": "MQ0768",
+      "groupe": "fleches_verdun_sw_entrant",
+      "direction_v1": "tout_droit_droite",
+      "raster": false,
+      "gabarit": "TD_TAD",
+      "iou": 0.672,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.212,
+       "RAB_G": 0.249,
+       "TAD": 0.225,
+       "TAG": 0.379,
+       "TD": 0.581,
+       "TD_TAD": 0.675,
+       "TD_TAG": 0.236
+      },
+      "cap_libre": [
+       "TD_TAD",
+       0.675,
+       0.0
+      ],
+      "xodr": [
+       "1024",
+       "tout_droit_droite",
+       "TD_TAD"
+      ],
+      "voie": [
+       "1",
+       -2
+      ]
+     },
+     {
+      "mq": "MQ0769",
+      "groupe": "piste_chronovelo_fleches",
+      "direction_v1": "piste",
+      "raster": true,
+      "gabarit": "TD_TAD",
+      "iou": 0.46,
+      "cap_source": "axe_v1",
+      "scores": {
+       "RAB_D": 0.219,
+       "RAB_G": 0.282,
+       "TAD": 0.191,
+       "TAG": 0.298,
+       "TD": 0.318,
+       "TD_TAD": 0.477,
+       "TD_TAG": 0.283
+      },
+      "cap_libre": [
+       "TD_TAD",
+       0.476,
+       0.0
+      ],
+      "xodr": null,
+      "voie": null
+     },
+     {
+      "mq": "MQ0770",
+      "groupe": "fleches_verdun_sw_sortant",
+      "direction_v1": "tout_droit",
+      "raster": false,
+      "gabarit": "TD",
+      "iou": 0.935,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.276,
+       "RAB_G": 0.274,
+       "TAD": 0.312,
+       "TAG": 0.309,
+       "TD": 0.958,
+       "TD_TAD": 0.601,
+       "TD_TAG": 0.601
+      },
+      "cap_libre": [
+       "TD",
+       0.958,
+       0.0
+      ],
+      "xodr": [
+       "1030",
+       "tout_droit",
+       "TD"
+      ],
+      "voie": [
+       "2",
+       -2
+      ]
+     },
+     {
+      "mq": "MQ0771",
+      "groupe": "fleches_verdun_sw_sortant",
+      "direction_v1": "tout_droit",
+      "raster": false,
+      "gabarit": "TD",
+      "iou": 0.936,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.277,
+       "RAB_G": 0.273,
+       "TAD": 0.314,
+       "TAG": 0.307,
+       "TD": 0.958,
+       "TD_TAD": 0.601,
+       "TD_TAG": 0.601
+      },
+      "cap_libre": [
+       "TD",
+       0.958,
+       0.0
+      ],
+      "xodr": [
+       "1029",
+       "tout_droit",
+       "TD"
+      ],
+      "voie": [
+       "2",
+       -1
+      ]
+     },
+     {
+      "mq": "MQ0772",
+      "groupe": "fleches_verdun_sw_entrant",
+      "direction_v1": "tout_droit_gauche",
+      "raster": false,
+      "gabarit": "TD_TAG",
+      "iou": 0.644,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.26,
+       "RAB_G": 0.245,
+       "TAD": 0.36,
+       "TAG": 0.233,
+       "TD": 0.502,
+       "TD_TAD": 0.236,
+       "TD_TAG": 0.646
+      },
+      "cap_libre": [
+       "TD_TAG",
+       0.674,
+       3.0
+      ],
+      "xodr": [
+       "1025",
+       "tout_droit_gauche",
+       "TD_TAG"
+      ],
+      "voie": [
+       "1",
+       -1
+      ]
+     },
+     {
+      "mq": "MQ0773",
+      "groupe": "fleches_verdun_sw_entrant",
+      "direction_v1": "tout_droit_droite",
+      "raster": false,
+      "gabarit": "TD_TAD",
+      "iou": 0.673,
+      "cap_source": "voie",
+      "scores": {
+       "RAB_D": 0.212,
+       "RAB_G": 0.25,
+       "TAD": 0.225,
+       "TAG": 0.378,
+       "TD": 0.58,
+       "TD_TAD": 0.674,
+       "TD_TAG": 0.237
+      },
+      "cap_libre": [
+       "TD_TAD",
+       0.674,
+       1.5
+      ],
+      "xodr": [
+       "1026",
+       "tout_droit_droite",
+       "TD_TAD"
+      ],
+      "voie": [
+       "1",
+       -2
+      ]
+     },
+     {
+      "mq": "MQ0774",
+      "groupe": "piste_chronovelo_fleches",
+      "direction_v1": "piste",
+      "raster": true,
+      "gabarit": "TD_TAD",
+      "iou": 0.465,
+      "cap_source": "axe_v1",
+      "scores": {
+       "RAB_D": 0.223,
+       "RAB_G": 0.281,
+       "TAD": 0.194,
+       "TAG": 0.302,
+       "TD": 0.32,
+       "TD_TAD": 0.475,
+       "TD_TAG": 0.299
+      },
+      "cap_libre": [
+       "TD_TAD",
+       0.475,
+       0.0
+      ],
+      "xodr": null,
+      "voie": null
+     },
+     {
+      "mq": "MQ0775",
+      "groupe": "fleches_tourne_a_gauche_centre",
+      "direction_v1": "gauche",
+      "raster": false,
+      "gabarit": "TAG",
+      "iou": 0.683,
+      "cap_source": "xodr_objet",
+      "scores": {
+       "RAB_D": 0.17,
+       "RAB_G": 0.215,
+       "TAD": 0.153,
+       "TAG": 0.681,
+       "TD": 0.292,
+       "TD_TAD": 0.369,
+       "TD_TAG": 0.204
+      },
+      "cap_libre": [
+       "TAG",
+       0.681,
+       0.0
+      ],
+      "xodr": [
+       "910",
+       "arrow",
+       null
+      ],
+      "voie": [
+       "107",
+       -1
+      ]
+     }
+    ]
+   },
+   "velo_iou": {
+    "n": 25,
+    "p50": 0.253,
+    "note": "pictogramme du site (vélo couché, roues rondes) ≠ figurine IISR D1 : IoU bas attendu"
+   },
+   "zebras": [
+    {
+     "id": "MP-0085",
+     "nb": 7,
+     "intervalle_m": 0.496,
+     "longueur_bande_m": 1.953,
+     "coupures": [],
+     "residu_max_m": 0.035
+    },
+    {
+     "id": "MP-0326",
+     "nb": 6,
+     "intervalle_m": 0.468,
+     "longueur_bande_m": 3.2,
+     "coupures": [],
+     "residu_max_m": 0.037
+    },
+    {
+     "id": "MP-0333",
+     "nb": 15,
+     "intervalle_m": 0.502,
+     "longueur_bande_m": 2.089,
+     "coupures": [],
+     "residu_max_m": 0.054
+    },
+    {
+     "id": "MP-0348",
+     "nb": 9,
+     "intervalle_m": 0.499,
+     "longueur_bande_m": 2.799,
+     "coupures": [],
+     "residu_max_m": 0.001
+    },
+    {
+     "id": "MP-0442",
+     "nb": 8,
+     "intervalle_m": 0.499,
+     "longueur_bande_m": 2.998,
+     "coupures": [],
+     "residu_max_m": 0.001
+    },
+    {
+     "id": "MP-0444",
+     "nb": 7,
+     "intervalle_m": 0.499,
+     "longueur_bande_m": 3.283,
+     "coupures": [],
+     "residu_max_m": 0.0
+    },
+    {
+     "id": "MP-0570",
+     "nb": 3,
+     "intervalle_m": 0.499,
+     "longueur_bande_m": 2.999,
+     "coupures": [],
+     "residu_max_m": 0.0
+    },
+    {
+     "id": "MP-0574",
+     "nb": 6,
+     "intervalle_m": 0.499,
+     "longueur_bande_m": 2.987,
+     "coupures": [],
+     "residu_max_m": 0.0
+    },
+    {
+     "id": "MP-0580",
+     "nb": 6,
+     "intervalle_m": 0.499,
+     "longueur_bande_m": 2.981,
+     "coupures": [],
+     "residu_max_m": 0.0
+    },
+    {
+     "id": "MP-0586",
+     "nb": 3,
+     "intervalle_m": 0.499,
+     "longueur_bande_m": 2.499,
+     "coupures": [],
+     "residu_max_m": 0.0
+    },
+    {
+     "id": "MP-0860",
+     "nb": 3,
+     "intervalle_m": 0.429,
+     "longueur_bande_m": 3.501,
+     "coupures": [],
+     "residu_max_m": 0.004
+    },
+    {
+     "id": "MP-0863",
+     "nb": 6,
+     "intervalle_m": 0.499,
+     "longueur_bande_m": 3.498,
+     "coupures": [],
+     "residu_max_m": 0.0
+    },
+    {
+     "id": "MP-0869",
+     "nb": 6,
+     "intervalle_m": 0.499,
+     "longueur_bande_m": 3.499,
+     "coupures": [],
+     "residu_max_m": 0.001
+    },
+    {
+     "id": "MP-0875",
+     "nb": 3,
+     "intervalle_m": 0.483,
+     "longueur_bande_m": 2.743,
+     "coupures": [],
+     "residu_max_m": 0.0
+    }
+   ],
+   "bandes_isolees": [
+    "MQ0084",
+    "MQ0250",
+    "MQ0251",
+    "MQ0252",
+    "MQ0253",
+    "MQ0254",
+    "MQ0332",
+    "MQ0357",
+    "MQ0451",
+    "MQ0569",
+    "MQ0573",
+    "MQ0589"
+   ],
+   "recouvrements_lignes": [
+    {
+     "interrompt": "ML-0292",
+     "par": "ML-0291",
+     "intervalles": [
+      [
+       0.0,
+       2.55
+      ]
+     ]
+    },
+    {
+     "absorbe": "ML-0305",
+     "par": "ML-0301",
+     "recouvrement_m": 16.7
+    },
+    {
+     "absorbe": "ML-0306",
+     "par": "ML-0301",
+     "recouvrement_m": 12.35
+    },
+    {
+     "absorbe": "ML-0307",
+     "par": "ML-0301",
+     "recouvrement_m": 8.0
+    },
+    {
+     "absorbe": "ML-0308",
+     "par": "ML-0301",
+     "recouvrement_m": 2.4
+    },
+    {
+     "absorbe": "ML-0412",
+     "par": "ML-0413",
+     "recouvrement_m": 6.85
+    },
+    {
+     "absorbe": "ML-0424",
+     "par": "ML-0413",
+     "recouvrement_m": 2.25
+    },
+    {
+     "interrompt": "ML-0414",
+     "par": "ML-0435",
+     "intervalles": [
+      [
+       77.6,
+       80.796
+      ]
+     ]
+    },
+    {
+     "interrompt": "ML-0415",
+     "par": "ML-0416",
+     "intervalles": [
+      [
+       0.0,
+       1.8
+      ]
+     ]
+    },
+    {
+     "interrompt": "ML-0489",
+     "par": "ML-0483",
+     "intervalles": [
+      [
+       0.0,
+       7.45
+      ]
+     ]
+    },
+    {
+     "interrompt": "ML-0489",
+     "par": "ML-0490",
+     "intervalles": [
+      [
+       15.05,
+       19.96
+      ]
+     ]
+    },
+    {
+     "absorbe": "ML-0508",
+     "par": "ML-0502",
+     "recouvrement_m": 1.35
+    },
+    {
+     "interrompt": "ML-0546",
+     "par": "ML-0531",
+     "intervalles": [
+      [
+       11.696,
+       12.746
+      ]
+     ]
+    },
+    {
+     "absorbe": "ML-0806",
+     "par": "ML-0804",
+     "recouvrement_m": 1.4
+    },
+    {
+     "interrompt": "ML-0845",
+     "par": "ML-0832",
+     "intervalles": [
+      [
+       0.0,
+       0.65
+      ]
+     ]
+    },
+    {
+     "absorbe": "ML-0528",
+     "par": "ML-0482",
+     "recouvrement_m": 3.65
+    }
+   ],
+   "retires": [
+    {
+     "mq": "MQ0068",
+     "note": "ligne interrompue sur toute sa longueur par le passage MP-0085 (arrêt à 0,50 m, IISR art. 118)"
+    },
+    {
+     "mq": "MQ0079",
+     "note": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de surf_0106 sur 72% de sa longueur : arête de bordure prise pour une ligne, pas un marquage"
+    },
+    {
+     "mq": "MQ0081",
+     "note": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de surf_0106 sur 72% de sa longueur : arête de bordure prise pour une ligne, pas un marquage"
+    },
+    {
+     "mq": "MQ0111",
+     "note": "axe dans surf_0012 (espace_vert) (50%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    },
+    {
+     "mq": "MQ0165",
+     "note": "axe dans surf_0078 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    },
+    {
+     "mq": "MQ0185",
+     "note": "axe dans surf_0072 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    },
+    {
+     "mq": "MQ0194",
+     "note": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de surf_0129 sur 73% de sa longueur : arête de bordure prise pour une ligne, pas un marquage"
+    },
+    {
+     "mq": "MQ0195",
+     "note": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de surf_0129 sur 73% de sa longueur : arête de bordure prise pour une ligne, pas un marquage"
+    },
+    {
+     "mq": "MQ0196",
+     "note": "axe dans surf_0129 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    },
+    {
+     "mq": "MQ0230",
+     "note": "axe dans surf_0071 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    },
+    {
+     "mq": "MQ0293",
+     "note": "ligne interrompue sur toute sa longueur par le passage MP-0348 (arrêt à 0,50 m, IISR art. 118)"
+    },
+    {
+     "mq": "MQ0357",
+     "note": "marque de 2022 sur le sol 2026 S-0195 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
+    },
+    {
+     "mq": "MQ0375",
+     "note": "axe dans surf_0374 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    },
+    {
+     "mq": "MQ0376",
+     "note": "axe dans surf_0374 (espace_vert) (71%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    },
+    {
+     "mq": "MQ0377",
+     "note": "axe dans surf_0374 (espace_vert) (71%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    },
+    {
+     "mq": "MQ0378",
+     "note": "axe dans surf_0374 (espace_vert) (71%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    },
+    {
+     "mq": "MQ0401",
+     "note": "flèche de 2022 hors des voies roulables du réseau 2026 (63% de l'empreinte hors voie, dans la voie 6/4 (sidewalk) du .xodr (voie roulable voisine en biseau) ; plan projet 2025 : emprise réaménagée (piste, espace vert) ; ortho 2022 : TD_TAG_TAD (trois directions) (corrélation TD_TAD 0.52, TD_TAG_TAD 0.67) ; zone resurfacée en 2025 : pas d'empreinte"
+    },
+    {
+     "mq": "MQ0422",
+     "note": "marque de 2022 sur le sol 2026 S-0313 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
+    },
+    {
+     "mq": "MQ0451",
+     "note": "marque dans surf_0313 (trottoir) (58%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    },
+    {
+     "mq": "MQ0470",
+     "note": "ligne interrompue sur toute sa longueur par le passage MP-0570 (arrêt à 0,50 m, IISR art. 118)"
+    },
+    {
+     "mq": "MQ0493",
+     "note": "marque de 2022 sur le sol 2026 S-0192 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
+    },
+    {
+     "mq": "MQ0494",
+     "note": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de K-0341, S-0195 sur 100% de sa longueur : arête de bordure prise pour une ligne, pas un marquage"
+    },
+    {
+     "mq": "MQ0496",
+     "note": "marque de 2022 sur le sol 2026 S-0191 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
+    },
+    {
+     "mq": "MQ0497",
+     "note": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de K-0341, S-0195 sur 99% de sa longueur : arête de bordure prise pour une ligne, pas un marquage"
+    },
+    {
+     "mq": "MQ0533",
+     "note": "marque de 2022 sur le sol 2026 K-0669 (bordure) (70%) de la zone pilote : supprimée par le réaménagement de 2025"
+    },
+    {
+     "mq": "MQ0573",
+     "note": "marque de 2022 sur le sol 2026 S-0191 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
+    },
+    {
+     "mq": "MQ0592",
+     "note": "marque de 2022 sur le sol 2026 S-0195 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
+    },
+    {
+     "mq": "MQ0923",
+     "note": "ligne interrompue sur toute sa longueur par MZ-0921"
+    },
+    {
+     "mq": "MQ0953",
+     "note": "axe dans surf_0343 (ilot) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    },
+    {
+     "mq": "MQ0959",
+     "note": "axe dans surf_0343 (ilot) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    },
+    {
+     "mq": "MQ0961",
+     "note": "axe dans surf_0343 (ilot) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
+    }
+   ],
+   "retraits": [
+    {
+     "entite": "ML-0293",
+     "lien_v1": [
+      "MQ0293"
+     ],
+     "raison": "ligne interrompue sur toute sa longueur par le passage MP-0348 (arrêt à 0,50 m, IISR art. 118)"
+    },
+    {
+     "entite": "ML-0068",
+     "lien_v1": [
+      "MQ0068"
+     ],
+     "raison": "ligne interrompue sur toute sa longueur par le passage MP-0085 (arrêt à 0,50 m, IISR art. 118)"
+    },
+    {
+     "entite": "ML-0229",
+     "lien_v1": [
+      "MQ0229"
+     ],
+     "raison": "posée sur l'emprise du bâtiment v1 surf_0230 (dalle de parking) : sol absent du paquet, marque gardée non fabriquée",
+     "devenir": "garde_non_fabrique"
+    },
+    {
+     "entite": "ML-0470",
+     "lien_v1": [
+      "MQ0470"
+     ],
+     "raison": "ligne interrompue sur toute sa longueur par le passage MP-0570 (arrêt à 0,50 m, IISR art. 118)"
+    }
+   ],
+   "neuves_2025_usure_0": [
+    "MT-0853",
+    "MP-0863",
+    "MP-0869",
+    "MF-0021",
+    "MF-0761",
+    "MF-0762",
+    "MF-0763",
+    "MF-0764",
+    "MF-0765",
+    "MF-0767",
+    "MF-0768",
+    "MF-0770",
+    "MF-0771",
+    "MF-0772",
+    "MF-0773",
+    "MF-0775",
+    "MZ-0919",
+    "MZ-0920"
+   ],
+   "prolongements_gam": [
+    {
+     "entite": "ML-0477",
+     "gam": [
+      39
+     ],
+     "longueur_m": 3.22,
+     "bout": "fin"
+    },
+    {
+     "entite": "ML-0480",
+     "gam": [
+      226
+     ],
+     "longueur_m": 3.922,
+     "bout": "fin"
+    },
+    {
+     "entite": "ML-0482",
+     "gam": [
+      70
+     ],
+     "longueur_m": 5.774,
+     "bout": "fin"
+    },
+    {
+     "entite": "ML-0477",
+     "gam": [
+      40
+     ],
+     "longueur_m": 2.041,
+     "bout": "debut"
+    },
+    {
+     "entite": "ML-0482",
+     "gam": [
+      71
+     ],
+     "longueur_m": 5.318,
+     "bout": "debut"
+    },
+    {
+     "entite": "ML-0482",
+     "gam": [
+      134
+     ],
+     "longueur_m": 3.545,
+     "bout": "fin"
+    }
+   ],
+   "ajouts_gam": [
+    {
+     "id": "ML-9185",
+     "gam": [
+      185,
+      186
+     ],
+     "longueur_m": 52.411,
+     "ancrage": "axe",
+     "largeur_m": 0.18
+    }
+   ],
+   "gam_orphelines_restantes": [
+    143,
+    253
+   ],
+   "gam_non_rattachees_restantes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    38,
+    74,
+    75,
+    76,
+    79,
+    80,
+    81,
+    82,
+    84,
+    86,
+    87,
+    89,
+    90,
+    124,
+    131,
+    143,
+    154,
+    155,
+    172,
+    185,
+    186,
+    205,
+    216,
+    220,
+    228,
+    236,
+    252,
+    253,
+    282,
+    361,
+    362,
+    363,
+    364,
+    365,
+    366,
+    367,
+    368,
+    369,
+    370,
+    371,
+    372,
+    373,
+    374,
+    375,
+    376,
+    377,
+    378,
+    379,
+    380,
+    381,
+    382,
+    383,
+    384,
+    385,
+    386,
+    387,
+    388,
+    389,
+    390,
+    391,
+    392,
+    393,
+    394,
+    395,
+    399,
+    402,
+    408
+   ],
+   "reprises": {
+    "fleches_hors_voie": {
+     "MF-0401": "flèche de 2022 hors des voies roulables du réseau 2026 (63% de l'empreinte hors voie, dans la voie 6/4 (sidewalk) du .xodr (voie roulable voisine en biseau) ; plan projet 2025 : emprise réaménagée (piste, espace vert) ; ortho 2022 : TD_TAG_TAD (trois directions) (corrélation TD_TAD 0.52, TD_TAG_TAD 0.67) ; zone resurfacée en 2025 : pas d'empreinte"
+    },
+    "profils_gam": {
+     "ML-0413": [
+      [
+       34.383,
+       0.003
+      ],
+      [
+       38.266,
+       -0.004
+      ],
+      [
+       42.148,
+       0.0
+      ],
+      [
+       46.031,
+       0.017
+      ],
+      [
+       49.914,
+       -0.046
+      ],
+      [
+       53.797,
+       -0.031
+      ],
+      [
+       57.68,
+       0.014
+      ],
+      [
+       61.563,
+       0.002
+      ],
+      [
+       65.445,
+       -0.002
+      ],
+      [
+       69.328,
+       -0.005
+      ],
+      [
+       73.211,
+       -0.004
+      ],
+      [
+       77.094,
+       0.0
+      ],
+      [
+       80.977,
+       0.003
+      ],
+      [
+       84.86,
+       -0.002
+      ],
+      [
+       88.742,
+       -0.003
+      ],
+      [
+       92.625,
+       -0.001
+      ],
+      [
+       96.508,
+       0.001
+      ],
+      [
+       100.391,
+       0.004
+      ],
+      [
+       104.274,
+       0.007
+      ],
+      [
+       108.157,
+       0.005
+      ],
+      [
+       112.039,
+       -0.003
+      ],
+      [
+       115.922,
+       -0.004
+      ]
+     ]
+    },
+    "sol_non_fabricable": {
+     "MS-0819": "point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise)",
+     "MS-0822": "point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise)",
+     "MS-0846": "point d'axe Chronovélo (plan 2025) à cheval sur une marche du sol v1 (espace_vert_2025 / trottoir_2025)",
+     "MS-0895": "point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise)"
+    },
+    "fleches_pleine_taille": [
+     "MF-0093",
+     "MF-0094",
+     "MF-0095",
+     "MF-0096"
+    ],
+    "lignes_sans_peinture": {
+     "ML-0923": "ligne interrompue sur toute sa longueur par MZ-0921"
+    },
+    "lignes_interrompues": {
+     "ML-0499": [
+      [
+       47.526,
+       47.906,
+       "MT-0563"
+      ]
+     ],
+     "ML-0417": [
+      [
+       1.8,
+       2.24,
+       "MT-0436"
+      ]
+     ],
+     "ML-0923": [
+      [
+       0.0,
+       0.499,
+       "MZ-0921"
+      ]
+     ]
+    },
+    "recouvrements": {
+     "deplacements": {
+      "MS-0262": [
+       -0.85,
+       0.15,
+       "MF-0093",
+       0.114
+      ],
+      "MS-0263": [
+       -1.1,
+       0.1,
+       "MF-0094",
+       0.164
+      ],
+      "MS-0264": [
+       -0.95,
+       0.1,
+       "MF-0095",
+       0.127
+      ],
+      "MS-0265": [
+       -0.85,
+       -0.35,
+       "MF-0096",
+       0.166
+      ],
+      "MF-0396": [
+       -0.25,
+       0.3,
+       "MP-0444",
+       0.034
+      ],
+      "MF-0398": [
+       -0.75,
+       0.5,
+       "MP-0444",
+       0.198
+      ],
+      "MF-0764": [
+       1.0,
+       0.0,
+       "MZ-0920",
+       0.021
+      ],
+      "MS-0886": [
+       -0.2,
+       -0.05,
+       "ML-0791",
+       0.002
+      ],
+      "MS-0454": [
+       0.0,
+       0.2,
+       "MP-0385",
+       0.014
+      ],
+      "MS-0590": [
+       -1.3,
+       -0.5,
+       "MP-0570",
+       0.298
+      ],
+      "MS-0600": [
+       1.15,
+       0.05,
+       "MP-0616",
+       0.013
+      ],
+      "MS-0601": [
+       0.95,
+       0.05,
+       "MP-0616",
+       0.103
+      ],
+      "MS-0912": [
+       -0.2,
+       0.05,
+       "MS-0603",
+       0.002
+      ],
+      "MS-0914": [
+       -0.2,
+       0.05,
+       "MS-0607",
+       0.001
+      ]
+     },
+     "decoupes": {
+      "MZ-0919": [
+       "MF-0763"
+      ],
+      "MZ-0084": [
+       "ML-0073"
+      ],
+      "MZ-0589": [
+       "ML-0489"
+      ],
+      "MP-0863": [
+       "MP-0616"
+      ],
+      "MP-0869": [
+       "MP-0616"
+      ]
+     },
+     "non_resolus": []
+    },
+    "bordures": {
+     "lignes": {
+      "ML-0050": {
+       "interruptions": [
+        [
+         4.15,
+         4.359
+        ]
+       ],
+       "obstacles": [
+        "surf_0071"
+       ]
+      },
+      "ML-0051": {
+       "interruptions": [
+        [
+         4.0,
+         4.235
+        ]
+       ],
+       "obstacles": [
+        "surf_0071"
+       ]
+      },
+      "ML-0053": {
+       "interruptions": [
+        [
+         3.95,
+         4.142
+        ]
+       ],
+       "obstacles": [
+        "surf_0071"
+       ]
+      },
+      "ML-0054": {
+       "interruptions": [
+        [
+         3.9,
+         4.142
+        ]
+       ],
+       "obstacles": [
+        "surf_0071"
+       ]
+      },
+      "ML-0055": {
+       "interruptions": [
+        [
+         3.95,
+         4.181
+        ]
+       ],
+       "obstacles": [
+        "surf_0071"
+       ]
+      },
+      "ML-0056": {
+       "interruptions": [
+        [
+         4.05,
+         4.256
+        ]
+       ],
+       "obstacles": [
+        "surf_0071"
+       ]
+      },
+      "ML-0057": {
+       "interruptions": [
+        [
+         4.05,
+         4.326
+        ]
+       ],
+       "obstacles": [
+        "surf_0071"
+       ]
+      },
+      "ML-0059": {
+       "interruptions": [
+        [
+         4.3,
+         4.526
+        ]
+       ],
+       "obstacles": [
+        "surf_0072"
+       ]
+      },
+      "ML-0060": {
+       "interruptions": [
+        [
+         4.3,
+         4.525
+        ]
+       ],
+       "obstacles": [
+        "surf_0072"
+       ]
+      },
+      "ML-0063": {
+       "interruptions": [
+        [
+         4.35,
+         4.526
+        ]
+       ],
+       "obstacles": [
+        "surf_0110"
+       ]
+      },
+      "ML-0098": {
+       "interruptions": [
+        [
+         0.0,
+         0.1
+        ]
+       ],
+       "obstacles": [
+        "surf_0030"
+       ]
+      },
+      "ML-0114": {
+       "interruptions": [
+        [
+         0.95,
+         1.051
+        ]
+       ],
+       "obstacles": [
+        "surf_0043"
+       ]
+      },
+      "ML-0115": {
+       "decalage_m": 0.219,
+       "regle": "dégagement 2u = 0.10 m"
+      },
+      "ML-0117": {
+       "interruptions": [
+        [
+         1.65,
+         1.729
+        ]
+       ],
+       "obstacles": [
+        "surf_0183"
+       ]
+      },
+      "ML-0122": {
+       "interruptions": [
+        [
+         0.0,
+         0.25
+        ]
+       ],
+       "obstacles": [
+        "surf_0043"
+       ]
+      },
+      "ML-0128": {
+       "interruptions": [
+        [
+         0.0,
+         0.05
+        ]
+       ],
+       "obstacles": [
+        "surf_0043"
+       ]
+      },
+      "ML-0132": {
+       "decalage_m": -0.188,
+       "regle": "dégagement 2u = 0.10 m",
+       "interruptions": [
+        [
+         0.0,
+         0.05
+        ]
+       ],
+       "obstacles": [
+        "surf_0035"
+       ]
+      },
+      "ML-0135": {
+       "decalage_m": -0.145,
+       "regle": "dégagement 2u = 0.10 m",
+       "interruptions": [
+        [
+         0.95,
+         1.1
+        ]
+       ],
+       "obstacles": [
+        "surf_0035"
+       ]
+      },
+      "ML-0142": {
+       "interruptions": [
+        [
+         0.0,
+         0.1
+        ]
+       ],
+       "obstacles": [
+        "surf_0034"
+       ]
+      },
+      "ML-0144": {
+       "interruptions": [
+        [
+         0.0,
+         0.15
+        ]
+       ],
+       "obstacles": [
+        "surf_0078"
+       ]
+      },
+      "ML-0149": {
+       "interruptions": [
+        [
+         0.0,
+         0.3
+        ]
+       ],
+       "obstacles": [
+        "surf_0078"
+       ]
+      },
+      "ML-0150": {
+       "interruptions": [
+        [
+         2.85,
+         3.505
+        ]
+       ],
+       "obstacles": [
+        "surf_0068"
+       ]
+      },
+      "ML-0151": {
+       "interruptions": [
+        [
+         1.6,
+         2.005
+        ]
+       ],
+       "obstacles": [
+        "surf_0068"
+       ]
+      },
+      "ML-0152": {
+       "decalage_m": -0.037,
+       "regle": "dégagement 2u = 0.10 m"
+      },
+      "ML-0169": {
+       "interruptions": [
+        [
+         4.3,
+         4.454
+        ]
+       ],
+       "obstacles": [
+        "surf_0072"
+       ]
+      },
+      "ML-0171": {
+       "interruptions": [
+        [
+         1.15,
+         1.273
+        ]
+       ],
+       "obstacles": [
+        "surf_0077"
+       ]
+      },
+      "ML-0172": {
+       "interruptions": [
+        [
+         4.2,
+         4.492
+        ]
+       ],
+       "obstacles": [
+        "surf_0072"
+       ]
+      },
+      "ML-0179": {
+       "interruptions": [
+        [
+         3.1,
+         3.183
+        ]
+       ],
+       "obstacles": [
+        "surf_0081"
+       ]
+      },
+      "ML-0180": {
+       "interruptions": [
+        [
+         3.6,
+         3.89
+        ]
+       ],
+       "obstacles": [
+        "surf_0072"
+       ]
+      },
+      "ML-0182": {
+       "interruptions": [
+        [
+         3.0,
+         3.076
+        ]
+       ],
+       "obstacles": [
+        "surf_0081"
+       ]
+      },
+      "ML-0186": {
+       "interruptions": [
+        [
+         3.9,
+         4.172
+        ]
+       ],
+       "obstacles": [
+        "surf_0072"
+       ]
+      },
+      "ML-0187": {
+       "interruptions": [
+        [
+         0.0,
+         0.25
+        ]
+       ],
+       "obstacles": [
+        "surf_0199"
+       ]
+      },
+      "ML-0188": {
+       "interruptions": [
+        [
+         3.9,
+         4.101
+        ]
+       ],
+       "obstacles": [
+        "surf_0072"
+       ]
+      },
+      "ML-0190": {
+       "decalage_annule": {
+        "decalage_m": 0.251,
+        "reste_en_conflit": 0.19
+       },
+       "interruptions": [
+        [
+         3.45,
+         4.845
+        ]
+       ],
+       "obstacles": [
+        "surf_0201"
+       ]
+      },
+      "ML-0197": {
+       "decalage_m": -0.087,
+       "regle": "dégagement 2u = 0.10 m"
+      },
+      "ML-0206": {
+       "interruptions": [
+        [
+         0.85,
+         1.213
+        ]
+       ],
+       "obstacles": [
+        "surf_0043"
+       ]
+      },
+      "ML-0207": {
+       "interruptions": [
+        [
+         1.05,
+         1.371
+        ]
+       ],
+       "obstacles": [
+        "surf_0043"
+       ]
+      },
+      "ML-0208": {
+       "interruptions": [
+        [
+         3.6,
+         3.964
+        ]
+       ],
+       "obstacles": [
+        "surf_0057"
+       ]
+      },
+      "ML-0209": {
+       "decalage_m": -0.133,
+       "regle": "dégagement 2u = 0.10 m"
+      },
+      "ML-0224": {
+       "interruptions": [
+        [
+         0.0,
+         0.1
+        ]
+       ],
+       "obstacles": [
+        "surf_0078"
+       ]
+      },
+      "ML-0236": {
+       "interruptions": [
+        [
+         0.85,
+         1.04
+        ]
+       ],
+       "obstacles": [
+        "surf_0072"
+       ]
+      },
+      "ML-0241": {
+       "interruptions": [
+        [
+         2.449,
+         2.699
+        ]
+       ],
+       "obstacles": [
+        "surf_0072"
+       ]
+      },
+      "ML-0245": {
+       "interruptions": [
+        [
+         1.4,
+         1.677
+        ]
+       ],
+       "obstacles": [
+        "surf_0072"
+       ]
+      },
+      "ML-0298": {
+       "interruptions": [
+        [
+         1.85,
+         2.908
+        ]
+       ],
+       "obstacles": [
+        "surf_0195"
+       ]
+      },
+      "ML-0477": {
+       "interruptions": [
+        [
+         0.0,
+         0.2
+        ],
+        [
+         3.85,
+         4.0
+        ]
+       ],
+       "obstacles": [
+        "K-0186",
+        "K-0194",
+        "K-0353"
+       ]
+      },
+      "ML-0480": {
+       "interruptions": [
+        [
+         4.85,
+         4.905
+        ]
+       ],
+       "obstacles": [
+        "S-0121"
+       ]
+      },
+      "ML-0810": {
+       "interruptions": [
+        [
+         5.0,
+         7.33
+        ]
+       ],
+       "obstacles": [
+        "surf_0332"
+       ]
+      },
+      "ML-0815": {
+       "interruptions": [
+        [
+         0.0,
+         0.1
+        ]
+       ],
+       "obstacles": [
+        "surf_0309"
+       ]
+      },
+      "ML-9185": {
+       "decalage_m": -0.031,
+       "regle": "dégagement 0,02 m (position levée GAM gardée)",
+       "interruptions": [
+        [
+         0.0,
+         2.1
+        ],
+        [
+         2.1,
+         2.2
+        ],
+        [
+         10.75,
+         11.55
+        ],
+        [
+         15.3,
+         18.95
+        ],
+        [
+         20.45,
+         21.05
+        ]
+       ],
+       "obstacles": [
+        "S-0121",
+        "S-0191"
+       ]
+      },
+      "MT-0563": {
+       "interruptions": [
+        [
+         5.28,
+         5.63
+        ]
+       ],
+       "obstacles": [
+        "S-0342"
+       ]
+      }
+     },
+     "decoupes": {
+      "MG-0277": [
+       "K-0381"
+      ],
+      "MG-0285": [
+       "K-0348",
+       "S-0191"
+      ],
+      "MG-0671": [
+       "surf_0333"
+      ],
+      "MP-0001": [
+       "K-0348"
+      ],
+      "MP-0326": [
+       "surf_0195"
+      ],
+      "MP-0333": [
+       "surf_0081",
+       "surf_0193"
+      ],
+      "MP-0444": [
+       "K-0390",
+       "K-0411"
+      ],
+      "MP-0586": [
+       "K-0177",
+       "K-0182"
+      ],
+      "MP-0860": [
+       "surf_0312"
+      ],
+      "MS-0255": [
+       "surf_0293"
+      ],
+      "MS-0256": [
+       "surf_0293"
+      ],
+      "MS-0257": [
+       "surf_0293"
+      ],
+      "MZ-0254": [
+       "surf_0279"
+      ],
+      "MZ-0332": [
+       "surf_0194"
+      ],
+      "MZ-0364": [
+       "S-0192"
+      ]
+     },
+     "deplacements": {
+      "MF-0398": [
+       -0.1,
+       0.0
+      ]
+     },
+     "retraits": {
+      "ML-0079": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de surf_0106 sur 72% de sa longueur : arête de bordure prise pour une ligne, pas un marquage",
+      "ML-0111": "axe dans surf_0012 (espace_vert) (50%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
+      "ML-0165": "axe dans surf_0078 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
+      "ML-0185": "axe dans surf_0072 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
+      "ML-0194": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de surf_0129 sur 73% de sa longueur : arête de bordure prise pour une ligne, pas un marquage",
+      "ML-0196": "axe dans surf_0129 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
+      "ML-0230": "axe dans surf_0071 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
+      "ML-0375": "axe dans surf_0374 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
+      "ML-0376": "axe dans surf_0374 (espace_vert) (71%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
+      "ML-0422": "marque de 2022 sur le sol 2026 S-0313 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025",
+      "ML-0493": "marque de 2022 sur le sol 2026 S-0192 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025",
+      "ML-0494": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de K-0341, S-0195 sur 100% de sa longueur : arête de bordure prise pour une ligne, pas un marquage",
+      "ML-0496": "marque de 2022 sur le sol 2026 S-0191 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025",
+      "ML-0497": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de K-0341, S-0195 sur 99% de sa longueur : arête de bordure prise pour une ligne, pas un marquage",
+      "ML-0533": "marque de 2022 sur le sol 2026 K-0669 (bordure) (70%) de la zone pilote : supprimée par le réaménagement de 2025",
+      "ML-0953": "axe dans surf_0343 (ilot) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
+      "ML-0961": "axe dans surf_0343 (ilot) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
+      "MS-0592": "marque de 2022 sur le sol 2026 S-0195 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025",
+      "MZ-0357": "marque de 2022 sur le sol 2026 S-0195 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025",
+      "MZ-0451": "marque dans surf_0313 (trottoir) (58%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
+      "MZ-0573": "marque de 2022 sur le sol 2026 S-0191 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
+     },
+     "sur_sol_sureleve": {
+      "ML-0404": "posée sur S-0315 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (levé GAM) ; gardée sur ce sol",
+      "ML-0485": "posée sur surf_0213 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (levé GAM) ; gardée sur ce sol",
+      "ML-0487": "posée sur surf_0213 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (levé GAM) ; gardée sur ce sol",
+      "ML-0491": "posée sur surf_0213 (trottoir) (95%) : piste, bande ou stationnement au niveau du trottoir (levé GAM) ; gardée sur ce sol",
+      "ML-0796": "posée sur surf_0310 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
+      "ML-0797": "posée sur surf_0310 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
+      "ML-0798": "posée sur surf_0310 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
+      "ML-0800": "posée sur surf_0312 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
+      "ML-0801": "posée sur surf_0312 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
+      "ML-0802": "posée sur K-0381 (bordure), S-0312 (trottoir), surf_0312 (trottoir) (82%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
+      "ML-0852": "posée sur S-0315 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (levé GAM) ; gardée sur ce sol",
+      "MS-0258": "posée sur surf_0415 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (symbole posé) ; gardée sur ce sol",
+      "MS-0259": "posée sur surf_0415 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (symbole posé) ; gardée sur ce sol",
+      "MS-0260": "posée sur surf_0415 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (symbole posé) ; gardée sur ce sol",
+      "MS-0261": "posée sur surf_0415 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (symbole posé) ; gardée sur ce sol",
+      "MS-0843": "posée sur surf_0281 (espace_vert), surf_0306 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
+      "MS-0846": "posée sur surf_0281 (espace_vert), surf_0306 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
+      "MS-0896": "posée sur surf_0310 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
+      "MS-0907": "posée sur surf_0312 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
+      "MS-0908": "posée sur surf_0312 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
+      "MS-0909": "posée sur surf_0312 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
+      "MS-0910": "posée sur surf_0312 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol"
+     },
+     "non_fabriques": {
+      "MF-0766": "marque du plan 2025 posée sur surf_0283 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée",
+      "ML-0405": "marque du plan 2025 posée sur surf_0293 (espace_vert) (71%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée",
+      "MS-0452": "marque du plan 2025 posée sur surf_0293 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée",
+      "MS-0844": "marque du plan 2025 posée sur surf_0281 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
+     },
+     "non_resolus": []
+    },
+    "recouvrements_restants": []
+   },
+   "non_fabriques": [
+    [
+     "MF-0766",
+     "marque du plan 2025 posée sur surf_0283 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
+    ],
+    [
+     "ML-0229",
+     "posée sur l'emprise du bâtiment v1 surf_0230 (dalle de parking) : sol absent du paquet, marque gardée non fabriquée"
+    ],
+    [
+     "ML-0405",
+     "marque du plan 2025 posée sur surf_0293 (espace_vert) (71%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
+    ],
+    [
+     "MS-0452",
+     "marque du plan 2025 posée sur surf_0293 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
+    ],
+    [
+     "MS-0819",
+     "point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise) : sol absent du paquet, marque gardée non fabriquée"
+    ],
+    [
+     "MS-0822",
+     "point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise) : sol absent du paquet, marque gardée non fabriquée"
+    ],
+    [
+     "MS-0844",
+     "marque du plan 2025 posée sur surf_0281 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
+    ],
+    [
+     "MS-0846",
+     "point d'axe Chronovélo (plan 2025) à cheval sur une marche du sol v1 (espace_vert_2025 / trottoir_2025) : sol absent du paquet, marque gardée non fabriquée"
+    ],
+    [
+     "MS-0895",
+     "point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise) : sol absent du paquet, marque gardée non fabriquée"
+    ]
+   ]
   }
  },
  "preuves": {
@@ -600,6 +3312,34 @@
    "date": "2025-05-18",
    "texte": "Végétation et mobilier :\n- accotement enherbé non tondu à l'approche NE ; l'herbe déborde sur la bordure béton, mais pas sur la ligne de rive ;\n- herbes dans les joints des îlots ;\n- haies, cèdre et serres « Paquet Jardin » côté Revirée ;\n- affiches de cirque (« LANDRI ») sur poteaux bois et candéla",
    "fichier": "analysis/paquet_jardin/constats_verifies.json"
+  },
+  "norme:IISR_7_art113-1": {
+   "type": "norme",
+   "ref": "IISR_7_art113-1",
+   "date": null,
+   "texte": "T3 3.0/1.33",
+   "fichier": null
+  },
+  "norme:IISR_7_art117-2": {
+   "type": "norme",
+   "ref": "IISR_7_art117-2",
+   "date": null,
+   "texte": "bande 0,50",
+   "fichier": null
+  },
+  "norme:IISR_7_art117-4": {
+   "type": "norme",
+   "ref": "IISR_7_art117-4",
+   "date": null,
+   "texte": "effet des feux T'2 0,15",
+   "fichier": null
+  },
+  "norme:IISR_7_art118": {
+   "type": "norme",
+   "ref": "IISR_7_art118",
+   "date": null,
+   "texte": "bande 0,50 m",
+   "fichier": null
   },
   "norme:NF_EN_1340": {
    "type": "norme",
@@ -670,6 +3410,13 @@
    "date": null,
    "texte": "tactile_paving=yes à 2.5 m",
    "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
+  },
+  "panoramax:20d1a815/r01_c02": {
+   "type": "panoramax",
+   "ref": "20d1a815-ee8d-4d99-97c4-8e70270f289d r01_c02",
+   "date": "2025-08-31",
+   "texte": "licence CC-BY-SA-4.0, producteur Binnette, azimut 232",
+   "fichier": "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_20d1a815-ee8d-4d99-97c4-8e70270f289d_hd/2025-08-31_20d1a815-ee8d-4d99-97c4-8e70270f289d_hd_r01_c02.jpg"
   },
   "panoramax:9834f494/r01_c01": {
    "type": "panoramax",
@@ -1031,6 +3778,30 @@
    ]
   },
   {
+   "src": "a_priori:neuf_2025_u0",
+   "attribut": "usure",
+   "entites": [
+    "MF-0021",
+    "MF-0761",
+    "MF-0762",
+    "MF-0763",
+    "MF-0764",
+    "MF-0765",
+    "MF-0767",
+    "MF-0768",
+    "MF-0770",
+    "MF-0771",
+    "MF-0772",
+    "MF-0773",
+    "MF-0775",
+    "MP-0863",
+    "MP-0869",
+    "MT-0853",
+    "MZ-0919",
+    "MZ-0920"
+   ]
+  },
+  {
    "src": "a_priori:polygone_v1_recale",
    "attribut": "geometrie",
    "entites": [
@@ -1072,6 +3843,20 @@
     "K-0619",
     "K-0628",
     "K-0629"
+   ]
+  },
+  {
+   "src": "a_priori:tirets_v1_synthetiques",
+   "attribut": "phase_m",
+   "entites": [
+    "ML-0429",
+    "ML-0511",
+    "ML-0531",
+    "ML-0534",
+    "ML-0554",
+    "ML-0562",
+    "ML-0852",
+    "ML-0924"
    ]
   },
   {
@@ -1200,11 +3985,25 @@
    "recon/pcg/decrire/bordures.py": "352c0119bc0dc4597bebf4dc8e49c431280e28e559f100583642b8406601a33b",
    "recon/pcg/decrire/surfaces.py": "f27a3560c6ca59c494b20a9644429a55df888dffd96593ef3f464f7dc49867f5",
    "recon/pcg/decrire/ilots.py": "57819ffc0af70859ee8277a1922834b1f2670b2719d82ff3ca49952fcac8eb22",
-   "recon/pcg/decrire/composer.py": "74be4c48292efaf7829265690c9bdb1a6628081279ba449352e82b32d74116e7",
-   "recon/pcg/decrire/valider.py": "330d75032f82f9bfdf08048b4a9f793568b0dd34017a205436d78a0f626833fd",
-   "recon/pcg/decrire/apercu.py": "27b2021151a374e32265153d75229c940f25b6bb0f17f12f774b3d5892ace3b6"
+   "recon/pcg/decrire/composer.py": "02a9cd8f595432e08f424709c51dbff8af3f0c5f8af9b38b94809299b0f6842a",
+   "recon/pcg/decrire/valider.py": "36aa7ed6a86211f42d85bad511b450cc800912e8a1a7f6113aef97c861c64c45",
+   "recon/pcg/decrire/apercu.py": "27b2021151a374e32265153d75229c940f25b6bb0f17f12f774b3d5892ace3b6",
+   "recon/pcg/decrire/xodr_echantillonne.py": "87e26da102c50ceebf1412c616855b047c0166962b3ebfc59ad27d02bee6d810",
+   "recon/pcg/decrire/marquages.py": "d117692a9519132fd54fa8d853830571954099b2c3be33d4b7a7ae61bd4589fd",
+   "recon/pcg/decrire/marquages_commun.py": "e0ff3a9f2db6beb5f5f51cb852f26a011462dc80b3ba7cb7bb6ae987c52645e8",
+   "recon/pcg/decrire/marquages_lignes.py": "9185eea73d95b794b1f37d167d7b3ba5d0cc30f34fd15c698feb043f22f443fe",
+   "recon/pcg/decrire/marquages_passages.py": "3e4b43447a22379b224d2ed76224ed7ddc4bc134c78e3885979c07121db81f93",
+   "recon/pcg/decrire/marquages_symboles.py": "b1b94dcb8c8037f400ff608a4c901bad7e3af41a23db129bb95ea390008033a8",
+   "recon/pcg/decrire/marquages_zones.py": "3eb64b0c50d52c61166267c557c5b570267ed75165df243a8baa38307fe9fcee",
+   "recon/pcg/decrire/marquages_gam.py": "2a0eb70f6921de8f3ffc47b111d9ac3a5a73378a464d4054c32c6dc035ed159b",
+   "recon/pcg/decrire/marquages_glyphes.py": "26932de4bee0b592f769b9e3b1c086f5c5f77f65cc95e720ed814d61072cb9f7",
+   "recon/pcg/decrire/marquages_ortho.py": "5d57ec2ae94146b73ed56a2146734af888820f42a6511b148486dd5cb7f44d8d",
+   "recon/pcg/decrire/marquages_bordures.py": "d89281296126aa094892a55d45c0a80c375b5ea4135fad2b4a23fe8b27d1f8fe",
+   "recon/pcg/decrire/marquages_reprises.py": "a366ee1f468b4a792075409486c75cfa2e9eaa96b701d27adabc3cae456928e2",
+   "recon/pcg/decrire/marquages_controles.py": "59780c0fb60ffcaff66310329043a13326a732810ffdac51a42d7cf8510b37e4"
   },
   "interpreteur": "CPython 3.11.9 ; numpy 2.4.6"
  },
- "hash_description": "c20cdceeac4f0ee7a60bbc791828b3ba421055d32d58ee43326436579d14c157"
+ "hash_description": "c20cdceeac4f0ee7a60bbc791828b3ba421055d32d58ee43326436579d14c157",
+ "hash_marquages": "0901b0969348450e8447774bf5a4548e6e4697ec7859dc86389a80dbe1522b32"
 }

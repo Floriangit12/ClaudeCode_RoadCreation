@@ -32,13 +32,18 @@ Méthode (vectorielle, aucune décision au pixel) :
    caniveaux : la chaussée s'arrête à leur bord (u = −largeur) au niveau fil d'eau + 2,5 cm (CS2) ;
    bornes près des faces : chaussée entre fil d'eau − 5 mm et tête − (vue − 5 mm) à moins de 0,15 m
    devant (vue réelle = vue décrite ± 5 mm), sol ≤ tête − 2 mm + 3,5 % à moins de 0,20 m derrière
-   (aucune bordure enterrée, pas de sol au-dessus de la tête).
+   (aucune bordure enterrée, pas de sol au-dessus de la tête) ;
+   pente maximale (regle:pj_sol.pente_max, revue UE du 10/10 : pointes de sol aux fins de bordure) : enveloppe
+   inférieure z_v ≤ z_u + 0,5·|uv| près des bordures, hors noues, îlots et bord d'emprise (abaisse seulement) ;
+   BEV : un plan par rangée de modules, raccordé autour (dalles 3D à fleur).
 Limites de surfaces : polygones régularisés par pj_limites (arcs partagés, Douglas-Peucker, Chaikin,
 calage sur les bordures, reprises neuf / ancien sciées).
 UV st1 = (x, y) en mètres (BEV : repère de la bordure, dalles alignées) ; primvar `salissure`
-(fil d'eau sur 10-25 cm, pied de bordure) ; un maillage par materiau_id, normales lissées sur le sol
-entier ; sous les dalles podotactiles 3D (pj_decals), le sol BEV n'est visible que dans les joints
-(mortier sombre côté Karma, MI_bev_podotactile côté UE).
+(fil d'eau sur 10-25 cm, pied de bordure) ; un maillage par materiau_id, normales par sommet de face à
+angle de rupture de 30° (lisses sur le terrain, cassées aux talus, marches et bords de bande) ; sous les
+dalles podotactiles 3D (pj_decals), le sol BEV n'est visible que dans les joints (mortier sombre, Karma et
+UE). Export UE (recon/pcg/ue/CONTRAT_EXPORT.md) : kinds, Material /World/Looks/<id> et liaison
+material:binding:preview ; la liaison Karma (material:binding -> /World/Looks_v2) est inchangée.
 """
 import math
 
@@ -61,6 +66,9 @@ AIRE_MAX = 0.25
 CLASSES_ECRETEES = ["enrobe_bbsg_ancien", "enrobe_bbsg_neuf_2025"]     # chaussées
 PENTE_RAMPE = 0.035    # rampe derrière un abaissé (≤ 5 % visé, marge pour l'interpolation des triangles)
 D_RAMPE = 4.0          # profondeur maximale du profil de rampe (m)
+PENTE_MAX_SOL = 0.5    # regle:pj_sol.pente_max : pente maximale d'une arête du sol près des bordures (26,6°)
+D_PENTE_MAX = 1.2      # rayon d'application autour des bordures (m)
+CLASSES_TALUS = ["noue_plantee"]   # talus réels (pente non bornée)
 MARCHABLES = ["enrobe_trottoir", "bev_podotactile", "enrobe_piste_cyclable", "beton_balaye", "dalles_beton",
               "paves_beton", "paves_granit", "stabilise_beige", "beton_desactive", "enrobe_bbsg_ancien",
               "enrobe_bbsg_neuf_2025", "enrobe_reprise_tranchee", "enrobe_clair_granulats", "enrobe_colore_ocre",
@@ -338,12 +346,26 @@ class Sol:
                         h = 0.5 * mod
                         coins = np.array([c + tg[0] * dx + nl * dy for dx, dy in ((-h, -h), (h, -h), (h, h), (-h, h))])
                         d, _, _ = C.distance_segments(coins, A_, B_)
-                        if np.all(C.dans_polygone(coins, [r]) | (d < 0.02)):
+                        if np.all(C.dans_polygone(coins, [r]) | (d < 0.02)) and not self._sous_bordure(coins):
                             mods.append({"s": sc, "u": uc, "centre": c, "tangente": tg[0], "coins": coins, "demi": h,
                                          "id": f"{pc['id']}/D{k:02d}{jr}"})
             out.append((pc, mods))
         self._modules_bev = out
         return out
+
+    def _sous_bordure(self, coins, marge=0.01):
+        """Vrai si le module (4 coins, bords et centre échantillonnés) empiète sur l'emprise d'un élément de bordure
+        (de la face vue à la base + marge ; revue UE du 10/10 : dernière paire du BEV de K-0385 posée sur la
+        bordurette P1 K-9297a, basculée de 4 cm)."""
+        u, v = np.meshgrid(np.linspace(0.0, 1.0, 9), np.linspace(0.0, 1.0, 9))          # pas de 5 cm
+        u, v = u.ravel()[:, None], v.ravel()[:, None]
+        Q = (1 - u) * (1 - v) * coins[0] + u * (1 - v) * coins[1] + u * v * coins[2] + (1 - u) * v * coins[3]
+        for bid, m, s, dl, d, ex in self.projections(Q, rayon=0.5):
+            b = self.bandes[bid]
+            base = b.interp(b.base, s)
+            if np.any((ex <= marge) & (dl >= -marge) & (dl <= base + marge)):
+                return True
+        return False
 
     @staticmethod
     def contour_modules(mods):
@@ -817,21 +839,97 @@ class Sol:
                     bornes_b[pres] = np.maximum(bornes_b[pres], b.interp(b.ztop, s[pres]) - min(0.05, retrait + 0.008))
                 z[vs] = np.minimum(np.maximum(z[vs], bornes_b), bornes_h)          # 3-5 cm sous la tête locale
             self.z_ilots[il["id"]] = (vs, zt)
-        # sous chaque module BEV : sol ramené au plan moyen du module (la dalle 3D posée dessus ne flotte pas et
-        # ne s'enterre pas sur une rampe ou une chartière)
+        z = self.limiter_pentes(P, tris, garde, classe, ilot, z)
+        # sous chaque rangée de modules BEV : sol ramené au plan moyen de la rangée (un plan par BEV : les sommets
+        # partagés par deux modules voisins ne sont plus réécrits par le second ajustement), plan prolongé sur 0,10 m et
+        # raccordé sur 0,30 m au-delà, hors îlots (revue UE du 10/10 : dalles en saillie de 1 à 4 cm, chant et ombre
+        # visibles) : la dalle 3D posée
+        # dessus (pj_decals.dalles_bev, dessus à +0,8 mm) affleure le trottoir voisin
+        self.bev_plans = {}
+        sous_dalle = np.zeros(len(P), dtype=bool)
+        dans_ilot = np.zeros(len(P), dtype=bool)                  # remplissages bornés sous la tête : hors raccord
+        dans_ilot[tris[garde & (ilot != "")].ravel()] = True
         for pc, mods in self.modules_bev():
+            if not mods:
+                continue
+            t = mods[0]["tangente"]
+            nl = np.array([-t[1], t[0]])
+            o = mods[0]["centre"]
+            dmin = np.full(len(P), np.inf)
             for md in mods:
-                t, h = md["tangente"], md["demi"] + 0.01
-                nl = np.array([-t[1], t[0]])
                 X = P[:, :2] - md["centre"]
-                a, b_ = X @ t, X @ nl
-                dedans = np.where((np.abs(a) <= h) & (np.abs(b_) <= h))[0]
-                if len(dedans) >= 3:
-                    A = np.c_[a[dedans], b_[dedans], np.ones(len(dedans))]
-                    coef = np.linalg.lstsq(A, z[dedans], rcond=None)[0]
-                    z[dedans] = A @ coef
+                a, b_ = np.abs(X @ md["tangente"]) - md["demi"], np.abs(X @ np.array([-md["tangente"][1], md["tangente"][0]])) - md["demi"]
+                dmin = np.minimum(dmin, np.hypot(np.maximum(a, 0.0), np.maximum(b_, 0.0)) + np.minimum(np.maximum(a, b_), 0.0))
+            dedans = np.where(dmin <= 0.01)[0]
+            if len(dedans) < 3:
+                continue
+            sous_dalle[dedans] = True
+            X = P[:, :2] - o
+            A = np.c_[X @ t, X @ nl, np.ones(len(P))]
+            coef = np.linalg.lstsq(A[dedans], z[dedans], rcond=None)[0]
+            residu = float(np.abs(A[dedans] @ coef - z[dedans]).max())
+            w = np.where(dmin <= 0.10, 1.0, 1.0 - K.smoothstep((dmin - 0.10) / 0.30)) * (~dans_ilot | (dmin <= 0.01))
+            k = np.where(w > 0)[0]
+            # près d'une bordure, le raccord s'efface (tête − 2 mm au plus derrière la face : conformité « enterrés »)
+            dbord = np.full(len(k), np.inf)
+            for bid, mm, s_, dl, d, ex in self.projections(P[k, :2], rayon=0.5):
+                b = self.bandes[bid]
+                dbord[mm] = np.minimum(dbord[mm], np.where(ex <= 0.05, np.abs(dl - 0.5 * b.interp(b.base, s_))
+                                                                       - 0.5 * b.interp(b.base, s_), np.inf))
+            w[k] *= np.where(dmin[k] <= 0.01, 1.0, K.smoothstep(np.clip((dbord - 0.02) / 0.15, 0.0, 1.0)))
+            k = np.where(w > 0)[0]
+            z[k] = z[k] * (1.0 - w[k]) + (A[k] @ coef) * w[k]
+            self.bev_plans[pc["id"]] = {"pente_pct": round(100.0 * float(math.hypot(coef[0], coef[1])), 2),
+                                        "residu_avant_mm": round(1000.0 * residu, 2)}
+        if self.bev_plans:                     # le raccord ne remonte pas le sol au-dessus d'une tête (bornes de corriger)
+            for bid, m, s_, dl, d, ex in self.projections(P[:, :2], rayon=0.5):
+                b = self.bandes[bid]
+                dp = dl - b.interp(b.ub, s_)
+                pres = (ex <= 0) & (dp >= -0.004) & (dp < 0.2) & (dl > b.interp(b.uf, s_) + 0.004)
+                z[m[pres]] = np.minimum(z[m[pres]], (b.interp(b.ztop, s_) - 0.002 + PENTE_RAMPE * np.maximum(dp, 0.0))[pres])
+            z = self.limiter_pentes(P, tris, garde, classe, ilot, z, fixes=sous_dalle)   # pas de marche créée par la borne
         self.sal = sal
         return z
+
+    def limiter_pentes(self, P, tris, garde, classe, ilot, z, fixes=None):
+        """regle:pj_sol.pente_max (revue UE du 10/10 : pointes de sol de 6 à 23 cm, jusqu'à 89°, à 24 fins de bordure
+        sur 128, là où deux bordures voisines imposent des niveaux incompatibles ; ex. bordurette P1 K-9297a dont le
+        fil d'eau décrit (0,197) domine de 10 cm la rampe du bateau K-0385 (0,09) sur la bande de 0,25 m que la rampe
+        laisse devant elle) : enveloppe inférieure lipschitzienne z_v ≤ z_u + PENTE_MAX_SOL·|uv| sur les arêtes du sol
+        visible hors talus (noues), pour les sommets à moins de D_PENTE_MAX d'une bordure, hors îlots (remplissage borné
+        à 3-5 cm sous la tête locale) et à plus de 0,5 m du bord de l'emprise (raccord au v1 inchangé). N'abaisse jamais
+        sous un voisin : aucun bloc ne se découvre par-dessous (dessous des éléments sous le fil d'eau)."""
+        T_ = tris[garde & ~np.isin(classe, CLASSES_TALUS)]
+        E = np.unique(np.sort(np.vstack([T_[:, [0, 1]], T_[:, [1, 2]], T_[:, [2, 0]]]), axis=1), axis=0)
+        L = np.hypot(*(P[E[:, 0], :2] - P[E[:, 1], :2]).T)
+        pres = np.zeros(len(P), dtype=bool)
+        for bid, m, s, dl, d, ex in self.projections(P[:, :2], rayon=D_PENTE_MAX):
+            pres[m[d < D_PENTE_MAX]] = True
+        x0, y0, x1, y1 = self.R
+        bord = np.minimum.reduce([P[:, 0] - x0, x1 - P[:, 0], P[:, 1] - y0, y1 - P[:, 1]])
+        dans_ilot = np.zeros(len(P), dtype=bool)
+        dans_ilot[tris[garde & (ilot != "")].ravel()] = True
+        mobile = pres & (bord > 0.5) & ~dans_ilot & (~fixes if fixes is not None else True)
+        z1 = z.copy()
+        for it in range(2000):
+            cand = np.full(len(P), np.inf)
+            np.minimum.at(cand, E[:, 0], z1[E[:, 1]] + PENTE_MAX_SOL * L)
+            np.minimum.at(cand, E[:, 1], z1[E[:, 0]] + PENTE_MAX_SOL * L)
+            nz = np.where(mobile, np.minimum(z1, cand), z1)
+            if np.max(z1 - nz) < 1e-6:
+                z1 = nz
+                break
+            z1 = nz
+        dz = z - z1
+        ab = np.where(dz > 0.001)[0]
+        top = ab[np.argsort(-dz[ab])][:12]
+        self.stats_pente = getattr(self, "stats_pente", None) or {}
+        self.stats_pente = {"regle": "regle:pj_sol.pente_max", "pente_max": PENTE_MAX_SOL, "rayon_m": D_PENTE_MAX,
+                            "passe_precedente": self.stats_pente or None,
+                            "iterations": it + 1, "sommets_abaisses": int(len(ab)),
+                            "abaissement_max_m": round(float(dz.max()), 3) if len(dz) else 0.0,
+                            "plus_forts": [{"xy": K.r3(P[i, :2], 2), "dz_m": round(float(dz[i]), 3)} for i in top]}
+        return z1
 
     def mnt_corrige(self, P):
         """MNT 2026 ; surfaces à araser (niveau.arasement : le MNT garde un relief disparu) : plan
@@ -1084,36 +1182,44 @@ class Sol:
         P3 = np.c_[P2, z]
         T_ = tris[garde]
         cl = classe[garde]
-        N = U.normales_sommets(P3, T_)
+        # normales par sommet de face sur le sol entier (continues d'un materiau_id à l'autre), cusp 30°
+        Nc = K.normales_cusp(P3, np.full(len(T_), 3), T_.ravel()).reshape(-1, 3, 3)
         st = U.scene("Sol de la zone pilote ZP-01 (pj_sol.py) : maillages découpés sous les bordures posées, "
                      "Z = MNT 2026 + bordures de la description (jamais les maillages v1), un maillage par "
                      "materiau_id, UV st1 en mètres.", data={"version": K.VERSION, "description": self.desc.hash})
         U.xform(st, "/World/PJ_Sol")
+        K.typer_ue(st, "/World/PJ_Sol")
         self.meshes = {}
-        bev_par_tri = bev_de[garde]
         for mid in sorted(set(cl.tolist())):
             sel = T_[cl == mid]
             vs, inv = np.unique(sel.ravel(), return_inverse=True)
             idx = inv.reshape(-1, 3)
-            st1 = P2[vs]
-            if mid == "bev_podotactile":
-                st1 = self._uv_bev(P2, vs, sel, T_[cl == mid], bev_par_tri[cl == mid])
+            st1 = P2[vs]        # BEV compris : sol des joints sous les dalles 3D, mortier uni (l'UV _uv_bev, inutile,
+                                # dégénérait 2 triangles en bout de bande)
             m = U.maillage(st, f"/World/PJ_Sol/{mid}", P3[vs], np.full(len(idx), 3), idx.ravel(),
-                           normales=N[vs], st1=st1, st1_interp="vertex", materiau_id=mid,
+                           normales=Nc[cl == mid].reshape(-1, 3), st1=st1,
+                           st1_interp="vertex", materiau_id=mid,
                            primvars={"salissure": (Vt.FloatArray.FromNumpy(self.sal[vs].astype(np.float32)),
                                                    T.FloatArray, UsdGeom.Tokens.vertex)})
-            m.GetPrim().CreateAttribute("unrealMaterial", T.String).Set(f"/Game/PJ/Materials/MI_{mid}.MI_{mid}")
             # BEV : sous les dalles 3D (pj_decals.dalles_bev, dessus à +0,8 mm), le sol ne se voit que dans les joints
-            # de 3 mm -> mortier sombre (Karma) ; UE garde MI_bev_podotactile (pas de dalles 3D en phase 1)
-            U.lier_chemin(m.GetPrim(), "/World/Looks_v2/mortier_joint" if mid == "bev_podotactile" else f"/World/Looks_v2/{mid}")
+            # de 3 mm -> mortier sombre (Karma et UE, qui importe aussi les dalles 3D)
+            mue = "mortier_joint" if mid == "bev_podotactile" else mid
+            m.GetPrim().CreateAttribute("unrealMaterial", T.String).Set(f"/Game/PJ/Materials/MI_{mue}.MI_{mue}")
+            U.lier_chemin(m.GetPrim(), f"/World/Looks_v2/{mue}")
+            K.lier_ue(m.GetPrim(), mue, *(((0.055, 0.055, 0.052), 0.95) if mue == "mortier_joint"
+                                          else self.specs.apercu_ue(mue)))
             self.meshes[mid] = int(len(idx))
         U.enregistrer(st, chemin)
         self.P3, self.T, self.cl, self.ilot_tri = P3, T_, cl, ilot[garde]
         self.surf_tri = surf[garde]
-        return self.controles(P2, z)
+        ctl = self.controles(P2, z)
+        ctl["pente_max"] = getattr(self, "stats_pente", None)
+        ctl["bev_plans"] = getattr(self, "bev_plans", None)
+        return ctl
 
     def _uv_bev(self, P2, vs, _sel, _t, bevs):
-        """UV des BEV dans le repère de leur bordure : dalles de 0,40 alignées sur le nez."""
+        """UV des BEV dans le repère de leur bordure : dalles de 0,40 alignées sur le nez (inutilisé depuis les
+        dalles 3D de pj_decals : le sol BEV n'est plus que le mortier des joints)."""
         st1 = P2[vs].copy()
         par = {pc["id"]: pc for pc, _ in self.bev}
         bid_v = {}

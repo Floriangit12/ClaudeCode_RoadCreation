@@ -13,6 +13,9 @@
   principaux des sommets, largeur ramenée à 0,50 m si elle est entre 0,40 et 0,60), drapées sur le sol
   v2 à +2 mm, maillées tous les 0,25 m ; peinture blanche usée (pj_materiaux.PEINTURES) ;
 - graines = hash(bordure | type | joint) ; sorties decals_sol.usda, marquages_pilote.usda.
+Export UE de decals_sol.usda (recon/pcg/ue/CONTRAT_EXPORT.md) : kinds, normales par sommet de face (cusp 30°),
+UV st1 des brins, Material /World/Looks/<id> lié en material:binding:preview (Karma inchangé) ; faces de
+ruban verticales (UV dégénérées, invisibles à +1,5 mm) retirées.
 """
 import json
 import math
@@ -297,8 +300,9 @@ class Decals:
         - dans les joints des bordures dont l'aspect décrit `herbe_joints` > 0 : une touffe de 2 à 4 cm au
           pied de la face vue (fil d'eau) pour une part herbe_joints des joints, et derrière (tête) pour
           la moitié de cette part ;
-        - le long des limites gazon / revêtement dur : une touffe de 4 à 8 cm tous les 6 cm environ,
-          débordant de 0 à 4 cm sur le revêtement (le gazon ne s'arrête pas net à la limite).
+        - le long des limites gazon / revêtement dur : une touffe de 4 à 8 cm tous les 6 cm environ, de 4 cm
+          côté gazon à 1,5 cm sur le revêtement (le gazon ne s'arrête pas net à la limite ; revue UE du
+          10/10 : un débord de 4 cm faisait une frange de touffes sur le trottoir).
         Renvoie {position, lacet, hauteur, variante, couleur}."""
         sol = self.sol
         pos, lac, ht, var, coul = [], [], [], [], []
@@ -357,7 +361,7 @@ class Decals:
                 nrm = -nrm                                   # vers le revêtement dur
             for _ in range(int(r.poisson(L / 0.06))):
                 t = r.uniform()
-                xy = A[:2] + (Bq[:2] - A[:2]) * t + nrm * r.uniform(-0.02, 0.04)
+                xy = A[:2] + (Bq[:2] - A[:2]) * t + nrm * r.uniform(-0.04, 0.015)   # revue UE : frange sur le dur
                 pos.append([*xy, A[2] + (Bq[2] - A[2]) * t])
                 lac.append(r.uniform(-180, 180))
                 ht.append(r.uniform(0.04, 0.08))
@@ -382,7 +386,7 @@ class Decals:
         les dalles, n'apparaît que dans les joints, en mortier sombre) ; chaque dalle épouse le plan du sol à ses
         4 coins (rampes, chartières)."""
         sol = self.sol
-        pos, rpy, ids = [], [], []
+        pos, rpy, ids, ecarts = [], [], [], []
         for pc, mods in sol.modules_bev():
             for m in mods:
                 coins = m["centre"] + (m["coins"] - m["centre"]) * ((m["demi"] - 0.0015) / m["demi"])
@@ -408,8 +412,22 @@ class Decals:
                 rpy.append([math.degrees(math.atan(gy)), -math.degrees(math.atan(gx)), yaw])
                 pos.append([*m["centre"], z0 - 0.012])
                 ids.append(m["id"])
+                # affleurement (revue UE du 10/10 : dalles en saillie de 1 à 4 cm) : dessus de la dalle au bord contre
+                # le sol à 3 cm hors du module (8 sondes), joints entre modules exclus (sol de la dalle voisine)
+                e = m["demi"] + 0.03
+                for dx, dy in ((-e, 0), (e, 0), (0, -e), (0, e), (-e, -0.7 * e), (e, 0.7 * e), (-0.7 * e, e), (0.7 * e, -e)):
+                    q = m["centre"] + t * dx + nl * dy
+                    tq, zq = self.loc.trouver(q[None])
+                    if tq[0] < 0 or sol.cl[tq[0]] == "bev_podotactile":
+                        continue
+                    xb, yb = np.clip(dx, -m["demi"], m["demi"]), np.clip(dy, -m["demi"], m["demi"])
+                    ecarts.append(gx * xb + gy * yb + z0 - float(zq[0]))
+        ec = np.abs(np.array(ecarts)) if ecarts else np.zeros(1)
         self.comptes["bev_dalles"] = {"regle": "regle:pj_decals.bev", "dalles": len(pos), "plots_par_dalle": 60,
-                                      "modules_par_bev": {pc["id"]: len(mods) for pc, mods in sol.modules_bev()}}
+                                      "modules_par_bev": {pc["id"]: len(mods) for pc, mods in sol.modules_bev()},
+                                      "affleurement_mm": {"sondes": int(len(ecarts)), "max": round(1000 * float(ec.max()), 1),
+                                                          "p95": round(1000 * float(np.percentile(ec, 95)), 1),
+                                                          "au_dela_5mm": int((ec > 0.005).sum())}}
         return {"p": np.asarray(pos, dtype=np.float64).reshape(-1, 3), "rpy": np.asarray(rpy).reshape(-1, 3), "ids": ids}
 
     # ---------------------------------------------------------------- sorties
@@ -424,12 +442,21 @@ class Decals:
                  "drapées sur le sol v2 à +2 mm ; remplacés par pj_marquages en phase 2.", "zebras")):
             st = U.scene(doc, data={"version": K.VERSION, "description": self.desc.hash})
             U.xform(st, "/World/PJ_Decals")
+            ue = nom == "pontages"                    # marquages_pilote.usda : inchangé (phase 2, pj_marquages)
+            if ue:
+                K.typer_ue(st, "/World/PJ_Decals")
             if P is not None:
-                Nz = np.tile([0.0, 0.0, 1.0], (len(P), 1))
-                m = U.maillage(st, f"/World/PJ_Decals/{nom}", P, np.full(len(F), 3), F.ravel(), normales=Nz,
+                if ue:
+                    F = _sans_uv_degenerees(P, F)
+                    N = K.normales_cusp(P, np.full(len(F), 3), F.ravel())
+                else:
+                    N = np.tile([0.0, 0.0, 1.0], (len(P), 1))
+                m = U.maillage(st, f"/World/PJ_Decals/{nom}", P, np.full(len(F), 3), F.ravel(), normales=N,
                                st1=P[:, :2], st1_interp="vertex", materiau_id=mat)
                 m.GetPrim().CreateAttribute("unrealMaterial", T.String).Set(f"/Game/PJ/Materials/MI_{mat}.MI_{mat}")
                 U.lier_chemin(m.GetPrim(), f"/World/Looks_v2/{mat}")
+                if ue:
+                    K.lier_ue(m.GetPrim(), mat, (0.030, 0.029, 0.027), 0.86)
             if nom == "pontages":
                 self._ecrire_touffes(st, self.touffes(elements, joints))
                 self._ecrire_dalles(st, self.dalles_bev())
@@ -446,10 +473,17 @@ class Decals:
                          primvars={"couleur": (U.vt(tf["couleur"], T.Color3fArray), T.Color3fArray)})
         for k in range(4):
             P, F = prototype_touffe(k)
+            # brins : normale de face (faceVarying), UV st1 = (largeur, hauteur) réelles du brin (unités du prototype)
+            N = K.normales_cusp(P, np.full(len(F), 3), F.ravel())
+            a, b, c = P[F[:, 0]], P[F[:, 1]], P[F[:, 2]]
+            lb = np.linalg.norm(b - a, axis=1)
+            hb = np.linalg.norm(c - 0.5 * (a + b), axis=1)
+            uv = np.stack([np.c_[0 * lb, 0 * lb], np.c_[lb, 0 * lb], np.c_[0.5 * lb, hb]], axis=1).reshape(-1, 2)
             m = U.maillage(st, f"{path}/Prototypes/touffe_v{k}/maillage", P, np.full(len(F), 3), F.ravel(),
-                           double_face=True, materiau_id="herbe_touffe")
+                           normales=N, st1=uv, double_face=True, materiau_id="herbe_touffe")
             m.GetPrim().CreateAttribute("unrealMaterial", T.String).Set("/Game/PJ/Materials/MI_herbe_touffe.MI_herbe_touffe")
         U.lier_chemin(pi.GetPrim(), "/World/Looks_v2/herbe_touffe")
+        K.lier_ue(pi.GetPrim(), "herbe_touffe", (0.060, 0.082, 0.030), 0.6)
 
     def _ecrire_dalles(self, st, dl):
         if len(dl["p"]) == 0:
@@ -458,9 +492,22 @@ class Decals:
         q = np.array([K.quat_de_matrice(K.rotation_rpy(list(map(float, a)))) for a in dl["rpy"]])
         pi = U.instancer(st, path, [("dalle_bev_40", None, None)], np.zeros(len(dl["p"]), dtype=int), dl["p"], q)
         P, counts, idx, st1 = prototype_dalle_bev()
-        m = U.maillage(st, f"{path}/Prototypes/dalle_bev_40/maillage", P, counts, idx, st1=st1, materiau_id="bev_podotactile")
+        N = K.normales_cusp(P, counts, idx, souder=1e-5)       # faces à points non partagés : soudure à 0,01 mm
+        import pj_bordure_prototypes as BP
+        st1 = BP.uv_boite(P, counts, idx) + 0.5               # chants verticaux : projection boîte (dessus inchangé)
+        m = U.maillage(st, f"{path}/Prototypes/dalle_bev_40/maillage", P, counts, idx, normales=N, st1=st1,
+                       materiau_id="bev_podotactile")
         m.GetPrim().CreateAttribute("unrealMaterial", T.String).Set("/Game/PJ/Materials/MI_bev_podotactile.MI_bev_podotactile")
         U.lier_chemin(pi.GetPrim(), "/World/Looks_v2/bev_podotactile")
+        K.lier_ue(pi.GetPrim(), "bev_podotactile", *self.sol.specs.apercu_ue("bev_podotactile"))
+
+
+def _sans_uv_degenerees(P, F, eps=1e-9):
+    """Triangles de ruban dont la projection de dessus (UV st1 = x, y) est dégénérée : faces verticales sur une
+    marche, invisibles mais sans tangentes (avertissement LogStaticMesh) ; retirées."""
+    a, b, c = P[F[:, 0], :2], P[F[:, 1], :2], P[F[:, 2], :2]
+    aire = 0.5 * np.abs((b[:, 0] - a[:, 0]) * (c[:, 1] - a[:, 1]) - (b[:, 1] - a[:, 1]) * (c[:, 0] - a[:, 0]))
+    return F[aire > eps]
 
 
 def prototype_touffe(k):

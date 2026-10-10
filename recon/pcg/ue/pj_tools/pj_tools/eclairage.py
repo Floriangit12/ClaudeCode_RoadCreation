@@ -34,9 +34,27 @@ MIE_ECHELLE = 0.12                 # /km (UE : 0,003996)
 CIEL = dict(mie_scattering_scale=MIE_ECHELLE, mie_absorption_scale=round(MIE_ECHELLE * 0.111, 6))
 LUMIERE_CIEL = dict(intensity=1.0, lower_hemisphere_is_black=False)
 
+# nuages (revue UE du 10/10 : ciel laiteux sans nuages ; Panoramax du site : ciel bleu, cumulus et cirrus) : VolumetricCloud,
+# couche de 1,5 a 4 km, sans vent (images reproductibles), sans ombre portee des nuages sur le sol (exposition des capteurs
+# stable ; cast_cloud_shadows du soleil laisse a faux). couverture = Cloud_GlobalCoverage du nuage simple du moteur : -0,2
+# (defaut) voiles epars, -0,15 retenu ; essais a 0,15 et 0,4 : couche grise couvrante, ciel gris (pas de cumulus distincts)
+NUAGES = dict(bas_km=1.5, epaisseur_km=2.5, couverture=-0.15, densite=0.008, materiau='/Game/PJ/Materials/MI_PJ_Nuages',
+              parent='/Engine/EngineSky/VolumetricClouds/m_SimpleVolumetricCloud_Inst')
+
 POST_PROCESS_NEUTRE = dict(override_vignette_intensity=True, vignette_intensity=0.0,
                            override_film_grain_intensity=True, film_grain_intensity=0.0,
                            override_scene_fringe_intensity=True, scene_fringe_intensity=0.0)
+
+# exposition locale des PLANCHES seulement (pj_tools.capture, exposition_locale=True ; captures *_1000 des planches) :
+# ombres a l'ombre des arbres bouchees a EV 14 fixe (route de cam4 a 25-40 sRGB) ; les captures de reference (1920 x 1080)
+# et les capteurs restent en post-process neutre
+EXPOSITION_LOCALE_PLANCHES = dict(override_local_exposure_highlight_contrast_scale=True,
+                                  local_exposure_highlight_contrast_scale=0.8,
+                                  override_local_exposure_shadow_contrast_scale=True,
+                                  local_exposure_shadow_contrast_scale=0.7)
+# cache d'eclairage Lumen : pre-exposition du cache centree sur l'EV de la scene (avertissement de l'editeur : 4 couvre
+# EV -8 a 12, la scene est a 14) ; meme valeur que D:/ClaudeADAS/Config/DefaultEngine.ini [SystemSettings] (demarrage)
+CVARS = {'r.EyeAdaptation.CachedLightingPreExposure': 14}
 
 # critere de t7 (ombre portee d'une boite haute sur le sol neutre, rapport de luminance ombre/soleil apres courbe de ton)
 OMBRE_SOLEIL_MIN, OMBRE_SOLEIL_MAX, OMBRE_SOLEIL_R_MIN = 0.18, 0.32, 0.10

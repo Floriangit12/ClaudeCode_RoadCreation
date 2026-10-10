@@ -12,7 +12,9 @@ chaque MI est créée ou mise à jour. Données : catalogue.py, mesures_textures
   Virtual texturing désactivé (2K, peu de textures : le streaming classique suffit).
 - Maîtres (/Game/PJ/Materials/Maitres) : M_PJ_Sol, M_PJ_Remplissage (+ déplacement Nanite, tessellation, second lit
   mêlé par bruit : switch Melange),
-  M_PJ_Bordure (instances : aléa et données d'instance cd), M_PJ_Peinture (masqué, recette peinture.json).
+  M_PJ_Bordure (instances : aléa et données d'instance cd), M_PJ_Peinture (masqué, recette peinture.json),
+  M_PJ_Eclat (éclats 3D des remplissages : palette par instance, détail, fibres), M_PJ_Touffe (touffes d'herbe 3D,
+  feuillage deux faces).
 - Instances : /Game/PJ/Materials/MI_<materiau_id>[__carla|__citysample], MI_PJ_Peinture_<couleur>_u<usure>.
 """
 import importlib
@@ -333,11 +335,16 @@ def graphe_bordure(g, defauts):
     rnd = g.frac(g.add(g.e('PerInstanceRandom'), hsh))
     # données d'instance (points/bordures.json cd = [usure, salissure, mousse_joints, herbe_joints, teinte]) ;
     # absentes = valeur par défaut négative -> paramètre du MI (teinte : aléa)
-    cd = [g.e('PerInstanceCustomData', data_index=i, const_default_value=-9.0) for i in range(5)]
+    cd = [g.e('PerInstanceCustomData', data_index=i, const_default_value=-9.0) for i in range(7)]
+    # cd5 = fil d'eau dans le repère de l'élément (cm ; pilote/points_ue.py : z_pied des points, pivot des prototypes
+    # Houdini sous le bloc) ; absent -> BasDecalageCm du MI. cd6 = demi-longueur de l'élément (cm, pivot au milieu) :
+    # distance aux abouts sans ObjectLocalBounds (bornes du composant, pas de l'instance, sur un ISM)
+    bas_d = g.si_sup(cd[5], -0.5, cd[5], bas_d)
     usure = g.si_sup(cd[0], -0.5, cd[0], usure_p)
     sal = g.si_sup(cd[1], -0.5, cd[1], sal_p)
     mousse = g.si_sup(cd[2], -0.5, cd[2], mousse_p)
-    t = g.si_sup(cd[4], -1.5, cd[4], g.sub(g.mul(rnd, 2.0), 1.0))
+    # teinte : gain par élément (cd4 = teinte des points, 0,88-1,12) ; absent -> alea ±VariationTeinte
+    gain_t = g.si_sup(cd[4], -1.5, cd[4], g.add(1.0, g.mul(var, g.sub(g.mul(rnd, 2.0), 1.0))))
     uv = g.add(g.e('TextureCoordinate', coordinate_index=0), g.mul(g.app(rnd, g.frac(g.mul(rnd, 7.31))), 5.0))
     uvT = g.div(uv, tile)
     ta, tn = g.texobj('T_Albedo', defauts['albedo']), g.texobj('T_Normale', defauts['normale'])
@@ -350,7 +357,7 @@ def graphe_bordure(g, defauts):
     ao = (g.ech(tao, uvT, ST.SAMPLERTYPE_MASKS), 'R')
     nm = g.ech(tb, g.div(uv, m_ech), ST.SAMPLERTYPE_MASKS)
     alb = g.mul(alb, g.add(1.0, g.mul(m_force, g.sub((nm, 'G'), 0.5))))
-    alb = g.mul(alb, g.add(1.0, g.mul(var, t)))
+    alb = g.mul(alb, gain_t)
     # salissure : x (1 - K_SAL·s·w), w = 1 au pied (fil d'eau, z local <= BasDecalageCm) -> SalissureHaut au-dessus
     lp = g.e('LocalPosition')
     bas = g.sat(g.div(g.sub(bas_h, g.sub((lp, 'Z'), bas_d)), bas_h))
@@ -359,7 +366,8 @@ def graphe_bordure(g, defauts):
     # joints : abouts (x local près des bornes de l'objet) plus sales, mousse
     lb = g.e('ObjectLocalBounds')
     x = g.masque((lp, 'XYZ'), 'R')
-    dx = g.mini(g.sub(x, g.masque((lb, 'Min'), 'R')), g.sub(g.masque((lb, 'Max'), 'R'), x))
+    dx_b = g.mini(g.sub(x, g.masque((lb, 'Min'), 'R')), g.sub(g.masque((lb, 'Max'), 'R'), x))
+    dx = g.si_sup(cd[6], -0.5, g.sub(cd[6], g.maxi(x, g.mul(x, -1.0))), dx_b)
     jm = g.sat(g.sub(1.0, g.div(dx, joint_l)))
     s = g.sat(g.add(s, g.mul(g.mul(jm, sal), 0.6)))
     alb = g.mul(alb, g.lerp(1.0, t_sal, s))
@@ -372,6 +380,64 @@ def graphe_bordure(g, defauts):
     g.sortie('Specular', spec)
     g.sortie('Normal', normale_force(g, nrm, n_force))
     g.sortie('AmbientOcclusion', g.lerp(1.0, ao, ao_force))
+
+
+def alea_instance(g):
+    """Aléa par instance (PerInstanceRandom des ISM / HISM + hachage de la position de l'objet) et deux dérivés."""
+    op = g.e('ObjectPositionWS')
+    hsh = g.frac(g.mul(g.sin(g.dot(g.frac(g.mul(op, 0.01371)), (12.9898, 78.233, 37.719))), 43758.5453))
+    rnd = g.frac(g.add(g.e('PerInstanceRandom'), hsh))
+    return rnd, g.frac(g.add(g.mul(rnd, 7.31), 0.13)), g.frac(g.add(g.mul(rnd, 13.71), 0.57))
+
+
+def graphe_eclat(g, defauts):
+    """M_PJ_Eclat (revue UE du 10/10 : éclats sur M_PJ_Bordure à tuile de 30 m = une tache de texture par éclat, copeaux
+    bleutés ou blancs, BRF presque noir à 10 m) : couleur par éclat tirée dans une palette de 3 classes (parts Part1,
+    Part2, reste ; albédo de Couleur<k>A à Couleur<k>B : palette de recon/pcg/houdini/pj_ilot.py, comme Karma) ; détail
+    de luminance de la texture du lit (UV boîte du prototype en m, TileM, décalage par instance) ; fibres du bois
+    (bruit étiré le long du copeau, FibreU x FibreV) ; normale du lit ; sans salissure ni joint."""
+    P = 'Palette'
+    rnd, r2, r3 = alea_instance(g)
+    p1, p2 = g.scal('Part1', 0.5, P), g.scal('Part2', 0.4, P)
+    c = [g.lerp(g.vec(f'Couleur{k}A', (0.2, 0.2, 0.2), P), g.vec(f'Couleur{k}B', (0.3, 0.3, 0.3), P), r2) for k in (1, 2, 3)]
+    c23 = g.si_sup(rnd, g.add(p1, p2), c[2], c[1])
+    col = g.si_sup(rnd, p1, c23, c[0])
+    uv = g.add(g.e('TextureCoordinate', coordinate_index=0), g.mul(g.app(rnd, r3), 5.0))
+    uvT = g.div(uv, g.scal('TileM', 0.3, 'Tuilage'))
+    ta, tn = g.texobj('T_Albedo', defauts['albedo']), g.texobj('T_Normale', defauts['normale'])
+    tb = g.texobj('T_Bruit', C.T_BRUIT)
+    alb = (g.ech(ta, uvT, ST.SAMPLERTYPE_COLOR), 'RGB')
+    w = (0.2126, 0.7152, 0.0722)
+    ratio = g.clamp(g.div(g.dot(alb, w), g.maxi(g.dot(g.vec('MoyenneTexture', (0.2, 0.2, 0.2), 'Couleur'), w), 0.01)), 0.2, 2.5)
+    detail = g.lerp(1.0, ratio, g.scal('DetailForce', 0.6, 'Couleur'))
+    fib_uv = g.mul(uv, g.app(g.scal('FibreU', 6.0, 'Fibres'), g.scal('FibreV', 90.0, 'Fibres')))
+    nf = (g.ech(tb, fib_uv, ST.SAMPLERTYPE_MASKS), 'G')
+    fib = g.lerp(1.0, g.add(0.55, g.mul(nf, 0.9)), g.scal('FibreForce', 0.0, 'Fibres'))
+    base = g.mul(g.mul(col, detail), fib)
+    nrm = (g.ech(tn, uvT, ST.SAMPLERTYPE_NORMAL), 'RGB')
+    g.sortie('BaseColor', base)
+    g.sortie('Roughness', g.scal('Rugosite', 0.8, 'Rugosite'))
+    g.sortie('Specular', g.scal('Specular', 0.4, 'Rugosite'))
+    g.sortie('Normal', normale_force(g, nrm, g.scal('NormalForce', 1.0, 'Relief')))
+
+
+def graphe_touffe(g, defauts):
+    """M_PJ_Touffe (revue UE du 10/10 : franges de touffes noires, herbe sèche blanche) : brins de touffe (prototypes
+    pj_decals, hauteur unitaire = 100 cm locaux), modèle d'ombrage feuillage deux faces (transmission) : couleur du pied
+    (CouleurPied) à la pointe (Couleur), part PartSeche de touffes sèches (CouleurSeche, albédo <= 0,25), teinte par
+    instance ±VariationTeinte, transmission = couleur x GainTransmission."""
+    P = 'Couleur'
+    rnd, r2, _ = alea_instance(g)
+    h = g.sat(g.div(g.masque(g.e('LocalPosition'), 'B'), 100.0))
+    base = g.lerp(g.vec('CouleurPied', (0.035, 0.045, 0.02), P), g.vec('Couleur', (0.07, 0.085, 0.035), P),
+                  g.smooth(0.0, 0.6, h))
+    seche = g.step(g.sub(1.0, g.scal('PartSeche', 0.15, P)), rnd)
+    col = g.lerp(base, g.mul(g.vec('CouleurSeche', (0.2, 0.17, 0.09), P), g.lerp(0.6, 1.0, h)), seche)
+    col = g.mul(col, g.add(1.0, g.mul(g.scal('VariationTeinte', 0.15, P), g.sub(g.mul(r2, 2.0), 1.0))))
+    g.sortie('BaseColor', col)
+    g.sortie('SubsurfaceColor', g.mul(col, g.scal('GainTransmission', 0.8, P)))
+    g.sortie('Roughness', g.scal('Rugosite', 0.7, 'Rugosite'))
+    g.sortie('Specular', g.scal('Specular', 0.35, 'Rugosite'))
 
 
 def graphe_peinture(g, defauts):
@@ -438,6 +504,12 @@ def etape_maitres():
             graphe_sol(g, cle == 'remplissage', defauts)
         elif cle == 'bordure':
             graphe_bordure(g, defauts)
+        elif cle == 'eclat':
+            graphe_eclat(g, {r: C.asset_texture_cc0('brf_bois_concasse', r) for r in ('albedo', 'normale')})
+        elif cle == 'touffe':
+            graphe_touffe(g, defauts)
+            m.set_editor_property('two_sided', True)
+            m.set_editor_property('shading_model', unreal.MaterialShadingModel.MSM_TWO_SIDED_FOLIAGE)
         else:
             graphe_peinture(g, defauts)
             m.set_editor_property('opacity_mask_clip_value', 0.5)

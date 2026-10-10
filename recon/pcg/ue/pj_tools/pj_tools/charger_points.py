@@ -10,6 +10,8 @@ Attributs PCG crees : Mesh (SoftObjectPath, pour MeshSelectorByAttribute), Id (S
 si les points portent des donnees d'instance cd:[...], cd0..cdN-1 (Float) : le Static Mesh Spawner les ecrit dans
 les PerInstanceCustomData de l'ISM avec un packer PCGInstanceDataPackerByAttribute (selecteurs cd0..cdN-1, dans
 l'ordre) ; un point sans cd recoit CD_ABSENT (valeur que les maitres M_PJ_* traitent comme « parametre du MI »).
+Champ facultatif materiau (chemin d'un materiau UE) : attribut Materiau (SoftObjectPath), surcharge du slot 0 par le
+Static Mesh Spawner (PCGMeshSelectorByAttribute : use_attribute_material_overrides, material_override_attributes).
 
 Utilisations :
 - voie (a) noeud PCG « Python Data Processor » : script = fichier qui appelle pdp(data_in, data_out, chemin_json) ;
@@ -26,6 +28,7 @@ from pj_tools import repere
 
 SCHEMA = 'pj_points/0.1'
 ATTR_MESH = 'Mesh'
+ATTR_MATERIAU = 'Materiau'
 CD_ABSENT = -9.0            # donnee d'instance absente (M_PJ_Bordure : valeur du MI ou alea)
 TOL_Q_RPY_DEG = 0.05        # concordance exigee entre q et rpy_deg quand les deux sont fournis
 
@@ -84,6 +87,9 @@ def point_data(doc: dict) -> unreal.PCGPointData:
     n_cd = max((len(q.get('cd') or []) for q in doc['points']), default=0)
     for i in range(n_cd):
         md.create_float_attribute(f'cd{i}', CD_ABSENT, False, True)
+    avec_mat = any(q.get('materiau') for q in doc['points'])
+    if avec_mat:
+        md.create_soft_object_path_attribute(ATTR_MATERIAU, unreal.SoftObjectPath(''), False, True)
     pts = []
     for q in doc['points']:
         pt = unreal.PCGPoint()
@@ -93,6 +99,8 @@ def point_data(doc: dict) -> unreal.PCGPointData:
         pt.density = 1.0
         # metadata_entry est en lecture seule : les accesseurs du point creent l'entree au premier set
         pt.set_soft_object_path_attribute(md, ATTR_MESH, unreal.SoftObjectPath(q['asset']))
+        if avec_mat:
+            pt.set_soft_object_path_attribute(md, ATTR_MATERIAU, unreal.SoftObjectPath(q.get('materiau') or ''))
         pt.set_string_attribute(md, 'Id', str(q['id']))
         pt.set_integer64_attribute(md, 'Graine', g)
         cd = list(q.get('cd') or [])

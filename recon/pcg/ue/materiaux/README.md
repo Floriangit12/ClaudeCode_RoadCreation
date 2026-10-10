@@ -3,6 +3,24 @@
 Chaque `materiau_id` de `assets/specs/materiaux_sol.json` (34) a son `/Game/PJ/Materials/MI_<id>`, cible du
 remappage USD (`info:unreal:sourceAsset`, CONTRAT_EXPORT.md § 5). S'y ajoutent les variantes `MI_<id>__citysample`
 (10, textures City Sample, Unreal seulement), `MI_<id>__carla` (23, CC-BY 4.0) et la peinture `MI_PJ_Peinture_<blanc|jaune>_u<0|1|2|3|F>` (10).
+Matériaux maison du pilote (ids hors spec, `pilote/ue/materiaux_maison.py`, dérivés de ces MI) : `MI_mortier_joint`,
+`MI_mortier_clair`, `MI_bitume_pontage`, `MI_herbe_touffe` (M_PJ_Touffe), `MI_eclat_brf`, `MI_eclat_gravier` (M_PJ_Eclat),
+`MI_PJ_Contexte`.
+
+Revue UE du 10/10 (`catalogue.py`) :
+- `RENDU_UE` : les surcharges de rendu de la revue de réalisme Karma (`assets/specs/materiaux_rendu_v2.json`) sont
+  reportées, avec le même calcul que `pj_commun.materiau_rendu` (source, tuile, albédo = moyenne de la texture source x
+  facteur ou albedo_cible / moyenne, x gain_rvb) : enrobé ancien 0,181/0,187/0,172 (0,26 avant), trottoir Asphalt015 à
+  1,6 m 0,151/0,160/0,140, gazon 0,055/0,075/0,031, BRF (fond sous les copeaux) 0,061/0,049/0,040 à 1,6 m, concassé
+  0,143/0,140/0,125 à 1,0 m, BEV en Concrete037 x 0,85 à 1,2 m ; étalonnage GBuffer refait (écart 0,0 %) ;
+- `BETON_BORDURE_UE` : béton des bordures sur `concrete_rough_2x2` City Sample (moucheté fin, Unreal seulement) à 1,0 m,
+  normale 0,25 (Concrete037 à 0,7 m = béton désactivé à gros granulats en gros plan) ; joints : `JointLargeurCm` 0,5 (1,2),
+  `MI_mortier_joint` 0,28 (0,20) ;
+- `ECLATS` + maître `M_PJ_Eclat` : couleur par éclat tirée par PerInstanceRandom dans la palette de
+  `recon/pcg/houdini/pj_ilot.py` (BRF : bois frais roux 48 %, écorce 40 %, grisé 12 % ; concassé : gris foncé 55 %, gris 32 %,
+  clair 13 %), détail de luminance de la texture du lit, fibres du bois (bruit étiré), normale ; remplace `M_PJ_Bordure` à
+  tuile de 30 m (une tache de texture par éclat : copeaux bleutés ou blancs, BRF presque noir à 10 m) ;
+- maître `M_PJ_Touffe` (feuillage deux faces, transmission ; pied sombre, 12 % de touffes sèches à albédo <= 0,21).
 
 ```
 python recon/pcg/ue/materiaux/materiaux.py tout          # éditeur ouvert ; ~4 min ; ou étape par étape :
@@ -47,10 +65,15 @@ peinture `VectorDisplacementmap` (RGBA 8 bits exact, seuils de peinture.json). V
   texture (calage_melange : lit 2 à sa couleur propre × gain, lit 1 complète la cible du lit vu). En 5.8, `r.Nanite.Tessellation=1` par défaut (`r.Nanite.AllowTessellation`
   n'existe plus) ; le maillage doit être Nanite (`import_usd(..., nanite=True)`).
 - **M_PJ_Bordure** : aléa par élément (PerInstanceRandom + hachage de la position de l'objet) : décalage d'UV,
-  teinte ±`VariationTeinte` (4 %) ; données d'instance `PerInstanceCustomData` 0-4 =
-  `cd = [usure, salissure, mousse_joints, herbe_joints, teinte]` (bordures_elements.json ; absent = -9 -> valeur
-  du MI) ; salissure ×(1 − 0,35·s·w), w = 1 au pied (z local < `BasHauteurCm`, pivot au fil d'eau) et
-  `SalissureHaut` sur la tête ; abouts (bornes locales, `JointLargeurCm`) plus sales, `Mousse`.
+  teinte ±`VariationTeinte` (4 %) ; données d'instance `PerInstanceCustomData` 0-6 =
+  `cd = [usure, salissure, mousse_joints, herbe_joints, teinte, z_pied_cm, demi_longueur_cm]` (bordures_elements.json,
+  `pilote/points_ue.py` ; absent = -9 -> valeur du MI) ; `teinte` (cd4) est le gain par élément des points
+  (0,88-1,12), à défaut ±`VariationTeinte` aléatoire ; salissure ×(1 − 0,35·s·w), w = 1 au pied (z local entre le fil
+  d'eau et `BasHauteurCm` au-dessus) et `SalissureHaut` sur la tête ; fil d'eau = cd5 (pivot des prototypes Houdini
+  sous le bloc : z_pied = H − vue), à défaut `BasDecalageCm` (pivot au fil d'eau) ; abouts plus sales et `Mousse` à
+  moins de `JointLargeurCm` des abouts : distance = cd6 − |x| (pivot au milieu de l'élément), à défaut bornes
+  `ObjectLocalBounds` (exactes pour un acteur isolé seulement : sur un ISM ce sont celles du composant, d'où une mousse
+  et une salissure sur toute la face des pièces uniques, constaté sur les pièces courbes du pilote).
 - **M_PJ_Peinture** (masqué) : recette de peinture.json (score RGA du masque, seuils, faïençage, salissure,
   transparence vers le grain de l'enrobé, décoloration `Chroma`, normale de l'enrobé atténuée) ; les manques laissent
   voir l'enrobé réel sous la marque (+3 mm).
@@ -80,4 +103,8 @@ du pied ; la mesure est ramenée à la tête (s × SalissureHaut). Résultat (al
   CARLA, rayures sur des UV en mètres ; MI_Brick05 rouge pour paves_granit ; échelle UV CARLA non recalée.
 - Hauteurs des textures Poly Haven (gravier concassé, galets) intégrées depuis les normales : relief approché.
 - Ombres : gris-bleu depuis la correction du ciel (pied de bordure / enrobé au soleil 0,25 sur v2, contre 0,11) ; reste
-  bleuté (B/G 1,3). Joints de 6 mm et fente au dos des bordures toujours noirs (pas de mortier).
+  bleuté (B/G 1,3). Joints de 6 mm : bouchons de mortier des prototypes Houdini posés par PG_Bordures (pilote,
+  `MI_mortier_joint` 0,20 en retrait de 4 mm, `MI_mortier_clair` 0,30 à fleur) ; les maquettes `generer_meshes.py` du
+  niveau d'essai n'en ont toujours pas.
+- Cibles d'albédo UE = materiaux_sol.json + surcharges de rendu Karma (`RENDU_UE`, revue UE du 10/10) ; les autres
+  materiau_id gardent la spec (pas de surcharge Karma).

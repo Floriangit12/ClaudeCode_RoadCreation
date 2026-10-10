@@ -23,6 +23,7 @@ import numpy as np
 import bordures
 import contexte as ctx
 import ilots
+import marquages
 import surfaces
 from commun import (DONNEES, MATERIAUX, MNT, RACINE, SCHEMA, SCHEMA_ID, SORTIE, SPECS, VECTEURS, ZONE,
                     arrondi, ecrire_geojson, ecrire_json, lire_geojson, rel, repere, sha256)
@@ -50,6 +51,8 @@ REFERENCES = {
     "zone_pilote": (ZONE, "emprise de la zone pilote"),
 }
 SCRIPTS = ["commun.py", "contexte.py", "bordures.py", "surfaces.py", "ilots.py", "composer.py", "valider.py", "apercu.py"]
+REFERENCES.update(marquages.REFERENCES)                 # famille marquages (schéma 0.2, site complet)
+SCRIPTS += marquages.SCRIPTS + ["marquages_controles.py"]
 REGLES_PCG = [
     {"id": "R-joints-herbe", "cible": {"famille": "bordures", "attribut": "aspect.herbe_joints"},
      "action": "dispersion_joints", "densite_par_joint": "aspect.herbe_joints", "asset": "herbe_joint_*"},
@@ -177,7 +180,11 @@ def composer(sortie, png=None):
         f = sortie / "base" / f"{fam}.geojson"
         ecrire_geojson(f, feats, fam, entete(fam))
         info[fam] = {"fichier": f"base/{fam}.geojson", "n": len(feats), "sha256": sha256(f)}
-    preuves, a_priori = preuves_et_apriori(couches)
+    # famille marquages (site complet) : marquages.geojson + table de correspondance des 996 marquages v1
+    feats_m, corr_m, rap_m = marquages.construire()
+    for fam, f in zip(("marquages", "marquages_correspondance"), marquages.ecrire(sortie / "base", feats_m, corr_m)):
+        info[fam] = {"fichier": f"base/{f.name}", "n": len(feats_m if fam == "marquages" else corr_m), "sha256": sha256(f)}
+    preuves, a_priori = preuves_et_apriori(dict(couches, marquages=feats_m))
     zp = ctx.zone_pilote()["props"]
     x0, y0, x1, y1 = ctx.zone_pilote()["emprise"]
     from pyproj import Transformer
@@ -187,7 +194,7 @@ def composer(sortie, png=None):
     n_pnx = int(sum(1 for x, y in repere(np.array(pnx)) if x0 <= x <= x1 and y0 <= y <= y1))
     abs_ = [a for f in K for a in f["properties"]["abaisses"]]
     man = {
-        "schema": SCHEMA_ID,
+        "schema": marquages.SCHEMA_ID,
         "site": {"id": "paquet_jardin", "nom": "carrefour Paquet Jardin, Meylan (Isère)", "crs": "EPSG:2154",
                  "altitudes": "NGF-IGN69", "origine_l93_ngf": [917279.43, 6460289.98, 216.3],
                  "repere_local": "local = L93 - O ; z = NGF - 216,30 ; m, Z haut, X est, Y nord (Unreal : X = x·100, Y = -y·100, Z = z·100)",
@@ -202,8 +209,9 @@ def composer(sortie, png=None):
                     "abaisses_traversee": sum(a["type"] == "traversee" for a in abs_),
                     "abaisses_charretiere": sum(a["type"] == "charretiere" for a in abs_),
                     "chartieres": sum(len(a["raccords"]) for a in abs_),
-                    "bev": len(B), "surfaces": len(S), "ilots": len(I), "preuves": len(preuves)},
-        "statistiques": statistiques(K, S, I, B, rk),
+                    "bev": len(B), "surfaces": len(S), "ilots": len(I), "preuves": len(preuves),
+                    "marquages": len(feats_m), "marquages_v1": len(corr_m)},
+        "statistiques": dict(statistiques(K, S, I, B, rk), marquages=rap_m),
         "preuves": preuves,
         "a_priori": a_priori,
         "regles_pcg": REGLES_PCG,
@@ -211,8 +219,10 @@ def composer(sortie, png=None):
                        "scripts": {f"recon/pcg/decrire/{s}": sha256(ICI / s) for s in SCRIPTS},
                        "interpreteur": f"CPython {platform.python_version()} ; numpy {np.__version__}"},
     }
-    h = hashlib.sha256("".join(info[k]["sha256"] for k in sorted(info)).encode()).hexdigest()
-    man["hash_description"] = h
+    sol = [k for k in sorted(info) if not k.startswith("marquages")]
+    h = hashlib.sha256("".join(info[k]["sha256"] for k in sol).encode()).hexdigest()
+    man["hash_description"] = h                          # couches de sol (inchangé par la famille marquages)
+    man["hash_marquages"] = hashlib.sha256("".join(info[k]["sha256"] for k in sorted(info) if k.startswith("marquages")).encode()).hexdigest()
     ecrire_json(sortie / "description_scene_v2.json", man)
     if png:
         import apercu

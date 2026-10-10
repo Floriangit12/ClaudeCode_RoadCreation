@@ -457,7 +457,7 @@ class pj_tools(unreal.ToolsetDefinition):  # noqa: N801 (nom public du toolset)
     def high_res_capture(out_png: str, cam_x_m: float, cam_y_m: float, cam_z_m: float,
                          yaw_deg: float, pitch_deg: float, fov_deg: float, width: int, height: int,
                          warmup: int = 32, ev100: float = -100.0, auto_mean_target: float = 118.0,
-                         exr: bool = True) -> str:
+                         exr: bool = True, exposition_locale: bool = False) -> str:
         """Lance un rendu du niveau courant (SceneCapture2D, Lumen) vers un PNG 8 bits trame et un EXR.
 
         ASYNCHRONE : le rendu se fait sur de vraies images successives du moteur (Lumen et la SkyLight
@@ -483,13 +483,15 @@ class pj_tools(unreal.ToolsetDefinition):  # noqa: N801 (nom public du toolset)
                 reduit, EV renvoye) ; -200 = exposition des PostProcessVolumes du niveau (aucune surcharge).
             auto_mean_target: moyenne sRGB visee en mode auto (0-255, 118 = gris moyen).
             exr: ecrire aussi l'EXR (vrai par defaut).
+            exposition_locale: exposition locale des planches (eclairage.EXPOSITION_LOCALE_PLANCHES : ombres et hautes
+                lumieres comprimees) ; faux par defaut (captures de reference et capteurs neutres).
 
         Returns:
             JSON {ok, en_cours, fini, png, exr, phase, images, ev100, ...} (etat initial).
         """
         from pj_tools import capture
         return _ok(**capture.lancer(out_png, cam_x_m, cam_y_m, cam_z_m, yaw_deg, pitch_deg, fov_deg,
-                                    width, height, warmup, ev100, auto_mean_target, exr))
+                                    width, height, warmup, ev100, auto_mean_target, exr, exposition_locale))
 
     @toolset_registry.tool_call
     @staticmethod

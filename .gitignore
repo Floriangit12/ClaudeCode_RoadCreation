@@ -29,7 +29,16 @@ assets/__pycache__/
 recon/out/paquet_jardin/v2/fabrique/**/*.usd
 recon/out/paquet_jardin/v2/fabrique/**/*.usda
 recon/out/paquet_jardin/v2/fabrique/**/*.usdc
+# instantané de fabrique/ importé dans UE (copie régénérable : hython fabriquer.py --sortie ...)
+recon/out/paquet_jardin/v2/fabrique_ue_snapshot/
+# USD, Z et entrees intermediaires du contexte UE (regenerables : python recon/pcg/ue/contexte/contexte.py usd)
+recon/out/paquet_jardin/v2/ue_*/usd/
 recon/out/paquet_jardin/v2/**/*.exr
 recon/out/paquet_jardin/v2/ue_*/**/*.png
 !recon/out/paquet_jardin/v2/ue_*/**/planche_*.png
 *.rat
+# Planches contenant des photos de tiers (photos de référence fournies, Panoramax CC-BY-SA) : locales seulement
+recon/out/paquet_jardin/v2/**/planche_photos*.png
+recon/out/paquet_jardin/v2/**/planche_panoramax*.png
+recon/pc/rendus/**/planche_p_*.png
+recon/out/paquet_jardin/v2/fabrique_ue_snapshot/

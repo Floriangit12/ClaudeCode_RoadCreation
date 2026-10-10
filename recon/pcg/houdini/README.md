@@ -83,7 +83,8 @@ exécutions donnent des fichiers identiques à l'octet.
   bordure longée (u de −largeur à 0). Côté UE : X = 100 s, Y = −100 u, Z = 100 v.
 - **Éclats** : taille unitaire, origine au centre de la boîte englobante.
 - **Points** :
-  - format `{id, asset, p, rpy_deg, s, graine, cd, x}` ;
+  - format `{id, asset, p, q, rpy_deg, s, graine, cd, x}` (`q` = quaternion local `[x, y, z, w]`, w ≥ 0, prioritaire
+    dans `pj_tools.charger_points` ; `pj_commun.q_xyzw`) ;
   - `rpy_deg = [r, p, y]` en ZYX intrinsèques, R = Rz(y)·Ry(p)·Rx(r), p > 0 abaisse l'avant ;
     c'est la convention de `recon/pcg/ue/pj_tools/pj_tools/repere.py`, et côté UE
     `Rotator(roll = r, pitch = −p, yaw = −y)` ;
@@ -96,6 +97,16 @@ exécutions donnent des fichiers identiques à l'octet.
   une profondeur de champ juste sous Karma.
 - **Matériaux** : chaque maillage porte `primvars:materiau_id` et
   `unrealMaterial = /Game/PJ/Materials/MI_<id>.MI_<id>`. Aucun contenu City Sample côté Houdini ou Karma.
+- **Export UE** (`recon/pcg/ue/CONTRAT_EXPORT.md`, `pj_commun.lier_ue / typer_ue / normales_cusp`) : `sol`, `decals_sol`
+  (pontages, touffes, dalles BEV), `ilots`, `ilots_couverture`, prototypes de bordure et d'éclats portent un Material
+  `/<racine>/Looks/<id>` (UsdPreviewSurface + `outputs:unreal:surface`) lié en `material:binding:preview` (lu par UE) ;
+  la liaison Karma (`material:binding` -> `/World/Looks_v2`) est inchangée (liaisons full identiques sur
+  `rendu_pilote.usda`). Kinds `assembly / component`. Normales par sommet de face à cusp 30° sur le sol (au lieu de
+  normales lissées sur tout le terrain : talus, marches et bords de bande lissés à tort), les pontages (faces de ruban
+  verticales retirées) et les dalles BEV ; brins des touffes avec normales et UV. Prototypes : sommets de face confondus
+  ou alignés et faces nulles ou en aiguille retirés (tangentes nulles dans UE), normales normalisées. Sol BEV (mortier
+  sous les dalles 3D) en UV x, y (l'UV `_uv_bev` dégénérait 2 triangles). `marquages_pilote.usda`, `bordures.usda`,
+  `materiaux_v2.usda` et le rendu Karma ne changent pas.
 
 ## Règles de fabrication
 
@@ -181,9 +192,25 @@ exécutions donnent des fichiers identiques à l'octet.
   - îlots : tête de ceinture (pondération 1/d⁴) − retrait + bombement, borné à 3-5 cm sous la tête
     locale de chaque bordure de ceinture.
 - Modules BEV (`modules_bev`) : modules entiers de 0,40 alignés sur l'abaissé, gardés si leurs 4 coins
-  sont dans le contour décrit ; plus de fragment rogné.
+  sont dans le contour décrit et s'ils n'empiètent sur aucun élément de bordure (grille de 9 x 9 sondes) ; plus de fragment
+  rogné. Sous une rangée de modules : un plan unique (moindres carrés), prolongé sur 0,10 m et raccordé sur 0,30 m
+  au-delà, hors îlots et effacé près des bordures ; puis bornes de tête (sol ≤ tête − 2 mm + 3,5 % derrière une face)
+  (revue UE du 10/10 : dalles en saillie de 1 à 4 cm ; affleurement contrôlé dans `controles.decals.bev_dalles`, E9 du
+  contrat UE).
+- Pente maximale (`limiter_pentes`, regle:pj_sol.pente_max ; revue UE du 10/10 : pointes de sol de 6 à 23 cm jusqu'à 89°
+  à 24 fins de bordure, là où deux bordures voisines imposent des niveaux incompatibles, ex. le fil d'eau décrit de la
+  bordurette P1 K-9297a 10 cm au-dessus de la rampe du bateau K-0385) : enveloppe inférieure lipschitzienne
+  z_v ≤ z_u + 0,5·|uv| sur les arêtes du sol visible hors noues, pour les sommets à moins de 1,2 m d'une bordure, hors îlots,
+  hors bande de 0,5 m au bord de l'emprise ; n'abaisse jamais (aucun bloc découvert par-dessous) ; deux passes (avant les
+  BEV, puis après les bornes de tête, sous-dalles fixes). E8 du contrat UE : 15 triangles restants, 13 aux parois de la noue
+  (point faible connu) et 2 au bord.
 
 **Îlots et massifs** (`pj_ilot`)
+- Prototypes (revue UE du 10/10 : plaquettes épaisses de 22-32 triangles, pierres de 12-18 triangles lues comme du papier
+  froissé) : copeaux en lames de 2-4 mm (6-11 % de la longueur ; 2,5-4 % pour les longs), 8 sections à bords déchiquetés,
+  vrillées de 15 à 35° et cintrées (60 triangles) ; concassé : enveloppe de 11-15 points dans une boîte trapue
+  (1 x 0,65-0,9 x 0,55-0,8, mise en forme 1 x 0,85 x 0,75), arêtes biseautées (PolyBevel 3 %, arêtes planes ignorées ;
+  70-130 triangles), triangulé avant les normales (cuspide 25°).
 - Couverture dense : copeaux de 15 à 60 mm (5 % de copeaux longs de 80-120 mm, 15 % dressés à 50-70°),
   2 500 /m² sur 0,25 m de bord, 1 800 /m² à l'intérieur, 1 500 /m² sur les massifs ; couleurs : bois
   frais roux (48 %), écorce brun sombre (40 %), grisé chaud (12 %) ; concassé anguleux 10/20 des îlots
@@ -197,7 +224,8 @@ exécutions donnent des fichiers identiques à l'octet.
 - Pontages de fissures sur l'enrobé ancien : motif d'entretien (rive à 0,8-1,0 m de la face, bande de
   roulement intérieure, joint de voie ; transversales tous les 6 à 15 m), tronçons de 1,5 à 8 m, rubans
   de 4-8 cm à bavures, 0,10 m/m² ; joint de reprise neuf / ancien ponté.
-- Touffes d'herbe 3D : joints des bordures anciennes (`herbe_joints`), limites gazon / revêtement dur.
+- Touffes d'herbe 3D : joints des bordures anciennes (`herbe_joints`), limites gazon / revêtement dur (de 4 cm côté gazon
+  à 1,5 cm sur le revêtement ; revue UE du 10/10 : frange sur le trottoir).
 - Dalles podotactiles 3D : 60 plots en calotte (Ø 25 mm, 5 mm, quinconce au pas de 50 mm) par module,
   dessus à +0,8 mm du sol, plan ajusté à leurs 4 coins, jamais enterrées.
 - Zébras provisoires : bandes `passage_pieton_bande` du paquet v1 recalées en rectangles exacts (0,50 m),

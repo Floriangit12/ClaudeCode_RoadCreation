@@ -1,0 +1,54 @@
+{
+ "schema": "pj_correspondance_vegetation/0.1",
+ "role": "Essence (arbres.geojson du paquet v1) -> StaticMesh CARLA (/Game/Carla/Static/Vegetation, CC-BY 4.0) ; lu par vegetation/arbres.py. Les hauteurs et couronnes des assets viennent de catalogue_carla.json (mesures dans UE 5.8.3).",
+ "saison": "mi-octobre 2026 (Meylan, 220 m) : feuillage encore majoritairement vert, debut de coloration (variantes CARLA _v2 rousses), aucun sujet nu (_v6), ni clairseme (_v5, _v7, _v8 ecartes)",
+ "echelle": {
+  "min": 0.75,
+  "max": 1.35,
+  "couronne_relative": [0.8, 1.2],
+  "regle": "variante S/M/L (ou candidat) dont la hauteur mise a l'echelle bornee approche le mieux hauteur_m ; sz = h / h_asset borne ; sx = sy = couronne / couronne_asset bornee a [0,8 ; 1,2] x sz et a [min, max]"
+ },
+ "enfoncement_m": 0.03,
+ "graine": "sha256(id | pj_vegetation/0.1)",
+ "ignores": {
+  "types": ["souche"],
+  "statut_contient": ["absent"],
+  "instancier_faux": true
+ },
+ "familles": {
+  "Oak": {"modeles": ["SM_Oak_S_v{v}", "SM_Oak_M_v{v}", "SM_Oak_L_v{v}"], "variantes": {"1": 0.4, "3": 0.35, "2": 0.15, "4": 0.1}},
+  "Maple": {"modeles": ["SM_Maple_S_v{v}", "SM_Maple_M_v{v}", "SM_Maple_L_v{v}"], "variantes": {"1": 0.3, "3": 0.3, "2": 0.3, "4": 0.1}},
+  "WhiteAsh": {"modeles": ["SM_WhiteAsh_01_v1", "SM_WhiteAsh_02_v1"], "variantes": {"1": 1.0}},
+  "Conifere": {"modeles": ["SM_Pine_M_v{v}", "SM_Pine_L_v{v}", "SM_TreePine_1", "SM_TreePine_2", "SM_Ash_01"], "variantes": {"1": 0.5, "4": 0.25, "5": 0.25},
+   "remarque": "SM_TreePine_* (sapin), SM_Pine_* (pin), SM_Ash_01 (silhouette de grand conifere malgre son nom, 28 m) : cedres et grands resineux"},
+  "Colonnaire": {"modeles": ["SM_Cypress_Small", "SM_Cypress"], "variantes": {"1": 1.0},
+   "remarque": "peuplier d'Italie et charme pyramidal : SM_Cypress mis a l'echelle (silhouette colonnaire, feuillage persistant de substitution)"},
+  "Arbuste": {"modeles": ["SM_Bush_M_v{v}", "SM_Bush_L_v{v}"], "variantes": {"1": 0.35, "2": 0.25, "4": 0.2, "3": 0.2}},
+  "Jeune": {"modeles": ["SM_Maple_S_v{v}", "SM_Oak_S_v{v}"], "variantes": {"1": 0.6, "3": 0.4}, "tuteurs": true}
+ },
+ "regles": [
+  {"si": {"etat_contient": "planté 2025"}, "famille": "Jeune", "genre": {"Acer": "SM_Maple_S_v{v}", "Quercus": "SM_Oak_S_v{v}"}, "melange": {"SM_Maple_S_v{v}": 0.6, "SM_Oak_S_v{v}": 0.4}},
+  {"si": {"type": "arbuste"}, "famille": "Arbuste"},
+  {"si": {"essence_contient": ["italica", "pyramidalis"]}, "famille": "Colonnaire"},
+  {"si": {"type": "conifere"}, "famille": "Conifere"},
+  {"si": {"genre": "Cedrus"}, "famille": "Conifere"},
+  {"si": {"genre": "Quercus"}, "famille": "Oak"},
+  {"si": {"genre": "Fraxinus"}, "famille": "WhiteAsh", "repli": "feuillu"},
+  {"si": {"genre": "Acer"}, "famille": "Maple"},
+  {"si": {"genre": "Populus"}, "famille": "WhiteAsh", "repli": "feuillu", "remarque": "peuplier noir / blanc / sp. : grand feuillu dense (frene blanc CARLA) ; repli sur le melange si trop petit"},
+  {"si": {}, "famille": "feuillu", "remarque": "feuillu non identifie ou essence sans modele (Tilia, Carpinus, Betula, Salix, Corylus...) : melange Erable / Chene par classe de hauteur LiDAR"}
+ ],
+ "feuillu": {
+  "classes_hauteur_m": [
+   {"max": 7.0, "melange": {"Maple": 0.6, "Oak": 0.4}},
+   {"max": 14.0, "melange": {"Maple": 0.5, "Oak": 0.5}},
+   {"max": 1000.0, "melange": {"Oak": 0.55, "Maple": 0.45}}
+  ]
+ },
+ "tuteurs": {
+  "asset": "/Engine/BasicShapes/Cylinder.Cylinder",
+  "materiau": "/Game/Carla/Static/Fence/Materials/FenceWood/MI_FenceWood.MI_FenceWood",
+  "nombre": 3, "rayon_m": 0.32, "hauteur_hors_sol_m": 1.9, "diametre_m": 0.07, "enfoui_m": 0.3,
+  "remarque": "jeunes sujets plantes en 2025 (projet C1) : tripode de tuteurs en bois (cylindre moteur, materiau bois CARLA)"
+ }
+}

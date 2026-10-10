@@ -18,6 +18,7 @@ DEPOT = os.path.abspath(os.path.join(ICI, '..', '..', '..', '..')).replace('\\',
 SPEC = f'{DEPOT}/assets/specs/materiaux_sol.json'
 SPEC_PEINTURE = f'{DEPOT}/assets/specs/peinture.json'
 SPEC_BORDURES = f'{DEPOT}/assets/specs/bordures.json'
+SPEC_RENDU = f'{DEPOT}/assets/specs/materiaux_rendu_v2.json'
 CC0_DIR = f'{DEPOT}/assets/lib/materiaux'
 CACHE_CC0 = f'{DEPOT}/data/raw/assets_src/cc0'
 DERIVE_DIR = f'{DEPOT}/data/raw/assets_src/cc0_derive'          # hauteurs, bruit, masque (non versionné)
@@ -31,7 +32,8 @@ UE_TEX_CS = '/Game/PJ/Textures/CitySample'
 UE_TEX_PJ = '/Game/PJ/Textures/PJ'
 UE_MAT = '/Game/PJ/Materials'
 UE_MAITRES = '/Game/PJ/Materials/Maitres'
-MAITRES = {'sol': f'{UE_MAITRES}/M_PJ_Sol', 'bordure': f'{UE_MAITRES}/M_PJ_Bordure',
+MAITRES = {'sol': f'{UE_MAITRES}/M_PJ_Sol', 'bordure': f'{UE_MAITRES}/M_PJ_Bordure', 'eclat': f'{UE_MAITRES}/M_PJ_Eclat',
+           'touffe': f'{UE_MAITRES}/M_PJ_Touffe',
            'remplissage': f'{UE_MAITRES}/M_PJ_Remplissage', 'peinture': f'{UE_MAITRES}/M_PJ_Peinture'}
 T_BRUIT = f'{UE_TEX_PJ}/T_PJ_BruitMacro'
 T_MASQUE_PEINTURE = f'{UE_TEX_PJ}/T_PJ_MasqueUsurePeinture'
@@ -60,7 +62,7 @@ REGLAGES_FAMILLE = {
     'beton': dict(AntiRepetition=0.5, MacroForce=0.08, MacroEchelleM=6.0, NormalForce=1.0),
     'mineral': dict(AntiRepetition=0.6, MacroForce=0.10, MacroEchelleM=5.0, NormalForce=1.0),
     'vegetal': dict(AntiRepetition=0.7, MacroForce=0.22, MacroEchelleM=4.0, NormalForce=1.0),
-    'bordure': dict(MacroForce=0.08, MacroEchelleM=1.3, NormalForce=1.0, VariationTeinte=0.04),
+    'bordure': dict(MacroForce=0.08, MacroEchelleM=1.3, NormalForce=1.0, VariationTeinte=0.04, JointLargeurCm=0.5),
 }
 FAMILLE = {
     **{k: 'enrobe' for k in ('enrobe_bbsg_ancien', 'enrobe_bbsg_neuf_2025', 'enrobe_reprise_tranchee', 'enrobe_piste_cyclable',
@@ -80,18 +82,23 @@ REGLAGES_ID = {
     'dalles_beton': dict(AntiRepetition=0.0),
     'enrobe_bbsg_ancien': dict(Salissure=0.12),
     # trottoir : grain d'Asphalt031 resserré (source remplacée, voir SOURCE_UE)
-    'enrobe_trottoir': dict(Salissure=0.10, TileM=1.3, Contraste=0.9),
+    # trottoir : source, tuile et albédo de la revue Karma (RENDU_UE : Asphalt015 à 1,6 m, 0,15)
+    'enrobe_trottoir': dict(Salissure=0.10, Contraste=0.9),
     # bordures préfabriquées : Concrete037 (béton à gros granulats roulés) resserré et adouci -> béton fin de
     # bordure des photos 1 à 3 (mouchetures de 2-5 mm, taches lentes) ; réglé sur captures (vues v1 à v3)
-    'beton_bordure_gris': dict(TileM=0.7, Contraste=0.6, NormalForce=0.55, MacroForce=0.08),
-    'beton_bordure_clair': dict(TileM=0.7, Contraste=0.6, NormalForce=0.55, MacroForce=0.08),
+    # (revue UE du 10/10 : Concrete037 = béton désactivé à granulats de 5-15 mm en gros plan) : béton fin City Sample
+    # (BETON_BORDURE_UE), moucheté de 1-3 mm comme les photos 2 et 3
+    # (gros plans des joints : a TileM 1,5 et normale 0,6, pores de 5-10 mm et relief de crepi) : TileM 1,0, normale 0,25
+    'beton_bordure_gris': dict(TileM=1.0, Contraste=0.7, NormalForce=0.25, MacroForce=0.08, AOForce=0.0),
+    'beton_bordure_clair': dict(TileM=1.0, Contraste=0.7, NormalForce=0.25, MacroForce=0.08, AOForce=0.0),
     'caniveau_beton': dict(TileM=0.7, Contraste=0.6, NormalForce=0.55, MacroForce=0.08, BasHauteurCm=10.0),
     'granit_bordure': dict(TileM=0.4, Contraste=1.0, NormalForce=0.6, MacroForce=0.06),
     'calcaire_bordure': dict(Contraste=0.8, NormalForce=0.6),
     # remplissages : éléments agrandis vers les photos 2 (BRF 3-8 cm, allongés) et 3 (gravier ~2 cm), contraste relevé
-    'brf_bois_concasse': dict(TileM=4.0, Contraste=1.4),
+    # BRF et concassé : fond sous les éclats 3D (tuile et albédo de la revue Karma, RENDU_UE)
+    'brf_bois_concasse': dict(Contraste=1.4),
     'brf_bois_gris': dict(TileM=2.6, Contraste=1.3),
-    'gravier_concasse_6_10': dict(TileM=3.6, Contraste=1.35, NormalForce=1.2),
+    'gravier_concasse_6_10': dict(Contraste=1.35, NormalForce=1.2),
     'gravillons_ilot': dict(TileM=2.6, Contraste=1.2),
 }
 # second lit mêlé au premier (M_PJ_Remplissage, switch statique Melange) : vieillissement du BRF (materiaux_sol.json
@@ -104,11 +111,65 @@ MELANGE = {
 }
 # texture CC0 utilisée dans UE quand la source déclarée par materiaux_sol.json rend mal (proxy déclaré ; Karma inchangé)
 SOURCE_UE = {
-    'enrobe_trottoir': ('enrobe_bbsg_ancien', "tarred_gravel = brai lisse à paillettes blanches, sans rapport avec le BB 0/6 "
-                                              "du trottoir de la photo 1 ; grain d'Asphalt031 resserré à 1,3 m"),
     'granit_bordure': ('beton_bordure', "PavingStones119 dessine des pavés (joints) sur la bordure ; Concrete037 à 0,4 m "
                                         "donne le moucheté d'un granit bouchardé"),
 }
+
+# surcharges de rendu de la revue de réalisme Karma (assets/specs/materiaux_rendu_v2.json, pj_commun.materiau_rendu)
+# reportées dans UE (revue UE du 10/10 : enrobé ancien à 0,26 plus clair que le trottoir, gazon saturé, gravier à 0,31) :
+# source CC0 (textures), tuile, albédo = moyenne de la texture source x facteur_albedo (ou albedo_cible / moyenne)
+# x gain_rvb, exactement comme Karma
+RENDU_UE = ('enrobe_bbsg_ancien', 'enrobe_trottoir', 'gazon_tondu', 'brf_bois_concasse', 'gravier_concasse_6_10',
+            'bev_podotactile')
+# béton des bordures neuves et anciennes : texture City Sample (Unreal seulement, EULA) au lieu de Concrete037
+BETON_BORDURE_UE = {'beton_bordure_gris': 'concrete_rough_2x2', 'beton_bordure_clair': 'concrete_rough_2x2'}
+# éclats 3D des remplissages (M_PJ_Eclat) : palette par instance reprise de recon/pcg/houdini/pj_ilot.py (BRF_COULEURS,
+# GRAVIER_COULEURS : albédo par éclat [min, max] x gain RVB, parts), détail de texture et fibres
+ECLATS = {
+    'MI_eclat_brf': dict(source='MI_brf_bois_concasse', classes=[(0.48, (0.26, 0.40), (1.0, 0.80, 0.58)),
+                                                                 (0.40, (0.045, 0.085), (1.0, 0.70, 0.50)),
+                                                                 (0.12, (0.18, 0.28), (1.0, 0.88, 0.74))],
+                         TileM=0.35, DetailForce=0.6, FibreForce=0.55, FibreU=6.0, FibreV=90.0, NormalForce=0.8, Rugosite=0.8),
+    'MI_eclat_gravier': dict(source='MI_gravier_concasse_6_10', classes=[(0.55, (0.14, 0.21), (1.0, 0.98, 0.93)),
+                                                                         (0.32, (0.22, 0.30), (1.0, 0.98, 0.93)),
+                                                                         (0.13, (0.32, 0.40), (1.0, 0.98, 0.93))],
+                             TileM=0.05, DetailForce=0.8, FibreForce=0.0, FibreU=1.0, FibreV=1.0, NormalForce=1.5, Rugosite=0.75),
+}
+
+
+def surcharge_rendu(mid):
+    """Spec de rendu Karma d'un materiau_id de RENDU_UE (même calcul que recon/pcg/houdini/pj_commun.materiau_rendu) :
+    {dossier, tile_m, cible, source} ; None hors RENDU_UE."""
+    if mid not in RENDU_UE:
+        return None
+    sp = spec()
+    m = dict(sp[mid])
+    s = (charger_json(SPEC_RENDU) or {}).get('surcharges', {}).get(mid) or {}
+    fa = m.get('facteur_albedo')
+    if s.get('source'):
+        src = sp[s['source']]
+        for k in ('source_cc0', 'tile_m', 'texture_mesuree'):
+            m[k] = src[k]
+        fa = None
+    tile = float(s.get('tile_m', m['tile_m']))
+    moy = (m.get('texture_mesuree') or {}).get('albedo_moyen_lineaire') or [0.3, 0.3, 0.3]
+    if 'facteur_albedo' in s:
+        fa = s['facteur_albedo']
+    if 'albedo_cible' in s:
+        f = float(s['albedo_cible']) / max(sum(moy) / 3.0, 1e-3)
+        fa = [f, f, f]
+    if 'gain_rvb' in s:
+        fa = [float(a) * float(g) for a, g in zip(fa or [1.0, 1.0, 1.0], s['gain_rvb'])]
+    fa = fa or [1.0, 1.0, 1.0]
+    return {'dossier': m['source_cc0']['nom'], 'tile_m': tile, 'cible': [round(moy[i] * fa[i], 4) for i in range(3)],
+            'source': s.get('source') or mid, 'raison': s.get('raison')}
+
+
+def cible_effective(mid):
+    """Albédo visé dans UE : surcharge de rendu (RENDU_UE) sinon materiaux_sol.json."""
+    sr = surcharge_rendu(mid)
+    return sr['cible'] if sr else spec()[mid].get('albedo_cible_lineaire')
+
 
 # ------------------------------------------------------------------ variantes CARLA (CC-BY 4.0, CARLA Team / CVC)
 # MI enfant du MI CARLA (aspect CARLA conservé) ; seul le paramètre de luminosité est étalonné sur la cible.
@@ -261,16 +322,27 @@ def instances(mesures, etal=None):
     sp = spec()
     out = []
     for mid, m in sp.items():
-        cible = m.get('albedo_cible_lineaire')
+        sr = surcharge_rendu(mid)
+        cible = sr['cible'] if sr else m.get('albedo_cible_lineaire')
         rug_cible = (m.get('rugosite') or {}).get('valeur', 0.8)
         mt = maitre(mid)
-        dossier = SOURCE_UE.get(mid, (m['source_cc0']['nom'],))[0]
+        dossier = sr['dossier'] if sr else SOURCE_UE.get(mid, (m['source_cc0']['nom'],))[0]
         mtx = mesures['cc0'][dossier]
         r = reglages(mid)
         tile = float(r.pop('TileM', m['tile_m']))
+        if sr:
+            tile = sr['tile_m']
         # ---- principal (CC0)
         nom = f'MI_{mid}'
         tex, vec, sw = textures_cc0(dossier, mesures), dict(MoyenneTexture=mtx['albedo_moyen_lin']), {}
+        if mid in BETON_BORDURE_UE:
+            b = BETON_BORDURE_UE[mid]
+            mtx = dict(mtx, albedo_moyen_lin=mesures['citysample'][f'{b}_albedo.png']['albedo_moyen_lin'],
+                       rugosite_moyenne=mesures['citysample'].get(f'{b}_aomrd_rugosite.png', {}).get('moyenne'))
+            tex = {'albedo': asset_texture_cs(f'{b}_albedo'), 'normale': asset_texture_cs(f'{b}_normal'),
+                   'rugosite': asset_texture_cs(f'{b}_aomrd_rugosite')}
+            vec = dict(MoyenneTexture=mtx['albedo_moyen_lin'])
+            dossier = f'citysample:{b}'
         mel = MELANGE.get(mid) if mt == 'remplissage' else None
         if mel:                                               # le masque a pour moyenne le taux (bruit uniforme)
             m2 = mesures['cc0'][mel['dossier']]

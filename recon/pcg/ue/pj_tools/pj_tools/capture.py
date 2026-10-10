@@ -171,7 +171,7 @@ def _streaming_complet(actif: bool, precedent=None):
 # ---------------------------------------------------------------- job
 def lancer(out_png: str, cam_x_m: float, cam_y_m: float, cam_z_m: float, yaw_deg: float, pitch_deg: float,
            fov_deg: float, width: int, height: int, warmup: int = 32, ev100: float = EV_AUTO,
-           auto_mean_target: float = 118.0, exr: bool = True) -> dict:
+           auto_mean_target: float = 118.0, exr: bool = True, exposition_locale: bool = False) -> dict:
     """Prepare la capture et l'enregistre sur le tick ; renvoie l'etat initial (asynchrone, voir etat())."""
     actifs = [k for k, e in _jobs.items() if e['phase'] not in ('fini', 'erreur')
               and time.time() - e['t0'] < DUREE_MAX_S]
@@ -193,6 +193,10 @@ def lancer(out_png: str, cam_x_m: float, cam_y_m: float, cam_z_m: float, yaw_deg
                   dynamic_global_illumination_method=unreal.DynamicGlobalIlluminationMethod.LUMEN,
                   override_reflection_method=True, reflection_method=unreal.ReflectionMethod.LUMEN)
     refus += _set(pp, **eclairage.POST_PROCESS_NEUTRE)
+    # exposition locale (planches de comparaison seulement, revue UE du 10/10 : ombres bouchees a EV 14 fixe) ; les
+    # captures de reference et les capteurs restent neutres (surcharge desactivee, acteur de capture reutilise)
+    refus += _set(pp, **{k: (bool(exposition_locale) if k.startswith('override_') else v)
+                         for k, v in eclairage.EXPOSITION_LOCALE_PLANCHES.items()})
     manuel = ev100 > EV_NIVEAU + 1.0
     refus += _set(pp, override_auto_exposure_method=manuel,
                   auto_exposure_method=unreal.AutoExposureMethod.AEM_MANUAL,

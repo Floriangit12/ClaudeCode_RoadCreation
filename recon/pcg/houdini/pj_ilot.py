@@ -1,8 +1,9 @@
 """pj_ilot : remplissages d'îlots (le maillage est fabriqué par pj_sol, côté haut de la ceinture,
 dessus de bordure − retrait + bombement, 3-5 cm sous la tête locale) et éclats 3D qui leur donnent leur relief :
-- copeaux de BRF (15-60 mm, plats et allongés ; 5 % de copeaux longs et fins de 80-120 mm) et pierres
-  concassées 10/20 (anguleuses : enveloppe de 9-12 points tirés dans une boîte), prototypes procéduraux
-  (Houdini Shrinkwrap), normales à facettes, UV boîte en mètres ; origine au centre de la boîte ;
+- copeaux de BRF (15-60 mm, lames minces de 2-4 mm vrillées et cintrées ; 5 % de copeaux longs et fins de 80-120 mm)
+  et pierres concassées 10/20 (anguleuses et trapues : enveloppe de 11-15 points tirés dans une boîte, arêtes
+  biseautées), prototypes procéduraux (Houdini Shrinkwrap, PolyBevel), normales à facettes, UV boîte en mètres ;
+  origine au centre de la boîte ;
 - couverture dense (regle:pj_ilot.couverture) : BRF 1 800 /m² (2 500 sur 0,25 m de bord), concassé
   3 000 /m² (4 200 à moins de 1,2 m de la ceinture), massifs de BRF hors îlots 1 500 /m² ; chaque éclat
   dépasse de 40 à 70 % de sa hauteur (calculée sur le prototype tourné) ; copeaux inclinés (σ 20°, 15 %
@@ -16,6 +17,8 @@ dessus de bordure − retrait + bombement, 3-5 cm sous la tête locale) et écla
 - sorties : ilots.usda (éclats épars), ilots_couverture.usdc (couverture dense, binaire), points/
   ilots_epars.json (éclats épars seulement, pj_points/0.1 ; la couverture dense est reproduite côté UE
   par PG_Ilots depuis zones/ilots.json), zones/ilots.json (polygones, densités).
+Export UE (recon/pcg/ue/CONTRAT_EXPORT.md) : kinds, Material /<racine>/Looks/<eclat_*> lié en
+material:binding:preview sur les PointInstancers et les prototypes d'éclats (Karma inchangé).
 """
 import math
 
@@ -43,10 +46,11 @@ ECLATS = {
                           "part_longs": 0.05, "taille_longs": (0.08, 0.12),
                           "debord_par_m2": 6.0, "tete_par_m": 0.8},
     "gravier_concasse_6_10": {"famille": "gravier_6_10", "materiau": "eclat_gravier", "source": "gravier_concasse_6_10",
-                              "taille": (0.012, 0.026), "forme": (1.0, 0.8, 0.6), "bord_m": 1.2,
+                              "taille": (0.012, 0.026), "forme": (1.0, 0.85, 0.75), "bord_m": 1.2,
                               "densite_bord": 4200.0, "densite_int": 3000.0, "emergence": (0.4, 0.7),
                               "inclinaison_deg": 180.0, "debord_par_m2": 30.0, "tete_par_m": 0.0},
 }
+APERCU_UE = {"eclat_brf": ((0.138, 0.120, 0.108), 0.85), "eclat_gravier": ((0.20, 0.20, 0.19), 0.8)}
 DENSITE_MASSIF = 1500.0    # copeaux /m² sur les massifs de BRF hors îlots
 # couleurs du BRF (albédo linéaire visé, gain RVB) et parts : bois frais roux, écorce brun sombre, grisé chaud
 BRF_COULEURS = [("frais", 0.48, (0.26, 0.40), (1.0, 0.80, 0.58)),
@@ -62,37 +66,67 @@ def n_variantes(famille):
 
 
 def prototype_eclat(famille, k):
-    """Éclat k, taille unitaire (1 = grande dimension), origine au centre de la boîte englobante :
-    enveloppe convexe (Shrinkwrap) d'un nuage de points ; copeau : boîte aplatie et allongée, tordue
-    (variantes ≥ 12 : copeau long et fin, largeur / longueur 0,1) ; concassé : 9 à 12 points tirés dans
-    une boîte (facettes et arêtes vives, pas d'ellipsoïde arrondi)."""
+    """Éclat k, taille unitaire (1 = grande dimension), origine au centre de la boîte englobante (revue UE du 10/10 :
+    copeaux en plaquettes épaisses de 22-32 triangles, pierres de 12-18 triangles lues comme du papier froissé) :
+    - copeau : lame mince (épaisseur 6-11 % de la longueur, soit 2-4 mm pour un copeau de 35 mm ; 2,5-4 % pour les
+      copeaux longs et fins, variantes ≥ 12), 8 sections à bords déchiquetés, vrillée (±15-35°) et cintrée ;
+    - concassé : enveloppe convexe (Shrinkwrap) de 11 à 15 points tirés dans une boîte trapue (1 x 0,65-0,9 x
+      0,55-0,8), arêtes biseautées (PolyBevel 3 %, arêtes planes ignorées) : 80-130 triangles, facettes nettes ;
+    normales à facettes (cuspide 25°), UV boîte en unités du prototype."""
     r = K.rng(famille, k)
+    g = hou.Geometry()
     if famille.startswith("copeau"):
-        n = 22
-        L = 1.0
-        if k >= N_VARIANTES:
-            W, Tz = r.uniform(0.08, 0.12), r.uniform(0.05, 0.09)
-        else:
-            W, Tz = r.uniform(0.25, 0.55), r.uniform(0.15, 0.30)
-        p = np.c_[r.uniform(-L / 2, L / 2, n), r.uniform(-W / 2, W / 2, n) * (1 - 0.6 * np.abs(np.linspace(-1, 1, n))),
-                  r.uniform(0, Tz, n)]
-        p[:, 1] += 0.15 * W * np.sin(p[:, 0] * r.uniform(2, 6))          # copeau tordu
+        longs = k >= N_VARIANTES
+        W = r.uniform(0.08, 0.12) if longs else r.uniform(0.22, 0.5)
+        Tz = r.uniform(0.025, 0.04) if longs else r.uniform(0.06, 0.11)
+        vrille = math.radians(r.uniform(15.0, 35.0)) * (1 if r.uniform() < 0.5 else -1)
+        cintre, flex = r.uniform(-0.06, 0.06), r.uniform(2.0, 6.0)
+        n = 8
+        xs = np.linspace(-0.5, 0.5, n)
+        pts = []
+        for i, x in enumerate(xs):
+            bout = abs(2.0 * x) ** 1.6
+            w = W * max(0.15, 1.0 - 0.75 * bout * r.uniform(0.6, 1.2)) * r.uniform(0.85, 1.15)
+            yc = 0.15 * W * math.sin(x * flex)
+            zc = cintre * (1.0 - 4.0 * x * x)
+            th = vrille * x
+            ep = Tz * r.uniform(0.85, 1.15) * (1.0 - 0.4 * bout)
+            for dy, dz in ((-w / 2, -ep / 2), (w / 2, -ep / 2), (w / 2, ep / 2), (-w / 2, ep / 2)):
+                pts.append((x, yc + dy * math.cos(th) - dz * math.sin(th), zc + dy * math.sin(th) + dz * math.cos(th)))
+        g.createPoints([hou.Vector3(*map(float, q)) for q in pts])
+        faces = []
+        for i in range(n - 1):
+            a, b = 4 * i, 4 * (i + 1)
+            faces += [(a + 0, b + 0, b + 1, a + 1), (a + 1, b + 1, b + 2, a + 2), (a + 2, b + 2, b + 3, a + 3),
+                      (a + 3, b + 3, b + 0, a + 0)]
+        faces += [(0, 1, 2, 3), (4 * (n - 1) + 3, 4 * (n - 1) + 2, 4 * (n - 1) + 1, 4 * (n - 1))]
+        for f in faces:                                   # sens Houdini (horaire vu de l'extérieur)
+            pr = g.createPolygon()
+            for i in f:
+                pr.addVertex(g.point(i))
+        out = g
     else:
-        n = int(r.integers(9, 13))
-        ax = np.array([1.0, r.uniform(0.55, 0.9), r.uniform(0.4, 0.75)]) / 2
+        n = int(r.integers(11, 16))
+        ax = np.array([1.0, r.uniform(0.65, 0.9), r.uniform(0.55, 0.8)]) / 2
         p = r.uniform(-1.0, 1.0, (n, 3)) * ax
         p[:2] = [[-ax[0], 0.0, 0.0], [ax[0], r.uniform(-0.3, 0.3) * ax[1], 0.0]]    # grande dimension assurée
-    g = hou.Geometry()
-    g.createPoints([hou.Vector3(*map(float, q)) for q in p])
-    out = hou.Geometry()
-    v = CAT.nodeVerb("shrinkwrap::2.0")
-    v.execute(out, [g])
-    out2 = hou.Geometry()
-    v = CAT.nodeVerb("normal")
-    v.setParms({"type": 1, "cuspangle": 20.0})
+        g.createPoints([hou.Vector3(*map(float, q)) for q in p])
+        h = hou.Geometry()
+        CAT.nodeVerb("shrinkwrap::2.0").execute(h, [g])
+        out = hou.Geometry()
+        v = CAT.nodeVerb("polybevel::3.0")
+        v.setParms({"offset": 0.03, "ignoreflatedges": 1, "flatangle": 8.0, "divisions": 1})
+        v.execute(out, [h])
+    out2 = hou.Geometry()                                 # triangles d'abord (coins de biseau non plans), puis normales
+    v = CAT.nodeVerb("divide")
+    v.setParms({"convex": 1})
     v.execute(out2, [out])
+    out3 = hou.Geometry()
+    v = CAT.nodeVerb("normal")
+    v.setParms({"type": 1, "cuspangle": 25.0})
+    v.execute(out3, [out2])
     import pj_bordure_prototypes as BP
-    P, counts, idx, N = BP.depuis_hou(out2)
+    P, counts, idx, N = BP.depuis_hou(out3)
     P -= 0.5 * (P.min(axis=0) + P.max(axis=0))
     P /= max(float(np.ptp(P, axis=0).max()), 1e-6)
     st1 = BP.uv_boite(P, counts, idx)
@@ -339,8 +373,11 @@ class Semis:
                 st = U.scene(f"Éclat {nom} (pj_ilot.py) : taille unitaire (grande dimension = 1), origine au centre "
                              "de la boîte englobante, mis à l'échelle par instance.", racine=nom)
                 echelle_uv = math.sqrt(cfg["taille"][0] * cfg["taille"][1])     # UV ~ mètres à la taille typique
-                U.maillage(st, f"/{nom}/maillage", P, counts, idx, normales=N, st1=st1 * echelle_uv,
-                           materiau_id=cfg["materiau"])
+                m = U.maillage(st, f"/{nom}/maillage", P, counts, idx, normales=N, st1=st1 * echelle_uv,
+                               materiau_id=cfg["materiau"])
+                from pxr import Usd
+                Usd.ModelAPI(st.GetDefaultPrim()).SetKind("component")
+                K.lier_ue(m.GetPrim(), cfg["materiau"], *APERCU_UE[cfg["materiau"]])
                 f = dossier / "eclats" / f"{nom}.usda"
                 U.enregistrer(st, f)
                 out[nom] = (f, cfg["materiau"])
@@ -352,6 +389,7 @@ class Semis:
                      "(graine = hash(îlot)) ; le remplissage est dans sol.usda, sa couverture dense dans "
                      "ilots_couverture.usdc.", data={"version": K.VERSION, "description": self.desc.hash})
         U.xform(st, "/World/PJ_Ilots")
+        K.typer_ue(st, "/World/PJ_Ilots")
         mats = sorted(set(p["_materiau"] for p in self.points))
         for mat in mats:
             pts = [p for p in self.points if p["_materiau"] == mat]
@@ -366,6 +404,7 @@ class Semis:
                                        "uv_decalage": (U.vt([[(p["graine"] % 997) / 97.0, (p["graine"] // 997 % 991) / 97.0]
                                                              for p in pts], T.Float2Array), T.Float2Array)})
             U.lier_chemin(pi.GetPrim(), f"/World/Looks_v2/{mat}")
+            K.lier_ue(pi.GetPrim(), mat, *APERCU_UE[mat])
         U.enregistrer(st, chemin)
         if chemin_couverture is None:
             return
@@ -373,6 +412,7 @@ class Semis:
                      "BRF et gravillons instanciés, 40-70 % de chaque éclat au-dessus du remplissage.",
                      data={"version": K.VERSION, "description": self.desc.hash})
         U.xform(st, "/World/PJ_Ilots_couverture")
+        K.typer_ue(st, "/World/PJ_Ilots_couverture")
         for mat, fam, lot in self.couverture:
             sous = [f"{fam}_v{k:02d}" for k in range(n_variantes(fam))]
             proto_list = [(n, U.chemin_relatif(protos[n][0], ref_couverture), None) for n in sous]
@@ -384,6 +424,7 @@ class Semis:
                                        "couleur": (U.vt(lot["couleur"], T.Color3fArray), T.Color3fArray),
                                        "uv_decalage": (U.vt(r.uniform(0, 10, (n, 2)), T.Float2Array), T.Float2Array)})
             U.lier_chemin(pi.GetPrim(), f"/World/Looks_v2/{mat}")
+            K.lier_ue(pi.GetPrim(), mat, *APERCU_UE[mat])
         U.enregistrer(st, chemin_couverture)
 
     def zones(self):

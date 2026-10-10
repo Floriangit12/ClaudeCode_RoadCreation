@@ -8,7 +8,9 @@ corrections de bordures_elements.json, cassure de l'arête arrière haute) balay
 - épaufrures v1-v3 (Boolean : soustraction de blocs bruités sur l'arête avant haute et les angles
   d'about ; graine = hash(nom)) ;
 - normales par sommet de face (cuspide 30° : arrondis lisses, arêtes vives nettes) ;
-- UV `st1` en mètres (projection boîte dans le repère de l'élément).
+- UV `st1` en mètres (projection boîte dans le repère de l'élément) ;
+- export UE (recon/pcg/ue/CONTRAT_EXPORT.md) : Material /<nom>/Looks/<id> lié en material:binding:preview
+  (Karma garde la liaison des PointInstancers de bordures.usda), normales unitaires.
 Repère et pivot (bordures_elements.json, repere.pivot_prototype) : X = s le long de la bordure,
 Y = u (0 = face vue, + vers l'arrière, côté haut), Z = v (0 = dessous du bloc), pivot au milieu de
 l'élément (X = 0), sur la face vue (Y = 0), sous le bloc (Z = 0). Chartières : Z = 0 sous le bloc
@@ -28,6 +30,9 @@ from pxr import Sdf, UsdGeom, Vt
 CAT = hou.sopNodeTypeCategory()
 T = Sdf.ValueTypeNames
 CHANFREIN_ABOUT = 0.003
+# UsdPreviewSurface de repli des Material d'export UE (albédo linéaire, rugosité ; materiaux_sol.json, pj_materiaux)
+APERCU_UE = {"beton_bordure_gris": ((0.354, 0.369, 0.336), 0.75), "caniveau_beton": ((0.354, 0.369, 0.336), 0.8),
+             "mortier_joint": ((0.055, 0.055, 0.052), 0.95), "mortier_clair": ((0.27, 0.265, 0.25), 0.92)}
 RETRAIT_JOINT = 0.004
 
 
@@ -376,6 +381,55 @@ def quart_de_rond(specs, profil, R, sens="convexe"):
 
 
 # --------------------------------------------------------------------------- écriture
+def _sans_faces_nulles(P, counts, idx, N, st1, aire_min=1e-10, col_rel=1e-4):
+    """Retire les sommets de face confondus ou alignés avec leurs voisins (bouts de chanfrein laissés par Divide :
+    triangles nuls dans la triangulation d'UE, tangentes nulles) puis les faces d'aire nulle (éclats du Boolean :
+    normales nulles, CONTRAT_EXPORT.md § 3) ; normalise les normales ; tableaux par sommet de face filtrés de même."""
+    P, counts, idx = np.asarray(P, dtype=np.float64), np.asarray(counts), np.asarray(idx)
+    N, st1 = np.asarray(N, dtype=np.float64), np.asarray(st1, dtype=np.float64)
+    garde_c = np.ones(len(idx), dtype=bool)
+    o = 0
+    for k, c in enumerate(counts):
+        coins = list(range(o, o + c))
+        change = True
+        while change and len(coins) > 3:
+            change = False
+            for j in range(len(coins)):
+                a, b, d = (P[idx[coins[(j + i) % len(coins)]]] for i in (-1, 0, 1))
+                ln = max(np.linalg.norm(b - a), np.linalg.norm(d - b), 1e-12)
+                if np.linalg.norm(b - a) < 1e-7 or 0.5 * np.linalg.norm(np.cross(b - a, d - b)) < col_rel * ln * ln:
+                    garde_c[coins.pop(j)] = False
+                    change = True
+                    break
+        o += c
+    counts = np.array([int(garde_c[o:o + c].sum()) for o, c in zip(np.r_[0, np.cumsum(counts)[:-1]], counts)])
+    idx, N, st1 = idx[garde_c], N[garde_c], st1[garde_c]
+    debut = np.r_[0, np.cumsum(counts)[:-1]]
+    l2 = np.array([max(float(np.sum((P[idx[d + i]] - P[idx[d + (i + 1) % c]]) ** 2)) for i in range(c))
+                   for d, c in zip(debut, counts)])
+    aires = _aires(P, counts, idx)
+    garde_f = (aires > aire_min) & (aires > col_rel * l2)          # faces nulles et triangles en aiguille
+    garde_c = np.repeat(garde_f, counts)
+    counts, idx, N, st1 = counts[garde_f], idx[garde_c], N[garde_c], st1[garde_c]
+    n = np.linalg.norm(N, axis=1)
+    ok = np.isfinite(n) & (n > 1e-6)
+    N[ok] /= n[ok, None]
+    if not ok.all():
+        N[~ok] = K.normales_cusp(P, counts, idx, 0.0)[~ok]
+    return P, counts, idx, N, st1
+
+
+def _aires(P, counts, idx):
+    """Aire de chaque face (éventail de triangles)."""
+    debut = np.r_[0, np.cumsum(counts)[:-1]]
+    v = np.zeros((len(counts), 3))
+    for k in range(1, int(np.max(counts)) - 1):
+        sel = counts > k + 1
+        a = P[idx[debut[sel]]]
+        v[sel] += np.cross(P[idx[debut[sel] + k]] - a, P[idx[debut[sel] + k + 1]] - a)
+    return 0.5 * np.linalg.norm(v, axis=1)
+
+
 def ecrire_prototype(chemin, nom, donnees, meta):
     P, counts, idx, N, st1 = donnees
     st = U.scene(f"Prototype de bordure {nom} (pj_bordure_prototypes.py) : X = s, Y = u (face vue en 0, "
@@ -388,9 +442,11 @@ def ecrire_prototype(chemin, nom, donnees, meta):
         root.SetCustomDataByKey(k, meta[k])
     mid = "mortier_clair" if nom.startswith("jointf_") else "mortier_joint" if nom.startswith("joint_") \
         else "caniveau_beton" if nom.startswith("caniveau_") else "beton_bordure"
+    P, counts, idx, N, st1 = _sans_faces_nulles(P, counts, idx, N, st1)
     m = U.maillage(st, f"/{nom}/maillage", P, counts, idx, normales=N, st1=st1, materiau_id=mid)
     ue = "beton_bordure_gris" if mid == "beton_bordure" else mid
     m.GetPrim().CreateAttribute("unrealMaterial", T.String).Set(f"/Game/PJ/Materials/MI_{ue}.MI_{ue}")
+    K.lier_ue(m.GetPrim(), ue, *APERCU_UE[ue])
     U.enregistrer(st, chemin)
     return {"faces": int(len(counts)), "points": int(len(P)),
             "dims_m": K.r3(P.max(axis=0) - P.min(axis=0), 4)}

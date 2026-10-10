@@ -1,18 +1,26 @@
 """Verificateur du contrat d'export Houdini -> UE (CONTRAT_EXPORT.md) : USD de geometrie de site.
 
 Python + pxr seulement (hython, Python de l'editeur UE ou tout Python avec pxr). Usages :
-    hython verifier_usd.py fichier.usd[a|c] [--json rapport.json]
+    hython verifier_usd.py fichier.usd[a|c] [--json rapport.json] [--sol sol.usda]
     MCP pj_tools.run_python_file(path, '{"usd": "...", "json": "..."}')   (RESULT = rapport)
 Controles (E = erreur bloquante, A = avertissement) :
-  E1 metersPerUnit = 1, upAxis = Z, coordonnees du repere LOCAL (|x|,|y| < 5 km : pas de L93 brut)
+  E1 metersPerUnit = 1, upAxis = Z, coordonnees du repere LOCAL (|x|,|y| < 100 km : pas de L93 brut, x > 900 km ;
+     le relief lointain du contexte va jusqu'a 35 km)
   E2 normales par sommet de face (faceVarying ou vertex), unitaires, angle de rupture respecte
      (aretes de diedre > cusp + 5 deg cassees, < cusp - 5 deg lissees ; cusp = customData pj:cusp_deg, 30)
   E3 primvars:st texCoord2f[] (UV0 d'UE), en metres reels (mediane de sqrt(aire_uv / aire_3d) dans [0,9 ; 1,1]),
      aucune face d'aire 3D non nulle degeneree en UV ; transition : st1 seul est tolere (A, UE le met en UV0)
   E4 aucun autre texCoord2f que st et st1 (UE attribue les canaux UV par ordre lexicographique)
   E5 chaque face liee a un Material present dans la scene composee, dont le nom est un materiau_id
+     (materiaux_sol.json ou materiau maison MATERIAUX_MAISON) ; liaison resolue comme l'import UE :
+     finalite preview (material:binding:preview), repli allPurpose (material:binding)
   E6 chaque Mesh sous un prim de kind component (hierarchie de modele valide) ; subdivisionScheme = none
   E7 pas de PointInstancer
+  E8 sol fabrique (/World/PJ_Sol) : aucun triangle de plus de 45 deg avec un denivele de plus de 3 cm hors talus
+     (noue_plantee) et hors bord de couche (0,5 m : raccord au contexte v1) ; revue UE du 10/10, pointes de sol aux
+     fins de bordure
+  E9 (option --sol SOL.usda, couche portant .../bev_dalles) : dessus des dalles podotactiles 3D a moins de 5 mm du
+     sol a 3 cm hors du module (affleurement)
   A  orientation leftHanded, doubleSided, extent absent
 """
 from __future__ import annotations
@@ -26,6 +34,20 @@ from pxr import Gf, Sdf, Usd, UsdGeom, UsdShade  # noqa: F401
 
 ICI = os.path.dirname(os.path.abspath(__file__))
 MATERIAUX = os.path.normpath(os.path.join(ICI, '..', '..', '..', '..', 'assets', 'specs', 'materiaux_sol.json'))
+# materiaux maison sans entree dans materiaux_sol.json (recon/pcg/houdini/pj_materiaux.py CONSTANTS et eclats ;
+# MI_<id> crees dans UE par recon/pcg/ue/pilote/ue/materiaux_maison.py)
+MATERIAUX_MAISON = {'mortier_joint', 'mortier_clair', 'bitume_pontage', 'herbe_touffe', 'eclat_brf', 'eclat_gravier'}
+# materiaux du contexte v1 (recon/pcg/ue/contexte/preparer_usd.py ; MI crees par contexte/ue/materiaux_contexte.py,
+# peintures par materiaux/, toits CARLA) et maillages d'echantillonnage PCG (PJ_Neutre)
+MATERIAUX_MAISON |= {'bordure_v1', 'toit_terrasse', 'toit_pentes', 'PJ_Neutre', 'PJ_Facade_annexe', 'PJ_Facade_commerce',
+                     'PJ_Facade_enduit_blanc', 'PJ_Facade_enduit_beige', 'PJ_Facade_enduit_gris', 'PJ_Facade_enduit_ocre'}
+MATERIAUX_MAISON |= {f'PJ_Peinture_{c}_u{u}' for c in ('blanc', 'jaune') for u in ('0', '1', '2', '3', 'F')}
+MATERIAUX_MAISON |= {'PJ_Relief', 'PJ_Contexte_Lointain'}    # relief et sol lointains (contexte/relief_usd.py)
+SOL_RACINE = '/World/PJ_Sol'
+SOL_TALUS = {'noue_plantee'}
+PENTE_E8_DEG, DZ_E8_M, BORD_E8_M = 45.0, 0.03, 0.5
+AFFLEUREMENT_E9_M = 0.005
+FINALITE_UE = UsdShade.Tokens.preview      # pj_tools.import_usd : material_purpose = preview (repli allPurpose)
 CUSP_DEFAUT = 30.0
 MARGE_CUSP = 5.0
 TOL_NORME = 1e-3
@@ -33,7 +55,7 @@ TOL_NORME = 1e-3
 
 def _ids_materiaux(chemin=MATERIAUX):
     with open(chemin, encoding='utf-8') as f:
-        return set(json.load(f)['materiaux'])
+        return set(json.load(f)['materiaux']) | MATERIAUX_MAISON
 
 
 def _sous(a, b):
@@ -83,8 +105,8 @@ def verifier_mesh(prim, ids_mat, cusp):
     if not pts or not counts:
         E('E6 mesh vide')
         return r
-    if max(max(abs(p[0]), abs(p[1])) for p in pts) > 5000.0:
-        E('E1 coordonnees > 5 km : repere local attendu (L93 - O), pas le L93 brut')
+    if max(max(abs(p[0]), abs(p[1])) for p in pts) > 100000.0:     # L93 brut : x > 900 km (relief lointain : 35 km)
+        E('E1 coordonnees > 100 km : repere local attendu (L93 - O), pas le L93 brut')
     if m.GetSubdivisionSchemeAttr().Get() != UsdGeom.Tokens.none:
         E(f'E6 subdivisionScheme = {m.GetSubdivisionSchemeAttr().Get()} (none exige : sinon les normales sont ignorees)')
     sens = 1.0
@@ -195,21 +217,28 @@ def verifier_mesh(prim, ids_mat, cusp):
                 E(f'E3 {degen} faces degenerees en UV (tangentes impossibles)')
             if not 0.9 <= med <= 1.1:
                 E(f'E3 st pas en metres : echelle mediane {med:.3f} (1 attendu)')
-    # E5 materiaux (liaison directe du mesh et des GeomSubsets materialBind) ; cible absente = erreur explicite
-    for q in [prim] + [s_.GetPrim() for s_ in UsdShade.MaterialBindingAPI(prim).GetMaterialBindSubsets()]:
-        rel = q.GetRelationship('material:binding')
-        for cible in (rel.GetTargets() if rel else []):
-            if not prim.GetStage().GetPrimAtPath(cible):
-                E(f'E5 liaison vers {cible} absent de la scene composee (definir /World/Looks ou sous-couche)')
+    # E5 materiaux (liaison du mesh, de ses ancetres et des GeomSubsets materialBind, resolue comme l'import UE :
+    # finalite preview puis allPurpose) ; cible absente = erreur explicite
+    p_ = prim
+    while p_ and p_.GetPath() != Sdf.Path.absoluteRootPath:
+        for q in [p_] + ([s_.GetPrim() for s_ in UsdShade.MaterialBindingAPI(prim).GetMaterialBindSubsets()]
+                         if p_ == prim else []):
+            rel = q.GetRelationship('material:binding:preview')
+            if not (rel and rel.GetTargets()):
+                rel = q.GetRelationship('material:binding')
+            for cible in (rel.GetTargets() if rel else []):
+                if not prim.GetStage().GetPrimAtPath(cible):
+                    E(f'E5 liaison vers {cible} absent de la scene composee (definir /World/Looks ou sous-couche)')
+        p_ = p_.GetParent()
     api = UsdShade.MaterialBindingAPI(prim)
     subsets = UsdShade.MaterialBindingAPI(prim).GetMaterialBindSubsets()
     couvert = set()
     mats = []
     for s in subsets:
-        mat = UsdShade.MaterialBindingAPI(s.GetPrim()).ComputeBoundMaterial()[0]
+        mat = UsdShade.MaterialBindingAPI(s.GetPrim()).ComputeBoundMaterial(FINALITE_UE)[0]
         mats.append(mat.GetPrim().GetName() if mat else None)
         couvert.update(s.GetIndicesAttr().Get() or [])
-    mat = api.ComputeBoundMaterial()[0]
+    mat = api.ComputeBoundMaterial(FINALITE_UE)[0]
     if len(couvert) < len(counts):
         mats.append(mat.GetPrim().GetName() if mat else None)
     r['materiaux'] = sorted(set(str(x) for x in mats))
@@ -233,7 +262,7 @@ def verifier_mesh(prim, ids_mat, cusp):
     return r
 
 
-def verifier(chemin: str, chemin_materiaux: str = MATERIAUX) -> dict:
+def verifier(chemin: str, chemin_materiaux: str = MATERIAUX, chemin_sol: str | None = None) -> dict:
     st = Usd.Stage.Open(chemin)
     if st is None:
         raise RuntimeError(f'ouverture impossible : {chemin}')
@@ -259,13 +288,114 @@ def verifier(chemin: str, chemin_materiaux: str = MATERIAUX) -> dict:
             res['avertissements'] += [f'{r["prim"]} : {a}' for a in r['avertissements']]
     if not res['meshes']:
         res['erreurs'].append('E6 aucun Mesh')
+    sol = st.GetPrimAtPath(SOL_RACINE)
+    if sol and sol.IsValid():
+        res['pentes_sol'] = verifier_pentes_sol(st)
+        if res['pentes_sol']['triangles']:
+            res['erreurs'].append(f"E8 {res['pentes_sol']['triangles']} triangles de sol > {PENTE_E8_DEG:.0f} deg et "
+                                  f"> {DZ_E8_M * 100:.0f} cm de denivele hors talus et hors bord (ex. "
+                                  f"{res['pentes_sol']['exemples'][:3]})")
+    if chemin_sol:
+        res['bev'] = verifier_bev(st, chemin_sol)
+        if res['bev'].get('au_dela'):
+            res['erreurs'].append(f"E9 {res['bev']['au_dela']} sondes de dalle BEV a plus de "
+                                  f"{AFFLEUREMENT_E9_M * 1000:.0f} mm du sol (max {res['bev']['max_mm']} mm)")
     res['ok'] = not res['erreurs']
     return res
 
 
+def _triangles_monde(prim):
+    m = UsdGeom.Mesh(prim)
+    xf = UsdGeom.Xformable(prim).ComputeLocalToWorldTransform(Usd.TimeCode.Default())
+    pts = [tuple(xf.Transform(p)) for p in (m.GetPointsAttr().Get() or [])]
+    counts = list(m.GetFaceVertexCountsAttr().Get() or [])
+    indices = list(m.GetFaceVertexIndicesAttr().Get() or [])
+    out, k = [], 0
+    for c in counts:
+        f = indices[k:k + c]
+        k += c
+        out += [(pts[f[0]], pts[f[i]], pts[f[i + 1]]) for i in range(1, c - 1)]
+    return out
+
+
+def verifier_pentes_sol(st):
+    """E8 : triangles raides du sol fabrique (pente, denivele), hors talus et hors bord de couche."""
+    tris = []
+    for prim in Usd.PrimRange(st.GetPrimAtPath(SOL_RACINE)):
+        if prim.IsA(UsdGeom.Mesh) and prim.GetName() not in SOL_TALUS:
+            tris += [(prim.GetName(), t) for t in _triangles_monde(prim)]
+    if not tris:
+        return {'triangles': 0, 'exemples': []}
+    xs = [p[0] for _, t in tris for p in t]
+    ys = [p[1] for _, t in tris for p in t]
+    x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
+    mauvais = []
+    for nom, (a, b, c) in tris:
+        n = _vect(_sous(b, a), _sous(c, a))
+        ln = _norme(n)
+        if ln < 4e-4:                                     # aire < 2 cm2
+            continue
+        pente = math.degrees(math.acos(min(1.0, abs(n[2]) / ln)))
+        dz = max(a[2], b[2], c[2]) - min(a[2], b[2], c[2])
+        g = ((a[0] + b[0] + c[0]) / 3, (a[1] + b[1] + c[1]) / 3)
+        if pente > PENTE_E8_DEG and dz > DZ_E8_M and min(g[0] - x0, x1 - g[0], g[1] - y0, y1 - g[1]) > BORD_E8_M:
+            mauvais.append({'mesh': nom, 'xy': [round(g[0], 2), round(g[1], 2)], 'pente_deg': round(pente, 1),
+                            'dz_m': round(dz, 3)})
+    mauvais.sort(key=lambda m: -m['dz_m'])
+    return {'triangles': len(mauvais), 'exemples': mauvais[:20], 'seuils': [PENTE_E8_DEG, DZ_E8_M, BORD_E8_M]}
+
+
+def verifier_bev(st, chemin_sol):
+    """E9 : affleurement des dalles BEV 3D (PointInstancer .../bev_dalles ; prototype : dessous a z = 0, dessus a
+    z = e, demi-cote h) contre le sol (sol.usda) a 3 cm hors du module, joints entre modules exclus (sol
+    bev_podotactile)."""
+    pi = next((UsdGeom.PointInstancer(p) for p in st.Traverse() if p.IsA(UsdGeom.PointInstancer)
+               and p.GetName() == 'bev_dalles'), None)
+    if pi is None:
+        return {'dalles': 0}
+    proto = UsdGeom.Mesh(next(p for p in Usd.PrimRange(st.GetPrimAtPath(pi.GetPrototypesRel().GetTargets()[0]))
+                              if p.IsA(UsdGeom.Mesh)))
+    pp = proto.GetPointsAttr().Get()
+    h = max(abs(p[0]) for p in pp)
+    e = max(p[2] for p in pp if abs(p[0]) > h - 1e-4)            # chant : dessus de la dalle hors plots
+    sol = Usd.Stage.Open(chemin_sol)
+    tris = []
+    for prim in Usd.PrimRange(sol.GetPrimAtPath(SOL_RACINE)):
+        if prim.IsA(UsdGeom.Mesh):
+            tris += [(prim.GetName(), t) for t in _triangles_monde(prim)]
+
+    def z_sol(q):
+        for nom, (a, b, c) in tris:
+            if max(a[0], b[0], c[0]) < q[0] or min(a[0], b[0], c[0]) > q[0] or                max(a[1], b[1], c[1]) < q[1] or min(a[1], b[1], c[1]) > q[1]:
+                continue
+            d = (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1])
+            if abs(d) < 1e-14:
+                continue
+            l1 = ((b[1] - c[1]) * (q[0] - c[0]) + (c[0] - b[0]) * (q[1] - c[1])) / d
+            l2 = ((c[1] - a[1]) * (q[0] - c[0]) + (a[0] - c[0]) * (q[1] - c[1])) / d
+            if l1 >= -1e-9 and l2 >= -1e-9 and 1 - l1 - l2 >= -1e-9:
+                return nom, l1 * a[2] + l2 * b[2] + (1 - l1 - l2) * c[2]
+        return None, None
+    pos, ori = pi.GetPositionsAttr().Get(), pi.GetOrientationsAttr().Get()
+    ecarts = []
+    for p, q in zip(pos, ori):
+        rot = Gf.Rotation(Gf.Quatd(q.GetReal(), Gf.Vec3d(q.GetImaginary())))
+        for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+            haut = Gf.Vec3d(p) + rot.TransformDir(Gf.Vec3d(dx * h, dy * h, e))
+            dehors = Gf.Vec3d(p) + rot.TransformDir(Gf.Vec3d(dx * (h + 0.03), dy * (h + 0.03), 0.0))
+            nom, z = z_sol((dehors[0], dehors[1]))
+            if z is None or nom == 'bev_podotactile':
+                continue
+            ecarts.append(haut[2] - z)
+    au_dela = [x for x in ecarts if abs(x) > AFFLEUREMENT_E9_M]
+    return {'dalles': len(pos), 'sondes': len(ecarts), 'au_dela': len(au_dela),
+            'max_mm': round(1000 * max((abs(x) for x in ecarts), default=0.0), 1),
+            'moyen_mm': round(1000 * sum(ecarts) / max(len(ecarts), 1), 1)}
+
+
 def _principal(argv):
     chemin = argv[0]
-    rapport = verifier(chemin)
+    rapport = verifier(chemin, chemin_sol=argv[argv.index('--sol') + 1] if '--sol' in argv else None)
     if '--json' in argv:
         with open(argv[argv.index('--json') + 1], 'w', encoding='utf-8') as f:
             json.dump(rapport, f, ensure_ascii=False, indent=1)
@@ -274,7 +404,7 @@ def _principal(argv):
 
 
 if 'ARGS' in globals():                                   # pj_tools.run_python_file
-    RESULT = verifier(ARGS['usd'], ARGS.get('materiaux', MATERIAUX))  # noqa: F821
+    RESULT = verifier(ARGS['usd'], ARGS.get('materiaux', MATERIAUX), ARGS.get('sol'))  # noqa: F821
     if ARGS.get('json'):  # noqa: F821
         with open(ARGS['json'], 'w', encoding='utf-8') as _f:  # noqa: F821
             json.dump(RESULT, _f, ensure_ascii=False, indent=1)

@@ -1,0 +1,151 @@
+{
+ "materiaux": {
+  "maitre": {
+   "chemin": "/Game/PJ/Materials/Maitres/M_PJ_Facade",
+   "noeuds": 101,
+   "instructions_ps": 333
+  },
+  "instances": {
+   "MI_PJ_Facade_enduit_blanc": {
+    "albedo_cible": [
+     0.56,
+     0.55,
+     0.51
+    ]
+   },
+   "MI_PJ_Facade_enduit_beige": {
+    "albedo_cible": [
+     0.5,
+     0.44,
+     0.35
+    ],
+    "PasM": 2.9
+   },
+   "MI_PJ_Facade_enduit_gris": {
+    "albedo_cible": [
+     0.4,
+     0.4,
+     0.39
+    ],
+    "PasM": 3.4,
+    "LargeurM": 1.5
+   },
+   "MI_PJ_Facade_enduit_ocre": {
+    "albedo_cible": [
+     0.52,
+     0.4,
+     0.27
+    ],
+    "PasM": 3.0,
+    "LargeurM": 1.1,
+    "HauteurM": 1.45
+   },
+   "MI_PJ_Facade_commerce": {
+    "albedo_cible": [
+     0.36,
+     0.37,
+     0.38
+    ],
+    "Vitrine": 1.0,
+    "PasM": 4.2,
+    "LargeurM": 2.4,
+    "AllegeM": 1.0,
+    "HauteurM": 1.1,
+    "EtageM": 3.4,
+    "VoletProba": 0.15,
+    "VitrineHautM": 3.3
+   },
+   "MI_PJ_Facade_annexe": {
+    "albedo_cible": [
+     0.38,
+     0.36,
+     0.33
+    ],
+    "Fenetres": 0.0
+   },
+   "MI_PJ_Contexte_Lointain": {
+    "parent": "MI_PJ_Contexte",
+    "albedo_cible": [
+     0.06,
+     0.075,
+     0.045
+    ]
+   },
+   "MI_PJ_Relief": {
+    "parent": "/Game/PJ/Materials/Maitres/M_PJ_Relief"
+   },
+   "MI_bordure_v1": {
+    "parent": "MI_beton_bordure_gris",
+    "SalissureHaut": 1.0,
+    "Salissure": 0.25
+   }
+  }
+ },
+ "niveau": {
+  "refus": {
+   "soleil": [],
+   "atmosphere": [],
+   "skylight": [],
+   "brouillard": [],
+   "postprocess": [],
+   "georef": []
+  },
+  "niveau": "deja ouvert",
+  "soleil": {
+   "az_geo": 220.0,
+   "az_grille": 217.9914,
+   "elev": 27.6,
+   "rot_ue": [
+    0.0,
+    -27.600000381469727,
+    -52.00859832763672
+   ],
+   "propagation_ue": [
+    0.5455,
+    -0.6984,
+    -0.4633
+   ],
+   "lux": 128000.0
+  },
+  "nuages": {
+   "bas_km": 1.5,
+   "epaisseur_km": 2.5,
+   "couverture": 0.3,
+   "densite": 0.008
+  },
+  "exposition": {
+   "ev100": 14.0,
+   "balance_blancs_k": 5500.0
+  },
+  "georef": {
+   "origine_wgs84": [
+    45.20765000813172,
+    5.76820002254032,
+    216.3
+   ],
+   "controle_local_10_20_3": [
+    10.0,
+    20.0,
+    3.0
+   ]
+  },
+  "contexte": {
+   "z_m": -4.1,
+   "cote_m": 3000.0,
+   "mi": "/Game/PJ/Materials/MI_PJ_Contexte_Lointain.MI_PJ_Contexte_Lointain"
+  },
+  "cvars_projet": {
+   "r.EyeAdaptation.CachedLightingPreExposure": 14
+  },
+  "cvars": {
+   "r.DynamicGlobalIlluminationMethod": 1,
+   "r.ReflectionMethod": 1,
+   "r.Shadow.Virtual.Enable": 1,
+   "r.Lumen.HardwareRayTracing": 1,
+   "r.Substrate": 1,
+   "r.Nanite.Tessellation": 1
+  },
+  "monde": "/Game/PJ/Maps/PJ_2026.PJ_2026",
+  "world_partition": "AttributeError(\"'World' object has no attribute 'get_world_partition'\")"
+ }
+}

@@ -1,0 +1,1535 @@
+{
+ "schema": "pj_manifest_marquages/0.1",
+ "version": "pj_marquages/0.2",
+ "houdini": "22.0.459",
+ "description": {
+  "hash_marquages": "0901b0969348450e8447774bf5a4548e6e4697ec7859dc86389a80dbe1522b32",
+  "schema": "description_scene_v2/0.2"
+ },
+ "regles": {
+  "dz_m": {
+   "marque": 0.003,
+   "surface_coloree": 0.0025,
+   "fantome": 0.002
+  },
+  "troncon_max_m": 4.0,
+  "tolerance_plan_m": 0.0005,
+  "onglet_max": 3.0,
+  "soudure_m": 1e-05,
+  "materiaux": "peinture.json usure.principe ; masques procéduraux MaterialX (fractal3d, cellnoise2d sur grille anisotrope (0.3, 1.0) m le long / en travers de l'axe de la marque (primvar axe_marque), bord irrégulier), égalisation logistique (σ {1: 0.249, 2: 0.278, 3: 0.285}) ; seuil par face (primvar seuil_usure, seuil_face) x √manque_roues ; enrobé CC0 enrobe_bbsg_neuf_2025 (macrotexture) ; empreinte en voile (moyenne d'enrobé 0.2) ; écarts {'0': {'PoidsRGA': [1.0, 0.0, 0.0], 'Transparence': 0.05, 'Seuil': 0.005}, '1': {'PoidsRGA': [1.0, 0.0, 0.0], 'Salete': 0.1, 'Transparence': 0.15, 'FacteurFilm': 0.62}, '2': {'PoidsRGA': [0.8, 0.0, 0.2], 'Salete': 0.25, 'Transparence': 0.6, 'FacteurFilm': 0.54, 'FissureA': 0.6, 'SeuilMax': 0.16}, '3': {'PoidsRGA': [0.75, 0.0, 0.25], 'Salete': 0.4, 'Transparence': 0.8, 'FacteurFilm': 0.48, 'SeuilMax': 0.22}, 'F': {'PoidsRGA': [1.0, 0.0, 0.0], 'Seuil': 0.99, 'FondContraste': 0.95, 'FondGain': 1.15, 'FacteurFilm': 0.48}} ; couleurs {'jaune': {'CouleurNeuve': [0.764, 0.55, 0.212]}} ; salissure du caniveau (0.2, 0.15) (primvar dist_bordure) ; ombres portées des marques désactivées sous Karma (karma:object:rendervisibility -shadow)"
+ },
+ "entrees": {
+  "recon/out/paquet_jardin/v2/description/base/marquages.geojson": "153f369cafc7eb93c33bf3f269528df7223b977432cac9ba52bdcbe36316971a",
+  "recon/out/paquet_jardin/v2/description/description_scene_v2.json": "f348387c8752a4e031c925264c77cd13494c0bfec26a35f4983131c1004df008",
+  "assets/specs/marquages_geometrie.json": "55ff0a8923ca50b9078ce62c01cbaccb454f42dc5cb1506ee894bd82d53d1839",
+  "assets/specs/peinture.json": "39df47771046a3ab3089348f7e1e624add988ceda5b69cf41e431a3e325ac990",
+  "recon/out/paquet_jardin/package/paquet_jardin_2026.xodr": "2fed0ba78ddb1767629126743df7a8916b837174017d00f03ee9c30982a26bb1",
+  "recon/out/paquet_jardin/v2/fabrique/sol.usda": "e06335c87832e340c7d458523f222836fc784345889be7481fc1a6c9334f4998",
+  "recon/out/paquet_jardin/v2/fabrique/contexte/masque_v1_pilote.usdc": "e5f273bd86efccaf40e791d2a5aad892e59ff6c6a13625db83972c011fb5c55f",
+  "recon/out/paquet_jardin/package/paquet_jardin_2026.usda": "ee973d7aa572cbd514cb2c47f70e23484fdebbee7973c1911153c836a393004c",
+  "recon/out/paquet_jardin/package/layers/batiments.usdc": "1e6fdfd26cc045464a986c06de875e10757566588fdbcf981f418e03f70a1176",
+  "recon/out/paquet_jardin/package/layers/bordures.usdc": "56d4d5c0cee4333a57b352dcd384978a6df0783760f730fbbdf9694d1a3605b6",
+  "recon/out/paquet_jardin/package/layers/marquages.usdc": "a069e89d33701a574ff11cc354d6edf86a378853bbf13469e854919f8ec2ffd3",
+  "recon/out/paquet_jardin/package/layers/materiaux.usda": "6438e834dc63300e90b640fb83802e6ab70caa1d836b07caae221cec698a290c",
+  "recon/out/paquet_jardin/package/layers/mobilier.usdc": "d0c42a50d4f8982049a3c48fa25ee4ebda4450a7d13b02c64bb3c48c87ebc1b0",
+  "recon/out/paquet_jardin/package/layers/terrain.usdc": "dbbdd1001b570032c91ecf477061816722b5f435a38c1ea91bfa0c1e46401432",
+  "recon/out/paquet_jardin/package/layers/vegetation.usdc": "b35a9798986a81eb45422273e21d5b2f5fd6ee353e6216d7a7ee8099e816be55",
+  "recon/out/paquet_jardin/package/layers/voirie.usdc": "d233ec7da6b785e5dea74b1c49d799f0cea9f783e63c8d6c952f43e017daf959"
+ },
+ "scripts": {
+  "pj_marquages.py": "2f13969534b3b7c95f224bc5d6be756880b1bba9f44c7648c4afde0ea9e7c97b",
+  "pj_marquages_materiaux.py": "009acced326ed4955bba961861dd913f80797d68e44f54da0e050c8fb9d4c0c7",
+  "marquages_commun.py": "e0ff3a9f2db6beb5f5f51cb852f26a011462dc80b3ba7cb7bb6ae987c52645e8",
+  "marquages_lignes.py": "9185eea73d95b794b1f37d167d7b3ba5d0cc30f34fd15c698feb043f22f443fe",
+  "marquages_symboles.py": "b1b94dcb8c8037f400ff608a4c901bad7e3af41a23db129bb95ea390008033a8",
+  "marquages_glyphes.py": "26932de4bee0b592f769b9e3b1c086f5c5f77f65cc95e720ed814d61072cb9f7",
+  "marquages_gam.py": "2a0eb70f6921de8f3ffc47b111d9ac3a5a73378a464d4054c32c6dc035ed159b",
+  "marquages_ortho.py": "5d57ec2ae94146b73ed56a2146734af888820f42a6511b148486dd5cb7f44d8d",
+  "xodr_echantillonne.py": "87e26da102c50ceebf1412c616855b047c0166962b3ebfc59ad27d02bee6d810"
+ },
+ "comptes": {
+  "entites_decrites": 597,
+  "entites_fabriquees": 588,
+  "modes_triangulation": {
+   "exact": 1177
+  },
+  "pieces": 1177,
+  "triangles": 30978,
+  "par_type": {
+   "fantome/fantome": {
+    "entites": 109,
+    "pieces": 136,
+    "triangles": 2037,
+    "aire_m2": 48.976
+   },
+   "fleche/directionnelle": {
+    "entites": 30,
+    "pieces": 30,
+    "triangles": 1176,
+    "aire_m2": 33.005
+   },
+   "ligne/continue": {
+    "entites": 169,
+    "pieces": 406,
+    "triangles": 8822,
+    "aire_m2": 154.5
+   },
+   "ligne/discontinue": {
+    "entites": 59,
+    "pieces": 188,
+    "triangles": 3036,
+    "aire_m2": 49.066
+   },
+   "ligne/segment": {
+    "entites": 87,
+    "pieces": 92,
+    "triangles": 1061,
+    "aire_m2": 16.563
+   },
+   "passage/traversee_cyclable": {
+    "entites": 8,
+    "pieces": 98,
+    "triangles": 1100,
+    "aire_m2": 30.363
+   },
+   "passage/zebra": {
+    "entites": 14,
+    "pieces": 88,
+    "triangles": 2995,
+    "aire_m2": 116.22
+   },
+   "symbole/barre": {
+    "entites": 18,
+    "pieces": 18,
+    "triangles": 154,
+    "aire_m2": 1.864
+   },
+   "symbole/chevron": {
+    "entites": 16,
+    "pieces": 16,
+    "triangles": 237,
+    "aire_m2": 2.677
+   },
+   "symbole/dent_requin": {
+    "entites": 14,
+    "pieces": 14,
+    "triangles": 198,
+    "aire_m2": 10.585
+   },
+   "symbole/pmr": {
+    "entites": 11,
+    "pieces": 11,
+    "triangles": 2759,
+    "aire_m2": 2.076
+   },
+   "symbole/point": {
+    "entites": 1,
+    "pieces": 1,
+    "triangles": 17,
+    "aire_m2": 0.024
+   },
+   "symbole/texte": {
+    "entites": 4,
+    "pieces": 4,
+    "triangles": 1786,
+    "aire_m2": 3.717
+   },
+   "symbole/velo": {
+    "entites": 25,
+    "pieces": 25,
+    "triangles": 3724,
+    "aire_m2": 10.225
+   },
+   "transversale/effet_feux": {
+    "entites": 4,
+    "pieces": 20,
+    "triangles": 156,
+    "aire_m2": 1.455
+   },
+   "zone/aplat": {
+    "entites": 2,
+    "pieces": 2,
+    "triangles": 106,
+    "aire_m2": 8.619
+   },
+   "zone/bande_isolee": {
+    "entites": 9,
+    "pieces": 9,
+    "triangles": 227,
+    "aire_m2": 11.898
+   },
+   "zone/divers": {
+    "entites": 2,
+    "pieces": 2,
+    "triangles": 122,
+    "aire_m2": 1.077
+   },
+   "zone/hachures": {
+    "entites": 2,
+    "pieces": 13,
+    "triangles": 524,
+    "aire_m2": 19.794
+   },
+   "zone/surface_coloree": {
+    "entites": 1,
+    "pieces": 1,
+    "triangles": 137,
+    "aire_m2": 12.761
+   },
+   "zone/t_stationnement": {
+    "entites": 1,
+    "pieces": 1,
+    "triangles": 31,
+    "aire_m2": 0.226
+   },
+   "zone/zigzag": {
+    "entites": 2,
+    "pieces": 2,
+    "triangles": 573,
+    "aire_m2": 11.579
+   }
+  },
+  "aire_totale_m2": 547.272
+ },
+ "prototypes": {
+  "CARRE_TRAVERSEE_CYCLABLE": {
+   "triangles": 2,
+   "aire_m2": 0.25
+  },
+  "CHEVRON_b0768_o0792_t120": {
+   "triangles": 4,
+   "aire_m2": 0.16693
+  },
+  "CHEVRON_b0768_o0793_t120": {
+   "triangles": 4,
+   "aire_m2": 0.16695
+  },
+  "CHEVRON_b0769_o0792_t119": {
+   "triangles": 4,
+   "aire_m2": 0.1659
+  },
+  "CHEVRON_b0769_o0792_t120": {
+   "triangles": 4,
+   "aire_m2": 0.16715
+  },
+  "CHEVRON_b0769_o0793_t120": {
+   "triangles": 4,
+   "aire_m2": 0.16719
+  },
+  "CHEVRON_b0769_o0793_t121": {
+   "triangles": 4,
+   "aire_m2": 0.16844
+  },
+  "CHEVRON_b0769_o0794_t120": {
+   "triangles": 4,
+   "aire_m2": 0.16722
+  },
+  "CHEVRON_b0770_o0793_t121": {
+   "triangles": 4,
+   "aire_m2": 0.16866
+  },
+  "DISQUE_UNITE": {
+   "triangles": 69,
+   "aire_m2": 0.78437
+  },
+  "PAVE_CHRONOVELO": {
+   "triangles": 2,
+   "aire_m2": 0.259
+  },
+  "PMR_h0395": {
+   "triangles": 248,
+   "aire_m2": 0.05
+  },
+  "PMR_h0396": {
+   "triangles": 248,
+   "aire_m2": 0.05025
+  },
+  "PMR_h0790": {
+   "triangles": 248,
+   "aire_m2": 0.19999
+  },
+  "PMR_h1452_m": {
+   "triangles": 248,
+   "aire_m2": 0.67559
+  },
+  "RECT_UNITE": {
+   "triangles": 2,
+   "aire_m2": 1.0
+  },
+  "TAG": {
+   "triangles": 7,
+   "aire_m2": 1.00125
+  },
+  "TD": {
+   "triangles": 5,
+   "aire_m2": 1.0
+  },
+  "TD_TAD": {
+   "triangles": 12,
+   "aire_m2": 1.6
+  },
+  "TD_TAG": {
+   "triangles": 12,
+   "aire_m2": 1.6
+  },
+  "TEXTE_30_2450x1280": {
+   "triangles": 438,
+   "aire_m2": 1.10089
+  },
+  "TEXTE_50_1899x1001": {
+   "triangles": 348,
+   "aire_m2": 0.75771
+  },
+  "TEXTE_50_1900x1000": {
+   "triangles": 348,
+   "aire_m2": 0.75777
+  },
+  "TRIANGLE_UNITE": {
+   "triangles": 1,
+   "aire_m2": 0.5
+  },
+  "T_STAT_1069x0937_t120": {
+   "triangles": 10,
+   "aire_m2": 0.22632
+  },
+  "VELO": {
+   "triangles": 128,
+   "aire_m2": 0.409
+  }
+ },
+ "maillages": {
+  "site": {
+   "blanc_u0": {
+    "triangles": 10157,
+    "sommets": 10154,
+    "entites": 133
+   },
+   "blanc_u1": {
+    "triangles": 3862,
+    "sommets": 4168,
+    "entites": 133
+   },
+   "blanc_u2": {
+    "triangles": 9046,
+    "sommets": 8981,
+    "entites": 112
+   },
+   "blanc_u3": {
+    "triangles": 3542,
+    "sommets": 3586,
+    "entites": 64
+   },
+   "blanc_uF": {
+    "triangles": 1565,
+    "sommets": 1669,
+    "entites": 74
+   },
+   "jaune_u0": {
+    "triangles": 2048,
+    "sommets": 2148,
+    "entites": 33
+   },
+   "jaune_u1": {
+    "triangles": 104,
+    "sommets": 118,
+    "entites": 2
+   },
+   "jaune_u3": {
+    "triangles": 45,
+    "sommets": 54,
+    "entites": 1
+   },
+   "jaune_uF": {
+    "triangles": 472,
+    "sommets": 493,
+    "entites": 35
+   },
+   "ocre_u3": {
+    "triangles": 137,
+    "sommets": 117,
+    "entites": 1
+   }
+  },
+  "pilote": {
+   "blanc_u0": {
+    "triangles": 3329,
+    "sommets": 3262,
+    "entites": 36
+   },
+   "blanc_u1": {
+    "triangles": 1018,
+    "sommets": 1066,
+    "entites": 7
+   },
+   "blanc_u2": {
+    "triangles": 4778,
+    "sommets": 4542,
+    "entites": 29
+   },
+   "blanc_u3": {
+    "triangles": 1621,
+    "sommets": 1648,
+    "entites": 17
+   },
+   "blanc_uF": {
+    "triangles": 684,
+    "sommets": 654,
+    "entites": 18
+   },
+   "jaune_u0": {
+    "triangles": 942,
+    "sommets": 977,
+    "entites": 6
+   },
+   "jaune_uF": {
+    "triangles": 360,
+    "sommets": 364,
+    "entites": 23
+   }
+  }
+ },
+ "points_symboles": 218,
+ "points_poses_bornees": {
+  "regle": "pente du plan de pose bornée à 0.12 (marche du sol sous le symbole)",
+  "entites": [
+   [
+    "MF-0096",
+    0.021,
+    0.191
+   ],
+   [
+    "MS-0263",
+    0.121,
+    0.057
+   ],
+   [
+    "MS-0904",
+    0.184,
+    0.033
+   ]
+  ]
+ },
+ "non_fabriques": [
+  {
+   "id": "MF-0766",
+   "raison": "description : marque du plan 2025 posée sur surf_0283 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
+  },
+  {
+   "id": "ML-0229",
+   "raison": "description : posée sur l'emprise du bâtiment v1 surf_0230 (dalle de parking) : sol absent du paquet, marque gardée non fabriquée"
+  },
+  {
+   "id": "ML-0405",
+   "raison": "description : marque du plan 2025 posée sur surf_0293 (espace_vert) (71%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
+  },
+  {
+   "id": "MS-0452",
+   "raison": "description : marque du plan 2025 posée sur surf_0293 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
+  },
+  {
+   "id": "MS-0819",
+   "raison": "description : point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise) : sol absent du paquet, marque gardée non fabriquée"
+  },
+  {
+   "id": "MS-0822",
+   "raison": "description : point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise) : sol absent du paquet, marque gardée non fabriquée"
+  },
+  {
+   "id": "MS-0844",
+   "raison": "description : marque du plan 2025 posée sur surf_0281 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
+  },
+  {
+   "id": "MS-0846",
+   "raison": "description : point d'axe Chronovélo (plan 2025) à cheval sur une marche du sol v1 (espace_vert_2025 / trottoir_2025) : sol absent du paquet, marque gardée non fabriquée"
+  },
+  {
+   "id": "MS-0895",
+   "raison": "description : point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise) : sol absent du paquet, marque gardée non fabriquée"
+  }
+ ],
+ "controles": {
+  "aires": {
+   "methode": "aire plane des triangles fabriqués (+ hors sol) / aire attendue des paramètres (trait x largeur, gabarit x échelle², bandes, contour décrit)",
+   "ecart_relatif": {
+    "n": 572,
+    "min": 0.0,
+    "p5": 0.0,
+    "mediane": 0.0,
+    "p95": 0.05625,
+    "max": 0.85164
+   },
+   "pires": [
+    [
+     "MP-0586",
+     0.85164
+    ],
+    [
+     "MZ-0254",
+     0.80872
+    ],
+    [
+     "ML-0113",
+     0.77216
+    ],
+    [
+     "MG-0671",
+     0.62931
+    ],
+    [
+     "MG-0285",
+     0.57659
+    ],
+    [
+     "MP-0875",
+     0.33333
+    ],
+    [
+     "MZ-0332",
+     0.31424
+    ],
+    [
+     "ML-0797",
+     0.27557
+    ]
+   ],
+   "hors_sol_m2": 0.2106,
+   "entites_hors_sol": [
+    "MG-0277",
+    "ML-0490",
+    "ML-0491",
+    "ML-0802"
+   ]
+  },
+  "triangles": {
+   "n": 30978,
+   "angle_min_deg": {
+    "n": 30978,
+    "min": 0.01,
+    "p5": 4.12,
+    "mediane": 21.21,
+    "p95": 47.09,
+    "max": 59.65
+   },
+   "n_angle_min_inf_1deg": 210,
+   "n_angle_min_inf_5deg": 2065,
+   "note": "les triangles fins viennent des arêtes du sol qui frôlent un sommet de marque (drapé exact, triangle de marque dans un seul triangle de sol)"
+  },
+  "gabarits": {
+   "methode": "sommets fabriqués ramenés dans le repère du gabarit (origine, cap, échelle) : écart de la boîte à la boîte IISR (mm) et écart d'aire (%)",
+   "n": 55,
+   "ecart_boite_max_mm": 0.0,
+   "ecart_aire_max_pct": 1.0638,
+   "detail": [
+    [
+     "MF-0021",
+     "TAG",
+     1.0,
+     0.0,
+     0.005
+    ],
+    [
+     "MF-0093",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0094",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0095",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0096",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0286",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0396",
+     "TD_TAG",
+     0.5,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0397",
+     "TAG",
+     1.0,
+     0.0,
+     0.005
+    ],
+    [
+     "MF-0398",
+     "TD_TAG",
+     0.5,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0399",
+     "TD_TAD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0400",
+     "TAG",
+     1.0,
+     0.0,
+     0.005
+    ],
+    [
+     "MF-0402",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0460",
+     "TD_TAD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0461",
+     "TD_TAG",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0462",
+     "TD_TAD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0463",
+     "TD_TAG",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0761",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0762",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0763",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0764",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0765",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0767",
+     "TD_TAG",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0768",
+     "TD_TAD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0769",
+     "TD_TAD",
+     0.5,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0770",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0771",
+     "TD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0772",
+     "TD_TAG",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0773",
+     "TD_TAD",
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0774",
+     "TD_TAD",
+     0.5,
+     0.0,
+     0.0
+    ],
+    [
+     "MF-0775",
+     "TAG",
+     1.0,
+     0.0,
+     0.005
+    ],
+    [
+     "MS-0092",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0262",
+     "VELO",
+     1.0,
+     0.0,
+     1.0638
+    ],
+    [
+     "MS-0263",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0264",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0265",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0365",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0366",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0367",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0368",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0454",
+     "VELO",
+     1.0,
+     0.0,
+     1.0638
+    ],
+    [
+     "MS-0590",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0591",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0593",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0594",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0595",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0596",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0597",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0911",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0912",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0913",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0914",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0915",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0916",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0917",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ],
+    [
+     "MS-0918",
+     "VELO",
+     1.0,
+     0.0,
+     1.0637
+    ]
+   ]
+  },
+  "fleches_hausdorff": {
+   "methode": "Hausdorff plan (mm) entre le bord fabriqué et le polygone IISR posé ; [id, gabarit, mm, coupée]",
+   "n": 30,
+   "max_mm_non_coupees": 0.0,
+   "sup_2mm": [],
+   "detail": [
+    [
+     "MF-0021",
+     "TAG",
+     0.0,
+     false
+    ],
+    [
+     "MF-0093",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0094",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0095",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0096",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0286",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0396",
+     "TD_TAG",
+     0.0,
+     false
+    ],
+    [
+     "MF-0397",
+     "TAG",
+     0.0,
+     false
+    ],
+    [
+     "MF-0398",
+     "TD_TAG",
+     0.0,
+     false
+    ],
+    [
+     "MF-0399",
+     "TD_TAD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0400",
+     "TAG",
+     0.0,
+     false
+    ],
+    [
+     "MF-0402",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0460",
+     "TD_TAD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0461",
+     "TD_TAG",
+     0.0,
+     false
+    ],
+    [
+     "MF-0462",
+     "TD_TAD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0463",
+     "TD_TAG",
+     0.0,
+     false
+    ],
+    [
+     "MF-0761",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0762",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0763",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0764",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0765",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0767",
+     "TD_TAG",
+     0.0,
+     false
+    ],
+    [
+     "MF-0768",
+     "TD_TAD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0769",
+     "TD_TAD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0770",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0771",
+     "TD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0772",
+     "TD_TAG",
+     0.0,
+     false
+    ],
+    [
+     "MF-0773",
+     "TD_TAD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0774",
+     "TD_TAD",
+     0.0,
+     false
+    ],
+    [
+     "MF-0775",
+     "TAG",
+     0.0,
+     false
+    ]
+   ]
+  },
+  "tirets": {
+   "methode": "tiret k = [phase + k (trait + vide), + trait] ∩ [0, L] hors interruptions (sémantique de la description) ; complet si sa longueur ≥ trait − 1 mm ; n_tirets décrit = tirets complets",
+   "lignes": 63,
+   "tirets_fabriques": 208,
+   "tirets_complets": 163,
+   "tirets_partiels_aux_bouts": 45,
+   "ecarts_complets_au_nombre_decrit": [
+    [
+     "ML-0241",
+     1,
+     2
+    ],
+    [
+     "ML-0499",
+     11,
+     12
+    ],
+    [
+     "ML-0546",
+     0,
+     1
+    ],
+    [
+     "ML-0845",
+     0,
+     1
+    ],
+    [
+     "MT-0563",
+     5,
+     6
+    ]
+   ],
+   "ecart_longueur_axe_xodr_m": {
+    "n": 319,
+    "min": 0.0,
+    "p5": 0.0,
+    "mediane": 0.0,
+    "p95": 0.000558,
+    "max": 0.001186
+   }
+  },
+  "drape": {
+   "methode": "centroïdes de triangles (1 sur 12 par pièce) : z marque − z sol composé (v2 puis v1) au même point, moins dz de la classe ; enfouie si z marque < z sol",
+   "n": 15024,
+   "ecart_au_dz_mm": {
+    "n": 15024,
+    "min": -0.534,
+    "p5": -0.0,
+    "mediane": 0.0,
+    "p95": 0.0,
+    "max": 0.558
+   },
+   "marque_moins_sol_mm": {
+    "n": 15024,
+    "min": 1.724,
+    "p5": 2.0,
+    "mediane": 3.0,
+    "p95": 3.0,
+    "max": 3.558
+   },
+   "n_enfouis": 0,
+   "n_sans_sol": 0
+  },
+  "support": {
+   "methode": "part de l'aire de chaque entité posée sur une classe de sol hors chaussée (v1 : chaussee, parking, piste_cyclable, acces_riverain, quai_bus ; v2 : enrobés de chaussée et de piste) au-delà de 1 %",
+   "aire_par_source_m2": {
+    "v2": 155.824,
+    "v1": 391.449
+   },
+   "entites_hors_chaussee": {
+    "ML-0208": {
+     "v1:autre": 1.0
+    },
+    "ML-0404": {
+     "v2:enrobe_trottoir": 1.0
+    },
+    "ML-0485": {
+     "v1:trottoir": 1.0
+    },
+    "ML-0487": {
+     "v1:trottoir": 1.0
+    },
+    "ML-0491": {
+     "v1:trottoir": 1.0
+    },
+    "ML-0796": {
+     "v1:trottoir_2025": 1.0
+    },
+    "ML-0797": {
+     "v1:trottoir_2025": 1.0
+    },
+    "ML-0798": {
+     "v1:trottoir_2025": 1.0
+    },
+    "ML-0800": {
+     "v1:trottoir_2025": 1.0
+    },
+    "ML-0801": {
+     "v1:trottoir_2025": 1.0
+    },
+    "ML-0802": {
+     "v1:trottoir_2025": 0.807
+    },
+    "ML-0852": {
+     "v2:enrobe_trottoir": 1.0
+    },
+    "MP-0442": {
+     "v2:enrobe_trottoir": 0.479
+    },
+    "MS-0258": {
+     "v1:trottoir": 1.0
+    },
+    "MS-0259": {
+     "v1:trottoir": 1.0
+    },
+    "MS-0260": {
+     "v1:trottoir": 1.0
+    },
+    "MS-0261": {
+     "v1:trottoir": 1.0
+    },
+    "MS-0843": {
+     "v1:trottoir_2025": 1.0
+    },
+    "MS-0896": {
+     "v1:trottoir_2025": 1.0
+    },
+    "MS-0907": {
+     "v1:trottoir_2025": 1.0
+    },
+    "MS-0908": {
+     "v1:trottoir_2025": 1.0
+    },
+    "MS-0909": {
+     "v1:trottoir_2025": 1.0
+    },
+    "MS-0910": {
+     "v1:trottoir_2025": 1.0
+    }
+   }
+  },
+  "franchissements": {
+   "methode": "arêtes de marque de pente > 30% et dénivelé > 2 cm, ou sommets superposés à des altitudes différentes de plus de 2 cm (marque à cheval sur une bordure / un ressaut du sol) ; dénivelé maximal (m) ; bloquant",
+   "entites": {}
+  },
+  "empilement": {
+   "regle": "recouvrement entre entités : la moins prioritaire (fantome < zone < passage < ligne < transversale < fleche < symbole, puis id) passe 0.5 mm sous l'autre",
+   "recouvrements_avant": {
+    "methode": "centroïde de chaque triangle de marque testé contre les triangles des autres entités au même dz (aire du triangle comptée par paire)",
+    "paires": [],
+    "aire_totale_m2": 0
+   },
+   "abaissees": {}
+  },
+  "recouvrements": {
+   "methode": "centroïde de chaque triangle de marque testé contre les triangles des autres entités au même dz (aire du triangle comptée par paire)",
+   "paires": [],
+   "aire_totale_m2": 0
+  },
+  "bordures_v2": {
+   "methode": "sommets des marques posées sur le sol v2 à gauche (côté haut) de l'arête avant d'une bordure décrite, entre 5 mm et la base du profil",
+   "paires": []
+  },
+  "coutures": {
+   "methode": "sommets superposés en plan à des altitudes différentes de plus de 2 mm (par entité : écart maximal, m) ; T-jonctions de bord (nombre de sommets)",
+   "dechirures": {
+    "MP-0616": 0.0022
+   },
+   "t_jonctions": {}
+  },
+  "traversees_bordures": {
+   "methode": "bords des marques contre les faces verticales v1 (> 2 cm, hors emprise pilote) et les arêtes avant v2 hors abaissés franchissables : intersections propres ; bloquant",
+   "entites": {}
+  },
+  "coupes": {
+   "methode": "aire retirée des marques (m²) : sous la tête des bordures v2, sous une marque prioritaire, régions qui déchiraient une région mieux classée (marche du sol), éclats de coupe < 0,10 m",
+   "par_motif_m2": {
+    "bordure_v2": 0.7325,
+    "decoupe_description": 8.4889,
+    "face_bordure_v1": 0.0446,
+    "hors_chaussee": 0.909,
+    "marque_prioritaire": 2.5843,
+    "pente": 1.6782
+   },
+   "dechirures_m2": 0.0495,
+   "eclats_m2": 0.1394,
+   "par_entite_m2": {
+    "MG-0277": {
+     "decoupe_description": 0.0538,
+     "hors_sol": 0.0907
+    },
+    "MG-0279": {
+     "marque_prioritaire": 0.0419
+    },
+    "MG-0283": {
+     "marque_prioritaire": 0.0082
+    },
+    "MG-0285": {
+     "decoupe_description": 0.1631,
+     "pente": 0.004
+    },
+    "MG-0668": {
+     "marque_prioritaire": 0.0039
+    },
+    "MG-0671": {
+     "decoupe_description": 0.3402,
+     "eclats": 0.006
+    },
+    "MG-0695": {
+     "marque_prioritaire": 0.0805
+    },
+    "MG-0698": {
+     "marque_prioritaire": 0.0105
+    },
+    "MG-0699": {
+     "marque_prioritaire": 0.0051
+    },
+    "MG-0703": {
+     "marque_prioritaire": 0.0006
+    },
+    "MG-0724": {
+     "marque_prioritaire": 0.0046
+    },
+    "MG-0727": {
+     "marque_prioritaire": 0.0095
+    },
+    "MG-0732": {
+     "marque_prioritaire": 0.0076
+    },
+    "ML-0113": {
+     "eclats": 0.011,
+     "pente": 1.0029
+    },
+    "ML-0153": {
+     "face_bordure_v1": 0.002
+    },
+    "ML-0192": {
+     "eclats": 0.0244,
+     "face_bordure_v1": 0.0023
+    },
+    "ML-0212": {
+     "face_bordure_v1": 0.0208
+    },
+    "ML-0233": {
+     "face_bordure_v1": 0.0018
+    },
+    "ML-0304": {
+     "pente": 0.0005
+    },
+    "ML-0477": {
+     "bordure_v2": 0.0391,
+     "eclats": 0.0183,
+     "pente": 0.0196
+    },
+    "ML-0490": {
+     "hors_sol": 0.0036
+    },
+    "ML-0491": {
+     "hors_sol": 0.1045
+    },
+    "ML-0783": {
+     "marque_prioritaire": 0.0071
+    },
+    "ML-0786": {
+     "marque_prioritaire": 0.0072
+    },
+    "ML-0788": {
+     "marque_prioritaire": 0.0072
+    },
+    "ML-0791": {
+     "marque_prioritaire": 0.0073
+    },
+    "ML-0797": {
+     "eclats": 0.024,
+     "pente": 0.0761
+    },
+    "ML-0802": {
+     "bordure_v2": 0.0147,
+     "dechirure": 0.0481,
+     "eclats": 0.001,
+     "face_bordure_v1": 0.0067,
+     "hors_sol": 0.0118
+    },
+    "ML-0815": {
+     "face_bordure_v1": 0.0035
+    },
+    "ML-0852": {
+     "bordure_v2": 0.046,
+     "marque_prioritaire": 0.0032
+    },
+    "MP-0001": {
+     "decoupe_description": 0.0515
+    },
+    "MP-0272": {
+     "bordure_v2": 0.0495
+    },
+    "MP-0326": {
+     "decoupe_description": 1.6
+    },
+    "MP-0333": {
+     "decoupe_description": 0.7833,
+     "face_bordure_v1": 0.0027,
+     "hors_chaussee": 0.0118
+    },
+    "MP-0444": {
+     "bordure_v2": 0.1719,
+     "decoupe_description": 0.2294,
+     "hors_chaussee": 0.1056,
+     "pente": 0.0389
+    },
+    "MP-0586": {
+     "decoupe_description": 3.1725,
+     "eclats": 0.0199
+    },
+    "MP-0616": {
+     "dechirure": 0.0014
+    },
+    "MP-0860": {
+     "decoupe_description": 0.0254
+    },
+    "MP-0863": {
+     "decoupe_description": 0.6198
+    },
+    "MP-0869": {
+     "decoupe_description": 0.3161
+    },
+    "MP-0875": {
+     "bordure_v2": 0.4113,
+     "eclats": 0.0252,
+     "hors_chaussee": 0.7868,
+     "pente": 0.1481
+    },
+    "MS-0255": {
+     "decoupe_description": 0.0004
+    },
+    "MS-0256": {
+     "decoupe_description": 0.0127
+    },
+    "MS-0257": {
+     "decoupe_description": 0.0147
+    },
+    "MS-0843": {
+     "eclats": 0.0034,
+     "face_bordure_v1": 0.0035
+    },
+    "MS-0890": {
+     "pente": 0.0001
+    },
+    "MS-0893": {
+     "pente": 0.002
+    },
+    "MS-0900": {
+     "pente": 0.0523
+    },
+    "MS-0905": {
+     "pente": 0.0162
+    },
+    "MZ-0084": {
+     "decoupe_description": 0.0016
+    },
+    "MZ-0254": {
+     "decoupe_description": 0.4683,
+     "hors_chaussee": 0.0048,
+     "pente": 0.3173
+    },
+    "MZ-0332": {
+     "decoupe_description": 0.1949
+    },
+    "MZ-0358": {
+     "marque_prioritaire": 1.9491
+    },
+    "MZ-0364": {
+     "decoupe_description": 0.1948
+    },
+    "MZ-0464": {
+     "eclats": 0.0061,
+     "marque_prioritaire": 0.4134
+    },
+    "MZ-0589": {
+     "decoupe_description": 0.0559
+    },
+    "MZ-0776": {
+     "marque_prioritaire": 0.0173
+    },
+    "MZ-0919": {
+     "decoupe_description": 0.1904
+    },
+    "MZ-0920": {
+     "face_bordure_v1": 0.0014
+    }
+   },
+   "sous_marque_prioritaire_permis_m2": {
+    "MG-0279": 0.0419,
+    "MG-0283": 0.0082,
+    "MG-0668": 0.0039,
+    "MG-0695": 0.0805,
+    "MG-0698": 0.0105,
+    "MG-0699": 0.0051,
+    "MG-0703": 0.0006,
+    "MG-0724": 0.0046,
+    "MG-0727": 0.0095,
+    "MG-0732": 0.0076,
+    "ML-0783": 0.0071,
+    "ML-0786": 0.0072,
+    "ML-0788": 0.0072,
+    "ML-0791": 0.0073,
+    "ML-0852": 0.0032,
+    "MZ-0358": 1.9491,
+    "MZ-0464": 0.4134,
+    "MZ-0776": 0.0173
+   }
+  },
+  "points_symboles": {
+   "methode": "sommets du gabarit transformés par (p, rpy, s) contre le gabarit posé par la description (plan) ; q contre rpy",
+   "n": 55,
+   "ecart_plan_max_m": 0.0149,
+   "ecart_q_rpy_max": 2e-06
+  },
+  "bloquants": [],
+  "avertissements": []
+ },
+ "sorties": {
+  "marquages.usda": "a61e6ccfd867978023f5b2aacab1b42ddd94936a494c9ce7252620356e28e48f",
+  "marquages_pilote.usda": "2181b8e862e277c53eab86a9d963e49ece65cbc07b7ef7005562d121ccbfcc07",
+  "marquages_prototypes.usda": "643d9f8f715952cb84a3bed124a2a91531cacd946ca1f0f5e1379f07e772925a",
+  "points/marquages_symboles.json": "d5423190c8c4b5b559a22bdea9db1bec1a92c2cb3e8b11f4927b187b9973b7c1"
+ },
+ "hash_sorties": "25e2ba7dd073cf5b26b86e69964fd37dca5327aa23b5a2978ffe5350b0b586b2",
+ "determinisme": {
+  "methode": "deuxième exécution dans un autre processus hython ; sha256 fichier par fichier",
+  "fichiers_compares": 4,
+  "differences": [],
+  "manifeste_identique": true,
+  "identique_a_l_octet": true,
+  "duree_s": 61
+ }
+}

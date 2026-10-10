@@ -15,7 +15,7 @@ Il se vérifie par programme :
 
 ## 1. Repère et unités
 
-- Repère **local** de la scène : local = Lambert-93 − O (917279,43 ; 6460289,98), z = NGF − 216,30. Les distances sont en mètres et Z est vers le haut. Ne jamais écrire du L93 brut : le vérificateur refuse toute coordonnée au-delà de 5 km (E1).
+- Repère **local** de la scène : local = Lambert-93 − O (917279,43 ; 6460289,98), z = NGF − 216,30. Les distances sont en mètres et Z est vers le haut. Ne jamais écrire du L93 brut : le vérificateur refuse toute coordonnée au-delà de 100 km (E1 ; L93 brut : x > 900 km ; le relief lointain du contexte va jusqu'à 35 km, le sol lointain jusqu'à 60 km).
 - Métadonnées de scène : `metersPerUnit = 1`, `upAxis = "Z"`, `defaultPrim = "World"`. Points en `point3f[]` : le float32 garde une précision de 0,03 mm à 300 m.
 - `orientation = "rightHanded"` est conseillée. `leftHanded` est accepté, mais les normales doivent alors rester cohérentes avec l'enroulement des faces.
 - L'importeur UE convertit seul : X = 100·x, Y = −100·y, Z = 100·z (cm, Y inversé). Le contrôle de la phase 0 donne un écart de 0,0005 cm. Il ne faut rien compenser côté Houdini.
@@ -36,6 +36,7 @@ Il se vérifie par programme :
   - `use_prim_kinds_for_collapsing=false` désactive toute fusion. Les options effectives sont renvoyées dans `options`.
 - **Taille d'un component** : moins de 500 000 triangles environ. Découper le sol en tuiles de 32 à 64 m, ou par entité, pour le culling et le streaming.
 - **Points d'instances** : pas de `PointInstancer` dans une couche destinée à UE (E7), car UE recrée alors les meshes au lieu de référencer les assets de la bibliothèque. Une couche Karma qui en contient (par exemple `bordures.usda`) reste hors de l'import UE ; UE reçoit ces instances par `pj_points/0.1` (§ 7).
+  - Écart admis (pilote ZP-01, `pilote/`) : `ilots.usda`, `ilots_couverture.usdc` (282 057 éclats) et `decals_sol.usda` (6 532 touffes, 39 dalles BEV) gardent leurs PointInstancers, dont les prototypes sont propres à la couche (pas d'asset de bibliothèque) : l'import UE en fait des HISM (prototypes Nanite). Le vérificateur les signale toujours (E7).
 
 ## 3. Géométrie et normales
 
@@ -69,7 +70,11 @@ Il se vérifie par programme :
 - Contenu du Material :
   - `outputs:surface` : un `UsdPreviewSurface` de repli (albédo cible, rugosité de la spec) ;
   - `outputs:unreal:surface` : un Shader avec `info:implementationSource = "sourceAsset"` et `info:unreal:sourceAsset = @/Game/PJ/Materials/MI_<materiau_id>.MI_<materiau_id>@`.
-- **Liaison** : `MaterialBindingAPI` directe sur le Mesh, ou par `GeomSubset` (famille `materialBind`, type `partition`). UE crée un slot par sous-ensemble.
+- **Liaison** : `MaterialBindingAPI` directe sur le Mesh (ou sur un ancêtre, par exemple un PointInstancer), ou par `GeomSubset` (famille `materialBind`, type `partition`). UE crée un slot par sous-ensemble.
+  - UE résout la liaison en finalité **preview** (`pj_tools.import_usd` : `material_purpose = preview`, repli allPurpose), Karma en finalité **full** (repli allPurpose). Une couche partagée avec Karma garde `material:binding` vers `/World/Looks_v2/<id>` (`materiaux_v2.usda`) et ajoute `material:binding:preview` vers un Material `/<racine>/Looks/<id>` défini dans la couche (`pj_commun.lier_ue`, sorties `pj_*` depuis le 10/10/2026) : aucun effet sur Karma (liaisons full des 698 gprims de `rendu_pilote.usda` identiques avant / après).
+  - Le vérificateur (E5) résout la liaison comme UE (preview puis allPurpose).
+  - Matériaux maison hors `materiaux_sol.json`, admis par E5 (`verifier_usd.MATERIAUX_MAISON`) : `mortier_joint`, `mortier_clair`, `bitume_pontage`, `herbe_touffe`, `eclat_brf`, `eclat_gravier` (MI créés par `pilote/ue/materiaux_maison.py`) ; contexte v1 (`contexte/preparer_usd.py`) : `bordure_v1`, `PJ_Facade_*`, `PJ_Peinture_<couleur>_u<usure>`, `toit_terrasse` / `toit_pentes` (MI CARLA RoofBitumen, chemin d'asset explicite), `PJ_Neutre` (zones d'échantillonnage PCG, non rendues) ; relief et sol lointains (`contexte/relief_usd.py`) : `PJ_Relief`, `PJ_Contexte_Lointain`.
+  - L'attribut `unrealMaterial` (chemin du MI) des sorties `pj_*` reste écrit ; il désigne le même MI que la liaison preview.
 - **Comportement vérifié dans UE** :
   - Avec `render_context='unreal'` (le défaut) et un `MI_<id>` absent : le slot reste vide (matériau par défaut en damier) et un avertissement `LogUsd` apparaît. Il ne compte pas dans l'acceptation.
   - Avec `render_context='universal'` : des instances `MI_<materiau_id>` de prévisualisation sont créées dans le dossier d'import, puis remappées par leur nom.
@@ -77,6 +82,19 @@ Il se vérifie par programme :
     Les 34 `MI_<id>` existent (`materiaux/`, 10/10/2026) : importer en `unreal`. Les remplissages d'îlots
     (`MI_brf_*`, `MI_gravier_*`, `MI_gravillons_ilot`, `MI_galets_20_40`, `MI_paillage_mineral`) se déplacent par
     tessellation Nanite : importer leurs couches avec `nanite=True`.
+
+## 5 bis. Contrôles de la géométrie posée (revue UE du 10/10)
+
+- **E8** (couche portant `/World/PJ_Sol`) : aucun triangle de sol de plus de 45° avec plus de 3 cm de dénivelé, hors talus
+  (`noue_plantee`) et hors bande de 0,5 m au bord de la couche (raccord au contexte v1). Cible : les pointes de sol aux fins
+  de bordure (24 amas sur 128 fins, jusqu'à 89°). Règle de fabrication associée : `pj_sol.limiter_pentes`
+  (`regle:pj_sol.pente_max`).
+- **E9** (option `--sol sol.usda` sur la couche des dalles podotactiles 3D) : dessus de dalle à moins de 5 mm du sol à 3 cm
+  hors du module.
+- **Collision dans UE** : l'import USD pose `bNeverNeedsCookedCollisionData` sur les StaticMesh (aucun maillage de collision
+  cuit : un rayon ne touche rien, même en trace complexe) ; `pilote/ue/collisions.py` le lève, met la collision complexe
+  comme simple et le repli Nanite à pleine résolution (la collision est cuite sur le repli : 4,5 cm d'écart avec le repli
+  simplifié par défaut), à relancer après chaque import (étapes `imports` de `pilote.py` et `contexte.py`).
 
 ## 6. Fichiers et déterminisme
 

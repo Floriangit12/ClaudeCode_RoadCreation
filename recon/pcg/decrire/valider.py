@@ -11,7 +11,9 @@ Contrôles en plus du schéma :
 - longueur_m = longueur 2D de la polyligne (± 2 cm) ; Z dans la plage du MNT 2026 ;
 - anneaux fermés, aires > 0 ; tout dans l'emprise de la zone pilote (± 0,5 m) ;
 - identifiants uniques et références résolues (bords, ceintures, îlots, surfaces, ancrages) ;
-- remplissages d'îlots 0 à 8 cm sous le dessus de bordure ; materiau_id présents dans la table.
+- remplissages d'îlots 0 à 8 cm sous le dessus de bordure ; materiau_id présents dans la table ;
+- famille marquages (0.2, si présente) : voir marquages_controles.py (correspondance des 996 v1,
+  lignes dans les bords de voie, tirets sans recouvrement, zébras dans la chaussée, 0 marche d'escalier).
 """
 import re
 import sys
@@ -271,12 +273,22 @@ def valider_dossier(dossier):
         d = lire_json(dossier / "base" / f"{fam}.geojson")
         err += [f"[{fam}] {e}" for e in v.valider(d, schema["$defs"][f"collection_{fam}"], fam)]
         couches[fam] = d["features"]
+    for fam in ("marquages", "marquages_correspondance"):      # schéma 0.2 (famille optionnelle)
+        f = dossier / "base" / f"{fam}.geojson"
+        if f.exists():
+            d = lire_json(f)
+            err += [f"[{fam}] {e}" for e in v.valider(d, schema["$defs"][f"collection_{fam}"], fam)]
+            couches[fam] = d["features"]
     man = dossier / "description_scene_v2.json"
     if man.exists():
         err += [f"[manifeste] {e}" for e in v.valider(lire_json(man), schema, "manifeste")]
     else:
         err.append("[manifeste] description_scene_v2.json absent")
     e2, w2 = controles(couches)
+    if "marquages" in couches:
+        import marquages_controles
+        e3, w3 = marquages_controles.controles(couches["marquages"], couches.get("marquages_correspondance", []))
+        e2, w2 = e2 + [f"[marquages] {e}" for e in e3], w2 + w3
     return err + [f"[controle] {e}" for e in e2], w2, {k: len(x) for k, x in couches.items()}
 
 
@@ -291,7 +303,7 @@ def main():
         for e in err[:200]:
             print("  -", e)
         sys.exit(1)
-    print("valide : schéma description_scene_v2/0.1 + contrôles géométriques")
+    print("valide : schéma description_scene_v2 (0.1 / 0.2) + contrôles géométriques")
 
 
 if __name__ == "__main__":

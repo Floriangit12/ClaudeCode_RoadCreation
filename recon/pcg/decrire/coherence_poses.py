@@ -1,4 +1,4 @@
-"""Catalogue unifié des photos à pose calée et porte géométrique des preuves photo (solveur v2, P1 et P2).
+"""Catalogue unifié des photos à pose calée et porte géométrique des preuves photo (solveur v2-v3, P1, P2, Q2).
 
 P1 — toutes les poses calées sont utilisées (et seulement elles pour MESURER) :
 - Panoramax enrichi/poses/poses.json, poses acceptées (2024-08-24 : 5, 2025-05-18 : 8) ;
@@ -23,6 +23,11 @@ LOO 0,537°, n'est jamais décisive). Verdict géométrique :
   à la visée moyenne est validée (la profondeur n'est pas observable) ;
 - « non_observable » : aucune photo discriminante.
 Ces nombres sont imprimés sur chaque planche.
+
+Q2 (revue adverse v2) : σ_rot est multiplié par 1 + (3 − n) quand les points d'appui de la pose couvrent
+n < 3 secteurs de 45° (secteurs_45 du calage) ; la décisivité est LOCALE : une photo n'est décisive pour un
+objet que si sa pose est validée autour de lui (coherence_photos.valider_pose_locale, decisive_pour). Le
+relèvement moyen d'une paire A, C est une moyenne circulaire (défaut de code cité en Q10).
 """
 import functools
 import math
@@ -38,9 +43,22 @@ from camera import Camera, camera, charger_poses, intrinseques, photo  # noqa: E
 POSES_2026 = RACINE / "recon/out/paquet_jardin/v2/enrichi/recensement/pano_2026/poses/poses_2026-07-28.json"
 POSES_MLY = RACINE / "recon/out/paquet_jardin/v2/enrichi/recensement/mapillary/poses/poses_mapillary.json"
 SEUIL_LOO_DECISIF = 0.5
+SECTEURS_MIN = 3                 # Q2 : σ_rot gonflé si les points d'appui couvrent moins de 3 secteurs de 45°
 SEUIL_SEPARATION = 3.0
 ANGLE_INTERSECTION_MIN = 15.0
 LAT_MIN_DEFAUT = -21.0
+
+
+def facteur_secteurs(n):
+    """Q2 : facteur de gonflement de σ_rot quand les points d'appui couvrent n < 3 secteurs de 45° (1 + 3 − n)."""
+    if n is None:
+        return 1.0
+    return float(1 + max(0, SECTEURS_MIN - int(n)))
+
+
+def _sig(base, secteurs):
+    f = facteur_secteurs(secteurs)
+    return dict(sigma_rot_brut_deg=base, sigma_rot_deg=base * f, secteurs_45=secteurs, facteur_secteurs=f)
 
 
 def _cam(ph, q, intr=None):
@@ -60,7 +78,7 @@ def catalogue():
         q = rec["qualite"]
         et = rec.get("ecart_type") or {}
         out.append(dict(id=f"pnx:{id8}", cle=id8, plateforme="panoramax", date=rec["date"], cam=_cam(ph, rec["pose"], rec.get("intrinseques")),
-                        sigma_rot_deg=max(float(q.get("residu_loo_moy_deg") or 0), float(q.get("residu_moy_deg") or 0), 0.1),
+                        **_sig(max(float(q.get("residu_loo_moy_deg") or 0), float(q.get("residu_moy_deg") or 0), 0.1), q.get("secteurs_45")),
                         sigma_pos_m=max(float(math.hypot(et.get("x", 0.05), et.get("y", 0.05))), 0.05),
                         loo_deg=q.get("residu_loo_moy_deg"), decisive=float(q.get("residu_loo_moy_deg") or 9) <= SEUIL_LOO_DECISIF,
                         statut_pose="calee", lat_min=ph.seq.get("lat_min", LAT_MIN_DEFAUT), image=("pnx", id8),
@@ -74,7 +92,8 @@ def catalogue():
             et = rec.get("ecart_type") or {}
             out.append(dict(id=f"pnx:{rec['id8']}", cle=rec["id8"], plateforme="panoramax_2026", date=rec["date"],
                             cam=_cam(ph, rec["pose"]),
-                            sigma_rot_deg=max(float(q.get("residu_loo_moy_deg") or 0), float(q.get("residu_moy_deg") or 0), 0.1),
+                            **_sig(max(float(q.get("residu_loo_moy_deg") or 0), float(q.get("residu_moy_deg") or 0), 0.1),
+                                   q.get("secteurs_45")),
                             sigma_pos_m=max(float(math.hypot(et.get("x", 0.1), et.get("y", 0.1))), 0.05),
                             loo_deg=q.get("residu_loo_moy_deg"),
                             decisive=float(q.get("residu_loo_moy_deg") or 9) <= SEUIL_LOO_DECISIF,
@@ -89,7 +108,7 @@ def catalogue():
             cam = Camera("equirect", int(r["W"]), int(r["H"]), np.array([q["x"], q["y"], q["z"], q["lacet"], q["tangage"], q["roulis"]]))
             loo = (r.get("qualite") or {}).get("residu_loo_moy_deg")
             out.append(dict(id=f"mly:{r['id']}", cle=r["id"], plateforme="mapillary", date=r["date"], cam=cam,
-                            sigma_rot_deg=max(float(r.get("sigma_ang_deg") or 0.4), float(loo or 0)),
+                            **_sig(max(float(r.get("sigma_ang_deg") or 0.4), float(loo or 0)), (r.get("qualite") or {}).get("secteurs_45")),
                             sigma_pos_m=float(r.get("sigma_pos_m") or 0.3), loo_deg=loo,
                             decisive=bool(r["statut"] == "calee_gcp" and loo is not None and loo <= SEUIL_LOO_DECISIF),
                             statut_pose=r["statut"], lat_min=LAT_MIN_DEFAUT, image=("mly", r["id"]),
@@ -155,8 +174,28 @@ def _relevement(C, P):
     return math.degrees(math.atan2(P[0] - C[0], P[1] - C[1])) % 360
 
 
-def porte(A, C, photos):
-    """Porte géométrique P2 entre deux hypothèses A et C (xy) vues par `photos` [(score, p, d)]."""
+def moyenne_circulaire(angles_deg, poids=None):
+    """Moyenne circulaire (atan2 de la somme des vecteurs unitaires), en degrés [0, 360[ (Q10 : 359,8° et 0,3°
+    donnent 0,05°, pas 180°)."""
+    a = np.radians(np.asarray(angles_deg, float))
+    w = np.ones(len(a)) if poids is None else np.asarray(poids, float)
+    return float(math.degrees(math.atan2(float((w * np.sin(a)).sum()), float((w * np.cos(a)).sum()))) % 360.0)
+
+
+def decisive_pour(p, validations=None):
+    """Décisivité d'une photo pour un objet : LOO ≤ 0,5° (global) ET validation locale Q2 si elle est fournie
+    ({photo: dict(valide)} ; absente -> non décisive pour l'objet)."""
+    if not p["decisive"]:
+        return False
+    if validations is None:
+        return True
+    v = validations.get(p["id"])
+    return bool(v and v.get("valide"))
+
+
+def porte(A, C, photos, validations=None):
+    """Porte géométrique P2 entre deux hypothèses A et C (xy) vues par `photos` [(score, p, d)] ; `validations` :
+    validation locale Q2 des poses pour cet objet (sinon décisivité globale)."""
     A, C = np.asarray(A, float), np.asarray(C, float)
     lignes = []
     for _, p, d in photos:
@@ -164,9 +203,12 @@ def porte(A, C, photos):
         ra, rc = _relevement(Cc, A), _relevement(Cc, C)
         sep = abs((rc - ra + 180) % 360 - 180)
         sg = sigma_deg(p, d)
+        dec = decisive_pour(p, validations)
         lignes.append(dict(photo=p["id"], date=p["date"], plateforme=p["plateforme"], statut_pose=p["statut_pose"],
-                           d_m=round(d, 1), releve_deg=round((ra + rc) / 2 % 360, 1), separation_deg=round(sep, 3),
-                           sigma_deg=round(sg, 3), rapport=round(sep / max(sg, 1e-6), 2), decisive=p["decisive"],
+                           d_m=round(d, 1), releve_deg=round(moyenne_circulaire([ra, rc]), 1), separation_deg=round(sep, 3),
+                           sigma_deg=round(sg, 3), rapport=round(sep / max(sg, 1e-6), 2), decisive=dec,
+                           decisive_globale=p["decisive"],
+                           validation_locale=None if validations is None else (validations.get(p["id"]) or {}).get("motif"),
                            discriminante=bool(sep > SEUIL_SEPARATION * sg)))
     disc = [x for x in lignes if x["discriminante"] and x["decisive"]]
     ang = 0.0

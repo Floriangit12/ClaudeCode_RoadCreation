@@ -5,9 +5,10 @@ Entrées :
 - objets du paquet v1 : package/donnees/objets/{mobilier,arbres}.geojson ;
 - fusion 0.3 : description/enrichi/{entites_verifiees.json, attributs.geojson, corrections_position.geojson,
   ajouts.geojson, conflits.json} ;
-- cohérence v2 : description/coherence/{rapport_coherence.json, corrections_marquages.geojson, marquages_controle.json,
-  revue_coherence.json} ;
-- protocole terrain : recon/pcg/enrichir/PROTOCOLE_TERRAIN.md (stations).
+- cohérence v3 : description/coherence/{rapport_coherence.json, corrections_marquages.geojson, marquages_controle.json,
+  revue_coherence.json, conflits_fusion.json, presence_2026.json} ;
+- protocole terrain : recon/pcg/enrichir/PROTOCOLE_TERRAIN.md (stations) ;
+- résolution précédente (référence de comparaison, figée) : resolue/historique/journal_resolution_r1.json.
 """
 import copy
 from pathlib import Path
@@ -18,6 +19,7 @@ BASE = SORTIE / "base"
 ENRICHI = SORTIE / "enrichi"
 COHERENCE = SORTIE / "coherence"
 OBJETS = DONNEES / "objets"
+HISTORIQUE_R1 = SORTIE / "resolue/historique/journal_resolution_r1.json"
 PROTOCOLE = RACINE / "recon/pcg/enrichir/PROTOCOLE_TERRAIN.md"
 
 FAMILLES_BASE = ("bordures", "surfaces", "ilots", "ponctuels_sol", "marquages", "marquages_correspondance")
@@ -38,6 +40,8 @@ ENTREES = {
     "coherence_corrections_marquages": COHERENCE / "corrections_marquages.geojson",
     "coherence_marquages_controle": COHERENCE / "marquages_controle.json",
     "coherence_revue": COHERENCE / "revue_coherence.json",
+    "coherence_conflits_fusion": COHERENCE / "conflits_fusion.json",
+    "coherence_presence_2026": COHERENCE / "presence_2026.json",
     "protocole_terrain": PROTOCOLE,
     "poses_2026": SORTIE.parent / "enrichi/recensement/pano_2026/poses/poses_2026-07-28.json",
 }
@@ -66,9 +70,14 @@ class Sources:
         self.corr_mq = lire_json(ENTREES["coherence_corrections_marquages"])["features"]
         self.mq_controle = lire_json(ENTREES["coherence_marquages_controle"])
         self.revue_coh = lire_json(ENTREES["coherence_revue"])["revues"]
+        self.conflits_fusion = lire_json(ENTREES["coherence_conflits_fusion"])["desaccords"]
+        self.presence = lire_json(ENTREES["coherence_presence_2026"])["objets"]
+        self.historique_r1 = lire_json(HISTORIQUE_R1) if HISTORIQUE_R1.exists() else None
         self.poses_2026 = [(f"pnx:{q['id8']}", (float(q["pose"]["x"]), float(q["pose"]["y"])))
                            for q in lire_json(ENTREES["poses_2026"])["photos"] if q.get("accepte") is True and q.get("pose")]
         self.empreintes = {k: {"fichier": rel(p), "sha256": sha256(p)} for k, p in sorted(ENTREES.items())}
+        if self.historique_r1 is not None:
+            self.empreintes["resolution_precedente_r1"] = {"fichier": rel(HISTORIQUE_R1), "sha256": sha256(HISTORIQUE_R1)}
         for fam in FAMILLES_BASE:
             p = BASE / f"{fam}.geojson"
             self.empreintes[f"base_{fam}"] = {"fichier": rel(p), "sha256": sha256(p)}

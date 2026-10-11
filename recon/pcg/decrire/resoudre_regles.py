@@ -12,6 +12,10 @@ REGLES = {
     "RES-SRC-001": "Priorité des preuves : double lecture d'une revue > fusion stricte (FUS-COUV-02) > décision de cohérence "
                   "jugée juste par la revue adverse > règle de conception appliquée à un objet déduit > base. Une décision "
                   "qu'une revue juge « faux » n'est jamais appliquée.",
+    "RES-SRC-002": "Lien verdict-décision : un verdict de revue ne vaut que pour la décision qu'il a relue (position relue à "
+                  "≤ 0,05 m, même azimut, même existence) ; la revue v3 juge les décisions de la cohérence v3, un verdict v2 "
+                  "ne vaut que si la décision v3 est restée celle que la revue v2 a relue ; un verdict « incertain » ou "
+                  "« faux » vaut toujours pour refuser.",
     "RES-CHN-001": "Chaîne : enrichi/ et coherence/ doivent avoir lu la base courante (sha256 des fichiers de base) ; sinon la "
                   "résolution s'arrête (option --forcer pour un essai).",
     "RES-EXI-001": "Retrait ou absence 2026 prouvés strictement par la fusion (statut a_retirer / absent_2026, observation "
@@ -19,15 +23,25 @@ REGLES = {
                   "(références de partition), listé pour le propriétaire de bordures.py.",
     "RES-EXI-002": "Garde temporelle : une absence vue seulement avant la fin des travaux (05/12/2025) ne retire ni une entité "
                   "posée ou refaite en 2025, ni une entité levée GAM 2026 : conflit listé.",
-    "RES-EXI-003": "Absence relevée par une revue adverse sur photos 2026 calées et confirmée par une seconde lecture (P16) : "
-                  "instancier false ; à intégrer comme constat de revue (FUS-ARB-01) par le propriétaire de la fusion.",
+    "RES-EXI-003": "Absence constatée sur photos 2026 calées (revue de présence Q4 de la cohérence ou revue adverse) et jugée "
+                  "« juste » par la revue adverse, avec une seconde lecture concordante (P16) : instancier false ; à "
+                  "intégrer comme constat de revue (FUS-ARB-01) par le propriétaire de la fusion. Une non-instanciation "
+                  "jugée « incertain » n'est pas appliquée (entité gardée, listée avec l'hypothèse de la revue).",
+    "RES-EXI-006": "Souche (R7) : un objet décrit comme souche et vu présent sur les photos 2026 n'est pas retiré par l'absence "
+                  "de l'arbre : la souche reste instanciée telle que la base ; « arbre absent, souche présente » est journalisé.",
     "RES-EXI-004": "absent_2026_a_verifier (FUS-EXI-04) et non-instanciations de la cohérence jugées incertaines : entité "
                   "gardée telle que la base, listée.",
     "RES-EXI-005": "Absence ou retrait portés seulement par des projections photo à plus de 15 m de la caméra (FUS-VAL-02) : "
                   "un trait fin peut y être invisible ; non appliqué, listé (cas MLY-MAR-017 de la critique de couverture).",
     "RES-POS-001": "Mesure de position (fusion « appliquer » ou cohérence « mesure ») appliquée si la revue adverse la juge "
-                  "juste ; non revue : seulement une triangulation ou une ombre corroborée de déplacement ≤ 0,30 m (sous "
-                  "le seuil de double lecture P16), sans drapeau.",
+                  "juste (RES-SRC-002) ; non revue : seulement une triangulation de déplacement ≤ 0,30 m (sous le seuil de "
+                  "double lecture P16) dont chaque mesure retenue est en accord avec les photos (Q1 « accord ») et sans "
+                  "drapeau sur la mesure retenue (un candidat écarté devenu indice ne bloque pas).",
+    "RES-POS-007": "Retour à la source jugé « faux » par la revue adverse, qui prouve la position mesurée sur des photos "
+                  "calées valides pour l'objet (postérieures aux travaux, ou antérieures pour un objet existant inchangé) "
+                  "avec une seconde lecture concordante (P16) : la position prouvée est appliquée au groupe de support "
+                  "(σ ≥ 0,30 m, confiance moyenne) ; si elle tombe sur une surface roulable, la surface est signalée. Une "
+                  "mesure devenue indice (Q1) sans revue n'est jamais appliquée ni reprise.",
     "RES-POS-002": "Mesure pixel_ortho d'un objet haut (mât, poteau) : appliquée seulement si elle est corroborée (revue "
                   "juste, départ d'ombre, triangulation) (Q7) ; une mesure rejetée par la cohérence pour sa date n'est pas "
                   "appliquée.",
@@ -50,8 +64,16 @@ REGLES = {
                   "gardé par la cohérence est un conflit ; sinon listée.",
     "RES-BOR-001": "Vue ou profil de bordure contestés (FUS-BOR-03) : jamais appliqués sans relevé ; listés avec la station.",
     "RES-MQ-001": "Flèche recentrée (MQ-FLE-006) : flèche non levée GAM, non retirée, voie bornée par deux limites décrites "
-                 "(bordure ou ligne, pas OpenDRIVE seule), aucune bordure ni ligne ne coupe la boîte de la flèche (marge "
-                 "0,10 m), empreinte recalée entièrement roulable (surfaces v2), revue non « faux » (Q5).",
+                 "(bordure ou ligne, pas OpenDRIVE seule) présentes en travers de la queue, du milieu et de la tête de la "
+                 "flèche (bords représentatifs), aucune bordure ni ligne ne coupe la boîte de la flèche (marge 0,10 m), "
+                 "empreinte recalée entièrement roulable (surfaces v2), revue ni « faux » ni « incertain » (Q5). Une revue "
+                 "« juste » qui mesure elle-même le centrage entre deux limites décrites remplace l'exigence de bornes "
+                 "décrites (cas d'une voie bornée par OpenDRIVE seule). Un glissement en s (INF-FLE-004) n'est jamais "
+                 "appliqué sans revue « juste ».",
+    "RES-MQ-004": "Marque générée par une règle (src regle:*, aucune observation) contredite par la géométrie 2026 de rang "
+                 "supérieur : flèche dont la boîte est coupée par une bordure 2026 décrite, ou trait qui traverse la boîte "
+                 "d'une flèche levée GAM 2026 (R6, règle < plan < ortho < GAM). Non fabriquée si la revue adverse la met en "
+                 "cause et qu'une seconde lecture concorde ; sinon conflit listé pour le propriétaire de marquages.py.",
     "RES-MQ-002": "Marque au-delà de l'arête avant d'une bordure (MQ-DET-010, TQ-MQG-014) : la partie au-delà de "
                  "l'intersection vérifiée avec la bordure devient une interruption (géométrie inchangée).",
     "RES-MQ-003": "Ajout de marquage : trait isolé (LineString) observé en confiance ≥ moyenne, σ ≤ 0,10 m, source "
@@ -63,7 +85,11 @@ REGLES = {
                   "du schéma) tant que la table des matériaux du schéma 0.3 n'a pas de fonte (materiau_id obligatoire de "
                   "ponctuels_sol) ; à verser dans base/ponctuels_sol.geojson quand le propriétaire du schéma l'aura ajoutée.",
     "RES-NRE-002": "Présence 2026 non testée : objet instancié à moins de 25 m d'une photo 2026 calée sans preuve stricte "
-                   "postérieure aux travaux ; listé pour un test de présence sur vignette (Q4 de la revue adverse).",
+                   "postérieure aux travaux ni revue de présence de la cohérence (Q4) ; listé pour un test de présence sur "
+                   "vignette. Revue de présence « non visible » (voitures) : listé pour le terrain.",
+    "RES-NRE-003": "Réserve ou observation d'une revue adverse sans décision prouvée (classe de surface erronée R8, orientation "
+                  "ambiguë, objet « conforme » invérifiable, structure non appariée R4) : rien n'est appliqué, l'entité est "
+                  "listée avec l'hypothèse de la revue et la station terrain.",
     "RES-NRE-001": "Non résolu : toute entité en conflit ou incertaine reste telle que la base et est listée avec la station "
                   "terrain la plus proche (PROTOCOLE_TERRAIN.md) ou une station à créer.",
 }

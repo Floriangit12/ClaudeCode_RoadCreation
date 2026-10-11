@@ -16,7 +16,16 @@ class Journal:
     def __init__(self):
         self.appliquees = []
         self.non_resolues = []
+        self.confirmees = []
         self._cles = set()
+
+    def confirmer(self, ident, famille, nature, *, motif, revue=None, regles=(), observations=(), xy=None, classe=None,
+                  seconde_lecture=None):
+        """Décision de garder la base confirmée par une revue (aucune modification, pas une entité non résolue)."""
+        self.confirmees.append({"id": ident, "famille": famille, "classe": classe, "nature": nature, "motif": motif,
+                                "regles": sorted(set(regles)), "observations": sorted(set(observations)), "revue": revue,
+                                "seconde_lecture": seconde_lecture,
+                                "xy_local": arrondi(list(xy), 3) if xy is not None else None})
 
     def appliquer(self, ident, famille, nature, *, avant, apres, regles, observations=(), revue=None, conf="moyenne",
                   motif="", xy_avant=None, xy_apres=None, portee=0.0, classe=None, extra=None):
@@ -48,6 +57,7 @@ class Journal:
     def trier(self):
         self.appliquees.sort(key=lambda e: (e["famille"], e["id"], e["nature"]))
         self.non_resolues.sort(key=lambda e: (e["famille"], e["id"], e["nature"]))
+        self.confirmees.sort(key=lambda e: (e["famille"], e["id"], e["nature"]))
 
     def comptes(self):
         a = collections.Counter((e["famille"], e["nature"]) for e in self.appliquees)
@@ -57,7 +67,8 @@ class Journal:
                 "appliquees": len(self.appliquees),
                 "non_resolues_par_famille_origine": {f"{k[0]} / {k[1]}": v for k, v in sorted(n.items())},
                 "non_resolues": len(self.non_resolues),
-                "non_resolues_par_station": dict(sorted(st.items(), key=lambda kv: (-kv[1], kv[0])))}
+                "non_resolues_par_station": dict(sorted(st.items(), key=lambda kv: (-kv[1], kv[0]))),
+                "confirmees": len(self.confirmees)}
 
 
 class Contexte:

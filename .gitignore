@@ -44,5 +44,23 @@ recon/pc/rendus/**/planche_p_*.png
 recon/out/paquet_jardin/v2/fabrique_ue_snapshot/
 recon/out/paquet_jardin/v2/enrichi/**/*.jpg
 recon/out/paquet_jardin/v2/description/coherence/**/*.jpg
+# planches avant / après de la résolution : ortho et photos Panoramax (imagerie tierce), locales
+recon/out/paquet_jardin/v2/description/resolue/planches/*.jpg
 recon/out/paquet_jardin/v2/enrichi/recensement/**/*.png
 recon/out/paquet_jardin/v2/description/enrichi/arbitrages/*.jpg
+# Caches du contrôleur, fabrication HDA, grilles et grandes planches : régénérables et déterministes
+# (recon/pcg/decrire/*.py, hython recon/pcg/houdini/fabriquer_hda.py, python recon/pcg/controle/verifier_regles.py)
+recon/out/paquet_jardin/v2*/controle/cache/
+recon/out/paquet_jardin/v2*/controle/rendu/*.hdr
+recon/out/paquet_jardin/v2*/fabrique_hda/**/*.usd
+recon/out/paquet_jardin/v2*/fabrique_hda/**/*.usda
+recon/out/paquet_jardin/v2*/fabrique_hda/**/*.usdc
+recon/out/paquet_jardin/v2*/fabrique_hda/points/
+recon/out/paquet_jardin/v2*/fabrique_hda/controle/*.png
+recon/out/paquet_jardin/v2*/**/*.npz
+recon/out/paquet_jardin/v2*/description/controle_sol/*.png
+recon/out/paquet_jardin/v2*/description/regularisation/*.png
+recon/out/paquet_jardin/v2*/description/couverture_marquages*.png
+# État avant travaux (cible depuis le 11/10/2026) : mêmes règles ; photos de tiers et vignettes jamais versionnées
+!recon/out/paquet_jardin/v2_avant_travaux/
+recon/out/paquet_jardin/**/photos_non_versionnees/

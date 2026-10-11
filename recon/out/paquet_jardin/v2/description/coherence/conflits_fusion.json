@@ -1,0 +1,274 @@
+{
+ "schema": "pj_coherence_conflits_fusion/0.1",
+ "regle": "Q3 : verdicts d'existence de enrichi/entites_verifiees.json appliqués (absent_2026 -> non_instancie_absent_2026, retirer -> a_retirer hors contrôle des marquages, absent_2026_a_verifier -> drapeau) ; tout désaccord entre la cohérence et la fusion est journalisé ici et renvoyé à son propriétaire",
+ "n": 12,
+ "comptes": {
+  "absence_constatee_par_la_coherence": 4,
+  "hypothese_fusion_confirmee_q1": 2,
+  "mesure_fusion_non_retenue": 4,
+  "retrait_fusion_contre_leve_gam_2026": 2
+ },
+ "desaccords": [
+  {
+   "entite": "ML-5141",
+   "nature": "retrait_fusion_contre_leve_gam_2026",
+   "fusion": {
+    "existence": "retirer",
+    "obs": [
+     "MLY-MAR-011"
+    ],
+    "date": "2024-08-24"
+   },
+   "coherence": {
+    "source": "levé GAM 2026",
+    "etat": "conserve"
+   },
+   "decision": "verdict de la fusion appliqué au contrôle (hors contrôle) ; le levé GAM 2026 le contredit avec une preuve antérieure aux travaux : à arbitrer (terrain)",
+   "renvoi": "fusion_recensement"
+  },
+  {
+   "entite": "MZ-5002",
+   "nature": "retrait_fusion_contre_leve_gam_2026",
+   "fusion": {
+    "existence": "retirer",
+    "obs": [
+     "MLY-CON-017"
+    ],
+    "date": "2024-08-24"
+   },
+   "coherence": {
+    "source": "levé GAM 2026",
+    "etat": "conserve"
+   },
+   "decision": "verdict de la fusion appliqué au contrôle (hors contrôle) ; le levé GAM 2026 le contredit avec une preuve antérieure aux travaux : à arbitrer (terrain)",
+   "renvoi": "fusion_recensement"
+  },
+  {
+   "entite": "arbre_027",
+   "nature": "absence_constatee_par_la_coherence",
+   "fusion": null,
+   "coherence": {
+    "presence": "absent",
+    "photos": [
+     "pnx:00c1ba9a",
+     "pnx:ded07efa",
+     "pnx:f8d91bb1"
+    ],
+    "note": "la boîte tombe sur les voitures garées puis sur la façade, aucun tronc ni houppier (10,1 à 12,7 m) ; l'arbre de 2022 a disparu (revue adverse v2)"
+   },
+   "decision": "non instancié (non_instancie_absent_2026) ; constat à reporter dans la fusion (arbitrages_fusion.json, action constat_revue)",
+   "renvoi": "fusion_recensement"
+  },
+  {
+   "entite": "arbre_028",
+   "nature": "absence_constatee_par_la_coherence",
+   "fusion": {
+    "existence": "non_verifie",
+    "statut": "indice_seulement",
+    "obs": [],
+    "date": "2024-08-24"
+   },
+   "coherence": {
+    "presence": "absent",
+    "photos": [
+     "pnx:00c1ba9a",
+     "pnx:ded07efa",
+     "pnx:f8d91bb1"
+    ],
+    "note": "pelouse sèche nue devant la façade, aucun arbre (7,5 à 13,7 m) ; arbre_026 voisin présent exactement sur son point (revue adverse v2)"
+   },
+   "decision": "non instancié (non_instancie_absent_2026) ; constat à reporter dans la fusion (arbitrages_fusion.json, action constat_revue)",
+   "renvoi": "fusion_recensement"
+  },
+  {
+   "entite": "arbre_029",
+   "nature": "absence_constatee_par_la_coherence",
+   "fusion": {
+    "existence": "present",
+    "statut": "confirme",
+    "obs": [
+     "PANO2026-031"
+    ],
+    "date": "2026-07-28"
+   },
+   "coherence": {
+    "presence": "absent",
+    "photos": [
+     "pnx:00c1ba9a",
+     "pnx:ded07efa",
+     "pnx:f8d91bb1"
+    ],
+    "note": "souche coupée au ras du sol visible dans la boîte sur ded07efa (6,6 m) et f8d91bb1 (10,5 m) : arbre abattu"
+   },
+   "decision": "non instancié (non_instancie_absent_2026) ; constat à reporter dans la fusion (arbitrages_fusion.json, action constat_revue)",
+   "renvoi": "fusion_recensement"
+  },
+  {
+   "entite": "lamp_12887274329",
+   "nature": "absence_constatee_par_la_coherence",
+   "fusion": null,
+   "coherence": {
+    "presence": "absent",
+    "photos": [
+     "pnx:00c1ba9a",
+     "pnx:ded07efa",
+     "pnx:f8d91bb1"
+    ],
+    "note": "aucun mât dans la boîte ni à ±2 m sur les 3 vues (façade et ciel visibles derrière, jusqu'à 7 m de haut) ; un luminaire mural reste possible : à vérifier sur place (OSM 2026-02)"
+   },
+   "decision": "non instancié (non_instancie_absent_2026) ; constat à reporter dans la fusion (arbitrages_fusion.json, action constat_revue)",
+   "renvoi": "fusion_recensement"
+  },
+  {
+   "entite": "lamp_9514828431",
+   "nature": "hypothese_fusion_confirmee_q1",
+   "fusion": {
+    "decision": "revue_requise",
+    "xy": [
+     34.77,
+     -141.19
+    ],
+    "methode": "triangulation",
+    "obs": [
+     "PANO2026-019"
+    ]
+   },
+   "coherence": {
+    "q1": "accord",
+    "votes_X": [
+     "pnx:ded07efa"
+    ],
+    "photos": [
+     "pnx:ded07efa",
+     "pnx:f8d91bb1"
+    ]
+   },
+   "decision": "non appliquée par la cohérence (hypothèse de la fusion) ; les photos décisives la confirment : la fusion peut la passer en « appliquer »",
+   "renvoi": "fusion_recensement"
+  },
+  {
+   "entite": "lamp_9514828517",
+   "nature": "mesure_fusion_non_retenue",
+   "fusion": {
+    "decision": "appliquer",
+    "xy": [
+     13.25,
+     -140.34
+    ],
+    "methode": "triangulation",
+    "obs": [
+     "PANO2026-018"
+    ]
+   },
+   "coherence": {
+    "motif": "Q1 : accord_insuffisant avec les photos décisives de la planche",
+    "q1": "accord_insuffisant",
+    "votes_A": [],
+    "votes_X": []
+   },
+   "decision": "mesure gardée comme indice ; l'objet reste à sa position (ou composante latérale observée)",
+   "renvoi": "fusion_recensement"
+  },
+  {
+   "entite": "lamp_9665416717",
+   "nature": "mesure_fusion_non_retenue",
+   "fusion": {
+    "decision": "appliquer",
+    "xy": [
+     45.57,
+     51.94
+    ],
+    "methode": "pixel_ortho",
+    "obs": [
+     "ORTHO_A-0167"
+    ]
+   },
+   "coherence": {
+    "motif": "Q1 : desaccord avec les photos décisives de la planche",
+    "q1": "desaccord",
+    "votes_A": [
+     "pnx:79a18815",
+     "pnx:e86aa913",
+     "pnx:7651c539",
+     "pnx:eeb2f8f1"
+    ],
+    "votes_X": []
+   },
+   "decision": "mesure gardée comme indice ; l'objet reste à sa position (ou composante latérale observée)",
+   "renvoi": "fusion_recensement"
+  },
+  {
+   "entite": "pan_B6a1_1",
+   "nature": "mesure_fusion_non_retenue",
+   "fusion": {
+    "decision": "appliquer",
+    "xy": [
+     13.25,
+     -140.34
+    ],
+    "methode": "triangulation",
+    "obs": [
+     "PANO2026-018"
+    ]
+   },
+   "coherence": {
+    "motif": "Q1 : accord_insuffisant avec les photos décisives de la planche",
+    "q1": "accord_insuffisant",
+    "votes_A": [],
+    "votes_X": []
+   },
+   "decision": "mesure gardée comme indice ; l'objet reste à sa position (ou composante latérale observée)",
+   "renvoi": "fusion_recensement"
+  },
+  {
+   "entite": "pan_C13a_1",
+   "nature": "mesure_fusion_non_retenue",
+   "fusion": {
+    "decision": "appliquer",
+    "xy": [
+     13.25,
+     -140.34
+    ],
+    "methode": "triangulation",
+    "obs": [
+     "PANO2026-018"
+    ]
+   },
+   "coherence": {
+    "motif": "Q1 : accord_insuffisant avec les photos décisives de la planche",
+    "q1": "accord_insuffisant",
+    "votes_A": [],
+    "votes_X": []
+   },
+   "decision": "mesure gardée comme indice ; l'objet reste à sa position (ou composante latérale observée)",
+   "renvoi": "fusion_recensement"
+  },
+  {
+   "entite": "poteau_reseau_12888048898",
+   "nature": "hypothese_fusion_confirmee_q1",
+   "fusion": {
+    "decision": "revue_requise",
+    "xy": [
+     -19.42,
+     10.3
+    ],
+    "methode": "triangulation",
+    "obs": [
+     "pano_0-21"
+    ]
+   },
+   "coherence": {
+    "q1": "accord",
+    "votes_X": [
+     "pnx:119d9094"
+    ],
+    "photos": [
+     "pnx:5c0d1d39",
+     "pnx:119d9094"
+    ]
+   },
+   "decision": "non appliquée par la cohérence (hypothèse de la fusion) ; les photos décisives la confirment : la fusion peut la passer en « appliquer »",
+   "renvoi": "fusion_recensement"
+  }
+ ]
+}

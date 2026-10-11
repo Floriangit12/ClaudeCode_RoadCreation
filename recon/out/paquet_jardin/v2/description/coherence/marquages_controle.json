@@ -1,21 +1,32 @@
 {
- "schema": "pj_coherence_marquages/0.1",
- "methode": "Contrôle des marquages par le solveur de cohérence v2 : flèches centrées dans leur voie, marques dans la\nchaussée, propositions de recalage avec preuve. Lecture seule de base/marquages.geojson (jamais modifié).\n\n1. Flèches directionnelles MF-* (MQ-FLE-006, IISR 7e partie / CETE 2010) : la pose est retrouvée sur le\n   polygone posé lui-même (ajustement rigide du gabarit de marquages_geometrie.json, sommet à sommet), la\n   voie par une coupe perpendiculaire au cap passant par le centre de la boîte du gabarit :\n   - bords de voie = axes des lignes longitudinales peintes (continues, discontinues, segments) de part et\n     d'autre, sinon arête avant de bordure, sinon bords du polygone de voie OpenDRIVE (lanes_2026) ;\n   - décalage attendu de l'origine (pied de tige) par rapport à l'axe de voie : TD 0 ; TAD −0,425 m ; TAG\n     +0,425 m ; TD_TAD −0,275 m ; TD_TAG +0,275 m (x positif à droite du sens de circulation) ;\n   - écart = décalage observé − attendu ; |écart| ≤ 0,15 m : conforme ; sinon proposition de recalage\n     latéral (−écart) si la flèche n'est pas levée (GAM σ 0,05 m : alors c'est la voie décrite qui est à\n     revoir) ; la boîte doit rester dans la voie (MQ-DET-010).\n   Preuve image : pour une flèche « conservée » (2022 = 2026), contraste de peinture du gabarit à la pose\n   actuelle et à la pose recalée sur le PCRS 5 cm 2022 ; le recalage n'est proposé « avec preuve » que si\n   l'ortho ne le contredit pas (contraste recalé ≥ contraste actuel − 0,01).\n2. Toutes les marques (MQ-DET-010, TQ-MQG-014) : échantillons tous les 0,25 m (lignes) ou sommets et\n   intérieur (polygones) ; un échantillon est hors chaussée s'il est du côté haut d'une bordure à moins de\n   1 m (orientation v2), ou sur une classe non roulable loin de toute bordure. Exceptions : lignes jaunes\n   (sur bordure admises), figurines vélo / PMR sur piste ou parking, passages coupant un refuge à niveau.\n   Un débord ≤ 0,5 m d'une marque non levée donne une proposition de translation vers la chaussée\n   (débord + 0,05 m) ; au-delà, ou pour une marque levée, un signalement.\nSorties : coherence/marquages_controle.json, coherence/corrections_marquages.geojson.",
+ "schema": "pj_coherence_marquages/0.2",
+ "methode": "Contrôle des marquages par le solveur de cohérence v2 : flèches centrées dans leur voie, marques dans la\nchaussée, propositions de recalage avec preuve. Lecture seule de base/marquages.geojson (jamais modifié).\n\n1. Flèches directionnelles MF-* (MQ-FLE-006, IISR 7e partie / CETE 2010) : la pose est retrouvée sur le\n   polygone posé lui-même (ajustement rigide du gabarit de marquages_geometrie.json, sommet à sommet), la\n   voie par une coupe perpendiculaire au cap passant par le centre de la boîte du gabarit :\n   - bords de voie = axes des lignes longitudinales peintes (continues, discontinues, segments) de part et\n     d'autre, sinon arête avant de bordure, sinon bords du polygone de voie OpenDRIVE (lanes_2026) ;\n   - décalage attendu de l'origine (pied de tige) par rapport à l'axe de voie : TD 0 ; TAD −0,425 m ; TAG\n     +0,425 m ; TD_TAD −0,275 m ; TD_TAG +0,275 m (x positif à droite du sens de circulation) ;\n   - écart = décalage observé − attendu ; |écart| ≤ 0,15 m : conforme ; sinon proposition de recalage\n     latéral (−écart) si la flèche n'est pas levée (GAM σ 0,05 m : alors c'est la voie décrite qui est à\n     revoir) ; la boîte doit rester dans la voie (MQ-DET-010).\n   Preuve image : pour une flèche « conservée » (2022 = 2026), contraste de peinture du gabarit à la pose\n   actuelle et à la pose recalée sur le PCRS 5 cm 2022 ; le recalage n'est proposé « avec preuve » que si\n   l'ortho ne le contredit pas (contraste recalé ≥ contraste actuel − 0,01).\n2. Toutes les marques (MQ-DET-010, TQ-MQG-014) : échantillons tous les 0,25 m (lignes) ou sommets et\n   intérieur (polygones) ; un échantillon est hors chaussée s'il est du côté haut d'une bordure à moins de\n   1 m (orientation v2), ou sur une classe non roulable loin de toute bordure. Exceptions : lignes jaunes\n   (sur bordure admises), figurines vélo / PMR sur piste ou parking, passages coupant un refuge à niveau.\n   Un débord ≤ 0,5 m d'une marque non levée donne une proposition de translation vers la chaussée\n   (débord + 0,05 m) ; au-delà, ou pour une marque levée, un signalement.\n3. Q3 (revue adverse v2) : les marquages que la fusion déclare « retirer » ou « absent_2026 » sont hors contrôle\n   (et ne bornent plus les voies) ; « absent_2026_a_verifier » est signalé ; un retrait contredit par un levé\n   GAM 2026 est journalisé (conflits_fusion.json).\n4. Q5 (revue adverse v2) : (a) la preuve image mesure le contraste de la TÊTE seule (tige et anneau de la tige\n   exclus) ; (b) flèche douteuse si la tige est à moins de 0,10 m de l'axe d'une ligne longitudinale parallèle\n   ou si son pied est à moins de 0,5 m d'une limite de voie OpenDRIVE ; (c) toute limite (ligne, arête de\n   bordure) qui coupe la boîte donne « voie_coupee », jamais un recalage ; (d) aucun recalage dont le résultat\n   n'est pas entièrement roulable (« conflit_surface_marquage ») ; (e) une répétition INF-FLE-004 glisse en s\n   jusqu'à une voie ≥ boîte + 2 × 0,3 m entièrement roulable (|Δs| ≤ 12 m), sinon sa suppression est proposée.\nSorties : coherence/marquages_controle.json, coherence/corrections_marquages.geojson.",
  "source": "base/marquages.geojson (lecture seule)",
  "comptes": {
   "fleches": {
-   "garde_par_ortho": 3,
+   "a_retirer": 1,
+   "conflit_surface_marquage": 1,
    "conforme": 6,
-   "recalage_propose": 8,
-   "leve_ecart_garde": 5,
+   "garde_par_ortho": 2,
+   "glissement_s_propose": 1,
+   "leve_ecart_garde": 4,
+   "recalage_propose": 6,
+   "voie_coupee": 1,
    "voie_non_bornee": 4
   },
   "marques_hors_chaussee": {
-   "signalement": 21,
-   "raccourcissement_propose": 9,
-   "translation_proposee": 1,
-   "exception": 18
-  }
+   "exception": 18,
+   "raccourcissement_propose": 8,
+   "signalement": 18,
+   "translation_proposee": 1
+  },
+  "hors_controle_q3": 28,
+  "absent_2026_a_verifier": [
+   "ML-0222",
+   "ML-5341",
+   "ML-5342",
+   "ML-5343"
+  ]
  },
  "fleches": [
   {
@@ -23,38 +34,12 @@
    "gabarit": "TD",
    "etat": "conserve",
    "source": "ortho2022",
-   "branche": "reviree",
-   "residu_gabarit_m": 0.0,
-   "pose": "polygone (ajustement rigide du gabarit)",
-   "origine_local": [
-    -63.11,
-    94.635
+   "statut": "a_retirer",
+   "q5_douteuse": [
+    "tige à 0.03 m de l'axe de la ligne ML-6232",
+    "pied à 0.02 m d'une limite de la voie OpenDRIVE 5/1"
    ],
-   "cap_deg": 326.93,
-   "bords": "voie OpenDRIVE 5/1",
-   "largeur_voie_m": 4.065,
-   "decalage_origine_m": 2.011,
-   "decalage_attendu_m": 0.0,
-   "ecart_m": 2.011,
-   "marge_gauche_m": 3.693,
-   "marge_droite_m": -0.328,
-   "dans_voie": false,
-   "statut": "garde_par_ortho",
-   "translation_m": [
-    -1.685,
-    -1.097
-   ],
-   "origine_proposee_local": [
-    -64.795,
-    93.538
-   ],
-   "preuve_image": {
-    "ortho": "PCRS 5 cm 2022-05-10",
-    "contraste_actuel": 0.1276,
-    "contraste_recale": -0.0362
-   },
-   "note": "la peinture de 2022 est à la position actuelle (contraste 0.128) et pas à la position normative (-0.036) : flèche gardée, bords de voie décrits à vérifier",
-   "dans_chaussee_apres": true
+   "note": "verdict d'existence de la fusion (retirer, ORTHO-B-102) : hors contrôle des marquages (Q3) ; le test Q5 la juge aussi douteuse : tige à 0.03 m de l'axe de la ligne ML-6232 ; pied à 0.02 m d'une limite de la voie OpenDRIVE 5/1"
   },
   {
    "id": "MF-0764",
@@ -123,7 +108,6 @@
    "marge_gauche_m": 0.7,
    "marge_droite_m": 1.05,
    "dans_voie": true,
-   "statut": "recalage_propose",
    "translation_m": [
     0.069,
     -0.175
@@ -132,9 +116,13 @@
     -31.932,
     -13.193
    ],
+   "dans_chaussee_avant": true,
+   "part_roulable_avant": 1.0,
+   "dans_chaussee_apres": true,
+   "part_roulable_apres": 1.0,
+   "statut": "recalage_propose",
    "preuve_image": null,
-   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits",
-   "dans_chaussee_apres": true
+   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits, résultat entièrement roulable"
   },
   {
    "id": "MF-0774",
@@ -157,7 +145,6 @@
    "marge_gauche_m": 0.465,
    "marge_droite_m": 1.507,
    "dans_voie": true,
-   "statut": "recalage_propose",
    "translation_m": [
     0.312,
     -0.432
@@ -166,9 +153,12 @@
     -15.692,
     -1.68
    ],
-   "preuve_image": null,
-   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits",
-   "dans_chaussee_apres": false
+   "dans_chaussee_avant": false,
+   "part_roulable_avant": 0.0,
+   "dans_chaussee_apres": false,
+   "part_roulable_apres": 0.0,
+   "statut": "conflit_surface_marquage",
+   "note": "recalage refusé : le résultat n'est pas entièrement roulable (0 % roulable) ; position actuelle 0 % roulable : conflit surface / marquage à arbitrer (Q5)"
   },
   {
    "id": "MF-5042",
@@ -366,16 +356,11 @@
     -31.485
    ],
    "cap_deg": 339.55,
-   "bords": "ligne ML-5402 | ligne ML-5228",
-   "largeur_voie_m": 3.033,
-   "decalage_origine_m": 0.147,
-   "decalage_attendu_m": 0.425,
-   "ecart_m": -0.278,
-   "marge_gauche_m": 0.739,
-   "marge_droite_m": 1.295,
-   "dans_voie": true,
-   "statut": "leve_ecart_garde",
-   "note": "flèche levée GAM (σ 0,05 m, peinture réelle) à -0.28 m de sa position normative dans la voie bornée par ligne ML-5402 | ligne ML-5228 : gardée (la réalité peut s'écarter de MQ-FLE-006) ; si l'écart dépasse 0,3 m, les bords de voie décrits sont à vérifier"
+   "limites_dans_boite": [
+    "ligne ML-8000 (x -0.30)"
+   ],
+   "statut": "voie_coupee",
+   "note": "une limite de voie ou une bordure traverse la boîte de la flèche (Q5) : jamais de recalage ; position ou bords de voie à vérifier"
   },
   {
    "id": "MF-6000",
@@ -398,7 +383,6 @@
    "marge_gauche_m": 0.548,
    "marge_droite_m": 1.021,
    "dans_voie": true,
-   "statut": "garde_par_ortho",
    "translation_m": [
     -0.15,
     0.166
@@ -407,13 +391,18 @@
     43.983,
     43.573
    ],
+   "dans_chaussee_avant": true,
+   "part_roulable_avant": 1.0,
+   "dans_chaussee_apres": true,
+   "part_roulable_apres": 1.0,
    "preuve_image": {
     "ortho": "PCRS 5 cm 2022-05-10",
-    "contraste_actuel": 0.1188,
-    "contraste_recale": 0.0046
+    "mesure": "tête seule (hors tige, Q5)",
+    "contraste_actuel": 0.1133,
+    "contraste_recale": 0.0192
    },
-   "note": "la peinture de 2022 est à la position actuelle (contraste 0.119) et pas à la position normative (0.005) : flèche gardée, bords de voie décrits à vérifier",
-   "dans_chaussee_apres": true
+   "statut": "garde_par_ortho",
+   "note": "la tête de la flèche peinte en 2022 est à la position actuelle (contraste 0.113) et pas à la position normative (0.019) : flèche gardée, bords de voie décrits à vérifier"
   },
   {
    "id": "MF-6003",
@@ -436,7 +425,6 @@
    "marge_gauche_m": 1.17,
    "marge_droite_m": 0.541,
    "dans_voie": true,
-   "statut": "garde_par_ortho",
    "translation_m": [
     0.202,
     -0.225
@@ -445,13 +433,18 @@
     42.318,
     45.247
    ],
+   "dans_chaussee_avant": true,
+   "part_roulable_avant": 1.0,
+   "dans_chaussee_apres": true,
+   "part_roulable_apres": 1.0,
    "preuve_image": {
     "ortho": "PCRS 5 cm 2022-05-10",
-    "contraste_actuel": 0.0842,
-    "contraste_recale": -0.0031
+    "mesure": "tête seule (hors tige, Q5)",
+    "contraste_actuel": 0.0831,
+    "contraste_recale": -0.0146
    },
-   "note": "la peinture de 2022 est à la position actuelle (contraste 0.084) et pas à la position normative (-0.003) : flèche gardée, bords de voie décrits à vérifier",
-   "dans_chaussee_apres": true
+   "statut": "garde_par_ortho",
+   "note": "la tête de la flèche peinte en 2022 est à la position actuelle (contraste 0.083) et pas à la position normative (-0.015) : flèche gardée, bords de voie décrits à vérifier"
   },
   {
    "id": "MF-6013",
@@ -474,7 +467,6 @@
    "marge_gauche_m": 0.605,
    "marge_droite_m": 1.28,
    "dans_voie": true,
-   "statut": "recalage_propose",
    "translation_m": [
     0.233,
     -0.226
@@ -483,9 +475,13 @@
     -22.828,
     -31.439
    ],
+   "dans_chaussee_avant": true,
+   "part_roulable_avant": 1.0,
+   "dans_chaussee_apres": true,
+   "part_roulable_apres": 1.0,
+   "statut": "recalage_propose",
    "preuve_image": null,
-   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits",
-   "dans_chaussee_apres": true
+   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits, résultat entièrement roulable"
   },
   {
    "id": "MF-6014",
@@ -577,7 +573,6 @@
    "marge_gauche_m": 0.867,
    "marge_droite_m": 1.243,
    "dans_voie": true,
-   "statut": "recalage_propose",
    "translation_m": [
     -0.136,
     0.13
@@ -586,9 +581,13 @@
     -46.087,
     -46.654
    ],
+   "dans_chaussee_avant": true,
+   "part_roulable_avant": 1.0,
+   "dans_chaussee_apres": true,
+   "part_roulable_apres": 1.0,
+   "statut": "recalage_propose",
    "preuve_image": null,
-   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits",
-   "dans_chaussee_apres": true
+   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits, résultat entièrement roulable"
   },
   {
    "id": "MF-6018",
@@ -611,7 +610,6 @@
    "marge_gauche_m": 1.132,
    "marge_droite_m": 1.455,
    "dans_voie": true,
-   "statut": "recalage_propose",
    "translation_m": [
     -0.117,
     0.112
@@ -620,9 +618,13 @@
     -24.442,
     -19.661
    ],
+   "dans_chaussee_avant": true,
+   "part_roulable_avant": 1.0,
+   "dans_chaussee_apres": true,
+   "part_roulable_apres": 1.0,
+   "statut": "recalage_propose",
    "preuve_image": null,
-   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits",
-   "dans_chaussee_apres": true
+   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits, résultat entièrement roulable"
   },
   {
    "id": "MF-6020",
@@ -645,7 +647,6 @@
    "marge_gauche_m": 0.891,
    "marge_droite_m": 1.401,
    "dans_voie": true,
-   "statut": "recalage_propose",
    "translation_m": [
     -0.183,
     0.177
@@ -654,9 +655,13 @@
     -70.56,
     -75.966
    ],
+   "dans_chaussee_avant": true,
+   "part_roulable_avant": 1.0,
+   "dans_chaussee_apres": true,
+   "part_roulable_apres": 1.0,
+   "statut": "recalage_propose",
    "preuve_image": null,
-   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits",
-   "dans_chaussee_apres": true
+   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits, résultat entièrement roulable"
   },
   {
    "id": "MF-6021",
@@ -679,7 +684,6 @@
    "marge_gauche_m": 1.056,
    "marge_droite_m": 1.467,
    "dans_voie": true,
-   "statut": "recalage_propose",
    "translation_m": [
     -0.151,
     0.14
@@ -688,9 +692,13 @@
     -72.82,
     -73.772
    ],
+   "dans_chaussee_avant": true,
+   "part_roulable_avant": 1.0,
+   "dans_chaussee_apres": true,
+   "part_roulable_apres": 1.0,
+   "statut": "recalage_propose",
    "preuve_image": null,
-   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits",
-   "dans_chaussee_apres": true
+   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits, résultat entièrement roulable"
   },
   {
    "id": "MF-8000",
@@ -705,26 +713,18 @@
     -53.873
    ],
    "cap_deg": 345.17,
-   "bords": "ligne ML-5228 | bordure K-0414",
-   "largeur_voie_m": 3.587,
-   "decalage_origine_m": -0.481,
-   "decalage_attendu_m": -0.275,
-   "ecart_m": -0.206,
-   "marge_gauche_m": 0.962,
-   "marge_droite_m": 1.35,
-   "dans_voie": true,
-   "statut": "recalage_propose",
-   "translation_m": [
-    0.199,
-    0.053
+   "limites_dans_boite": [
+    "bordure K-0415 (x +0.46)"
    ],
+   "statut": "glissement_s_propose",
+   "glissement_s_m": -11.0,
    "origine_proposee_local": [
-    25.303,
-    -53.82
+    27.919,
+    -64.507
    ],
-   "preuve_image": null,
-   "note": "flèche neuve 2025 (plan 2025 ou règle) : aucune image postérieure aux travaux ; recalage par la règle MQ-FLE-006 sur les bords de voie décrits",
-   "dans_chaussee_apres": false
+   "largeur_voie_apres_m": 2.569,
+   "bords_apres": "ligne ML-5228 | bordure K-0087",
+   "note": "répétition INF-FLE-004 (limite dans la boîte : bordure K-0415 (x +0.46)) : glissée de -11.0 m en s, voie de 2.57 m entièrement roulable (Q5)"
   }
  ],
  "marques": [
@@ -737,7 +737,8 @@
    "part_hors_chaussee": 1.0,
    "debord_max_m": 1.0,
    "exception": null,
-   "statut": "signalement"
+   "statut": "signalement",
+   "note": "flèche hors chaussée : jamais translatée ici (Q5) ; voir le contrôle des flèches (conflit surface / marquage)"
   },
   {
    "id": "MF-8000",
@@ -748,7 +749,8 @@
    "part_hors_chaussee": 0.324,
    "debord_max_m": 0.734,
    "exception": null,
-   "statut": "signalement"
+   "statut": "signalement",
+   "note": "flèche hors chaussée : jamais translatée ici (Q5) ; voir le contrôle des flèches (conflit surface / marquage)"
   },
   {
    "id": "ML-0113",
@@ -778,53 +780,6 @@
     0.069,
     0.034
    ]
-  },
-  {
-   "id": "ML-0131",
-   "classe": "ligne",
-   "type": "continue",
-   "source": "ortho2022",
-   "etat": "conserve",
-   "part_hors_chaussee": 0.222,
-   "debord_max_m": 1.0,
-   "exception": null,
-   "statut": "raccourcissement_propose",
-   "raccourcir_debut_m": 0.0,
-   "raccourcir_fin_m": 0.55,
-   "note": "extrémités au-delà de l'arête avant de la bordure : la marque s'arrête à l'arête chaussée (TQ-MQG-014, MQ-DET-010)"
-  },
-  {
-   "id": "ML-0132",
-   "classe": "ligne",
-   "type": "continue",
-   "source": "ortho2022",
-   "etat": "conserve",
-   "part_hors_chaussee": 1.0,
-   "debord_max_m": 1.0,
-   "exception": null,
-   "statut": "signalement"
-  },
-  {
-   "id": "ML-0133",
-   "classe": "ligne",
-   "type": "continue",
-   "source": "ortho2022",
-   "etat": "conserve",
-   "part_hors_chaussee": 1.0,
-   "debord_max_m": 1.0,
-   "exception": null,
-   "statut": "signalement"
-  },
-  {
-   "id": "ML-0135",
-   "classe": "ligne",
-   "type": "continue",
-   "source": "ortho2022",
-   "etat": "conserve",
-   "part_hors_chaussee": 0.615,
-   "debord_max_m": 1.0,
-   "exception": null,
-   "statut": "signalement"
   },
   {
    "id": "ML-0187",
@@ -1308,6 +1263,251 @@
    "exception": null,
    "statut": "signalement",
    "note": "marque levée GAM : la bordure ou la limite de chaussée décrite est à revoir"
+  }
+ ],
+ "hors_controle_q3": [
+  {
+   "id": "ML-0102",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0008"
+   ]
+  },
+  {
+   "id": "ML-0106",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0009"
+   ]
+  },
+  {
+   "id": "ML-0107",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO-B-211"
+   ]
+  },
+  {
+   "id": "ML-0112",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0068"
+   ]
+  },
+  {
+   "id": "ML-0121",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0084"
+   ]
+  },
+  {
+   "id": "ML-0131",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0051"
+   ]
+  },
+  {
+   "id": "ML-0132",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0052"
+   ]
+  },
+  {
+   "id": "ML-0133",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0053"
+   ]
+  },
+  {
+   "id": "ML-0135",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0054"
+   ]
+  },
+  {
+   "id": "ML-0148",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0092"
+   ]
+  },
+  {
+   "id": "ML-0150",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0093"
+   ]
+  },
+  {
+   "id": "ML-0151",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0094"
+   ]
+  },
+  {
+   "id": "ML-0161",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0106"
+   ]
+  },
+  {
+   "id": "ML-0162",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0107"
+   ]
+  },
+  {
+   "id": "ML-0163",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0108"
+   ]
+  },
+  {
+   "id": "ML-0168",
+   "classe": "ligne",
+   "type": "continue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0109"
+   ]
+  },
+  {
+   "id": "ML-0201",
+   "classe": "ligne",
+   "type": "segment",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0010"
+   ]
+  },
+  {
+   "id": "ML-0202",
+   "classe": "ligne",
+   "type": "segment",
+   "existence": "absent_2026",
+   "obs": [
+    "ORTHO-B-208"
+   ]
+  },
+  {
+   "id": "ML-0225",
+   "classe": "ligne",
+   "type": "segment",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0095"
+   ]
+  },
+  {
+   "id": "ML-0226",
+   "classe": "ligne",
+   "type": "discontinue",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO_A-0096"
+   ]
+  },
+  {
+   "id": "ML-0238",
+   "classe": "ligne",
+   "type": "segment",
+   "existence": "absent_2026",
+   "obs": [
+    "MLY-MAR-002"
+   ]
+  },
+  {
+   "id": "ML-0240",
+   "classe": "ligne",
+   "type": "segment",
+   "existence": "absent_2026",
+   "obs": [
+    "MLY-MAR-003"
+   ]
+  },
+  {
+   "id": "ML-0432",
+   "classe": "ligne",
+   "type": "segment",
+   "existence": "retirer",
+   "obs": [
+    "PANO2026-004"
+   ]
+  },
+  {
+   "id": "ML-0930",
+   "classe": "ligne",
+   "type": "segment",
+   "existence": "retirer",
+   "obs": [
+    "ORTHO-B-206"
+   ]
+  },
+  {
+   "id": "ML-0935",
+   "classe": "ligne",
+   "type": "segment",
+   "existence": "absent_2026",
+   "obs": [
+    "MLY-MAR-006"
+   ]
+  },
+  {
+   "id": "ML-5141",
+   "classe": "ligne",
+   "type": "segment",
+   "existence": "retirer",
+   "obs": [
+    "MLY-MAR-011"
+   ]
+  },
+  {
+   "id": "MZ-5002",
+   "classe": "zone",
+   "type": "divers",
+   "existence": "retirer",
+   "obs": [
+    "MLY-CON-017"
+   ]
   }
  ]
 }

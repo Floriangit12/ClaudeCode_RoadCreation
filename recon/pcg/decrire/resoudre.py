@@ -4,7 +4,8 @@ Usage :
     python recon/pcg/decrire/resoudre.py [--sortie DOSSIER] [--sans-planches] [--sans-validation] [--forcer]
 
 Entrées (lecture seule) : description/base (schéma 0.3), objets du paquet v1, description/enrichi (fusion 0.3),
-description/coherence (cohérence v2), revues adverses (resoudre_revue.py), PROTOCOLE_TERRAIN.md (stations).
+description/coherence (cohérence v3), revues adverses v3, v2 et v1 et secondes lectures (resoudre_revue.py),
+PROTOCOLE_TERRAIN.md (stations), résolution précédente figée (resolue/historique/journal_resolution_r1.json).
 Sorties (défaut recon/out/paquet_jardin/v2/description/resolue) :
     description_scene_v2.json        manifeste 0.3 (couches, sha256, hash, statistiques.resolution)
     base/*.geojson, base/nivellement* même schéma que description/base : pj::lire_description lit
@@ -14,7 +15,8 @@ Sorties (défaut recon/out/paquet_jardin/v2/description/resolue) :
     journal_resolution.json          chaque décision appliquée (avant, après, observations, règles, revue) et chaque
                                      entité non résolue (motif, station terrain)
     modifications.geojson, non_resolus.geojson   couches de contrôle (L93)
-    planches/*.jpg                   avant / après sur l'ortho 2022 des 15 changements les plus significatifs
+    planches/*.jpg                   avant / après (ortho 2022 + photos calées) des 10 changements les plus
+                                     significatifs (locales : imagerie tierce, ignorées par git)
     REPORT.md
 Déterministe : aucune date d'exécution, tris par identifiant, flottants arrondis ; deux exécutions donnent des
 fichiers identiques à l'octet. Garde de validation : une entité dont la modification fait échouer valider.py est
@@ -37,6 +39,7 @@ from commun import MNT, O, RACINE, SORTIE, arrondi, ecrire_geojson, ecrire_json,
 import resoudre_regles as RR  # noqa: E402
 import resoudre_revue as RV  # noqa: E402
 from resoudre_ajouts import ResolveurAjouts  # noqa: E402
+from resoudre_comparaison import comparer  # noqa: E402
 from resoudre_journal import Contexte, Journal  # noqa: E402
 from resoudre_marquages import ResolveurMarquages  # noqa: E402
 from resoudre_objets import ResolveurObjets, _xy  # noqa: E402
@@ -47,7 +50,7 @@ ICI = Path(__file__).resolve().parent
 SORTIE_RESOLUE = SORTIE / "resolue"
 SCRIPTS = ["resoudre.py", "resoudre_sources.py", "resoudre_regles.py", "resoudre_revue.py", "resoudre_journal.py",
            "resoudre_objets.py", "resoudre_marquages.py", "resoudre_sol.py", "resoudre_ajouts.py", "resoudre_planches.py",
-           "resoudre_rapport.py"]
+           "resoudre_rapport.py", "resoudre_comparaison.py"]
 SCHEMA_JOURNAL = "pj_resolution/0.1"
 
 
@@ -72,7 +75,7 @@ def resoudre(sortie, bloques=frozenset(), forcer=False):
     J = Journal()
     ctx = Contexte(S.base["surfaces"]["features"], S.base["bordures"]["features"])
     mnt = MNT()
-    ro = ResolveurObjets(S, J, ctx)
+    ro = ResolveurObjets(S, J, ctx, mnt)
     mob, arb = ro.executer()
     rm = ResolveurMarquages(S, J, ctx)
     nouveaux_mq = rm.executer(S.ajouts)
@@ -110,6 +113,7 @@ def resoudre(sortie, bloques=frozenset(), forcer=False):
         J.appliquees = restes
     affecter_stations(J)
     J.trier()
+    comparaison = comparer(S.historique_r1, J)
     # ------------------------------------------------------------------ écriture
     sortie = Path(sortie)
     (sortie / "base").mkdir(parents=True, exist_ok=True)
@@ -181,15 +185,21 @@ def resoudre(sortie, bloques=frozenset(), forcer=False):
         "seuils": {"double_lecture_m": RR.SEUIL_DOUBLE_LECTURE_M, "sigma_max_ajout_m": RR.SIGMA_MAX_AJOUT,
                    "sigma_max_marquage_ajout_m": RR.SIGMA_MAX_MARQUAGE_AJOUT, "tranches_probantes": sorted(RR.TRANCHES_PROBANTES),
                    "deplace_travaux_m": RR.DEPLACE_TRAVAUX_M, "fin_travaux": RR.FIN_TRAVAUX},
-        "revues": {"revue_v2": {"id": RV.REVUE_V2_ID, "dossier_preuves": RV.REVUE_V2_DOSSIER, "verdicts": RV.REVUE_V2},
+        "revues": {"revue_v3": {"id": RV.REVUE_V3_ID, "dossier_preuves": RV.REVUE_V3_DOSSIER, "verdicts": RV.REVUE_V3,
+                                "observations": RV.OBSERVATIONS_V3},
+                   "revue_v2": {"id": RV.REVUE_V2_ID, "dossier_preuves": RV.REVUE_V2_DOSSIER, "verdicts": RV.REVUE_V2,
+                                "positions_relues": {str(k): v for k, v in sorted(RV.P_RELU_V2.items())}},
                    "revue_v1": {"id": RV.REVUE_V1_ID, "verdicts": RV.REVUE_V1},
-                   "seconde_lecture": {"id": RV.RELECTURE_ID, "lectures": RV.RELECTURE}},
+                   "seconde_lecture": {"id": RV.RELECTURE_ID, "lectures": RV.RELECTURE},
+                   "lien_verdict_decision": {"regle": "RES-SRC-002", "tolerance_m": RV.TOLERANCE_LIEN_M}},
         "entrees": S.empreintes,
         "chaine": {"ecarts": chaine, "forcee": bool(chaine and forcer)},
         "validation_bloques": sorted(bloques),
         "comptes": comptes,
+        "comparaison_r1": comparaison,
         "appliquees": J.appliquees,
         "non_resolues": J.non_resolues,
+        "confirmees": J.confirmees,
     }
     ecrire_json(sortie / "journal_resolution.json", arrondi(journal))
     # ------------------------------------------------------------------ manifeste 0.3
@@ -210,7 +220,9 @@ def resoudre(sortie, bloques=frozenset(), forcer=False):
     stats = dict(man0["statistiques"])
     stats["resolution"] = {"schema": SCHEMA_JOURNAL, "journal": "journal_resolution.json",
                            "hash_description_base": man0["hash_description"], "comptes": comptes,
-                           "objets": sorties_obj, "chaine": chaine}
+                           "objets": sorties_obj, "chaine": chaine,
+                           "entrees": {"coherence": "v3 (pj_coherence/0.3)", "revue_adverse": RV.REVUE_V3_ID,
+                                       "resolution_precedente": "historique/journal_resolution_r1.json"}}
     man["statistiques"] = stats
     gen = dict(man0["generateur"])
     scripts = dict(gen.get("scripts", {}))
@@ -291,7 +303,7 @@ def main():
     import resoudre_planches
     planches = []
     if not a.sans_planches:
-        planches = resoudre_planches.planches(Path(a.sortie), S, J)
+        planches = resoudre_planches.planches(Path(a.sortie), S, J, MNT())
     resoudre_rapport.rapport(Path(a.sortie), S, J, man, journal, val, planches)
     print(f"description résolue écrite dans {a.sortie}")
     print(f"hash_description {man['hash_description']}")

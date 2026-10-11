@@ -13,6 +13,9 @@ conflit de spec, indice d'ombre) :
 - ortho PCRS 5 cm 2022 graduée tous les 0,25 m le long de A -> C (lecture chiffrée, P16), ombre détectée
   (P10) ; ortho IGN 20 cm 2024.
 Les vignettes de photos de tiers restent locales (*.jpg ignorés par git) ; l'attribution est écrite.
+v3 : la décisivité de chaque photo est locale (Q2 : « non validée Q2 » dans l'en-tête de la vignette), les
+résidus du test d'accord image Q1 (r(A), r(X), vote) sont imprimés au pied de chaque vignette, l'axe triangulé
+par Q1 (indice) est l'hypothèse Q (violet) ; l'en-tête de la planche reprend le statut de résolution final.
 """
 import math
 import sys
@@ -44,10 +47,10 @@ POLICE = _police(13)
 POLICE_P = _police(11)
 TAILLE = 360
 COUL = {"A": (255, 0, 255), "C": (0, 230, 255), "S": (255, 170, 0), "T": (0, 255, 0), "M": (255, 255, 255),
-        "F": (255, 255, 0), "O": (255, 60, 60), "R": (160, 160, 255)}
+        "F": (255, 255, 0), "O": (255, 60, 60), "R": (160, 160, 255), "Q": (170, 90, 255)}
 
 
-def _vignette(p, hyps, h, bordures, azimuts, gates, taille=TAILLE):
+def _vignette(p, hyps, h, bordures, azimuts, gates, taille=TAILLE, extra=None, valide_q2=None):
     """Vue perspective centrée sur les hypothèses, axes projetés, pied : porte A↔X de cette photo."""
     cam = p["cam"]
     P = np.array([q["p3"] for q in hyps])
@@ -87,14 +90,15 @@ def _vignette(p, hyps, h, bordures, azimuts, gates, taille=TAILLE):
             e = ecart_angle(q["az"], cam_az)
             faces.append(f"{q['cle']}:{'face' if e < 80 else 'dos' if e > 100 else 'tranche'} {e:.0f}°")
     dr.rectangle([0, 0, taille, 14], fill=(0, 0, 0))
-    dr.text((2, 0), f"{p['id']} {p['date']} d={dist:.1f} m {'décisive' if p['decisive'] else 'non décisive'}",
-            fill=(255, 255, 255), font=POLICE_P)
+    dec = p["decisive"] if valide_q2 is None else (p["decisive"] and valide_q2)
+    etat = "décisive" if dec else ("non validée Q2" if p["decisive"] else "non décisive")
+    dr.text((2, 0), f"{p['id']} {p['date']} d={dist:.1f} m {etat}", fill=(255, 255, 255), font=POLICE_P)
     pied = []
     for cle, g in gates:
         x = [l for l in g["photos"] if l["photo"] == p["id"]]
         if x:
             pied.append(f"A-{cle} {x[0]['separation_deg']:.2f}°={x[0]['rapport']:.1f}σ")
-    lignes = ["  ".join(pied)] + (["  ".join(faces)] if faces else [])
+    lignes = ["  ".join(pied)] + (["  ".join(faces)] if faces else []) + ([extra] if extra else [])
     y0 = taille - 14 * len(lignes)
     dr.rectangle([0, y0, taille, taille], fill=(0, 0, 0))
     for k, l in enumerate(lignes):
@@ -163,8 +167,9 @@ def bordures_proches(carte, c, rayon=9.0):
     return out
 
 
-def portes(hyps, photos):
-    """Porte géométrique (P2) de chaque hypothèse X ≠ A contre A, sur toutes les photos valides."""
+def portes(hyps, photos, validations=None):
+    """Porte géométrique (P2) de chaque hypothèse X ≠ A contre A, sur toutes les photos valides (décisivité
+    locale Q2 si `validations` est fourni)."""
     A = [q for q in hyps if q["cle"] == "A"]
     if not A:
         return []
@@ -172,27 +177,37 @@ def portes(hyps, photos):
     for q in hyps:
         if q["cle"] == "A" or float(np.hypot(*(np.asarray(q["p"]) - np.asarray(A[0]["p"])))) < 0.05:
             continue
-        out.append((q["cle"], PO.porte(A[0]["p"], q["p"], photos)))
+        out.append((q["cle"], PO.porte(A[0]["p"], q["p"], photos, validations)))
     return out
 
 
-def planche(carte, ident, titre, hyps, h, valide, chemin, azimuts=False, n=4, notes=(), ombre=None, faire=True):
-    """hyps : [dict(cle, p (2,), az)] ; renvoie (chemin, photos utilisées, portes)."""
+def photos_planche(carte, hyps, h, valide):
     for q in hyps:
         p = np.asarray(q["p"], float)
         q["p3"] = np.r_[p, float(carte.z_sol(p[None])[0])]
-    photos = PO.photos_pour([q["p3"] for q in hyps], h, valide, dmax=40.0)
-    gates = portes(hyps, photos)
+    return PO.photos_pour([q["p3"] for q in hyps], h, valide, dmax=40.0)
+
+
+def planche(carte, ident, titre, hyps, h, valide, chemin, azimuts=False, n=4, notes=(), ombre=None, faire=True,
+            validations=None, q1_photo=None):
+    """hyps : [dict(cle, p (2,), az)] ; validations : {photo: validation locale Q2} (décisivité pour l'objet) ;
+    q1_photo : {photo: texte des résidus Q1} ; renvoie (chemin, photos utilisées, portes)."""
+    photos = photos_planche(carte, hyps, h, valide)
+    gates = portes(hyps, photos, validations)
     # vignettes : poses décisives ou calées sur GCP ; les poses Mapillary recalées sur les bordures (erreurs de 1 à
     # 3 m constatées sur les planches) restent dans la porte (non décisives) mais ne sont pas montrées
     sel = [x for x in photos if x[1]["statut_pose"] != "calee_bordures"][:n]
     info = [dict(photo=p["id"], date=p["date"], plateforme=p["plateforme"], statut_pose=p["statut_pose"],
-                 decisive=p["decisive"], distance_m=round(d, 1), attribution=p["attribution"]) for _, p, d in sel]
+                 decisive=PO.decisive_pour(p, validations), decisive_globale=p["decisive"],
+                 validation_q2=None if validations is None else (validations.get(p["id"]) or {}).get("motif"),
+                 distance_m=round(d, 1), attribution=p["attribution"]) for _, p, d in sel]
     if not faire:
         return chemin, info, gates
     c = np.mean([q["p"] for q in hyps], axis=0)
     B = bordures_proches(carte, c)
-    vign = [_vignette(p, hyps, h, B, azimuts, gates) for _, p, d in sel]
+    vign = [_vignette(p, hyps, h, B, azimuts, gates, extra=(q1_photo or {}).get(p["id"]),
+                      valide_q2=None if validations is None else bool((validations.get(p["id"]) or {}).get("valide")))
+            for _, p, d in sel]
     A = [q for q in hyps if q["cle"] == "A"]
     Cq = [q for q in hyps if q["cle"] == "C"] or [q for q in hyps if q["cle"] in ("M", "S", "T", "F", "O")]
     grad = (A[0]["p"], Cq[0]["p"]) if A and Cq else None
@@ -211,14 +226,14 @@ def planche(carte, ident, titre, hyps, h, valide, chemin, azimuts=False, n=4, no
     out.paste(o24, (TAILLE, y))
     x0 = 2 * TAILLE + 10
     lig = ["A magenta : origine ; C cyan : résolue ; S orange : spec ; T vert : triangulée ; M blanc : mesure ;",
-           "F jaune : fusion (revue) ; O rouge : pied par l'ombre (trait = ombre) ; jaune : bordure de référence",
-           "Porte P2 (toutes photos calées valides) : discriminante si séparation > 3σ de la pose ; décisive si LOO ≤ 0,5°"]
+           "F jaune : fusion (revue) ; O rouge : pied par l'ombre ; Q violet : axe triangulé par Q1 (indice)",
+           "Porte P2 : discriminante si séparation > 3σ ; décisive si LOO ≤ 0,5° ET pose validée localement (Q2)"]
     for cle, g in gates:
         lig.append(f"A→{cle} {g['d_AC_m']:.2f} m : {g['n_photos']} photos, {g['n_discriminantes']} discriminantes décisives, "
                    f"angle {g['angle_intersection_max_deg']}° -> {g['verdict']} (validé {g['composante_validee_m']:+.2f} m)")
     lig += [str(x) for x in notes]
-    for k, l in enumerate(lig[:20]):
-        dr.text((x0, y + 8 + 16 * k), l[:150], fill=(230, 230, 230) if k < 3 else (255, 230, 150), font=POLICE)
+    for k, l in enumerate(lig[:22]):
+        dr.text((x0, y + 8 + 15 * k), l[:150], fill=(230, 230, 230) if k < 3 else (255, 230, 150), font=POLICE)
     if not vign:
         dr.text((x0, y + TAILLE - 22), "aucune photo calée valide pour cet objet (date, champ ou distance > 40 m)",
                 fill=(255, 120, 120), font=POLICE)

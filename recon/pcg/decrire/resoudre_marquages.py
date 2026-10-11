@@ -1,5 +1,6 @@
-"""Résolution de la famille marquages (schéma 0.3) : retraits prouvés, flèches recentrées, marques arrêtées à
-l'arête des bordures, attributs prouvés, ajouts de traits isolés.
+"""Résolution de la famille marquages (schéma 0.3) : retraits prouvés, marques générées contredites (RES-MQ-004),
+flèches recentrées (bords représentatifs, verdicts de la revue v3), marques arrêtées à l'arête des bordures,
+attributs prouvés, ajouts de traits isolés.
 
 Toute modification est faite sur une copie de base/marquages.geojson et tracée dans la propriété `resolution` de
 l'entité (le schéma des marquages admet des propriétés libres) et dans le journal.
@@ -43,6 +44,27 @@ def _resolution(p, d):
     r["decisions"].append(arrondi(d))
 
 
+def _revue_mq(ident, R2):
+    """(entrée, texte) du verdict le plus récent sur une marque : revue v3 (objet ou marque mise en cause), puis v2."""
+    rv3 = RV.entree_v3(ident)
+    if rv3:
+        return rv3, RV.txt(rv3, RV.REVUE_V3_ID)
+    rv2 = R2.get(ident)
+    if rv2:
+        return rv2, RV.txt(rv2, RV.REVUE_V2_ID)
+    return None, None
+
+
+def _ids_bords(bords):
+    """Identifiants des limites citées dans « bordure K-0402 | ligne ML-0799 » (vide si OpenDRIVE)."""
+    out = []
+    for part in str(bords or "").split("|"):
+        toks = part.split()
+        if len(toks) >= 2 and toks[0] in ("bordure", "ligne"):
+            out.append(toks[-1])
+    return out
+
+
 def _segments_dans_boite(A, B, o, ex, ey, xa, xb, ya, yb, pas=0.05):
     """Segments [A, B] (locaux) dont une partie tombe dans la boîte du repère de la flèche (x à droite, y en avant)."""
     touches = []
@@ -63,7 +85,9 @@ class ResolveurMarquages:
         self.F = S.index_base("marquages")
         self.E = S.entites
         self.R2 = RV.index_revue_v2()
+        self.RL = RV.index_relecture()
         self.retires = set()
+        self.generees_retirees = {}     # id -> décision RES-MQ-004
         self.K = S.index_base("bordures")
         A, B, kid = [], [], []
         for i, f in sorted(self.K.items()):
@@ -117,17 +141,22 @@ class ResolveurMarquages:
                     continue
                 if (p.get("fabrication") or {}).get("statut") == "non_fabrique":
                     continue
-                rv = self.R2.get(ident)
+                rv, txt = _revue_mq(ident, self.R2)
+                if rv and rv["verdict"] != "juste" and rv.get("decision_relue") == "retrait":
+                    self.J.non_resolu(ident, "marquages", "retrait", origine="incertain", xy=xy, classe=p["classe"],
+                                      regles=["RES-EXI-001", "RES-SRC-001"], observations=obs, revue=txt,
+                                      motif=f"retrait de la fusion jugé « {rv['verdict']} » par la revue : marquage gardé")
+                    continue
                 raison = (f"{'retiré' if ex == 'retirer' else 'absent en 2026'} : preuve stricte {', '.join(obs)} "
                           f"({e['categorie_preuve']}, {e['tranche_stricte']}) ; fusion_recensement/0.3, RES-EXI-001")
                 p["fabrication"] = {"statut": "non_fabrique", "raison": raison}
                 _resolution(p, {"nature": "retrait", "regles": ["RES-EXI-001"] + e["regles"], "observations": obs,
-                                "revue": f"{RV.REVUE_V2_ID} n° {rv['n']} : {rv['verdict']}" if rv else None,
+                                "revue": txt.split(" — ")[0] if txt else None,
                                 "conf": "moyenne"})
                 self.retires.add(ident)
                 self.J.appliquer(ident, "marquages", "retrait", avant={"fabrication": None},
                                  apres={"fabrication": "non_fabrique"}, regles=["RES-EXI-001"] + e["regles"],
-                                 observations=obs, revue=(f"{RV.REVUE_V2_ID} n° {rv['n']} : {rv['verdict']} — {rv['motif']}" if rv else None),
+                                 observations=obs, revue=txt,
                                  conf="moyenne", motif=raison, xy_avant=xy, xy_apres=xy,
                                  portee=1.0 + min(float(p.get("longueur_m") or 2.0), 20.0) / 20.0, classe=p["classe"],
                                  extra={"geometrie_l93": f["geometry"]})
@@ -136,25 +165,123 @@ class ResolveurMarquages:
                                   regles=["RES-EXI-004"] + e["regles"], observations=e["obs"],
                                   motif="absence 2026 sans preuve stricte (FUS-EXI-04) : marquage gardé")
 
-    # ------------------------------------------------------------------ 2. flèches (RES-MQ-001)
-    def _verifier_fleche(self, f, ctrl, dxy):
+    # ------------------------------------------------------------------ 2. marques générées contredites (RES-MQ-004)
+    def _boite(self, f, marge=MARGE_BOITE_M):
         p = f["properties"]
         o = _loc(np.asarray(p["pose"]["point_l93"], float)[None])[0]
         ex, ey = M.axes_cap(float(p["pose"]["cap_deg"]))
-        poly = [repere(r) for r in anneaux(f["geometry"])[0]]
-        R = poly[0]
+        R = repere(anneaux(f["geometry"])[0][0])
         x, y = (R - o) @ ex, (R - o) @ ey
-        bo = (float(x.min()) - MARGE_BOITE_M, float(x.max()) + MARGE_BOITE_M, float(y.min()) - MARGE_BOITE_M,
-              float(y.max()) + MARGE_BOITE_M)
+        return o, ex, ey, (float(x.min()) - marge, float(x.max()) + marge, float(y.min()) - marge, float(y.max()) + marge)
+
+    def generees(self):
+        """Marques générées par une règle que la géométrie 2026 de rang supérieur contredit (R6)."""
+        fleches_gam = [f for i, f in sorted(self.F.items()) if f["properties"]["classe"] == "fleche"
+                       and f["properties"].get("src") == "gam" and f["properties"].get("pose")]
+        glissements = {q["properties"]["id"]: q["properties"] for q in self.S.corr_mq
+                       if q["properties"].get("nature") == "glissement_s_fleche"}
+        for ident, f in sorted(self.F.items()):
+            p = f["properties"]
+            if not str(p.get("src", "")).startswith("regle:") or ident in self.retires:
+                continue
+            if (p.get("fabrication") or {}).get("statut") == "non_fabrique":
+                continue
+            constats = []
+            if p["classe"] == "fleche" and p.get("pose") and f["geometry"]["type"] in ("Polygon", "MultiPolygon"):
+                o, ex, ey, bo = self._boite(f)
+                kb = sorted({str(self.kid[k]) for k in _segments_dans_boite(self.KA, self.KB, o, ex, ey, *bo)})
+                if kb:
+                    constats.append(f"bordure 2026 {', '.join(kb)} dans la boîte de la flèche (marge {MARGE_BOITE_M} m)")
+            if p["classe"] == "ligne" and f["geometry"]["type"] in ("LineString", "MultiLineString"):
+                parts = [f["geometry"]["coordinates"]] if f["geometry"]["type"] == "LineString" else f["geometry"]["coordinates"]
+                A = np.vstack([_loc(c)[:-1] for c in parts])
+                B = np.vstack([_loc(c)[1:] for c in parts])
+                for g in fleches_gam:
+                    o, ex, ey, bo = self._boite(g, 0.0)
+                    if _segments_dans_boite(A, B, o, ex, ey, *bo):
+                        constats.append(f"trait dans la boîte de la flèche levée GAM 2026 {g['properties']['id']}")
+            if not constats:
+                continue
+            xy = _centre(f)
+            rv, txt = _revue_mq(ident, self.R2)
+            rl = self.RL.get(ident)
+            mise_en_cause = bool(rv) and (rv.get("conclusion") == "supprimer" or rv.get("mettre_en_cause") == ident)
+            if not (mise_en_cause and rl and rl["verdict"] == "a_retirer"):
+                self.J.non_resolu(ident, "marquages", "marque_generee_contredite", origine="conflit", xy=xy,
+                                  classe=p["classe"], regles=["RES-MQ-004"] + list(p.get("regles") or [])[:3], revue=txt,
+                                  motif=f"marque générée ({p.get('src')}) contredite : {' ; '.join(constats)} ; non mise en "
+                                        f"cause par une revue relue : à arbitrer par le propriétaire de marquages.py")
+                continue
+            raison = (f"marque générée ({p.get('src')}) contredite par la géométrie 2026 : {' ; '.join(constats)} ; "
+                      f"revue adverse v3 n° {rv['n']} et seconde lecture : non fabriquée (RES-MQ-004)")
+            p["fabrication"] = {"statut": "non_fabrique", "raison": raison}
+            dec = {"nature": "retrait", "regles": ["RES-MQ-004", "RES-SRC-001"], "observations": [], "revue": txt,
+                   "seconde_lecture": f"{RV.RELECTURE_ID} : {rl['lecture']}", "constats": constats, "conf": "moyenne"}
+            gl = glissements.get(ident)
+            if gl:
+                dec["glissement_rejete"] = (f"glissement de {gl.get('glissement_s_m')} m en s ({gl.get('regle')}) non "
+                                            f"appliqué : revue « {rv['verdict']} » (RES-MQ-001)")
+            _resolution(p, dec)
+            self.retires.add(ident)
+            self.generees_retirees[ident] = dec
+            self.J.appliquer(ident, "marquages", "retrait", avant={"fabrication": None}, apres={"fabrication": "non_fabrique"},
+                             regles=dec["regles"], revue=txt, conf="moyenne", motif=raison, xy_avant=xy, xy_apres=xy,
+                             portee=1.0 + min(float(p.get("longueur_m") or 2.0), 20.0) / 20.0 + 1.0, classe=p["classe"],
+                             extra={"geometrie_l93": f["geometry"], "seconde_lecture": dec["seconde_lecture"],
+                                    "glissement_rejete": dec.get("glissement_rejete")})
+
+    # ------------------------------------------------------------------ 3. flèches (RES-MQ-001)
+    def _bords_representatifs(self, f, ids, dxy):
+        """Chaque limite citée doit couper les trois coupes (queue, milieu, tête) de la flèche recalée, à ≤ 3,5 m."""
+        o, ex, ey, bo = self._boite(f, 0.0)
+        o = o + dxy
+        ys = (bo[2], (bo[2] + bo[3]) / 2.0, bo[3])
+        manquants = []
+        for b in ids:
+            if b.startswith("K-"):
+                g = self.K.get(b)
+                parts = [g["geometry"]["coordinates"]] if g else []
+            else:
+                g = self.F.get(b)
+                parts = ([g["geometry"]["coordinates"]] if g and g["geometry"]["type"] == "LineString" else
+                         (g["geometry"]["coordinates"] if g else []))
+            for nom, yy in zip(("queue", "milieu", "tête"), ys):
+                vu = False
+                for c in parts:
+                    P = _loc(c)
+                    X, Y = (P - o) @ ex, (P - o) @ ey
+                    for k in range(len(P) - 1):
+                        if (Y[k] - yy) * (Y[k + 1] - yy) <= 0 and Y[k] != Y[k + 1]:
+                            t = (yy - Y[k]) / (Y[k + 1] - Y[k])
+                            if abs(X[k] + t * (X[k + 1] - X[k])) <= 3.5:
+                                vu = True
+                if not vu:
+                    manquants.append(f"{b} absent en travers de la {nom}")
+        return manquants
+
+    def _verifier_fleche(self, f, ctrl, dxy, rv=None):
+        p = f["properties"]
+        o, ex, ey, bo = self._boite(f)
+        poly = [repere(r) for r in anneaux(f["geometry"])[0]]
         res = {"motifs": []}
         if p.get("src") == "gam":
             res["motifs"].append("flèche levée GAM : jamais déplacée")
+        bords_revue = bool(rv) and rv["verdict"] == "juste" and rv.get("bords_mesures")
         if "OpenDRIVE" in str(ctrl.get("bords")):
-            res["motifs"].append(f"voie bornée seulement par OpenDRIVE ({ctrl.get('bords')})")
+            if bords_revue:
+                res["bords_mesures_par_la_revue"] = rv["bords_mesures"]
+            else:
+                res["motifs"].append(f"voie bornée seulement par OpenDRIVE ({ctrl.get('bords')})")
+        else:
+            manq = self._bords_representatifs(f, _ids_bords(ctrl.get("bords")), dxy)
+            res["bords_representatifs"] = not manq
+            if manq:
+                res["motifs"].append("bords non représentatifs : " + ", ".join(manq))
         for etat, d in (("avant", np.zeros(2)), ("apres", dxy)):
             o2 = o + d
             kb = _segments_dans_boite(self.KA, self.KB, o2, ex, ey, *bo)
-            kl = [k for k in _segments_dans_boite(self.LA, self.LB, o2, ex, ey, *bo) if self.lid[k] != p["id"]]
+            kl = [k for k in _segments_dans_boite(self.LA, self.LB, o2, ex, ey, *bo)
+                  if self.lid[k] != p["id"] and self.lid[k] not in self.retires]
             res[f"bordures_coupant_{etat}"] = sorted({str(self.kid[k]) for k in kb})
             res[f"lignes_coupant_{etat}"] = sorted({str(self.lid[k]) for k in kl})
             Q = np.vstack([echantillons_interieurs([r + d for r in poly], 0.05)])
@@ -173,30 +300,41 @@ class ResolveurMarquages:
         ctrl = {c["id"]: c for c in self.S.mq_controle.get("fleches", [])}
         for prop in sorted(self.S.corr_mq, key=lambda f: f["properties"]["id"]):
             q = prop["properties"]
-            if q.get("nature") != "recalage_lateral_fleche":
-                continue
             ident = q["id"]
             f = self.F.get(ident)
             if f is None:
                 continue
             p = f["properties"]
             xy = _centre(f)
+            rv, txt = _revue_mq(ident, self.R2)
+            if q.get("nature") == "glissement_s_fleche":
+                if ident in self.generees_retirees:
+                    continue                      # rejet consigné dans la décision de retrait (generees)
+                self.J.non_resolu(ident, "marquages", "glissement_fleche", origine="proposition_rejetee", xy=xy,
+                                  classe="fleche", regles=["RES-MQ-001", q.get("regle", "INF-FLE-004")], revue=txt,
+                                  proposition={"glissement_s_m": q.get("glissement_s_m"),
+                                               "origine_proposee_local": (ctrl.get(ident) or {}).get("origine_proposee_local")},
+                                  motif=f"glissement de {q.get('glissement_s_m')} m en s non appliqué (RES-MQ-001) : "
+                                        + (f"revue « {rv['verdict']} »" if rv else "aucune revue « juste »"))
+                continue
+            if q.get("nature") != "recalage_lateral_fleche":
+                continue
             if ident in self.retires:
                 self.J.non_resolu(ident, "marquages", "recalage_fleche", origine="proposition_rejetee", xy=xy, classe="fleche",
                                   regles=["RES-MQ-001", "RES-EXI-001"], motif="flèche retirée (preuve stricte) : recalage sans objet")
                 continue
             dxy = np.asarray(q["translation_m"], float)
             c = ctrl.get(ident, {})
-            rv = self.R2.get(ident)
-            res, o, ex, ey = self._verifier_fleche(f, c, dxy)
-            if rv and rv["verdict"] == "faux":
-                res["motifs"].append(f"revue « faux » : {rv['motif']}")
+            res, o, ex, ey = self._verifier_fleche(f, c, dxy, rv)
+            if rv and rv["verdict"] in ("faux", "incertain"):
+                res["motifs"].append(f"revue « {rv['verdict']} » : {rv['motif']}")
             prop_info = {"translation_m": list(dxy), "ecart_m": q.get("ecart_m"), "bords": q.get("bords"),
                          "controle_resolution": res}
             if res["motifs"]:
-                self.J.non_resolu(ident, "marquages", "recalage_fleche", origine="proposition_rejetee", xy=xy, classe="fleche",
-                                  regles=["RES-MQ-001", q.get("regle", "MQ-FLE-006")], proposition=prop_info,
-                                  revue=(f"{RV.REVUE_V2_ID} n° {rv['n']} : {rv['verdict']} — {rv['motif']}" if rv else None),
+                self.J.non_resolu(ident, "marquages", "recalage_fleche",
+                                  origine="incertain" if rv and rv["verdict"] == "incertain" else "proposition_rejetee",
+                                  xy=xy, classe="fleche", regles=["RES-MQ-001", q.get("regle", "MQ-FLE-006")],
+                                  proposition=prop_info, revue=txt,
                                   motif="recalage non appliqué : " + " ; ".join(res["motifs"]))
                 continue
             # application : géométrie, pose, ancrage (t)
@@ -215,15 +353,20 @@ class ResolveurMarquages:
                 t0 = anc["t"]
                 anc["t"] = round(float(t0) + dt, 3)
             d = float(np.hypot(*dxy))
-            revue = f"{RV.REVUE_V2_ID} n° {rv['n']} : {rv['verdict']} — {rv['motif']}" if rv else None
-            _resolution(p, {"nature": "recalage_fleche", "regles": ["RES-MQ-001", "MQ-FLE-006"], "translation_m": list(dxy),
-                            "dt_ancrage_m": dt, "bords": q.get("bords"), "controle": res, "revue": revue, "conf": "faible"})
+            revue = txt
+            regles = ["RES-MQ-001", "MQ-FLE-006"] + (["RES-SRC-001", "RES-SRC-002"] if rv and rv["verdict"] == "juste" else [])
+            bords = q.get("bords")
+            if res.get("bords_mesures_par_la_revue"):
+                bords = f"{bords} ; bornes réelles mesurées par la revue : {res['bords_mesures_par_la_revue']}"
+            _resolution(p, {"nature": "recalage_fleche", "regles": regles, "translation_m": list(dxy),
+                            "dt_ancrage_m": dt, "bords": bords, "controle": res, "revue": revue, "conf": "faible"})
             self.J.appliquer(ident, "marquages", "recalage_fleche", avant={"pose_point_l93": pt},
-                             apres={"pose_point_l93": p["pose"]["point_l93"], "d_m": d}, regles=["RES-MQ-001", "MQ-FLE-006"],
+                             apres={"pose_point_l93": p["pose"]["point_l93"], "d_m": d}, regles=regles,
                              revue=revue, conf="faible", xy_avant=xy, xy_apres=[xy[0] + dxy[0], xy[1] + dxy[1]],
                              portee=1.0 + 3.0 * d, classe="fleche",
-                             motif=f"flèche centrée dans sa voie ({q.get('bords')}) : écart {q.get('ecart_m')} m corrigé ; "
-                                   f"aucune limite dans la boîte, empreinte 100 % roulable",
+                             motif=f"flèche centrée dans sa voie ({bords}) : écart {q.get('ecart_m')} m corrigé ; "
+                                   f"aucune limite dans la boîte, empreinte 100 % roulable"
+                                   + (" ; bords représentatifs (queue, milieu, tête)" if res.get("bords_representatifs") else ""),
                              extra={"geometrie_avant_l93": g_avant, "geometrie_apres_l93": copy.deepcopy(f["geometry"])})
 
     # ------------------------------------------------------------------ 3. marques au-delà de l'arête (RES-MQ-002)
@@ -379,22 +522,48 @@ class ResolveurMarquages:
             if m.get("statut") != "signalement" or m["id"] in self.retires or m["id"] not in self.F:
                 continue
             f = self.F[m["id"]]
-            rv = self.R2.get(m["id"])
+            rv, txt = _revue_mq(m["id"], self.R2)
             self.J.non_resolu(m["id"], "marquages", "marque_hors_chaussee", origine="conflit", xy=_centre(f),
-                              classe=m.get("classe"), regles=["RES-NRE-001", "MQ-DET-010"],
-                              revue=(f"{RV.REVUE_V2_ID} n° {rv['n']} : {rv['verdict']} — {rv['motif']}" if rv else None),
+                              classe=m.get("classe"), regles=["RES-NRE-001", "MQ-DET-010"], revue=txt,
                               motif=f"{m['part_hors_chaussee']:.0%} hors chaussée (débord {m['debord_max_m']} m), source "
                                     f"{m['source']} : bordure, limite de chaussée ou marque à revoir")
         for c in sorted(self.S.mq_controle.get("fleches", []), key=lambda c: c["id"]):
             if c["id"] not in self.F or c["id"] in self.retires:
                 continue
+            rv, txt = _revue_mq(c["id"], self.R2)
+            xy = _centre(self.F[c["id"]])
             if c["statut"] in ("leve_ecart_garde", "voie_non_bornee", "garde_par_ortho"):
-                rv = self.R2.get(c["id"])
+                if rv and rv["verdict"] == "juste" and rv.get("decision_relue") == c["statut"]:
+                    self.J.confirmer(c["id"], "marquages", f"fleche_{c['statut']}", xy=xy, classe="fleche",
+                                     regles=["RES-MQ-001", "RES-SRC-002"], revue=txt,
+                                     motif=f"flèche gardée à sa position décrite ({c['statut']}), confirmée par la revue v3")
+                    continue
                 self.J.non_resolu(c["id"], "marquages", f"fleche_{c['statut']}", origine="incertain",
-                                  xy=_centre(self.F[c["id"]]), classe="fleche", regles=["RES-MQ-001", "MQ-FLE-006"],
-                                  revue=(f"{RV.REVUE_V2_ID} n° {rv['n']} : {rv['verdict']} — {rv['motif']}" if rv else None),
+                                  xy=xy, classe="fleche", regles=["RES-MQ-001", "MQ-FLE-006"], revue=txt,
                                   motif=f"flèche gardée ({c['statut']}, écart {c.get('ecart_m')} m ; {c.get('bords')}) : "
                                         f"bords de voie à vérifier")
+            elif c["statut"] == "voie_coupee":
+                restantes = [l for l in c.get("limites_dans_boite", []) if l.split()[1] not in self.retires]
+                if not restantes:
+                    self.J.confirmer(c["id"], "marquages", "fleche_voie_coupee_levee", xy=xy, classe="fleche",
+                                     regles=["RES-MQ-004", "RES-SRC-002"], revue=txt,
+                                     motif=f"flèche {c.get('source')} gardée ; la limite qui coupait sa boîte "
+                                           f"({', '.join(c.get('limites_dans_boite', []))}) est une marque générée retirée "
+                                           f"(RES-MQ-004)")
+                    continue
+                self.J.non_resolu(c["id"], "marquages", "fleche_voie_coupee", origine="conflit", xy=xy, classe="fleche",
+                                  regles=["RES-MQ-001", "RES-NRE-001"], revue=txt,
+                                  motif=f"limite dans la boîte de la flèche ({', '.join(restantes)}) : position de la flèche "
+                                        f"ou bords de voie à vérifier")
+            elif c["statut"] == "conflit_surface_marquage":
+                self.J.non_resolu(c["id"], "marquages", "conflit_surface_marquage", origine="conflit", xy=xy, classe="fleche",
+                                  regles=["RES-MQ-001", "RES-NRE-001"], revue=txt,
+                                  proposition={"translation_m": c.get("translation_m"), "bords": c.get("bords"),
+                                               "part_roulable_avant": c.get("part_roulable_avant"),
+                                               "part_roulable_apres": c.get("part_roulable_apres")},
+                                  motif=f"flèche {c.get('source')} entièrement hors des surfaces roulables (avant "
+                                        f"{c.get('part_roulable_avant')}, recalée {c.get('part_roulable_apres')}) : conflit "
+                                        f"surface / marquage, aucun recalage ; surface ou flèche à vérifier")
 
     # ------------------------------------------------------------------ 6. ajouts de traits (RES-MQ-003)
     def ajouts(self, ajouts):
@@ -479,6 +648,7 @@ class ResolveurMarquages:
 
     def executer(self, ajouts):
         self.existence()
+        self.generees()
         self.fleches()
         self.raccourcissements()
         self.attributs()

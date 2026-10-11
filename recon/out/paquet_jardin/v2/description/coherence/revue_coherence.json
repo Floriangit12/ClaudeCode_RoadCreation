@@ -1,8 +1,8 @@
 {
- "schema": "pj_revue_coherence/0.2",
+ "schema": "pj_revue_coherence/0.3",
  "date": "2026-10-11",
- "par": "Claude (vision), agent COHERENCE V2",
- "methode": "lecture des planches coherence/planches/<id>.jpg (photos calées, porte géométrique P2 imprimée, orthos 2022 et 2024 graduées) et des photos non calées pour les tests ordinaux ; champs : verdict (corrigee | origine | spec | triangulee | ambigu | rejete | fusionne), support ('photos' | 'ortho'), mesure {position_local | t | ds, dt ; sigma_m ; methode ; photos ; date}, tests_ordinaux [{test : n_mats | plaques | occultation | presence, valeur, objets, photos, date, note}], raccourci {vues : [{photo, releve_deg, rapport_wh, rapport_face, cote}]}, plaques_vues [formes], verdict_azimut, azimut, instancier.",
+ "par": "Claude (vision), agents COHERENCE V2 puis V3",
+ "methode": "lecture des planches coherence/planches/<id>.jpg (photos calées, porte géométrique P2 imprimée, orthos 2022 et 2024 graduées) et des photos non calées pour les tests ordinaux ; champs : verdict (corrigee | origine | spec | triangulee | ambigu | rejete | fusionne), support ('photos' | 'ortho'), mesure {position_local | t | ds, dt ; sigma_m ; methode ; photos ; date}, tests_ordinaux [{test : n_mats | plaques | occultation | presence, valeur, objets, photos, date, note}], raccourci {vues : [{photo, releve_deg, rapport_wh, rapport_face, cote}]}, plaques_vues [formes], verdict_azimut, azimut, instancier. Schéma 0.3 (cohérence v3) : mesure.nature (triangulation_photos | lecture_ombre | pixel_ortho | rayon_photo_regle, Q7), mesure.corroboration (lecture indépendante, Q7), presence_2026 {id: {valeur : present | absent | non_visible, photos, note}} (Q4, obligatoire à moins de 25 m d'une photo calée 2026). Les σ saisis sous le plancher géométrique sont refusés par le solveur (Q6) ; chaque affirmation chiffrée est vérifiée par le test d'accord image (Q1).",
  "revues": {
   "pan_AB3a_2": {
    "verdict": "corrigee",
@@ -22,7 +22,9 @@
      "pnx:eeb2f8f1",
      "mly:1207034570953803"
     ],
-    "date": "2025-05-18"
+    "date": "2025-05-18",
+    "nature": "rayon_photo_regle",
+    "note_v3": "revue adverse v2 #3 : les trois vues du SO se dispersent de +0,37 m à −1,0 m en travers (mly:1207034570953803 décalée de 2 à 3°) ; σ_travers 0,06 m intenable (Q6) ; rayon + règle n'est pas une mesure de mât (Q7)"
    },
    "tests_ordinaux": [
     {
@@ -159,7 +161,9 @@
     "photos": [
      "ortho:pcrs2022"
     ],
-    "date": "2022-05-10"
+    "date": "2022-05-10",
+    "nature": "lecture_ombre",
+    "corroboration": "revue adverse v2 #12 : lecture indépendante sur l'ortho 2022 graduée (og_matcam.jpg) : une seule ombre de mât de (18,1 ; −59,7) à (19,0 ; −62,0), pied au bout SSE (19,0 ; −62,07)"
    },
    "tests_ordinaux": [
     {
@@ -193,7 +197,9 @@
     "photos": [
      "ortho:pcrs2022"
     ],
-    "date": "2022-05-10"
+    "date": "2022-05-10",
+    "nature": "lecture_ombre",
+    "corroboration": "revue adverse v2 #8 : lecture indépendante sur l'ortho 2022 graduée (og_matcam.jpg) : une seule ombre de mât de (18,1 ; −59,7) à (19,0 ; −62,0), pied au bout SSE (19,0 ; −62,07)"
    },
    "tests_ordinaux": [
     {
@@ -227,7 +233,9 @@
     "photos": [
      "ortho:pcrs2022"
     ],
-    "date": "2022-05-10"
+    "date": "2022-05-10",
+    "nature": "lecture_ombre",
+    "corroboration": "revue adverse v2 #5 : lecture indépendante (l'ombre fine part du disque clair en C, aucune ombre ne part de A) ; mesure v1 (−124,4 ; 119,1) à moins de 0,3 m"
    }
   },
   "pan_J5_1": {
@@ -247,7 +255,8 @@
      "pnx:e86aa913",
      "pnx:e5d79de9"
     ],
-    "date": "2025-05-18"
+    "date": "2025-05-18",
+    "nature": "triangulation_photos"
    }
   },
   "pan_AB3a_3": {
@@ -523,6 +532,260 @@
     "verdict": "ambigu",
     "note": "quartier construit après 2022 : ni photo ni ortho utiles"
    }
+  }
+ },
+ "presence_2026": {
+  "arbre_004": {
+   "valeur": "present",
+   "photos": [
+    "pnx:00c1ba9a"
+   ],
+   "date": "2026-07-28",
+   "note": "arbre à feuillage persistant dense, tronc dans la boîte (22,9 m)"
+  },
+  "arbre_005": {
+   "valeur": "present",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "même type d'arbre, tronc dans la boîte sur les 3 vues"
+  },
+  "arbre_006": {
+   "valeur": "present",
+   "photos": [
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "feuillu à houppier clair, tronc fin dans la boîte"
+  },
+  "arbre_013": {
+   "valeur": "absent",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "pelouse sèche nue devant la façade et la rampe de garage, aucun tronc ni houppier dans la boîte (4,9 à 13,4 m) ; concorde avec la fusion (PANO2026-026)"
+  },
+  "arbre_014": {
+   "valeur": "present",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "petit arbre ou arbuste en cépée (≈ 2,5 m) exactement dans la boîte sur les 3 vues"
+  },
+  "arbre_015": {
+   "valeur": "absent",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "sol nu entre la haie et le candélabre lamp_9514828517, aucun arbre dans la boîte (5,9 à 10,2 m) ; concorde avec la fusion (PANO2026-027)"
+  },
+  "arbre_016": {
+   "valeur": "present",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "jeune arbre à tronc fin dans la boîte, à côté du candélabre"
+  },
+  "arbre_017": {
+   "valeur": "present",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "arbre à tronc fin dans la boîte (ded07efa, f8d91bb1) ; depuis 00c1ba9a la visée longe un candélabre"
+  },
+  "arbre_025": {
+   "valeur": "present",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "grand arbre à houppier rond ; tronc dans la boîte depuis ded07efa et f8d91bb1"
+  },
+  "arbre_026": {
+   "valeur": "present",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "grand tilleul : la boîte tombe dans le tronc sur les 3 vues (poses validées sur cet arbre)"
+  },
+  "arbre_027": {
+   "valeur": "absent",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "la boîte tombe sur les voitures garées puis sur la façade, aucun tronc ni houppier (10,1 à 12,7 m) ; l'arbre de 2022 a disparu (revue adverse v2)"
+  },
+  "arbre_028": {
+   "valeur": "absent",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "pelouse sèche nue devant la façade, aucun arbre (7,5 à 13,7 m) ; arbre_026 voisin présent exactement sur son point (revue adverse v2)"
+  },
+  "arbre_029": {
+   "valeur": "absent",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "souche coupée au ras du sol visible dans la boîte sur ded07efa (6,6 m) et f8d91bb1 (10,5 m) : arbre abattu"
+  },
+  "arbre_049": {
+   "valeur": "present",
+   "photos": [
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "pin à tronc élancé dans la boîte (≈ 21-25 m)"
+  },
+  "arbre_050": {
+   "valeur": "present",
+   "photos": [
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "feuillu élancé dans la boîte (≈ 24-28 m)"
+  },
+  "barriere_levante_3375058657": {
+   "valeur": "non_visible",
+   "photos": [
+    "pnx:00c1ba9a"
+   ],
+   "date": "2026-07-28",
+   "note": "masquée par une voiture garée ; seule vue à 22,7 m"
+  },
+  "boite_aux_lettres_12887274328": {
+   "valeur": "non_visible",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "masquée par les voitures garées sur les 3 vues"
+  },
+  "lamp_12887274329": {
+   "valeur": "absent",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "aucun mât dans la boîte ni à ±2 m sur les 3 vues (façade et ciel visibles derrière, jusqu'à 7 m de haut) ; un luminaire mural reste possible : à vérifier sur place (OSM 2026-02)"
+  },
+  "lamp_9514828418": {
+   "valeur": "present",
+   "photos": [
+    "pnx:00c1ba9a"
+   ],
+   "date": "2026-07-28",
+   "note": "mât de candélabre sur la visée (23,2 m)"
+  },
+  "lamp_9514828431": {
+   "valeur": "present",
+   "photos": [
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "mât de candélabre sur la visée (20-21 m)"
+  },
+  "lamp_9514828517": {
+   "valeur": "present",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa"
+   ],
+   "date": "2026-07-28",
+   "note": "grand candélabre portant les plaques B6a1 et C13a (7,8-8,3 m)"
+  },
+  "pan_AB3a_3": {
+   "valeur": "present",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "triangle AB3a sur son poteau, au refuge (déplacé lors des travaux)"
+  },
+  "pan_AB4_2": {
+   "valeur": "present",
+   "photos": [
+    "pnx:ded07efa",
+    "pnx:f8d91bb1"
+   ],
+   "date": "2026-07-28",
+   "note": "STOP sur son poteau à la pointe de l'îlot herbeux"
+  },
+  "pan_B6a1_1": {
+   "valeur": "present",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa"
+   ],
+   "date": "2026-07-28",
+   "note": "plaque B6a1 sur le candélabre lamp_9514828517"
+  },
+  "pan_B6a1_2": {
+   "valeur": "non_visible",
+   "photos": [
+    "pnx:00c1ba9a"
+   ],
+   "date": "2026-07-28",
+   "note": "position masquée par les voitures garées ; un disque B6a1 est visible ≈ 17° plus à droite devant la façade, non apparié (position de la triangulation à 2 rayons à revoir)"
+  },
+  "pan_C13a_1": {
+   "valeur": "present",
+   "photos": [
+    "pnx:00c1ba9a",
+    "pnx:ded07efa"
+   ],
+   "date": "2026-07-28",
+   "note": "plaque sous le B6a1 sur le même candélabre"
+  },
+  "stationnement_velos_13542473491": {
+   "valeur": "non_visible",
+   "photos": [
+    "pnx:00c1ba9a"
+   ],
+   "date": "2026-07-28",
+   "note": "masqué par les voitures garées (21,4 m)"
   }
  }
 }

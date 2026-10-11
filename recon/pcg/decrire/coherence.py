@@ -1,28 +1,36 @@
-"""Solveur de cohérence des objets v2 (mobilier, arbres, têtes de feux, hypothèses des specs, marquages).
+"""Solveur de cohérence des objets v3 (mobilier, arbres, têtes de feux, hypothèses des specs, marquages).
 
 Chaîne (déterministe, deux exécutions identiques à l'octet) :
 1. carte sémantique du site (coherence_carte) : bordures de la description régularisée v2 (site complet,
    orientation corrigée en amont, P6), abaissés / BEV / palier conditionnel (P8) ;
-2. objets, groupes rigides, preuves (coherence_objets) ; ombres portées sur les orthos 2022 et 2024
-   (coherence_ombres, P10) ; canal de mesures : revue, fusion 0.3, triangulations, ombres -> nouvel
-   a priori p0 (coherence_mesures, P3) ; position source brute et budget de déplacement (P9) ;
-3. évaluation des règles d'implantation, dureté selon la nature de la règle et le statut de l'objet (P7),
+2. objets, groupes rigides, preuves (coherence_objets) ; verdicts d'existence de la fusion (Q3 :
+   absent_2026 -> non instancié, retirer -> à retirer, absent_2026_a_verifier -> drapeau) et constats de
+   présence 2026 de la revue (Q4) ; ombres portées (coherence_ombres, P10) ;
+3. canal de mesures (coherence_mesures) : revue, fusion 0.3, triangulations, ombres ; nature de la mesure
+   (Q7 : pixel_ortho pour les objets au sol seulement, mâts par départ d'ombre corroboré ou triangulation),
+   covariance anisotrope et plancher géométrique (Q6), test d'accord image automatique de chaque mesure
+   sur les photos décisives de sa planche (Q1, coherence_verifs / coherence_photos / coherence_accord,
+   décisivité locale des poses Q2), puis combinaison et compatibilité avec la source d'origine (Q8) ->
+   nouvel a priori p0 (P3) ;
+4. évaluation des règles d'implantation, dureté selon la nature de la règle et le statut de l'objet (P7),
    recherche du candidat admissible (coherence_regles ; P5 : jamais sur un objet mieux prouvé) ;
-4. arbitrage : corrigé, anomalie de surface, photo, non-instanciation ; orientation (règle, photo, raccourci
-   P4) ; z posé sur le sol 2026 ;
-5. têtes de feux, déductions, îlots manquants, fusions de supports (P5 : seulement « même support » ou
-   photo à un seul mât), conflits avec feux.json / panneaux.json ;
-6. preuves (coherence_preuves, coherence_poses) : toutes les poses calées (Panoramax 2024-2026, Mapillary
-   calées ; P1), porte géométrique A↔C sur chaque planche (P2) ; revue_coherence.json 0.2 (verdicts,
-   mesures, tests ordinaux, raccourcis, plaques) ;
-7. marquages : flèches centrées dans leur voie (MQ-FLE-006), marques dans la chaussée (MQ-DET-010)
-   (coherence_marquages) ;
-8. sorties : coherence/rapport_coherence.json, corrections.geojson, propositions_ajouts.geojson,
-   marquages_controle.json, corrections_marquages.geojson, ombres.json, REPORT.md.
+5. arbitrage : corrigé, anomalie de surface, photo, non-instanciation ; test d'accord image du candidat
+   (Q1) ; orientation (règle, photo, raccourci P4) ; z posé sur le sol 2026 ;
+6. têtes de feux, déductions, îlots manquants, fusions de supports (P5), conflits avec feux.json /
+   panneaux.json ; présence 2026 (Q4 : vignettes, test automatique, revue obligatoire) ;
+7. preuves (coherence_preuves, coherence_poses) : poses calées (P1), porte géométrique avec décisivité
+   locale (P2, Q2), résidus Q1 sur les vignettes ; planches dessinées après les décisions (en-tête au
+   statut final) ; revue_coherence.json 0.3 ;
+8. marquages (coherence_marquages) : verdicts d'existence (Q3), flèches (MQ-FLE-006, Q5 : tête seule,
+   flèches douteuses, voie coupée, résultat entièrement roulable, glissement des répétitions INF-FLE-004),
+   marques dans la chaussée (MQ-DET-010) ;
+9. sorties : coherence/rapport_coherence.json, corrections.geojson, propositions_ajouts.geojson,
+   marquages_controle.json, corrections_marquages.geojson, ombres.json, verifications_image.json,
+   presence_2026.json, conflits_fusion.json, REPORT.md.
 
 Usage (depuis la racine du dépôt) :
   python recon/pcg/decrire/coherence.py                 # tout, planches comprises
-  python recon/pcg/decrire/coherence.py --sans-planches # évaluation seule
+  python recon/pcg/decrire/coherence.py --sans-planches # évaluation seule (sans vignettes ni planches)
 Ne modifie ni le paquet ni la description de base : couche séparée à fusionner par le composeur. Les
 planches (photos de tiers) sont des .jpg locaux, ignorés par git.
 """
@@ -39,7 +47,7 @@ from coherence_objets import (azimut_grossier, charger, hypotheses_specs, tetes,
 from coherence_regles import CIRC_BASE, Solveur
 from commun import RACINE, lire_json
 
-SCHEMA = "pj_coherence/0.2"
+SCHEMA = "pj_coherence/0.3"
 SEUIL_PLANCHE_M = 0.30
 SEUIL_PLANCHE_DEG = 20.0
 
@@ -671,7 +679,7 @@ def conflits_specs(S, positions, azim):
 # --------------------------------------------------------------------------- preuves
 def _hypotheses(o, a, orr, conf_s):
     """Hypothèses d'une planche : A (origine = position source), C (résolue), M (mesure retenue), F (fusion
-    en revue), S (spec), T (triangulée v1), O (pied par l'ombre)."""
+    en revue), S (spec), T (triangulée v1), O (pied par l'ombre), Q (axe triangulé par le test Q1, indice)."""
     p_src = o.get("p_source", o["p0"])
     hyps = [dict(cle="A", p=p_src, az=o.get("azimut0") if o["type"] != "arbre" else None)]
     if float(np.hypot(*(a["p"] - p_src))) > 0.05 or orr.get("statut") == "reoriente":
@@ -679,7 +687,7 @@ def _hypotheses(o, a, orr, conf_s):
     if o.get("mesure") and float(np.hypot(*(o["mesure"]["xy"] - a["p"]))) > 0.05:
         hyps.append(dict(cle="M", p=o["mesure"]["xy"], az=None))
     for m in o.get("mesures") or []:
-        if m["source"] == "fusion_recensement_0.3" and m["statut"] == "hypothese":
+        if m["source"] == "fusion_recensement_0.3" and (m["statut"] == "hypothese" or (m["statut"] == "indice" and m.get("q1"))):
             hyps.append(dict(cle="F", p=m["xy"], az=None))
     for c in conf_s:
         if c.get("p_spec") is not None:
@@ -689,13 +697,44 @@ def _hypotheses(o, a, orr, conf_s):
     om = [m for m in o.get("mesures") or [] if m["source"] == "ombre_ortho"]
     if om:
         hyps.append(dict(cle="O", p=om[0]["xy"], az=None))
+    tri = [((m.get("q1") or {}).get("axe_triangule") or {}).get("xy") for m in o.get("mesures") or []]
+    tri = [t for t in tri if t is not None]
+    if tri:
+        hyps.append(dict(cle="Q", p=np.asarray(tri[0], float), az=None))
     return hyps
 
 
-def preuves(S, objets, arbit, orient, conflits, revue, ombres, faire_planches=True):
-    """Planches et portes géométriques (P2) des décisions : déplacement > 0,3 m (depuis la position source),
-    réorientation > 20°, mesure appliquée, anomalie, non résolu, conflit de spec, indice d'ombre > 0,5 m."""
+def _lignes_q1(o, q1c):
+    """Texte Q1 de la planche (verdicts, votes) et résidus par photo {photo: texte}."""
+    lig, par_photo = [], {}
+
+    def ajoute(nom, r):
+        lig.append(f"Q1 {nom} : {r['verdict']} ({r.get('n_observee_X', 0)} photos sur l'hypothèse, votes "
+                   f"{len(r['votes_X'])} pour / {len(r['votes_A'])} pour A ; Σr² {r['somme_r2_X']} / {r['somme_r2_A']})"
+                   + (f" ; écartées {', '.join(x[4:] for x in r['exclues_multivues'])}" if r.get("exclues_multivues") else ""))
+        for l in r.get("photos") or []:
+            if l["photo"] in par_photo:
+                continue
+            ra = "-" if l.get("r_A") is None else f"{l['r_A']:+.1f}"
+            rx = "-" if l.get("r_X") is None else f"{l['r_X']:+.1f}"
+            par_photo[l["photo"]] = (f"Q1 {nom[:6]} rA {ra}{'*' if l.get('obs_A') else ''} r{nom[:1]} {rx}"
+                                     f"{'*' if l.get('obs_X') else ''} vote {l.get('vote') or '-'}"
+                                     + ("" if l.get("decisive") else " (non déc.)"))
+    for m in o.get("mesures") or []:
+        if m.get("q1"):
+            ajoute(f"M {m['source'][:14]}", dict(m["q1"], photos=m.get("q1_photos")))
+    if q1c and o["id"] in q1c:
+        ajoute("C résolue", q1c[o["id"]])
+    return lig[:5], par_photo
+
+
+def preuves(S, objets, arbit, orient, conflits, revue, ombres, faire_planches=True, q1c=None):
+    """Portes géométriques (P2, décisivité locale Q2) et préparation des planches des décisions : déplacement
+    > 0,3 m (depuis la position source), réorientation > 20°, mesure appliquée ou testée, anomalie, non résolu,
+    conflit de spec, indice d'ombre > 0,5 m. Les planches sont dessinées après les décisions (dessiner_planches),
+    pour que l'en-tête porte le statut de résolution final (Q10)."""
     import coherence_preuves as CP
+    import coherence_verifs as VF
     jobs = []
     for o in objets:
         a = arbit.get(o["id"])
@@ -709,9 +748,10 @@ def preuves(S, objets, arbit, orient, conflits, revue, ombres, faire_planches=Tr
             daz = ecart_angle(orr["az"], o["azimut0"])
         conf_s = [c for c in conflits if c.get("objet") == o["id"] and c["nature"] in ("position", "orientation")]
         indice = any(m["source"] == "ombre_ortho" and float(np.hypot(*(m["xy"] - p_src))) > 0.5 for m in o.get("mesures") or [])
+        testee = any(m.get("q1") for m in o.get("mesures") or []) or bool(q1c and o["id"] in q1c)
         if d > SEUIL_PLANCHE_M or (daz or 0) > SEUIL_PLANCHE_DEG or a["statut"] in ("a_arbitrer_photo", "anomalie_surface", "non_resolu") \
                 or orr.get("statut") in ("orientation_signalee",) or conf_s or indice or o.get("mesure") \
-                or (o["id"] in revue):
+                or (o["id"] in revue) or testee:
             jobs.append((o, a, orr, list(conf_s)))
     for c in conflits:
         if c["nature"] == "identite":
@@ -722,22 +762,23 @@ def preuves(S, objets, arbit, orient, conflits, revue, ombres, faire_planches=Tr
             elif o["id"] in arbit:
                 jobs.append((o, arbit[o["id"]], orient.get(o["id"]) or {}, [c]))
     jobs.sort(key=lambda j: j[0]["id"])
-    res = {}
     if faire_planches and CP.PLANCHES.exists():
         for f in sorted(CP.PLANCHES.glob("*.jpg")):
             f.unlink()                       # planches d'une exécution précédente
+    prep = []
     for o, a, orr, conf_s in jobs:
         hyps = _hypotheses(o, a, orr, conf_s)
         h = float(o.get("hauteur") or 2.5) if o["type"] != "arbre" else 3.0
         h = min(max(h, 1.0), 6.0)
         valide = (lambda date, o=o: valide_pour_photo(o, date))
+        photos = CP.photos_planche(S.c, hyps, h, valide)
+        prep.append((o, a, orr, conf_s, hyps, h, valide, photos))
+    # Q2 : validation locale des poses des photos de chaque planche (une photo chargée une fois)
+    VF.q2_planches([(o["id"], o.get("p_source", o["p0"]), [p for _, p, _ in photos]) for o, a, orr, conf_s, hyps, h, valide, photos in prep])
+    res = {}
+    for o, a, orr, conf_s, hyps, h, valide, photos in prep:
         regles_v = sorted({v["regle"] for v in a["_V"] if v["nature"] != "z"})
         p_src = o.get("p_source", o["p0"])
-        titre = [f"{o['id']} ({o['type']}{' ' + o['code'] if o.get('code') else ''}) - {a['statut']} - preuve {o['preuve']} "
-                 f"sigma {o['sigma']} m - statut 2026 : {o['statut']} - source brute : {o.get('source_brute')}",
-                 "règles : " + ", ".join(regles_v) + f" | déplacement {np.hypot(*(a['p'] - p_src)):.2f} m"
-                 + (f" | azimut {o.get('azimut0')} -> {orr.get('az')}" if orr.get("statut") else "")
-                 + (" | spec : " + ", ".join(c["id"] for c in conf_s) if conf_s else "")]
         chemin = CP.PLANCHES / f"{o['id']}.jpg"
         notes = []
         for q in hyps:
@@ -746,14 +787,48 @@ def preuves(S, objets, arbit, orient, conflits, revue, ombres, faire_planches=Tr
             notes.append(f"{q['cle']} : ({q['p'][0]:.2f} ; {q['p'][1]:.2f}) zone {zq}"
                          + ("" if rq is None else f", s {rq['s']:.2f} t {rq['t']:+.2f} m ({rq['id']})")
                          + ("" if q.get("az") is None else f", face {q['az']:.0f}°"))
-        notes += [j[:150] for j in a.get("justification", [])[:2]]
+        l1, par_photo = _lignes_q1(o, q1c)
+        notes = l1 + notes + [j[:150] for j in a.get("justification", [])[:2]]
         om = ((ombres or {}).get("detections") or {}).get(o["id"], {}).get("pcrs2022")
-        _, photos, gates = CP.planche(S.c, o["id"], titre, hyps, h, valide, chemin, azimuts=True, notes=notes,
-                                      ombre=om, faire=faire_planches)
-        entree = dict(planche=chemin.relative_to(RACINE).as_posix(), hypotheses=[q["cle"] for q in hyps], photos=photos,
-                      portes={cle: g for cle, g in gates}, revue=revue.get(o["id"]))
-        res[o["id"]] = entree
+        val = VF.validations(o["id"])
+        _, info, gates = CP.planche(S.c, o["id"], ["", ""], hyps, h, valide, chemin, azimuts=True, notes=notes,
+                                    ombre=om, faire=False, validations=val, q1_photo=par_photo)
+        res[o["id"]] = dict(planche=chemin.relative_to(RACINE).as_posix(), hypotheses=[q["cle"] for q in hyps], photos=info,
+                            portes={cle: g for cle, g in gates}, revue=revue.get(o["id"]),
+                            _dessin=dict(o=o, a=a, orr=orr, conf_s=conf_s, hyps=hyps, h=h, valide=valide, notes=notes,
+                                         ombre=om, chemin=chemin, val=val, q1=par_photo, regles=regles_v, p_src=p_src))
     return res
+
+
+def dessiner_planches(S, pr, rap, faire=True):
+    """Dessine les planches préparées par `preuves` ; l'en-tête reprend le statut de résolution final (Q10)."""
+    import coherence_preuves as CP
+    if not faire:
+        return
+    par = {r["id"]: r for r in rap}
+    for oid in sorted(pr):
+        d = pr[oid].get("_dessin")
+        if not d:
+            continue
+        o, a, orr = d["o"], d["a"], d["orr"]
+        r = par.get(oid) or {}
+        c = r.get("correction") or {}
+        statut = r.get("statut_resolution", a["statut"])
+        titre = [f"{o['id']} ({o['type']}{' ' + o['code'] if o.get('code') else ''}) - {statut} (verdict {r.get('verdict')}, conf "
+                 f"{c.get('conf')}) - preuve {o['preuve']} sigma {o['sigma']} m - statut 2026 : {r.get('statut_2026', o['statut'])}",
+                 "règles : " + ", ".join(d["regles"]) + f" | déplacement {c.get('d_m', 0.0):.2f} m"
+                 + (f" | azimut {o.get('azimut0')} -> {c.get('azimut_resolu_deg')}" if c.get("orientation") else "")
+                 + (" | drapeaux : " + ", ".join(c.get("drapeaux") or []) if c.get("drapeaux") else "")]
+        hyps = [dict(q) for q in d["hyps"]]
+        pf = c.get("p_resolu_local")
+        if pf is not None and float(np.hypot(*(np.asarray(pf, float) - np.asarray(d["p_src"], float)))) > 0.05:
+            hc = [q for q in hyps if q["cle"] == "C"]
+            if hc:
+                hc[0]["p"] = np.asarray(pf, float)
+            else:
+                hyps.insert(1, dict(cle="C", p=np.asarray(pf, float), az=c.get("azimut_resolu_deg")))
+        CP.planche(S.c, o["id"], titre, hyps, d["h"], d["valide"], d["chemin"], azimuts=True, notes=d["notes"],
+                   ombre=d["ombre"], faire=True, validations=d["val"], q1_photo=d["q1"])
 
 
 def preuves_tetes(S, tetes_res, positions, revue, faire_planches=True):
@@ -812,25 +887,77 @@ def propager_mesures_groupes(objets):
             m["p_brut"], m["dmax_brut"], m["source_brute"] = m["p0"].copy(), best["dmax_brut"], best["source_brute"]
 
 
+def appliquer_existences(objets, exist, presences, tout_fusion=None):
+    """Q3 et Q4 : verdicts d'existence de la fusion (absent_2026 -> non instancié, retirer -> à retirer,
+    absent_2026_a_verifier -> drapeau) et constats de présence 2026 saisis par Claude (absent -> non instancié).
+    Renvoie le journal des désaccords solveur / fusion."""
+    journal = []
+    for o in objets:
+        e = exist.get(o["id"])
+        pr = presences.get(o["id"]) or {}
+        val = pr.get("valeur")
+        o["existence_fusion"] = None if e is None else e["existence"]
+        if e and e["existence"] in ("absent_2026", "retirer"):
+            if val == "present":
+                journal.append(dict(entite=o["id"], nature="presence_constatee_contre_absence_fusion",
+                                    fusion=dict(existence=e["existence"], obs=e["obs_preuve"], date=e["date"]),
+                                    coherence=dict(presence=val, photos=pr.get("photos"), note=pr.get("note")),
+                                    decision="objet gardé par la cohérence (photo 2026 calée) ; à arbitrer par la fusion",
+                                    renvoi="fusion_recensement"))
+                o["drapeaux_q"] = sorted(set(o.get("drapeaux_q", [])) | {"conflit_existence_fusion"})
+                continue
+            o["statut_source"] = o["statut"]
+            lib = "absent 2026 (fusion : " if e["existence"] == "absent_2026" else "absent 2026 (à retirer, fusion : "
+            o["statut"] = lib + ", ".join(e["obs_preuve"]) + ")"
+            o["q3"] = dict(existence=e["existence"], obs=e["obs_preuve"], date=e["date"], regles=e["regles"])
+            if val == "absent":
+                o["q4_absence_confirmee"] = True
+            continue
+        if e and e["existence"] == "absent_2026_a_verifier":
+            o["drapeaux_q"] = sorted(set(o.get("drapeaux_q", [])) | {"absent_2026_a_verifier"})
+            o["q3"] = dict(existence=e["existence"], obs=e["obs_preuve"], date=e["date"], regles=e["regles"])
+        if val == "absent":
+            o["statut_source"] = o["statut"]
+            o["statut"] = "absent 2026 (constat photo 2026 de la cohérence : " + ", ".join(pr.get("photos") or []) + ")"
+            o["q4_absent"] = True
+            tf = (tout_fusion or {}).get(o["id"])
+            journal.append(dict(entite=o["id"], nature="absence_constatee_par_la_coherence",
+                                fusion=None if tf is None else dict(existence=tf["existence"], statut=tf["statut"],
+                                                                    obs=tf["obs_preuve"], date=tf["date"]),
+                                coherence=dict(presence=val, photos=pr.get("photos"), note=pr.get("note")),
+                                decision="non instancié (non_instancie_absent_2026) ; constat à reporter dans la fusion "
+                                         "(arbitrages_fusion.json, action constat_revue)", renvoi="fusion_recensement"))
+    return journal
+
+
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Solveur de cohérence des objets v2 (règles d'implantation + preuves)")
+    ap = argparse.ArgumentParser(description="Solveur de cohérence des objets v3 (règles d'implantation + preuves)")
     ap.add_argument("--sans-planches", action="store_true")
     a = ap.parse_args(argv)
     t0 = time.time()
     import coherence_mesures as CM
     import coherence_ombres as CO
+    import coherence_photos as PH
     import coherence_poses as PO
+    import coherence_presence as CPR
+    import coherence_verifs as VF
+    from coherence_objets import anterieure_travaux, existences_fusion
     carte = Carte(verbeux=True)
     carte.ecrire()
+    PH.init(carte)
     R = lire_json(REGLES)
     objets, clotures = charger(R)
+    exist, tout_fusion = existences_fusion()
+    journal_conflits = appliquer_existences(objets, exist, CM.presences_revue(), tout_fusion)
     ombres = CO.executer(objets)
     print(f"ombres : {sum(1 for d in ombres['detections'].values() for x in d.values() if isinstance(x, dict) and x['accepte'])} "
           f"détections acceptées ({time.time() - t0:.1f} s)")
-    from coherence_objets import anterieure_travaux
     for o in objets:
         o["_emprise_travaux"] = emprise_travaux(carte, o)
-    journal_mesures = CM.appliquer(objets, carte, R["resolution"], ombres, valide_pour_photo, anterieure_travaux)
+    CM.preparer(objets, carte, R["resolution"], ombres, valide_pour_photo, anterieure_travaux)
+    q1m = VF.q1_mesures(objets, carte, valide_pour_photo)
+    journal_mesures = CM.appliquer(objets, q1m)
+    print(f"Q1 mesures : {len(q1m)} tests ({time.time() - t0:.1f} s)")
     propager_mesures_groupes(objets)
     tt = tetes(objets)
     hy = hypotheses_specs(objets)
@@ -895,6 +1022,10 @@ def main(argv=None):
             for m in resol[o["id"]]["membres"]:
                 arbit[m] = ar2
     positions = {k: v["p"] for k, v in arbit.items()}
+    # Q1 : accord image des candidats de la résolution (déplacement > 0,3 m depuis l'a priori)
+    reps = [o for o in objets if o["id"] in arbit and arbit[o["id"]]["_rep"] == o["id"]]
+    q1c = VF.q1_candidats(reps, carte, positions, valide_pour_photo)
+    print(f"Q1 candidats : {len(q1c)} tests ({time.time() - t0:.1f} s)")
     fusions = supports_confondus(S, objets, positions, arbit)
     hyp_az = {}
     for h in hy:
@@ -924,15 +1055,25 @@ def main(argv=None):
     conflits = conflits_specs(S, positions, orient)
     tetes_res = evaluer_tetes(S, positions)
     deductions = deduire(S, positions, tetes_res) + ilots + fusions + collectives
-    pr = preuves(S, objets, arbit, orient, conflits, revue, ombres, faire_planches=not a.sans_planches)
+    # Q4 : présence 2026 (objets à moins de 25 m d'une photo calée postérieure aux travaux)
+    pos_q4 = dict(positions)
+    for o in objets:
+        if o["id"] not in pos_q4 and (o.get("q3") or o.get("q4_absent")):
+            pos_q4[o["id"]] = np.asarray(o["p0"], float)
+    presence = VF.q4_presence(objets, carte, pos_q4, faire_vignettes=not a.sans_planches)
+    presence = CPR.finaliser(objets, presence, CM.presences_revue(), exist, faire=not a.sans_planches)
+    print(f"Q4 présence : {len(presence)} objets ({time.time() - t0:.1f} s)")
+    pr = preuves(S, objets, arbit, orient, conflits, revue, ombres, faire_planches=not a.sans_planches, q1c=q1c)
     pr.update(preuves_tetes(S, tetes_res, positions, revue, faire_planches=not a.sans_planches))
     print(f"évaluation et preuves : {time.time() - t0:.1f} s")
     import coherence_marquages as CMQ
-    marq = CMQ.controler(carte, revue, faire_planches=not a.sans_planches)
+    marq = CMQ.controler(carte, revue, faire_planches=not a.sans_planches, existences=exist, journal=journal_conflits)
     print(f"marquages : {marq['comptes']} ({time.time() - t0:.1f} s)")
     import coherence_sorties as CS
-    CS.ecrire_sorties(S, objets, clotures, evals, resol, arbit, orient, nphotos, collis, conflits, tetes_res,
-                      deductions, pr, revue, ombres=ombres, journal_mesures=journal_mesures, marquages=marq)
+    rap, _, _ = CS.ecrire_sorties(S, objets, clotures, evals, resol, arbit, orient, nphotos, collis, conflits, tetes_res,
+                                  deductions, pr, revue, ombres=ombres, journal_mesures=journal_mesures, marquages=marq,
+                                  q1m=q1m, q1c=q1c, presence=presence, journal_conflits=journal_conflits, tout_fusion=tout_fusion)
+    dessiner_planches(S, pr, rap, faire=not a.sans_planches)
     print(f"terminé en {time.time() - t0:.1f} s")
 
 

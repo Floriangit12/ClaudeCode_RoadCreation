@@ -1,4 +1,4 @@
-"""Sorties du solveur de cohérence v2 : décisions finales (revue, mesures et porte géométrique comprises),
+"""Sorties du solveur de cohérence v3 : décisions finales (revue, mesures et porte géométrique comprises),
 rapport par objet, couches de corrections, propositions d'ajouts, REPORT.md (français).
 
 Décision finale d'une correction (revue_coherence.json 0.2, verdicts de Claude sur les planches) :
@@ -14,6 +14,12 @@ Décision finale d'une correction (revue_coherence.json 0.2, verdicts de Claude 
 - « ambigu » ou pas de revue : correction par la règle, conf faible, a_verifier_terrain2026.
 Les mesures (P3) ont déjà remplacé p0 avant la résolution : la correction rapportée est comptée depuis
 la POSITION SOURCE de la couche (p_source), le budget depuis la position source BRUTE (p_brut, P9).
+v3 (revue adverse v2) : la porte P2 utilise la décisivité locale des poses (Q2) ; le candidat de la
+résolution passe le test d'accord image (Q1 : refusé si les photos décisives montrent l'objet en A,
+confirmé si elles l'observent en C) ; une revue « corrigée » contredite par Q1 est refusée ; les mesures
+devenues indices (Q1, Q7) et les mesures photo non testables sont signalées ; la compatibilité mesure /
+source (Q8) donne deplace_par_travaux (statut 2026 mis à jour) ou mesure_contestee ; le budget de la
+source d'origine est gardé (budget_source_depasse) ; les absences Q3 / Q4 donnent des non-instanciations.
 """
 import collections
 import math
@@ -53,8 +59,9 @@ def _verdict(V, statut, orr, dz):
     return "conforme"
 
 
-def decider(S, o, a, orr, preuve, conflits_o):
-    """Applique la revue photo et la porte géométrique (P2) à la correction proposée."""
+def decider(S, o, a, orr, preuve, conflits_o, q1c=None, presence=None):
+    """Applique la revue photo, la porte géométrique (P2, décisivité locale Q2), le test d'accord image du
+    candidat (Q1), la compatibilité mesure / source (Q8) et les drapeaux d'existence (Q3, Q4)."""
     rv = (preuve or {}).get("revue") or {}
     portes = (preuve or {}).get("portes") or {}
     inst = bool(a.get("instancier", True))
@@ -104,7 +111,11 @@ def decider(S, o, a, orr, preuve, conflits_o):
         else:
             conf = "faible"
             drap.append("revue_non_probante_geometrie")
-            if rv.get("mesure"):
+            mrev = [m for m in o.get("mesures") or [] if m["source"] == "revue_coherence"]
+            if rv.get("mesure") and mrev and mrev[0]["statut"] != "probante":
+                just.append(f"revue : sa mesure est un indice ({mrev[0].get('motif_indice')}) ; position par la règle, porte P2 "
+                            f"non observable : confiance faible ({rv.get('note', '')})")
+            elif rv.get("mesure"):
                 just.append(f"revue : position = mesure de la revue ; la porte P2 est non observable (les photos voient le "
                             f"déplacement le long de leur visée) : seule la contrainte latérale est prouvée, confiance faible "
                             f"({rv.get('note', '')})")
@@ -156,12 +167,79 @@ def decider(S, o, a, orr, preuve, conflits_o):
     for t in rv.get("tests_ordinaux") or []:
         just.append(f"test ordinal {t.get('test')} = {t.get('valeur')} ({', '.join(t.get('photos') or [])}, {t.get('date', '')}) : "
                     f"{t.get('note', '')}")
+    # Q1 : accord image du candidat de la résolution (C contre l'a priori)
+    rq = (q1c or {}).get(a["_rep"])
+    if rq is not None and float(np.hypot(*(np.asarray(a["p"], float) - pA))) > 0.30:
+        if rq["verdict"] in ("desaccord", "contradictoire") and float(np.hypot(*(p - pA))) > 0.005:
+            p = pA.copy()
+            dures_surf = any(x["nature"] == "surface" and x.get("dure") for x in a["_V"])
+            statut = "anomalie_surface" if dures_surf else "conforme_signale"
+            inst = True
+            drap = [x for x in drap if x not in ("profondeur_par_la_regle",)] + ["candidat_refuse_q1"]
+            conf = "moyenne"
+            just.append(f"Q1 : les photos décisives ({', '.join(x[4:] for x in rq['votes_A'])}) montrent l'objet à sa position "
+                        f"a priori, pas au candidat ({rq['verdict']}, Σr² {rq['somme_r2_A']} contre {rq['somme_r2_X']}) : "
+                        "candidat refusé" + (f" ; la revue ({v}) est contredite" if v == "corrigee" else ""))
+        elif rq["verdict"] == "accord":
+            if conf in (None, "faible"):
+                conf = "moyenne"
+            drap = [x for x in drap if x != "revue_non_probante_geometrie"] + ["candidat_confirme_q1"]
+            just.append(f"Q1 : candidat confirmé par {rq['n_observee_X']} photos décisives (Σr² {rq['somme_r2_X']} contre "
+                        f"{rq['somme_r2_A']} en A)")
+        else:
+            drap.append("candidat_non_teste_q1" if rq["verdict"] == "non_testable" else "candidat_" + rq["verdict"] + "_q1")
+    # Q8 : compatibilité de la mesure avec sa source d'origine
+    q8 = (o.get("mesure") or {}).get("q8")
+    if q8 and q8["verdict"] == "deplace_par_travaux":
+        drap.append("deplace_par_travaux")
+        just.append(f"Q8 : la mesure du {q8['date_mesure']} est à {q8['mahalanobis']}σ de la source d'origine "
+                    f"({o.get('source_brute_origine')}) : objet déplacé lors des travaux 2025 (statut 2026 mis à jour)")
+    elif q8 and q8["verdict"] == "mesure_contestee":
+        drap += ["mesure_contestee", "a_verifier_terrain2026"]
+        conf = "faible"
+        just.append(f"Q8 : la mesure est à {q8['mahalanobis']}σ de la source d'origine ({o.get('source_brute_origine')}) sans "
+                    "être postérieure aux travaux : mesure contestée, confiance faible")
+    drap += list(o.get("drapeaux_q") or [])
+    # Q1 / Q7 : mesures devenues des indices ; mesure photo retenue sans test d'accord possible
+    for m in o.get("mesures") or []:
+        if not m.get("valide"):
+            continue
+        if str(m.get("motif_indice") or "").startswith("Q1"):
+            drap.append("mesure_indice_q1")
+        elif str(m.get("motif_indice") or "").startswith("Q7"):
+            drap.append("mesure_indice_q7")
+    ret = [r for r in (o.get("mesure") or {}).get("retenues") or []]
+    if ret and float(np.hypot(*(np.asarray(o["p0"], float) - p_src))) > 0.005 and             all(r.get("nature") in ("triangulation_photos", "rayon_photo_regle") and r.get("q1") in (None, "non_testable", "non_concluant")
+                for r in ret):
+        drap.append("mesure_non_testee_q1")
+        if conf in (None, "moyenne", "haute"):
+            conf = "faible"
+        just.append("Q1 : aucune photo décisive validée localement (Q2) ne permet de tester la mesure : confiance faible")
+    if presence is not None and presence.get("revue_manquante"):
+        drap.append("presence_2026_non_revue")
     return dict(p=p, statut=statut, conf=conf, drapeaux=sorted(set(drap)), justification=just, az=az, statut_az=st_az,
-                conf_az=conf_az, revue=rv or None, instancier=inst, porte=gate, porte_info=porte_info)
+                conf_az=conf_az, revue=rv or None, instancier=inst, porte=gate, porte_info=porte_info, q1_candidat=rq)
+
+
+def _resume_q1(r):
+    if not r:
+        return None
+    return {k: r.get(k) for k in ("verdict", "n_photos", "n_decisives", "n_discriminantes", "n_observee_X", "n_observee_A",
+                                  "votes_X", "votes_A", "somme_r2_X", "somme_r2_A", "exclues_multivues", "angle_axes_deg",
+                                  "laterale_observee", "axe_triangule")}
+
+
+def _lignes_photos_q1(r):
+    return [dict(photo=l["photo"], decisive=l["decisive"], validation_q2=l.get("motif_q2"), d_m=l.get("d_m"),
+                 sigma_deg=l.get("sigma_deg"), separation_sigma=l.get("separation_sigma"), r_A=l.get("r_A"), r_X=l.get("r_X"),
+                 observee_A=l.get("obs_A"), observee_X=l.get("obs_X"), contraste_A=l.get("v_A"), contraste_X=l.get("v_X"),
+                 pied_A=l.get("pied_A"), pied_X=l.get("pied_X"), vote=l.get("vote"), consensus_sigma=l.get("consensus_sigma"),
+                 exclue_multivues=bool(l.get("exclue_multivues"))) for l in (r or {}).get("photos") or []]
 
 
 def ecrire_sorties(S, objets, clotures, evals, resol, arbit, orient, nphotos, collis, conflits, tetes_res,
-                   deductions, preuves, revue, ombres=None, journal_mesures=None, marquages=None):
+                   deductions, preuves, revue, ombres=None, journal_mesures=None, marquages=None, q1m=None, q1c=None,
+                   presence=None, journal_conflits=None, tout_fusion=None):
     import coherence_politique as POL
     import coherence_poses as PO
     COHERENCE.mkdir(parents=True, exist_ok=True)
@@ -180,14 +258,32 @@ def ecrire_sorties(S, objets, clotures, evals, resol, arbit, orient, nphotos, co
     for o in objets:
         ev = evals[o["id"]]
         if o["statut"].startswith("absent"):
-            rap.append(dict(id=o["id"], couche=o["couche"], type=o["type"], statut_2026=o["statut"], verdict="conforme",
-                            statut_resolution="non_instancie_absent_2026", instancier=False, violations=[]))
+            q3 = o.get("q3") or {}
+            st = "a_retirer" if q3.get("existence") == "retirer" else "non_instancie_absent_2026"
+            pres = (presence or {}).get(o["id"])
+            rec = dict(id=o["id"], couche=o["couche"], type=o["type"], statut_2026=o["statut"],
+                       statut_2026_source=o.get("statut_source"), verdict="conforme" if not (q3 or o.get("q4_absent")) else "violation",
+                       statut_resolution=st, instancier=False, violations=[], existence_fusion=o.get("existence_fusion"),
+                       q3=q3 or None, q4_absent=bool(o.get("q4_absent")),
+                       presence_2026=None if pres is None else {k: pres[k] for k in ("auto", "decision", "revue", "vignette")})
+            rap.append(rec)
+            if q3 or o.get("q4_absent"):
+                p_src = np.asarray(o.get("p_source", o["p0"]), float)
+                motif = (f"fusion : existence « {q3['existence']} » ({', '.join(q3.get('obs') or [])}, {q3.get('date')}) (Q3)" if q3 else
+                         f"constat de présence 2026 de la cohérence : absent ({', '.join(((presence or {}).get(o['id']) or {}).get('revue', {}).get('photos') or [])}) (Q4)")
+                corr.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": l93(p_src)}, "properties": dict(
+                    id=o["id"], couche=o["couche"], type=o["type"], code=o.get("code"), groupe=o["groupe"], statut_resolution=st,
+                    verdict="violation", statut_objet="existant", conf="moyenne", drapeaux=["absent_2026"] + (["q4"] if o.get("q4_absent") else ["q3"]),
+                    instancier=False, preuve=o["preuve"], sigma_m=o["sigma"], planche=None, revue=None, porte=None,
+                    p_source_local=loc(p_src), p_resolu_local=loc(p_src), nature="non_instanciation", d_m=0.0, dt_m=None,
+                    ds_m=None, azimut_source_deg=o.get("azimut0"), azimut_resolu_deg=o.get("azimut0"), delta_azimut_deg=None,
+                    regles=["Q3" if q3 else "Q4"], justification=motif, mesure=None)})
             continue
         a = arbit[o["id"]]
         rep = a["_rep"]
         orr = orient.get(o["id"]) or {}
         pr = preuves.get(rep)
-        dec = decider(S, o, a, orr, pr, conf_par.get(o["id"], []))
+        dec = decider(S, o, a, orr, pr, conf_par.get(o["id"], []), q1c=q1c, presence=(presence or {}).get(o["id"]))
         ctx = ev["ctx"]
         ref = ctx["ref"]
         p = dec["p"]
@@ -220,9 +316,22 @@ def ecrire_sorties(S, objets, clotures, evals, resol, arbit, orient, nphotos, co
         lidar = bool(re.search(r"LiDAR", o["source"]))
         pb = o.get("p_brut")
         d_brut = None if pb is None else round(float(np.hypot(*(p - np.asarray(pb, float)))), 3)
+        pbs = o.get("p_brut_source")
+        d_src = None if pbs is None else round(float(np.hypot(*(p - np.asarray(pbs, float)))), 3)
+        budget_source = None if pbs is None else dict(
+            source=o.get("source_brute_origine"), p_local=loc(pbs), dmax_m=o.get("dmax_brut_source"), d_m=d_src,
+            respecte=bool(d_src <= float(o.get("dmax_brut_source") or 0) + 1e-6))
+        if budget_source and not budget_source["respecte"]:
+            dec["drapeaux"] = sorted(set(dec["drapeaux"]) | {"budget_source_depasse"})
+        q8 = (o.get("mesure") or {}).get("q8")
+        pres = (presence or {}).get(o["id"])
+        statut_2026 = o.get("statut_2026_maj") or o["statut"]
         rec = dict(
             id=o["id"], couche=o["couche"], type=o["type"], code=o.get("code"), groupe=o["groupe"],
-            membres_groupe=resol[o["id"]]["membres"], statut_2026=o["statut"], confiance_source=o.get("confiance"),
+            membres_groupe=resol[o["id"]]["membres"], statut_2026=statut_2026,
+            statut_2026_source=o.get("statut_2026_source") if o.get("statut_2026_maj") else None,
+            existence_fusion=o.get("existence_fusion"), confiance_source=o.get("confiance"),
+            presence_2026=None if pres is None else {k: pres[k] for k in ("auto", "decision", "revue", "vignette")},
             statut_objet=POL.statut_objet(o), verdict=verdict, statut_resolution=statut, instancier=bool(dec["instancier"]),
             preuve=dict(classe=o["preuve"], classe_propre=o["preuve_propre"], sigma_m=o["sigma"], deplacement_max_m=o["dmax"],
                         source=o["source"], lidar_2021=lidar,
@@ -230,8 +339,12 @@ def ecrire_sorties(S, objets, clotures, evals, resol, arbit, orient, nphotos, co
                         triangulation=o.get("triangulation"),
                         degradation_temporelle=resol[o["id"]].get("degradation_temporelle"),
                         mesure=None if not o.get("mesure") else {k: v for k, v in o["mesure"].items() if k not in ("cov", "xy")},
-                        mesures_candidates=[dict(source=m["source"], methode=m["methode"], xy=loc(m["xy"]), sigma_m=m["sigma_m"],
-                                                 date=m["date"], statut=m["statut"], valide=m["valide"], motif_rejet=m["motif_rejet"],
+                        mesures_candidates=[dict(source=m["source"], methode=m["methode"], nature=m.get("nature"), xy=loc(m["xy"]),
+                                                 sigma_m=m["sigma_m"], date=m["date"], statut=m["statut"], valide=m["valide"],
+                                                 motif_rejet=m["motif_rejet"], motif_indice=m.get("motif_indice"),
+                                                 photos=m.get("photos") or None, q1=_resume_q1(m.get("q1")),
+                                                 q1_photos=_lignes_photos_q1(dict(photos=m.get("q1_photos"))) or None,
+                                                 q6=m.get("q6"), q7=m.get("q7"), sigma_saisi_refuse=bool(m.get("sigma_saisi_refuse")),
                                                  preuves=m["preuves"], note=m.get("note")) for m in o.get("mesures") or []]),
             contexte=dict(zone=ctx["zone"], classe_base=ctx["base"], classe_faible=ctx["faible"],
                           zone_a_priori=ctx["zone_defaut"], source_classe=ctx["source_classe"],
@@ -250,6 +363,9 @@ def ecrire_sorties(S, objets, clotures, evals, resol, arbit, orient, nphotos, co
                 p_apriori_local=loc(o["p0"]), p_brut_local=None if pb is None else loc(pb), source_brute=o.get("source_brute"),
                 dmax_brut_m=o.get("dmax_brut"), d_brut_m=d_brut,
                 budget_respecte=None if d_brut is None else bool(d_brut <= float(o.get("dmax_brut") or 0) + 1e-6),
+                budget_source=budget_source, compatibilite_source_q8=q8,
+                q1_candidat=_resume_q1(dec.get("q1_candidat")),
+                q1_candidat_photos=_lignes_photos_q1(dec.get("q1_candidat")) or None,
                 d_m=round(d, 3), dt_m=None if dt is None else round(dt, 3), ds_m=None if ds is None else round(ds, 3),
                 azimut_source_deg=o.get("azimut0"), azimut_resolu_deg=dec["az"], azimut_cible_deg=orr.get("cible"),
                 orientation=dec["statut_az"], orientation_motif=orr.get("motif"), orientation_raison=orr.get("raison"),
@@ -349,7 +465,7 @@ def ecrire_sorties(S, objets, clotures, evals, resol, arbit, orient, nphotos, co
     corr.sort(key=lambda f: f["properties"]["id"])
     for f in corr + adds:
         f["properties"] = arrondi(f["properties"], 3)
-    entete = {"schema": "pj_coherence/0.2", "repere": "EPSG:2154 ; local = L93 - (917279.43, 6460289.98)",
+    entete = {"schema": "pj_coherence/0.3", "repere": "EPSG:2154 ; local = L93 - (917279.43, 6460289.98)",
               "role": "couche de corrections séparée, à fusionner par le composeur (ne modifie ni le paquet ni la description de base) ; "
                       "géométrie : position source de la couche -> position résolue"}
     ecrire_geojson(COHERENCE / "corrections.geojson", corr, "corrections", entete)
@@ -378,8 +494,72 @@ def ecrire_sorties(S, objets, clotures, evals, resol, arbit, orient, nphotos, co
         non_instancies=sorted(r["id"] for r in rap if not r.get("instancier", True) and r["statut_resolution"] != "non_instancie_absent_2026"),
         mesures_appliquees=len(journal_mesures or []),
         budget_depasse=sorted(r["id"] for r in rap if (r.get("correction") or {}).get("budget_respecte") is False),
+        budget_source_depasse=sorted(r["id"] for r in rap if ((r.get("correction") or {}).get("budget_source") or {}).get("respecte") is False),
         photos_calees=PO.comptes(),
     )
+    # ---- vérifications Q1 à Q8
+    import coherence_verifs as VF
+    mes_tests = [(o["id"], m) for o in objets for m in o.get("mesures") or [] if m.get("q1")]
+    comptes["q1_mesures"] = dict(sorted(collections.Counter(m["q1"]["verdict"] for _, m in mes_tests).items()))
+    comptes["q1_candidats"] = dict(sorted(collections.Counter(r["verdict"] for r in (q1c or {}).values()).items()))
+    comptes["q1_candidats_refuses"] = sorted(r["id"] for r in rap if "candidat_refuse_q1" in ((r.get("correction") or {}).get("drapeaux") or []))
+    comptes["q1_mesures_devenues_indices"] = sorted({oid for oid, m in mes_tests if m["statut"] == "indice"
+                                                     and str(m.get("motif_indice") or "").startswith("Q1")})
+    v2 = list(VF.Q2.values())
+    comptes["q2"] = dict(validations=len(v2), validees=sum(1 for v in v2 if v["valide"]),
+                         sans_elements=sum(1 for v in v2 if v["n_elements"] < 2),
+                         photos_secteurs_gonfles=sorted(p["id"] for p in PO.catalogue() if p.get("facteur_secteurs", 1) > 1))
+    comptes["q3"] = dict(sorted(collections.Counter(r["statut_resolution"] for r in rap
+                                                    if r.get("q3")).items()))
+    comptes["q4"] = dict(objets=len(presence or {}), revus=sum(1 for v in (presence or {}).values() if not v["revue_manquante"]),
+                         absents=sorted(k for k, v in (presence or {}).items() if v["decision"] == "absent"),
+                         revues_manquantes=sorted(k for k, v in (presence or {}).items() if v["revue_manquante"]),
+                         auto=dict(sorted(collections.Counter(v["auto"] for v in (presence or {}).values()).items())))
+    comptes["q6_sigma_saisi_refuse"] = sorted({oid for oid, m in [(o["id"], m) for o in objets for m in o.get("mesures") or []]
+                                               if m.get("sigma_saisi_refuse")})
+    comptes["q7_indices"] = sorted({o["id"] for o in objets for m in o.get("mesures") or []
+                                    if str(m.get("motif_indice") or "").startswith("Q7") and m["valide"]})
+    comptes["q8"] = dict(sorted(collections.Counter(((o.get("mesure") or {}).get("q8") or {}).get("verdict")
+                                                    for o in objets if o.get("mesure")).items()))
+    comptes["q8_detail"] = {o["id"]: (o.get("mesure") or {}).get("q8", {}).get("verdict") for o in objets
+                            if ((o.get("mesure") or {}).get("q8") or {}).get("verdict") not in (None, "compatible")}
+    # ---- journal des désaccords solveur / fusion (Q3)
+    journal = list(journal_conflits or [])
+    for o in objets:
+        for m in o.get("mesures") or []:
+            if m["source"] != "fusion_recensement_0.3" or "« appliquer »" not in str(m.get("note") or "") or m["statut"] != "indice":
+                continue
+            journal.append(dict(entite=o["id"], nature="mesure_fusion_non_retenue",
+                                fusion=dict(decision="appliquer", xy=loc(m["xy"]), methode=m["methode"], obs=m["preuves"]),
+                                coherence=dict(motif=m.get("motif_indice"), q1=(m.get("q1") or {}).get("verdict"),
+                                               votes_A=(m.get("q1") or {}).get("votes_A"), votes_X=(m.get("q1") or {}).get("votes_X")),
+                                decision="mesure gardée comme indice ; l'objet reste à sa position (ou composante latérale observée)",
+                                renvoi="fusion_recensement"))
+    for o in objets:
+        for m in o.get("mesures") or []:
+            if m["source"] == "fusion_recensement_0.3" and m["statut"] == "hypothese" and (m.get("q1") or {}).get("verdict") == "accord":
+                journal.append(dict(entite=o["id"], nature="hypothese_fusion_confirmee_q1",
+                                    fusion=dict(decision="revue_requise", xy=loc(m["xy"]), methode=m["methode"], obs=m["preuves"]),
+                                    coherence=dict(q1="accord", votes_X=m["q1"]["votes_X"], photos=m["q1"]["photos_X_observee"]),
+                                    decision="non appliquée par la cohérence (hypothèse de la fusion) ; les photos décisives la confirment : "
+                                             "la fusion peut la passer en « appliquer »", renvoi="fusion_recensement"))
+    journal.sort(key=lambda j: (j["entite"], j["nature"]))
+    comptes["journal_conflits_fusion"] = dict(sorted(collections.Counter(j["nature"] for j in journal).items()))
+    ecrire_json(COHERENCE / "conflits_fusion.json", arrondi(dict(
+        schema="pj_coherence_conflits_fusion/0.1",
+        regle="Q3 : verdicts d'existence de enrichi/entites_verifiees.json appliqués (absent_2026 -> non_instancie_absent_2026, "
+              "retirer -> a_retirer hors contrôle des marquages, absent_2026_a_verifier -> drapeau) ; tout désaccord entre la "
+              "cohérence et la fusion est journalisé ici et renvoyé à son propriétaire",
+        n=len(journal), comptes=comptes["journal_conflits_fusion"], desaccords=journal), 3))
+    verif = dict(schema="pj_coherence_verifications_image/0.1",
+                 methode="coherence_photos (Q1 axe vertical, Q2 validation locale, Q4 présence) ; coherence_accord (votes, verdicts)",
+                 q1_mesures=[dict(objet=oid, source=m["source"], nature=m.get("nature"), xy=loc(m["xy"]), statut=m["statut"],
+                                  resume=_resume_q1(m["q1"]), photos=_lignes_photos_q1(dict(photos=m.get("q1_photos"))))
+                             for oid, m in mes_tests],
+                 q1_candidats=[dict(objet=k, resume=_resume_q1(v), photos=_lignes_photos_q1(v)) for k, v in sorted((q1c or {}).items())],
+                 q2=[dict(photo=pid, objet=oid, valide=v["valide"], n_elements=v["n_elements"], n_nets=v["n_nets"],
+                          n_alignes=v["n_alignes"], motif=v["motif"], alignes=v["alignes"]) for (pid, oid), v in sorted(VF.Q2.items())])
+    ecrire_json(COHERENCE / "verifications_image.json", arrondi(verif, 3))
     comptes["cheminement"] = coupes_cheminement(S, {r["id"]: dict(p=np.asarray(r["correction"]["p_resolu_local"], float),
                                                                   instancier=r["instancier"])
                                                     for r in rap if r.get("correction")})
@@ -391,11 +571,16 @@ def ecrire_sorties(S, objets, clotures, evals, resol, arbit, orient, nphotos, co
         "surfaces_v2": RACINE / "recon/out/paquet_jardin/v2/description/base/surfaces.geojson",
         "marquages_v2": RACINE / "recon/out/paquet_jardin/v2/description/base/marquages.geojson",
         "poses": RACINE / "recon/out/paquet_jardin/v2/enrichi/poses/poses.json",
-        "fusion_corrections": RACINE / "recon/out/paquet_jardin/v2/description/enrichi/corrections_position.geojson"}.items()
+        "fusion_corrections": RACINE / "recon/out/paquet_jardin/v2/description/enrichi/corrections_position.geojson",
+        "fusion_entites": RACINE / "recon/out/paquet_jardin/v2/description/enrichi/entites_verifiees.json",
+        "revue_coherence": COHERENCE / "revue_coherence.json",
+        "poses_2026": RACINE / "recon/out/paquet_jardin/v2/enrichi/recensement/pano_2026/poses/poses_2026-07-28.json",
+        "poses_mapillary": RACINE / "recon/out/paquet_jardin/v2/enrichi/recensement/mapillary/poses/poses_mapillary.json",
+        "triangulation_mixte": RACINE / "recon/out/paquet_jardin/v2/enrichi/recensement/mapillary/triangulation_mixte.json"}.items()
         if v.exists()}
     audit = audit_bordures(S)
     ecrire_json(COHERENCE / "rapport_coherence.json", arrondi(dict(
-        schema="pj_coherence/0.2", site="paquet_jardin", etat="octobre 2026",
+        schema="pj_coherence/0.3", site="paquet_jardin", etat="octobre 2026",
         repere="local = L93 - (917279.43, 6460289.98), z = NGF - 216.30",
         methode="voir recon/pcg/decrire/coherence.py et REPORT.md", sources=sources,
         carte=dict(dossier=CARTE.relative_to(RACINE).as_posix(), bordures=len(S.c.bordures), voies=len(S.c.lanes),
@@ -410,7 +595,8 @@ def ecrire_sorties(S, objets, clotures, evals, resol, arbit, orient, nphotos, co
         doublons_collisions=collis, propositions=[f["properties"] for f in adds],
         marquages=None if not marquages else marquages["comptes"]), 3))
     apercu_corrections(S, rap, adds)
-    ecrire_rapport_md(rap, corr, adds, comptes, tetes_res, conflits, preuves, ombres, marquages, audit, journal_mesures, revue)
+    ecrire_rapport_md(rap, corr, adds, comptes, tetes_res, conflits, preuves, ombres, marquages, audit, journal_mesures, revue,
+                      objets=objets, journal=journal, presence=presence, q1c=q1c)
     return rap, corr, adds
 
 
@@ -565,48 +751,40 @@ def _fmt_porte(g):
             f"validé {g['composante_validee_m']:+.2f} m)")
 
 
-def ecrire_rapport_md(rap, corr, adds, comptes, tetes_res, conflits, preuves, ombres, marquages, audit, journal_mesures, revue=None):
+def ecrire_rapport_md(rap, corr, adds, comptes, tetes_res, conflits, preuves, ombres, marquages, audit, journal_mesures, revue=None,
+                      objets=None, journal=None, presence=None, q1c=None):
     L = []
     w = L.append
-    w("# Solveur de cohérence v2 : « l'objet devait-il être ici, ou plutôt là ? »\n")
+    w("# Solveur de cohérence v3 : « l'objet est-il là, et les photos le confirment-elles ? »\n")
     w("Couche séparée, à fusionner par le composeur. Ni le paquet v1 ni la description de base v2 ne sont modifiés.")
     w("Commande : `python recon/pcg/decrire/coherence.py` (déterministe ; `--sans-planches` pour l'évaluation seule). "
-      "Les planches `planches/*.jpg` contiennent des photos de tiers : locales, ignorées par git.\n")
-    w("## Ce qui change par rapport à la v1 (revue adverse P1 à P10)\n")
+      "Les planches `planches/*.jpg` et `planches/presence/*.jpg` contiennent des photos de tiers : locales, ignorées par git.\n")
+    import coherence_rapport as CR
+    L.extend(CR.sections(rap, comptes, marquages, presence, journal, objets, q1c, preuves))
+    w("## Acquis de la v2 (revue adverse v1, P1 à P10)\n")
     pc = comptes.get("photos_calees") or []
     n_ph = sum(x["n"] for x in pc)
     n_dec = sum(x["n"] for x in pc if x["decisive"])
     liste_ph = ", ".join(f"{x['plateforme']} {x['statut_pose']} {x['n']}" + (" décisives" if x["decisive"] else "") for x in pc)
-    w(f"- **P1, photos** : {n_ph} poses calées utilisées ({liste_ph}), "
-      f"dont {n_dec} décisives (LOO ≤ 0,5°). L'a priori de séquence est impossible pour 2025-08-31, 2025-01-12 et 2024-05-01 "
-      "(aucune photo acceptée dans ces séries) : ces photos servent aux tests ordinaux de la revue (nombre de mâts, plaques, "
-      "présence à une date), photo citée.")
-    w(f"- **P2, géométrie** : chaque planche affiche, photo par photo, la séparation A↔C rapportée au σ de la pose, et la porte "
-      f"de chaque paire (complète / latérale / non observable). Corrections par porte : {comptes.get('portes')}.")
-    w(f"- **P3, mesures** : {comptes.get('mesures_appliquees')} objets reçoivent une mesure comme nouvel a priori (revue, fusion 0.3 "
-      "« appliquer », triangulations fiables, ombres concordantes) avant la résolution.")
-    w("- **P4, orientation** : azimut par raccourci des plaques sur ≥ 2 vues (w/h mesuré / w/h de face), plaques du mât "
-      "identifiées avant tout transfert.")
-    w("- **P5, fusions** : candidats exclus à moins de r1 + r2 + 0,10 m d'un objet de preuve au moins aussi bonne ; fusion seulement "
-      f"si « même support » ou photo à un seul mât. Propositions : {comptes.get('propositions')}.")
-    w(f"- **P6, bordures** : {audit['n_bordures']} bordures de la description régularisée (site complet), {audit['n_orientation_forte']} "
-      f"d'orientation forte ; incohérences voie/côté haut restantes : {len(audit['incoherences'])}"
-      + (f" ({', '.join(x['bordure'] for x in audit['incoherences'][:12])})" if audit["incoherences"] else "") + ".")
-    w(f"- **P7, dureté** : pour un objet existant, seules les violations physiques (chaussée, voies, passages, îlot peint, bâti) "
-      f"sont dures. Statuts d'objets : {comptes.get('par_statut_objet')}. Règles dures violées : {comptes.get('violations_dures_par_regle')}. "
-      f"Règles signalées sans déplacement (objets existants) : {comptes.get('violations_molles_signalees')}.")
-    w("- **P8, GEN-02** : supports de feux piétons et boutons d'appel admis à la limite arrière de la BEV dans le prolongement du "
-      "passage (CEREMA fiche BEV 03) ; palier de 0,80 m majeur, dessiné seulement si le trottoir le permet (ARR2007 art. 1er 4°).")
-    w(f"- **P9, budget** : déplacement compté depuis la position source brute (nœud OSM brut) ; dépassements : "
-      f"{comptes.get('budget_depasse') or 'aucun'}.")
+    w(f"- **P1, photos** : {n_ph} poses calées ({liste_ph}), dont {n_dec} décisives par le LOO (≤ 0,5°), avant la validation "
+      "locale Q2.")
+    w(f"- **P2, porte géométrique** (décisivité locale Q2) : corrections par porte : {comptes.get('portes')}.")
+    w(f"- **P3, mesures** : {comptes.get('mesures_appliquees')} objets reçoivent une mesure comme nouvel a priori après Q1, Q6, Q7 et Q8.")
+    w("- **P4, orientation** par raccourci des plaques ; **P5, fusions** seulement « même support » ou photo à un seul mât "
+      f"(propositions : {comptes.get('propositions')}).")
+    w(f"- **P6, bordures** : {audit['n_bordures']} bordures v2, {audit['n_orientation_forte']} d'orientation forte ; incohérences "
+      f"voie/côté haut : {len(audit['incoherences'])}.")
+    w(f"- **P7, dureté** : statuts d'objets {comptes.get('par_statut_objet')} ; règles dures violées "
+      f"{comptes.get('violations_dures_par_regle')}.")
+    w("- **P8, GEN-02** : supports piétons admis à la limite arrière de la BEV ; palier de 0,80 m majeur et conditionnel.")
+    w(f"- **P9 / Q8, budgets** : budget de la mesure dépassé : {comptes.get('budget_depasse') or 'aucun'} ; budget de la source "
+      f"d'origine dépassé : {comptes.get('budget_source_depasse') or 'aucun'}.")
     if ombres:
         for k, v in ombres["par_ortho"].items():
             so, va = v.get("soleil") or {}, v.get("validation") or {}
-            w(f"- **P10, ombres ({v.get('libelle', k)})** : ombres à {so.get('az_ombre_grille')}° (grille), soleil à {so.get('elevation_deg')}° "
-              f"vers {so.get('heure_utc')} UTC, calé sur {so.get('n_refs')} mâts triangulés ; validation : {va.get('n')} détections "
-              f"acceptées sur {va.get('n_essais')} essais ({va.get('n_objets')} mâts), biais le long de l'ombre {va.get('biais_long_m')} m, "
-              f"σ long {va.get('sigma_long_m')} m, σ travers {va.get('sigma_travers_m')} m, p90 {va.get('p90_m')} m -> σ retenus "
-              f"{v.get('sigma_preuve_m')} ; une détection seule est un indice, probante si les deux orthos concordent.")
+            w(f"- **P10, ombres ({v.get('libelle', k)})** : ombres à {so.get('az_ombre_grille')}°, soleil à {so.get('elevation_deg')}° ; "
+              f"validation {va.get('n')} détections sur {va.get('n_essais')} essais, σ travers {va.get('sigma_travers_m')} m, "
+              f"p90 {va.get('p90_m')} m ; une détection seule est un indice.")
     w("")
     w("## Comptes\n")
     w("| verdict | objets |\n|---|---|")
@@ -728,12 +906,19 @@ def ecrire_rapport_md(rap, corr, adds, comptes, tetes_res, conflits, preuves, om
             w(f"- `{c['id']}` ↔ `{c['objet']}` : écart {c['d_m']} m" + (f", azimut {c['daz_deg']}°" if c.get("daz_deg") else "")
               + f" ; position de la spec {'légale' if c['spec_legale'] else 'illégale (' + ', '.join(c['violations_spec']) + ')'}")
     w("\n## Limites\n")
-    w("- Aucune photo du cœur après les travaux 2025 (les 3 photos 2026 calées sont à 130 m au sud) : un objet posé ou déduit pour "
-      "2026 au cœur n'est prouvable que par le terrain ; ses corrections restent à confiance faible (a_verifier_terrain2026).")
-    w("- Les photos à plat du 2025-08-31 ne sont pas calables (aucune voisine acceptée) : elles ne servent qu'aux tests ordinaux.")
-    w("- Détecteur d'ombres : fiable en travers de l'ombre ; le début de l'ombre est souvent masqué par l'image déversée du mât "
-      "(lanterne claire) : σ le long de l'ombre ≥ 0,6 m ; erreurs grossières possibles (mât voisin), d'où la corroboration exigée.")
-    w("- Les flèches levées GAM ne sont jamais déplacées : un écart à MQ-FLE-006 y signale des bords de voie à vérifier.")
-    w("- P11 à P16 (rangées d'arbres, jalonnement relocalisé, masque du véhicule dans le calage, repère (s, t) hors étendue, statut "
-      "temporel des arbres GAM, double lecture) ne font pas partie de ce lot ; voir open_issues.")
+    w("- Q9 (P11 à P16 de la revue v1 : rangées d'arbres, jalonnement relocalisé du D21, masque du véhicule dans le calage, "
+      "repère (s, t) hors étendue, statut temporel des arbres GAM, double lecture à l'aveugle) n'est pas dans ce lot : "
+      "arbre_109 / arbre_110, D21 et J5_2, potelet_13827066658 restent tels quels.")
+    w("- Q2 est strict : là où aucun élément levé n'entre dans le secteur de ±30° (B6a1 depuis ded07efa, abords du Vercors "
+      "avant travaux), la photo n'est pas décisive et une mesure qui ne reposait que sur elle devient un indice (B6a1 / C13a / "
+      "lamp_9514828517 restent à leur position source). Une pose validée à son propre σ peut rester fausse de 2σ "
+      "(mly:1207034570953803, σ ≈ 0,6 à 1,0° à cause de σ_pos 0,25 m) : le vote multi-photos et le consensus des axes la "
+      "neutralisent pour lamp_9665416717.")
+    w("- Le détecteur d'axe ne voit que les structures verticales nettes ; sous la résolution des photos (déplacement < 2σ), "
+      "les deux hypothèses s'ajustent et la mesure reste un indice (feu_NE_TPC, poteau_bois_REV_ilot : ≤ 0,2 m).")
+    w("- Le test automatique de présence est un indice (végétation du fond, voitures) : la décision vient de la revue de "
+      "présence de Claude, obligatoire et datée.")
+    w("- Aucune photo du cœur après les travaux 2025 : un objet posé ou déduit pour 2026 au cœur n'est prouvable que par le "
+      "terrain (stations S1 à S15).")
+    w("- Les flèches levées GAM ne sont jamais déplacées ; un écart à MQ-FLE-006 y signale des bords de voie à vérifier.")
     (COHERENCE / "REPORT.md").write_text("\n".join(L) + "\n", encoding="utf-8", newline="\n")

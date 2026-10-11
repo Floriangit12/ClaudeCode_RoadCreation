@@ -23,6 +23,8 @@ from valider_regles_implantation import classe_preuve, groupes_support  # noqa: 
 
 TRIANGULATION = RACINE / "recon/out/paquet_jardin/v2/enrichi/poses/triangulation.json"
 FIN_TRAVAUX = "2025-08-31"
+FIN_TRAVAUX_REEL = "2025-12-05"          # réception des travaux (photos du 2025-08-31 : en plein chantier)
+ENTITES_VERIFIEES = RACINE / "recon/out/paquet_jardin/v2/description/enrichi/entites_verifiees.json"
 CLASSES_ANTERIEURES = {"lidar2021", "ortho2022", "panoramax_brut", "constat", "lidar2021_couronne", "inventaire"}
 
 
@@ -216,8 +218,29 @@ def valide_pour_photo(o, date_photo):
     """Une photo prise à `date_photo` peut-elle prouver la position 2026 de l'objet ?
     Non pour un objet posé ou déduit pour 2026 (aucune photo postérieure aux travaux)."""
     st = o["statut"]
+    if o.get("deplace_travaux"):
+        return date_photo > FIN_TRAVAUX_REEL          # Q8 : déplacé pendant les travaux (mesure postérieure)
     if st.startswith("déduit 2026") or st.startswith("2026") or st.startswith("planté 2025") or o.get("travaux"):
         return date_photo > FIN_TRAVAUX
     if st.startswith("absent"):
         return False
     return True
+
+
+def existences_fusion():
+    """Q3 : verdicts d'existence de la fusion (enrichi/entites_verifiees.json) : {id: dict(existence, statut,
+    obs_preuve, date, regles)} pour absent_2026, retirer et absent_2026_a_verifier ; plus la position et le
+    statut de vérification de toutes les entités (pour le journal des désaccords)."""
+    if not ENTITES_VERIFIEES.exists():
+        return {}, {}
+    d = lire_json(ENTITES_VERIFIEES)
+    ex, tout = {}, {}
+    for eid, e in sorted(d.get("entites", {}).items()):
+        rec = dict(existence=e.get("existence"), statut=e.get("statut_verification"), obs_preuve=e.get("obs_preuve") or [],
+                   date=e.get("date_max_valide"), regles=e.get("regles") or [], famille=e.get("famille"),
+                   position=(e.get("position") or {}).get("verdict"), decision_position=(e.get("position") or {}).get("decision"),
+                   sources=e.get("sources") or [])
+        tout[eid] = rec
+        if rec["existence"] in ("absent_2026", "retirer", "absent_2026_a_verifier"):
+            ex[eid] = rec
+    return ex, tout

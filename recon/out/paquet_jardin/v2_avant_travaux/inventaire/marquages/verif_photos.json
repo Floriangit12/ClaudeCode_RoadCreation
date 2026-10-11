@@ -1,0 +1,104 @@
+{
+ "methode": "Vérification des repeintes 2022 -> 2024-2025 : projection des vecteurs du pilote (ajustés sur l'ortho 2022) dans\ndes photos 360° Panoramax datées d'avant les travaux (2024-08-24, 2025-05-18), aux poses calées de\nrecon/out/paquet_jardin/v2/enrichi/poses/poses.json (lecture seule).\n\nModèle (repris de recon/pcg/enrichir/camera.py, réécrit ici pour ne pas dépendre de modules en cours de\nmodification) : c = R (P - C) en (droite, avant, haut) ; équirectangulaire u = W (0,5 + lon / 2 pi),\nv = H (0,5 - lat / pi). Z du sol : heightmap 10 cm du paquet (recon/out/paquet_jardin/package/donnees/relief).\nSortie : vignettes perspective (FOV 75°) avec contours projetés, dans photos_non_versionnees/ (photos de tiers,\nCC-BY-SA, jamais versionnées) + verif_photos.json (identifiants, dates, cibles ; aucune image).\nUsage : python -I verif_photos.py",
+ "vignettes": [
+  {
+   "photo": "5c0d1d39",
+   "date": "2024-08-24",
+   "fichier_local": "photos_non_versionnees/verif_5c0d1d39_paves_jaunes_SO.jpg",
+   "cible_l93": [
+    917270.5,
+    6460278.0
+   ],
+   "distance_m": 24.6,
+   "cible": "paves_jaunes_SO"
+  },
+  {
+   "photo": "119d9094",
+   "date": "2025-05-18",
+   "fichier_local": "photos_non_versionnees/verif_119d9094_paves_jaunes_SO.jpg",
+   "cible_l93": [
+    917270.5,
+    6460278.0
+   ],
+   "distance_m": 16.0,
+   "cible": "paves_jaunes_SO"
+  },
+  {
+   "photo": "2ab4efbc",
+   "date": "2024-08-24",
+   "fichier_local": "photos_non_versionnees/verif_2ab4efbc_zebras_SO.jpg",
+   "cible_l93": [
+    917272.0,
+    6460273.0
+   ],
+   "distance_m": 13.5,
+   "cible": "zebras_SO"
+  },
+  {
+   "photo": "31d16b8e",
+   "date": "2025-05-18",
+   "fichier_local": "photos_non_versionnees/verif_31d16b8e_zebras_SO.jpg",
+   "cible_l93": [
+    917266.0,
+    6460278.0
+   ],
+   "distance_m": 2.4,
+   "cible": "zebras_SO"
+  },
+  {
+   "photo": "119d9094",
+   "date": "2025-05-18",
+   "fichier_local": "photos_non_versionnees/verif_119d9094_fleches_NE.jpg",
+   "cible_l93": [
+    917293.5,
+    6460308.0
+   ],
+   "distance_m": 22.5,
+   "cible": "fleches_NE"
+  },
+  {
+   "photo": "5c0d1d39",
+   "date": "2024-08-24",
+   "fichier_local": "photos_non_versionnees/verif_5c0d1d39_zebras_NE.jpg",
+   "cible_l93": [
+    917290.0,
+    6460300.0
+   ],
+   "distance_m": 6.6,
+   "cible": "zebras_NE"
+  },
+  {
+   "photo": "119d9094",
+   "date": "2025-05-18",
+   "fichier_local": "photos_non_versionnees/verif_119d9094_paves_jaunes_S.jpg",
+   "cible_l93": [
+    917278.0,
+    6460264.0
+   ],
+   "distance_m": 28.5,
+   "cible": "paves_jaunes_S"
+  },
+  {
+   "photo": "2ab4efbc",
+   "date": "2024-08-24",
+   "fichier_local": "photos_non_versionnees/verif_2ab4efbc_fleche_TAD_SO.jpg",
+   "cible_l93": [
+    917262.5,
+    6460277.5
+   ],
+   "distance_m": 10.7,
+   "cible": "fleche_TAD_SO"
+  },
+  {
+   "photo": "31d16b8e",
+   "date": "2025-05-18",
+   "fichier_local": "photos_non_versionnees/verif_31d16b8e_fleche_TAD_SO.jpg",
+   "cible_l93": [
+    917262.5,
+    6460277.5
+   ],
+   "distance_m": 3.8,
+   "cible": "fleche_TAD_SO"
+  }
+ ]
+}

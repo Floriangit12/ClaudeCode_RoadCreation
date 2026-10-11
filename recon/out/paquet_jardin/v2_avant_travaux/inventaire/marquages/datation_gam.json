@@ -1,0 +1,993 @@
+{
+ "methode": "Datation du levé GAM de la signalisation horizontale (Meylan_Topo.dwg, calque SOL_SIGNALISATION_HORIZONTALE)\npar confrontation de chaque entité aux peintures visibles sur l'ortho PCRS 2022 (5 cm) et la BD ORTHO 2024 (20 cm,\nrecalée sur le PCRS).\n\nPour chaque polyligne GAM (409) :\n- polygone fermé (bande de zébra, flèche, carré...) : pixels intérieurs (rastérisation au pas de 5 cm) ;\n  polyligne ouverte (ligne, tiret, axe) : points tous les 5 cm ;\n- support(s) = moyenne de p (probabilité de peinture, max 3 x 3 = tolérance +/- 5 cm) sur ces points, translatés de\n  s, s parcourant +/- 1,2 m au pas de 5 cm ;\n- statut : « present_identique » si support(0) >= 0,6 ; « deplace » si max support >= 0,6, |s*| >= 0,15 m et gain\n  >= 0,25 ; « absent » si max support < 0,35 ; « incertain » sinon (dont les marques usées ou masquées).\nSortie : datation_gam.json (statistiques par secteur et par type) + datation_gam.geojson (statut par entité) +\nplanche planches/datation_gam_2022.jpg.",
+ "n_entites": 409,
+ "statistiques": {
+  "2022": {
+   "coeur": {
+    "n": 135,
+    "longueur_m": 523.1,
+    "statuts": {
+     "present_identique": {
+      "n": 58,
+      "part_longueur": 0.45
+     },
+     "deplace": {
+      "n": 56,
+      "part_longueur": 0.369
+     },
+     "incertain": {
+      "n": 20,
+      "part_longueur": 0.166
+     },
+     "absent": {
+      "n": 1,
+      "part_longueur": 0.015
+     }
+    }
+   },
+   "verdun_ne": {
+    "n": 164,
+    "longueur_m": 923.4,
+    "statuts": {
+     "present_identique": {
+      "n": 47,
+      "part_longueur": 0.36
+     },
+     "deplace": {
+      "n": 92,
+      "part_longueur": 0.191
+     },
+     "incertain": {
+      "n": 20,
+      "part_longueur": 0.22
+     },
+     "absent": {
+      "n": 5,
+      "part_longueur": 0.23
+     }
+    }
+   },
+   "verdun_sw": {
+    "n": 42,
+    "longueur_m": 602.8,
+    "statuts": {
+     "present_identique": {
+      "n": 16,
+      "part_longueur": 0.285
+     },
+     "deplace": {
+      "n": 11,
+      "part_longueur": 0.142
+     },
+     "incertain": {
+      "n": 9,
+      "part_longueur": 0.366
+     },
+     "absent": {
+      "n": 6,
+      "part_longueur": 0.207
+     }
+    }
+   },
+   "vercors_s": {
+    "n": 31,
+    "longueur_m": 353.9,
+    "statuts": {
+     "present_identique": {
+      "n": 20,
+      "part_longueur": 0.762
+     },
+     "deplace": {
+      "n": 3,
+      "part_longueur": 0.131
+     },
+     "incertain": {
+      "n": 6,
+      "part_longueur": 0.09
+     },
+     "absent": {
+      "n": 2,
+      "part_longueur": 0.018
+     }
+    }
+   },
+   "reviree_n": {
+    "n": 13,
+    "longueur_m": 102.0,
+    "statuts": {
+     "present_identique": {
+      "n": 11,
+      "part_longueur": 0.991
+     },
+     "deplace": {
+      "n": 2,
+      "part_longueur": 0.009
+     },
+     "incertain": {
+      "n": 0,
+      "part_longueur": 0.0
+     },
+     "absent": {
+      "n": 0,
+      "part_longueur": 0.0
+     }
+    }
+   },
+   "autre": {
+    "n": 16,
+    "longueur_m": 38.7,
+    "statuts": {
+     "present_identique": {
+      "n": 2,
+      "part_longueur": 0.149
+     },
+     "deplace": {
+      "n": 1,
+      "part_longueur": 0.003
+     },
+     "incertain": {
+      "n": 6,
+      "part_longueur": 0.545
+     },
+     "absent": {
+      "n": 7,
+      "part_longueur": 0.303
+     }
+    }
+   },
+   "tout": {
+    "n": 401,
+    "longueur_m": 2544.0,
+    "statuts": {
+     "present_identique": {
+      "n": 154,
+      "part_longueur": 0.438
+     },
+     "deplace": {
+      "n": 165,
+      "part_longueur": 0.197
+     },
+     "incertain": {
+      "n": 61,
+      "part_longueur": 0.221
+     },
+     "absent": {
+      "n": 21,
+      "part_longueur": 0.143
+     }
+    }
+   }
+  },
+  "2024": {
+   "coeur": {
+    "n": 135,
+    "longueur_m": 523.1,
+    "statuts": {
+     "present_identique": {
+      "n": 38,
+      "part_longueur": 0.277
+     },
+     "deplace": {
+      "n": 63,
+      "part_longueur": 0.389
+     },
+     "incertain": {
+      "n": 28,
+      "part_longueur": 0.265
+     },
+     "absent": {
+      "n": 6,
+      "part_longueur": 0.069
+     }
+    }
+   },
+   "verdun_ne": {
+    "n": 164,
+    "longueur_m": 923.4,
+    "statuts": {
+     "present_identique": {
+      "n": 52,
+      "part_longueur": 0.354
+     },
+     "deplace": {
+      "n": 89,
+      "part_longueur": 0.09
+     },
+     "incertain": {
+      "n": 19,
+      "part_longueur": 0.26
+     },
+     "absent": {
+      "n": 4,
+      "part_longueur": 0.295
+     }
+    }
+   },
+   "verdun_sw": {
+    "n": 42,
+    "longueur_m": 602.8,
+    "statuts": {
+     "present_identique": {
+      "n": 8,
+      "part_longueur": 0.226
+     },
+     "deplace": {
+      "n": 15,
+      "part_longueur": 0.159
+     },
+     "incertain": {
+      "n": 11,
+      "part_longueur": 0.355
+     },
+     "absent": {
+      "n": 8,
+      "part_longueur": 0.259
+     }
+    }
+   },
+   "vercors_s": {
+    "n": 31,
+    "longueur_m": 353.9,
+    "statuts": {
+     "present_identique": {
+      "n": 4,
+      "part_longueur": 0.089
+     },
+     "deplace": {
+      "n": 9,
+      "part_longueur": 0.118
+     },
+     "incertain": {
+      "n": 8,
+      "part_longueur": 0.694
+     },
+     "absent": {
+      "n": 10,
+      "part_longueur": 0.099
+     }
+    }
+   },
+   "reviree_n": {
+    "n": 13,
+    "longueur_m": 102.0,
+    "statuts": {
+     "present_identique": {
+      "n": 2,
+      "part_longueur": 0.395
+     },
+     "deplace": {
+      "n": 2,
+      "part_longueur": 0.061
+     },
+     "incertain": {
+      "n": 5,
+      "part_longueur": 0.327
+     },
+     "absent": {
+      "n": 4,
+      "part_longueur": 0.217
+     }
+    }
+   },
+   "autre": {
+    "n": 16,
+    "longueur_m": 38.7,
+    "statuts": {
+     "present_identique": {
+      "n": 3,
+      "part_longueur": 0.103
+     },
+     "deplace": {
+      "n": 6,
+      "part_longueur": 0.279
+     },
+     "incertain": {
+      "n": 4,
+      "part_longueur": 0.222
+     },
+     "absent": {
+      "n": 3,
+      "part_longueur": 0.396
+     }
+    }
+   },
+   "tout": {
+    "n": 401,
+    "longueur_m": 2544.0,
+    "statuts": {
+     "present_identique": {
+      "n": 107,
+      "part_longueur": 0.269
+     },
+     "deplace": {
+      "n": 184,
+      "part_longueur": 0.174
+     },
+     "incertain": {
+      "n": 75,
+      "part_longueur": 0.346
+     },
+     "absent": {
+      "n": 35,
+      "part_longueur": 0.211
+     }
+    }
+   }
+  }
+ },
+ "decalages_deplaces_2022_m": [
+  [
+   0.1,
+   -0.85
+  ],
+  [
+   -0.8,
+   0.45
+  ],
+  [
+   0.35,
+   -0.85
+  ],
+  [
+   0.35,
+   -0.4
+  ],
+  [
+   -0.4,
+   0.6
+  ],
+  [
+   -0.3,
+   0.6
+  ],
+  [
+   -0.75,
+   0.6
+  ],
+  [
+   -0.85,
+   0.6
+  ],
+  [
+   -0.15,
+   -0.75
+  ],
+  [
+   -0.15,
+   -0.7
+  ],
+  [
+   0.15,
+   -0.75
+  ],
+  [
+   0.9,
+   -0.25
+  ],
+  [
+   -0.2,
+   0.0
+  ],
+  [
+   -0.3,
+   -0.3
+  ],
+  [
+   -0.55,
+   -0.7
+  ],
+  [
+   -0.3,
+   -0.4
+  ],
+  [
+   -0.15,
+   -0.05
+  ],
+  [
+   -0.15,
+   0.0
+  ],
+  [
+   -0.3,
+   0.0
+  ],
+  [
+   -0.45,
+   0.4
+  ],
+  [
+   0.7,
+   -0.75
+  ],
+  [
+   0.4,
+   -0.4
+  ],
+  [
+   0.15,
+   0.35
+  ],
+  [
+   -0.4,
+   -0.25
+  ],
+  [
+   -0.45,
+   0.25
+  ],
+  [
+   -0.05,
+   0.15
+  ],
+  [
+   1.0,
+   -1.2
+  ],
+  [
+   0.25,
+   -0.45
+  ],
+  [
+   0.35,
+   -0.4
+  ],
+  [
+   0.5,
+   0.8
+  ],
+  [
+   -0.05,
+   0.3
+  ],
+  [
+   0.9,
+   1.15
+  ],
+  [
+   -1.05,
+   0.75
+  ],
+  [
+   0.8,
+   -0.1
+  ],
+  [
+   0.8,
+   -0.35
+  ],
+  [
+   -0.65,
+   1.0
+  ],
+  [
+   -0.5,
+   0.55
+  ],
+  [
+   -0.65,
+   0.2
+  ],
+  [
+   -0.5,
+   0.85
+  ],
+  [
+   -0.25,
+   0.5
+  ],
+  [
+   -0.35,
+   -0.05
+  ],
+  [
+   -0.4,
+   0.45
+  ],
+  [
+   -0.5,
+   0.1
+  ],
+  [
+   -0.3,
+   -0.7
+  ],
+  [
+   0.1,
+   0.4
+  ],
+  [
+   -0.9,
+   -0.3
+  ],
+  [
+   -0.55,
+   -0.5
+  ],
+  [
+   0.5,
+   1.1
+  ],
+  [
+   -0.8,
+   -0.45
+  ],
+  [
+   -1.2,
+   -1.15
+  ],
+  [
+   -0.85,
+   -0.5
+  ],
+  [
+   -0.1,
+   0.9
+  ],
+  [
+   -1.2,
+   0.7
+  ],
+  [
+   -0.35,
+   1.2
+  ],
+  [
+   -0.25,
+   0.35
+  ],
+  [
+   0.65,
+   0.0
+  ],
+  [
+   1.2,
+   -1.1
+  ],
+  [
+   -0.15,
+   -1.2
+  ],
+  [
+   -0.15,
+   0.25
+  ],
+  [
+   0.7,
+   0.4
+  ],
+  [
+   -0.2,
+   0.0
+  ],
+  [
+   -1.2,
+   -1.0
+  ],
+  [
+   0.6,
+   0.8
+  ],
+  [
+   0.0,
+   -0.3
+  ],
+  [
+   -0.25,
+   0.05
+  ],
+  [
+   -1.0,
+   -0.6
+  ],
+  [
+   -1.1,
+   -0.8
+  ],
+  [
+   -0.75,
+   -1.2
+  ],
+  [
+   0.05,
+   0.25
+  ],
+  [
+   1.0,
+   0.8
+  ],
+  [
+   1.2,
+   -0.7
+  ],
+  [
+   -0.75,
+   -0.55
+  ],
+  [
+   0.55,
+   0.4
+  ],
+  [
+   0.3,
+   -1.15
+  ],
+  [
+   1.2,
+   1.1
+  ],
+  [
+   1.2,
+   0.0
+  ],
+  [
+   0.9,
+   -1.1
+  ],
+  [
+   0.8,
+   -1.1
+  ],
+  [
+   0.25,
+   -1.2
+  ],
+  [
+   0.7,
+   -1.2
+  ],
+  [
+   -0.75,
+   0.35
+  ],
+  [
+   -1.05,
+   0.85
+  ],
+  [
+   -0.85,
+   -1.2
+  ],
+  [
+   -1.2,
+   -0.85
+  ],
+  [
+   -0.25,
+   -0.75
+  ],
+  [
+   -0.2,
+   -0.15
+  ],
+  [
+   -0.3,
+   0.1
+  ],
+  [
+   0.0,
+   -0.45
+  ],
+  [
+   0.7,
+   0.25
+  ],
+  [
+   1.2,
+   1.15
+  ],
+  [
+   0.25,
+   -1.1
+  ],
+  [
+   0.95,
+   -0.45
+  ],
+  [
+   0.95,
+   -0.45
+  ],
+  [
+   -0.15,
+   -0.3
+  ],
+  [
+   -1.2,
+   -0.15
+  ],
+  [
+   -1.2,
+   1.1
+  ],
+  [
+   0.25,
+   -0.2
+  ],
+  [
+   -0.5,
+   0.45
+  ],
+  [
+   -1.15,
+   1.2
+  ],
+  [
+   1.2,
+   -1.2
+  ],
+  [
+   0.0,
+   -1.0
+  ],
+  [
+   0.4,
+   -1.1
+  ],
+  [
+   -0.1,
+   -0.4
+  ],
+  [
+   0.45,
+   0.5
+  ],
+  [
+   -1.0,
+   -0.3
+  ],
+  [
+   -0.3,
+   -1.05
+  ],
+  [
+   -0.9,
+   1.0
+  ],
+  [
+   -0.6,
+   0.65
+  ],
+  [
+   0.85,
+   -0.3
+  ],
+  [
+   1.2,
+   -0.65
+  ],
+  [
+   0.8,
+   -0.05
+  ],
+  [
+   1.15,
+   -0.35
+  ],
+  [
+   -1.2,
+   0.0
+  ],
+  [
+   -0.85,
+   -0.15
+  ],
+  [
+   -1.2,
+   -0.15
+  ],
+  [
+   -1.1,
+   -0.8
+  ],
+  [
+   -1.15,
+   0.85
+  ],
+  [
+   -0.8,
+   0.5
+  ],
+  [
+   -1.05,
+   0.9
+  ],
+  [
+   0.4,
+   -1.1
+  ],
+  [
+   -0.1,
+   -1.2
+  ],
+  [
+   -0.55,
+   0.1
+  ],
+  [
+   0.85,
+   -1.15
+  ],
+  [
+   0.55,
+   -0.95
+  ],
+  [
+   -0.9,
+   0.3
+  ],
+  [
+   -0.75,
+   0.55
+  ],
+  [
+   0.95,
+   -0.75
+  ],
+  [
+   -0.5,
+   -1.0
+  ],
+  [
+   0.05,
+   0.6
+  ],
+  [
+   -1.15,
+   -0.4
+  ],
+  [
+   0.05,
+   0.55
+  ],
+  [
+   1.2,
+   -0.5
+  ],
+  [
+   -0.6,
+   -0.25
+  ],
+  [
+   -0.5,
+   -0.45
+  ],
+  [
+   0.15,
+   0.3
+  ],
+  [
+   0.8,
+   1.1
+  ],
+  [
+   0.15,
+   -0.1
+  ],
+  [
+   0.45,
+   -0.2
+  ],
+  [
+   0.5,
+   -0.6
+  ],
+  [
+   0.9,
+   -0.65
+  ],
+  [
+   1.2,
+   -0.9
+  ],
+  [
+   1.15,
+   -1.15
+  ],
+  [
+   -0.25,
+   -1.2
+  ],
+  [
+   -0.75,
+   1.0
+  ],
+  [
+   -0.75,
+   0.65
+  ],
+  [
+   -1.15,
+   0.9
+  ],
+  [
+   -0.45,
+   0.9
+  ],
+  [
+   -0.7,
+   0.95
+  ],
+  [
+   -0.65,
+   0.85
+  ],
+  [
+   -0.6,
+   1.05
+  ],
+  [
+   -1.05,
+   0.85
+  ],
+  [
+   -0.95,
+   1.15
+  ],
+  [
+   -1.15,
+   1.2
+  ],
+  [
+   -0.15,
+   0.0
+  ],
+  [
+   -0.15,
+   0.2
+  ],
+  [
+   0.1,
+   0.4
+  ],
+  [
+   -0.2,
+   -0.1
+  ],
+  [
+   -0.15,
+   -0.05
+  ],
+  [
+   -0.15,
+   0.0
+  ],
+  [
+   -0.2,
+   -0.45
+  ],
+  [
+   -0.7,
+   -0.35
+  ],
+  [
+   -0.55,
+   -0.65
+  ],
+  [
+   -0.2,
+   -0.25
+  ],
+  [
+   1.2,
+   0.95
+  ],
+  [
+   0.15,
+   0.05
+  ]
+ ],
+ "decalage_optimal_median_identiques_2022_m": [
+  0.0,
+  0.0
+ ],
+ "sources": {
+  "gam": "data\\sites\\paquet_jardin\\etat_2026\\signalisation_horizontale_lin_L93.geojson",
+  "ortho2022": "data\\sites\\paquet_jardin\\ortho5cm_2022",
+  "bdortho2024": "data\\raw\\ortho_recentes\\ign_bdortho_2024_rvb_20cm",
+  "recalage_2024": [
+   0.035,
+   0.029
+  ]
+ }
+}

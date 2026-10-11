@@ -1,0 +1,165 @@
+{
+ "methode": "Estimation du taux de couverture sur tout le site (300 m x 300 m) : extraction automatique sur l'ortho PCRS\n5 cm 2022 par blocs de 100 m (marges de 8 m, éléments gardés si leur centre est dans le cœur du bloc), puis :\n\n1. masque des surfaces circulées (paquet v1 surfaces_2026 : chaussee, parking, piste_cyclable, acces_riverain,\n   quai_bus ; état inchange_2022 / modifie_2025 / construit_2023_2024), rastérisé à 25 cm ;\n2. lisibilité de l'ortho 2022 sur ce masque (25 cm) : houppier (indice de vert), ombre ou objet sombre (fond local\n   < 80 DN), véhicule ou objet clair (tache claire compacte > 4 m2, ou saturation > 0,30 hors peinture jaune),\n   dégagé ;\n3. inventaire de référence : marques v1 (996) dont l'état est antérieur aux travaux (conserve, fantome,\n   refait_2025_identique) : part visible sur l'ortho 2022 (support de peinture >= 0,4 dans le polygone v1) et part\n   reprise par l'extraction automatique (>= 50 % de la surface du polygone v1 couverte par les produits de même\n   famille, polygones dilatés de 0,20 m, axes épaissis à 0,60 m) ;\n4. produits : marquages_site_2022_auto.geojson (non revu), couverture_site.json, planches/couverture_site.jpg.\nUsage : python -I couverture_site.py [--sans-extraction]   (PJ_CACHE_MARQUAGES : cache des cartes, hors dépôt ;\n--sans-extraction : relit marquages_site_2022_auto.geojson au lieu de refaire l'extraction, environ 15 min)",
+ "emprise_l93": [
+  917129.0,
+  6460140.0,
+  917429.0,
+  6460440.0
+ ],
+ "lisibilite_25cm": {
+  "inchange_2022": {
+   "surface_m2": 21224.9,
+   "degage": 0.6593,
+   "ombre_ou_sombre": 0.1978,
+   "vehicule_ou_objet": 0.0185,
+   "houppier": 0.1244
+  },
+  "modifie_2025": {
+   "surface_m2": 4457.8,
+   "degage": 0.867,
+   "ombre_ou_sombre": 0.0541,
+   "vehicule_ou_objet": 0.0159,
+   "houppier": 0.0629
+  },
+  "construit_2023_2024": {
+   "surface_m2": 4860.9,
+   "degage": 0.7154,
+   "ombre_ou_sombre": 0.1133,
+   "vehicule_ou_objet": 0.0473,
+   "houppier": 0.124
+  },
+  "tout": {
+   "surface_m2": 30508.1,
+   "degage": 0.6986,
+   "ombre_ou_sombre": 0.1634,
+   "vehicule_ou_objet": 0.0226,
+   "houppier": 0.1154
+  }
+ },
+ "extraction_auto": {
+  "passages": 18,
+  "bandes": 77,
+  "fleches": 14,
+  "fleches_candidates": 498,
+  "lignes": 492,
+  "longueur_lignes_m": 1210.7426315315695,
+  "files_paves": 8,
+  "paves": 64
+ },
+ "reference_v1_avant_travaux": {
+  "damier": {
+   "n": 42,
+   "visibles_ortho2022": 30,
+   "part_visible": 0.714,
+   "repris_auto": 21,
+   "part_reprise_auto": 0.5,
+   "part_reprise_parmi_visibles": 0.7,
+   "support_median": 0.838
+  },
+  "fantome": {
+   "n": 118,
+   "visibles_ortho2022": 108,
+   "part_visible": 0.915,
+   "repris_auto": 65,
+   "part_reprise_auto": 0.551,
+   "part_reprise_parmi_visibles": 0.593,
+   "support_median": 0.875
+  },
+  "fleche": {
+   "n": 12,
+   "visibles_ortho2022": 8,
+   "part_visible": 0.667,
+   "repris_auto": 6,
+   "part_reprise_auto": 0.5,
+   "part_reprise_parmi_visibles": 0.75,
+   "support_median": 0.827
+  },
+  "hachures": {
+   "n": 7,
+   "visibles_ortho2022": 7,
+   "part_visible": 1.0,
+   "repris_auto": null,
+   "part_reprise_auto": null,
+   "part_reprise_parmi_visibles": null,
+   "support_median": 0.658
+  },
+  "ligne_continue": {
+   "n": 160,
+   "visibles_ortho2022": 148,
+   "part_visible": 0.925,
+   "repris_auto": 22,
+   "part_reprise_auto": 0.138,
+   "part_reprise_parmi_visibles": 0.149,
+   "support_median": 0.924
+  },
+  "ligne_discontinue": {
+   "n": 256,
+   "visibles_ortho2022": 207,
+   "part_visible": 0.809,
+   "repris_auto": 103,
+   "part_reprise_auto": 0.402,
+   "part_reprise_parmi_visibles": 0.498,
+   "support_median": 0.942
+  },
+  "ligne_effet_feux": {
+   "n": 6,
+   "visibles_ortho2022": 0,
+   "part_visible": 0.0,
+   "repris_auto": 0,
+   "part_reprise_auto": 0.0,
+   "part_reprise_parmi_visibles": 0.0,
+   "support_median": 0.007
+  },
+  "passage_pieton_bande": {
+   "n": 58,
+   "visibles_ortho2022": 57,
+   "part_visible": 0.983,
+   "repris_auto": 35,
+   "part_reprise_auto": 0.603,
+   "part_reprise_parmi_visibles": 0.614,
+   "support_median": 0.921
+  },
+  "surface_coloree": {
+   "n": 1,
+   "visibles_ortho2022": 0,
+   "part_visible": 0.0,
+   "repris_auto": null,
+   "part_reprise_auto": null,
+   "part_reprise_parmi_visibles": null,
+   "support_median": 0.251
+  },
+  "symbole": {
+   "n": 13,
+   "visibles_ortho2022": 3,
+   "part_visible": 0.231,
+   "repris_auto": null,
+   "part_reprise_auto": null,
+   "part_reprise_parmi_visibles": null,
+   "support_median": 0.062
+  },
+  "symbole_velo": {
+   "n": 14,
+   "visibles_ortho2022": 5,
+   "part_visible": 0.357,
+   "repris_auto": null,
+   "part_reprise_auto": null,
+   "part_reprise_parmi_visibles": null,
+   "support_median": 0.266
+  },
+  "texte": {
+   "n": 3,
+   "visibles_ortho2022": 3,
+   "part_visible": 1.0,
+   "repris_auto": null,
+   "part_reprise_auto": null,
+   "part_reprise_parmi_visibles": null,
+   "support_median": 0.959
+  }
+ },
+ "duree_s": 3.1,
+ "sources": {
+  "surfaces": "recon\\out\\paquet_jardin\\package\\donnees\\surfaces\\surfaces_2026.geojson",
+  "v1": "recon\\out\\paquet_jardin\\package\\donnees\\marquages\\marquages_2026.geojson",
+  "ortho": "data\\sites\\paquet_jardin\\ortho5cm_2022"
+ }
+}

@@ -1,0 +1,167 @@
+{
+ "date_mesure": "2026-10-11",
+ "classes_vs_ortho2022": {
+  "methode": "surfaces de la description v2 (base) hors zone travaux/construite (surfaces_2026 etat modifie_2025|construit_2023_2024 + 1,5 m) et hors canopee LiDAR ; part de pixels verts (ExG>0,06) de l ortho PCRS 2022 a 0,25 m",
+  "aire_controlee_m2": 29870,
+  "espace_vert_peu_vert": {
+   "n": 7,
+   "aire_m2": 313,
+   "exemples": [
+    "S-0120a",
+    "S-0114",
+    "S-0357",
+    "S-0129s",
+    "S-0057a"
+   ]
+  },
+  "revetu_majoritairement_vert": {
+   "n": 12,
+   "aire_m2": 355,
+   "exemples": [
+    "S-0121a",
+    "S-0136e",
+    "S-0161e",
+    "S-0161d",
+    "S-0203a"
+   ]
+  },
+  "part_incoherente": 0.0224
+ },
+ "bordures_vs_aretes_ortho2022": {
+  "methode": "description base/bordures.geojson (face vue, leve GAM post-travaux) echantillonnee tous les 1 m ; profil perpendiculaire +-0,6 m sur l ortho PCRS 5 cm du 10/05/2022 (moyenne de 3 profils sur 0,5 m) ; distance au maximum local de gradient (>60 niveaux/m) le plus proche ; zone travaux = surfaces_2026 modifie_2025|construit_2023_2024 + 1,5 m",
+  "hors": {
+   "echantillons_1m": 3268,
+   "sans_arete_nette": 83,
+   "p50_m": 0.05,
+   "p90_m": 0.125,
+   "part_arete_a_10cm": 0.848,
+   "part_arete_a_20cm": 0.917
+  },
+  "travaux": {
+   "echantillons_1m": 2816,
+   "sans_arete_nette": 431,
+   "p50_m": 0.05,
+   "p90_m": 0.325,
+   "part_arete_a_10cm": 0.586,
+   "part_arete_a_20cm": 0.69
+  }
+ },
+ "photo_vs_rendu_karma": {
+  "methode": "vignettes perspectives 960x640, champ 90 deg, aux poses calees (poses.json) ; rendu Karma CPU 16 spp de fabrique_hda (copie du 11/10 08:41) ; bande de chaussee (160,400)-(800,470) : energie du laplacien et ecart type ; ciel = 12 % superieurs ; dynamique = p99-p1 de la luminance",
+  "par_vue": {
+   "119d9094_sw": {
+    "photo_detail_lap": 22.662710189819336,
+    "photo_ecart_type": 24.790674209594727,
+    "rendu_detail_lap": 5.434284687042236,
+    "rendu_ecart_type": 8.790273666381836,
+    "date_photo": "119d9094",
+    "C": [
+     -2.2757,
+     2.5162,
+     2.0762
+    ],
+    "lacet": 221.4552
+   },
+   "119d9094_ne": {
+    "photo_detail_lap": 17.802507400512695,
+    "photo_ecart_type": 47.78278732299805,
+    "rendu_detail_lap": 5.650262832641602,
+    "rendu_ecart_type": 14.272329330444336,
+    "date_photo": "119d9094",
+    "C": [
+     -2.2757,
+     2.5162,
+     2.0762
+    ],
+    "lacet": 41.45519999999999
+   },
+   "2ab4efbc_sw": {
+    "photo_detail_lap": 27.762216567993164,
+    "photo_ecart_type": 21.432533264160156,
+    "rendu_detail_lap": 5.221602439880371,
+    "rendu_ecart_type": 13.184624671936035,
+    "date_photo": "2ab4efbc",
+    "C": [
+     -10.6054,
+     -3.8776,
+     1.9461
+    ],
+    "lacet": 225.101
+   },
+   "9834f494_sw": {
+    "photo_detail_lap": 37.16372299194336,
+    "photo_ecart_type": 33.04619216918945,
+    "rendu_detail_lap": 5.8978657722473145,
+    "rendu_ecart_type": 34.4615364074707,
+    "date_photo": "9834f494",
+    "C": [
+     15.7249,
+     21.0672,
+     2.2473
+    ],
+    "lacet": 222.8381
+   },
+   "aa9d7e12_sw": {
+    "photo_detail_lap": 14.303314208984375,
+    "photo_ecart_type": 31.829421997070312,
+    "rendu_detail_lap": 7.895491600036621,
+    "rendu_ecart_type": 28.518022537231445,
+    "date_photo": "aa9d7e12",
+    "C": [
+     -24.2656,
+     -19.9424,
+     1.6647
+    ],
+    "lacet": 216.5407
+   }
+  },
+  "ciel_rgb_moyen": {
+   "photos": [
+    [
+     0.647,
+     0.739,
+     0.872
+    ],
+    [
+     0.792,
+     0.873,
+     0.943
+    ],
+    [
+     0.696,
+     0.759,
+     0.848
+    ]
+   ],
+   "karma": [
+    0.464,
+    0.503,
+    0.55
+   ]
+  },
+  "dynamique_p99_p1": {
+   "photos": [
+    0.8,
+    0.95,
+    0.869
+   ],
+   "karma": [
+    0.35,
+    0.412,
+    0.57
+   ]
+  },
+  "saturation_sol": {
+   "photos": [
+    0.176,
+    0.16,
+    0.238
+   ],
+   "karma": [
+    0.061,
+    0.073,
+    0.147
+   ]
+  }
+ }
+}

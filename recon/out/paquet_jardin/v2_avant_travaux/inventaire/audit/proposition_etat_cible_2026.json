@@ -1,0 +1,55 @@
+{
+ "schema": "pj_etat_cible/0.1",
+ "statut": "PROPOSITION de l'audit du 11/10/2026 : configuration par défaut qui doit reproduire À L'OCTET les sorties actuelles de l'état 2026 (critère de non-régression : hash_description et hash_marquages du manifeste inchangés). Elle recopie donc les constantes actuelles, y compris celles qui se contredisent (constantes_heritees).",
+ "id": "apres_travaux_2026",
+ "libelle": "Carrefour Paquet Jardin après les travaux C1 (octobre 2026)",
+ "date_cible": "2026-10-15",
+ "date_etat": "2026-10",
+ "fenetre_preuves": {"de": "2025-12-05", "a": "2026-10-31", "note": "photos postérieures aux travaux ; les antérieures ne valent qu'hors emprise (FUS-DATE-02)"},
+ "saison": {"nom": "automne", "mois": 10, "feuillage": "automne, jaunissement en cours", "jaunissement": 0.4, "feuilles_mortes_sol": 0.3,
+            "soleil": {"soleil_az_geo": 220.0, "soleil_elev": 27.6, "source": "recon/pcg/ue/pj_tools/pj_tools/eclairage.py:31"}},
+ "evenements": [
+  {"id": "CONSTR-EST-2023-2024", "type": "construction", "debut": "2023-01-01", "fin": "2024-12-31", "emprise": {"surfaces_v1_etat": ["construit_2023_2024"]}},
+  {"id": "TRV-C1-2025", "type": "travaux", "debut": "2025-06-23", "fin": "2025-12-05", "emprise": {"surfaces_v1_etat": ["modifie_2025"], "marge_m": 3.0}},
+  {"id": "TRV-VERCORS-TROTTOIRS", "type": "travaux", "debut": "2025-06-23", "fin": "2026-01-30", "emprise": {"axe_vercors_m": 15.0}}
+ ],
+ "constantes_heritees": {
+  "note": "valeurs actuelles, différentes selon les modules ; à garder dans la configuration 2026 tant que l'on exige l'identité à l'octet, puis à harmoniser (décision à prendre, change les sorties 2026)",
+  "recon/pcg/enrichir/fusion_recensement.py:61": {"FIN_TRAVAUX": "2025-12-05"},
+  "recon/pcg/decrire/resoudre_regles.py:107": {"FIN_TRAVAUX": "2025-12-05"},
+  "recon/pcg/decrire/coherence_photos.py:43": {"FIN_TRAVAUX_2025": "2025-12-05"},
+  "recon/pcg/decrire/coherence_mesures.py:60": {"FIN_TRAVAUX_2025": "2025-12-05"},
+  "recon/pcg/decrire/coherence_marquages.py:607": {"litteral": "2025-12-05"},
+  "recon/pcg/decrire/coherence_objets.py:25-26": {"FIN_TRAVAUX": "2025-08-31", "FIN_TRAVAUX_REEL": "2025-12-05"},
+  "recon/pcg/decrire/coherence_objets.py:209": {"litteral": "2025-08-31"},
+  "recon/pcg/enrichir/gcp.py:37-38": {"DEBUT_TRAVAUX_2025": "2025-06-01", "FIN_TRAVAUX_2025": "2026-01-31"},
+  "recon/pcg/enrichir/gcp.py:131,206": {"litteral": "2025-05-31"},
+  "recon/pcg/enrichir/orthos_recentes.py:47": {"DEBUT_TRAVAUX": "2025-06-23", "FIN_TRAVAUX": "2025-12-05", "FIN_TROTTOIRS_VERCORS": "2026-01-30"},
+  "recon/pcg/enrichir/mapillary.py:764,782,950": {"litteral": "2025-12-05"}
+ },
+ "sources": {"ordre": ["gam", "plan2025", "ortho2022", "regle", "v1"], "r": {"gam": 0.95, "plan2025": 0.85, "ortho2022": 0.80, "v1": 0.30}, "source": "recon/pcg/decrire/marquages_sources.py:35-41"},
+ "v_temporelle_marquages": {
+  "gam":       {"conserve": 1.0, "refait_2025_identique": 1.0, "neuf_2025": 1.0, "construit_2023_2024": 1.0},
+  "plan2025":  {"conserve": 0.0, "refait_2025_identique": 1.0, "neuf_2025": 1.0, "construit_2023_2024": 0.0},
+  "ortho2022": {"conserve": 1.0, "refait_2025_identique": 0.8, "neuf_2025": 0.0, "construit_2023_2024": 0.0},
+  "v1":        {"conserve": 1.0, "refait_2025_identique": 1.0, "neuf_2025": 1.0, "construit_2023_2024": 1.0},
+  "source": "recon/pcg/decrire/marquages_sources.py:46-51"
+ },
+ "regles_chronologie": {"classes_date": ["apres_travaux", "avant_travaux_hors_emprise", "avant_travaux_dans_emprise"], "tranches_probantes": ["apres_travaux", "avant_travaux_hors_emprise", "avant_travaux_dans_emprise_appui"],
+                         "source": "recon/pcg/enrichir/fusion_recensement.py:78-79 ; recon/pcg/decrire/resoudre_regles.py:103"},
+ "references": {
+  "xodr": "recon/out/paquet_jardin/package/paquet_jardin_2026.xodr",
+  "lanes": "recon/out/paquet_jardin/package/donnees/opendrive/lanes_2026.geojson",
+  "manoeuvres": "recon/out/paquet_jardin/package/donnees/opendrive/manoeuvres_2026.json",
+  "mnt": "recon/out/paquet_jardin/package/donnees/relief/heightmap_3025_10cm.json",
+  "surfaces_v1": "recon/out/paquet_jardin/package/donnees/surfaces/surfaces_2026.geojson",
+  "marquages_v1": "recon/out/paquet_jardin/package/donnees/marquages/marquages_2026.geojson",
+  "relief_zones": "recon/out/paquet_jardin/package/donnees/relief/relief_zones_2026.geojson",
+  "bordures_hauteurs": "recon/out/paquet_jardin/package/donnees/relief/bordures_hauteurs.geojson",
+  "gam": "data/sites/paquet_jardin/etat_2026",
+  "plan2025": "data/sites/paquet_jardin/plan_projet_2025"
+ },
+ "dossier_sortie": "recon/out/paquet_jardin/v2",
+ "ue": {"niveau": "/Game/PJ/Maps/PJ_2026", "racine_contenu_etat": "/Game/PJ (chemins actuels)"},
+ "schema_description": {"version": "description_scene_v2/0.3", "date_etat": "2026-10", "z_ref": "nivellement_2026"}
+}

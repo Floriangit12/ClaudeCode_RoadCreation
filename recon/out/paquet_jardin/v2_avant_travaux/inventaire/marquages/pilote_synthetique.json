@@ -1,0 +1,923 @@
+{
+ "methode": "Précision intrinsèque de la méthode sur images synthétiques à 5 cm (vérité connue).\n\nRendu : couverture exacte des gabarits IISR (sur-échantillonnage x8) à une pose tirée au hasard (graine fixe,\ndécalage sous-pixel, cap quelconque), enrobé 150 DN / peinture 225 DN (usée : 185 DN), flou gaussien sigma\n0,7 px (FTM typique d'une ortho 5 cm), bruit gaussien sigma 4 DN, compression JPEG qualité 85 ; puis la même chaîne\nque sur l'ortho (detection -> fleches / zebras / lignes). Erreurs mesurées : origine (m), cap (°), largeur et pas\ndes bandes, largeur et extrémités des tirets.",
+ "neuve": {
+  "fleches": {
+   "essais": 32,
+   "trouvees": 32,
+   "type_correct": 32,
+   "erreur_origine_m": {
+    "n": 32,
+    "moyenne_abs": 0.009181770558602604,
+    "p95_abs": 0.01952677746672824,
+    "max_abs": 0.027508294542900737
+   },
+   "erreur_cap_deg": {
+    "n": 32,
+    "moyenne_abs": 0.1530398027093195,
+    "p95_abs": 0.3003262808939328,
+    "max_abs": 0.3972718466675986
+   },
+   "iou": {
+    "n": 32,
+    "moyenne_abs": 0.8575227170961064,
+    "p95_abs": 0.8878357360821739,
+    "max_abs": 0.8928827903692389
+   },
+   "detail": [
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.009430092100812124,
+     "erreur_cap_deg": 0.210730904491609,
+     "iou": 0.8535434131002768
+    },
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.023286574419998117,
+     "erreur_cap_deg": -0.30610072057708454,
+     "iou": 0.8446852134577382
+    },
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.027508294542900737,
+     "erreur_cap_deg": -0.2893125561955402,
+     "iou": 0.8367910041382804
+    },
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.0006153772383011198,
+     "erreur_cap_deg": -0.0545179892948118,
+     "iou": 0.8603927069954833
+    },
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.006224074310315146,
+     "erreur_cap_deg": -0.1680118195678111,
+     "iou": 0.8362070145017749
+    },
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.0007612522568862154,
+     "erreur_cap_deg": 0.0666952901439187,
+     "iou": 0.8772960100437831
+    },
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.004729319497697618,
+     "erreur_cap_deg": 0.17606603800422463,
+     "iou": 0.8577049469021117
+    },
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.014937705138527711,
+     "erreur_cap_deg": 0.013596337951155323,
+     "iou": 0.8244690921533957
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.014544548427360984,
+     "erreur_cap_deg": -0.3972718466675986,
+     "iou": 0.8305874514212923
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.0029164352882232914,
+     "erreur_cap_deg": 0.03910935580520304,
+     "iou": 0.8554259447685691
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.007853844388339602,
+     "erreur_cap_deg": 0.01320595162636321,
+     "iou": 0.8269176698013903
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.01240560168091433,
+     "erreur_cap_deg": -0.2649208021773122,
+     "iou": 0.823361248966647
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.007418612249924196,
+     "erreur_cap_deg": -0.0878889927138514,
+     "iou": 0.8322515352965849
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.012851413835187966,
+     "erreur_cap_deg": 0.18153719535059487,
+     "iou": 0.8321452809452766
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.016450579959507442,
+     "erreur_cap_deg": 0.20148094727425694,
+     "iou": 0.838832764574207
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.0076137101750598825,
+     "erreur_cap_deg": -0.10579571072762146,
+     "iou": 0.8497526616549864
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.007445664143308414,
+     "erreur_cap_deg": -0.09122192119551563,
+     "iou": 0.8549848557605766
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.00683040736089658,
+     "erreur_cap_deg": -0.19165956675220733,
+     "iou": 0.8655390468913039
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.01123460883918692,
+     "erreur_cap_deg": -0.26635439872936645,
+     "iou": 0.879998142116061
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.012636685130938833,
+     "erreur_cap_deg": 0.1091805459154004,
+     "iou": 0.8781547164886321
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.006421337987283992,
+     "erreur_cap_deg": 0.05332348662326998,
+     "iou": 0.8589308788803364
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.0015942053370476793,
+     "erreur_cap_deg": -0.06986453637738482,
+     "iou": 0.8882598571755143
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.014068890140201466,
+     "erreur_cap_deg": 0.2956017393349905,
+     "iou": 0.8445494496812385
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.0028001499173080755,
+     "erreur_cap_deg": -0.13026451001249517,
+     "iou": 0.8874887279148955
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.005543180981977301,
+     "erreur_cap_deg": 0.19940937484538318,
+     "iou": 0.86729578027939
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.007446562599626264,
+     "erreur_cap_deg": 0.1580556287857718,
+     "iou": 0.8667876882626032
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.009469395441327248,
+     "erreur_cap_deg": -0.1458316385734688,
+     "iou": 0.8928827903692389
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.007157147417028081,
+     "erreur_cap_deg": -0.12819405532292522,
+     "iou": 0.8707331096601512
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.004359123294667849,
+     "erreur_cap_deg": 0.16548332272911906,
+     "iou": 0.865108393954735
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.011086784818046893,
+     "erreur_cap_deg": 0.21554337113820965,
+     "iou": 0.8710915501489126
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.008435943089282116,
+     "erreur_cap_deg": -0.004419568945908719,
+     "iou": 0.8858041532713933
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.007739135867199122,
+     "erreur_cap_deg": -0.09662356284785098,
+     "iou": 0.8827538474986242
+    }
+   ]
+  },
+  "zebras": {
+   "essais": 6,
+   "trouves": 6,
+   "erreur_pas_m": {
+    "n": 6,
+    "moyenne_abs": 0.0004369196790060352,
+    "p95_abs": 0.0008546734581296733,
+    "max_abs": 0.0009575902220646526
+   },
+   "erreur_largeur_m": {
+    "n": 6,
+    "moyenne_abs": 0.0036473740292342813,
+    "p95_abs": 0.006090917596134809,
+    "max_abs": 0.006423336473853736
+   },
+   "erreur_longueur_m": {
+    "n": 6,
+    "moyenne_abs": 0.004839055980285704,
+    "p95_abs": 0.008784869162176245,
+    "max_abs": 0.008842367523842487
+   },
+   "erreur_angle_deg": {
+    "n": 6,
+    "moyenne_abs": 0.058238887330475414,
+    "p95_abs": 0.10856270460836745,
+    "max_abs": 0.11713295354604428
+   },
+   "erreur_centre_travers_m": {
+    "n": 6,
+    "moyenne_abs": 0.002384882943085098,
+    "p95_abs": 0.0030806210658250173,
+    "max_abs": 0.0031304120521819076
+   },
+   "detail": [
+    {
+     "trouve": true,
+     "n_bandes": 6,
+     "erreur_pas_m": -0.0003327275298872223,
+     "erreur_largeur_m": 0.0050936609629780305,
+     "erreur_longueur_m": 0.0014088022362828134,
+     "erreur_angle_deg": -0.082851957795337,
+     "erreur_centre_travers_rms_m": 0.002931248106754346
+    },
+    {
+     "trouve": true,
+     "n_bandes": 6,
+     "erreur_pas_m": 0.00030560023421610794,
+     "erreur_largeur_m": 0.00440021174865024,
+     "erreur_longueur_m": 0.007474706366346506,
+     "erreur_angle_deg": 0.062447700896268096,
+     "erreur_centre_travers_rms_m": 0.001652127460345481
+    },
+    {
+     "trouve": true,
+     "n_bandes": 6,
+     "erreur_pas_m": -0.0009575902220646526,
+     "erreur_largeur_m": 0.001543826532366288,
+     "erreur_longueur_m": 0.00861237407717752,
+     "erreur_angle_deg": 0.11713295354604428,
+     "erreur_centre_travers_rms_m": 0.002391722339000722
+    },
+    {
+     "trouve": true,
+     "n_bandes": 6,
+     "erreur_pas_m": 0.0005459231663247355,
+     "erreur_largeur_m": 0.006423336473853736,
+     "erreur_longueur_m": 0.000559061368332614,
+     "erreur_angle_deg": -0.02064038324804566,
+     "erreur_centre_travers_rms_m": 0.0025781192767328283
+    },
+    {
+     "trouve": true,
+     "n_bandes": 6,
+     "erreur_pas_m": -0.00018673847393191334,
+     "erreur_largeur_m": 0.00372786107963452,
+     "erreur_longueur_m": 0.0021370243097322827,
+     "erreur_angle_deg": -0.05307040221210404,
+     "erreur_centre_travers_rms_m": 0.0031304120521819076
+    },
+    {
+     "trouve": true,
+     "n_bandes": 6,
+     "erreur_pas_m": -0.0002929384476115793,
+     "erreur_largeur_m": 0.0006953473779228725,
+     "erreur_longueur_m": 0.008842367523842487,
+     "erreur_angle_deg": 0.013289926285053422,
+     "erreur_centre_travers_rms_m": 0.0016256684234953057
+    }
+   ]
+  },
+  "tirets_015": {
+   "essais": 8,
+   "trouves": 7,
+   "erreur_largeur_m": {
+    "n": 7,
+    "moyenne_abs": 0.010760117584481036,
+    "p95_abs": 0.01409599059138034,
+    "max_abs": 0.01469945465212183
+   },
+   "erreur_laterale_m": {
+    "n": 7,
+    "moyenne_abs": 0.0011508341046454385,
+    "p95_abs": 0.0022610193693734268,
+    "max_abs": 0.0023774510510869585
+   },
+   "erreur_extremites_m": {
+    "n": 14,
+    "moyenne_abs": 0.023656903572032033,
+    "p95_abs": 0.08514896166995253,
+    "max_abs": 0.09990946594380556
+   },
+   "detail": [
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.007471142918953649,
+     "erreur_laterale_m": -0.0016547518195945718,
+     "erreur_extremites_m": [
+      0.008552207643261145,
+      0.09990946594380556
+     ],
+     "erreur_longueur_m": 0.09136346751588942
+    },
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.010082202285974867,
+     "erreur_laterale_m": -0.00010313029721391946,
+     "erreur_extremites_m": [
+      -0.005653818424413926,
+      0.07720099783018552
+     ],
+     "erreur_longueur_m": 0.08285747771677165
+    },
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.010292670261008524,
+     "erreur_laterale_m": 0.0001826815981134503,
+     "erreur_extremites_m": [
+      -0.008721810920418571,
+      -0.014376328653343595
+     ],
+     "erreur_longueur_m": -0.005649451424424967
+    },
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.008977638140492766,
+     "erreur_laterale_m": -0.0009997796250868158,
+     "erreur_extremites_m": [
+      -0.004595178924684307,
+      0.002125544120617162
+     ],
+     "erreur_longueur_m": 0.006720893639769798
+    },
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.011109807049832082,
+     "erreur_laterale_m": 0.0007486988960471683,
+     "erreur_extremites_m": [
+      -0.013197037068709117,
+      -0.004197937440023614
+     ],
+     "erreur_longueur_m": 0.008997279416725235
+    },
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.012687907782983537,
+     "erreur_laterale_m": 0.0019893454453751864,
+     "erreur_extremites_m": [
+      0.006746110251981685,
+      0.07449079070341225
+     ],
+     "erreur_longueur_m": 0.06774464115371615
+    },
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.01469945465212183,
+     "erreur_laterale_m": 0.0023774510510869585,
+     "erreur_extremites_m": [
+      0.008069623886376665,
+      0.0033597981972153246
+     ],
+     "erreur_longueur_m": -0.004708077358424934
+    },
+    {
+     "trouve": false
+    }
+   ]
+  }
+ },
+ "usee": {
+  "fleches": {
+   "essais": 32,
+   "trouvees": 27,
+   "type_correct": 26,
+   "erreur_origine_m": {
+    "n": 27,
+    "moyenne_abs": 0.011879365428618206,
+    "p95_abs": 0.027147747055921163,
+    "max_abs": 0.03395194072984079
+   },
+   "erreur_cap_deg": {
+    "n": 27,
+    "moyenne_abs": 0.1590775573286758,
+    "p95_abs": 0.5048294221972349,
+    "max_abs": 0.5941709378510893
+   },
+   "iou": {
+    "n": 27,
+    "moyenne_abs": 0.8024018740132975,
+    "p95_abs": 0.8593616421539991,
+    "max_abs": 0.8689658558299712
+   },
+   "detail": [
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.01176913046641179,
+     "erreur_cap_deg": 0.08021246274637488,
+     "iou": 0.8292781222880027
+    },
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.009330221982580232,
+     "erreur_cap_deg": 0.0566903179905209,
+     "iou": 0.7988257516016052
+    },
+    {
+     "type": "TD",
+     "trouve": false
+    },
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.009887107055776069,
+     "erreur_cap_deg": -0.12172450811823071,
+     "iou": 0.8689658558299712
+    },
+    {
+     "type": "TD",
+     "trouve": false
+    },
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.006196117823753332,
+     "erreur_cap_deg": -0.17615814604024493,
+     "iou": 0.7756028769232225
+    },
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.015864664127113442,
+     "erreur_cap_deg": 0.3997230665289848,
+     "iou": 0.7941875926919298
+    },
+    {
+     "type": "TD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.003474118856306094,
+     "erreur_cap_deg": -0.0461726412937905,
+     "iou": 0.8492112287548398
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.007022199319835416,
+     "erreur_cap_deg": -0.11580592487913975,
+     "iou": 0.7920548573433063
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.018244043759739585,
+     "erreur_cap_deg": -0.2558883775122579,
+     "iou": 0.8287301353993481
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.006442842930812017,
+     "erreur_cap_deg": 0.15108134787259878,
+     "iou": 0.8637118193250674
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.02831670627201313,
+     "erreur_cap_deg": -0.5941709378510893,
+     "iou": 0.7512112845660306
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.016251117853929634,
+     "erreur_cap_deg": 0.1744814368542215,
+     "iou": 0.736324998005899
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.011178220484626933,
+     "erreur_cap_deg": -0.05260451934016706,
+     "iou": 0.820903642196941
+    },
+    {
+     "type": "TAG",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.010404151381307264,
+     "erreur_cap_deg": 0.07786522463245105,
+     "iou": 0.8435080364029596
+    },
+    {
+     "type": "TAG",
+     "trouve": false
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.009407077432671922,
+     "erreur_cap_deg": 0.06691586200984342,
+     "iou": 0.8336574717121377
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.006030028564449627,
+     "erreur_cap_deg": -0.10998308952401634,
+     "iou": 0.7923507463814127
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": false,
+     "erreur_origine_m": 0.010077668672290284,
+     "erreur_cap_deg": 0.06698857809293131,
+     "iou": 0.721062906033569
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.010559877960620372,
+     "erreur_cap_deg": -0.009464790419965917,
+     "iou": 0.7893191306673683
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.01278899680749006,
+     "erreur_cap_deg": -0.18233805860456673,
+     "iou": 0.8096182447688441
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.006645545891539976,
+     "erreur_cap_deg": -0.013711696729399099,
+     "iou": 0.7869285139515108
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.007459426339114409,
+     "erreur_cap_deg": 0.3511241576669862,
+     "iou": 0.8144966743558254
+    },
+    {
+     "type": "TD_TAD",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.017682193278924084,
+     "erreur_cap_deg": -0.2977600973641367,
+     "iou": 0.841027315543229
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.024420175551706585,
+     "erreur_cap_deg": 0.14273847735912518,
+     "iou": 0.7286689954758809
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": false
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.002647108153740567,
+     "erreur_cap_deg": -0.026589790972216646,
+     "iou": 0.82212144136188
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.008065762362649715,
+     "erreur_cap_deg": -0.10407646803055878,
+     "iou": 0.8076491159330893
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.0032147981549453396,
+     "erreur_cap_deg": -0.06481408563572076,
+     "iou": 0.7973034257319248
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.03395194072984079,
+     "erreur_cap_deg": 0.5498750031979137,
+     "iou": 0.7561159652379176
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": true,
+     "type_ok": true,
+     "erreur_origine_m": 0.013411624358502865,
+     "erreur_cap_deg": -0.006134980606793369,
+     "iou": 0.8120144498753237
+    },
+    {
+     "type": "TRIDENT",
+     "trouve": false
+    }
+   ]
+  },
+  "zebras": {
+   "essais": 6,
+   "trouves": 6,
+   "erreur_pas_m": {
+    "n": 6,
+    "moyenne_abs": 0.0006693673789449998,
+    "p95_abs": 0.0018285427533328291,
+    "max_abs": 0.002083291730641257
+   },
+   "erreur_largeur_m": {
+    "n": 6,
+    "moyenne_abs": 0.004544539181478217,
+    "p95_abs": 0.010724764303434164,
+    "max_abs": 0.011372447273217401
+   },
+   "erreur_longueur_m": {
+    "n": 6,
+    "moyenne_abs": 0.010909946127431791,
+    "p95_abs": 0.022482399341692938,
+    "max_abs": 0.02500420365750511
+   },
+   "erreur_angle_deg": {
+    "n": 6,
+    "moyenne_abs": 0.14357687588212353,
+    "p95_abs": 0.3195466121990979,
+    "max_abs": 0.35345964953495496
+   },
+   "erreur_centre_travers_m": {
+    "n": 6,
+    "moyenne_abs": 0.004785435925212334,
+    "p95_abs": 0.007185271767428216,
+    "max_abs": 0.007614629551122829
+   },
+   "detail": [
+    {
+     "trouve": true,
+     "n_bandes": 3,
+     "erreur_pas_m": -4.442287363337627e-05,
+     "erreur_largeur_m": 0.0012485364086747275,
+     "erreur_longueur_m": 0.014916986394256426,
+     "erreur_angle_deg": 0.35345964953495496,
+     "erreur_centre_travers_rms_m": 0.005897198416344374
+    },
+    {
+     "trouve": true,
+     "n_bandes": 6,
+     "erreur_pas_m": -0.001064295821407546,
+     "erreur_largeur_m": 0.0012885328758384107,
+     "erreur_longueur_m": 0.00746183659806432,
+     "erreur_angle_deg": 0.021447589762718232,
+     "erreur_centre_travers_rms_m": 0.004664738670193617
+    },
+    {
+     "trouve": true,
+     "n_bandes": 6,
+     "erreur_pas_m": -0.0002930362822772814,
+     "erreur_largeur_m": 0.003036026495146449,
+     "erreur_longueur_m": 0.00667205854655295,
+     "erreur_angle_deg": 0.06073795396838008,
+     "erreur_centre_travers_rms_m": 0.003152134977067531
+    },
+    {
+     "trouve": true,
+     "n_bandes": 6,
+     "erreur_pas_m": -0.00020758798047149085,
+     "erreur_largeur_m": 0.008781715394084455,
+     "erreur_longueur_m": -0.02500420365750511,
+     "erreur_angle_deg": 0.16993223624849796,
+     "erreur_centre_travers_rms_m": 0.007614629551122829
+    },
+    {
+     "trouve": true,
+     "n_bandes": 3,
+     "erreur_pas_m": -0.002083291730641257,
+     "erreur_largeur_m": 0.011372447273217401,
+     "erreur_longueur_m": -0.0014997980720776738,
+     "erreur_angle_deg": 0.21780750019152673,
+     "erreur_centre_travers_rms_m": 0.00285076885143806
+    },
+    {
+     "trouve": true,
+     "n_bandes": 4,
+     "erreur_pas_m": 0.00032356958523904744,
+     "erreur_largeur_m": 0.0015399766419078587,
+     "erreur_longueur_m": -0.009904793496134268,
+     "erreur_angle_deg": -0.03807632558666331,
+     "erreur_centre_travers_rms_m": 0.004533145085107593
+    }
+   ]
+  },
+  "tirets_015": {
+   "essais": 8,
+   "trouves": 7,
+   "erreur_largeur_m": {
+    "n": 7,
+    "moyenne_abs": 0.012312530841353114,
+    "p95_abs": 0.018716409337772254,
+    "max_abs": 0.018840201255243827
+   },
+   "erreur_laterale_m": {
+    "n": 7,
+    "moyenne_abs": 0.0013433581877756375,
+    "p95_abs": 0.0026650597192299135,
+    "max_abs": 0.0027316488764895404
+   },
+   "erreur_extremites_m": {
+    "n": 14,
+    "moyenne_abs": 0.06946055431923512,
+    "p95_abs": 0.31044469090848054,
+    "max_abs": 0.7801297944430138
+   },
+   "detail": [
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.006437732423115766,
+     "erreur_laterale_m": 0.00019395453904647334,
+     "erreur_extremites_m": [
+      -0.012332403784669266,
+      -0.00928776192945957
+     ],
+     "erreur_longueur_m": 0.0030466113894109803
+    },
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.012998091967860753,
+     "erreur_laterale_m": -0.0027316488764895404,
+     "erreur_extremites_m": [
+      0.057537327466809174,
+      -0.7801297944430138
+     ],
+     "erreur_longueur_m": -0.8376646887916781
+    },
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.018840201255243827,
+     "erreur_laterale_m": 0.0006084292712862153,
+     "erreur_extremites_m": [
+      -0.007244680881430154,
+      -0.018033019007426043
+     ],
+     "erreur_longueur_m": -0.010788037618432611
+    },
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.013476847070882342,
+     "erreur_laterale_m": 0.001342398355620663,
+     "erreur_extremites_m": [
+      -0.011841644711731991,
+      -0.010437406833240681
+     ],
+     "erreur_longueur_m": 0.0014037571521892112
+    },
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.018427561530338588,
+     "erreur_laterale_m": -0.0010731342920677035,
+     "erreur_extremites_m": [
+      0.0165328722804281,
+      0.005240116526306737
+     ],
+     "erreur_longueur_m": -0.011283427013806246
+    },
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.00843184738192393,
+     "erreur_laterale_m": 0.0009442569609614151,
+     "erreur_extremites_m": [
+      -0.012199462456257804,
+      -0.019463251921804314
+     ],
+     "erreur_longueur_m": -0.007278602940145262
+    },
+    {
+     "trouve": true,
+     "erreur_largeur_m": 0.007575434260106595,
+     "erreur_laterale_m": -0.002509685018957451,
+     "erreur_extremites_m": [
+      -0.011764727191951874,
+      0.00040329103476222095
+     ],
+     "erreur_longueur_m": 0.012168764648560426
+    },
+    {
+     "trouve": false
+    }
+   ]
+  }
+ }
+}

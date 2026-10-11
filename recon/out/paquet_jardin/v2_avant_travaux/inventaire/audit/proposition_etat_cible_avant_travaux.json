@@ -1,0 +1,91 @@
+{
+ "schema": "pj_etat_cible/0.1",
+ "statut": "PROPOSITION de l'audit du 11/10/2026 (non branchée : aucun module ne lit encore ce fichier). Les valeurs marquées « a_decider » relèvent de l'utilisateur, celles marquées « a_produire » n'existent pas encore dans le dépôt.",
+ "id": "avant_travaux_2025",
+ "libelle": "Carrefour Paquet Jardin avant les travaux C1 de 2025 (état du printemps 2025)",
+ "date_cible": "2025-05-18",
+ "date_cible_statut": "a_decider : 2025-05-18 (série Panoramax 360 du jour, 8 poses acceptées) par défaut ; variante 2024-08-24 (ortho IGN du 09/08/2024 à 15 jours, Panoramax 5 poses acceptées) ; 2022-05-10 déconseillé (secteur est en chantier)",
+ "date_etat": "2025-05",
+ "fenetre_preuves": {
+  "de": "2022-01-01",
+  "a": "2025-06-22",
+  "preferee": {"de": "2024-02-01", "a": "2025-06-22"},
+  "note": "1 392 des 1 475 observations du recensement sont datées dans [2022-01-01 ; 2025-06-22] (audit, comptage sur date_image)"
+ },
+ "saison": {
+  "nom": "printemps",
+  "mois": 5,
+  "feuillage": "plein feuillage printanier",
+  "jaunissement": 0.0,
+  "feuilles_mortes_sol": 0.0,
+  "soleil": {"date_heure_locale": "2025-05-18T11:00", "note": "a_produire : élévation et azimut à calculer (SunPosition UE) ; remplace soleil_elev 27,6 deg / az 220 deg d'octobre (recon/pcg/ue/pj_tools/pj_tools/eclairage.py:31)"}
+ },
+ "evenements": [
+  {"id": "CONSTR-EST-2023-2024", "type": "construction", "debut": "2023-01-01", "fin": "2024-12-31",
+   "emprise": {"surfaces_v1_etat": ["construit_2023_2024"], "bordures_hauteurs": "creee_apres_2021 et non zone_travaux_2025 et source non « plan projet »", "marge_m": 3.0},
+   "note": "dates à préciser (quartier des Saules Blancs livré en 2024 d'après README_relief.md) ; antérieur à la date cible : la forme construite est l'état cible"},
+  {"id": "TRV-C1-2025", "type": "travaux", "debut": "2025-06-23", "fin": "2025-12-05",
+   "emprise": {"surfaces_v1_etat": ["modifie_2025"], "relief_zones": ["ancienne_chaussee_rehaussee_2025", "traversee_bordure_abaissee", "ancienne_chaussee_trottoir_par_defaut"],
+               "marquages_v1_zone": ["refait_2025", "resurface_2025"], "bordures_hauteurs": "zone_travaux_2025", "plan_projet_2025": "aplats CAO dilatés de 3 m (marquages_sources.zones)",
+               "extension_photos": ["S-0268a", "S-0268d", "S-0268e"], "marge_m": 3.0}},
+  {"id": "TRV-VERCORS-TROTTOIRS", "type": "travaux", "debut": "2025-06-23", "fin": "2026-01-30",
+   "emprise": {"axe_vercors_m": 15.0}, "source": "recon/pcg/enrichir/orthos_recentes.py:47"}
+ ],
+ "sources": {
+  "gam":          {"fichiers": "data/sites/paquet_jardin/etat_2026/*_L93.geojson (= vector/gam_topo_sol_*, même levé Meylan_Topo.dwg)", "date": "a_produire : date du levé (≈ 2025-12 selon le code)", "r": 0.95,
+                   "admissible": "hors emprise des événements situés entre la date cible et la date du levé (TRV-C1-2025, TRV-VERCORS-TROTTOIRS)", "tolerance_m": 0.03},
+  "pcrs2019":     {"fichiers": "data/sites/paquet_jardin/vector/gam_*_pcrs.geojson", "date": "2019-01-01", "r": 0.85, "precision_m": 0.10,
+                   "admissible": "partout sauf emprise CONSTR-EST-2023-2024", "tolerance_m": 0.10},
+  "lidar2021":    {"fichiers": "bordures_hauteurs.geojson (h_lidar_2021_m, z_fil_eau_2021_m) ; MNT float à produire", "date": "2021-08-12/2021-09-06", "r": 0.90,
+                   "admissible": "partout sauf emprise CONSTR-EST-2023-2024"},
+  "ortho2022":    {"fichiers": "data/sites/paquet_jardin/ortho5cm_2022", "date": "2022-05-10", "r": 0.80, "admissible": "partout sauf emprise CONSTR-EST-2023-2024 ; à confirmer par ortho2024 là où un changement 2022-2025 est possible"},
+  "ortho2024":    {"fichiers": "data/raw/ortho_recentes (IGN 20 cm recalée à 4 cm)", "date": "2024-08-09", "r": 0.60, "usage": "présence, zébras, flèches, revêtements ; pas les lignes fines"},
+  "pleiades2025": {"fichiers": "data/raw/ortho_recentes", "date": "2025 (non publiée, probablement avant 23/06)", "r": 0.30, "usage": "présence / absence de masses seulement"},
+  "photos":       {"plateformes": ["panoramax", "mapillary"], "fenetre": "fenetre_preuves", "poses": "réutiliser v2/enrichi (poses indépendantes de l'état)"},
+  "plan2025":     {"r": 0.0, "admissible": false, "note": "projet de l'état 2026 : inadmissible pour l'état avant travaux, sauf comme indice d'emprise des travaux"},
+  "v1":           {"r": 0.30, "note": "paquet v1 = état 2026 : indice seulement HORS emprise des travaux ; dans l'emprise, contre-indice"},
+  "regle":        {"note": "règles deduire_si_absent inchangées ; paramètres d'attendu propres à l'état (voir references.manoeuvres)"}
+ },
+ "v_temporelle_marquages": {
+  "note": "remplace recon/pcg/decrire/marquages_sources.py:46-51 ; états de zone inchangés (conserve, refait_2025_identique, neuf_2025, construit_2023_2024)",
+  "gam":       {"conserve": 1.0, "refait_2025_identique": 0.5, "neuf_2025": 0.0, "construit_2023_2024": 1.0},
+  "plan2025":  {"conserve": 0.0, "refait_2025_identique": 0.0, "neuf_2025": 0.0, "construit_2023_2024": 0.0},
+  "ortho2022": {"conserve": 1.0, "refait_2025_identique": 1.0, "neuf_2025": 1.0, "construit_2023_2024": 0.0},
+  "ortho2024": {"conserve": 1.0, "refait_2025_identique": 1.0, "neuf_2025": 1.0, "construit_2023_2024": 1.0},
+  "v1":        {"conserve": 1.0, "refait_2025_identique": 0.5, "neuf_2025": 0.0, "construit_2023_2024": 1.0}
+ },
+ "regles_chronologie": {
+  "validite": "Une observation datée d vaut pour la date cible T au point p si aucun événement dont l'emprise (marge comprise) contient p n'a un intervalle [debut ; fin] qui chevauche [min(d, T) ; max(d, T)] ; « incertain » si p est à moins de marge_m du bord d'une telle emprise ; « non_valable » si d tombe pendant un événement qui touche p.",
+  "classes_date": ["contemporaine (|d - T| <= 12 mois, sans événement intercalé)", "anterieure_sans_changement", "posterieure_sans_changement", "separee_par_evenement", "pendant_evenement"],
+  "priorite": "la preuve valable la plus proche de T décide (généralise FUS-DATE-01, aujourd'hui « photo_2026 d'abord »)",
+  "absence": "une absence vue à d ne prouve l'absence à T que si d et T ne sont séparés par aucun événement touchant p (généralise FUS-VAL-03 et FUS-EXI-03)",
+  "statut_objets_v1": {"existant (inchangé)": "present", "2026 confirmé": "a_verifier (pose possible pendant les travaux)", "déduit 2026 (à vérifier)": "absent_sauf_preuve",
+                        "planté 2025 (projet)": "absent", "absent 2026": "present_probable_si_preuve_anterieure", "à vérifier": "a_verifier"},
+  "age_surfaces_v1": {"inchange_2022": "ancien", "construit_2023_2024": "recent", "modifie_2025": "etat_anterieur_a_reconstruire"},
+  "marquages_v1_zone": {"conserve": "present", "resurface_2025": "present (marque antérieure, usure plus forte)", "refait_2025": "forme antérieure à reconstruire (ortho 2022 / 2024, photos)"},
+  "bordures_hauteurs": {"hors_travaux_existante_2021": "valide (68,0 % de la longueur)", "creee_apres_2021_hors_travaux": "valide si T >= fin CONSTR-EST-2023-2024 (13,1 %)",
+                         "zone_travaux_mesuree_2021": "valide si conservée, h = h_lidar_2021_m (11,5 %)", "zone_travaux_creee_ou_modifiee": "forme antérieure à reconstruire (5,9 %)",
+                         "plan_projet_2025": "absente (1,4 %)", "retiree_par_les_travaux": "absente du levé et de bordures_hauteurs : à reprendre de gam_limite_voirie_pcrs + ortho 2022 + LiDAR 2021"}
+ },
+ "references": {
+  "xodr": "a_produire : paquet_jardin_avant_travaux.xodr (générateur recon/stages/opendrive.py absent du dépôt)",
+  "lanes": "a_produire : opendrive/lanes_avant_travaux.geojson",
+  "manoeuvres": "a_produire : opendrive/manoeuvres_avant_travaux.json (attendus INF-FLE-004, VAL-FLE-001, VAL-COV-006, VAL-JCT-010, FUS-CON-005)",
+  "mnt": "a_produire : sol nu 2021 float32 10 cm (README_relief.md, étapes 1 et 3) + régalage Saules Blancs si T >= 2024",
+  "surfaces_v1": "recon/out/paquet_jardin/package/donnees/surfaces/surfaces_2026.geojson (indice hors emprise TRV-C1-2025 seulement)",
+  "marquages_v1": "recon/out/paquet_jardin/package/donnees/marquages/marquages_2026.geojson (indice hors emprise)",
+  "relief_zones": "a_produire : masque de chaussée avant travaux (chaussee_2026 n'est valable qu'hors emprise)",
+  "bordures_hauteurs": "recon/out/paquet_jardin/package/donnees/relief/bordures_hauteurs.geojson (reclassée par regles_chronologie.bordures_hauteurs)",
+  "objets_v1": "recon/out/paquet_jardin/package/donnees/objets/{mobilier,arbres}.geojson (reclassés par statut_objets_v1)",
+  "inventaires_specs": "assets/specs/{panneaux,feux}.json décrivent l'état 2026 : variante avant travaux à produire hors assets/specs"
+ },
+ "dossier_sortie": "recon/out/paquet_jardin/v2_avant_travaux",
+ "entrees_partagees": {
+  "poses_panoramax": "recon/out/paquet_jardin/v2/enrichi/poses/poses.json",
+  "poses_mapillary": "recon/out/paquet_jardin/v2/enrichi/recensement/mapillary/poses/poses_mapillary.json",
+  "observations_brutes": "recon/out/paquet_jardin/v2/enrichi/recensement/obs_*.json (lues ; validité recalculée, liens re-appariés)",
+  "note": "lecture seule ; à terme, déplacer les poses dans un dossier indépendant de l'état (recon/out/paquet_jardin/commun/)"
+ },
+ "ue": {"niveau": "/Game/PJ/Maps/PJ_AvantTravaux_2025", "racine_contenu_etat": "/Game/PJ/Etats/AvantTravaux_2025", "partages": ["/Game/PJ/Lib", "/Game/PJ/Materials", "/Game/PJ/Textures", "/Game/PJ/PCG (graphes)"]},
+ "schema_description": {"version": "description_scene_v2/0.4 (proposée)", "date_etat": "2025-05", "z_ref": "nivellement_avant_travaux", "src_ajoutees": ["ortho2024", "pleiades2025", "mapillary:<id>", "gam_hors_travaux"]}
+}

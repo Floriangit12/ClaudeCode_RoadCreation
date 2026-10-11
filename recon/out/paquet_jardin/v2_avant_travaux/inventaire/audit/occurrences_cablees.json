@@ -1,0 +1,840 @@
+{
+ "categories": {
+  "SORTIE_V2": "recon/out/paquet_jardin/v2(?![_\\w])|out/paquet_jardin/v2[\\\"'/]|[\\\"']v2[\\\"']\\s*/|/\\s*[\\\"']v2[\\\"']|paquet_jardin/v2\\b",
+  "GAM_ETAT_2026": "etat_2026|levé GAM 2026|leve_gam_2026|GAM 2026|gam_2026",
+  "V1_2026": "surfaces_2026|marquages_2026|lanes_2026|relief_zones_2026|manoeuvres_2026|validation_2026|paquet_jardin_2026|chaussee_2026|autorisee_2026",
+  "MNT_2026": "heightmap_3025|MNT 2026|mnt_2026|modele_2026|nivellement_2026|dtm_2026|sol 2026|MNT\\(\\)",
+  "PLAN_2025": "plan_projet_2025|plan2025|plan projet 2025|plan 2025|plan_cad|PLAN\\s*=",
+  "ORTHO_2022": "ortho5cm_2022|ortho2022|ortho 2022|ORTHO_2022|PCRS 5 cm",
+  "PCRS_GAMTOPO": "gam_topo_sol|_pcrs\\b|_pcrs\\.|pcrs2019|PCRS 2019",
+  "CHRONO_TRAVAUX": "zone_travaux|travaux|creee_apres_2021|modifiee_2025|modifie_2025|refait_2025|resurface_2025|neuf_2025|construit_2023_2024|2025-06-23|2025-12-05|2026-01-30|apres_travaux|avant_travaux|post[ée]rieur|ant[ée]rieur|valide_2026|valide_a|valide_de|DEBUT_TRAVAUX|FIN_TRAVAUX",
+  "DATE_ETAT": "date_etat|\\\"2026-10\\\"|'2026-10'|octobre 2026|PJ_2026|niveau_2026|annee_cible|date_cible|ETAT_CIBLE|etat_cible",
+  "TERRAIN_2026": "terrain2026|terrain_2026|photo_utilisateur",
+  "COUVERTURE_COEUR": "couverture_stricte|couverture stricte|strict|\\bcoeur\\b|\\bcœur\\b"
+ },
+ "n_lignes": 1505,
+ "n_fichiers": 157,
+ "par_module": {
+  "(racine)": {
+   "CHRONO_TRAVAUX": 10,
+   "COUVERTURE_COEUR": 4,
+   "DATE_ETAT": 4,
+   "PLAN_2025": 6,
+   "ORTHO_2022": 4,
+   "PCRS_GAMTOPO": 2,
+   "TERRAIN_2026": 3,
+   "MNT_2026": 8,
+   "SORTIE_V2": 4,
+   "GAM_ETAT_2026": 5
+  },
+  "controle": {
+   "SORTIE_V2": 13,
+   "COUVERTURE_COEUR": 10,
+   "MNT_2026": 2,
+   "V1_2026": 8,
+   "GAM_ETAT_2026": 4,
+   "ORTHO_2022": 17,
+   "PLAN_2025": 20,
+   "CHRONO_TRAVAUX": 7,
+   "DATE_ETAT": 1
+  },
+  "decrire": {
+   "ORTHO_2022": 102,
+   "SORTIE_V2": 29,
+   "CHRONO_TRAVAUX": 217,
+   "MNT_2026": 42,
+   "PCRS_GAMTOPO": 14,
+   "PLAN_2025": 95,
+   "GAM_ETAT_2026": 66,
+   "V1_2026": 81,
+   "TERRAIN_2026": 15,
+   "COUVERTURE_COEUR": 53,
+   "DATE_ETAT": 8
+  },
+  "enrichir": {
+   "CHRONO_TRAVAUX": 293,
+   "GAM_ETAT_2026": 26,
+   "MNT_2026": 13,
+   "SORTIE_V2": 15,
+   "ORTHO_2022": 57,
+   "V1_2026": 19,
+   "COUVERTURE_COEUR": 143,
+   "PLAN_2025": 4,
+   "PCRS_GAMTOPO": 7,
+   "TERRAIN_2026": 2,
+   "DATE_ETAT": 1
+  },
+  "houdini": {
+   "SORTIE_V2": 31,
+   "COUVERTURE_COEUR": 6,
+   "V1_2026": 6,
+   "MNT_2026": 15,
+   "CHRONO_TRAVAUX": 18,
+   "GAM_ETAT_2026": 3,
+   "PLAN_2025": 6,
+   "ORTHO_2022": 6,
+   "DATE_ETAT": 3
+  },
+  "schema": {
+   "MNT_2026": 3,
+   "PLAN_2025": 4,
+   "ORTHO_2022": 4,
+   "DATE_ETAT": 3,
+   "TERRAIN_2026": 4,
+   "PCRS_GAMTOPO": 2,
+   "CHRONO_TRAVAUX": 6
+  },
+  "specs_outils": {
+   "ORTHO_2022": 3,
+   "COUVERTURE_COEUR": 8,
+   "CHRONO_TRAVAUX": 9,
+   "V1_2026": 4,
+   "MNT_2026": 2,
+   "PCRS_GAMTOPO": 1,
+   "PLAN_2025": 2
+  },
+  "ue": {
+   "DATE_ETAT": 20,
+   "SORTIE_V2": 29,
+   "PLAN_2025": 2,
+   "GAM_ETAT_2026": 4,
+   "CHRONO_TRAVAUX": 11,
+   "MNT_2026": 4,
+   "V1_2026": 3
+  }
+ },
+ "par_fichier": {
+  "recon/pcg/enrichir/fusion_recensement.py": {
+   "ORTHO_2022": 22,
+   "SORTIE_V2": 7,
+   "V1_2026": 7,
+   "GAM_ETAT_2026": 13,
+   "COUVERTURE_COEUR": 123,
+   "CHRONO_TRAVAUX": 166,
+   "PLAN_2025": 3
+  },
+  "recon/pcg/enrichir/orthos_recentes.py": {
+   "ORTHO_2022": 6,
+   "CHRONO_TRAVAUX": 38,
+   "COUVERTURE_COEUR": 5,
+   "PCRS_GAMTOPO": 7,
+   "SORTIE_V2": 3,
+   "V1_2026": 1
+  },
+  "recon/pcg/enrichir/gcp.py": {
+   "MNT_2026": 4,
+   "V1_2026": 10,
+   "ORTHO_2022": 8,
+   "CHRONO_TRAVAUX": 27
+  },
+  "recon/pcg/enrichir/README.md": {
+   "DATE_ETAT": 1,
+   "ORTHO_2022": 9,
+   "CHRONO_TRAVAUX": 20,
+   "V1_2026": 1,
+   "COUVERTURE_COEUR": 10,
+   "SORTIE_V2": 1,
+   "MNT_2026": 1
+  },
+  "recon/pcg/decrire/marquages.py": {
+   "SORTIE_V2": 1,
+   "PLAN_2025": 18,
+   "ORTHO_2022": 8,
+   "GAM_ETAT_2026": 3,
+   "CHRONO_TRAVAUX": 10,
+   "V1_2026": 2
+  },
+  "recon/pcg/enrichir/mapillary.py": {
+   "SORTIE_V2": 2,
+   "COUVERTURE_COEUR": 2,
+   "CHRONO_TRAVAUX": 31,
+   "ORTHO_2022": 1,
+   "GAM_ETAT_2026": 1
+  },
+  "recon/pcg/controle/ctl_detection.py": {
+   "ORTHO_2022": 13,
+   "PLAN_2025": 16,
+   "CHRONO_TRAVAUX": 5,
+   "GAM_ETAT_2026": 1
+  },
+  "recon/pcg/decrire/bordures.py": {
+   "MNT_2026": 11,
+   "PCRS_GAMTOPO": 3,
+   "PLAN_2025": 1,
+   "GAM_ETAT_2026": 1,
+   "CHRONO_TRAVAUX": 14,
+   "V1_2026": 2
+  },
+  "recon/pcg/README.md": {
+   "MNT_2026": 6,
+   "ORTHO_2022": 3,
+   "SORTIE_V2": 3,
+   "DATE_ETAT": 1,
+   "PLAN_2025": 5,
+   "PCRS_GAMTOPO": 1,
+   "TERRAIN_2026": 1,
+   "GAM_ETAT_2026": 5,
+   "CHRONO_TRAVAUX": 5,
+   "COUVERTURE_COEUR": 2
+  },
+  "recon/pcg/decrire/marquages_sources.py": {
+   "DATE_ETAT": 1,
+   "GAM_ETAT_2026": 2,
+   "PLAN_2025": 5,
+   "CHRONO_TRAVAUX": 17,
+   "ORTHO_2022": 4,
+   "V1_2026": 2
+  },
+  "recon/pcg/decrire/coherence_sorties.py": {
+   "TERRAIN_2026": 6,
+   "CHRONO_TRAVAUX": 8,
+   "V1_2026": 2,
+   "SORTIE_V2": 9,
+   "DATE_ETAT": 1,
+   "COUVERTURE_COEUR": 4
+  },
+  "recon/pcg/decrire/resoudre_marquages.py": {
+   "CHRONO_TRAVAUX": 6,
+   "COUVERTURE_COEUR": 14,
+   "GAM_ETAT_2026": 2,
+   "ORTHO_2022": 7
+  },
+  "recon/pcg/decrire/coherence.py": {
+   "MNT_2026": 4,
+   "CHRONO_TRAVAUX": 19,
+   "TERRAIN_2026": 5
+  },
+  "recon/pcg/decrire/coherence_carte.py": {
+   "V1_2026": 11,
+   "MNT_2026": 2,
+   "SORTIE_V2": 1,
+   "CHRONO_TRAVAUX": 13
+  },
+  "recon/pcg/decrire/resoudre_revue.py": {
+   "CHRONO_TRAVAUX": 15,
+   "ORTHO_2022": 8,
+   "GAM_ETAT_2026": 3,
+   "PLAN_2025": 1
+  },
+  "recon/pcg/decrire/sol_site.py": {
+   "GAM_ETAT_2026": 7,
+   "V1_2026": 14,
+   "PCRS_GAMTOPO": 2,
+   "PLAN_2025": 1,
+   "ORTHO_2022": 1
+  },
+  "recon/pcg/schema/description_scene_v2.schema.json": {
+   "MNT_2026": 3,
+   "PLAN_2025": 4,
+   "ORTHO_2022": 4,
+   "DATE_ETAT": 3,
+   "TERRAIN_2026": 4,
+   "PCRS_GAMTOPO": 2,
+   "CHRONO_TRAVAUX": 5
+  },
+  "recon/pcg/decrire/resoudre_objets.py": {
+   "COUVERTURE_COEUR": 11,
+   "CHRONO_TRAVAUX": 8,
+   "GAM_ETAT_2026": 1
+  },
+  "recon/pcg/decrire/resoudre_regles.py": {
+   "COUVERTURE_COEUR": 5,
+   "CHRONO_TRAVAUX": 10,
+   "GAM_ETAT_2026": 2,
+   "PLAN_2025": 1,
+   "ORTHO_2022": 1
+  },
+  "recon/pcg/decrire/surfaces.py": {
+   "GAM_ETAT_2026": 8,
+   "V1_2026": 2,
+   "CHRONO_TRAVAUX": 7,
+   "MNT_2026": 2
+  },
+  "recon/pcg/ARCHITECTURE.md": {
+   "CHRONO_TRAVAUX": 5,
+   "COUVERTURE_COEUR": 2,
+   "DATE_ETAT": 3,
+   "PLAN_2025": 1,
+   "ORTHO_2022": 1,
+   "PCRS_GAMTOPO": 1,
+   "TERRAIN_2026": 2,
+   "MNT_2026": 2,
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/decrire/coherence_objets.py": {
+   "SORTIE_V2": 2,
+   "CHRONO_TRAVAUX": 14,
+   "ORTHO_2022": 1,
+   "PLAN_2025": 1
+  },
+  "recon/pcg/decrire/coherence_mesures.py": {
+   "CHRONO_TRAVAUX": 14,
+   "ORTHO_2022": 2,
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/decrire/coherence_photos.py": {
+   "COUVERTURE_COEUR": 3,
+   "GAM_ETAT_2026": 2,
+   "CHRONO_TRAVAUX": 9,
+   "PCRS_GAMTOPO": 3
+  },
+  "recon/pcg/decrire/marquages_bordures.py": {
+   "V1_2026": 2,
+   "MNT_2026": 2,
+   "PLAN_2025": 4,
+   "ORTHO_2022": 4,
+   "CHRONO_TRAVAUX": 4
+  },
+  "recon/pcg/decrire/resoudre_ajouts.py": {
+   "COUVERTURE_COEUR": 7,
+   "GAM_ETAT_2026": 4,
+   "CHRONO_TRAVAUX": 2,
+   "MNT_2026": 2,
+   "ORTHO_2022": 1
+  },
+  "recon/pcg/decrire/coherence_marquages.py": {
+   "V1_2026": 2,
+   "ORTHO_2022": 3,
+   "GAM_ETAT_2026": 5,
+   "PLAN_2025": 1,
+   "CHRONO_TRAVAUX": 3
+  },
+  "recon/pcg/decrire/composer.py": {
+   "SORTIE_V2": 1,
+   "V1_2026": 3,
+   "MNT_2026": 3,
+   "DATE_ETAT": 3,
+   "GAM_ETAT_2026": 1,
+   "TERRAIN_2026": 3
+  },
+  "recon/pcg/decrire/marquages_lignes.py": {
+   "ORTHO_2022": 9,
+   "CHRONO_TRAVAUX": 1,
+   "PLAN_2025": 3,
+   "V1_2026": 1
+  },
+  "recon/pcg/decrire/sol_composer.py": {
+   "GAM_ETAT_2026": 4,
+   "PLAN_2025": 1,
+   "PCRS_GAMTOPO": 6,
+   "V1_2026": 2,
+   "MNT_2026": 1
+  },
+  "recon/pcg/enrichir/calage_sequence.py": {
+   "CHRONO_TRAVAUX": 1,
+   "GAM_ETAT_2026": 11,
+   "MNT_2026": 1
+  },
+  "recon/pcg/controle/ctl_commun.py": {
+   "SORTIE_V2": 2,
+   "COUVERTURE_COEUR": 5,
+   "MNT_2026": 1,
+   "V1_2026": 3,
+   "GAM_ETAT_2026": 1
+  },
+  "recon/pcg/decrire/detection_indices.py": {
+   "PLAN_2025": 5,
+   "ORTHO_2022": 5,
+   "CHRONO_TRAVAUX": 2
+  },
+  "recon/pcg/decrire/marquages_chronovelo.py": {
+   "GAM_ETAT_2026": 2,
+   "PLAN_2025": 9,
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/decrire/marquages_indices_v1.py": {
+   "V1_2026": 7,
+   "GAM_ETAT_2026": 2,
+   "ORTHO_2022": 1,
+   "CHRONO_TRAVAUX": 2
+  },
+  "recon/pcg/specs_outils/gen_bordures_elements.py": {
+   "CHRONO_TRAVAUX": 7,
+   "V1_2026": 2,
+   "MNT_2026": 2,
+   "PCRS_GAMTOPO": 1
+  },
+  "recon/pcg/decrire/ilots.py": {
+   "COUVERTURE_COEUR": 3,
+   "ORTHO_2022": 1,
+   "TERRAIN_2026": 1,
+   "CHRONO_TRAVAUX": 3,
+   "MNT_2026": 1,
+   "PLAN_2025": 2
+  },
+  "recon/pcg/decrire/marquages_controles.py": {
+   "V1_2026": 7,
+   "ORTHO_2022": 4
+  },
+  "recon/pcg/decrire/marquages_couverture.py": {
+   "ORTHO_2022": 5,
+   "GAM_ETAT_2026": 2,
+   "PLAN_2025": 4
+  },
+  "recon/pcg/enrichir/PROTOCOLE_TERRAIN.md": {
+   "CHRONO_TRAVAUX": 4,
+   "COUVERTURE_COEUR": 3,
+   "PLAN_2025": 1,
+   "TERRAIN_2026": 2,
+   "GAM_ETAT_2026": 1
+  },
+  "recon/pcg/houdini/hda/pj_marquage_commun/rendre_marquages.py": {
+   "GAM_ETAT_2026": 3,
+   "PLAN_2025": 1,
+   "ORTHO_2022": 5,
+   "SORTIE_V2": 2
+  },
+  "recon/pcg/ue/README.md": {
+   "DATE_ETAT": 6,
+   "SORTIE_V2": 3,
+   "V1_2026": 1,
+   "MNT_2026": 1
+  },
+  "recon/pcg/decrire/contexte.py": {
+   "V1_2026": 8,
+   "GAM_ETAT_2026": 2
+  },
+  "recon/pcg/decrire/marquages_reprises.py": {
+   "ORTHO_2022": 3,
+   "PLAN_2025": 6,
+   "COUVERTURE_COEUR": 1
+  },
+  "recon/pcg/houdini/README.md": {
+   "SORTIE_V2": 4,
+   "COUVERTURE_COEUR": 2,
+   "MNT_2026": 3,
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/decrire/detection_commun.py": {
+   "ORTHO_2022": 3,
+   "PLAN_2025": 6
+  },
+  "recon/pcg/enrichir/projection.py": {
+   "ORTHO_2022": 6,
+   "MNT_2026": 3
+  },
+  "recon/pcg/controle/ctl_marquages.py": {
+   "PLAN_2025": 4,
+   "ORTHO_2022": 3,
+   "V1_2026": 1
+  },
+  "recon/pcg/controle/ctl_sol.py": {
+   "COUVERTURE_COEUR": 3,
+   "MNT_2026": 1,
+   "V1_2026": 1,
+   "GAM_ETAT_2026": 1,
+   "CHRONO_TRAVAUX": 2
+  },
+  "recon/pcg/decrire/detection_evaluation.py": {
+   "GAM_ETAT_2026": 1,
+   "PLAN_2025": 4,
+   "ORTHO_2022": 3
+  },
+  "recon/pcg/houdini/pj_commun.py": {
+   "MNT_2026": 5,
+   "SORTIE_V2": 2,
+   "DATE_ETAT": 1
+  },
+  "recon/pcg/houdini/pj_sol.py": {
+   "MNT_2026": 4,
+   "CHRONO_TRAVAUX": 3,
+   "PLAN_2025": 1
+  },
+  "recon/pcg/controle/rendre_controle.py": {
+   "SORTIE_V2": 6,
+   "GAM_ETAT_2026": 1
+  },
+  "recon/pcg/decrire/coherence_rapport.py": {
+   "ORTHO_2022": 2,
+   "CHRONO_TRAVAUX": 4,
+   "GAM_ETAT_2026": 1
+  },
+  "recon/pcg/decrire/marquages_supports.py": {
+   "PLAN_2025": 2,
+   "ORTHO_2022": 2,
+   "GAM_ETAT_2026": 3
+  },
+  "recon/pcg/decrire/resoudre.py": {
+   "SORTIE_V2": 2,
+   "ORTHO_2022": 1,
+   "MNT_2026": 2,
+   "DATE_ETAT": 1,
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/decrire/resoudre_rapport.py": {
+   "DATE_ETAT": 1,
+   "SORTIE_V2": 3,
+   "ORTHO_2022": 1,
+   "CHRONO_TRAVAUX": 2
+  },
+  "recon/pcg/houdini/fabriquer.py": {
+   "SORTIE_V2": 1,
+   "COUVERTURE_COEUR": 3,
+   "V1_2026": 2,
+   "MNT_2026": 1
+  },
+  "recon/pcg/ue/contexte/panoramax.py": {
+   "CHRONO_TRAVAUX": 2,
+   "MNT_2026": 3,
+   "SORTIE_V2": 1,
+   "DATE_ETAT": 1
+  },
+  "recon/pcg/decrire/coherence_regles.py": {
+   "CHRONO_TRAVAUX": 2,
+   "COUVERTURE_COEUR": 1,
+   "V1_2026": 1,
+   "MNT_2026": 1,
+   "PLAN_2025": 1
+  },
+  "recon/pcg/decrire/coherence_verifs.py": {
+   "CHRONO_TRAVAUX": 6
+  },
+  "recon/pcg/decrire/commun.py": {
+   "MNT_2026": 4,
+   "SORTIE_V2": 1,
+   "DATE_ETAT": 1
+  },
+  "recon/pcg/decrire/resoudre_sol.py": {
+   "COUVERTURE_COEUR": 3,
+   "CHRONO_TRAVAUX": 3
+  },
+  "recon/pcg/enrichir/poses.py": {
+   "MNT_2026": 1,
+   "ORTHO_2022": 3,
+   "SORTIE_V2": 1,
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/houdini/hda/pj_marquage_commun/verifier_marquages.py": {
+   "SORTIE_V2": 5,
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/houdini/hda/README_HDA.md": {
+   "SORTIE_V2": 2,
+   "ORTHO_2022": 1,
+   "PLAN_2025": 1,
+   "DATE_ETAT": 1,
+   "COUVERTURE_COEUR": 1
+  },
+  "recon/pcg/ue/contexte/preparer_usd.py": {
+   "SORTIE_V2": 2,
+   "V1_2026": 2,
+   "CHRONO_TRAVAUX": 2
+  },
+  "recon/pcg/controle/ctl_reseau.py": {
+   "V1_2026": 3,
+   "COUVERTURE_COEUR": 2
+  },
+  "recon/pcg/decrire/coherence_preuves.py": {
+   "ORTHO_2022": 2,
+   "CHRONO_TRAVAUX": 3
+  },
+  "recon/pcg/decrire/detection_fleches.py": {
+   "PLAN_2025": 3,
+   "ORTHO_2022": 2
+  },
+  "recon/pcg/decrire/detection_lignes.py": {
+   "PLAN_2025": 3,
+   "CHRONO_TRAVAUX": 1,
+   "ORTHO_2022": 1
+  },
+  "recon/pcg/decrire/marquages_fusion.py": {
+   "GAM_ETAT_2026": 1,
+   "PLAN_2025": 1,
+   "ORTHO_2022": 2,
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/decrire/marquages_gam_entites.py": {
+   "GAM_ETAT_2026": 1,
+   "CHRONO_TRAVAUX": 4
+  },
+  "recon/pcg/decrire/marquages_ortho.py": {
+   "ORTHO_2022": 3,
+   "CHRONO_TRAVAUX": 2
+  },
+  "recon/pcg/decrire/marquages_passages.py": {
+   "PLAN_2025": 3,
+   "ORTHO_2022": 2
+  },
+  "recon/pcg/decrire/marquages_symboles.py": {
+   "ORTHO_2022": 2,
+   "PLAN_2025": 3
+  },
+  "recon/pcg/decrire/marquages_verifier.py": {
+   "V1_2026": 4,
+   "GAM_ETAT_2026": 1
+  },
+  "recon/pcg/decrire/nivellement.py": {
+   "MNT_2026": 5
+  },
+  "recon/pcg/enrichir/triangulation.py": {
+   "CHRONO_TRAVAUX": 5
+  },
+  "recon/pcg/houdini/hda/pj_bordure/controles_f1.py": {
+   "SORTIE_V2": 5
+  },
+  "recon/pcg/houdini/pj_decals.py": {
+   "V1_2026": 2,
+   "CHRONO_TRAVAUX": 2,
+   "PLAN_2025": 1
+  },
+  "recon/pcg/specs_outils/gen_materiaux_sol.py": {
+   "CHRONO_TRAVAUX": 2,
+   "ORTHO_2022": 1,
+   "COUVERTURE_COEUR": 2
+  },
+  "recon/pcg/ue/contexte/contexte.py": {
+   "DATE_ETAT": 3,
+   "SORTIE_V2": 2
+  },
+  "recon/pcg/ue/pilote/pilote.py": {
+   "DATE_ETAT": 2,
+   "SORTIE_V2": 3
+  },
+  "recon/pcg/decrire/marquages_inference.py": {
+   "PLAN_2025": 1,
+   "ORTHO_2022": 1,
+   "V1_2026": 2
+  },
+  "recon/pcg/decrire/xodr_echantillonne.py": {
+   "V1_2026": 4
+  },
+  "recon/pcg/enrichir/camera.py": {
+   "SORTIE_V2": 1,
+   "MNT_2026": 3
+  },
+  "recon/pcg/houdini/fabriquer_hda.py": {
+   "SORTIE_V2": 2,
+   "CHRONO_TRAVAUX": 2
+  },
+  "recon/pcg/specs_outils/gen_marquages.py": {
+   "V1_2026": 1,
+   "PLAN_2025": 2,
+   "ORTHO_2022": 1
+  },
+  "recon/pcg/specs_outils/valider_regles.py": {
+   "COUVERTURE_COEUR": 4
+  },
+  "recon/pcg/ue/materiaux/catalogue.py": {
+   "SORTIE_V2": 1,
+   "CHRONO_TRAVAUX": 3
+  },
+  "recon/pcg/controle/README.md": {
+   "SORTIE_V2": 2,
+   "ORTHO_2022": 1
+  },
+  "recon/pcg/decrire/apercu.py": {
+   "ORTHO_2022": 1,
+   "SORTIE_V2": 1,
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/decrire/coherence_ombres.py": {
+   "ORTHO_2022": 2,
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/decrire/marquages_commun.py": {
+   "V1_2026": 1,
+   "GAM_ETAT_2026": 2
+  },
+  "recon/pcg/decrire/regulariser.py": {
+   "V1_2026": 2,
+   "MNT_2026": 1
+  },
+  "recon/pcg/decrire/regulariser_apercu.py": {
+   "ORTHO_2022": 1,
+   "SORTIE_V2": 1,
+   "PLAN_2025": 1
+  },
+  "recon/pcg/decrire/resoudre_planches.py": {
+   "CHRONO_TRAVAUX": 2,
+   "ORTHO_2022": 1
+  },
+  "recon/pcg/houdini/pj_contexte.py": {
+   "MNT_2026": 2,
+   "V1_2026": 1
+  },
+  "recon/pcg/houdini/pj_marquages.py": {
+   "PLAN_2025": 1,
+   "V1_2026": 1,
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/houdini/pj_marquages_rendu.py": {
+   "CHRONO_TRAVAUX": 3
+  },
+  "recon/pcg/ue/contexte/planches.py": {
+   "SORTIE_V2": 2,
+   "DATE_ETAT": 1
+  },
+  "recon/pcg/ue/contexte/relief_usd.py": {
+   "SORTIE_V2": 2,
+   "PLAN_2025": 1
+  },
+  "recon/pcg/ue/materiaux/etalonnage.json": {
+   "CHRONO_TRAVAUX": 3
+  },
+  "recon/pcg/ue/vegetation/arbres.py": {
+   "GAM_ETAT_2026": 3
+  },
+  "recon/pcg/controle/extraire_fabrication.py": {
+   "SORTIE_V2": 2
+  },
+  "recon/pcg/decrire/coherence_politique.py": {
+   "PLAN_2025": 2
+  },
+  "recon/pcg/decrire/coherence_poses.py": {
+   "SORTIE_V2": 2
+  },
+  "recon/pcg/decrire/coherence_presence.py": {
+   "CHRONO_TRAVAUX": 2
+  },
+  "recon/pcg/decrire/marquages_contraintes.py": {
+   "GAM_ETAT_2026": 2
+  },
+  "recon/pcg/decrire/marquages_zones.py": {
+   "PLAN_2025": 1,
+   "ORTHO_2022": 1
+  },
+  "recon/pcg/decrire/valider.py": {
+   "SORTIE_V2": 1,
+   "MNT_2026": 1
+  },
+  "recon/pcg/enrichir/controle_auto.py": {
+   "ORTHO_2022": 2
+  },
+  "recon/pcg/houdini/hda/commun/essai_houdini_engine.py": {
+   "SORTIE_V2": 2
+  },
+  "recon/pcg/houdini/hda/pj_bordure/controle_f1.py": {
+   "SORTIE_V2": 2
+  },
+  "recon/pcg/houdini/hda/ue/piloter_essai_he.py": {
+   "DATE_ETAT": 1,
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/houdini/pj_marquages_materiaux.py": {
+   "CHRONO_TRAVAUX": 2
+  },
+  "recon/pcg/specs_outils/ajouter_manifeste.py": {
+   "ORTHO_2022": 1,
+   "COUVERTURE_COEUR": 1
+  },
+  "recon/pcg/ue/ATTRIBUTIONS.md": {
+   "DATE_ETAT": 1,
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/contexte/lointain.py": {
+   "PLAN_2025": 1,
+   "GAM_ETAT_2026": 1
+  },
+  "recon/pcg/ue/pilote/ue/niveau_2026.py": {
+   "DATE_ETAT": 2
+  },
+  "recon/pcg/controle/rapport.py": {
+   "DATE_ETAT": 1
+  },
+  "recon/pcg/controle/verifier_regles.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/decrire/detection_zebras.py": {
+   "PLAN_2025": 1
+  },
+  "recon/pcg/decrire/marquages_gam_classer.py": {
+   "GAM_ETAT_2026": 1
+  },
+  "recon/pcg/decrire/nivellement_requete.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/decrire/regulariser_geometrie.py": {
+   "COUVERTURE_COEUR": 1
+  },
+  "recon/pcg/decrire/resoudre_sources.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/decrire/sol_apercu.py": {
+   "ORTHO_2022": 1
+  },
+  "recon/pcg/decrire/sol_lacunes.py": {
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/houdini/hda/commun/rendre_integration.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/houdini/hda/pj_lire_description/construire.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/houdini/pj_bordure_pose.py": {
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/houdini/pj_controles.py": {
+   "PLAN_2025": 1
+  },
+  "recon/pcg/houdini/pj_limites.py": {
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/houdini/pj_materiaux.py": {
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/houdini/pj_rendu.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/schema/materiaux_description.json": {
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/specs_outils/controler_marquages.py": {
+   "COUVERTURE_COEUR": 1
+  },
+  "recon/pcg/specs_outils/valider_regles_implantation.py": {
+   "V1_2026": 1
+  },
+  "recon/pcg/ue/contexte/horizon.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/contexte/ue/perf.py": {
+   "DATE_ETAT": 1
+  },
+  "recon/pcg/ue/contrat/test_contrat.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/CONTRAT_EXPORT.md": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/graphes/PG_Points_Test_PDP_lire.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/materiaux/generer_meshes.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/materiaux/materiaux.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/materiaux/mesurer_albedo.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/materiaux/README.md": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/pilote/planche.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/pilote/ue/bibliotheque_bordures.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/pj_tools/pj_tools/eclairage.py": {
+   "DATE_ETAT": 1
+  },
+  "recon/pcg/ue/pj_tools/pj_tools/toolset.py": {
+   "DATE_ETAT": 1
+  },
+  "recon/pcg/ue/tests_phase0/commun.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/tests_phase0/phase0.py": {
+   "SORTIE_V2": 1
+  },
+  "recon/pcg/ue/tests_phase0/ue/t6_houdini.py": {
+   "CHRONO_TRAVAUX": 1
+  },
+  "recon/pcg/ue/vegetation/correspondance_carla.json": {
+   "DATE_ETAT": 1
+  }
+ }
+}

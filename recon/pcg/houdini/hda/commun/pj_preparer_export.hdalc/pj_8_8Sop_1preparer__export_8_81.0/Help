@@ -1,0 +1,34 @@
+= PJ Préparer l'export USD =
+
+"""Prépare les maillages d'une branche pour SOP Import selon le contrat pj_usd/0.1 : nettoyage, normales à angle de rupture (E2), UV en mètres (E3), chemins /World/<couche>/<entité>/<maillage> (E6), matériau /World/Looks/<materiau_id> (E5), attributs Unreal, passage en Z haut."""
+
+@parameters
+
+Couche par défaut:
+    #id: couche_defaut
+    Prim group sous /World quand pj_couche manque (PJ_Sol, PJ_Bordures…).
+
+Matériau par défaut:
+    #id: materiau_defaut
+    materiau_id des faces qui n'en ont pas (signalé).
+
+Normales:
+    #id: calculer_normales
+    Normales par sommet de face (faceVarying) avec angle de rupture (E2).
+
+Angle de rupture (°):
+    #id: cusp
+    pj:cusp_deg du calque (30° par défaut, CONTRAT_EXPORT.md § 3).
+
+UV de secours en mètres si absentes:
+    #id: uv_secours
+    Projection sur le plan dominant de chaque face (E3) ; une branche doit fournir ses UV.
+
+Couleur de sommet (usure, salissure, graine):
+    #id: couleurs
+    
+
+Passer en Z haut (USD):
+    #id: vers_zup
+    Transform rx = +90° : (x, y, z) Houdini -> (x, −z, y) = repère local Z haut.
+

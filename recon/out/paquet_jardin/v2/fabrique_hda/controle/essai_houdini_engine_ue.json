@@ -1,0 +1,731 @@
+{
+ "schema": "pj_essai_houdini_engine/0.1",
+ "hda": "recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_bordure.hdalc",
+ "niveau": "/Game/PJ/Maps/PJ_Test_HDA",
+ "asset": "/Game/PJ/Houdini/pj_bordure",
+ "courbe_cm": [
+  [
+   -600.0,
+   0.0,
+   0.0
+  ],
+  [
+   -300.0,
+   0.0,
+   3.0
+  ],
+  [
+   0.0,
+   0.0,
+   6.0
+  ],
+  [
+   300.0,
+   0.0,
+   9.0
+  ],
+  [
+   600.0,
+   0.0,
+   12.0
+  ]
+ ],
+ "parametres": {
+  "ue_id": "K-UE-ESSAI",
+  "ue_abaisse": true,
+  "ue_abaisse_debut": 5.0,
+  "ue_abaisse_fin": 7.0,
+  "sorties_unreal": true,
+  "joints_aleatoires": false,
+  "joint_mm": 6.0,
+  "sortie": 1,
+  "jitter": true
+ },
+ "niveau_origine": "/Game/PJ/Maps/PJ_2026.PJ_2026",
+ "import": {
+  "importes": [
+   "/Game/PJ/Houdini/pj_bordure.pj_bordure"
+  ],
+  "classes": [
+   "HoudiniAsset"
+  ]
+ },
+ "ouverture_niveau": {
+  "ok": true,
+  "niveau": "/Game/PJ/Maps/PJ_Test_HDA",
+  "enregistres": []
+ },
+ "session": {
+  "session": true
+ },
+ "instanciation": {
+  "acteur": "HoudiniAssetActor_1",
+  "asset": "/Game/PJ/Houdini/pj_bordure.pj_bordure"
+ },
+ "joint_6mm": {
+  "cuissons": [
+   true
+  ],
+  "traitements": 1,
+  "journal": [
+   "paramètre joint_mm = 10.0 : {'joint_mm': True}",
+   "cuisson 2 : True",
+   "sorties traitées (2) : 10 objets",
+   "instancié, paramètres {'jitter': True, 'joint_mm': True, 'joints_aleatoires': True, 'sortie': True, 'sorties_unreal': True, 'ue_abaisse': True, 'ue_abaisse_debut': True, 'ue_abaisse_fin': True, 'ue_id': True}, entrée courbe True",
+   "cuisson 1 : True",
+   "sorties traitées (1) : 16 objets",
+   "paramètre joint_mm = 10.0 : {'joint_mm': True}",
+   "cuisson 2 : True",
+   "sorties traitées (2) : 16 objets",
+   "instancié, paramètres {'jitter': True, 'joint_mm': True, 'joints_aleatoires': True, 'sortie': True, 'sorties_unreal': True, 'ue_abaisse': True, 'ue_abaisse_debut': True, 'ue_abaisse_fin': True, 'ue_id': True}, entrée courbe True",
+   "cuisson 1 : True",
+   "sorties traitées (1) : 16 objets"
+  ],
+  "regles": {
+   "jitter": true,
+   "joint_mm": true,
+   "joints_aleatoires": true,
+   "sortie": true,
+   "sorties_unreal": true,
+   "ue_abaisse": true,
+   "ue_abaisse_debut": true,
+   "ue_abaisse_fin": true,
+   "ue_id": true
+  },
+  "entree": true,
+  "sorties": [
+   {
+    "sortie": 0,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "InstancedStaticMeshComponent",
+      "nom": "InstancedStaticMeshComponent_0",
+      "mesh": "pj_bordure_3_72_1_main_geo",
+      "triangles": 138,
+      "etendue_cm": [
+       99.4,
+       15.0,
+       25.0
+      ],
+      "materiaux": [
+       "MI_beton_bordure_gris"
+      ],
+      "instances": 6
+     }
+    ]
+   },
+   {
+    "sortie": 1,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_1_main_geo.pj_bordure_3_72_1_main_geo"
+   },
+   {
+    "sortie": 2,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "StaticMeshComponent",
+      "nom": "StaticMeshComponent_0",
+      "mesh": "pj_bordure_3_72_3_main_geo",
+      "triangles": 152,
+      "etendue_cm": [
+       99.0,
+       15.0,
+       30.95
+      ],
+      "materiaux": [
+       "MI_beton_bordure_gris"
+      ],
+      "instances": 1
+     }
+    ]
+   },
+   {
+    "sortie": 3,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_3_main_geo.pj_bordure_3_72_3_main_geo"
+   },
+   {
+    "sortie": 4,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "StaticMeshComponent",
+      "nom": "StaticMeshComponent_1",
+      "mesh": "pj_bordure_3_72_5_main_geo",
+      "triangles": 232,
+      "etendue_cm": [
+       99.0,
+       15.0,
+       24.98
+      ],
+      "materiaux": [
+       "MI_beton_bordure_gris"
+      ],
+      "instances": 1
+     }
+    ]
+   },
+   {
+    "sortie": 5,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_5_main_geo.pj_bordure_3_72_5_main_geo"
+   },
+   {
+    "sortie": 6,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "InstancedStaticMeshComponent",
+      "nom": "InstancedStaticMeshComponent_1",
+      "mesh": "pj_bordure_3_72_7_main_geo",
+      "triangles": 134,
+      "etendue_cm": [
+       99.4,
+       15.0,
+       16.0
+      ],
+      "materiaux": [
+       "MI_beton_bordure_gris"
+      ],
+      "instances": 2
+     }
+    ]
+   },
+   {
+    "sortie": 7,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_7_main_geo.pj_bordure_3_72_7_main_geo"
+   },
+   {
+    "sortie": 8,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "StaticMeshComponent",
+      "nom": "StaticMeshComponent_2",
+      "mesh": "pj_bordure_3_72_9_main_geo",
+      "triangles": 232,
+      "etendue_cm": [
+       99.0,
+       15.0,
+       24.98
+      ],
+      "materiaux": [
+       "MI_beton_bordure_gris"
+      ],
+      "instances": 1
+     }
+    ]
+   },
+   {
+    "sortie": 9,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_9_main_geo.pj_bordure_3_72_9_main_geo"
+   },
+   {
+    "sortie": 10,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "StaticMeshComponent",
+      "nom": "StaticMeshComponent_3",
+      "mesh": "pj_bordure_3_72_11_main_geo",
+      "triangles": 152,
+      "etendue_cm": [
+       99.0,
+       15.0,
+       30.95
+      ],
+      "materiaux": [
+       "MI_beton_bordure_gris"
+      ],
+      "instances": 1
+     }
+    ]
+   },
+   {
+    "sortie": 11,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_11_main_geo.pj_bordure_3_72_11_main_geo"
+   },
+   {
+    "sortie": 12,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "InstancedStaticMeshComponent",
+      "nom": "InstancedStaticMeshComponent_2",
+      "mesh": "pj_bordure_3_72_13_main_geo",
+      "triangles": 36,
+      "etendue_cm": [
+       1.0,
+       14.2,
+       24.2
+      ],
+      "materiaux": [
+       "MI_mortier_joint"
+      ],
+      "instances": 7
+     }
+    ]
+   },
+   {
+    "sortie": 13,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_13_main_geo.pj_bordure_3_72_13_main_geo"
+   },
+   {
+    "sortie": 14,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "InstancedStaticMeshComponent",
+      "nom": "InstancedStaticMeshComponent_3",
+      "mesh": "pj_bordure_3_72_15_main_geo",
+      "triangles": 32,
+      "etendue_cm": [
+       1.0,
+       14.2,
+       15.2
+      ],
+      "materiaux": [
+       "MI_mortier_joint"
+      ],
+      "instances": 4
+     }
+    ]
+   },
+   {
+    "sortie": 15,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_15_main_geo.pj_bordure_3_72_15_main_geo"
+   }
+  ],
+  "bilan": {
+   "elements": 12,
+   "joints": 11,
+   "largeur_joints_m": {
+    "min": 0.006,
+    "max": 0.006,
+    "p50": 0.006
+   }
+  },
+  "joint_mm": 6.0,
+  "duree_s": 3.1,
+  "captures": {
+   "ensemble": {
+    "png": "recon/out/paquet_jardin/v2/fabrique_hda/controle/he_bordure_joint6_ensemble.png",
+    "ev100": 0.7,
+    "moyenne": 118.9
+   },
+   "joints": {
+    "png": "recon/out/paquet_jardin/v2/fabrique_hda/controle/he_bordure_joint6_joints.png",
+    "ev100": 0.91,
+    "moyenne": 117.1
+   },
+   "macro_joint": {
+    "png": "recon/out/paquet_jardin/v2/fabrique_hda/controle/he_bordure_joint6_macro_joint.png",
+    "ev100": 0.15,
+    "moyenne": 123.9
+   }
+  }
+ },
+ "parametres_lus": {
+  "ue_abaisse": true,
+  "sorties_unreal": true,
+  "joints_aleatoires": false,
+  "jitter": true,
+  "joint_mm": 6.0,
+  "ue_vue": 0.14,
+  "ue_vue_abaisse": 0.02,
+  "ue_abaisse_debut": 5.0,
+  "ue_abaisse_fin": 7.0,
+  "ue_rampant": -1.0,
+  "coin_max_mm": 6.0,
+  "fleche_max_mm": 10.5,
+  "corde_mm": 2.0,
+  "jit_hauteur_mm": 2.0,
+  "sortie": 1,
+  "altitude": 0,
+  "ue_id": "K-UE-ESSAI",
+  "ue_profil": "T2",
+  "ue_profil_abaisse": "T2_bateau"
+ },
+ "changement": {
+  "accepte": {
+   "joint_mm": true
+  },
+  "traitements_avant": 1
+ },
+ "joint_10mm": {
+  "cuissons": [
+   true,
+   true
+  ],
+  "traitements": 2,
+  "journal": [
+   "instancié, paramètres {'jitter': True, 'joint_mm': True, 'joints_aleatoires': True, 'sortie': True, 'sorties_unreal': True, 'ue_abaisse': True, 'ue_abaisse_debut': True, 'ue_abaisse_fin': True, 'ue_id': True}, entrée courbe True",
+   "cuisson 1 : True",
+   "sorties traitées (1) : 16 objets",
+   "paramètre joint_mm = 10.0 : {'joint_mm': True}",
+   "cuisson 2 : True",
+   "sorties traitées (2) : 16 objets",
+   "instancié, paramètres {'jitter': True, 'joint_mm': True, 'joints_aleatoires': True, 'sortie': True, 'sorties_unreal': True, 'ue_abaisse': True, 'ue_abaisse_debut': True, 'ue_abaisse_fin': True, 'ue_id': True}, entrée courbe True",
+   "cuisson 1 : True",
+   "sorties traitées (1) : 16 objets",
+   "paramètre joint_mm = 10.0 : {'joint_mm': True}",
+   "cuisson 2 : True",
+   "sorties traitées (2) : 16 objets"
+  ],
+  "regles": {
+   "jitter": true,
+   "joint_mm": true,
+   "joints_aleatoires": true,
+   "sortie": true,
+   "sorties_unreal": true,
+   "ue_abaisse": true,
+   "ue_abaisse_debut": true,
+   "ue_abaisse_fin": true,
+   "ue_id": true
+  },
+  "entree": true,
+  "sorties": [
+   {
+    "sortie": 0,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "InstancedStaticMeshComponent",
+      "nom": "InstancedStaticMeshComponent_4",
+      "mesh": "pj_bordure_3_72_1_main_geo",
+      "triangles": 138,
+      "etendue_cm": [
+       99.4,
+       15.0,
+       25.0
+      ],
+      "materiaux": [
+       "MI_beton_bordure_gris"
+      ],
+      "instances": 6
+     }
+    ]
+   },
+   {
+    "sortie": 1,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_1_main_geo.pj_bordure_3_72_1_main_geo"
+   },
+   {
+    "sortie": 2,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "StaticMeshComponent",
+      "nom": "StaticMeshComponent_4",
+      "mesh": "pj_bordure_3_72_3_main_geo",
+      "triangles": 152,
+      "etendue_cm": [
+       99.0,
+       15.0,
+       30.93
+      ],
+      "materiaux": [
+       "MI_beton_bordure_gris"
+      ],
+      "instances": 1
+     }
+    ]
+   },
+   {
+    "sortie": 3,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_3_main_geo.pj_bordure_3_72_3_main_geo"
+   },
+   {
+    "sortie": 4,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "StaticMeshComponent",
+      "nom": "StaticMeshComponent_5",
+      "mesh": "pj_bordure_3_72_5_main_geo",
+      "triangles": 232,
+      "etendue_cm": [
+       99.0,
+       15.0,
+       24.98
+      ],
+      "materiaux": [
+       "MI_beton_bordure_gris"
+      ],
+      "instances": 1
+     }
+    ]
+   },
+   {
+    "sortie": 5,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_5_main_geo.pj_bordure_3_72_5_main_geo"
+   },
+   {
+    "sortie": 6,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "InstancedStaticMeshComponent",
+      "nom": "InstancedStaticMeshComponent_5",
+      "mesh": "pj_bordure_3_72_7_main_geo",
+      "triangles": 134,
+      "etendue_cm": [
+       99.4,
+       15.0,
+       16.0
+      ],
+      "materiaux": [
+       "MI_beton_bordure_gris"
+      ],
+      "instances": 2
+     }
+    ]
+   },
+   {
+    "sortie": 7,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_7_main_geo.pj_bordure_3_72_7_main_geo"
+   },
+   {
+    "sortie": 8,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "StaticMeshComponent",
+      "nom": "StaticMeshComponent_6",
+      "mesh": "pj_bordure_3_72_9_main_geo",
+      "triangles": 232,
+      "etendue_cm": [
+       99.0,
+       15.0,
+       24.98
+      ],
+      "materiaux": [
+       "MI_beton_bordure_gris"
+      ],
+      "instances": 1
+     }
+    ]
+   },
+   {
+    "sortie": 9,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_9_main_geo.pj_bordure_3_72_9_main_geo"
+   },
+   {
+    "sortie": 10,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "StaticMeshComponent",
+      "nom": "StaticMeshComponent_7",
+      "mesh": "pj_bordure_3_72_11_main_geo",
+      "triangles": 152,
+      "etendue_cm": [
+       99.0,
+       15.0,
+       30.93
+      ],
+      "materiaux": [
+       "MI_beton_bordure_gris"
+      ],
+      "instances": 1
+     }
+    ]
+   },
+   {
+    "sortie": 11,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_11_main_geo.pj_bordure_3_72_11_main_geo"
+   },
+   {
+    "sortie": 12,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "InstancedStaticMeshComponent",
+      "nom": "InstancedStaticMeshComponent_6",
+      "mesh": "pj_bordure_3_72_13_main_geo",
+      "triangles": 36,
+      "etendue_cm": [
+       1.0,
+       14.2,
+       24.2
+      ],
+      "materiaux": [
+       "MI_mortier_joint"
+      ],
+      "instances": 7
+     }
+    ]
+   },
+   {
+    "sortie": 13,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_13_main_geo.pj_bordure_3_72_13_main_geo"
+   },
+   {
+    "sortie": 14,
+    "type": "<HoudiniOutputType.INSTANCER: 2>",
+    "objet": null,
+    "composants": [
+     {
+      "classe": "InstancedStaticMeshComponent",
+      "nom": "InstancedStaticMeshComponent_7",
+      "mesh": "pj_bordure_3_72_15_main_geo",
+      "triangles": 32,
+      "etendue_cm": [
+       1.0,
+       14.2,
+       15.2
+      ],
+      "materiaux": [
+       "MI_mortier_joint"
+      ],
+      "instances": 4
+     }
+    ]
+   },
+   {
+    "sortie": 15,
+    "type": "<HoudiniOutputType.MESH: 1>",
+    "objet": "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_15_main_geo.pj_bordure_3_72_15_main_geo"
+   }
+  ],
+  "bilan": {
+   "elements": 12,
+   "joints": 11,
+   "largeur_joints_m": {
+    "min": 0.009,
+    "max": 0.0095,
+    "p50": 0.0091
+   }
+  },
+  "joint_mm": 10.0,
+  "duree_s": 3.1,
+  "captures": {
+   "ensemble": {
+    "png": "recon/out/paquet_jardin/v2/fabrique_hda/controle/he_bordure_joint10_ensemble.png",
+    "ev100": 0.7,
+    "moyenne": 119.1
+   },
+   "joints": {
+    "png": "recon/out/paquet_jardin/v2/fabrique_hda/controle/he_bordure_joint10_joints.png",
+    "ev100": 0.91,
+    "moyenne": 116.9
+   },
+   "macro_joint": {
+    "png": "recon/out/paquet_jardin/v2/fabrique_hda/controle/he_bordure_joint10_macro_joint.png",
+    "ev100": 0.15,
+    "moyenne": 127.6
+   }
+  }
+ },
+ "pcg": {
+  "creation": {
+   "graphe": "/Game/PJ/Houdini/PCG_Bordure_HDA.PCG_Bordure_HDA",
+   "noeuds_parametres": 9,
+   "broches_hda": [
+    "Parameters",
+    "Execution Dependency"
+   ]
+  },
+  "cablage": {
+   "pret": true,
+   "broches_hda": [
+    "Parameters",
+    "Bordures (courbes)",
+    "Nivellement (HeightField)",
+    "Contexte (facultatif)",
+    "Execution Dependency"
+   ],
+   "entree_courbe": "Bordures (courbes)",
+   "acteur": "Actor_0"
+  },
+  "etat": {
+   "generation": true,
+   "acteurs": [
+    "PJ_Essai_Bordure_PCG",
+    "HoudiniPCGActor0"
+   ],
+   "composants": [
+    {
+     "classe": "StaticMeshComponent",
+     "nom": "StaticMeshComponent_0",
+     "mesh": "houdini_logo",
+     "triangles": 1104,
+     "etendue_cm": [
+      246.07,
+      62.5,
+      252.88
+     ],
+     "materiaux": [
+      "houdini_default_material"
+     ],
+     "instances": 1
+    }
+   ],
+   "bilan": {
+    "elements": 1,
+    "joints": 0,
+    "largeur_joints_m": null
+   }
+  },
+  "journal": [
+   "LogHoudiniEngine: HAPI Asynchronous Instantiation Started for HoudiniPCGActor0: Asset=pj::Sop/bordure::1.0, HoudiniAsset = 0x3b71f0a0",
+   "LogHoudiniEngine:     HoudiniPCGActor0 FinishedInstantiation.",
+   "LogHoudiniEngine: HAPI Asynchronous Cooking Started for HoudiniPCGActor0., AssetId = 272",
+   "LogHoudiniEngine: Warning:    HoudiniPCGActor0 FinishedCooking with errors - will try to process the available results."
+  ],
+  "sorties_pcg": false
+ },
+ "enregistrement": {
+  "ok": true,
+  "niveaux": [
+   "/Game/PJ/Maps/PJ_Test_HDA"
+  ],
+  "niveaux_sans_titre_ignores": [],
+  "contenus": [
+   "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_1_main_geo",
+   "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_3_main_geo",
+   "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_5_main_geo",
+   "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_7_main_geo",
+   "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_9_main_geo",
+   "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_11_main_geo",
+   "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_13_main_geo",
+   "/Game/HoudiniEngine/Temp/pj_bordure/EA7097F3/pj_bordure_3_72_15_main_geo"
+  ],
+  "nb_contenus": 8,
+  "resultat": true
+ },
+ "retour_niveau": {
+  "ok": true,
+  "niveau": "/Game/PJ/Maps/PJ_2026",
+  "enregistres": []
+ }
+}

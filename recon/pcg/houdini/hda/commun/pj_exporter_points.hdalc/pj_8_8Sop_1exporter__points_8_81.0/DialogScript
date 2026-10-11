@@ -1,0 +1,60 @@
+# Dialog script for pj::exporter_points::1.0 automatically generated
+
+{
+    name	pj::exporter_points::1.0
+    inputlabel	1	"Points d'instances"
+    script	pj::exporter_points::1.0
+    label	"PJ Exporter les points (pj_points/0.1)"
+
+    help {
+    }
+
+    inputlabel	1	"Points d'instances"
+
+    parm {
+        name    "famille"
+        label   "Famille"
+        type    string
+        default { "bordures" }
+        help    "Champ famille du fichier (bordures, symboles…)."
+    }
+    parm {
+        name    "fichier"
+        label   "Fichier pj_points/0.1"
+        type    file
+        default { "$HIP/fabrique_hda/points/bordures.json" }
+    }
+    parm {
+        name    "source_hash"
+        label   "Hash de la description"
+        type    string
+        default { "" }
+        help    "Vide : attribut de détail pj_hash_description de l'entrée."
+    }
+    parm {
+        name    "pivot"
+        label   "Pivot des prototypes"
+        type    string
+        default { "base centrée, +X vers l'avant (assets/bibliotheque.json)" }
+    }
+    parm {
+        name    "bibliotheque"
+        label   "Bibliothèque"
+        type    string
+        default { "asset = asset_id de assets/bibliotheque.json ou nom de prototype" }
+    }
+    parm {
+        name    "doc_cd"
+        label   "Sens de cd"
+        type    string
+        default { "" }
+    }
+    parm {
+        name    "ecrire"
+        label   "Écrire le fichier"
+        type    button
+        default { "0" }
+        parmtag { "script_callback" "hou.phm().ecrire(kwargs['node'])" }
+        parmtag { "script_callback_language" "python" }
+    }
+}

@@ -1,0 +1,68 @@
+= PJ Marquage solide (empreintes -> maillage) =
+
+"""Transforme des empreintes planes de marquage en maillages statiques : triangulation contrainte (Triangulate 2D, trous et réunion des parties), extrusion de la peinture (3 mm au-dessus du sol, flancs enfouis), chanfrein des arêtes du dessus, drapé sur le modèle de nivellement dans la région de chaque pièce (TQ-SOL-013) puis sur le sol fabriqué s'il est branché (TQ-MQG-005), UV en mètres, normales à angle de rupture."""
+
+== Entrées ==
+
+1. Empreintes : polygones fermés (pj_entite, id, materiau_id, partie, anneau, pj_surface).
+2. Nivellement (HeightField de pj::lire_description), facultatif.
+3. Sol fabriqué (sortie de pj::sol, Y haut), facultatif : la peinture suit le sol réellement maillé.
+
+Contrat : recon/pcg/houdini/hda/README_HDA.md § 7.
+
+@parameters
+
+== Forme ==
+
+Épaisseur au-dessus du sol (m):
+    #id: epaisseur
+    Dessus de la peinture au-dessus du sol (marquages_geometrie.repere.gabarits : posé à +3 mm).
+
+Enfouissement des flancs (m):
+    #id: enfouissement
+    Les flancs descendent sous le sol : aucun jour entre peinture et chaussée même si le maillage du sol s'écarte de quelques mm du modèle.
+
+Chanfrein des arêtes du dessus (m):
+    #id: chanfrein
+    PolyBevel sur les arêtes vives du dessus (0 : aucun).
+
+Pas du maillage de drapé (m):
+    #id: pas_maillage
+    Longueur d'arête cible de Triangulate 2D (raffinement) : le dessus suit le bombement et le dévers de la chaussée.
+
+== Drapé ==
+
+Draper sur le nivellement (entrée 2):
+    #id: draper
+    Sans entrée 2 ou décoché : maillage à plat (prototype de bibliothèque).
+
+Région de drapé:
+    #id: mode_region
+    Une pièce drapée dans une seule région ne franchit jamais une marche de bordure (TQ-SOL-013).
+
+Seuil de franchissement (m):
+    #id: seuil_franchissement
+    Écart entre l'altitude de la pièce et celle du nœud propriétaire au-delà duquel l'entité est signalée (détail pj_marquage_controles).
+
+Draper sur le sol fabriqué (entrée 3):
+    #id: sur_sol
+    Altitude lue sur le sol maillé par pj::sol (rayon vertical, région de la pièce d'abord) au lieu du seul modèle de nivellement (TQ-MQG-005). Sans entrée 3 : modèle.
+
+Portée de la recherche du sol (m):
+    #id: portee_sol
+    Demi-hauteur du rayon vertical centré sur l'altitude du modèle.
+
+== Sortie ==
+
+Couche USD (pj_couche):
+    #id: couche
+    
+
+Angle de rupture des normales (°):
+    #id: cusp
+    Normal SOP par sommet (contrat E2, pj:cusp_deg).
+
+Ombre portée dans Unreal:
+    #id: ombre
+    unreal_uproperty_CastShadow (Houdini Engine).
+

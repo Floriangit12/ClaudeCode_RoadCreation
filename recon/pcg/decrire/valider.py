@@ -13,7 +13,8 @@ Contrôles en plus du schéma :
 - identifiants uniques et références résolues (bords, ceintures, îlots, surfaces, ancrages) ;
 - remplissages d'îlots 0 à 8 cm sous le dessus de bordure ; materiau_id présents dans la table ;
 - famille marquages (0.2, si présente) : voir marquages_controles.py (correspondance des 996 v1,
-  lignes dans les bords de voie, tirets sans recouvrement, zébras dans la chaussée, 0 marche d'escalier).
+  lignes dans les bords de voie, tirets sans recouvrement, zébras dans la chaussée, 0 marche d'escalier) ;
+  schéma 0.3 (refonte « GAM d'abord ») : marquages_verifier.py (provenance, MQ-DET-010, MQ-FLE-006, VAL-ZEB-003, MQ-LEF-004).
 """
 import re
 import sys
@@ -23,6 +24,7 @@ import numpy as np
 
 from commun import MATERIAUX, SCHEMA, SORTIE, lire_json
 import contexte as ctx
+import sol_site
 
 VUE_PLAGE = {"P1": (0.0, 0.03), "A2": (0.03, 0.09), "T2": (0.09, 0.175), "T3": (0.175, 0.30),
              "QUAI_BUS": (0.15, 0.24), "T2_bateau": (0.0, 0.04), "MURET_TALUS": (0.30, 1.5)}
@@ -162,7 +164,7 @@ def anneaux_de(g):
 
 def controles(couches, mnt_z=(213.1, 219.9)):
     err, warn = [], []
-    x0, y0, x1, y1 = ctx.zone_pilote()["emprise"]
+    x0, y0, x1, y1 = sol_site.EMPRISE                   # 0.3 : familles de sol sur le site complet
     e = (x0 + 917279.43 - 0.5, y0 + 6460289.98 - 0.5, x1 + 917279.43 + 0.5, y1 + 6460289.98 + 0.5)
     mats = set(lire_json(MATERIAUX)["materiaux"])
     ids = {}
@@ -285,9 +287,20 @@ def valider_dossier(dossier):
     else:
         err.append("[manifeste] description_scene_v2.json absent")
     e2, w2 = controles(couches)
+    import sol_controles                                  # 0.3 : règles « verifier » du sol (GA-*, TQ-SOL-*, VAL-*)
+    e4, w4, _ = sol_controles.controles(couches, dossier)
+    e2, w2 = e2 + [f"[sol] {e}" for e in e4], w2 + [f"[sol] {w}" for w in w4]
+    import regulariser_controles                          # 0.3 : régularisation GQ-* (regles_qualite_geometrique.json)
+    e6, w6, _ = regulariser_controles.controles(couches, dossier)
+    e2, w2 = e2 + [f"[geometrie] {e}" for e in e6], w2 + [f"[geometrie] {w}" for w in w6]
     if "marquages" in couches:
-        import marquages_controles
-        e3, w3 = marquages_controles.controles(couches["marquages"], couches.get("marquages_correspondance", []))
+        sch = (lire_json(dossier / "base" / "marquages.geojson").get("description_v2") or {}).get("schema")
+        if sch == "description_scene_v2/0.3":           # refonte « GAM d'abord » : contrôles marquages_verifier
+            import marquages_verifier
+            e3, w3, _ = marquages_verifier.controles(couches["marquages"], couches.get("marquages_correspondance", []))
+        else:
+            import marquages_controles
+            e3, w3 = marquages_controles.controles(couches["marquages"], couches.get("marquages_correspondance", []))
         e2, w2 = e2 + [f"[marquages] {e}" for e in e3], w2 + w3
     return err + [f"[controle] {e}" for e in e2], w2, {k: len(x) for k, x in couches.items()}
 

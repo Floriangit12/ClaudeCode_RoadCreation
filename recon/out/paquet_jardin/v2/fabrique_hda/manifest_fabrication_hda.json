@@ -1,0 +1,656 @@
+{
+ "schema": "pj_manifest_fabrication_hda/0.1",
+ "houdini": "22.0.459",
+ "licence": "Indie",
+ "scene": "recon/pcg/houdini/paquet_jardin_pcg.hip",
+ "description": "recon/out/paquet_jardin/v2/description/base",
+ "vex_jit": false,
+ "hda": {
+  "pj::bordure::1.0": {
+   "noeuds": 71,
+   "recursif": 71,
+   "par_type": {
+    "attribdelete": 5,
+    "attribnoise::2.0": 1,
+    "attribwrangle": 21,
+    "blast": 9,
+    "boolean::2.0": 1,
+    "copytopoints::2.0": 2,
+    "divide": 2,
+    "groupcreate": 2,
+    "groupdelete": 2,
+    "merge": 1,
+    "normal": 2,
+    "null": 6,
+    "output": 3,
+    "pack": 1,
+    "polybevel::3.0": 2,
+    "python": 1,
+    "sphere": 1,
+    "sweep::2.0": 2,
+    "switch": 6,
+    "unpack": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/pj_bordure/pj_bordure.hdalc"
+  },
+  "pj::caniveau::1.0": {
+   "noeuds": 71,
+   "recursif": 71,
+   "par_type": {
+    "attribdelete": 5,
+    "attribnoise::2.0": 1,
+    "attribwrangle": 21,
+    "blast": 9,
+    "boolean::2.0": 1,
+    "copytopoints::2.0": 2,
+    "divide": 2,
+    "groupcreate": 2,
+    "groupdelete": 2,
+    "merge": 1,
+    "normal": 2,
+    "null": 6,
+    "output": 3,
+    "pack": 1,
+    "polybevel::3.0": 2,
+    "python": 1,
+    "sphere": 1,
+    "sweep::2.0": 2,
+    "switch": 6,
+    "unpack": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/pj_caniveau/pj_caniveau.hdalc"
+  },
+  "pj::exporter_points::1.0": {
+   "noeuds": 3,
+   "recursif": 3,
+   "par_type": {
+    "attribwrangle": 1,
+    "output": 1,
+    "python": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/commun/pj_exporter_points.hdalc"
+  },
+  "pj::gabarits_iisr::1.0": {
+   "noeuds": 4,
+   "recursif": 5,
+   "par_type": {
+    "attribwrangle": 1,
+    "null": 1,
+    "output": 1,
+    "python": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/pj_marquage_commun/pj_gabarits_iisr.hdalc"
+  },
+  "pj::ilot::1.0": {
+   "noeuds": 64,
+   "recursif": 64,
+   "par_type": {
+    "attribdelete": 1,
+    "attribwrangle": 24,
+    "blast": 7,
+    "block_begin": 1,
+    "block_end": 1,
+    "box": 1,
+    "compile_begin": 1,
+    "compile_end": 1,
+    "copytopoints::2.0": 3,
+    "fuse::2.0": 1,
+    "merge": 3,
+    "normal": 2,
+    "null": 8,
+    "output": 3,
+    "polyexpand2d": 1,
+    "resample": 1,
+    "reverse": 1,
+    "scatter::2.0": 1,
+    "sphere": 1,
+    "switch": 1,
+    "triangulate2d::3.0": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/pj_ilot/pj_ilot.hdalc"
+  },
+  "pj::lire_description::1.0": {
+   "noeuds": 18,
+   "recursif": 28,
+   "par_type": {
+    "attribwrangle": 6,
+    "blast": 1,
+    "groupdelete": 1,
+    "merge": 1,
+    "null": 2,
+    "output": 2,
+    "python": 2,
+    "reverse": 1,
+    "volumeblur": 1,
+    "volumewrangle": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/pj_lire_description/pj_lire_description.hdalc"
+  },
+  "pj::marquage_ligne::1.0": {
+   "noeuds": 19,
+   "recursif": 19,
+   "par_type": {
+    "attribcopy": 2,
+    "attribwrangle": 9,
+    "blast": 2,
+    "merge": 1,
+    "null": 1,
+    "output": 1,
+    "pj::marquage_solide::1.0": 1,
+    "resample": 1,
+    "sweep::2.0": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/pj_marquage_ligne/pj_marquage_ligne.hdalc"
+  },
+  "pj::marquage_solide::1.0": {
+   "noeuds": 36,
+   "recursif": 36,
+   "par_type": {
+    "attribdelete": 2,
+    "attribwrangle": 14,
+    "blast": 2,
+    "block_begin": 1,
+    "block_end": 1,
+    "connectivity": 1,
+    "divide": 2,
+    "groupdelete": 2,
+    "merge": 1,
+    "normal": 1,
+    "null": 1,
+    "output": 1,
+    "polybevel::3.0": 1,
+    "polyextrude::2.0": 1,
+    "reverse": 2,
+    "switch": 2,
+    "triangulate2d::3.0": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/pj_marquage_commun/pj_marquage_solide.hdalc"
+  },
+  "pj::marquage_zone::1.0": {
+   "noeuds": 26,
+   "recursif": 26,
+   "par_type": {
+    "attribcopy": 1,
+    "attribwrangle": 4,
+    "blast": 4,
+    "block_begin": 1,
+    "block_end": 1,
+    "boolean::2.0": 2,
+    "merge": 1,
+    "null": 1,
+    "output": 1,
+    "pj::marquage_solide::1.0": 1,
+    "polyexpand2d": 2,
+    "polyextrude::2.0": 2,
+    "switch": 3,
+    "xform": 2
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/pj_marquage_zone/pj_marquage_zone.hdalc"
+  },
+  "pj::niveau_z::1.0": {
+   "noeuds": 2,
+   "recursif": 2,
+   "par_type": {
+    "attribwrangle": 1,
+    "output": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/commun/pj_niveau_z.hdalc"
+  },
+  "pj::passage_pieton::1.0": {
+   "noeuds": 16,
+   "recursif": 16,
+   "par_type": {
+    "attribcopy": 1,
+    "attribwrangle": 5,
+    "block_begin": 1,
+    "block_end": 1,
+    "boolean::2.0": 1,
+    "null": 1,
+    "output": 1,
+    "pj::gabarits_iisr::1.0": 1,
+    "pj::marquage_solide::1.0": 1,
+    "polyextrude::2.0": 1,
+    "switch": 1,
+    "xform": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/pj_marquage_passage/pj_passage_pieton.hdalc"
+  },
+  "pj::preparer_export::1.0": {
+   "noeuds": 13,
+   "recursif": 13,
+   "par_type": {
+    "attribdelete": 1,
+    "attribwrangle": 4,
+    "clean": 1,
+    "groupdelete": 1,
+    "normal": 1,
+    "output": 1,
+    "switch": 3,
+    "xform": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/commun/pj_preparer_export.hdalc"
+  },
+  "pj::sol::1.0": {
+   "noeuds": 85,
+   "recursif": 85,
+   "par_type": {
+    "attribblur": 4,
+    "attribdelete": 1,
+    "attribwrangle": 38,
+    "blast": 8,
+    "block_begin": 5,
+    "block_end": 3,
+    "clip::2.0": 2,
+    "compile_begin": 1,
+    "compile_end": 1,
+    "copytopoints::2.0": 1,
+    "fuse::2.0": 1,
+    "groupexpand": 4,
+    "merge": 2,
+    "normal": 2,
+    "null": 6,
+    "output": 1,
+    "resample": 1,
+    "reverse": 1,
+    "switch": 1,
+    "triangulate2d::3.0": 1,
+    "tube": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/pj_sol/pj_sol.hdalc"
+  },
+  "pj::symbole_iisr::1.0": {
+   "noeuds": 25,
+   "recursif": 25,
+   "par_type": {
+    "attribwrangle": 8,
+    "blast": 1,
+    "copytopoints::2.0": 1,
+    "null": 5,
+    "output": 4,
+    "pj::gabarits_iisr::1.0": 1,
+    "pj::marquage_solide::1.0": 2,
+    "switch": 2,
+    "xform": 1
+   },
+   "bibliotheque": "recon/pcg/houdini/hda/pj_marquage_symbole/pj_symbole_iisr.hdalc"
+  }
+ },
+ "fabrication": {
+  "lecteur": {
+   "comptes": {
+    "bordures": {
+     "entites": 504,
+     "points": 15618,
+     "primitives": 504
+    },
+    "ilots": {
+     "entites": 14,
+     "points": 849,
+     "primitives": 14
+    },
+    "marquages": {
+     "entites": 389,
+     "points": 7146,
+     "primitives": 516
+    },
+    "ponctuels_sol": {
+     "entites": 12,
+     "points": 152,
+     "primitives": 12
+    },
+    "surfaces": {
+     "entites": 1410,
+     "points": 140396,
+     "primitives": 1483
+    }
+   },
+   "emprise": [
+    -150.0,
+    -150.0,
+    150.0,
+    150.0
+   ],
+   "primitives": 2529,
+   "points": 164161,
+   "hash_description": "222b11f588b7c297f0fbbd522c7aaf69ad514c0aeaa1ce37d49cd6f8e2d2ac91",
+   "empreinte_entites": "c61531e6840c87c68613834ffbb143d5b91303b561830853d2c81a5e5a05d87d",
+   "empreinte_nivellement": "e402e11d6716c99e9f007b34db94852f5f120582572696910f285c77aa87f3c6"
+  },
+  "branches": {
+   "sol": {
+    "noeud": "/obj/paquet_jardin/fab_sol",
+    "type": "pj::sol::1.0",
+    "emplacement": false,
+    "entrees": 1495,
+    "primitives_maillage": 1212910,
+    "empreinte_sop": "70489ca3c90b6c28e87b209117ac0e00c4385ad547fe1a1a9e5002dc2b4699f0",
+    "usd": "recon/out/paquet_jardin/v2/fabrique_hda/sol.usdc",
+    "verifier_usd": {
+     "ok": true,
+     "erreurs": 0,
+     "avertissements": 75,
+     "exemples_erreurs": []
+    }
+   },
+   "bordures": {
+    "noeud": "/obj/paquet_jardin/fab_bordures",
+    "type": "pj::bordure::1.0",
+    "emplacement": false,
+    "entrees": 504,
+    "primitives_maillage": 575870,
+    "empreinte_sop": "3f90d06766dc47c9c8c0eff2de2f2c8baf0670158e022b4f7937d10cbb73cbe5",
+    "usd": "recon/out/paquet_jardin/v2/fabrique_hda/bordures.usdc",
+    "verifier_usd": {
+     "ok": true,
+     "erreurs": 0,
+     "avertissements": 284,
+     "exemples_erreurs": []
+    },
+    "prototypes": {
+     "usd": "recon/out/paquet_jardin/v2/fabrique_hda/prototypes/bordures.usda",
+     "verifier_usd": {
+      "ok": true,
+      "erreurs": 0,
+      "avertissements": 128,
+      "exemples_erreurs": []
+     }
+    },
+    "empreinte_points_sop": "ed001ed26f8b9bc2ceed3014d2a58b9d76f5c5a1cac66351735f45449af386c8",
+    "points": "recon/out/paquet_jardin/v2/fabrique_hda/points/bordures.json",
+    "n_points": 14398
+   },
+   "caniveaux": {
+    "noeud": "/obj/paquet_jardin/fab_caniveaux",
+    "type": "pj::caniveau::1.0",
+    "emplacement": false,
+    "entrees": 2,
+    "primitives_maillage": 1931,
+    "empreinte_sop": "6799ef7a2ed86afb96957ad91a27f293411e90ee12d729467acaf6dc02abcce1",
+    "usd": "recon/out/paquet_jardin/v2/fabrique_hda/caniveaux.usda",
+    "verifier_usd": {
+     "ok": true,
+     "erreurs": 0,
+     "avertissements": 0,
+     "exemples_erreurs": []
+    },
+    "prototypes": {
+     "usd": "recon/out/paquet_jardin/v2/fabrique_hda/prototypes/caniveaux.usda",
+     "verifier_usd": {
+      "ok": true,
+      "erreurs": 0,
+      "avertissements": 0,
+      "exemples_erreurs": []
+     }
+    },
+    "empreinte_points_sop": "28e6f200e514b064c9284eb432b18001080ac59dc6ea64dbce0af880144750ad",
+    "points": "recon/out/paquet_jardin/v2/fabrique_hda/points/caniveaux.json",
+    "n_points": 141
+   },
+   "ilots": {
+    "noeud": "/obj/paquet_jardin/fab_ilots",
+    "type": "pj::ilot::1.0",
+    "emplacement": false,
+    "entrees": 14,
+    "primitives_maillage": 19137,
+    "empreinte_sop": "3858972a43ffffc5293fcf981dac24380c0093c3da52f243ef4901071a6826c2",
+    "usd": "recon/out/paquet_jardin/v2/fabrique_hda/ilots.usda",
+    "verifier_usd": {
+     "ok": true,
+     "erreurs": 0,
+     "avertissements": 1,
+     "exemples_erreurs": []
+    },
+    "prototypes": {
+     "usd": "recon/out/paquet_jardin/v2/fabrique_hda/prototypes/ilots.usda",
+     "verifier_usd": {
+      "ok": true,
+      "erreurs": 0,
+      "avertissements": 8,
+      "exemples_erreurs": []
+     }
+    },
+    "empreinte_points_sop": "c0c3aabb8e1893eb45aad3cdc2c860c3bda3ea2bfc8d70d1818c206e920794e7",
+    "points": "recon/out/paquet_jardin/v2/fabrique_hda/points/ilots.json",
+    "n_points": 389
+   },
+   "marquages_lignes": {
+    "noeud": "/obj/paquet_jardin/fab_marquages_lignes",
+    "type": "pj::marquage_ligne::1.0",
+    "emplacement": false,
+    "entrees": 259,
+    "primitives_maillage": 75253,
+    "empreinte_sop": "9d402a2ecb0b01ea292fe3bc813ecb357a542a5130a1ce3bb524de01a19d50eb",
+    "usd": "recon/out/paquet_jardin/v2/fabrique_hda/marquages_lignes.usda",
+    "verifier_usd": {
+     "ok": true,
+     "erreurs": 0,
+     "avertissements": 0,
+     "exemples_erreurs": []
+    }
+   },
+   "passages": {
+    "noeud": "/obj/paquet_jardin/fab_passages",
+    "type": "pj::passage_pieton::1.0",
+    "emplacement": false,
+    "entrees": 16,
+    "primitives_maillage": 14759,
+    "empreinte_sop": "118e8cbd021f960c028113bdc8c28dfcbb1efb80eeb1bf573c3cce3a0a481773",
+    "usd": "recon/out/paquet_jardin/v2/fabrique_hda/passages.usda",
+    "verifier_usd": {
+     "ok": true,
+     "erreurs": 0,
+     "avertissements": 0,
+     "exemples_erreurs": []
+    }
+   },
+   "symboles": {
+    "noeud": "/obj/paquet_jardin/fab_symboles",
+    "type": "pj::symbole_iisr::1.0",
+    "emplacement": false,
+    "entrees": 226,
+    "primitives_maillage": 26000,
+    "empreinte_sop": "bee5fd9ae41d7b1503d098936b28c05465e752204ed41755cb876af32d207feb",
+    "usd": "recon/out/paquet_jardin/v2/fabrique_hda/symboles.usda",
+    "verifier_usd": {
+     "ok": true,
+     "erreurs": 0,
+     "avertissements": 0,
+     "exemples_erreurs": []
+    },
+    "prototypes": {
+     "usd": "recon/out/paquet_jardin/v2/fabrique_hda/prototypes/symboles.usda",
+     "verifier_usd": {
+      "ok": true,
+      "erreurs": 0,
+      "avertissements": 0,
+      "exemples_erreurs": []
+     }
+    },
+    "empreinte_points_sop": "5f405d43fe344674d56da273986ae2997ad08595e50bc38fe09e4dc3018e3693",
+    "points": "recon/out/paquet_jardin/v2/fabrique_hda/points/symboles.json",
+    "n_points": 21
+   },
+   "zones": {
+    "noeud": "/obj/paquet_jardin/fab_zones",
+    "type": "pj::marquage_zone::1.0",
+    "emplacement": false,
+    "entrees": 15,
+    "primitives_maillage": 6304,
+    "empreinte_sop": "195d1f84e4f599bd5148f71a63c018e07c6449f310902e2b190142b80e4f06f4",
+    "usd": "recon/out/paquet_jardin/v2/fabrique_hda/zones.usda",
+    "verifier_usd": {
+     "ok": true,
+     "erreurs": 0,
+     "avertissements": 2,
+     "exemples_erreurs": []
+    }
+   }
+  }
+ },
+ "paquet_ue": {
+  "fichier": "recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_paquet_jardin.hdalc",
+  "definitions": [
+   "Sop/pj::bordure::1.0",
+   "Sop/pj::caniveau::1.0",
+   "Sop/pj::exporter_points::1.0",
+   "Sop/pj::gabarits_iisr::1.0",
+   "Sop/pj::ilot::1.0",
+   "Sop/pj::lire_description::1.0",
+   "Sop/pj::marquage_ligne::1.0",
+   "Sop/pj::marquage_solide::1.0",
+   "Sop/pj::marquage_zone::1.0",
+   "Sop/pj::niveau_z::1.0",
+   "Sop/pj::passage_pieton::1.0",
+   "Sop/pj::preparer_export::1.0",
+   "Sop/pj::sol::1.0",
+   "Sop/pj::symbole_iisr::1.0"
+  ],
+  "verification": {
+   "entites": 461,
+   "volumes": 6,
+   "export_primitives": 330,
+   "erreurs": [],
+   "bibliotheques": [
+    "D:/ClaudeCode_RoadCreation/recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_paquet_jardin.hdalc"
+   ]
+  },
+  "unitaires": {
+   "pj::bordure::1.0": {
+    "fichier": "recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_bordure.hdalc",
+    "definitions": [
+     "pj::bordure::1.0"
+    ]
+   },
+   "pj::caniveau::1.0": {
+    "fichier": "recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_caniveau.hdalc",
+    "definitions": [
+     "pj::caniveau::1.0"
+    ]
+   },
+   "pj::exporter_points::1.0": {
+    "fichier": "recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_exporter_points.hdalc",
+    "definitions": [
+     "pj::exporter_points::1.0"
+    ]
+   },
+   "pj::gabarits_iisr::1.0": {
+    "fichier": "recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_gabarits_iisr.hdalc",
+    "definitions": [
+     "pj::gabarits_iisr::1.0"
+    ]
+   },
+   "pj::ilot::1.0": {
+    "fichier": "recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_ilot.hdalc",
+    "definitions": [
+     "pj::ilot::1.0"
+    ]
+   },
+   "pj::lire_description::1.0": {
+    "fichier": "recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_lire_description.hdalc",
+    "definitions": [
+     "pj::lire_description::1.0"
+    ]
+   },
+   "pj::marquage_solide::1.0": {
+    "fichier": "recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_marquage_solide.hdalc",
+    "definitions": [
+     "pj::marquage_solide::1.0"
+    ]
+   },
+   "pj::niveau_z::1.0": {
+    "fichier": "recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_niveau_z.hdalc",
+    "definitions": [
+     "pj::niveau_z::1.0"
+    ]
+   },
+   "pj::preparer_export::1.0": {
+    "fichier": "recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_preparer_export.hdalc",
+    "definitions": [
+     "pj::preparer_export::1.0"
+    ]
+   },
+   "pj::sol::1.0": {
+    "fichier": "recon/out/paquet_jardin/v2/fabrique_hda/hda/pj_sol.hdalc",
+    "definitions": [
+     "pj::sol::1.0"
+    ]
+   }
+  }
+ },
+ "sorties": {
+  "bordures.usdc": "6d0e97ba2466a4aa4bd6bec324e85372cd3ca3bc60cffd32043fcb1d9db64b76",
+  "caniveaux.usda": "fe54c9606acf6860d7a5b023b188a89ffa4d4823f4c783cc6fb892d65dfb93f8",
+  "controle/apercu_lecteur.usdc": "17ff5e84dbdfc93a3b87c65e9b085c342758092b226b0bd2d98455df12394941",
+  "controle/controles_f1.json": "88c343fa93a15c46550bf708e76bd70f9b9ba8c0299a163fb697b7cfa4bd6525",
+  "controle/controles_f1_pilote.json": "ca6157a80948e00a21d24624d1dd1171f433e75b1980a16bc60b080082f1612f",
+  "controle/determinisme_processus.json": "936786228bb3cdaeceb250a895683664ff3476f9e9a9befd4df6e5c95ce8b4c0",
+  "controle/essai_houdini_engine_ue.json": "17df3b478a32d906f55e9f4653911b75d706ed8b9e0a0f0d5620e2ebe9f2a5e6",
+  "controle/integration.usda": "6c4bb45169d6bba7a9bcf6445200d103be735c98c10a8aeed15a212b81b0d8b2",
+  "controle/marquages_controles.json": "9b0e1c8ac24dda8514abdfa29fb10435bf23c34bcb2952ceb20bd1f39c0fae35",
+  "ilots.usda": "1deeff5fcaf564c23015e5994c742f3f2eb5cbd4bab0ebebc90b974590ba42ff",
+  "marquages_lignes.usda": "53c14d8aa14d22d7b7aeb28122ad7763fe27cce498d303e19f6e3c0739658c12",
+  "materiaux_ue.usda": "3a4f05bf1bd702efd197810eb2073ac2984e4427d880e804d060347d5fecd317",
+  "passages.usda": "c56fc191b9a3e7c0a7ace181d073d756ab026a76f3925d22da248bfec2c89d2f",
+  "points/bordures.json": "062ff491b5e00fffcc3bce8eb8ef4de8ae53b4ad094439fd28d48195fc42f6e0",
+  "points/caniveaux.json": "c457988d2b052c1417c76d0da10880684f761c82e06386259a644337c769ed12",
+  "points/ilots.json": "02dc16e860587ece57366690c7501f754b6d4302cb22bbb037260cfac08baa92",
+  "points/symboles.json": "ba44633e6169db37769d10f8532c52da61852ff834a3de90d51d4a0f971f76cd",
+  "prototypes/bordures.usda": "ca4bc7988eba655da317d74c6a64e91b2930ff6674cf84d041a32a6694f974a9",
+  "prototypes/caniveaux.usda": "b2f1e5548bc031c46654a4f5a809d4e177588960b1956a5682c083edc41bba5c",
+  "prototypes/ilots.usda": "534a7f2eb5cf34f75149a2d1030c33f6db093a888d069e4512f8fd7f407d916f",
+  "prototypes/symboles.usda": "2667235633fa68058e1e15a137dde6e2dc9d80744f9bc23cc57b84fa6f75ea5b",
+  "sol.usdc": "ca445df7a9e82fbbabf6a87adf7a5e9952f7e6601f30127e5ab48f6713d1b23e",
+  "symboles.usda": "7c7b420a0796d5535937df3bb6ecfc8b29228e7d404ed9338df695b00337270e",
+  "zones.usda": "413c6d6e06202d12b014c04854155537efc13db9c0fbe60f7632ca9c42320d0e"
+ },
+ "produits": [
+  "bordures.usdc",
+  "caniveaux.usda",
+  "ilots.usda",
+  "marquages_lignes.usda",
+  "materiaux_ue.usda",
+  "passages.usda",
+  "points/bordures.json",
+  "points/caniveaux.json",
+  "points/ilots.json",
+  "points/symboles.json",
+  "prototypes/bordures.usda",
+  "prototypes/caniveaux.usda",
+  "prototypes/ilots.usda",
+  "prototypes/symboles.usda",
+  "sol.usdc",
+  "symboles.usda",
+  "zones.usda"
+ ],
+ "determinisme": {
+  "identique": true,
+  "differences": [],
+  "fichiers": 17
+ },
+ "durees_s": {
+  "chargement_scene": 4.1,
+  "fabrication": {
+   "lecteur": 2.2,
+   "sol:cuisson": 10.0,
+   "sol:total": 155.7,
+   "bordures:cuisson": 20.4,
+   "bordures:total": 107.9,
+   "caniveaux:cuisson": 0.7,
+   "caniveaux:total": 1.7,
+   "ilots:cuisson": 1.0,
+   "ilots:total": 4.7,
+   "marquages_lignes:cuisson": 1.4,
+   "marquages_lignes:total": 10.5,
+   "passages:cuisson": 0.5,
+   "passages:total": 2.3,
+   "symboles:cuisson": 0.9,
+   "symboles:total": 4.4,
+   "zones:cuisson": 0.3,
+   "zones:total": 1.1,
+   "passe": 290.8
+  },
+  "paquet_ue": 4.6,
+  "verification_determinisme": 296.2,
+  "total": 596.1
+ }
+}

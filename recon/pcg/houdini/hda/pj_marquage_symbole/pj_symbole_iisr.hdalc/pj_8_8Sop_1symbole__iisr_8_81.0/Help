@@ -1,0 +1,95 @@
+= PJ Marquage : symboles IISR (flèches, figurines, pictogrammes) =
+
+"""Flèches et symboles en maillages statiques : gabarits exacts de marquages_geometrie.json (trous compris) ou formes paramétriques, extrudés et chanfreinés en prototypes de bibliothèque ; un point d'instance par symbole (orient = plan du sol x cap, unreal_instance) ; maillage drapé unique quand le sol n'est pas plan sous le symbole."""
+
+== Sorties ==
+
+1. Maillages drapés (symboles hors plan, ou mode drapé).
+2. Points d'instances (id, asset, unreal_instance, orient, scale, graine, cd, x).
+3. Prototypes à plat (pj_entite = asset ; repère +X vers l'avant, +Y à gauche, origine du gabarit).
+4. Aperçu : instances empaquetées (Copy to Points).
+
+Règles : FUS-SNP-004, MQ-FLE-006, MQ-RAL-001, MQ-CHR-001, MQ-ILO-003, VAL-FLE-001, TQ-SOL-013. Contrat : README_HDA.md § 7.
+
+@parameters
+
+== Symboles ==
+
+Sortie des symboles:
+    #id: mode
+    Instances : un point par symbole (sortie 2) et un prototype par forme et peinture (sortie 3) ; un symbole dont le sol s'écarte du plan de pose de plus de la tolérance est drapé (sortie 1).
+
+Tolérance de planéité du sol (m):
+    #id: tol_plan
+    Résidu max du plan de pose (moindres carrés, sur le sol fabriqué s'il est branché) au-delà duquel le symbole est drapé. TQ-MQG-006 : prototype rigide seulement si le sol est plan à 1 mm près.
+
+Tolérance d'écart au gabarit (m):
+    #id: tol_gabarit
+    Écart max entre le contour décrit et le gabarit IISR posé pour utiliser le gabarit exact (FUS-SNP-004) ; au-delà : forme décrite (glyphe).
+
+Glyphes hors gabarit drapés:
+    #id: glyphes_drapes
+    Formes décrites sans gabarit (PMR, chiffres) en maillages drapés plutôt qu'en instances.
+
+Erreur de corde des disques (m):
+    #id: corde
+    marquages_geometrie.repere.discretisation : 1 mm.
+
+Dossier Unreal des prototypes:
+    #id: bibliotheque_ue
+    unreal_instance = <dossier>/SM_<asset>.SM_<asset>.
+
+Couche USD des prototypes:
+    #id: couche_lib
+    
+
+Pivot des prototypes (pj_points):
+    #id: pivot_prototypes
+    Recopié dans le champ pivot de points/symboles.json par le pilote.
+
+Sens de cd (pj_points):
+    #id: sens_cd
+    Recopié dans le champ cd de points/symboles.json par le pilote.
+
+Spécification des marquages:
+    #id: spec
+    
+
+== Peinture (solide) ==
+
+Épaisseur au-dessus du sol (m):
+    #id: epaisseur
+    
+
+Enfouissement des flancs (m):
+    #id: enfouissement
+    
+
+Chanfrein des arêtes du dessus (m):
+    #id: chanfrein
+    
+
+Pas du maillage de drapé (m):
+    #id: pas_maillage
+    
+
+Draper sur le nivellement (entrée 2):
+    #id: draper
+    
+
+Région de drapé:
+    #id: mode_region
+    
+
+Seuil de franchissement (m):
+    #id: seuil_franchissement
+    
+
+Couche USD (pj_couche):
+    #id: couche
+    
+
+Angle de rupture des normales (°):
+    #id: cusp
+    
+

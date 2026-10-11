@@ -1,0 +1,225 @@
+// disposer (primitive wrangle, une bordure par élément de travail) : éléments préfabriqués et joints de la bordure.
+// Entrée 0 : bordures (courbes de l'arête avant, attributs de la description) ; entrée 1 : profils (lire_profils).
+// Sortie : un point par élément (kind = element) et par joint (kind = joint), la courbe est retirée.
+// Règles : TQ-BOR-002 (pose en éléments rigides), bordures_elements.json (pas, coupes, chartières, jitter, joints),
+// GA-CHR-002 / GA-ABA-004 (chartières de raccord), GA-BOR-005 (points durs aux extrémités et changements de profil).
+string kid = s@id;
+dict cb[] = pj_cb_prims(0, @primnum);
+float L = pj_cb_longueur(cb);
+dict ivs[] = prim(0, "intervalles", @primnum);
+float S[] = prim(0, "niv_s", @primnum);
+float ZP[] = prim(0, "niv_z_pied", @primnum);
+string noms[] = detail(1, "pj_profils_noms");
+float bases[] = detail(1, "pj_profils_base");
+float Hs[] = detail(1, "pj_profils_H");
+int czd = 0, czf = 0;
+if (hasprimattrib(0, "coupe_zone")) {
+    dict cz = prim(0, "coupe_zone", @primnum);
+    if (isvalidindex(cz, "debut")) { int x = cz["debut"]; czd = x; }
+    if (isvalidindex(cz, "fin")) { int x = cz["fin"]; czf = x; }
+}
+int jmm = hasprimattrib(0, "joint_mm") ? prim(0, "joint_mm", @primnum) : 0;
+float joint = (jmm > 0 ? float(jmm) : chf("../joint_mm")) / 1000.0;
+float epau = 0.3, sal = 0.3, mousse = 0.0, herbe = 0.0;
+if (hasprimattrib(0, "aspect")) {
+    dict asp = prim(0, "aspect", @primnum);
+    if (isvalidindex(asp, "epaufrures")) { float x = asp["epaufrures"]; epau = x; }
+    if (isvalidindex(asp, "salissure")) { float x = asp["salissure"]; sal = x; }
+    if (isvalidindex(asp, "mousse_joints")) { float x = asp["mousse_joints"]; mousse = x; }
+    if (isvalidindex(asp, "herbe_joints")) { float x = asp["herbe_joints"]; herbe = x; }
+}
+int ancien = epau >= 0.2;                       // bordure ancienne : jitter, joints et teintes plus marqués
+string mat = s@materiau_id;
+if (mat == "") mat = "beton_bordure_gris";
+
+float e_s0[], e_s1[];
+string e_type[];
+int e_coupe[], e_iv[], e_ad[], e_af[], e_sur[];
+pj_disposer(cb, ivs, S, ZP, noms, bases, Hs, joint, czd, czf, chf("../fleche_max_mm") / 1000.0,
+            chf("../coin_max_mm") / 1000.0, chf("../coin_v_max_mm") / 1000.0, chf("../pas_muret"),
+            e_s0, e_s1, e_type, e_coupe, e_iv, e_ad, e_af, e_sur);
+int n = len(e_s0);
+
+// ---- jitter déterministe (graine = hachage de l'identifiant ; bordures_elements.json jitter)
+float Jh = chf("../jit_hauteur_mm") / 1000.0, Jl = chf("../jit_lacet_deg"), Jlat = chf("../jit_lateral_mm") / 1000.0;
+float Jr = chf("../jit_roulis_deg");
+if (!chi("../jitter")) { Jh = 0; Jl = 0; Jlat = 0; Jr = 0; }
+if (ancien && Jh > 0) { Jh *= 1.5; Jl = max(Jl, 0.5); }       // désaffleurements d'une bordure ancienne (photo 1)
+int gk = random_shash(kid + "|tassement");
+float ph[], lam[];
+for (int k = 0; k < 3; k++) {
+    append(ph, 2 * PI * rand(set(gk % 100003, k, 1.5)));
+    append(lam, 3.0 + 2.0 * rand(set(gk % 100003, k, 2.5)));
+}
+float j_dz[], j_lac[], j_lat[], j_rou[];
+string e_id[];
+for (int i = 0; i < n; i++) {
+    string eid = sprintf("%s/E%03d", kid, i);
+    append(e_id, eid);
+    int ge = random_shash(eid + "|jitter");
+    float sm = 0.5 * (e_s0[i] + e_s1[i]);
+    float lent = 0;
+    for (int k = 0; k < 3; k++) lent += sin(2 * PI * sm / lam[k] + ph[k]);
+    lent = lent / 3.0 * 0.75 * Jh * 1.6;                       // composante lente corrélée sur 3-5 m
+    int fixe = e_type[i] == "bateau" || e_type[i] == "chartiere" || e_type[i] == "muret";
+    float dz = fixe ? 0.0 : clamp(lent + (rand(set(ge % 100003, 1, 0.5)) - 0.5) * Jh, -Jh, Jh);
+    append(j_dz, dz);
+    append(j_lac, (e_type[i] == "muret") ? 0.0 : (rand(set(ge % 100003, 2, 0.5)) * 2 - 1) * Jl);
+    append(j_lat, (e_type[i] == "muret") ? 0.0 : (rand(set(ge % 100003, 3, 0.5)) * 2 - 1) * Jlat);
+    append(j_rou, fixe ? 0.0 : (rand(set(ge % 100003, 4, 0.5)) * 2 - 1) * Jr);
+}
+
+// angle vif : les deux éléments de l'angle deviennent sur mesure (onglet)
+for (int i = 0; i + 1 < n; i++) {
+    if (e_s0[i + 1] - e_s1[i] >= 0.02) continue;
+    if (e_af[i] && e_ad[i + 1]) { e_sur[i] = 1; e_sur[i + 1] = 1; }
+}
+vector nd[], nf[];                                              // normales d'about imposées (sur mesure), z = 0 : aucune
+for (int i = 0; i < n; i++) { append(nd, {0, 0, 0}); append(nf, {0, 0, 0}); }
+
+// ---- largeurs des joints (bordures_elements.json element.joint_mm ; revue conformité r2 : coins 3,5-9,5 mm)
+float jt_s[], jt_w[], jt_vue[];
+string jt_prof[], jt_mort[], jt_id[];
+vector jt_dir[];
+for (int i = 0; i + 1 < n; i++) {
+    if (e_s0[i + 1] - e_s1[i] >= 0.02) continue;
+    int gj = random_shash(sprintf("%s|joint|%d", kid, i));
+    float u1 = rand(set(gj % 100003, 1, 0.5)), u2 = rand(set(gj % 100003, 2, 0.5)), u3 = rand(set(gj % 100003, 3, 0.5));
+    float w;
+    if (ancien) {
+        float gauss = sqrt(-2 * log(max(u1, 1e-9))) * cos(2 * PI * u2);
+        w = clamp(exp(log(0.0065) + 0.16 * gauss), 0.005, 0.008);
+    } else {
+        w = 0.0055 + 0.0015 * u1;
+    }
+    if (!chi("../joints_aleatoires")) w = joint;
+    int i0 = e_iv[i], i1 = e_iv[i + 1];
+    string p0 = ivs[i0]["profil"], p1 = ivs[i1]["profil"];
+    int ip0 = pj_profil_index(noms, p0), ip1 = pj_profil_index(noms, p1);
+    float base = min(bases[ip0], bases[ip1]);
+    float Hm = min(Hs[ip0], Hs[ip1]);
+    vector2 d0 = dir_fin(cb, e_s0[i], e_s1[i], e_sur[i]);
+    vector2 d1 = dir_debut(cb, e_s0[i + 1], e_s1[i + 1], e_sur[i + 1]);
+    float phi = atan2(d0.x * d1.y - d0.y * d1.x, dot(d0, d1)) + radians(j_lac[i + 1] - j_lac[i]);
+    float pe0 = (pj_zfe(e_s1[i], S, ZP) - pj_zfe(e_s0[i], S, ZP)) / max(e_s1[i] - e_s0[i], 1e-3);
+    float pe1 = (pj_zfe(e_s1[i + 1], S, ZP) - pj_zfe(e_s0[i + 1], S, ZP)) / max(e_s1[i + 1] - e_s0[i + 1], 1e-3);
+    float dv = 0.5 * Hm * (pe1 - pe0);
+    float m = 0.5 * (e_s1[i] + e_s0[i + 1]);
+    vector2 dj;
+    float g;
+    if (e_sur[i] || e_sur[i + 1]) {
+        dj = (e_sur[i] && e_sur[i + 1]) ? normalize(d0 + d1) : (e_sur[i] ? d1 : d0);
+        nf[i] = set(dj.x, dj.y, 1.0);
+        nd[i + 1] = set(dj.x, dj.y, 1.0);
+        vector2 t = pj_cb_tangente(cb, m);
+        w = abs(dv) < 0.003 ? clamp(w, 0.0035 + abs(dv), 0.0095 - abs(dv)) : 0.0065;
+        g = w / max(abs(dot(dj, t)), 0.5) + dv;
+    } else {
+        dj = normalize(d0 + d1);
+        float dw = 0.5 * base * abs(phi) + abs(dv);
+        w = dw < 0.003 ? clamp(w, 0.0035 + dw, 0.0095 - dw) : 0.0065;
+        g = max(0.0035, w + 0.5 * base * phi + dv);
+    }
+    g = max(g, 0.002);
+    e_s1[i] = m - g / 2;
+    e_s0[i + 1] = m + g / 2;
+    // profil et vue de l'extrémité la plus basse des deux éléments (bouchon de mortier) : fin de i, début de i + 1
+    float v0 = pj_vue_iv(ivs[i0], m), v1 = pj_vue_iv(ivs[i1], m);
+    float a0 = ivs[i0]["vue_m"], a1 = ivs[i1]["vue_m"];
+    string q0 = (e_type[i] == "chartiere" && v0 < a0 - 1e-4) ? pj_profil_bas(ivs, i0) : p0;
+    string q1 = (e_type[i + 1] == "chartiere" && v1 < a1 - 1e-4) ? pj_profil_bas(ivs, i1) : p1;
+    float z0 = pj_zfe(e_s1[i], S, ZP) + v0, z1 = pj_zfe(e_s0[i + 1], S, ZP) + v1;
+    append(jt_s, m);
+    append(jt_w, w);
+    append(jt_dir, set(dj.x, dj.y, 0));
+    append(jt_prof, z0 <= z1 ? q0 : q1);
+    append(jt_vue, z0 <= z1 ? v0 : v1);
+    append(jt_mort, (ancien && u3 < 0.5) ? "clair" : "sombre");
+    append(jt_id, sprintf("%s/J%03d", kid, i));
+}
+
+// ---- émission des points
+for (int i = 0; i < n; i++) {
+    int iv = e_iv[i];
+    string pf = ivs[iv]["profil"];
+    string role = ivs[iv]["role"];
+    float vue = ivs[iv]["vue_m"];
+    float vue_fin = vue;
+    if (e_type[i] == "chartiere") {                       // vue aux bouts de l'élément (chartière en plusieurs éléments)
+        vue = pj_vue_iv(ivs[iv], e_s0[i]);
+        vue_fin = pj_vue_iv(ivs[iv], e_s1[i]);
+    }
+    int ip = pj_profil_index(noms, pf);
+    int pt = addpoint(0, {0, 0, 0});
+    setpointattrib(0, "kind", pt, "element");
+    setpointattrib(0, "id", pt, e_id[i]);
+    setpointattrib(0, "bordure", pt, kid);
+    setpointattrib(0, "index", pt, i);
+    setpointattrib(0, "s0", pt, e_s0[i]);
+    setpointattrib(0, "s1", pt, e_s1[i]);
+    setpointattrib(0, "longueur", pt, e_s1[i] - e_s0[i]);
+    setpointattrib(0, "type", pt, e_type[i]);
+    setpointattrib(0, "coupe", pt, e_coupe[i]);
+    setpointattrib(0, "sur_mesure", pt, e_sur[i]);
+    setpointattrib(0, "angle_debut", pt, e_ad[i]);
+    setpointattrib(0, "angle_fin", pt, e_af[i]);
+    setpointattrib(0, "profil", pt, noms[ip]);
+    setpointattrib(0, "role", pt, role);
+    setpointattrib(0, "vue", pt, vue);
+    setpointattrib(0, "vue_fin", pt, vue_fin);
+    setpointattrib(0, "base", pt, bases[ip]);
+    setpointattrib(0, "H", pt, Hs[ip]);
+    if (e_type[i] == "chartiere") {
+        // profil bas seulement sur l'élément qui touche l'extrémité basse de l'intervalle (chartière en plusieurs éléments)
+        float vi0 = ivs[iv]["vue_m"], si0 = ivs[iv]["s0"], si1 = ivs[iv]["s1"];
+        float vi1 = vi0;
+        if (isvalidindex(ivs[iv], "vue_m_fin")) { float x = ivs[iv]["vue_m_fin"]; vi1 = x; }
+        float s_bas = vi0 > vi1 ? si1 : si0;
+        string pb = (abs(e_s1[i] - s_bas) < 0.05 || abs(e_s0[i] - s_bas) < 0.05) ? pj_profil_bas(ivs, iv) : pf;
+        int ib = pj_profil_index(noms, pb);
+        setpointattrib(0, "profil_bas", pt, noms[ib]);
+        setpointattrib(0, "sens", pt, vue > vue_fin ? "desc" : "asc");
+    } else {
+        setpointattrib(0, "profil_bas", pt, noms[ip]);
+        setpointattrib(0, "sens", pt, "");
+    }
+    setpointattrib(0, "n_debut", pt, nd[i]);
+    setpointattrib(0, "n_fin", pt, nf[i]);
+    setpointattrib(0, "jit_dz", pt, j_dz[i]);
+    setpointattrib(0, "jit_lacet", pt, j_lac[i]);
+    setpointattrib(0, "jit_lateral", pt, j_lat[i]);
+    setpointattrib(0, "jit_roulis", pt, j_rou[i]);
+    setpointattrib(0, "graine", pt, random_shash(e_id[i]) & 0x7FFFFFFF);
+    setpointattrib(0, "materiau_id", pt, mat);
+    setpointattrib(0, "epaufrures", pt, epau);
+    setpointattrib(0, "salissure", pt, sal);
+    setpointattrib(0, "mousse_joints", pt, mousse);
+    setpointattrib(0, "herbe_joints", pt, herbe);
+    setpointattrib(0, "ancien", pt, ancien);
+}
+for (int j = 0; j < len(jt_s); j++) {
+    int ip = pj_profil_index(noms, jt_prof[j]);
+    int pt = addpoint(0, {0, 0, 0});
+    setpointattrib(0, "kind", pt, "joint");
+    setpointattrib(0, "id", pt, jt_id[j]);
+    setpointattrib(0, "bordure", pt, kid);
+    setpointattrib(0, "index", pt, j);
+    setpointattrib(0, "s0", pt, jt_s[j]);
+    setpointattrib(0, "s1", pt, jt_s[j]);
+    setpointattrib(0, "longueur", pt, jt_w[j]);
+    setpointattrib(0, "type", pt, "joint");
+    setpointattrib(0, "profil", pt, noms[ip]);
+    setpointattrib(0, "profil_bas", pt, noms[ip]);
+    setpointattrib(0, "vue", pt, jt_vue[j]);
+    setpointattrib(0, "vue_fin", pt, jt_vue[j]);
+    setpointattrib(0, "base", pt, bases[ip]);
+    setpointattrib(0, "H", pt, Hs[ip]);
+    setpointattrib(0, "n_debut", pt, jt_dir[j]);
+    setpointattrib(0, "mortier", pt, jt_mort[j]);
+    setpointattrib(0, "graine", pt, random_shash(jt_id[j]) & 0x7FFFFFFF);
+    setpointattrib(0, "materiau_id", pt, jt_mort[j] == "clair" ? "mortier_clair" : "mortier_joint");
+    setpointattrib(0, "mousse_joints", pt, mousse);
+    setpointattrib(0, "herbe_joints", pt, herbe);
+    setpointattrib(0, "ancien", pt, ancien);
+}
+removeprim(0, @primnum, 1);

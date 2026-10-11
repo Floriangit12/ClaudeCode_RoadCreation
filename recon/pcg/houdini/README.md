@@ -1,12 +1,41 @@
 # recon/pcg/houdini : fabrication v2 déterministe (hython Houdini 22.0.459 Indie)
 
-« Claude décrit, Houdini fabrique, UE 5.8 place ». Ce dossier lit la description vectorielle
+« Claude décrit, Houdini fabrique, UE 5.8 place ». Chaîne de référence : section suivante (HDA). Ancienne chaîne,
+gardée comme référence de comparaison : ce dossier lit la description vectorielle
 (`recon/out/paquet_jardin/v2/description`, schéma `description_scene_v2/0.1`) et les specs
 (`assets/specs/bordures.json`, `bordures_elements.json`, `materiaux_sol.json`, et les surcharges de
 rendu `materiaux_rendu_v2.json`). Il fabrique ensuite la géométrie de la zone pilote ZP-01 par des
 verbes SOP Houdini appelés depuis Python, sans HDA ni interface. Chaque valeur vient d'un attribut de
 la description ou d'une règle nommée. Aucune géométrie n'est tirée d'un raster, et aucun Z ne vient
 des maillages v1.
+
+## Fabrication procédurale par HDA (chaîne de référence depuis le 10/10/2026)
+
+La fabrication se fait par des **réseaux de nœuds Houdini empaquetés en HDA** `pj::*` (`hda/`, conventions et contrat
+dans `hda/README_HDA.md`). Les modules `pj_*.py` décrits plus bas (numpy dans hython) ne servent plus que de références
+de comparaison.
+
+```
+hython recon/pcg/houdini/fabriquer_hda.py --construire-hda --toutes   # HDA (signature : aucun diff si inchangées)
+hython recon/pcg/houdini/fabriquer_hda.py --construire-hip            # scène maîtresse paquet_jardin_pcg.hip
+hython recon/pcg/houdini/fabriquer_hda.py --verifier-determinisme     # site complet, 8 branches (≈ 4 min 10 par passe)
+hython recon/pcg/houdini/hda/commun/rendre_integration.py             # rendus Karma de toutes les couches
+python recon/pcg/houdini/hda/ue/piloter_essai_he.py                   # essai Houdini Engine dans UE (niveau d'essai)
+```
+
+- Scène maîtresse `paquet_jardin_pcg.hip` : `pj::lire_description` → huit HDA de branche (sol, bordures, caniveaux,
+  îlots, lignes, passages, symboles, zones) → `pj::preparer_export` / `pj::exporter_points` → Solaris → USD.
+- Sorties dans `recon/out/paquet_jardin/v2/fabrique_hda/` :
+  - un USD par branche, avec `verifier_usd` à 0 erreur ;
+  - les prototypes et les points `pj_points/0.1` ;
+  - les bibliothèques d'HDA pour Unreal ;
+  - le manifeste, avec durées, empreintes et déterminisme.
+- Déterminisme : deux passes, dans le même processus ou dans deux processus, sont identiques à l'octet. Le pilote
+  coupe le JIT VEX et canonise les `.usdc` (`hda/README_HDA.md` § 9.2).
+- Houdini interactif : ouvrir la scène, régler l'emprise du lecteur, choisir un `fab_<branche>` (§ 9.3).
+- Unreal : `pj::bordure` est instanciée par Houdini Engine sur une spline, et son paramètre `joint_mm` est modifié
+  par la Public API. Le nœud PCG « Houdini Digital Asset » se crée et se câble par Python, mais l'entrée « PCG Input »
+  reste à régler à la main (§ 9.4).
 
 ## Commandes
 

@@ -15,7 +15,7 @@ Controles (E = erreur bloquante, A = avertissement) :
      (materiaux_sol.json ou materiau maison MATERIAUX_MAISON) ; liaison resolue comme l'import UE :
      finalite preview (material:binding:preview), repli allPurpose (material:binding)
   E6 chaque Mesh sous un prim de kind component (hierarchie de modele valide) ; subdivisionScheme = none
-  E7 pas de PointInstancer
+  E7 pas de PointInstancer ; E6 aussi : aucun gprim autre que Mesh (BasisCurves, Points...) en finalite default/render
   E8 sol fabrique (/World/PJ_Sol) : aucun triangle de plus de 45 deg avec un denivele de plus de 3 cm hors talus
      (noue_plantee) et hors bord de couche (0,5 m : raccord au contexte v1) ; revue UE du 10/10, pointes de sol aux
      fins de bordure
@@ -280,6 +280,11 @@ def verifier(chemin: str, chemin_materiaux: str = MATERIAUX, chemin_sol: str | N
     for prim in st.Traverse():
         if prim.IsA(UsdGeom.PointInstancer):
             res['erreurs'].append(f'E7 PointInstancer interdit : {prim.GetPath()} (points -> pj_points/0.1)')
+        elif prim.IsA(UsdGeom.Gprim) and not prim.IsA(UsdGeom.Mesh) and UsdGeom.Imageable(prim).ComputePurpose() in (
+                UsdGeom.Tokens.default_, UsdGeom.Tokens.render):
+            # E6 : seule la geometrie Mesh devient un StaticMesh dans UE (BasisCurves, Points... ignores ou mal importes ;
+            # prototypes d'eclats BRF exportes en courbes, revue conformite du 11/10/2026)
+            res['erreurs'].append(f'E6 gprim non Mesh ({prim.GetTypeName()}) : {prim.GetPath()}')
         elif prim.IsA(UsdGeom.Mesh) and UsdGeom.Imageable(prim).ComputePurpose() in (UsdGeom.Tokens.default_,
                                                                                      UsdGeom.Tokens.render):
             r = verifier_mesh(prim, ids, cusp)

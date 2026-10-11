@@ -1,0 +1,108 @@
+// dorsales_bib (detail wrangle) : sections et dorsales des PROTOTYPES de bibliothèque, pour le Sweep.
+// Entrée 0 : profils (lire_profils : une section par profil, primitives 0..N-1) ; entrée 1 : points d'instances
+// de bibliothèque (asset, proto_type, profil, profil_bas, proto_L, vue, vue_fin, sens, variante).
+// Sortie : les sections (profils puis sections ajoutées : lofts de chartière, joints en retrait) PUIS les dorsales
+// (groupe « dorsale ») : polylignes le long de +X de −L/2 à +L/2 (repère du prototype : X = s, Y = v, Z = −u ;
+// pivot au milieu de l'élément, face vue, dessous du bloc ; bordures_elements.json repere.pivot_prototype),
+// décalées de « decalage » (Z) pour que les prototypes ne se touchent pas pendant le Boolean des épaufrures.
+// Attribut de point « variant » : numéro de la section posée en ce point (Sweep, copyorder = attribut).
+string assets[] = uniquevals(1, "point", "asset");
+int n = len(assets);
+int sec_debut[], sec_nb[];
+float r_joint_sombre = chf("../joint_retrait_mm") / 1000.0;
+float r_joint_clair = 0.001;
+// ---- passe 1 : sections propres à chaque prototype
+for (int k = 0; k < n; k++) {
+    int pt = findattribval(1, "point", "asset", assets[k]);
+    string ty = point(1, "proto_type", pt);
+    string pf = point(1, "profil", pt);
+    int ip = pj_sec_prim(0, pf);
+    float ua[], va[];
+    int ita, kba;
+    pj_sec_contour(0, ip, ua, va, ita, kba);
+    if (ty == "chartiere") {
+        // loft du profil courant posé à sa vue vers le profil bas, au même fil d'eau (GA-CHR-002 ; bordures_elements
+        // abaisses.traversee.chartieres.geometrie)
+        string pb = point(1, "profil_bas", pt);
+        int ib = pj_sec_prim(0, pb);
+        float ub[], vb[];
+        int itb, kbb;
+        pj_sec_contour(0, ib, ub, vb, itb, kbb);
+        float va0 = point(1, "vue", pt), va1 = point(1, "vue_fin", pt);
+        float vh = max(va0, va1), vbas = min(va0, va1);
+        float Ha = prim(0, "H", ip), Hb = prim(0, "H", ib);
+        float dv = (Ha - vh) - (Hb - vbas);
+        for (int i = 0; i < len(vb); i++) vb[i] += dv;
+        float oua[], ova[], oub[], ovb[];
+        int oc[];
+        pj_sec_communs(ua, va, ita, kba, ub, vb, itb, kbb, oua, ova, oub, ovb, oc);
+        int premiere = -1;
+        for (int j = 0; j < 6; j++) {
+            float t = j / 5.0;
+            float su[], sv[];
+            for (int i = 0; i < len(oua); i++) {
+                append(su, lerp(oua[i], oub[i], t));
+                append(sv, lerp(ova[i], ovb[i], t));
+            }
+            int prn = pj_sec_ajouter_ch(0, su, sv, oc, assets[k]);
+            if (j == 0) premiere = prn;
+        }
+        append(sec_debut, premiere);
+        append(sec_nb, 6);
+    } else if (ty == "joint" || ty == "jointf") {
+        // bouchon de mortier : contour réduit de 4 mm (joint sombre en retrait) ou 1 mm (mortier clair à fleur)
+        float su[], sv[];
+        pj_sec_inset(ua, va, ty == "joint" ? r_joint_sombre : r_joint_clair, su, sv);
+        append(sec_debut, pj_sec_ajouter(0, su, sv, assets[k]));
+        append(sec_nb, 1);
+    } else {
+        append(sec_debut, ip);
+        append(sec_nb, 0);                                     // section du profil, partagée
+    }
+}
+// ---- passe 2 : dorsales
+float pas_z = 1.0;
+for (int k = 0; k < n; k++) {
+    int pt = findattribval(1, "point", "asset", assets[k]);
+    string ty = point(1, "proto_type", pt);
+    float L = point(1, "proto_L", pt);
+    string sens = point(1, "sens", pt);
+    vector dec = set(0, 0, pas_z * k);
+    int m = (ty == "chartiere") ? 6 : 2;
+    int pts[];
+    for (int j = 0; j < m; j++) {
+        float x = -L / 2 + L * j / (m - 1);
+        int p = addpoint(0, set(x, 0, 0) + dec);
+        int var = sec_debut[k];
+        if (ty == "chartiere") {
+            int jj = (sens == "desc") ? j : (m - 1 - j);        // desc : haut au début (−X) ; asc : haut à la fin
+            var = sec_debut[k] + jj;
+        } else if (sec_nb[k] == 1) {
+            var = sec_debut[k];
+        }
+        setpointattrib(0, "variant", p, var);
+        setpointattrib(0, "s_dorsale", p, x + L / 2);         // abscisse le long de l'élément (UV u en mètres)
+        setpointattrib(0, "courbure", p, 0.0);
+        append(pts, p);
+    }
+    int pr = addprim(0, "polyline", pts);
+    setprimgroup(0, "dorsale", pr, 1);
+    setprimattrib(0, "asset", pr, assets[k]);
+    setprimattrib(0, "name", pr, assets[k]);
+    setprimattrib(0, "proto_type", pr, ty);
+    string pf = point(1, "profil", pt);
+    int vr = point(1, "variante", pt);
+    setprimattrib(0, "profil", pr, pf);
+    setprimattrib(0, "variante", pr, vr);
+    setprimattrib(0, "proto_L", pr, L);
+    setprimattrib(0, "decalage", pr, dec);
+    setprimattrib(0, "piece", pr, k);
+    // chanfreins d'about 3 x 3 mm sauf coupes (abouts sciés nets) et joints (bordures_elements.json aretes)
+    setprimattrib(0, "chanfrein", pr, (ty == "element" || ty == "chartiere") ? 1 : 0);
+    string mat = "beton_bordure_gris";
+    if (ty == "joint") mat = "mortier_joint";
+    if (ty == "jointf") mat = "mortier_clair";
+    if (startswith(assets[k], "caniveau")) mat = "caniveau_beton";
+    setprimattrib(0, "materiau_id", pr, mat);
+    setprimattrib(0, "repere_x", pr, {1, 0, 0});
+}

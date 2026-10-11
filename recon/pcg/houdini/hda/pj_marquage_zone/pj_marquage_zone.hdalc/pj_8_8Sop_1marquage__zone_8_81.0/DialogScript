@@ -1,0 +1,120 @@
+# Dialog script for pj::marquage_zone::1.0 automatically generated
+
+{
+    name	pj::marquage_zone::1.0
+    inputlabel	1	"Zones (polygones ou axes)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Sol fabriqué (facultatif)"
+    outputlabel	1	"Maillages (Y haut)"
+    script	pj::marquage_zone::1.0
+    label	"PJ Marquage : zones (hachures, zigzags, damiers, chevrons)"
+
+    help {
+    }
+
+    inputlabel	1	"Zones (polygones ou axes)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Sol fabriqué (facultatif)"
+
+    group {
+        name    "f_zone"
+        label   "Zones"
+
+        parm {
+            name    "u"
+            label   "Unité u (m)"
+            type    float
+            default { "0.05" }
+            help    "Largeurs 2u, 3u, 5u (marquages_geometrie.unite_u ; contour 3u et espace 2u des hachures, trait 2u du zigzag)."
+            range   { 0.03 0.075 }
+        }
+        parm {
+            name    "angle_chevrons"
+            label   "Angle des chevrons sur la bissectrice (°)"
+            type    float
+            default { "63.435" }
+            help    "Inclinaison 2 pour 1 des hachures (26,565° sur la rive)."
+            range   { 10 85 }
+        }
+        parm {
+            name    "fragment_min"
+            label   "Fragment de motif minimal (m²)"
+            type    float
+            default { "0.02" }
+            help    "Morceaux de bande plus petits retirés après la coupe par la zone."
+            range   { 0 1 }
+        }
+    }
+
+    group {
+        name    "f_solide"
+        label   "Peinture (solide)"
+
+        parm {
+            name    "epaisseur"
+            label   "Épaisseur au-dessus du sol (m)"
+            type    float
+            default { "0.003" }
+            range   { 0 0.02 }
+        }
+        parm {
+            name    "enfouissement"
+            label   "Enfouissement des flancs (m)"
+            type    float
+            default { "0.005" }
+            range   { 0 0.05 }
+        }
+        parm {
+            name    "chanfrein"
+            label   "Chanfrein des arêtes du dessus (m)"
+            type    float
+            default { "0.001" }
+            range   { 0 0.005 }
+        }
+        parm {
+            name    "pas_maillage"
+            label   "Pas du maillage de drapé (m)"
+            type    float
+            default { "0.25" }
+            range   { 0.02 5 }
+        }
+        parm {
+            name    "draper"
+            label   "Draper sur le nivellement (entrée 2)"
+            type    toggle
+            default { "1" }
+        }
+        parm {
+            name    "mode_region"
+            label   "Région de drapé"
+            type    ordinal
+            default { "0" }
+            menu {
+                "piece"     "Région majoritaire de la pièce"
+                "attribut"  "Attribut pj_region"
+                "point"     "Région de chaque sommet (suit les marches)"
+            }
+        }
+        parm {
+            name    "seuil_franchissement"
+            label   "Seuil de franchissement (m)"
+            type    float
+            default { "0.02" }
+            range   { 0 0.2 }
+        }
+        parm {
+            name    "couche"
+            label   "Couche USD (pj_couche)"
+            type    string
+            default { "PJ_Marquages" }
+        }
+        parm {
+            name    "cusp"
+            label   "Angle de rupture des normales (°)"
+            type    float
+            default { "30" }
+            range   { 0 180 }
+        }
+    }
+
+}

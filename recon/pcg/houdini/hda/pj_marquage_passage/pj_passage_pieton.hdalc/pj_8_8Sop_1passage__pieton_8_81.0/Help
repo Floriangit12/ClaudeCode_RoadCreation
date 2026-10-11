@@ -1,0 +1,73 @@
+= PJ Marquage : passages piétons et traversées cyclables =
+
+"""Zébras (bandes de 0,50 m au pas de l'axe, parallèles à l'axe de la chaussée, égales, hors coupures) et traversées cyclables (tuiles du gabarit posées le long de chaque file), dégagements décrits retirés par Boolean, puis peinture extrudée et drapée (pj::marquage_solide)."""
+
+== Entrées ==
+
+1. Passages : axe A -> B (centres des bandes extrêmes), attributs largeur_bande_m, longueur_bande_m, pas_axe_m, cap_bandes_deg, nb_emplacements, coupures ; traversées : files (dict[]) et une partie par file.
+2. Nivellement.
+
+Règles : MQ-PP-003, MQ-PP-004, MQ-PP-005, MQ-PP-006, MQ-CHR-001, MQ-DET-010. Contrat : README_HDA.md § 7.
+
+@parameters
+
+== Passage ==
+
+Largeur de bande par défaut (m):
+    #id: bande_defaut
+    MQ-PP-004 : bandes de 0,50 m.
+
+Longueur de bande par défaut (m):
+    #id: longueur_defaut
+    MQ-PP-003 : 3,00 m pour un passage déduit sur le site (2,50 m minimum).
+
+Gabarit des tuiles cyclables par défaut:
+    #id: gabarit_tuile_defaut
+    Gabarit de marquages_geometrie.json pour une file sans gabarit ni tuile_m.
+
+Spécification des marquages:
+    #id: spec
+    
+
+Appliquer les dégagements décrits (decoupes):
+    #id: decouper
+    Boolean : bandes moins les polygones decoupes de la description (props).
+
+== Peinture (solide) ==
+
+Épaisseur au-dessus du sol (m):
+    #id: epaisseur
+    
+
+Enfouissement des flancs (m):
+    #id: enfouissement
+    
+
+Chanfrein des arêtes du dessus (m):
+    #id: chanfrein
+    
+
+Pas du maillage de drapé (m):
+    #id: pas_maillage
+    
+
+Draper sur le nivellement (entrée 2):
+    #id: draper
+    
+
+Région de drapé:
+    #id: mode_region
+    
+
+Seuil de franchissement (m):
+    #id: seuil_franchissement
+    
+
+Couche USD (pj_couche):
+    #id: couche
+    
+
+Angle de rupture des normales (°):
+    #id: cusp
+    
+

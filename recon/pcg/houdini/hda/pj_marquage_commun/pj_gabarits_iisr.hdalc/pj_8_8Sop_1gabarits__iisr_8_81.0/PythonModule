@@ -1,0 +1,68 @@
+"""pj::gabarits_iisr : lecture des gabarits de assets/specs/marquages_geometrie.json (JSON -> polygones).
+Seul code Python de l'HDA (lecture de fichier) ; repère du gabarit (x latéral droite, y longitudinal) -> Houdini (x, 0, -y)."""
+import fnmatch
+import hashlib
+import json
+import os
+
+import hou
+
+_CACHE = {}
+
+
+def _lire(chemin):
+    st = os.stat(chemin)
+    cle = (st.st_mtime_ns, st.st_size)
+    e = _CACHE.get(chemin)
+    if e is None or e[0] != cle:
+        with open(chemin, "rb") as f:
+            b = f.read()
+        e = (cle, json.loads(b), hashlib.sha256(b).hexdigest())
+        _CACHE[chemin] = e
+    return e[1], e[2]
+
+
+def lire_gabarits(sop):
+    hda = sop.parent()
+    geo = sop.geometry()
+    chemin = hou.text.expandString(hda.evalParm("spec")).replace("\\", "/")
+    if not os.path.exists(chemin):
+        raise hou.NodeError(f"spécification absente : {chemin}")
+    d, h = _lire(chemin)
+    motifs = hda.evalParm("filtre").split()
+    for nom, typ, defaut in (("gabarit", "s", ""), ("famille", "s", ""), ("couleur", "s", ""), ("partie", "i", 0),
+                             ("anneau", "i", 0), ("longueur_m", "f", 0.0), ("largeur_m", "f", 0.0),
+                             ("aire_m2", "f", 0.0), ("origine", "s", ""), ("source", "s", "")):
+        geo.addAttrib(hou.attribType.Prim, nom, defaut)
+    for nom in sorted(d["gabarits"]):
+        if motifs and not any(fnmatch.fnmatchcase(nom, m) for m in motifs):
+            continue
+        g = d["gabarits"][nom]
+        anneaux = [(0, 0, g["polygone"])] + [(0, k + 1, t) for k, t in enumerate(g.get("trous", []))]
+        k = 0
+        for _, part in sorted((g.get("parties") or {}).items()):
+            if isinstance(part, dict) and "polygone" in part:
+                k += 1
+                anneaux.append((k, 0, part["polygone"]))
+                anneaux += [(k, j + 1, t) for j, t in enumerate(part.get("trous", []))]
+        aire = g.get("aire_m2")
+        if aire is None and isinstance(g.get("parties"), dict):
+            aire = g["parties"].get("aire_totale_m2", 0.0)
+        src = g.get("source") or {}
+        for partie, anneau, r in anneaux:
+            pts = [geo.createPoint() for _ in r]
+            for p, c in zip(pts, r):
+                p.setPosition((float(c[0]), 0.0, -float(c[1])))
+            pr = geo.createPolygon()
+            for p in pts:
+                pr.addVertex(p)
+            for a, v in (("gabarit", nom), ("famille", g.get("famille", "")), ("couleur", g.get("couleur", "")),
+                         ("partie", partie), ("anneau", anneau), ("longueur_m", float(g.get("longueur_m") or 0)),
+                         ("largeur_m", float(g.get("largeur_m") or 0)), ("aire_m2", float(aire or 0)),
+                         ("origine", g.get("origine", "")),
+                         ("source", (src.get("texte", "") + (f" p. {src['page']}" if src.get("page") else "")))):
+                pr.setAttribValue(a, v)
+    geo.addAttrib(hou.attribType.Global, "pj_spec_hash", "")
+    geo.setGlobalAttribValue("pj_spec_hash", h)
+    geo.addAttrib(hou.attribType.Global, "pj_spec_schema", "")
+    geo.setGlobalAttribValue("pj_spec_schema", str(d.get("schema", "")))

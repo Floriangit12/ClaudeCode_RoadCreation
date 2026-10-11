@@ -1,0 +1,428 @@
+{
+ "schema": "pj_controles_f1/0.1",
+ "emprise": "pilote",
+ "description": "recon/out/paquet_jardin/v2/description/base",
+ "bordures": {
+  "elements_bibliotheque": 1294,
+  "elements_sur_mesure": 138,
+  "joints": 1365,
+  "types": {
+   "bateau": 112,
+   "chartiere": 116,
+   "courbe": 95,
+   "droit": 1109
+  },
+  "prototypes": 173,
+  "largeur_joints_mm": {
+   "n": 1365,
+   "min": 5.0,
+   "max": 8.0,
+   "p5": 5.2155,
+   "p50": 6.494,
+   "p95": 8.0
+  },
+  "fleche_elements_droits_mm": {
+   "n": 1294,
+   "min": 0.0,
+   "max": 8.7955,
+   "p5": 0.0005,
+   "p50": 0.1372,
+   "p95": 3.1094
+  },
+  "maillage_faces": 108012,
+  "regles": [
+   "TQ-BOR-002",
+   "bordures_elements.regle_pas_rayon",
+   "GA-CHR-002",
+   "GA-ABA-004",
+   "GA-BOR-005"
+  ]
+ },
+ "VAL-SOL-009_2_assise": {
+  "sol_avant_moins_pied_m": {
+   "n": 852,
+   "min": -0.0367,
+   "max": 0.0464,
+   "p5": -0.0067,
+   "p50": 0.0001,
+   "p95": 0.0086
+  },
+  "part_abs_inf_2mm": 0.545,
+  "part_abs_inf_1cm": 0.934,
+  "sol_arriere_moins_tete_m_par_classe": {
+   "autre": {
+    "n": 1,
+    "min": -0.0301,
+    "max": -0.0301,
+    "p5": -0.0301,
+    "p50": -0.0301,
+    "p95": -0.0301
+   },
+   "chaussee": {
+    "n": 57,
+    "min": -0.1185,
+    "max": -0.0,
+    "p5": -0.1074,
+    "p50": -0.0131,
+    "p95": -0.002
+   },
+   "emprise_bordure": {
+    "n": 2,
+    "min": -0.1404,
+    "max": 0.0113,
+    "p5": -0.1404,
+    "p50": -0.1404,
+    "p95": 0.0113
+   },
+   "espace_vert": {
+    "n": 359,
+    "min": -0.0798,
+    "max": 0.0284,
+    "p5": -0.0265,
+    "p50": -0.0047,
+    "p95": -0.0001
+   },
+   "ilot": {
+    "n": 10,
+    "min": -0.0216,
+    "max": -0.0024,
+    "p5": -0.0216,
+    "p50": -0.005,
+    "p95": -0.0024
+   },
+   "piste_cyclable": {
+    "n": 18,
+    "min": -0.0262,
+    "max": 0.0012,
+    "p5": -0.0253,
+    "p50": -0.0043,
+    "p95": -0.0013
+   },
+   "trottoir": {
+    "n": 373,
+    "min": -0.1606,
+    "max": 0.0238,
+    "p5": -0.022,
+    "p50": -0.0047,
+    "p95": -0.0006
+   }
+  },
+  "pires_avant": [
+   [
+    0.0464,
+    "K-0386z/E001"
+   ],
+   [
+    0.0459,
+    "K-0386z/E000"
+   ],
+   [
+    0.0388,
+    "K-0386z/E002"
+   ],
+   [
+    -0.0367,
+    "K-0596/E000"
+   ],
+   [
+    0.0362,
+    "K-0411/E013"
+   ],
+   [
+    0.0276,
+    "K-0369/E011"
+   ],
+   [
+    0.027,
+    "K-0361/E017"
+   ],
+   [
+    0.0258,
+    "K-0369/E010"
+   ],
+   [
+    0.0251,
+    "K-0386z/E003"
+   ],
+   [
+    0.025,
+    "K-0666/E157"
+   ],
+   [
+    0.0239,
+    "K-0385/E003"
+   ],
+   [
+    -0.0226,
+    "K-0361/E014"
+   ]
+  ],
+  "note": "sol fabriqué (pj::sol) à 3 cm devant la face / derrière l'arête arrière ; écarts hérités du modèle de nivellement (D1) : pied = niv_z_pied, sol = grille sans lissage des marches"
+ },
+ "comparaison_reference_numpy": {
+  "fichier": "recon/out/paquet_jardin/v2/fabrique/points/bordures.json",
+  "bordures_communes": 64,
+  "elements_reference": 916,
+  "elements_hda": 1419,
+  "joints_reference": 865,
+  "joints_hda": 1355,
+  "ecart_nombre_elements_par_bordure": {
+   "n": 64,
+   "min": -14,
+   "max": 132,
+   "p5": -1,
+   "p50": 1,
+   "p95": 38
+  },
+  "pivots_apparies": 657,
+  "ecart_plan_pivots_m": {
+   "n": 657,
+   "min": 0.0001,
+   "max": 164.2805,
+   "p5": 0.0008,
+   "p50": 0.028,
+   "p95": 15.8547
+  },
+  "ecart_z_pivots_m": {
+   "n": 657,
+   "min": -0.4502,
+   "max": 2.2456,
+   "p5": -0.0907,
+   "p50": 0.0139,
+   "p95": 0.2813
+  },
+  "ecart_longueur_elements_m": {
+   "n": 657,
+   "min": 0.0,
+   "max": 0.8184,
+   "p5": 0.0001,
+   "p50": 0.0016,
+   "p95": 0.5016
+  },
+  "note": "référence : description v1 du pilote et Z de l'ancien modèle ; nouvelle pose : courbes régularisées (D3) et nivellement unique (D1)"
+ },
+ "sol": {
+  "triangles": 181692,
+  "points": 122851,
+  "pente_triangles_pct_par_classe": {
+   "acces_riverain": {
+    "n": 15,
+    "min": 6.3631,
+    "max": 15.7548,
+    "p50": 9.0684,
+    "p95": 12.776,
+    "p99": 15.7548
+   },
+   "autre": {
+    "n": 369,
+    "min": 0.6188,
+    "max": 81.5172,
+    "p50": 3.3079,
+    "p95": 23.9092,
+    "p99": 33.84
+   },
+   "chaussee": {
+    "n": 41313,
+    "min": 0.0,
+    "max": 81.5148,
+    "p50": 1.9759,
+    "p95": 10.5627,
+    "p99": 21.6862
+   },
+   "emprise_bordure": {
+    "n": 21089,
+    "min": 0.0,
+    "max": 70.5389,
+    "p50": 1.2,
+    "p95": 3.9654,
+    "p99": 6.4806
+   },
+   "espace_vert": {
+    "n": 32814,
+    "min": 0.0,
+    "max": 90.6954,
+    "p50": 4.405,
+    "p95": 17.4095,
+    "p99": 32.8164
+   },
+   "ilot": {
+    "n": 602,
+    "min": 0.1303,
+    "max": 44.7461,
+    "p50": 2.6847,
+    "p95": 13.4189,
+    "p99": 24.1234
+   },
+   "modele:noue_talus_1_3": {
+    "n": 13680,
+    "min": 0.1864,
+    "max": 62.2745,
+    "p50": 4.978,
+    "p95": 15.3535,
+    "p99": 23.1134
+   },
+   "modele:rampe_plan_incline": {
+    "n": 2244,
+    "min": 0.1303,
+    "max": 78.41,
+    "p50": 4.7422,
+    "p95": 10.1463,
+    "p99": 15.4434
+   },
+   "piste_cyclable": {
+    "n": 3027,
+    "min": 0.0278,
+    "max": 76.1766,
+    "p50": 4.2764,
+    "p95": 14.8923,
+    "p99": 22.11
+   },
+   "trottoir": {
+    "n": 65004,
+    "min": 0.0,
+    "max": 82.5162,
+    "p50": 5.562,
+    "p95": 16.0011,
+    "p99": 19.9608
+   }
+  },
+  "E8_triangles_45deg_3cm_hors_noue": 0,
+  "regles": [
+   "TQ-SOL-002",
+   "TQ-SOL-013",
+   "GA-TRO-004",
+   "VAL-SOL-009"
+  ]
+ },
+ "bev": {
+  "faces": 15288,
+  "entites": 10
+ },
+ "ilots": {
+  "faces": 6636,
+  "eclats_epars": 242,
+  "ecart_au_nivellement_m": {
+   "n": 3818,
+   "min": -0.0913,
+   "max": 0.2308,
+   "p5": -0.0159,
+   "p50": 0.004,
+   "p95": 0.1556
+  },
+  "regles": [
+   "GA-ARB-003",
+   "TQ-SOL-013 (7)"
+  ]
+ },
+ "caniveaux": {
+  "instances": 82,
+  "elements": 37,
+  "joints": 45
+ },
+ "noeuds": {
+  "pj::bordure::1.0": {
+   "noeuds": 65,
+   "recursif": 65,
+   "par_type": {
+    "attribdelete": 5,
+    "attribnoise::2.0": 1,
+    "attribwrangle": 19,
+    "blast": 7,
+    "boolean::2.0": 1,
+    "copytopoints::2.0": 2,
+    "divide": 2,
+    "groupcreate": 2,
+    "groupdelete": 2,
+    "merge": 1,
+    "normal": 2,
+    "null": 6,
+    "output": 3,
+    "pack": 1,
+    "polybevel::3.0": 2,
+    "python": 1,
+    "sphere": 1,
+    "sweep::2.0": 2,
+    "switch": 4,
+    "unpack": 1
+   }
+  },
+  "pj::caniveau::1.0": {
+   "noeuds": 65,
+   "recursif": 65,
+   "par_type": {
+    "attribdelete": 5,
+    "attribnoise::2.0": 1,
+    "attribwrangle": 19,
+    "blast": 7,
+    "boolean::2.0": 1,
+    "copytopoints::2.0": 2,
+    "divide": 2,
+    "groupcreate": 2,
+    "groupdelete": 2,
+    "merge": 1,
+    "normal": 2,
+    "null": 6,
+    "output": 3,
+    "pack": 1,
+    "polybevel::3.0": 2,
+    "python": 1,
+    "sphere": 1,
+    "sweep::2.0": 2,
+    "switch": 4,
+    "unpack": 1
+   }
+  },
+  "pj::sol::1.0": {
+   "noeuds": 71,
+   "recursif": 71,
+   "par_type": {
+    "attribblur": 4,
+    "attribdelete": 1,
+    "attribwrangle": 35,
+    "blast": 6,
+    "block_begin": 1,
+    "block_end": 1,
+    "compile_begin": 1,
+    "compile_end": 1,
+    "copytopoints::2.0": 1,
+    "fuse::2.0": 1,
+    "groupexpand": 4,
+    "merge": 2,
+    "normal": 2,
+    "null": 6,
+    "output": 1,
+    "resample": 1,
+    "switch": 1,
+    "triangulate2d::3.0": 1,
+    "tube": 1
+   }
+  },
+  "pj::ilot::1.0": {
+   "noeuds": 61,
+   "recursif": 61,
+   "par_type": {
+    "attribdelete": 1,
+    "attribwrangle": 23,
+    "blast": 6,
+    "block_begin": 1,
+    "block_end": 1,
+    "box": 1,
+    "compile_begin": 1,
+    "compile_end": 1,
+    "copytopoints::2.0": 3,
+    "fuse::2.0": 1,
+    "merge": 3,
+    "normal": 2,
+    "null": 8,
+    "output": 3,
+    "polyexpand2d": 1,
+    "resample": 1,
+    "scatter::2.0": 1,
+    "sphere": 1,
+    "switch": 1,
+    "triangulate2d::3.0": 1
+   }
+  }
+ },
+ "duree_s": 32.8
+}

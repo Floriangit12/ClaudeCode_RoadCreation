@@ -1,0 +1,144 @@
+// Corps des wrangles des bandes d'éveil de vigilance (BEV, ponctuels_sol type bev) de pj::sol.
+
+//@@ bev_dalles
+// bev_dalles (detail) : dalles de BEV posées le long de leur bordure (ancrage : bordure, s0, s1, côté) : dalles
+// trapézoïdales qui suivent l'arc (GA-BEV-004 : jamais de rectangles en escalier), première rangée de plots à 0,50 m
+// du nez (GA-BEV-002 ; gabarit mobilier.json : premier plot à 0,03 m du bord de la dalle), profondeur de la
+// description (GA-BEV-003), joints de 3 mm entre dalles. Entrée 0 : BEV ; entrée 1 : bordures.
+// Sortie à plat (Y = 0) : dessus (bev_dessus_mm au-dessus du sol), chants en option (verticaux : sur une rampe, E8 les compte
+// comme des triangles de sol raides) et points de plots (groupe plots) ; Z ensuite.
+float ep = chf("../bev_epaisseur_mm") / 1000.0;
+float jt = 0.003;
+int n = nprimitives(0);
+for (int pr = 0; pr < n; pr++) {
+    string ty = prim(0, "type", pr);
+    string fam = prim(0, "famille", pr);
+    if (fam != "ponctuels_sol" || ty != "bev") continue;
+    string bid = prim(0, "id", pr);
+    dict an = prim(0, "ancrage", pr);
+    if (!isvalidindex(an, "bordure")) continue;
+    string kid = an["bordure"];
+    float s0 = an["s0"], s1 = an["s1"];
+    string cote = "gauche";
+    if (isvalidindex(an, "cote")) { string x = an["cote"]; cote = x; }
+    float sg = cote == "droite" ? -1.0 : 1.0;
+    int kp = findattribval(1, "prim", "id", kid);
+    if (kp < 0) continue;
+    dict cb[] = pj_cb_prims(1, kp);
+    float prof = prim(0, "profondeur_m", pr);
+    if (prof <= 0) prof = 0.40;
+    float recul = prim(0, "retrait_nez_m", pr);
+    if (recul <= 0) recul = 0.50;
+    int nd = prim(0, "nb_dalles", pr);
+    if (nd <= 0) nd = max(1, int(rint((s1 - s0) / 0.4)));
+    float u0 = recul - 0.03, u1 = u0 + prof;
+    int g = random_shash(bid);
+    for (int k = 0; k < nd; k++) {
+        float sa = s0 + (s1 - s0) * k / nd + jt / 2, sb = s0 + (s1 - s0) * (k + 1) / nd - jt / 2;
+        // abscisses : courbe à 2 mm de flèche et pas de 0,10 m au plus (la dalle suit le sol, E9) ; profondeur : 0,10 m
+        float ss0[] = pj_cb_abscisses_ab(cb, sa, sb, 0.002);
+        float ss[];
+        for (int i = 0; i + 1 < len(ss0); i++) {
+            int nsub = max(1, int(ceil((ss0[i + 1] - ss0[i]) / 0.10 - 1e-6)));
+            for (int j = 0; j < nsub; j++) append(ss, lerp(ss0[i], ss0[i + 1], float(j) / nsub));
+        }
+        append(ss, ss0[len(ss0) - 1]);
+        int ns = len(ss);
+        int nu = max(1, int(ceil(prof / 0.10 - 1e-6))) + 1;
+        int top[], bas[];
+        foreach (float s; ss) {
+            float c, kk;
+            vector2 p = pj_cb_point(cb, s, c, kk);
+            vector2 nl = set(-sin(c), cos(c)) * sg;
+            for (int iu = 0; iu < nu; iu++) {
+                float u = lerp(u0, u1, float(iu) / (nu - 1));
+                vector2 q = p + nl * u;
+                int a = addpoint(0, set(q.x, 0, -q.y));
+                setpointattrib(0, "dz_rel", a, 0.0);
+                append(top, a);
+                int bb = addpoint(0, set(q.x, 0, -q.y));
+                setpointattrib(0, "dz_rel", bb, -ep);
+                append(bas, bb);
+            }
+        }
+        string did = sprintf("%s/D%02d", bid, k);
+        int prims[];
+        for (int i = 0; i + 1 < ns; i++) {
+            for (int iu = 0; iu + 1 < nu; iu++) {
+                int a0 = top[i * nu + iu], a1 = top[i * nu + iu + 1], b0 = top[(i + 1) * nu + iu], b1 = top[(i + 1) * nu + iu + 1];
+                int f1[] = array(a0, a1, b1, b0);
+                if (sg < 0) f1 = reverse(f1);
+                append(prims, addprim(0, "poly", f1));                    // dessus
+            }
+            if (chi("../bev_chants")) {                                  // chants avant (u0) et arrière (u1)
+                int a0 = top[i * nu], b0 = top[(i + 1) * nu], c0 = bas[i * nu], d0 = bas[(i + 1) * nu];
+                int a1 = top[i * nu + nu - 1], b1 = top[(i + 1) * nu + nu - 1], c1 = bas[i * nu + nu - 1], d1 = bas[(i + 1) * nu + nu - 1];
+                int f2[] = array(a0, b0, d0, c0), f3[] = array(a1, c1, d1, b1);
+                if (sg < 0) { f2 = reverse(f2); f3 = reverse(f3); }
+                append(prims, addprim(0, "poly", f2));
+                append(prims, addprim(0, "poly", f3));
+            }
+        }
+        if (chi("../bev_chants")) {                                      // chants des bouts
+            for (int iu = 0; iu + 1 < nu; iu++) {
+                int m = (ns - 1) * nu;
+                int e1[] = array(top[iu], bas[iu], bas[iu + 1], top[iu + 1]);
+                int e2[] = array(top[m + iu], top[m + iu + 1], bas[m + iu + 1], bas[m + iu]);
+                if (sg < 0) { e1 = reverse(e1); e2 = reverse(e2); }
+                append(prims, addprim(0, "poly", e1));
+                append(prims, addprim(0, "poly", e2));
+            }
+        }
+        foreach (int q; prims) {
+            setprimattrib(0, "id", q, bid);
+            setprimattrib(0, "dalle", q, did);
+            setprimattrib(0, "materiau_id", q, "bev_podotactile");
+            setprimattrib(0, "graine", q, g);
+            setprimattrib(0, "u_ref", q, u0);
+            setprimgroup(0, "dalles", q, 1);
+        }
+        // plots Ø 25 mm en quinconce, entraxe 75 mm (NF P98-351 ; mobilier.json bev_podotactile)
+        float Lm = sb - sa;
+        int nr = int(floor((prof - 0.06) / 0.075 + 1e-6)) + 1;
+        for (int r = 0; r < nr; r++) {
+            float u = u0 + 0.03 + 0.075 * r;
+            float dec = (r % 2) * 0.0375;
+            for (float t = 0.0375 + dec; t < Lm - 0.02; t += 0.075) {
+                float c, kk;
+                vector2 p = pj_cb_point(cb, sa + t, c, kk);
+                vector2 q = p + set(-sin(c), cos(c)) * sg * u;
+                int a = addpoint(0, set(q.x, 0, -q.y));
+                setpointattrib(0, "dz_rel", a, 0.0);
+                setpointattrib(0, "dalle", a, did);
+                setpointattrib(0, "id", a, bid);
+                setpointgroup(0, "plots", a, 1);
+            }
+        }
+    }
+}
+for (int pr = 0; pr < n; pr++) removeprim(0, pr, 1);         // polygones d'origine (remplacés par les dalles)
+
+//@@ bev_altitude
+// bev_altitude (point) : Z du sol FABRIQUÉ sous la dalle (rayon vertical sur la sortie de pj::sol, raccords compris)
+// + bev_dessus_mm (dalle affleurante, E9 : dessus à moins de 5 mm du sol) + dz_rel (chants enterrés) ; classe du sol
+// touché (classe_sol). Entrée 1 : sol.
+vector hit, uvw;
+int pr = intersect(1, set(@P.x, 1000.0, @P.z), {0, -2000, 0}, hit, uvw);
+i@niv_absent = pr < 0;
+s@classe_sol = pr >= 0 ? prim(1, "classe", pr) : "";
+@P.y = (pr >= 0 ? hit.y : 0.0) + chf("../bev_dessus_mm") / 1000.0 + f@dz_rel;
+
+//@@ bev_hors_pietons
+// bev_hors_pietons (primitive) : une BEV se pose sur le cheminement piéton, derrière le nez (GA-BEV-002). Les cellules qui
+// débordent sur la chaussée, un parking ou l'empreinte d'une AUTRE bordure (conflit de la description : BEV-0388-1
+// chevauche K-0397) sont retirées : sinon la dalle se plie sur la marche de cette bordure (E8).
+string interdits[] = array("chaussee", "parking", "emprise_bordure");
+foreach (int p; primpoints(0, @primnum)) {
+    string c = point(0, "classe_sol", p);
+    if (find(interdits, c) >= 0) { removeprim(0, @primnum, 1); break; }
+}
+
+//@@ bev_plots_hors_pietons
+// bev_plots_hors_pietons (point) : plots (points isolés du groupe plots) retirés avec les cellules hors cheminement.
+string interdits[] = array("chaussee", "parking", "emprise_bordure");
+if (inpointgroup(0, "plots", @ptnum) && find(interdits, s@classe_sol) >= 0) removepoint(0, @ptnum);

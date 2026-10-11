@@ -1,4 +1,4 @@
-"""Famille `ilots` de la description v2 : îlots, terre-pleins et massifs bordés de la zone pilote,
+"""Famille `ilots` de la description v2 (site complet, schéma 0.3) : îlots, terre-pleins et massifs bordés,
 avec remplissage (matériau, épaisseur, retrait sous le dessus de bordure), ceinture de bordures,
 nez, objets portés et plantations.
 
@@ -12,7 +12,7 @@ import collections
 
 import numpy as np
 
-import contexte as ctx
+import sol_site as ctx
 from surfaces import CORRECTIONS
 from commun import (abscisses, aire_signee, arrondi, coords_geojson, couper_polygone, dans_polygone,
                     densifier, distance_segments, echantillons_interieurs, geom_polygones,
@@ -68,18 +68,24 @@ def anneaux_bordures(bordures):
         gap = float(np.hypot(*(P[-1] - P[0])))
         if L < 4.0 or gap > FERMETURE_MAX or aire_signee(P) <= 1.0:
             continue
-        # lacune comblée par une autre bordure : au moins la moitié de la corde longée (≤ 0,3 m) par
-        # elle (une bordure qui ne fait qu'aboutir près de la corde, ex. le bateau K-0389 contre
-        # I-0629, ne ferme pas l'anneau)
+        # lacune comblée par une autre bordure : au moins la moitié de la corde longée (≤ 0,6 m ; 0,3 m avant la
+        # revue du 11/10/2026 : K-0628z doublait K-0400 à 0,35 m, GA-ILO-003 / GQ-TOP-004) par elle (une bordure qui ne
+        # fait qu'aboutir près de la corde, ex. le bateau K-0389 contre I-0629, ne ferme pas l'anneau)
         comblee = False
         if gap > 0.3:
             corde = np.linspace(P[-1], P[0], 9)
             for k2, P2 in ext.items():
                 if k2 == kid:
                     continue
-                d, _, _ = distance_segments(corde, P2[:-1], P2[1:])
+                d, jj, _ = distance_segments(corde, P2[:-1], P2[1:])
                 if (d <= 0.3).mean() >= 0.5:
                     comblee = True
+                elif (d <= 0.6).mean() >= 0.5:                   # 0,3-0,6 m : seulement une bordure PARALLÈLE à la corde
+                    u = (P[0] - P[-1]) / max(float(np.hypot(*(P[0] - P[-1]))), 1e-9)
+                    sg = P2[1:] - P2[:-1]
+                    sg = sg / np.maximum(np.hypot(*sg.T), 1e-9)[:, None]
+                    if float(np.mean(np.abs(sg[jj[d <= 0.6]] @ u))) >= 0.9:
+                        comblee = True
         out.append((kid, P[:-1] if gap < 1e-6 else P, 0.0 if gap < 0.3 or comblee else gap))
     return out
 
@@ -250,13 +256,158 @@ def recaler_sur_bordures(poly, bordures, dmax=RECALAGE_MAX):
     return [ring] + poly[1:], int(m.sum()), len(pts)
 
 
+def _src_geo(f):
+    return (f["properties"].get("prov") or {}).get("geometrie", {}).get("src", "")
+
+
+def rogner_par_bordures_levees(poly, bordures, part_max=0.4):
+    """GQ-TOP-004 : contour v1 d'îlot traversé de part en part par une bordure levée (GAM, PCRS, plan 2025) ; la petite
+    partie au-delà de la bordure (≤ part_max de l'aire, ex. pointe de I-0333 au-delà du nez K-0399 dans le refuge de
+    Verdun SO, revues du 11/10/2026) est retirée : coupe par la droite des points d'entrée et de sortie. Une bordure qui
+    partage l'îlot en deux parts comparables (bordure intérieure, ex. K-0398) ne coupe rien. -> (poly, [coupes])."""
+    from commun import _couper_demi_plan, couper_polyligne
+    coupes = []
+    for f in sorted(bordures, key=lambda f: f["properties"]["id"]):
+        if _src_geo(f).startswith("a_priori"):
+            continue
+        P = repere(np.asarray(f["geometry"]["coordinates"])[:, :2])
+        lo, hi = poly[0].min(axis=0) - 0.5, poly[0].max(axis=0) + 0.5
+        if (P.max(axis=0) < lo).any() or (P.min(axis=0) > hi).any():
+            continue
+        for s0, s1 in couper_polyligne(P, poly):
+            if s1 - s0 < 0.5:
+                continue
+            a, _ = point_a(P, s0)
+            b, _ = point_a(P, s1)
+            a, b = np.asarray(a).ravel(), np.asarray(b).ravel()
+            ra = np.vstack([poly[0], poly[0][:1]])
+            da = distance_segments(np.vstack([a, b]), ra[:-1], ra[1:])[0]
+            if (da > 0.05).any():
+                continue                                    # la bordure ne traverse pas le contour de part en part
+            d = b - a
+            n = np.array([-d[1], d[0]]) / max(float(np.hypot(*d)), 1e-9)
+            c = -float(n @ a)
+            g = _couper_demi_plan(poly, n, c)
+            dr = _couper_demi_plan(poly, -n, -c)
+            ag = sum(abs(aire_signee(p[0])) for p in g)
+            ad = sum(abs(aire_signee(p[0])) for p in dr)
+            tot = ag + ad
+            if tot <= 0 or min(ag, ad) > part_max * tot or min(ag, ad) < 0.05 or not g or not dr:
+                continue
+            garde = g if ag >= ad else dr
+            poly = max(garde, key=lambda p: abs(aire_signee(p[0])))
+            coupes.append(f"{f['properties']['id']} ({min(ag, ad):.2f} m² retirés)")
+    return poly, coupes
+
+
+def lacune_fermee(P, bordures, exclus, dmax=0.6, part=0.6):
+    """GA-ILO-003 / GQ-TOP-004 : lacune de ceinture déjà fermée par une bordure levée hors ceinture (≥ part des
+    échantillons à ≤ dmax m), ex. K-0400 (bout de I-0628) à 0,3 m du bout de I-0339 : aucune bordure synthétique."""
+    pts, _ = densifier(np.asarray(P, float), 0.25)
+    lev = [f for f in bordures if f["properties"]["id"] not in exclus and not _src_geo(f).startswith("a_priori")]
+    if not lev:
+        return None
+    A = np.vstack([repere(np.asarray(f["geometry"]["coordinates"])[:-1, :2]) for f in lev])
+    B = np.vstack([repere(np.asarray(f["geometry"]["coordinates"])[1:, :2]) for f in lev])
+    own = np.concatenate([np.full(len(f["geometry"]["coordinates"]) - 1, k) for k, f in enumerate(lev)])
+    d, j, _ = distance_segments(pts, A, B)
+    if (d <= dmax).mean() >= part:
+        ks = sorted({lev[int(own[x])]["properties"]["id"] for x in j[d <= dmax]})
+        return ks
+    return None
+
+
+def rogner_synthetique(P, bordures, lmin=0.5):
+    """GQ-TOP-004 : bordure synthétique coupée à ses croisements avec les bordures levées ; on garde le plus long
+    morceau sans croisement (≥ lmin), sinon rien (K-9333a croisait deux fois K-0399)."""
+    P = np.asarray(P, float)
+    S = abscisses(P)
+    coupes = [0.0, float(S[-1])]
+    for f in bordures:
+        if _src_geo(f).startswith("a_priori"):
+            continue
+        Q = repere(np.asarray(f["geometry"]["coordinates"])[:, :2])
+        for i in range(len(P) - 1):
+            p, r = P[i], P[i + 1] - P[i]
+            A, D = Q[:-1], Q[1:] - Q[:-1]
+            den = r[0] * D[:, 1] - r[1] * D[:, 0]
+            ok = np.abs(den) > 1e-12
+            ap = A - p
+            with np.errstate(divide="ignore", invalid="ignore"):
+                t = (ap[:, 0] * D[:, 1] - ap[:, 1] * D[:, 0]) / den
+                u = (ap[:, 0] * r[1] - ap[:, 1] * r[0]) / den
+            m = ok & (t > 1e-6) & (t < 1 - 1e-6) & (u >= 0) & (u <= 1)
+            coupes += list(S[i] + t[m] * (S[i + 1] - S[i]))
+    coupes = np.unique(np.round(coupes, 6))
+    if len(coupes) <= 2:
+        return P
+    from commun import sous_polyligne
+    k = int(np.argmax(np.diff(coupes)))
+    a, b = float(coupes[k]), float(coupes[k + 1])
+    marge = 0.05                                            # au contact de la bordure levée, sans la toucher
+    a = a + marge if a > 0 else a
+    b = b - marge if b < S[-1] else b
+    if b - a < lmin:
+        return None
+    return sous_polyligne(P, a, b)
+
+
+def vue_adjacente(P, ceint_feats, defaut):
+    """Vue de la bordure synthétique : celle des bordures levées de la ceinture à ses deux bouts (intervalle le plus
+    proche), au lieu du T2 0,14 par défaut (revue conformité du 11/10/2026 : K-9339a en T2 0,14 entre des bateaux)."""
+    vues = []
+    for q in (np.asarray(P[0], float), np.asarray(P[-1], float)):
+        best = None
+        for f in ceint_feats:
+            if _src_geo(f).startswith("a_priori"):
+                continue
+            Q = repere(np.asarray(f["geometry"]["coordinates"])[:, :2])
+            d, _, pr = distance_segments(q[None], Q[:-1], Q[1:])
+            if best is None or d[0] < best[0]:
+                S = abscisses(Q)
+                k = int(np.argmin(np.hypot(*(Q - pr[0]).T)))
+                s = float(S[k])
+                it = f["properties"]["intervalles"][-1]
+                for c in f["properties"]["intervalles"]:
+                    if c["s0"] - 1e-6 <= s <= c["s1"] + 1e-6:
+                        it = c
+                        break
+                v = it.get("vue_m_fin", it["vue_m"]) if s > 0.5 * (it["s0"] + it["s1"]) else it["vue_m"]
+                best = (float(d[0]), float(v))
+        if best is not None and best[0] <= 1.0:
+            vues.append(best[1])
+    return round(float(min(vues)), 3) if vues else defaut
+
+
 def largeur_profil(spec, profil):
     p = spec["profils"].get(profil, {})
     return float(p.get("base") or p.get("largeur") or 0.15)
 
 
-def construire(mnt, bordures, surfaces):
-    """(îlots, bordures de raccord ajoutées, rapport)."""
+def lier_surfaces(ilots, surfaces):
+    """Surfaces (faces de la partition) intérieures à chaque îlot : îlot.surface et surface.ilots."""
+    from sol_partition import point_interieur
+    polys = []
+    for f in ilots:
+        g = f["geometry"]
+        rs = [g["coordinates"]] if g["type"] == "Polygon" else g["coordinates"]
+        polys.append((f, [[repere(np.asarray(r, float)[:-1, :2]) for r in pp] for pp in rs]))
+    for s in surfaces:
+        if s["properties"]["classe"] == "emprise_bordure":
+            continue
+        g = s["geometry"]
+        rs = [g["coordinates"]] if g["type"] == "Polygon" else g["coordinates"]
+        pi = point_interieur([repere(np.asarray(r, float)[:-1, :2]) for r in rs[0]])
+        for f, pp in polys:
+            if any(dans_polygone(pi[None], q)[0] for q in pp):
+                f["properties"]["surface"] = sorted(set(f["properties"]["surface"]) | {s["properties"]["id"]})
+                s["properties"]["ilots"] = sorted(set(s["properties"]["ilots"]) | {f["properties"]["id"]})
+                break
+
+
+def construire(mnt, bordures, surfaces=()):
+    """(îlots, bordures de raccord ajoutées, rapport). Site complet ; les surfaces (faces de la
+    partition, calculée après les bordures de raccord) sont liées ensuite par lier_surfaces."""
     spec = lire_json(SPECS / "bordures.json")
     zone = ctx.zone_pilote()["anneau"]
     par_id = {f["properties"]["id"]: f for f in bordures}
@@ -276,8 +427,6 @@ def construire(mnt, bordures, surfaces):
                 candidats.append({"cle": sid, "poly": m, "gap": 0.0, "kid": None})
     ilots, raccords, rapport = [], [], collections.Counter()
     surf_par_v1 = collections.defaultdict(list)
-    for s in surfaces:
-        surf_par_v1[s["properties"]["lien_v1"]].append(s)
     for c in sorted(candidats, key=lambda c: c["cle"]):
         poly = c["poly"]
         if not dans_polygone(poly[0].mean(axis=0, keepdims=True), [zone])[0]:
@@ -296,28 +445,64 @@ def construire(mnt, bordures, surfaces):
             ref = f"v1 {v1[0]} {v1[1]}/{v1[2]}/{v1[3]}" if v1 else "sans surface v1"
             conf, role = "faible", (ch[5] if ch else ("refuge" if aire_signee(poly[0]) < 8 else "ilot"))
         iid = "I-" + (c["cle"][2:] if c["kid"] else c["cle"][5:])
+        if not c["kid"] and any(f["properties"]["id"] == iid for f in ilots):
+            iid += "v"                                  # îlot v1 de même numéro qu'un anneau de bordure
         ceint = ceinture(poly, bordures)
         recale = None
         if not c["kid"] and ceint:
             poly, n_rec, n_tot = recaler_sur_bordures(poly, [par_id[k] for k in ceint])
             recale = f"{n_rec}/{n_tot} sommets du contour v1 recalés sur l'arête avant de {', '.join(ceint)} (≤ {RECALAGE_MAX} m)"
+            # GQ-TOP-004 : pointe du contour v1 au-delà d'une bordure levée qui le traverse retirée
+            poly, coupes_lev = rogner_par_bordures_levees(poly, bordures)
+            if coupes_lev:
+                recale += " ; rogné par " + ", ".join(coupes_lev) + " (GQ-TOP-004)"
+                rapport["contour_v1_rogne_par_bordure_levee"] += 1
+                ceint = ceinture(poly, bordures)
         if c["gap"] > 0.3 and c["kid"]:
             rac = bordure_raccord(c["kid"], poly[0], par_id[c["kid"]], mnt)
             raccords.append(rac)
             par_id[rac["properties"]["id"]] = rac
             ceint = sorted(set(ceint) | {rac["properties"]["id"]})
         if not c["kid"] and ceint:
-            # limite de massif sans bordure levée : bordurette P1 (bordures.json usage_site)
+            # limite de massif sans bordure levée : bordurette P1 (bordures.json usage_site), seulement pour
+            # combler de courtes lacunes (≤ 8 m) d'une ceinture levée aux 3/5 au moins : une ceinture surtout
+            # synthétique suivrait un contour v1 d'origine raster (l'îlot n'est alors pas décrit, la surface
+            # reste dans la partition vectorielle)
+            lac = lacunes_ceinture(poly[0], [par_id[k] for k in ceint])
+            per = float(abscisses(np.vstack([poly[0], poly[0][:1]]))[-1])
+            l_lac = sum(float(abscisses(P)[-1]) for P in lac)
+            if l_lac > 0.4 * per or any(float(abscisses(P)[-1]) > 8.0 for P in lac):
+                rapport["v1_sans_ceinture_levee"] += 1
+                continue
             massif = mid in ("brf_bois_concasse", "gravier_concasse_6_10", "gazon_tondu")
-            for j, P in enumerate(lacunes_ceinture(poly[0], [par_id[k] for k in ceint])):
+            j = 0
+            for P in lac:
                 P = sans_repli(P)
+                # GA-ILO-003 / GQ-TOP-004 (revues du 11/10/2026) : pas de bordure synthétique sur une lacune déjà fermée
+                # par une bordure levée hors ceinture ; sinon coupée aux croisements des bordures levées
+                fermee = lacune_fermee(P, list(par_id.values()), set(ceint))
+                if fermee:
+                    rapport["lacune_fermee_par_bordure_levee"] += 1
+                    continue
+                P = rogner_synthetique(P, list(par_id.values()))
+                if P is None:
+                    rapport["synthetique_trop_courte_apres_rognage"] += 1
+                    continue
                 nid = f"K-9{iid[3:6]}" + "abcdefghij"[j]
+                j += 1
+                vue_s = vue_adjacente(P, [par_id[k] for k in ceint], 0.02 if massif else 0.14)
+                if massif:
+                    vue_s = min(vue_s, 0.03)                     # limite de massif : bordurette P1 (VUE_PLAGE 0-0,03)
+                from bordures import profil_de
+                prof_s = profil_de(vue_s)                        # profil de la plage de vue (bordures.VUE_PLAGE)
                 syn = bordure_synthetique(
-                    nid, P, "P1" if massif else "T2", 0.02 if massif else 0.14, par_id[ceint[0]],
+                    nid, P, prof_s, vue_s, par_id[ceint[0]],
                     {"src": "a_priori:limite_ilot_sans_bordure_levee",
-                     "ref": f"contour de {iid} à plus de 0,30 m des bordures levées sur {abscisses(P)[-1]:.1f} m", "conf": "faible"},
-                    {"src": "a_priori:limite_massif_p1" if massif else "a_priori:profil_voisin",
-                     "ref": "bordures.json usage_site : limites d'espaces verts en P1 (0-0,05)", "conf": "faible"}, mnt)
+                     "ref": f"contour de {iid} à plus de 0,30 m des bordures levées sur {abscisses(P)[-1]:.1f} m (coupé aux "
+                            "bordures levées, GQ-TOP-004)", "conf": "faible"},
+                    {"src": "a_priori:limite_massif_p1" if massif else "a_priori:vue_bordure_levee_adjacente",
+                     "ref": ("bordures.json usage_site : limites d'espaces verts en P1 (0-0,05)" if massif else
+                             f"vue des bordures levées de la ceinture aux deux bouts ({vue_s:.3f} m)"), "conf": "faible"}, mnt)
                 raccords.append(syn)
                 par_id[nid] = syn
                 ceint = sorted(set(ceint) | {nid})

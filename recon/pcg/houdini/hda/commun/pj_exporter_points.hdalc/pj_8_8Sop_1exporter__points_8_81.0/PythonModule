@@ -1,0 +1,59 @@
+"""pj::exporter_points : sérialisation pj_points/0.1 (Python SOP) et écriture (bouton, pilote)."""
+import json
+import os
+
+import hou
+
+REPERE = "local (L93 − O, z = NGF − 216,30), m, Z haut"
+CONVENTION_RPY = ("rpy_deg = [r, p, y] ZYX intrinsèques, R = Rz(y)·Ry(p)·Rx(r), rotations directes (p > 0 abaisse "
+                  "l'avant +X ; y trigo depuis +x) : convention de recon/pcg/ue/pj_tools/pj_tools/repere.py ; UE : "
+                  "Rotator(roll = r, pitch = −p, yaw = −y) ; q = [x, y, z, w] prioritaire")
+
+
+def _r(v, n):
+    return [round(float(x), n) + 0.0 for x in v]
+
+
+def serialiser(sop):
+    """Détail pj_points_json : texte JSON du fichier (une ligne par point, tri par id)."""
+    hda = sop.parent()
+    geo = sop.geometry()
+    pa = {a.name() for a in geo.pointAttribs()}
+    def val(p, nom, defaut):
+        return p.attribValue(nom) if nom in pa else defaut
+    pts = []
+    for p in geo.points():
+        ident = val(p, "id", "") or f"pt{p.number()}"
+        asset = val(p, "asset", "") or val(p, "unreal_instance", "")
+        d = {"id": ident, "asset": asset, "p": _r(p.attribValue("pj_p"), 4), "q": _r(p.attribValue("pj_q"), 6),
+             "rpy_deg": _r(p.attribValue("pj_rpy"), 3), "s": _r(p.attribValue("pj_s"), 4),
+             "graine": int(val(p, "graine", 0))}
+        cd = val(p, "cd", ())
+        d["cd"] = _r(cd, 4) if cd else []
+        x = val(p, "x", {})
+        if x:
+            d["x"] = x
+        pts.append(d)
+    pts.sort(key=lambda d: d["id"])
+    entete = {"schema": "pj_points/0.1", "famille": hda.evalParm("famille"),
+              "source_hash": hda.evalParm("source_hash") or (geo.attribValue("pj_hash_description")
+                                                             if geo.findGlobalAttrib("pj_hash_description") else ""),
+              "repere": REPERE, "convention_rpy": CONVENTION_RPY, "pivot": hda.evalParm("pivot"),
+              "bibliotheque": hda.evalParm("bibliotheque"), "cd": hda.evalParm("doc_cd"),
+              "generateur": "pj::exporter_points::1.0 (Houdini 22)", "n": len(pts)}
+    corps = json.dumps(entete, ensure_ascii=False)[:-1] + ',\n"points": [\n'
+    corps += ",\n".join(json.dumps(d, ensure_ascii=False, sort_keys=False, separators=(",", ":")) for d in pts)
+    corps += "\n]}\n"
+    geo.addAttrib(hou.attribType.Global, "pj_points_json", "")
+    geo.setGlobalAttribValue("pj_points_json", corps)
+
+
+def ecrire(node):
+    """Écrit le fichier pj_points/0.1 (bouton « Écrire » ou pilote fabriquer_hda.py) ; renvoie son chemin."""
+    chemin = node.evalParm("fichier")
+    geo = node.node("serialiser").geometry()
+    texte = geo.attribValue("pj_points_json") if geo.findGlobalAttrib("pj_points_json") else ""
+    os.makedirs(os.path.dirname(chemin), exist_ok=True)
+    with open(chemin, "w", encoding="utf-8", newline="\n") as f:
+        f.write(texte)
+    return chemin

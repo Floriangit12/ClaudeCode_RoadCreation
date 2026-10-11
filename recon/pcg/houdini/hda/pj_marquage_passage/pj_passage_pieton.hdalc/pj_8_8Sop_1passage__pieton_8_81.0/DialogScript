@@ -1,0 +1,132 @@
+# Dialog script for pj::passage_pieton::1.0 automatically generated
+
+{
+    name	pj::passage_pieton::1.0
+    inputlabel	1	"Passages (axes)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Sol fabriqué (facultatif)"
+    outputlabel	1	"Maillages (Y haut)"
+    script	pj::passage_pieton::1.0
+    label	"PJ Marquage : passages piétons et traversées cyclables"
+
+    help {
+    }
+
+    inputlabel	1	"Passages (axes)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Sol fabriqué (facultatif)"
+
+    group {
+        name    "f_passage"
+        label   "Passage"
+
+        parm {
+            name    "bande_defaut"
+            label   "Largeur de bande par défaut (m)"
+            type    float
+            default { "0.5" }
+            help    "MQ-PP-004 : bandes de 0,50 m."
+            range   { 0.1 1 }
+        }
+        parm {
+            name    "longueur_defaut"
+            label   "Longueur de bande par défaut (m)"
+            type    float
+            default { "3" }
+            help    "MQ-PP-003 : 3,00 m pour un passage déduit sur le site (2,50 m minimum)."
+            range   { 1 10 }
+        }
+        parm {
+            name    "gabarit_tuile_defaut"
+            label   "Gabarit des tuiles cyclables par défaut"
+            type    string
+            default { "CARRE_TRAVERSEE_CYCLABLE" }
+            help    "Gabarit de marquages_geometrie.json pour une file sans gabarit ni tuile_m."
+        }
+        parm {
+            name    "spec"
+            label   "Spécification des marquages"
+            type    file
+            default { "D:/ClaudeCode_RoadCreation/assets/specs/marquages_geometrie.json" }
+        }
+        parm {
+            name    "decouper"
+            label   "Appliquer les dégagements décrits (decoupes)"
+            type    toggle
+            default { "1" }
+            help    "Boolean : bandes moins les polygones decoupes de la description (props)."
+        }
+    }
+
+    group {
+        name    "f_solide"
+        label   "Peinture (solide)"
+
+        parm {
+            name    "epaisseur"
+            label   "Épaisseur au-dessus du sol (m)"
+            type    float
+            default { "0.003" }
+            range   { 0 0.02 }
+        }
+        parm {
+            name    "enfouissement"
+            label   "Enfouissement des flancs (m)"
+            type    float
+            default { "0.005" }
+            range   { 0 0.05 }
+        }
+        parm {
+            name    "chanfrein"
+            label   "Chanfrein des arêtes du dessus (m)"
+            type    float
+            default { "0.001" }
+            range   { 0 0.005 }
+        }
+        parm {
+            name    "pas_maillage"
+            label   "Pas du maillage de drapé (m)"
+            type    float
+            default { "0.25" }
+            range   { 0.02 5 }
+        }
+        parm {
+            name    "draper"
+            label   "Draper sur le nivellement (entrée 2)"
+            type    toggle
+            default { "1" }
+        }
+        parm {
+            name    "mode_region"
+            label   "Région de drapé"
+            type    ordinal
+            default { "0" }
+            menu {
+                "piece"     "Région majoritaire de la pièce"
+                "attribut"  "Attribut pj_region"
+                "point"     "Région de chaque sommet (suit les marches)"
+            }
+        }
+        parm {
+            name    "seuil_franchissement"
+            label   "Seuil de franchissement (m)"
+            type    float
+            default { "0.02" }
+            range   { 0 0.2 }
+        }
+        parm {
+            name    "couche"
+            label   "Couche USD (pj_couche)"
+            type    string
+            default { "PJ_Marquages" }
+        }
+        parm {
+            name    "cusp"
+            label   "Angle de rupture des normales (°)"
+            type    float
+            default { "30" }
+            range   { 0 180 }
+        }
+    }
+
+}

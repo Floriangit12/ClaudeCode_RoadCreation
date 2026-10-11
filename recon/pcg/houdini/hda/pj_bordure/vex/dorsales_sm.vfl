@@ -1,0 +1,130 @@
+// dorsales_sm (detail wrangle) : sections et dorsales des pièces SUR MESURE (pièces courbes, chartières en courbe,
+// murets), posées directement dans le repère du site (Houdini Y haut).
+// Entrée 0 : profils ; 1 : points des éléments sur mesure (poser) ; 2 : bordures (courbes) ; 3 : nivellement.
+// La dorsale suit la face vue (u = 0) échantillonnée sur la courbe régularisée (flèche de corde <= 2 mm, GQ-PRI-001,
+// pj_courbe.h) au niveau du dessous du bloc : z(s) = pied(s) + vue − H + jitter ; abouts radiaux, ou imposés par
+// l'élément voisin (n_debut / n_fin) : cisaillés par le nœud « onglets » (pj_bordure_pose : abouts parallèles, onglet
+// des angles vifs). Chartière : sections interpolées du profil courant vers le profil bas (GA-CHR-002) ; muret :
+// section rectangulaire de 0,20 m, de 0,30 m sous le pied jusqu'à la tête du modèle (z_tete − z_pied).
+int mode = chi("../altitude");
+float g[] = pj_niv_grille(3);
+float e_corde = chf("../corde_mm") / 1000.0;
+float fond_muret = 0.30;
+int npts = npoints(1);
+int sec_debut[], sec_nb[];
+// ---- passe 1 : sections (chartières et murets : une par point de dorsale)
+for (int e = 0; e < npts; e++) {
+    string ty = point(1, "type", e);
+    string pf = point(1, "profil", e);
+    string kid = point(1, "bordure", e);
+    float s0 = point(1, "s0", e), s1 = point(1, "s1", e);
+    int pr = findattribval(2, "prim", "id", kid);
+    dict cb[] = pj_cb_prims(2, pr);
+    float ss[] = pj_cb_abscisses_ab(cb, s0, s1, e_corde);
+    int ip = pj_sec_prim(0, pf);
+    if (ty == "chartiere") {
+        float ua[], va[], ub[], vb[];
+        int ita, kba, itb, kbb;
+        pj_sec_contour(0, ip, ua, va, ita, kba);
+        string pb = point(1, "profil_bas", e);
+        int ib = pj_sec_prim(0, pb);
+        pj_sec_contour(0, ib, ub, vb, itb, kbb);
+        float va0 = point(1, "vue", e), va1 = point(1, "vue_fin", e);
+        float vh = max(va0, va1), vbas = min(va0, va1);
+        float Ha = prim(0, "H", ip), Hb = prim(0, "H", ib);
+        float dv = (Ha - vh) - (Hb - vbas);
+        for (int i = 0; i < len(vb); i++) vb[i] += dv;
+        float oua[], ova[], oub[], ovb[];
+        int oc[];
+        pj_sec_communs(ua, va, ita, kba, ub, vb, itb, kbb, oua, ova, oub, ovb, oc);
+        int premiere = -1;
+        for (int j = 0; j < len(ss); j++) {
+            float t = (ss[j] - s0) / max(s1 - s0, 1e-6);
+            if (va1 > va0) t = 1 - t;                               // montante : haut à la fin
+            float su[], sv[];
+            for (int i = 0; i < len(oua); i++) {
+                append(su, lerp(oua[i], oub[i], t));
+                append(sv, lerp(ova[i], ovb[i], t));
+            }
+            int prn = pj_sec_ajouter_ch(0, su, sv, oc, sprintf("sm_%d_%d", e, j));
+            if (j == 0) premiere = prn;
+        }
+        append(sec_debut, premiere);
+        append(sec_nb, len(ss));
+    } else if (ty == "muret") {
+        float S[] = prim(2, "niv_s", pr), ZP[] = prim(2, "niv_z_pied", pr), ZT[] = prim(2, "niv_z_tete", pr);
+        float vdef = point(1, "vue", e);
+        int premiere = -1;
+        for (int j = 0; j < len(ss); j++) {
+            float vue = len(S) > 0 ? max(pj_interp(ss[j], S, ZT) - pj_interp(ss[j], S, ZP), 0.0) : vdef;
+            float h = vue + fond_muret;
+            float su[] = array(0.0, 0.0, 0.2, 0.2), sv[] = array(0.0, h, h, 0.0);
+            int prn = pj_sec_ajouter(0, su, sv, sprintf("sm_%d_%d", e, j));
+            if (j == 0) premiere = prn;
+        }
+        append(sec_debut, premiere);
+        append(sec_nb, len(ss));
+    } else {
+        append(sec_debut, ip);
+        append(sec_nb, 0);
+    }
+}
+// ---- passe 2 : dorsales dans le repère du site
+for (int e = 0; e < npts; e++) {
+    string ty = point(1, "type", e);
+    string kid = point(1, "bordure", e);
+    string eid = point(1, "id", e);
+    float s0 = point(1, "s0", e), s1 = point(1, "s1", e);
+    float H = point(1, "H", e), dz = point(1, "jit_dz", e), lat = point(1, "jit_lateral", e);
+    float va0 = point(1, "vue", e), va1 = point(1, "vue_fin", e);
+    float vue = ty == "chartiere" ? max(va0, va1) : va0;
+    int pr = findattribval(2, "prim", "id", kid);
+    dict cb[] = pj_cb_prims(2, pr);
+    float S[] = prim(2, "niv_s", pr), ZP[] = prim(2, "niv_z_pied", pr);
+    int reg = prim(2, "region_niveau", pr);
+    float ss[] = pj_cb_abscisses_ab(cb, s0, s1, e_corde);
+    int pts[];
+    for (int j = 0; j < len(ss); j++) {
+        float c, k;
+        vector2 p = pj_cb_point(cb, ss[j], c, k);
+        p += set(-sin(c), cos(c)) * lat;
+        float zf = pj_zpied(cb, S, ZP, g, mode, reg, ss[j]);
+        float z = (ty == "muret") ? zf - fond_muret : zf + vue - H + dz;
+        int q = addpoint(0, set(p.x, z, -p.y));
+        setpointattrib(0, "variant", q, sec_nb[e] > 0 ? sec_debut[e] + j : sec_debut[e]);
+        setpointattrib(0, "s_dorsale", q, ss[j] - s0);        // abscisse le long de la pièce (UV u en mètres)
+        setpointattrib(0, "courbure", q, k);                  // courbure signée (+ à gauche) : u × (1 − κ·u_cs)
+        append(pts, q);
+    }
+    int prd = addprim(0, "polyline", pts);
+    setprimgroup(0, "dorsale", prd, 1);
+    string asset = point(1, "asset", e);
+    string mat = point(1, "materiau_id", e);
+    setprimattrib(0, "asset", prd, asset);
+    setprimattrib(0, "name", prd, asset);
+    setprimattrib(0, "id", prd, eid);
+    setprimattrib(0, "bordure", prd, kid);
+    setprimattrib(0, "proto_type", prd, ty);
+    setprimattrib(0, "materiau_id", prd, mat);
+    setprimattrib(0, "chanfrein", prd, ty == "muret" ? 0 : 1);
+    setprimattrib(0, "decalage", prd, {0, 0, 0});
+    setprimattrib(0, "piece", prd, e);
+    // tangentes (Houdini) aux bouts et normales d'about imposées (z = 1 : imposée) pour les onglets
+    vector2 t0 = pj_cb_tangente(cb, s0), t1 = pj_cb_tangente(cb, s1);
+    setprimattrib(0, "t_debut", prd, set(t0.x, 0, -t0.y));
+    setprimattrib(0, "t_fin", prd, set(t1.x, 0, -t1.y));
+    vector nd = point(1, "n_debut", e), nf = point(1, "n_fin", e);
+    setprimattrib(0, "n_debut", prd, nd.z > 0.5 ? set(nd.x, 0, -nd.y) : {0, 0, 0});
+    setprimattrib(0, "n_fin", prd, nf.z > 0.5 ? set(nf.x, 0, -nf.y) : {0, 0, 0});
+    setprimattrib(0, "n_rangs", prd, len(ss));
+    float c_, k_;
+    vector2 a = pj_cb_point(cb, s0, c_, k_), b = pj_cb_point(cb, s1, c_, k_);
+    vector2 d = normalize(b - a);
+    setprimattrib(0, "repere_x", prd, set(d.x, 0, -d.y));
+    // données d'instance (couleur de sommet) : usure, salissure, graine
+    float ep = point(1, "epaufrures", e), sal = point(1, "salissure", e);
+    int gr = point(1, "graine", e);
+    setprimattrib(0, "usure", prd, ep);
+    setprimattrib(0, "salissure", prd, sal);
+    setprimattrib(0, "graine", prd, gr);
+}

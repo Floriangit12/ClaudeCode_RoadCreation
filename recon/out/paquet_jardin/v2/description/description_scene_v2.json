@@ -1,5 +1,5 @@
 {
- "schema": "description_scene_v2/0.2",
+ "schema": "description_scene_v2/0.3",
  "site": {
   "id": "paquet_jardin",
   "nom": "carrefour Paquet Jardin, Meylan (Isère)",
@@ -30,7 +30,7 @@
   "relief_zones": {
    "fichier": "recon/out/paquet_jardin/package/donnees/relief/relief_zones_2026.geojson",
    "sha256": "1a74ea3b2109eda3932454d5a49fe732b417106fc70b7704ba1863d77e5a0477",
-   "role": "traversées abaissées, chaussée 2026"
+   "role": "zones de relief 2026"
   },
   "mnt_2026": {
    "fichier": "recon/out/paquet_jardin/package/donnees/relief/heightmap_3025_10cm.png",
@@ -109,13 +109,73 @@
   },
   "schema": {
    "fichier": "recon/pcg/schema/description_scene_v2.schema.json",
-   "sha256": "86533b9efdcb6187c5128328f3c15fab72cf8a9bf072d5005c07f515d5711a1e",
+   "sha256": "bd15f7c4c6572f3bcb348c130f0e8376baa2e30d053444da70ed4da412ff1e05",
    "role": "schéma description_scene_v2/0.1"
   },
   "zone_pilote": {
    "fichier": "recon/pcg/zone_pilote.geojson",
    "sha256": "1507760703930341db8e732ed589de0f10d0bd93500636ed77efa2c11b25a959",
    "role": "emprise pilote : sol et bordures v2 de la description (dégagement des bordures)"
+  },
+  "gam_2026_bordure_lin": {
+   "fichier": "data/sites/paquet_jardin/etat_2026/bordure_lin_L93.geojson",
+   "sha256": "d00afc736a4dde7f39d4270ebc16e8f2dc90a001f050837f0a25f692cfa3e402",
+   "role": "bordures levées GAM 2026 (622 lignes, double arête)"
+  },
+  "gam_2026_limite_revetement": {
+   "fichier": "data/sites/paquet_jardin/etat_2026/limite_revetement_lin_L93.geojson",
+   "sha256": "9041a4fb8378332a340c57824a6eec6c6b61b6e0af98eb883e8d7cb950c31dcb",
+   "role": "limites de revêtement GAM 2026 (partition)"
+  },
+  "gam_2026_caniveau": {
+   "fichier": "data/sites/paquet_jardin/etat_2026/caniveau_lin_L93.geojson",
+   "sha256": "deeb18283fe50197c1c6929638f42f1111ada10b6d4813a69c6195b9888b5c58",
+   "role": "caniveaux GAM 2026 (CS2)"
+  },
+  "gam_topo_vegetation": {
+   "fichier": "data/sites/paquet_jardin/vector/gam_topo_sol_vegetation_lin.geojson",
+   "sha256": "f545deb5e7715254fb3e7d59c2397c74b21319f77725f932d4bd807487f6b6a1",
+   "role": "limites de végétation (même levé, WGS84)"
+  },
+  "gam_topo_talus_haut": {
+   "fichier": "data/sites/paquet_jardin/vector/gam_topo_sol_talus_haut_lin.geojson",
+   "sha256": "37252a638eac7cc8e8f42204788cd4a7bc51c38c7323d67686352640c2c77570",
+   "role": "hauts de talus (même levé, WGS84)"
+  },
+  "gam_topo_talus_bas": {
+   "fichier": "data/sites/paquet_jardin/vector/gam_topo_sol_talus_bas_lin.geojson",
+   "sha256": "8c0897b8ab802a1bd026023f84109d84dc21c54970cbc8b990934af8a9b826e8",
+   "role": "bas de talus (même levé, WGS84)"
+  },
+  "gam_topo_clotures": {
+   "fichier": "data/sites/paquet_jardin/vector/gam_topo_sol_clotures_lin.geojson",
+   "sha256": "d3084274e9a30e60ec2d16df20ed61421b415545c6daa5cf36f34363171be771",
+   "role": "clôtures (largeur utile des trottoirs)"
+  },
+  "gam_topo_escalier_rampe": {
+   "fichier": "data/sites/paquet_jardin/vector/gam_topo_sol_escalier_rampe_lin.geojson",
+   "sha256": "7765f0a9e1e2ee97c012b4df198ab61ffe6053f36a5d98a5f2b06558231fa575",
+   "role": "escaliers et rampes (largeur utile)"
+  },
+  "batiments_v1": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/objets/batiments_local.geojson",
+   "sha256": "f16e44286e0688d653b8b3137958ec0cf839654eccdfe9b735464ec2ac655a38",
+   "role": "emprises de bâtiments (trous de la partition)"
+  },
+  "lanes_2026": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/opendrive/lanes_2026.geojson",
+   "sha256": "8dcc6b02149c9e199906e4f88a774a0a16da8f3a561595715edda19ff346a15a",
+   "role": "voies OpenDRIVE (indices de classe, Dirichlet de chaussée)"
+  },
+  "xodr_2026": {
+   "fichier": "recon/out/paquet_jardin/package/paquet_jardin_2026.xodr",
+   "sha256": "2fed0ba78ddb1767629126743df7a8916b837174017d00f03ee9c30982a26bb1",
+   "role": "elevation / superelevation / shape (TQ-SOL-004)"
+  },
+  "regles_conception": {
+   "fichier": "assets/specs/regles_conception.json",
+   "sha256": "ad8668f2278514bd226e39df8675e091bb94ace7254f6d7bb4337fa2d2c813f0",
+   "role": "255 règles citées (MQ-*, DET-*, FUS-*, INF-*, VAL-*)"
   },
   "opendrive": {
    "fichier": "recon/out/paquet_jardin/package/paquet_jardin_2026.xodr",
@@ -156,6 +216,26 @@
    "fichier": "recon/out/paquet_jardin/package/donnees/surfaces/surfaces_2026.geojson",
    "sha256": "cc3d29be355d796c05d74049a1f5c3cef90811b480531e81227c31857d2daa2c",
    "role": "surfaces v1 : bâtiments (dalle hors sol) et sols surélevés (trottoir, espace vert, îlot : dégagement des bordures, hors emprise pilote)"
+  },
+  "plan_projet_2025": {
+   "fichier": "data/sites/paquet_jardin/plan_projet_2025/georef.json",
+   "sha256": "771e6200fa4cdc99321b8d165e68dcac9d707ba312269f751410fb598ab1a716",
+   "role": "plan projet 2025 calé (affine, RMSE 3 cm) : détection DET-FLE-004, DET-ZEB-009, DET-PLN-016 dans la zone des travaux"
+  },
+  "manoeuvres_2026": {
+   "fichier": "recon/out/paquet_jardin/package/donnees/opendrive/manoeuvres_2026.json",
+   "sha256": "707e477187e0458f0f5c467113e8d9505a4c4a1a8a1d07f1bcad54bfce2ac91f",
+   "role": "affectation des voies entrantes (INF-FLE-004)"
+  },
+  "gam_bordure_lin": {
+   "fichier": "data/sites/paquet_jardin/etat_2026/bordure_lin_L93.geojson",
+   "sha256": "d00afc736a4dde7f39d4270ebc16e8f2dc90a001f050837f0a25f692cfa3e402",
+   "role": "bordures levées GAM 2026 (dégagement des marques)"
+  },
+  "regles_qualite_geometrique": {
+   "fichier": "assets/specs/regles_qualite_geometrique.json",
+   "sha256": "a185be0369c2a0f47e3353987f4bf357ed1134a5f66478f6cb63ab7cf824abeb",
+   "role": "règles GQ-* de régularisation (droites/arcs, tolérances, topologie)"
   }
  },
  "zone_pilote": {
@@ -178,87 +258,103 @@
  "couches": {
   "bordures": {
    "fichier": "base/bordures.geojson",
-   "n": 64,
-   "sha256": "8198793b9a9d77d674fabf5500ca788053f2f83f7a79a1cca5d581fa63e8e32d"
+   "n": 504,
+   "sha256": "45ea470a170c90b504f0b3c4b37cf05b57229a93dbae362c49762aa0a46acefd"
   },
   "surfaces": {
    "fichier": "base/surfaces.geojson",
-   "n": 58,
-   "sha256": "c98fddefe5c5e5f58d38bda9b9e93838bf31cd929117659f397a615317001fe4"
+   "n": 1410,
+   "sha256": "b0864fd4f1c546cc2f0593efa79c38b2e834670e474d046274bfdcdb25cba451"
   },
   "ilots": {
    "fichier": "base/ilots.geojson",
-   "n": 5,
-   "sha256": "51c8aa64071f4de484dbe86c1672cab1ee7ae76a7a5a0556e4aa36b0f2c7136b"
+   "n": 14,
+   "sha256": "68bb61ed055317c7930bfa39cb9a39adc0f63ef6b519987b6e608b833340fd99"
   },
   "ponctuels_sol": {
    "fichier": "base/ponctuels_sol.geojson",
-   "n": 7,
-   "sha256": "0beea68a7d9dd118366e51b1a424bdf0a888195c631d475e1591039bc58af996"
+   "n": 12,
+   "sha256": "42237c0d4637004b73ae452c71da6f8644d115c88b4c1ada1f4f5f3a618636f1"
+  },
+  "nivellement": {
+   "fichier": "base/nivellement.json",
+   "n": 60,
+   "sha256": "449c91edd4dc799b3537a47376cf21204104e41f4a1699dc8ae941b3844f3221"
+  },
+  "nivellement_grille": {
+   "fichier": "base/nivellement_grille.npz",
+   "n": 60,
+   "sha256": "350c02eb93ad0775da00b658093c165a729f211de974d99124abda448fe628da"
+  },
+  "regularisation_sources": {
+   "fichier": "base/regularisation_sources.geojson",
+   "n": 1736,
+   "sha256": "33417bc722d7a23756df2b8662398469832a44c3c816f119702a866c927c9efc"
   },
   "marquages": {
    "fichier": "base/marquages.geojson",
-   "n": 597,
-   "sha256": "153f369cafc7eb93c33bf3f269528df7223b977432cac9ba52bdcbe36316971a"
+   "n": 404,
+   "sha256": "dd911a92022d6e8a767ffb2be78f459c2127e5c07ae56dbf0f9867a53719f1ce"
   },
   "marquages_correspondance": {
    "fichier": "base/marquages_correspondance.geojson",
    "n": 996,
-   "sha256": "77c42c8e7a031d32ffcf080f33e22edc601e3f41299ecd6eb0c6527c9002447a"
+   "sha256": "7e342ca4477bdb5f684aadb5bccc1d6b764539d048a3df645294a289c15db4f0"
   }
  },
  "comptes": {
-  "bordures": 64,
-  "bordures_synthetiques": 3,
-  "abaisses_traversee": 14,
-  "abaisses_charretiere": 3,
-  "chartieres": 15,
-  "bev": 7,
-  "surfaces": 58,
-  "ilots": 5,
-  "preuves": 21,
-  "marquages": 597,
+  "bordures": 504,
+  "bordures_synthetiques": 23,
+  "abaisses_traversee": 28,
+  "abaisses_charretiere": 19,
+  "chartieres": 56,
+  "bev": 12,
+  "surfaces": 1410,
+  "ilots": 14,
+  "preuves": 15,
+  "marquages": 404,
   "marquages_v1": 996
  },
  "statistiques": {
-  "longueur_bordures_m": 802.66,
+  "longueur_bordures_m": 6895.671,
   "longueur_par_profil_m": {
-   "A2": 239.504,
-   "P1": 330.098,
-   "T2": 188.188,
-   "T2_bateau": 29.995,
-   "T3": 14.875
+   "A2": 1558.969,
+   "MURET_TALUS": 67.689,
+   "P1": 2540.773,
+   "QUAI_BUS": 80.182,
+   "T2": 2308.513,
+   "T2_bateau": 115.999,
+   "T3": 223.538
   },
   "longueur_par_materiau_m": {
-   "beton_clair": 115.736,
-   "beton_gris": 686.924
+   "beton_clair": 1485.987,
+   "beton_gris": 5409.684
   },
   "abaisses": [
    {
     "id": "A-0177-1",
     "bordure": "K-0177",
-    "type": "charretiere",
-    "s0": 3.723,
+    "type": "traversee",
+    "s0": 3.764,
     "s1": 4.964,
-    "longueur_m": 1.241,
-    "vue_m": 0.04,
+    "longueur_m": 1.2,
+    "vue_m": 0.02,
     "profil": "A2",
     "chartieres": 1,
     "bev": false,
     "sources": [
-     "passage:PP-0586",
-     "acces_riverain:surf_0265"
+     "passage:PP-0586"
     ]
    },
    {
     "id": "A-0178-1",
     "bordure": "K-0178",
     "type": "traversee",
-    "s0": 3.748,
-    "s1": 4.948,
+    "s0": 3.809,
+    "s1": 5.009,
     "longueur_m": 1.2,
     "vue_m": 0.02,
-    "profil": "A2",
+    "profil": "T2_bateau",
     "chartieres": 1,
     "bev": false,
     "sources": [
@@ -270,11 +366,191 @@
     "bordure": "K-0182",
     "type": "charretiere",
     "s0": 0.0,
-    "s1": 3.655,
-    "longueur_m": 3.655,
-    "vue_m": 0.04,
+    "s1": 3.654,
+    "longueur_m": 3.654,
+    "vue_m": 0.05,
     "profil": "T2_bateau",
     "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0265"
+    ]
+   },
+   {
+    "id": "A-0204-1",
+    "bordure": "K-0204",
+    "type": "charretiere",
+    "s0": 11.699,
+    "s1": 13.939,
+    "longueur_m": 2.24,
+    "vue_m": 0.05,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0264"
+    ]
+   },
+   {
+    "id": "A-0232-1",
+    "bordure": "K-0232",
+    "type": "charretiere",
+    "s0": 0.0,
+    "s1": 3.535,
+    "longueur_m": 3.535,
+    "vue_m": 0.045,
+    "profil": "T2_bateau",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0264"
+    ]
+   },
+   {
+    "id": "A-0233-1",
+    "bordure": "K-0233",
+    "type": "charretiere",
+    "s0": 0.0,
+    "s1": 3.538,
+    "longueur_m": 3.538,
+    "vue_m": 0.02,
+    "profil": "A2",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0264"
+    ]
+   },
+   {
+    "id": "A-0234-1",
+    "bordure": "K-0234",
+    "type": "charretiere",
+    "s0": 1.48,
+    "s1": 2.68,
+    "longueur_m": 1.2,
+    "vue_m": 0.025,
+    "profil": "P1",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0264"
+    ]
+   },
+   {
+    "id": "A-0237-1",
+    "bordure": "K-0237",
+    "type": "charretiere",
+    "s0": 0.547,
+    "s1": 2.633,
+    "longueur_m": 2.086,
+    "vue_m": 0.02,
+    "profil": "P1",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0264"
+    ]
+   },
+   {
+    "id": "A-0286-1",
+    "bordure": "K-0286",
+    "type": "traversee",
+    "s0": 27.733,
+    "s1": 31.481,
+    "longueur_m": 3.748,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "passage:PP-0326"
+    ]
+   },
+   {
+    "id": "A-0299-1",
+    "bordure": "K-0299",
+    "type": "charretiere",
+    "s0": 6.567,
+    "s1": 7.83,
+    "longueur_m": 1.263,
+    "vue_m": 0.045,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0262"
+    ]
+   },
+   {
+    "id": "A-0312-1",
+    "bordure": "K-0312",
+    "type": "charretiere",
+    "s0": 14.78,
+    "s1": 17.536,
+    "longueur_m": 2.756,
+    "vue_m": 0.05,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0265"
+    ]
+   },
+   {
+    "id": "A-0312-2",
+    "bordure": "K-0312",
+    "type": "charretiere",
+    "s0": 22.296,
+    "s1": 23.548,
+    "longueur_m": 1.252,
+    "vue_m": 0.05,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0265"
+    ]
+   },
+   {
+    "id": "A-0315-1",
+    "bordure": "K-0315",
+    "type": "charretiere",
+    "s0": 27.299,
+    "s1": 29.051,
+    "longueur_m": 1.752,
+    "vue_m": 0.05,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0265"
+    ]
+   },
+   {
+    "id": "A-0325-1",
+    "bordure": "K-0325",
+    "type": "charretiere",
+    "s0": 35.531,
+    "s1": 36.782,
+    "longueur_m": 1.251,
+    "vue_m": 0.05,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0265"
+    ]
+   },
+   {
+    "id": "A-0326-1",
+    "bordure": "K-0326",
+    "type": "charretiere",
+    "s0": 0.501,
+    "s1": 2.252,
+    "longueur_m": 1.751,
+    "vue_m": 0.05,
+    "profil": "T2_bateau",
+    "chartieres": 2,
     "bev": false,
     "sources": [
      "acces_riverain:surf_0265"
@@ -299,10 +575,10 @@
     "id": "A-0341-1",
     "bordure": "K-0341",
     "type": "traversee",
-    "s0": 4.995,
-    "s1": 7.492,
+    "s0": 4.994,
+    "s1": 7.491,
     "longueur_m": 2.497,
-    "vue_m": 0.01,
+    "vue_m": 0.015,
     "profil": "P1",
     "chartieres": 0,
     "bev": false,
@@ -329,12 +605,12 @@
     "id": "A-0348-1",
     "bordure": "K-0348",
     "type": "traversee",
-    "s0": 11.52,
-    "s1": 14.275,
-    "longueur_m": 2.755,
+    "s0": 16.437,
+    "s1": 19.176,
+    "longueur_m": 2.739,
     "vue_m": 0.02,
     "profil": "T2_bateau",
-    "chartieres": 2,
+    "chartieres": 1,
     "bev": true,
     "sources": [
      "passage:PP-0348"
@@ -343,10 +619,25 @@
    {
     "id": "A-0348-2",
     "bordure": "K-0348",
+    "type": "traversee_cyclable",
+    "s0": 19.425,
+    "s1": 23.161,
+    "longueur_m": 3.736,
+    "vue_m": 0.0,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": false,
+    "sources": [
+     "traversee_cyclable:TC-0001"
+    ]
+   },
+   {
+    "id": "A-0348-3",
+    "bordure": "K-0348",
     "type": "traversee",
-    "s0": 22.038,
-    "s1": 25.043,
-    "longueur_m": 3.005,
+    "s0": 26.897,
+    "s1": 29.885,
+    "longueur_m": 2.988,
     "vue_m": 0.02,
     "profil": "T2_bateau",
     "chartieres": 2,
@@ -360,8 +651,8 @@
     "bordure": "K-0352",
     "type": "traversee",
     "s0": 0.0,
-    "s1": 1.2,
-    "longueur_m": 1.2,
+    "s1": 1.255,
+    "longueur_m": 1.255,
     "vue_m": 0.02,
     "profil": "T2_bateau",
     "chartieres": 1,
@@ -377,7 +668,7 @@
     "s0": 25.779,
     "s1": 28.783,
     "longueur_m": 3.004,
-    "vue_m": 0.01,
+    "vue_m": 0.02,
     "profil": "P1",
     "chartieres": 0,
     "bev": false,
@@ -404,9 +695,9 @@
     "id": "A-0373-1",
     "bordure": "K-0373",
     "type": "traversee",
-    "s0": 0.0,
-    "s1": 2.939,
-    "longueur_m": 2.939,
+    "s0": 0.252,
+    "s1": 3.027,
+    "longueur_m": 2.775,
     "vue_m": 0.02,
     "profil": "T2_bateau",
     "chartieres": 1,
@@ -416,15 +707,94 @@
     ]
    },
    {
+    "id": "A-0380-1",
+    "bordure": "K-0380",
+    "type": "traversee",
+    "s0": 3.839,
+    "s1": 8.015,
+    "longueur_m": 4.176,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "chartiere_gam",
+     "passage:PP-0860"
+    ]
+   },
+   {
     "id": "A-0381-1",
     "bordure": "K-0381",
     "type": "traversee",
-    "s0": 10.915,
-    "s1": 12.404,
-    "longueur_m": 1.489,
+    "s0": 3.944,
+    "s1": 7.514,
+    "longueur_m": 3.57,
     "vue_m": 0.02,
     "profil": "T2_bateau",
     "chartieres": 1,
+    "bev": true,
+    "sources": [
+     "chartiere_gam",
+     "passage:PP-0863"
+    ]
+   },
+   {
+    "id": "A-0381-2",
+    "bordure": "K-0381",
+    "type": "traversee_cyclable",
+    "s0": 7.514,
+    "s1": 10.927,
+    "longueur_m": 3.413,
+    "vue_m": 0.0,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": false,
+    "sources": [
+     "chartiere_gam",
+     "traversee_cyclable:TC-0616"
+    ]
+   },
+   {
+    "id": "A-0381-3",
+    "bordure": "K-0381",
+    "type": "traversee",
+    "s0": 11.521,
+    "s1": 13.024,
+    "longueur_m": 1.503,
+    "vue_m": 0.015,
+    "profil": "T2_bateau",
+    "chartieres": 0,
+    "bev": true,
+    "sources": [
+     "relief_zones:traversee_bordure_abaissee",
+     "bordures_hauteurs:traversee"
+    ]
+   },
+   {
+    "id": "A-0381-4",
+    "bordure": "K-0381",
+    "type": "traversee_cyclable",
+    "s0": 29.554,
+    "s1": 33.812,
+    "longueur_m": 4.258,
+    "vue_m": 0.0,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "traversee_cyclable:TC-0001"
+    ]
+   },
+   {
+    "id": "A-0381-5",
+    "bordure": "K-0381",
+    "type": "traversee",
+    "s0": 34.3,
+    "s1": 35.803,
+    "longueur_m": 1.503,
+    "vue_m": 0.015,
+    "profil": "T2_bateau",
+    "chartieres": 0,
     "bev": true,
     "sources": [
      "passage:PP-0348"
@@ -456,7 +826,7 @@
     "vue_m": 0.02,
     "profil": "T2_bateau",
     "chartieres": 2,
-    "bev": false,
+    "bev": true,
     "sources": [
      "chartiere_gam",
      "passage:PP-0444"
@@ -466,9 +836,9 @@
     "id": "A-0388-1",
     "bordure": "K-0388",
     "type": "traversee",
-    "s0": 5.223,
-    "s1": 7.302,
-    "longueur_m": 2.079,
+    "s0": 8.712,
+    "s1": 10.976,
+    "longueur_m": 2.264,
     "vue_m": 0.02,
     "profil": "T2_bateau",
     "chartieres": 2,
@@ -476,6 +846,37 @@
     "sources": [
      "chartiere_gam",
      "passage:PP-0442"
+    ]
+   },
+   {
+    "id": "A-0388-2",
+    "bordure": "K-0388",
+    "type": "traversee_cyclable",
+    "s0": 15.717,
+    "s1": 19.211,
+    "longueur_m": 3.494,
+    "vue_m": 0.0,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": false,
+    "sources": [
+     "traversee_cyclable:TC-0631"
+    ]
+   },
+   {
+    "id": "A-0388-3",
+    "bordure": "K-0388",
+    "type": "traversee",
+    "s0": 19.211,
+    "s1": 22.122,
+    "longueur_m": 2.911,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": true,
+    "sources": [
+     "chartiere_gam",
+     "passage:PP-0869"
     ]
    },
    {
@@ -492,14 +893,368 @@
     "sources": [
      "passage:PP-0442"
     ]
+   },
+   {
+    "id": "A-0394-1",
+    "bordure": "K-0394",
+    "type": "traversee",
+    "s0": 3.244,
+    "s1": 6.238,
+    "longueur_m": 2.994,
+    "vue_m": 0.02,
+    "profil": "A2",
+    "chartieres": 1,
+    "bev": false,
+    "sources": [
+     "passage:PP-0875"
+    ]
+   },
+   {
+    "id": "A-0402-1",
+    "bordure": "K-0402",
+    "type": "traversee",
+    "s0": 4.053,
+    "s1": 9.232,
+    "longueur_m": 5.179,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "chartiere_gam",
+     "passage:PP-0860"
+    ]
+   },
+   {
+    "id": "A-0437-1",
+    "bordure": "K-0437",
+    "type": "charretiere",
+    "s0": 2.509,
+    "s1": 3.765,
+    "longueur_m": 1.256,
+    "vue_m": 0.045,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0459"
+    ]
+   },
+   {
+    "id": "A-0454-1",
+    "bordure": "K-0454",
+    "type": "charretiere",
+    "s0": 5.493,
+    "s1": 8.738,
+    "longueur_m": 3.245,
+    "vue_m": 0.05,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0435",
+     "acces_riverain:surf_0457"
+    ]
+   },
+   {
+    "id": "A-0465-1",
+    "bordure": "K-0465",
+    "type": "charretiere",
+    "s0": 63.431,
+    "s1": 76.417,
+    "longueur_m": 12.986,
+    "vue_m": 0.02,
+    "profil": "P1",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0435",
+     "acces_riverain:surf_0456",
+     "acces_riverain:surf_0457"
+    ]
+   },
+   {
+    "id": "A-0478-1",
+    "bordure": "K-0478",
+    "type": "charretiere",
+    "s0": 0.0,
+    "s1": 8.74,
+    "longueur_m": 8.74,
+    "vue_m": 0.015,
+    "profil": "P1",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0457"
+    ]
+   },
+   {
+    "id": "A-0488-1",
+    "bordure": "K-0488",
+    "type": "charretiere",
+    "s0": 10.817,
+    "s1": 12.017,
+    "longueur_m": 1.2,
+    "vue_m": 0.025,
+    "profil": "A2",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0457"
+    ]
+   },
+   {
+    "id": "A-0495-1",
+    "bordure": "K-0495",
+    "type": "charretiere",
+    "s0": 4.279,
+    "s1": 8.054,
+    "longueur_m": 3.775,
+    "vue_m": 0.02,
+    "profil": "A2",
+    "chartieres": 1,
+    "bev": false,
+    "sources": [
+     "acces_riverain:surf_0433",
+     "acces_riverain:surf_0457"
+    ]
+   },
+   {
+    "id": "A-0622-1",
+    "bordure": "K-0622",
+    "type": "traversee",
+    "s0": 0.0,
+    "s1": 2.798,
+    "longueur_m": 2.798,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 0,
+    "bev": true,
+    "sources": [
+     "chartiere_gam",
+     "passage:PP-0869"
+    ]
+   },
+   {
+    "id": "A-0623-1",
+    "bordure": "K-0623",
+    "type": "traversee_cyclable",
+    "s0": 0.0,
+    "s1": 2.609,
+    "longueur_m": 2.609,
+    "vue_m": 0.0,
+    "profil": "T2_bateau",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "chartiere_gam",
+     "traversee_cyclable:TC-0631"
+    ]
+   },
+   {
+    "id": "A-0624-1",
+    "bordure": "K-0624",
+    "type": "traversee_cyclable",
+    "s0": 0.0,
+    "s1": 2.582,
+    "longueur_m": 2.582,
+    "vue_m": 0.0,
+    "profil": "T2_bateau",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "chartiere_gam",
+     "traversee_cyclable:TC-0616"
+    ]
+   },
+   {
+    "id": "A-0625-1",
+    "bordure": "K-0625",
+    "type": "traversee",
+    "s0": 0.0,
+    "s1": 2.707,
+    "longueur_m": 2.707,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 0,
+    "bev": true,
+    "sources": [
+     "chartiere_gam",
+     "passage:PP-0863"
+    ]
+   },
+   {
+    "id": "A-0628-1",
+    "bordure": "K-0628",
+    "type": "traversee",
+    "s0": 0.0,
+    "s1": 1.2,
+    "longueur_m": 1.2,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": true,
+    "sources": [
+     "bordures_hauteurs:traversee",
+     "chartiere_gam",
+     "relief_zones:traversee_bordure_abaissee"
+    ]
+   },
+   {
+    "id": "A-0628-2",
+    "bordure": "K-0628",
+    "type": "traversee",
+    "s0": 10.464,
+    "s1": 11.664,
+    "longueur_m": 1.2,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": true,
+    "sources": [
+     "bordures_hauteurs:traversee",
+     "chartiere_gam",
+     "relief_zones:traversee_bordure_abaissee"
+    ]
+   },
+   {
+    "id": "A-0631-1",
+    "bordure": "K-0631",
+    "type": "traversee",
+    "s0": 3.242,
+    "s1": 6.993,
+    "longueur_m": 3.751,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 0,
+    "bev": false,
+    "sources": [
+     "passage:PP-0326"
+    ]
+   },
+   {
+    "id": "A-0658-1",
+    "bordure": "K-0658",
+    "type": "traversee_cyclable",
+    "s0": 3.911,
+    "s1": 5.111,
+    "longueur_m": 1.2,
+    "vue_m": 0.0,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "traversee_cyclable:TC-0039"
+    ]
+   },
+   {
+    "id": "A-0667-1",
+    "bordure": "K-0667",
+    "type": "traversee_cyclable",
+    "s0": 0.0,
+    "s1": 3.482,
+    "longueur_m": 3.482,
+    "vue_m": 0.0,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": false,
+    "sources": [
+     "traversee_cyclable:TC-0039"
+    ]
+   },
+   {
+    "id": "A-0667-2",
+    "bordure": "K-0667",
+    "type": "traversee_cyclable",
+    "s0": 11.191,
+    "s1": 14.672,
+    "longueur_m": 3.481,
+    "vue_m": 0.0,
+    "profil": "T2_bateau",
+    "chartieres": 1,
+    "bev": false,
+    "sources": [
+     "traversee_cyclable:TC-0039"
+    ]
+   },
+   {
+    "id": "A-0671-1",
+    "bordure": "K-0671",
+    "type": "traversee_cyclable",
+    "s0": 14.672,
+    "s1": 15.872,
+    "longueur_m": 1.2,
+    "vue_m": 0.0,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "traversee_cyclable:TC-0039"
+    ]
+   },
+   {
+    "id": "A-0673-1",
+    "bordure": "K-0673",
+    "type": "traversee_cyclable",
+    "s0": 4.669,
+    "s1": 5.869,
+    "longueur_m": 1.2,
+    "vue_m": 0.0,
+    "profil": "T2_bateau",
+    "chartieres": 2,
+    "bev": false,
+    "sources": [
+     "traversee_cyclable:TC-0039"
+    ]
+   },
+   {
+    "id": "A-9511-1",
+    "bordure": "K-9511",
+    "type": "traversee",
+    "s0": 0.0,
+    "s1": 0.998,
+    "longueur_m": 0.998,
+    "vue_m": 0.02,
+    "profil": "T2_bateau",
+    "chartieres": 0,
+    "bev": true,
+    "sources": [
+     "regle:regles_conception.GA-ABA-001",
+     "pont:K-0622-K-0623"
+    ]
    }
   ],
   "remplissages_ilots": [
    {
+    "ilot": "I-0056",
+    "type": "refuge",
+    "materiau_id": "gazon_tondu",
+    "aire_m2": 1.112,
+    "retrait_sous_bordure_m": 0.03,
+    "ceinture": [
+     "K-0056",
+     "K-0056z"
+    ],
+    "src": "a_priori:correspondance_materiau_v1",
+    "conf": "faible"
+   },
+   {
+    "ilot": "I-0242",
+    "type": "refuge",
+    "materiau_id": "gazon_tondu",
+    "aire_m2": 4.365,
+    "retrait_sous_bordure_m": 0.03,
+    "ceinture": [
+     "K-0242"
+    ],
+    "src": "a_priori:correspondance_materiau_v1",
+    "conf": "faible"
+   },
+   {
     "ilot": "I-0332",
     "type": "refuge",
     "materiau_id": "beton_balaye",
-    "aire_m2": 5.388,
+    "aire_m2": 5.406,
     "retrait_sous_bordure_m": 0.0,
     "ceinture": [
      "K-0332"
@@ -508,10 +1263,23 @@
     "conf": "faible"
    },
    {
+    "ilot": "I-0368",
+    "type": "refuge",
+    "materiau_id": "enrobe_trottoir",
+    "aire_m2": 1.855,
+    "retrait_sous_bordure_m": 0.0,
+    "ceinture": [
+     "K-0368",
+     "K-0368z"
+    ],
+    "src": "a_priori:correspondance_materiau_v1",
+    "conf": "faible"
+   },
+   {
     "ilot": "I-0386",
     "type": "terre_plein_central",
     "materiau_id": "enrobe_trottoir",
-    "aire_m2": 21.986,
+    "aire_m2": 22.033,
     "retrait_sous_bordure_m": 0.0,
     "ceinture": [
      "K-0386",
@@ -524,12 +1292,24 @@
     "ilot": "I-0390",
     "type": "ilot_separateur",
     "materiau_id": "gravier_concasse_6_10",
-    "aire_m2": 18.523,
+    "aire_m2": 18.501,
     "retrait_sous_bordure_m": 0.04,
     "ceinture": [
      "K-0390"
     ],
     "src": "constat:coeur-31",
+    "conf": "faible"
+   },
+   {
+    "ilot": "I-0628",
+    "type": "ilot",
+    "materiau_id": "brf_bois_concasse",
+    "aire_m2": 9.854,
+    "retrait_sous_bordure_m": 0.04,
+    "ceinture": [
+     "K-0628"
+    ],
+    "src": "plan2025",
     "conf": "faible"
    },
    {
@@ -546,10 +1326,36 @@
     "conf": "faible"
    },
    {
+    "ilot": "I-0658",
+    "type": "refuge",
+    "materiau_id": "gazon_tondu",
+    "aire_m2": 7.456,
+    "retrait_sous_bordure_m": 0.03,
+    "ceinture": [
+     "K-0658",
+     "K-0658z"
+    ],
+    "src": "a_priori:correspondance_materiau_v1",
+    "conf": "faible"
+   },
+   {
+    "ilot": "I-0673",
+    "type": "ilot",
+    "materiau_id": "gazon_tondu",
+    "aire_m2": 9.843,
+    "retrait_sous_bordure_m": 0.03,
+    "ceinture": [
+     "K-0673",
+     "K-0673z"
+    ],
+    "src": "a_priori:correspondance_materiau_v1",
+    "conf": "faible"
+   },
+   {
     "ilot": "I-0297",
     "type": "massif_goutte",
     "materiau_id": "brf_bois_concasse",
-    "aire_m2": 27.049,
+    "aire_m2": 27.02,
     "retrait_sous_bordure_m": 0.04,
     "ceinture": [
      "K-0385",
@@ -558,43 +1364,94 @@
     ],
     "src": "photo_utilisateur",
     "conf": "faible"
+   },
+   {
+    "ilot": "I-0331",
+    "type": "ilot",
+    "materiau_id": "gazon_tondu",
+    "aire_m2": 18.638,
+    "retrait_sous_bordure_m": 0.03,
+    "ceinture": [
+     "K-0675",
+     "K-0676",
+     "K-9331a",
+     "K-9331b"
+    ],
+    "src": "a_priori:correspondance_materiau_v1",
+    "conf": "faible"
+   },
+   {
+    "ilot": "I-0333",
+    "type": "ilot",
+    "materiau_id": "brf_bois_concasse",
+    "aire_m2": 92.938,
+    "retrait_sous_bordure_m": 0.04,
+    "ceinture": [
+     "K-0626",
+     "K-0627"
+    ],
+    "src": "plan2025",
+    "conf": "faible"
+   },
+   {
+    "ilot": "I-0339",
+    "type": "ilot",
+    "materiau_id": "beton_balaye",
+    "aire_m2": 17.036,
+    "retrait_sous_bordure_m": 0.0,
+    "ceinture": [
+     "K-0398",
+     "K-0399",
+     "K-0622",
+     "K-0623",
+     "K-0624",
+     "K-0625"
+    ],
+    "src": "plan2025",
+    "conf": "faible"
    }
   ],
   "surfaces_par_materiau_m2": {
-   "beton_balaye": 66.789,
-   "brf_bois_concasse": 126.607,
-   "enrobe_bbsg_ancien": 1281.524,
-   "enrobe_bbsg_neuf_2025": 1021.285,
-   "enrobe_piste_cyclable": 334.952,
-   "enrobe_trottoir": 1203.125,
-   "gazon_tondu": 1935.367,
-   "herbe_haute": 189.527,
-   "noue_plantee": 396.71,
-   "paves_beton": 3.623,
-   "stabilise_beige": 2.195,
-   "terre_nue": 15.492
+   "beton_balaye": 1084.469,
+   "brf_bois_concasse": 660.245,
+   "enrobe_bbsg_ancien": 34562.121,
+   "enrobe_bbsg_neuf_2025": 2402.879,
+   "enrobe_piste_cyclable": 923.936,
+   "enrobe_trottoir": 8488.166,
+   "gazon_tondu": 21946.277,
+   "herbe_haute": 186.409,
+   "noue_plantee": 1411.472,
+   "stabilise_beige": 2679.589,
+   "terre_nue": 530.039
   },
-  "bev_m": 17.55,
+  "bev_m": 25.25,
   "dedoublonnage": {
    "decisions_par_critere": {
-    "cote_haut": 20,
-    "mnt": 16,
-    "paire": 42,
-    "superposees": 1
+    "cote_haut": 46,
+    "mnt": 46,
+    "paire": 131,
+    "superposees": 11,
+    "numero": 5
    },
    "orientation_par_critere": {
-    "mnt_2026": 70,
-    "cote_haut_relief": 42,
-    "surfaces_v1": 1
+    "mnt_2026": 237,
+    "cote_haut_relief": 172,
+    "surfaces_v1": 6,
+    "defaut": 12,
+    "xodr_2026": 54
    },
    "lignes_sources_supprimees": [
     2,
     3,
     6,
     10,
+    11,
+    13,
+    15,
     168,
     169,
     170,
+    173,
     175,
     176,
     179,
@@ -602,2686 +1459,1323 @@
     181,
     187,
     188,
+    190,
     191,
+    192,
+    215,
+    220,
+    231,
+    254,
+    255,
+    261,
+    262,
+    265,
+    267,
+    292,
+    293,
     333,
     340,
     344,
     345,
+    363,
+    425,
+    426,
+    429,
+    430,
+    434,
+    441,
+    442,
+    444,
+    447,
+    474,
+    475,
+    498,
+    523,
+    525,
+    527,
+    528,
+    529,
+    531,
+    532,
+    534,
+    537,
+    538,
+    541,
+    543,
+    545,
+    547,
+    549,
+    550,
+    553,
+    554,
+    555,
+    556,
+    557,
+    558,
+    559,
+    560,
+    562,
+    564,
+    566,
+    567,
+    569,
+    574,
+    575,
+    577,
+    580,
+    582,
+    583,
+    585,
+    587,
+    589,
     591,
     593,
     594,
     599,
+    602,
+    603,
+    605,
+    608,
     610,
     613,
     614,
+    616,
     618,
-    620
+    620,
+    621,
+    678,
+    680,
+    681,
+    682,
+    683
    ]
   },
   "ecart_fil_eau_2021_mnt_m": {
-   "mediane": 0.011,
-   "p90": 0.046,
-   "n_bordures": 25
+   "mediane": 0.01,
+   "p90": 0.032,
+   "n_bordures": 290
   },
   "marquages": {
-   "schema": "description_scene_v2/0.2",
+   "schema": "description_scene_v2/0.3",
+   "priorite_sources": {
+    "ordre": [
+     {
+      "src": "gam",
+      "rang": 1,
+      "r_source": 0.95,
+      "libelle": "levé vectoriel GAM 2026 (Meylan_Topo.dwg)"
+     },
+     {
+      "src": "plan2025",
+      "rang": 2,
+      "r_source": 0.85,
+      "libelle": "détection sur le plan projet 2025 calé (zone des travaux)"
+     },
+     {
+      "src": "ortho2022",
+      "rang": 3,
+      "r_source": 0.8,
+      "libelle": "détection sur l'ortho PCRS 5 cm 2022 (zones conservées)"
+     },
+     {
+      "src": "regle",
+      "rang": 4,
+      "r_source": null,
+      "libelle": "inférence par règle deduire_si_absent (regles_conception)"
+     },
+     {
+      "src": "v1",
+      "rang": 5,
+      "r_source": 0.3,
+      "libelle": "paquet v1 : indice sémantique (jamais une géométrie)"
+     }
+    ],
+    "v_temporelle": {
+     "gam": {
+      "conserve": 1.0,
+      "refait_2025_identique": 1.0,
+      "neuf_2025": 1.0,
+      "construit_2023_2024": 1.0
+     },
+     "plan2025": {
+      "conserve": 0.0,
+      "refait_2025_identique": 1.0,
+      "neuf_2025": 1.0,
+      "construit_2023_2024": 0.0
+     },
+     "ortho2022": {
+      "conserve": 1.0,
+      "refait_2025_identique": 0.8,
+      "neuf_2025": 0.0,
+      "construit_2023_2024": 0.0
+     },
+     "v1": {
+      "conserve": 1.0,
+      "refait_2025_identique": 1.0,
+      "neuf_2025": 1.0,
+      "construit_2023_2024": 1.0
+     }
+    },
+    "decision": {
+     "pose": 0.5,
+     "a_verifier": 0.3
+    },
+    "regles": [
+     "FUS-SRC-001",
+     "FUS-SCO-002",
+     "FUS-ASS-003",
+     "FUS-SNP-004",
+     "FUS-CON-005"
+    ]
+   },
+   "n_entites": 404,
+   "comptes_par_source": {
+    "gam": 154,
+    "ortho2022": 184,
+    "plan2025": 52,
+    "regle": 9,
+    "v1": 5
+   },
+   "comptes_par_source_type": {
+    "gam": {
+     "fleche/directionnelle": 10,
+     "ligne/continue": 29,
+     "ligne/discontinue": 2,
+     "ligne/segment": 41,
+     "passage/zebra": 8,
+     "symbole/barre": 4,
+     "symbole/chevron": 16,
+     "symbole/dent_requin": 7,
+     "symbole/pmr": 10,
+     "symbole/velo": 16,
+     "zone/bande_isolee": 3,
+     "zone/divers": 4,
+     "zone/hachures": 2,
+     "zone/zigzag": 2
+    },
+    "ortho2022": {
+     "fleche/directionnelle": 3,
+     "ligne/continue": 85,
+     "ligne/discontinue": 15,
+     "ligne/segment": 72,
+     "passage/traversee_cyclable": 1,
+     "passage/zebra": 3,
+     "symbole/pmr": 1,
+     "symbole/texte": 3,
+     "zone/t_stationnement": 1
+    },
+    "plan2025": {
+     "fleche/directionnelle": 12,
+     "ligne/continue": 12,
+     "ligne/discontinue": 2,
+     "passage/traversee_cyclable": 3,
+     "passage/zebra": 2,
+     "symbole/barre": 13,
+     "symbole/dent_requin": 4,
+     "symbole/point": 1,
+     "symbole/velo": 2,
+     "transversale/effet_feux": 1
+    },
+    "regle": {
+     "fleche/directionnelle": 1,
+     "ligne/discontinue": 1,
+     "transversale/effet_feux": 7
+    },
+    "v1": {
+     "passage/traversee_cyclable": 1,
+     "symbole/velo": 4
+    }
+   },
    "comptes_par_classe": {
-    "fantome/fantome": 109,
-    "fleche/directionnelle": 31,
-    "ligne/continue": 170,
-    "ligne/discontinue": 59,
-    "ligne/segment": 88,
-    "passage/traversee_cyclable": 8,
-    "passage/zebra": 14,
-    "symbole/barre": 20,
+    "fleche/directionnelle": 26,
+    "ligne/continue": 126,
+    "ligne/discontinue": 20,
+    "ligne/segment": 113,
+    "passage/traversee_cyclable": 5,
+    "passage/zebra": 13,
+    "symbole/barre": 17,
     "symbole/chevron": 16,
-    "symbole/dent_requin": 14,
+    "symbole/dent_requin": 11,
     "symbole/pmr": 11,
-    "symbole/point": 5,
-    "symbole/texte": 4,
-    "symbole/velo": 25,
-    "transversale/effet_feux": 4,
-    "zone/aplat": 2,
-    "zone/bande_isolee": 9,
-    "zone/divers": 2,
+    "symbole/point": 1,
+    "symbole/texte": 3,
+    "symbole/velo": 22,
+    "transversale/effet_feux": 8,
+    "zone/bande_isolee": 3,
+    "zone/divers": 4,
     "zone/hachures": 2,
-    "zone/surface_coloree": 1,
     "zone/t_stationnement": 1,
     "zone/zigzag": 2
    },
-   "n_entites": 597,
-   "couverture_v1": {
-    "total": 996,
-    "par_type": {
-     "chevrons": {
-      "genere": 16
-     },
-     "damier": {
-      "genere": 98
-     },
-     "fantome": {
-      "garde_simplifie": 14,
-      "genere": 104
-     },
-     "fleche": {
-      "garde_non_fabrique": 1,
-      "genere": 30,
-      "retire": 1
-     },
-     "hachures": {
-      "garde_simplifie": 1,
-      "genere": 12
-     },
-     "ligne_continue": {
-      "garde_non_fabrique": 1,
-      "genere": 177,
-      "retire": 10
-     },
-     "ligne_discontinue": {
-      "garde_non_fabrique": 5,
-      "genere": 305,
-      "retire": 16
-     },
-     "ligne_effet_feux": {
-      "genere": 23
-     },
-     "passage_pieton_bande": {
-      "genere": 97,
-      "retire": 3
-     },
-     "surface_coloree": {
-      "garde_simplifie": 1
-     },
-     "symbole": {
-      "garde_non_fabrique": 2,
-      "garde_simplifie": 2,
-      "genere": 45
-     },
-     "symbole_velo": {
-      "genere": 25,
-      "retire": 1
-     },
-     "texte": {
-      "genere": 4
-     },
-     "zigzag_arret_bus": {
-      "genere": 2
+   "a_verifier": [
+    "MF-0286",
+    "MF-6017",
+    "MP-0333",
+    "MP-0370",
+    "MP-8200",
+    "MP-8201",
+    "MS-0262",
+    "MS-0263",
+    "MS-0264",
+    "MS-0265",
+    "MT-8001",
+    "MT-8004",
+    "MT-8006"
+   ],
+   "conflits_norme": [
+    [
+     "MF-0286",
+     {
+      "regle": "VAL-FLE-001",
+      "detail": "flèche TD non levée (ortho2022) : cap 123.1° opposé au sens de circulation de la voie 5/1 (303.0°) (VAL-FLE-001, INF-FLE-004)"
      }
-    },
-    "par_devenir": {
-     "garde_non_fabrique": 9,
-     "garde_simplifie": 18,
-     "genere": 938,
-     "retire": 31
-    },
-    "contours_raster_v1": {
-     "n": 88,
-     "devenir": {
-      "garde_non_fabrique": 2,
-      "garde_simplifie": 15,
-      "genere": 71
+    ],
+    [
+     "MF-6015",
+     {
+      "regle": "FUS-CON-005",
+      "type_observe": "TD",
+      "type_manoeuvres": "TD_TAD",
+      "note": "géométrie et type observés gardés ; les deux hypothèses sont notées"
      }
-    }
-   },
-   "echantillonneur_xodr": {
-    "n_echantillons": 204318,
-    "p50_m": 0.0,
-    "p95_m": 0.001,
-    "max_m": 0.767
-   },
-   "lignes": {
-    "n": 317,
-    "ancrage": {
-     "axe/gam": 63,
-     "axe/v1": 196,
-     "xodr": 58
-    },
-    "types": {
-     "continue": 170,
-     "discontinue": 59,
-     "segment": 88
-    },
-    "modulations": {
-     "T'1_site/mesuree": 3,
-     "T'2/IISR": 6,
-     "T1/IISR": 3,
-     "T1_site/mesuree": 4,
-     "T2/IISR": 3,
-     "T3/IISR": 21,
-     "T3_site/mesuree": 14,
-     "mesuree/mesuree": 5
-    },
-    "lateral_gam_xodr_m": {
-     "n": 6647,
-     "p50": 0.003,
-     "p95": 0.021,
-     "max": 0.086
-    },
-    "lateral_gam_axe_m": {
-     "n": 4012,
-     "p50": 0.0,
-     "p95": 0.0,
-     "max": 0.03
-    },
-    "phase_tirets_gam_m": {
-     "n": 30,
-     "p50": 0.0,
-     "p95": 0.081,
-     "max": 0.087
-    },
-    "phase_tirets_gam_segments_2plus_m": {
-     "n": 22,
-     "p50": 0.018,
-     "p95": 0.086,
-     "max": 0.087
-    },
-    "segments_discontinus": 59,
-    "segments_un_tiret": 16,
-    "tirets_combles": 0,
-    "tirets_partiels_v1": 24,
-    "interrompues_zebras": 58,
-    "largeurs_m": {
-     "0.09": 9,
-     "0.1": 189,
-     "0.12": 105,
-     "0.15": 2,
-     "0.18": 10,
-     "0.25": 2
-    }
-   },
-   "fleches": {
-    "n": 32,
-    "iou": {
-     "min": 0.03,
-     "p50": 0.669,
-     "moyenne": 0.667
-    },
-    "par_gabarit": {
-     "TAG": 4,
-     "TD": 14,
-     "TD_TAD": 8,
-     "TD_TAG": 6
-    },
-    "accord_direction_v1": 32,
-    "accord_xodr": 12,
-    "objets_xodr_sans_fleche_v1": [],
-    "trois_par_voie": {
-     "1/-2": 3,
-     "1/-1": 2,
-     "2/-2": 3,
-     "2/-1": 3,
-     "3/-2": 2,
-     "3/-1": 2,
-     "5/1": 1,
-     "6/1": 2,
-     "6/2": 1,
-     "6/3": 1,
-     "107/-1": 1,
-     "114/-1": 1
-    },
-    "table": [
+    ],
+    [
+     "MP-0333",
      {
-      "mq": "MQ0021",
-      "groupe": "fleches_tourne_a_gauche_centre",
-      "direction_v1": "gauche",
-      "raster": false,
-      "gabarit": "TAG",
-      "iou": 0.667,
-      "cap_source": "xodr_objet",
-      "scores": {
-       "RAB_D": 0.162,
-       "RAB_G": 0.213,
-       "TAD": 0.149,
-       "TAG": 0.662,
-       "TD": 0.275,
-       "TD_TAD": 0.37,
-       "TD_TAG": 0.203
-      },
-      "cap_libre": [
-       "TAG",
-       0.662,
-       0.0
-      ],
-      "xodr": [
-       "900",
-       "arrow",
-       null
-      ],
-      "voie": [
-       "114",
-       -1
-      ]
-     },
-     {
-      "mq": "MQ0093",
-      "groupe": "fleches_parking",
-      "direction_v1": "tout_droit",
-      "raster": false,
-      "gabarit": "TD",
-      "iou": 0.926,
-      "cap_source": "axe_v1",
-      "scores": {
-       "RAB_D": 0.279,
-       "RAB_G": 0.275,
-       "TAD": 0.315,
-       "TAG": 0.31,
-       "TD": 0.93,
-       "TD_TAD": 0.594,
-       "TD_TAG": 0.588
-      },
-      "cap_libre": [
-       "TD",
-       0.93,
-       0.0
-      ],
-      "xodr": null,
-      "voie": null
-     },
-     {
-      "mq": "MQ0094",
-      "groupe": "fleches_parking",
-      "direction_v1": "tout_droit",
-      "raster": false,
-      "gabarit": "TD",
-      "iou": 0.914,
-      "cap_source": "axe_v1",
-      "scores": {
-       "RAB_D": 0.278,
-       "RAB_G": 0.277,
-       "TAD": 0.32,
-       "TAG": 0.316,
-       "TD": 0.903,
-       "TD_TAD": 0.577,
-       "TD_TAG": 0.584
-      },
-      "cap_libre": [
-       "TD",
-       0.903,
-       0.0
-      ],
-      "xodr": null,
-      "voie": null
-     },
-     {
-      "mq": "MQ0095",
-      "groupe": "fleches_parking",
-      "direction_v1": "tout_droit",
-      "raster": false,
-      "gabarit": "TD",
-      "iou": 0.906,
-      "cap_source": "axe_v1",
-      "scores": {
-       "RAB_D": 0.279,
-       "RAB_G": 0.277,
-       "TAD": 0.318,
-       "TAG": 0.313,
-       "TD": 0.914,
-       "TD_TAD": 0.581,
-       "TD_TAG": 0.589
-      },
-      "cap_libre": [
-       "TD",
-       0.914,
-       0.0
-      ],
-      "xodr": null,
-      "voie": null
-     },
-     {
-      "mq": "MQ0096",
-      "groupe": "fleches_parking",
-      "direction_v1": "tout_droit",
-      "raster": false,
-      "gabarit": "TD",
-      "iou": 0.924,
-      "cap_source": "axe_v1",
-      "scores": {
-       "RAB_D": 0.28,
-       "RAB_G": 0.276,
-       "TAD": 0.318,
-       "TAG": 0.312,
-       "TD": 0.927,
-       "TD_TAD": 0.588,
-       "TD_TAG": 0.581
-      },
-      "cap_libre": [
-       "TD",
-       0.927,
-       0.0
-      ],
-      "xodr": null,
-      "voie": null
-     },
-     {
-      "mq": "MQ0286",
-      "groupe": "ortho_symboles",
-      "direction_v1": "tout_droit",
-      "raster": true,
-      "gabarit": "TD",
-      "iou": 0.575,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.286,
-       "RAB_G": 0.27,
-       "TAD": 0.285,
-       "TAG": 0.298,
-       "TD": 0.611,
-       "TD_TAD": 0.449,
-       "TD_TAG": 0.402
-      },
-      "cap_libre": [
-       "TD",
-       0.617,
-       1.5
-      ],
-      "xodr": null,
-      "voie": [
-       "5",
-       1
-      ]
-     },
-     {
-      "mq": "MQ0396",
-      "groupe": "piste_chronovelo_fleches",
-      "direction_v1": "piste",
-      "raster": false,
-      "gabarit": "TD_TAG",
-      "iou": 0.483,
-      "cap_source": "axe_v1",
-      "scores": {
-       "RAB_D": 0.304,
-       "RAB_G": 0.316,
-       "TAD": 0.371,
-       "TAG": 0.304,
-       "TD": 0.381,
-       "TD_TAD": 0.376,
-       "TD_TAG": 0.482
-      },
-      "cap_libre": [
-       "TD_TAG",
-       0.482,
-       0.0
-      ],
-      "xodr": null,
-      "voie": null
-     },
-     {
-      "mq": "MQ0397",
-      "groupe": "fleches_vercors_entrant",
-      "direction_v1": "gauche",
-      "raster": false,
-      "gabarit": "TAG",
-      "iou": 0.529,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.165,
-       "RAB_G": 0.314,
-       "TAD": 0.168,
-       "TAG": 0.531,
-       "TD": 0.308,
-       "TD_TAD": 0.228,
-       "TD_TAG": 0.218
-      },
-      "cap_libre": [
-       "TAG",
-       0.609,
-       3.0
-      ],
-      "xodr": [
-       "1031",
-       "gauche",
-       "TAG"
-      ],
-      "voie": [
-       "6",
-       2
-      ]
-     },
-     {
-      "mq": "MQ0398",
-      "groupe": "piste_chronovelo_fleches",
-      "direction_v1": "piste",
-      "raster": true,
-      "gabarit": "TD_TAG",
-      "iou": 0.515,
-      "cap_source": "axe_v1",
-      "scores": {
-       "RAB_D": 0.293,
-       "RAB_G": 0.27,
-       "TAD": 0.336,
-       "TAG": 0.245,
-       "TD": 0.341,
-       "TD_TAD": 0.364,
-       "TD_TAG": 0.529
-      },
-      "cap_libre": [
-       "TD_TAG",
-       0.529,
-       0.0
-      ],
-      "xodr": null,
-      "voie": null
-     },
-     {
-      "mq": "MQ0399",
-      "groupe": "fleches_vercors_entrant",
-      "direction_v1": "tout_droit_droite",
-      "raster": false,
-      "gabarit": "TD_TAD",
-      "iou": 0.411,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.377,
-       "RAB_G": 0.26,
-       "TAD": 0.227,
-       "TAG": 0.27,
-       "TD": 0.325,
-       "TD_TAD": 0.415,
-       "TD_TAG": 0.285
-      },
-      "cap_libre": [
-       "TD_TAD",
-       0.683,
-       9.0
-      ],
-      "xodr": [
-       "1032",
-       "tout_droit_droite",
-       "TD_TAD"
-      ],
-      "voie": [
-       "6",
-       3
-      ]
-     },
-     {
-      "mq": "MQ0400",
-      "groupe": "fleches_vercors_entrant_amont",
-      "direction_v1": "gauche",
-      "raster": false,
-      "gabarit": "TAG",
-      "iou": 0.03,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.15,
-       "RAB_G": 0.268,
-       "TAD": 0.156,
-       "TAG": 0.493,
-       "TD": 0.213,
-       "TD_TAD": 0.243,
-       "TD_TAG": 0.152
-      },
-      "cap_libre": [
-       "TAG",
-       0.609,
-       4.5
-      ],
-      "xodr": null,
-      "voie": [
-       "6",
-       1
-      ]
-     },
-     {
-      "mq": "MQ0401",
-      "groupe": "ortho_symboles",
-      "direction_v1": "tout_droit_droite",
-      "raster": false,
-      "gabarit": "TD_TAD",
-      "iou": 0.327,
-      "cap_source": "axe_v1",
-      "scores": {
-       "RAB_D": 0.21,
-       "RAB_G": 0.25,
-       "TAD": 0.225,
-       "TAG": 0.38,
-       "TD": 0.605,
-       "TD_TAD": 0.68,
-       "TD_TAG": 0.239
-      },
-      "cap_libre": [
-       "TD_TAD",
-       0.68,
-       0.0
-      ],
-      "xodr": null,
-      "voie": null
-     },
-     {
-      "mq": "MQ0402",
-      "groupe": "ortho_symboles",
-      "direction_v1": "tout_droit",
-      "raster": true,
-      "gabarit": "TD",
-      "iou": 0.717,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.267,
-       "RAB_G": 0.318,
-       "TAD": 0.282,
-       "TAG": 0.28,
-       "TD": 0.718,
-       "TD_TAD": 0.521,
-       "TD_TAG": 0.503
-      },
-      "cap_libre": [
-       "TD",
-       0.755,
-       1.5
-      ],
-      "xodr": null,
-      "voie": [
-       "6",
-       1
-      ]
-     },
-     {
-      "mq": "MQ0460",
-      "groupe": "fleches_selection",
-      "direction_v1": "tout_droit_droite",
-      "raster": false,
-      "gabarit": "TD_TAD",
-      "iou": 0.542,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.195,
-       "RAB_G": 0.301,
-       "TAD": 0.167,
-       "TAG": 0.336,
-       "TD": 0.403,
-       "TD_TAD": 0.577,
-       "TD_TAG": 0.229
-      },
-      "cap_libre": [
-       "TD_TAD",
-       0.679,
-       4.5
-      ],
-      "xodr": [
-       "1028",
-       "tout_droit_droite",
-       "TD_TAD"
-      ],
-      "voie": [
-       "3",
-       -2
-      ]
-     },
-     {
-      "mq": "MQ0461",
-      "groupe": "fleches_selection",
-      "direction_v1": "tout_droit_gauche",
-      "raster": false,
-      "gabarit": "TD_TAG",
-      "iou": 0.487,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.266,
-       "RAB_G": 0.289,
-       "TAD": 0.341,
-       "TAG": 0.239,
-       "TD": 0.439,
-       "TD_TAD": 0.237,
-       "TD_TAG": 0.586
-      },
-      "cap_libre": [
-       "TD_TAG",
-       0.675,
-       3.0
-      ],
-      "xodr": [
-       "1027",
-       "tout_droit_gauche",
-       "TD_TAG"
-      ],
-      "voie": [
-       "3",
-       -1
-      ]
-     },
-     {
-      "mq": "MQ0462",
-      "groupe": "ortho_symboles",
-      "direction_v1": "tout_droit_droite",
-      "raster": true,
-      "gabarit": "TD_TAD",
-      "iou": 0.652,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.217,
-       "RAB_G": 0.253,
-       "TAD": 0.216,
-       "TAG": 0.351,
-       "TD": 0.586,
-       "TD_TAD": 0.66,
-       "TD_TAG": 0.235
-      },
-      "cap_libre": [
-       "TD_TAD",
-       0.66,
-       0.0
-      ],
-      "xodr": null,
-      "voie": [
-       "3",
-       -2
-      ]
-     },
-     {
-      "mq": "MQ0463",
-      "groupe": "ortho_symboles",
-      "direction_v1": "tout_droit_gauche",
-      "raster": true,
-      "gabarit": "TD_TAG",
-      "iou": 0.575,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.245,
-       "RAB_G": 0.215,
-       "TAD": 0.355,
-       "TAG": 0.218,
-       "TD": 0.57,
-       "TD_TAD": 0.254,
-       "TD_TAG": 0.645
-      },
-      "cap_libre": [
-       "TD_TAG",
-       0.647,
-       1.5
-      ],
-      "xodr": null,
-      "voie": [
-       "3",
-       -1
-      ]
-     },
-     {
-      "mq": "MQ0761",
-      "groupe": "fleches_verdun_sw_sortant",
-      "direction_v1": "tout_droit",
-      "raster": false,
-      "gabarit": "TD",
-      "iou": 0.94,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.275,
-       "RAB_G": 0.275,
-       "TAD": 0.312,
-       "TAG": 0.309,
-       "TD": 0.94,
-       "TD_TAD": 0.594,
-       "TD_TAG": 0.594
-      },
-      "cap_libre": [
-       "TD",
-       0.94,
-       0.0
-      ],
-      "xodr": null,
-      "voie": [
-       "2",
-       -2
-      ]
-     },
-     {
-      "mq": "MQ0762",
-      "groupe": "fleches_verdun_sw_sortant",
-      "direction_v1": "tout_droit",
-      "raster": false,
-      "gabarit": "TD",
-      "iou": 0.95,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.276,
-       "RAB_G": 0.274,
-       "TAD": 0.312,
-       "TAG": 0.309,
-       "TD": 0.94,
-       "TD_TAD": 0.594,
-       "TD_TAG": 0.594
-      },
-      "cap_libre": [
-       "TD",
-       0.94,
-       0.0
-      ],
-      "xodr": null,
-      "voie": [
-       "2",
-       -1
-      ]
-     },
-     {
-      "mq": "MQ0763",
-      "groupe": "fleches_verdun_sw_entrant",
-      "direction_v1": "tout_droit",
-      "raster": false,
-      "gabarit": "TD",
-      "iou": 0.941,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.277,
-       "RAB_G": 0.273,
-       "TAD": 0.314,
-       "TAG": 0.307,
-       "TD": 0.958,
-       "TD_TAD": 0.601,
-       "TD_TAG": 0.601
-      },
-      "cap_libre": [
-       "TD",
-       0.958,
-       0.0
-      ],
-      "xodr": null,
-      "voie": [
-       "1",
-       -2
-      ]
-     },
-     {
-      "mq": "MQ0764",
-      "groupe": "fleches_verdun_sw_sortant",
-      "direction_v1": "tout_droit",
-      "raster": false,
-      "gabarit": "TD",
-      "iou": 0.845,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.287,
-       "RAB_G": 0.271,
-       "TAD": 0.313,
-       "TAG": 0.308,
-       "TD": 0.849,
-       "TD_TAD": 0.544,
-       "TD_TAG": 0.54
-      },
-      "cap_libre": [
-       "TD",
-       0.94,
-       1.5
-      ],
-      "xodr": null,
-      "voie": [
-       "2",
-       -2
-      ]
-     },
-     {
-      "mq": "MQ0765",
-      "groupe": "fleches_verdun_sw_sortant",
-      "direction_v1": "tout_droit",
-      "raster": false,
-      "gabarit": "TD",
-      "iou": 0.806,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.287,
-       "RAB_G": 0.27,
-       "TAD": 0.315,
-       "TAG": 0.306,
-       "TD": 0.845,
-       "TD_TAD": 0.542,
-       "TD_TAG": 0.539
-      },
-      "cap_libre": [
-       "TD",
-       0.956,
-       1.5
-      ],
-      "xodr": null,
-      "voie": [
-       "2",
-       -1
-      ]
-     },
-     {
-      "mq": "MQ0766",
-      "groupe": "piste_chronovelo_fleches",
-      "direction_v1": "piste",
-      "raster": true,
-      "gabarit": "TD",
-      "iou": 0.543,
-      "cap_source": "axe_v1",
-      "scores": {
-       "RAB_D": 0.326,
-       "RAB_G": 0.301,
-       "TAD": 0.277,
-       "TAG": 0.291,
-       "TD": 0.539,
-       "TD_TAD": 0.43,
-       "TD_TAG": 0.462
-      },
-      "cap_libre": [
-       "TD",
-       0.539,
-       0.0
-      ],
-      "xodr": null,
-      "voie": null
-     },
-     {
-      "mq": "MQ0767",
-      "groupe": "fleches_verdun_sw_entrant",
-      "direction_v1": "tout_droit_gauche",
-      "raster": false,
-      "gabarit": "TD_TAG",
-      "iou": 0.675,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.255,
-       "RAB_G": 0.206,
-       "TAD": 0.378,
-       "TAG": 0.222,
-       "TD": 0.586,
-       "TD_TAD": 0.236,
-       "TD_TAG": 0.674
-      },
-      "cap_libre": [
-       "TD_TAG",
-       0.675,
-       1.5
-      ],
-      "xodr": [
-       "1023",
-       "tout_droit_gauche",
-       "TD_TAG"
-      ],
-      "voie": [
-       "1",
-       -1
-      ]
-     },
-     {
-      "mq": "MQ0768",
-      "groupe": "fleches_verdun_sw_entrant",
-      "direction_v1": "tout_droit_droite",
-      "raster": false,
-      "gabarit": "TD_TAD",
-      "iou": 0.672,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.212,
-       "RAB_G": 0.249,
-       "TAD": 0.225,
-       "TAG": 0.379,
-       "TD": 0.581,
-       "TD_TAD": 0.675,
-       "TD_TAG": 0.236
-      },
-      "cap_libre": [
-       "TD_TAD",
-       0.675,
-       0.0
-      ],
-      "xodr": [
-       "1024",
-       "tout_droit_droite",
-       "TD_TAD"
-      ],
-      "voie": [
-       "1",
-       -2
-      ]
-     },
-     {
-      "mq": "MQ0769",
-      "groupe": "piste_chronovelo_fleches",
-      "direction_v1": "piste",
-      "raster": true,
-      "gabarit": "TD_TAD",
-      "iou": 0.46,
-      "cap_source": "axe_v1",
-      "scores": {
-       "RAB_D": 0.219,
-       "RAB_G": 0.282,
-       "TAD": 0.191,
-       "TAG": 0.298,
-       "TD": 0.318,
-       "TD_TAD": 0.477,
-       "TD_TAG": 0.283
-      },
-      "cap_libre": [
-       "TD_TAD",
-       0.476,
-       0.0
-      ],
-      "xodr": null,
-      "voie": null
-     },
-     {
-      "mq": "MQ0770",
-      "groupe": "fleches_verdun_sw_sortant",
-      "direction_v1": "tout_droit",
-      "raster": false,
-      "gabarit": "TD",
-      "iou": 0.935,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.276,
-       "RAB_G": 0.274,
-       "TAD": 0.312,
-       "TAG": 0.309,
-       "TD": 0.958,
-       "TD_TAD": 0.601,
-       "TD_TAG": 0.601
-      },
-      "cap_libre": [
-       "TD",
-       0.958,
-       0.0
-      ],
-      "xodr": [
-       "1030",
-       "tout_droit",
-       "TD"
-      ],
-      "voie": [
-       "2",
-       -2
-      ]
-     },
-     {
-      "mq": "MQ0771",
-      "groupe": "fleches_verdun_sw_sortant",
-      "direction_v1": "tout_droit",
-      "raster": false,
-      "gabarit": "TD",
-      "iou": 0.936,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.277,
-       "RAB_G": 0.273,
-       "TAD": 0.314,
-       "TAG": 0.307,
-       "TD": 0.958,
-       "TD_TAD": 0.601,
-       "TD_TAG": 0.601
-      },
-      "cap_libre": [
-       "TD",
-       0.958,
-       0.0
-      ],
-      "xodr": [
-       "1029",
-       "tout_droit",
-       "TD"
-      ],
-      "voie": [
-       "2",
-       -1
-      ]
-     },
-     {
-      "mq": "MQ0772",
-      "groupe": "fleches_verdun_sw_entrant",
-      "direction_v1": "tout_droit_gauche",
-      "raster": false,
-      "gabarit": "TD_TAG",
-      "iou": 0.644,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.26,
-       "RAB_G": 0.245,
-       "TAD": 0.36,
-       "TAG": 0.233,
-       "TD": 0.502,
-       "TD_TAD": 0.236,
-       "TD_TAG": 0.646
-      },
-      "cap_libre": [
-       "TD_TAG",
-       0.674,
-       3.0
-      ],
-      "xodr": [
-       "1025",
-       "tout_droit_gauche",
-       "TD_TAG"
-      ],
-      "voie": [
-       "1",
-       -1
-      ]
-     },
-     {
-      "mq": "MQ0773",
-      "groupe": "fleches_verdun_sw_entrant",
-      "direction_v1": "tout_droit_droite",
-      "raster": false,
-      "gabarit": "TD_TAD",
-      "iou": 0.673,
-      "cap_source": "voie",
-      "scores": {
-       "RAB_D": 0.212,
-       "RAB_G": 0.25,
-       "TAD": 0.225,
-       "TAG": 0.378,
-       "TD": 0.58,
-       "TD_TAD": 0.674,
-       "TD_TAG": 0.237
-      },
-      "cap_libre": [
-       "TD_TAD",
-       0.674,
-       1.5
-      ],
-      "xodr": [
-       "1026",
-       "tout_droit_droite",
-       "TD_TAD"
-      ],
-      "voie": [
-       "1",
-       -2
-      ]
-     },
-     {
-      "mq": "MQ0774",
-      "groupe": "piste_chronovelo_fleches",
-      "direction_v1": "piste",
-      "raster": true,
-      "gabarit": "TD_TAD",
-      "iou": 0.465,
-      "cap_source": "axe_v1",
-      "scores": {
-       "RAB_D": 0.223,
-       "RAB_G": 0.281,
-       "TAD": 0.194,
-       "TAG": 0.302,
-       "TD": 0.32,
-       "TD_TAD": 0.475,
-       "TD_TAG": 0.299
-      },
-      "cap_libre": [
-       "TD_TAD",
-       0.475,
-       0.0
-      ],
-      "xodr": null,
-      "voie": null
-     },
-     {
-      "mq": "MQ0775",
-      "groupe": "fleches_tourne_a_gauche_centre",
-      "direction_v1": "gauche",
-      "raster": false,
-      "gabarit": "TAG",
-      "iou": 0.683,
-      "cap_source": "xodr_objet",
-      "scores": {
-       "RAB_D": 0.17,
-       "RAB_G": 0.215,
-       "TAD": 0.153,
-       "TAG": 0.681,
-       "TD": 0.292,
-       "TD_TAD": 0.369,
-       "TD_TAG": 0.204
-      },
-      "cap_libre": [
-       "TAG",
-       0.681,
-       0.0
-      ],
-      "xodr": [
-       "910",
-       "arrow",
-       null
-      ],
-      "voie": [
-       "107",
-       -1
-      ]
+      "regle": "MQ-DET-010 / FUS-CON-005",
+      "detail": "marque passage zebra non levée (ortho2022) traversée hors abaissé par la bordure levée GAM 2026 K-0051 (0.50 m), K-0052 (0.45 m), K-0259 (0.90 m) : contredit le levé 2026, non fabriquée ni découpée (MQ-DET-010, FUS-CON-005)"
      }
     ]
+   ],
+   "decisions_hypotheses": {
+    "gam/absorbe_par_zebra": 2,
+    "gam/pose": 159,
+    "gam/retire_sans_peinture": 3,
+    "ortho2022/apparie": 43,
+    "ortho2022/confirme": 175,
+    "ortho2022/ecartee": 15,
+    "ortho2022/faible": 1,
+    "ortho2022/nouvelle": 16,
+    "ortho2022/rejete_score": 4,
+    "ortho2022/retire_gam_prioritaire": 2,
+    "ortho2022/retire_sur_zebra": 2,
+    "plan2025/absorbe_par_gam": 2,
+    "plan2025/apparie": 19,
+    "plan2025/confirme": 45,
+    "plan2025/deduit_plan2025": 2,
+    "plan2025/ecartee": 13,
+    "plan2025/fusionne": 1,
+    "plan2025/nouvelle": 9,
+    "plan2025/retire_gam_prioritaire": 1,
+    "regle:INF-FLE-004/infere": 1,
+    "regle:MQ-DET-002/infere": 1,
+    "regle:MQ-LEF-002/infere": 4,
+    "regle:MQ-LEF-011/infere": 3,
+    "v1/apparie": 190,
+    "v1/infirme": 61,
+    "v1/inverifiable": 5,
+    "v1/retire_fantome": 109,
+    "v1/retire_forme_raster": 12
    },
-   "velo_iou": {
-    "n": 25,
-    "p50": 0.253,
-    "note": "pictogramme du site (vélo couché, roues rondes) ≠ figurine IISR D1 : IoU bas attendu"
-   },
-   "zebras": [
-    {
-     "id": "MP-0085",
-     "nb": 7,
-     "intervalle_m": 0.496,
-     "longueur_bande_m": 1.953,
-     "coupures": [],
-     "residu_max_m": 0.035
-    },
-    {
-     "id": "MP-0326",
-     "nb": 6,
-     "intervalle_m": 0.468,
-     "longueur_bande_m": 3.2,
-     "coupures": [],
-     "residu_max_m": 0.037
-    },
-    {
-     "id": "MP-0333",
-     "nb": 15,
-     "intervalle_m": 0.502,
-     "longueur_bande_m": 2.089,
-     "coupures": [],
-     "residu_max_m": 0.054
-    },
-    {
-     "id": "MP-0348",
-     "nb": 9,
-     "intervalle_m": 0.499,
-     "longueur_bande_m": 2.799,
-     "coupures": [],
-     "residu_max_m": 0.001
-    },
-    {
-     "id": "MP-0442",
-     "nb": 8,
-     "intervalle_m": 0.499,
-     "longueur_bande_m": 2.998,
-     "coupures": [],
-     "residu_max_m": 0.001
-    },
-    {
-     "id": "MP-0444",
-     "nb": 7,
-     "intervalle_m": 0.499,
-     "longueur_bande_m": 3.283,
-     "coupures": [],
-     "residu_max_m": 0.0
-    },
-    {
-     "id": "MP-0570",
-     "nb": 3,
-     "intervalle_m": 0.499,
-     "longueur_bande_m": 2.999,
-     "coupures": [],
-     "residu_max_m": 0.0
-    },
-    {
-     "id": "MP-0574",
-     "nb": 6,
-     "intervalle_m": 0.499,
-     "longueur_bande_m": 2.987,
-     "coupures": [],
-     "residu_max_m": 0.0
-    },
-    {
-     "id": "MP-0580",
-     "nb": 6,
-     "intervalle_m": 0.499,
-     "longueur_bande_m": 2.981,
-     "coupures": [],
-     "residu_max_m": 0.0
-    },
-    {
-     "id": "MP-0586",
-     "nb": 3,
-     "intervalle_m": 0.499,
-     "longueur_bande_m": 2.499,
-     "coupures": [],
-     "residu_max_m": 0.0
-    },
-    {
-     "id": "MP-0860",
-     "nb": 3,
-     "intervalle_m": 0.429,
-     "longueur_bande_m": 3.501,
-     "coupures": [],
-     "residu_max_m": 0.004
-    },
-    {
-     "id": "MP-0863",
-     "nb": 6,
-     "intervalle_m": 0.499,
-     "longueur_bande_m": 3.498,
-     "coupures": [],
-     "residu_max_m": 0.0
-    },
-    {
-     "id": "MP-0869",
-     "nb": 6,
-     "intervalle_m": 0.499,
-     "longueur_bande_m": 3.499,
-     "coupures": [],
-     "residu_max_m": 0.001
-    },
-    {
-     "id": "MP-0875",
-     "nb": 3,
-     "intervalle_m": 0.483,
-     "longueur_bande_m": 2.743,
-     "coupures": [],
-     "residu_max_m": 0.0
-    }
-   ],
-   "bandes_isolees": [
-    "MQ0084",
-    "MQ0250",
-    "MQ0251",
-    "MQ0252",
-    "MQ0253",
-    "MQ0254",
-    "MQ0332",
-    "MQ0357",
-    "MQ0451",
-    "MQ0569",
-    "MQ0573",
-    "MQ0589"
-   ],
-   "recouvrements_lignes": [
-    {
-     "interrompt": "ML-0292",
-     "par": "ML-0291",
-     "intervalles": [
-      [
-       0.0,
-       2.55
-      ]
-     ]
-    },
-    {
-     "absorbe": "ML-0305",
-     "par": "ML-0301",
-     "recouvrement_m": 16.7
-    },
-    {
-     "absorbe": "ML-0306",
-     "par": "ML-0301",
-     "recouvrement_m": 12.35
-    },
-    {
-     "absorbe": "ML-0307",
-     "par": "ML-0301",
-     "recouvrement_m": 8.0
-    },
-    {
-     "absorbe": "ML-0308",
-     "par": "ML-0301",
-     "recouvrement_m": 2.4
-    },
-    {
-     "absorbe": "ML-0412",
-     "par": "ML-0413",
-     "recouvrement_m": 6.85
-    },
-    {
-     "absorbe": "ML-0424",
-     "par": "ML-0413",
-     "recouvrement_m": 2.25
-    },
-    {
-     "interrompt": "ML-0414",
-     "par": "ML-0435",
-     "intervalles": [
-      [
-       77.6,
-       80.796
-      ]
-     ]
-    },
-    {
-     "interrompt": "ML-0415",
-     "par": "ML-0416",
-     "intervalles": [
-      [
-       0.0,
-       1.8
-      ]
-     ]
-    },
-    {
-     "interrompt": "ML-0489",
-     "par": "ML-0483",
-     "intervalles": [
-      [
-       0.0,
-       7.45
-      ]
-     ]
-    },
-    {
-     "interrompt": "ML-0489",
-     "par": "ML-0490",
-     "intervalles": [
-      [
-       15.05,
-       19.96
-      ]
-     ]
-    },
-    {
-     "absorbe": "ML-0508",
-     "par": "ML-0502",
-     "recouvrement_m": 1.35
-    },
-    {
-     "interrompt": "ML-0546",
-     "par": "ML-0531",
-     "intervalles": [
-      [
-       11.696,
-       12.746
-      ]
-     ]
-    },
-    {
-     "absorbe": "ML-0806",
-     "par": "ML-0804",
-     "recouvrement_m": 1.4
-    },
-    {
-     "interrompt": "ML-0845",
-     "par": "ML-0832",
-     "intervalles": [
-      [
-       0.0,
-       0.65
-      ]
-     ]
-    },
-    {
-     "absorbe": "ML-0528",
-     "par": "ML-0482",
-     "recouvrement_m": 3.65
-    }
-   ],
-   "retires": [
-    {
-     "mq": "MQ0068",
-     "note": "ligne interrompue sur toute sa longueur par le passage MP-0085 (arrêt à 0,50 m, IISR art. 118)"
-    },
-    {
-     "mq": "MQ0079",
-     "note": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de surf_0106 sur 72% de sa longueur : arête de bordure prise pour une ligne, pas un marquage"
-    },
-    {
-     "mq": "MQ0081",
-     "note": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de surf_0106 sur 72% de sa longueur : arête de bordure prise pour une ligne, pas un marquage"
-    },
-    {
-     "mq": "MQ0111",
-     "note": "axe dans surf_0012 (espace_vert) (50%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    },
-    {
-     "mq": "MQ0165",
-     "note": "axe dans surf_0078 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    },
-    {
-     "mq": "MQ0185",
-     "note": "axe dans surf_0072 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    },
-    {
-     "mq": "MQ0194",
-     "note": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de surf_0129 sur 73% de sa longueur : arête de bordure prise pour une ligne, pas un marquage"
-    },
-    {
-     "mq": "MQ0195",
-     "note": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de surf_0129 sur 73% de sa longueur : arête de bordure prise pour une ligne, pas un marquage"
-    },
-    {
-     "mq": "MQ0196",
-     "note": "axe dans surf_0129 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    },
-    {
-     "mq": "MQ0230",
-     "note": "axe dans surf_0071 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    },
-    {
-     "mq": "MQ0293",
-     "note": "ligne interrompue sur toute sa longueur par le passage MP-0348 (arrêt à 0,50 m, IISR art. 118)"
-    },
-    {
-     "mq": "MQ0357",
-     "note": "marque de 2022 sur le sol 2026 S-0195 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
-    },
-    {
-     "mq": "MQ0375",
-     "note": "axe dans surf_0374 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    },
-    {
-     "mq": "MQ0376",
-     "note": "axe dans surf_0374 (espace_vert) (71%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    },
-    {
-     "mq": "MQ0377",
-     "note": "axe dans surf_0374 (espace_vert) (71%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    },
-    {
-     "mq": "MQ0378",
-     "note": "axe dans surf_0374 (espace_vert) (71%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    },
-    {
-     "mq": "MQ0401",
-     "note": "flèche de 2022 hors des voies roulables du réseau 2026 (63% de l'empreinte hors voie, dans la voie 6/4 (sidewalk) du .xodr (voie roulable voisine en biseau) ; plan projet 2025 : emprise réaménagée (piste, espace vert) ; ortho 2022 : TD_TAG_TAD (trois directions) (corrélation TD_TAD 0.52, TD_TAG_TAD 0.67) ; zone resurfacée en 2025 : pas d'empreinte"
-    },
-    {
-     "mq": "MQ0422",
-     "note": "marque de 2022 sur le sol 2026 S-0313 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
-    },
-    {
-     "mq": "MQ0451",
-     "note": "marque dans surf_0313 (trottoir) (58%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    },
-    {
-     "mq": "MQ0470",
-     "note": "ligne interrompue sur toute sa longueur par le passage MP-0570 (arrêt à 0,50 m, IISR art. 118)"
-    },
-    {
-     "mq": "MQ0493",
-     "note": "marque de 2022 sur le sol 2026 S-0192 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
-    },
-    {
-     "mq": "MQ0494",
-     "note": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de K-0341, S-0195 sur 100% de sa longueur : arête de bordure prise pour une ligne, pas un marquage"
-    },
-    {
-     "mq": "MQ0496",
-     "note": "marque de 2022 sur le sol 2026 S-0191 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
-    },
-    {
-     "mq": "MQ0497",
-     "note": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de K-0341, S-0195 sur 99% de sa longueur : arête de bordure prise pour une ligne, pas un marquage"
-    },
-    {
-     "mq": "MQ0533",
-     "note": "marque de 2022 sur le sol 2026 K-0669 (bordure) (70%) de la zone pilote : supprimée par le réaménagement de 2025"
-    },
-    {
-     "mq": "MQ0573",
-     "note": "marque de 2022 sur le sol 2026 S-0191 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
-    },
-    {
-     "mq": "MQ0592",
-     "note": "marque de 2022 sur le sol 2026 S-0195 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
-    },
-    {
-     "mq": "MQ0923",
-     "note": "ligne interrompue sur toute sa longueur par MZ-0921"
-    },
-    {
-     "mq": "MQ0953",
-     "note": "axe dans surf_0343 (ilot) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    },
-    {
-     "mq": "MQ0959",
-     "note": "axe dans surf_0343 (ilot) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    },
-    {
-     "mq": "MQ0961",
-     "note": "axe dans surf_0343 (ilot) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022"
-    }
-   ],
-   "retraits": [
-    {
-     "entite": "ML-0293",
-     "lien_v1": [
-      "MQ0293"
-     ],
-     "raison": "ligne interrompue sur toute sa longueur par le passage MP-0348 (arrêt à 0,50 m, IISR art. 118)"
-    },
-    {
-     "entite": "ML-0068",
-     "lien_v1": [
-      "MQ0068"
-     ],
-     "raison": "ligne interrompue sur toute sa longueur par le passage MP-0085 (arrêt à 0,50 m, IISR art. 118)"
-    },
-    {
-     "entite": "ML-0229",
-     "lien_v1": [
-      "MQ0229"
-     ],
-     "raison": "posée sur l'emprise du bâtiment v1 surf_0230 (dalle de parking) : sol absent du paquet, marque gardée non fabriquée",
-     "devenir": "garde_non_fabrique"
-    },
-    {
-     "entite": "ML-0470",
-     "lien_v1": [
-      "MQ0470"
-     ],
-     "raison": "ligne interrompue sur toute sa longueur par le passage MP-0570 (arrêt à 0,50 m, IISR art. 118)"
-    }
-   ],
-   "neuves_2025_usure_0": [
-    "MT-0853",
-    "MP-0863",
-    "MP-0869",
-    "MF-0021",
-    "MF-0761",
-    "MF-0762",
-    "MF-0763",
-    "MF-0764",
-    "MF-0765",
-    "MF-0767",
-    "MF-0768",
-    "MF-0770",
-    "MF-0771",
-    "MF-0772",
-    "MF-0773",
-    "MF-0775",
-    "MZ-0919",
-    "MZ-0920"
-   ],
-   "prolongements_gam": [
-    {
-     "entite": "ML-0477",
-     "gam": [
-      39
-     ],
-     "longueur_m": 3.22,
-     "bout": "fin"
-    },
-    {
-     "entite": "ML-0480",
-     "gam": [
-      226
-     ],
-     "longueur_m": 3.922,
-     "bout": "fin"
-    },
-    {
-     "entite": "ML-0482",
-     "gam": [
-      70
-     ],
-     "longueur_m": 5.774,
-     "bout": "fin"
-    },
-    {
-     "entite": "ML-0477",
-     "gam": [
-      40
-     ],
-     "longueur_m": 2.041,
-     "bout": "debut"
-    },
-    {
-     "entite": "ML-0482",
-     "gam": [
-      71
-     ],
-     "longueur_m": 5.318,
-     "bout": "debut"
-    },
-    {
-     "entite": "ML-0482",
-     "gam": [
-      134
-     ],
-     "longueur_m": 3.545,
-     "bout": "fin"
-    }
-   ],
-   "ajouts_gam": [
-    {
-     "id": "ML-9185",
-     "gam": [
-      185,
-      186
-     ],
-     "longueur_m": 52.411,
-     "ancrage": "axe",
-     "largeur_m": 0.18
-    }
-   ],
-   "gam_orphelines_restantes": [
-    143,
-    253
-   ],
-   "gam_non_rattachees_restantes": [
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23,
-    24,
-    25,
-    26,
-    27,
-    28,
-    29,
-    30,
-    31,
-    32,
-    33,
-    38,
-    74,
-    75,
-    76,
-    79,
-    80,
-    81,
-    82,
-    84,
-    86,
-    87,
-    89,
-    90,
-    124,
-    131,
-    143,
-    154,
-    155,
-    172,
-    185,
-    186,
-    205,
-    216,
-    220,
-    228,
-    236,
-    252,
-    253,
-    282,
-    361,
-    362,
-    363,
-    364,
-    365,
-    366,
-    367,
-    368,
-    369,
-    370,
-    371,
-    372,
-    373,
-    374,
-    375,
-    376,
-    377,
-    378,
-    379,
-    380,
-    381,
-    382,
-    383,
-    384,
-    385,
-    386,
-    387,
-    388,
-    389,
-    390,
-    391,
-    392,
-    393,
-    394,
-    395,
-    399,
-    402,
-    408
-   ],
-   "reprises": {
-    "fleches_hors_voie": {
-     "MF-0401": "flèche de 2022 hors des voies roulables du réseau 2026 (63% de l'empreinte hors voie, dans la voie 6/4 (sidewalk) du .xodr (voie roulable voisine en biseau) ; plan projet 2025 : emprise réaménagée (piste, espace vert) ; ortho 2022 : TD_TAG_TAD (trois directions) (corrélation TD_TAD 0.52, TD_TAG_TAD 0.67) ; zone resurfacée en 2025 : pas d'empreinte"
-    },
-    "profils_gam": {
-     "ML-0413": [
-      [
-       34.383,
-       0.003
-      ],
-      [
-       38.266,
-       -0.004
-      ],
-      [
-       42.148,
-       0.0
-      ],
-      [
-       46.031,
-       0.017
-      ],
-      [
-       49.914,
-       -0.046
-      ],
-      [
-       53.797,
-       -0.031
-      ],
-      [
-       57.68,
-       0.014
-      ],
-      [
-       61.563,
-       0.002
-      ],
-      [
-       65.445,
-       -0.002
-      ],
-      [
-       69.328,
-       -0.005
-      ],
-      [
-       73.211,
-       -0.004
-      ],
-      [
-       77.094,
-       0.0
-      ],
-      [
-       80.977,
-       0.003
-      ],
-      [
-       84.86,
-       -0.002
-      ],
-      [
-       88.742,
-       -0.003
-      ],
-      [
-       92.625,
-       -0.001
-      ],
-      [
-       96.508,
-       0.001
-      ],
-      [
-       100.391,
-       0.004
-      ],
-      [
-       104.274,
-       0.007
-      ],
-      [
-       108.157,
-       0.005
-      ],
-      [
-       112.039,
-       -0.003
-      ],
-      [
-       115.922,
-       -0.004
-      ]
-     ]
-    },
-    "sol_non_fabricable": {
-     "MS-0819": "point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise)",
-     "MS-0822": "point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise)",
-     "MS-0846": "point d'axe Chronovélo (plan 2025) à cheval sur une marche du sol v1 (espace_vert_2025 / trottoir_2025)",
-     "MS-0895": "point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise)"
-    },
-    "fleches_pleine_taille": [
-     "MF-0093",
-     "MF-0094",
-     "MF-0095",
-     "MF-0096"
+   "gam": {
+    "non_decrits": [
+     38,
+     39,
+     40,
+     124,
+     131,
+     225,
+     236,
+     281,
+     326
     ],
-    "lignes_sans_peinture": {
-     "ML-0923": "ligne interrompue sur toute sa longueur par MZ-0921"
+    "classement": {
+     "anneaux": {
+      "atypique": 4,
+      "bande": 52,
+      "bande_oblique": 10,
+      "carre": 2,
+      "fleche": 6,
+      "picto": 16,
+      "tiret": 1,
+      "triangle": 1
+     },
+     "chaines": {
+      "axe": 36,
+      "chevron": 16,
+      "debris": 3,
+      "picto": 8,
+      "segment": 73,
+      "zigzag": 2
+     },
+     "paires": 3,
+     "blocs": {
+      "fleche": 5,
+      "pmr": 10,
+      "texte_ignore": 3,
+      "velo": 10
+     },
+     "pictos": {
+      "pieton": 2,
+      "velo": 6
+     },
+     "triangles": 6
+    }
+   },
+   "inferences": [
+    {
+     "regle": "MQ-LEF-002",
+     "approche": "Verdun SW",
+     "entite": "MT-8000",
+     "s": 173.02
     },
-    "lignes_interrompues": {
-     "ML-0499": [
-      [
-       47.526,
-       47.906,
-       "MT-0563"
-      ]
+    {
+     "regle": "MQ-LEF-011",
+     "approche": "Verdun SW",
+     "entite": "MT-8001",
+     "s": 172.77
+    },
+    {
+     "regle": "MQ-LEF-002",
+     "approche": "Verdun NE",
+     "entite": "MT-8002",
+     "s": 191.75
+    },
+    {
+     "regle": "MQ-LEF-002",
+     "approche": "Reviree",
+     "entite": "MT-8003",
+     "s": 6.12
+    },
+    {
+     "regle": "MQ-LEF-011",
+     "approche": "Reviree",
+     "entite": "MT-8004",
+     "s": 7.48
+    },
+    {
+     "regle": "MQ-LEF-002",
+     "approche": "Vercors",
+     "entite": "MT-8005",
+     "s": 5.0
+    },
+    {
+     "regle": "MQ-LEF-011",
+     "approche": "Vercors",
+     "entite": "MT-8006",
+     "s": 5.64
+    },
+    {
+     "regle": "FUS-CON-005",
+     "entite": "MF-6015",
+     "observe": "TD",
+     "attendu": "TD_TAD"
+    },
+    {
+     "regle": "INF-FLE-004",
+     "approche": "Vercors",
+     "voie": 3,
+     "entite": "MF-8000",
+     "type": "TD_TAD",
+     "s": 43.06,
+     "axe_voie": "fleches_observees"
+    },
+    {
+     "regle": "MQ-DET-004",
+     "groupe": "feu pietons passage_pieton Verdun SW (chaussee sens NE)",
+     "route": "1",
+     "zebra_existant": true
+    },
+    {
+     "regle": "MQ-DET-004",
+     "groupe": "feu pietons passage_pieton Verdun SW (chaussee sens SW)",
+     "route": "2",
+     "zebra_existant": true
+    },
+    {
+     "regle": "MQ-DET-004",
+     "groupe": "feu pietons passage_pieton Reviree",
+     "route": "5",
+     "zebra_existant": true
+    },
+    {
+     "regle": "MQ-CYC-007",
+     "groupe": "feu cyclistes traversee_cyclable Verdun SW chaussee sens NE",
+     "route": "1",
+     "marque_existante": true
+    },
+    {
+     "regle": "MQ-CYC-007",
+     "groupe": "feu cyclistes traversee_cyclable Verdun SW chaussee sens SW",
+     "route": "2",
+     "marque_existante": true
+    },
+    {
+     "regle": "MQ-DET-009",
+     "arret": "arret_bus La Reviree (ref 21, sens Montbonnot) (zone d'arret en ligne, zigzag)",
+     "zigzag_existant": true
+    },
+    {
+     "regle": "MQ-DET-009",
+     "arret": "arret_bus La Reviree (ref 396, sens Grenoble) (zone d'arret en ligne, zigzag)",
+     "zigzag_existant": true
+    },
+    {
+     "regle": "MQ-DET-009",
+     "arret": "arret_bus La Reviree (ligne Flexo 42, sens nord)",
+     "zigzag_existant": false
+    },
+    {
+     "regle": "MQ-DET-009",
+     "arret": "arret_bus La Reviree (ligne Flexo 42, sens nord)",
+     "non_propose": "recouvrirait MF-6006, MF-6007, MF-6008 (MQ-DET-010)"
+    },
+    {
+     "regle": "MQ-DET-002",
+     "approche": "Verdun SW",
+     "recouvrement": 1.0,
+     "lignes": [
+      "ML-5297"
+     ]
+    },
+    {
+     "regle": "MQ-DET-002",
+     "approche": "Verdun NE",
+     "recouvrement": 1.0,
+     "lignes": [
+      "ML-5136"
+     ]
+    },
+    {
+     "regle": "MQ-DET-002",
+     "approche": "Vercors",
+     "recouvrement": 0.0,
+     "lignes": []
+    }
+   ],
+   "approches": [
+    {
+     "nom": "Verdun SW",
+     "route": "1",
+     "voies": [
+      -2,
+      -1
      ],
-     "ML-0417": [
-      [
-       1.8,
-       2.24,
-       "MT-0436"
-      ]
+     "sens": 1,
+     "s_feu": 173.021,
+     "s_arret": 173.021,
+     "t_axes": {
+      "-2": -4.791,
+      "-1": -1.376
+     },
+     "t_axes_source": {
+      "-2": "fleches_observees",
+      "-1": "fleches_observees"
+     }
+    },
+    {
+     "nom": "Verdun NE",
+     "route": "3",
+     "voies": [
+      -2,
+      -1
      ],
-     "ML-0923": [
+     "sens": 1,
+     "s_feu": 191.754,
+     "s_arret": 191.754,
+     "t_axes": {
+      "-2": -4.8,
+      "-1": -1.252
+     },
+     "t_axes_source": {
+      "-2": "fleches_observees",
+      "-1": "fleches_observees"
+     }
+    },
+    {
+     "nom": "Reviree",
+     "route": "5",
+     "voies": [
+      1
+     ],
+     "sens": -1,
+     "s_feu": 6.125,
+     "s_arret": 6.125,
+     "t_axes": {
+      "1": 1.898
+     },
+     "t_axes_source": {
+      "1": "xodr"
+     }
+    },
+    {
+     "nom": "Vercors",
+     "route": "6",
+     "voies": [
+      2,
+      3
+     ],
+     "sens": -1,
+     "s_feu": 5.003,
+     "s_arret": 5.003,
+     "t_axes": {
+      "2": 1.069,
+      "3": 4.407
+     },
+     "t_axes_source": {
+      "2": "fleches_observees",
+      "3": "fleches_observees"
+     }
+    }
+   ],
+   "interruptions": {
+    "n_lignes": 29
+   },
+   "lignes_sans_peinture_retirees": [
+    "ML-5037",
+    "ML-5206",
+    "ML-5283"
+   ],
+   "correspondance_v1": {
+    "garde_non_fabrique": 25,
+    "genere": 662,
+    "retire": 309
+   },
+   "detections_brutes": {
+    "fleches": 24,
+    "zebras": 5,
+    "lignes": 86
+   },
+   "infere": [
+    [
+     "MF-8000",
+     "regle:INF-FLE-004",
+     "fleche",
+     "directionnelle"
+    ],
+    [
+     "ML-8000",
+     "regle:MQ-DET-002",
+     "ligne",
+     "discontinue"
+    ],
+    [
+     "MT-8000",
+     "regle:MQ-LEF-002",
+     "transversale",
+     "effet_feux"
+    ],
+    [
+     "MT-8001",
+     "regle:MQ-LEF-011",
+     "transversale",
+     "effet_feux"
+    ],
+    [
+     "MT-8002",
+     "regle:MQ-LEF-002",
+     "transversale",
+     "effet_feux"
+    ],
+    [
+     "MT-8003",
+     "regle:MQ-LEF-002",
+     "transversale",
+     "effet_feux"
+    ],
+    [
+     "MT-8004",
+     "regle:MQ-LEF-011",
+     "transversale",
+     "effet_feux"
+    ],
+    [
+     "MT-8005",
+     "regle:MQ-LEF-002",
+     "transversale",
+     "effet_feux"
+    ],
+    [
+     "MT-8006",
+     "regle:MQ-LEF-011",
+     "transversale",
+     "effet_feux"
+    ]
+   ],
+   "supports_non_leves": {
+    "fleches_sens": {
+     "MF-0286": "flèche TD non levée (ortho2022) : cap 123.1° opposé au sens de circulation de la voie 5/1 (303.0°) (VAL-FLE-001, INF-FLE-004)"
+    },
+    "surfaciques_traverses": {
+     "MP-0333": "marque passage zebra non levée (ortho2022) traversée hors abaissé par la bordure levée GAM 2026 K-0051 (0.50 m), K-0052 (0.45 m), K-0259 (0.90 m) : contredit le levé 2026, non fabriquée ni découpée (MQ-DET-010, FUS-CON-005)"
+    }
+   },
+   "traversees_chronovelo_plan2025": [
+    {
+     "objet": "1010",
+     "route": "1",
+     "decision": "deduite",
+     "entite": "MP-8200",
+     "files": [
       [
-       0.0,
-       0.499,
-       "MZ-0921"
+       "PAVE_CHRONOVELO",
+       10
       ]
      ]
     },
-    "recouvrements": {
-     "deplacements": {
-      "MS-0262": [
-       -0.85,
-       0.15,
-       "MF-0093",
-       0.114
-      ],
-      "MS-0263": [
-       -1.1,
-       0.1,
-       "MF-0094",
-       0.164
-      ],
-      "MS-0264": [
-       -0.95,
-       0.1,
-       "MF-0095",
-       0.127
-      ],
-      "MS-0265": [
-       -0.85,
-       -0.35,
-       "MF-0096",
-       0.166
-      ],
-      "MF-0396": [
-       -0.25,
-       0.3,
-       "MP-0444",
-       0.034
-      ],
-      "MF-0398": [
-       -0.75,
-       0.5,
-       "MP-0444",
-       0.198
-      ],
-      "MF-0764": [
-       1.0,
-       0.0,
-       "MZ-0920",
-       0.021
-      ],
-      "MS-0886": [
-       -0.2,
-       -0.05,
-       "ML-0791",
-       0.002
-      ],
-      "MS-0454": [
-       0.0,
-       0.2,
-       "MP-0385",
-       0.014
-      ],
-      "MS-0590": [
-       -1.3,
-       -0.5,
-       "MP-0570",
-       0.298
-      ],
-      "MS-0600": [
-       1.15,
-       0.05,
-       "MP-0616",
-       0.013
-      ],
-      "MS-0601": [
-       0.95,
-       0.05,
-       "MP-0616",
-       0.103
-      ],
-      "MS-0912": [
-       -0.2,
-       0.05,
-       "MS-0603",
-       0.002
-      ],
-      "MS-0914": [
-       -0.2,
-       0.05,
-       "MS-0607",
-       0.001
+    {
+     "objet": "1011",
+     "route": "2",
+     "decision": "deduite",
+     "entite": "MP-8201",
+     "files": [
+      [
+       "PAVE_CHRONOVELO",
+       10
       ]
-     },
-     "decoupes": {
-      "MZ-0919": [
-       "MF-0763"
-      ],
-      "MZ-0084": [
-       "ML-0073"
-      ],
-      "MZ-0589": [
-       "ML-0489"
-      ],
-      "MP-0863": [
-       "MP-0616"
-      ],
-      "MP-0869": [
-       "MP-0616"
-      ]
-     },
-     "non_resolus": []
+     ]
     },
-    "bordures": {
-     "lignes": {
-      "ML-0050": {
-       "interruptions": [
-        [
-         4.15,
-         4.359
-        ]
-       ],
-       "obstacles": [
-        "surf_0071"
-       ]
+    {
+     "objet": "1012",
+     "route": "5",
+     "decision": "traversee_deja_decrite"
+    }
+   ],
+   "lignes_axe_v1": {
+    "n": 198,
+    "devenir": {
+     "axe_recale_sur_crete_detectee": 173,
+     "reancree_sur_ligne_gam_ou_detectee": 1,
+     "retiree_infirme": 24
+    }
+   }
+  },
+  "sol": {
+   "emprise_site_local_m": {
+    "x_min": -150.0,
+    "y_min": -150.0,
+    "x_max": 150.0,
+    "y_max": 150.0
+   },
+   "longueur_bordures_par_profil_m": {
+    "A2": 1558.969,
+    "MURET_TALUS": 67.689,
+    "P1": 2540.773,
+    "QUAI_BUS": 80.182,
+    "T2": 2308.513,
+    "T2_bateau": 115.999,
+    "T3": 223.538
+   },
+   "longueur_bordures_par_source_m": {
+    "a_priori:fermeture_ceinture_ilot": 13.551,
+    "a_priori:limite_ilot_sans_bordure_levee": 6.448,
+    "a_priori:pont_lacune_bordure": 38.25,
+    "gam": 5507.132,
+    "pcrs2019": 1210.573,
+    "plan2025": 119.716
+   },
+   "abaisses_par_type": {
+    "charretiere": 19,
+    "traversee": 28,
+    "traversee_cyclable": 11
+   },
+   "abaisses_longueur_m": {
+    "charretiere": 59.48,
+    "traversee": 74.05,
+    "traversee_cyclable": 30.655
+   },
+   "abaisses_configuration": {
+    "charretiere/a_niveau": 5,
+    "charretiere/abaissement_total": 7,
+    "charretiere/plan_incline": 7,
+    "traversee/a_niveau": 10,
+    "traversee/abaissement_total": 12,
+    "traversee/plan_incline": 6,
+    "traversee_cyclable/abaissement_total": 3,
+    "traversee_cyclable/plan_incline": 8
+   },
+   "surfaces_aire_par_classe_m2": {
+    "acces_riverain": 869.609,
+    "autre": 3087.682,
+    "chaussee": 14081.121,
+    "emprise_bordure": 865.062,
+    "espace_vert": 24232.36,
+    "ilot": 161.635,
+    "parking": 21792.586,
+    "piste_cyclable": 923.936,
+    "quai_bus": 150.965,
+    "terre_plein_vegetal": 315.673,
+    "trottoir": 8394.973
+   },
+   "surfaces_nombre_par_classe": {
+    "acces_riverain": 15,
+    "autre": 85,
+    "chaussee": 156,
+    "emprise_bordure": 636,
+    "espace_vert": 169,
+    "ilot": 28,
+    "parking": 113,
+    "piste_cyclable": 20,
+    "quai_bus": 5,
+    "terre_plein_vegetal": 12,
+    "trottoir": 171
+   },
+   "ilots_par_remplissage": {
+    "beton_balaye": 2,
+    "brf_bois_concasse": 3,
+    "enrobe_trottoir": 2,
+    "gazon_tondu": 5,
+    "gravier_concasse_6_10": 2
+   },
+   "bev": 12,
+   "partition": {
+    "classes": {
+     "acces_riverain": 15,
+     "autre": 85,
+     "batiment_trou": 81,
+     "chaussee": 156,
+     "emprise_bordure": 636,
+     "espace_vert": 169,
+     "ilot": 28,
+     "parking": 113,
+     "piste_cyclable": 20,
+     "quai_bus": 5,
+     "reclassee_par_marques_gam": 6,
+     "terre_plein_vegetal": 12,
+     "trottoir": 171
+    },
+    "partition": {
+     "segments": 75746,
+     "accroches": 1470,
+     "prolongements": 383,
+     "aretes": 71770,
+     "aretes_elaguees": 4092,
+     "eclats_fusionnes": 263,
+     "faces": 1491,
+     "fermetures": 327,
+     "fermetures_m": 1639.0,
+     "rampes": 20,
+     "ponts_bordure": 14,
+     "fermetures_bouts": 213
+    }
+   },
+   "ponts_bordures": 14,
+   "raccords_ilots": 9,
+   "nivellement_regions": 60,
+   "nivellement_descentes_fin_de_file": 121,
+   "nivellement_controles": {
+    "TQ-SOL-004_xodr_mnt_m": {
+     "p50": 0.01,
+     "p95": 0.043,
+     "p99": 0.117,
+     "max": 0.259,
+     "n": 693489,
+     "seuil_p95_m": 0.03,
+     "alerte_m": 0.05,
+     "conforme": true
+    },
+    "TQ-SOL-013_pied_vs_fil_eau_mnt_m": {
+     "p50": 0.071,
+     "p95": 0.238,
+     "p99": 0.315,
+     "max": 0.623,
+     "n": 15618,
+     "seuil_p95_m": 0.03,
+     "alerte_m": 0.05,
+     "conforme": false
+    },
+    "GA-TRO-003_devers_trottoirs_pct": {
+     "p5": -10.965,
+     "p50": 1.303,
+     "p95": 11.784,
+     "max": 52.501,
+     "n": 297173,
+     "part_1_2": 0.283,
+     "part_sup_2": 0.279,
+     "part_negatif": 0.329,
+     "seuil_max_pct": 2.0,
+     "seuil_min_pct": 1.0,
+     "classe_trottoir": {
+      "p5": -9.442,
+      "p50": 1.235,
+      "p95": 7.46,
+      "max": 46.152,
+      "n": 234825,
+      "part_0_2": 0.459,
+      "part_1_2": 0.334,
+      "part_negatif": 0.324
+     }
+    },
+    "GA-TRO-004_pentes_cheminements": {
+     "noeuds": 947148,
+     "pente_2m_p95_pct": 11.181,
+     "pente_2m_max_pct": 29.067,
+     "part_2m_sup_5pct": 0.371,
+     "part_2m_sup_8pct": 0.168,
+     "part_05m_sup_12pct": 0.068,
+     "rampes_pente_2m_p95_pct": 13.206,
+     "rampes_pente_2m_max_pct": 24.014,
+     "seuils_pct": {
+      "courant": 5,
+      "sur_2m": 8,
+      "sur_0_5m": 12
+     }
+    },
+    "VAL-SOL-009_marches_meme_region": {
+     "n_aretes_sup_3cm": 3112,
+     "n_aretes_sup_45deg": 4,
+     "pires": [
+      {
+       "dz_m": 0.122,
+       "x": -126.0,
+       "y": -74.9
       },
-      "ML-0051": {
-       "interruptions": [
-        [
-         4.0,
-         4.235
-        ]
-       ],
-       "obstacles": [
-        "surf_0071"
-       ]
+      {
+       "dz_m": 0.121,
+       "x": -126.0,
+       "y": -74.8
       },
-      "ML-0053": {
-       "interruptions": [
-        [
-         3.95,
-         4.142
-        ]
-       ],
-       "obstacles": [
-        "surf_0071"
-       ]
+      {
+       "dz_m": 0.105,
+       "x": 82.1,
+       "y": -32.2
       },
-      "ML-0054": {
-       "interruptions": [
-        [
-         3.9,
-         4.142
-        ]
-       ],
-       "obstacles": [
-        "surf_0071"
-       ]
+      {
+       "dz_m": 0.105,
+       "x": 78.8,
+       "y": -33.1
       },
-      "ML-0055": {
-       "interruptions": [
-        [
-         3.95,
-         4.181
-        ]
-       ],
-       "obstacles": [
-        "surf_0071"
-       ]
+      {
+       "dz_m": 0.078,
+       "x": -126.0,
+       "y": -75.0
       },
-      "ML-0056": {
-       "interruptions": [
-        [
-         4.05,
-         4.256
-        ]
-       ],
-       "obstacles": [
-        "surf_0071"
-       ]
+      {
+       "dz_m": 0.075,
+       "x": 65.4,
+       "y": -71.4
       },
-      "ML-0057": {
-       "interruptions": [
-        [
-         4.05,
-         4.326
-        ]
-       ],
-       "obstacles": [
-        "surf_0071"
-       ]
+      {
+       "dz_m": 0.072,
+       "x": 82.1,
+       "y": -32.3
       },
-      "ML-0059": {
-       "interruptions": [
-        [
-         4.3,
-         4.526
-        ]
-       ],
-       "obstacles": [
-        "surf_0072"
-       ]
+      {
+       "dz_m": 0.071,
+       "x": 78.8,
+       "y": -33.2
       },
-      "ML-0060": {
-       "interruptions": [
-        [
-         4.3,
-         4.525
-        ]
-       ],
-       "obstacles": [
-        "surf_0072"
-       ]
+      {
+       "dz_m": 0.07,
+       "x": -36.0,
+       "y": -143.7
       },
-      "ML-0063": {
-       "interruptions": [
-        [
-         4.35,
-         4.526
-        ]
-       ],
-       "obstacles": [
-        "surf_0110"
-       ]
+      {
+       "dz_m": 0.07,
+       "x": -111.7,
+       "y": -146.2
       },
-      "ML-0098": {
-       "interruptions": [
-        [
-         0.0,
-         0.1
-        ]
-       ],
-       "obstacles": [
-        "surf_0030"
-       ]
+      {
+       "dz_m": 0.07,
+       "x": -70.8,
+       "y": -97.2
       },
-      "ML-0114": {
-       "interruptions": [
-        [
-         0.95,
-         1.051
-        ]
-       ],
-       "obstacles": [
-        "surf_0043"
-       ]
+      {
+       "dz_m": 0.07,
+       "x": -111.6,
+       "y": -146.2
       },
-      "ML-0115": {
-       "decalage_m": 0.219,
-       "regle": "dégagement 2u = 0.10 m"
+      {
+       "dz_m": 0.068,
+       "x": -111.5,
+       "y": -146.2
       },
-      "ML-0117": {
-       "interruptions": [
-        [
-         1.65,
-         1.729
-        ]
-       ],
-       "obstacles": [
-        "surf_0183"
-       ]
+      {
+       "dz_m": 0.068,
+       "x": 63.2,
+       "y": -87.0
       },
-      "ML-0122": {
-       "interruptions": [
-        [
-         0.0,
-         0.25
-        ]
-       ],
-       "obstacles": [
-        "surf_0043"
-       ]
-      },
-      "ML-0128": {
-       "interruptions": [
-        [
-         0.0,
-         0.05
-        ]
-       ],
-       "obstacles": [
-        "surf_0043"
-       ]
-      },
-      "ML-0132": {
-       "decalage_m": -0.188,
-       "regle": "dégagement 2u = 0.10 m",
-       "interruptions": [
-        [
-         0.0,
-         0.05
-        ]
-       ],
-       "obstacles": [
-        "surf_0035"
-       ]
-      },
-      "ML-0135": {
-       "decalage_m": -0.145,
-       "regle": "dégagement 2u = 0.10 m",
-       "interruptions": [
-        [
-         0.95,
-         1.1
-        ]
-       ],
-       "obstacles": [
-        "surf_0035"
-       ]
-      },
-      "ML-0142": {
-       "interruptions": [
-        [
-         0.0,
-         0.1
-        ]
-       ],
-       "obstacles": [
-        "surf_0034"
-       ]
-      },
-      "ML-0144": {
-       "interruptions": [
-        [
-         0.0,
-         0.15
-        ]
-       ],
-       "obstacles": [
-        "surf_0078"
-       ]
-      },
-      "ML-0149": {
-       "interruptions": [
-        [
-         0.0,
-         0.3
-        ]
-       ],
-       "obstacles": [
-        "surf_0078"
-       ]
-      },
-      "ML-0150": {
-       "interruptions": [
-        [
-         2.85,
-         3.505
-        ]
-       ],
-       "obstacles": [
-        "surf_0068"
-       ]
-      },
-      "ML-0151": {
-       "interruptions": [
-        [
-         1.6,
-         2.005
-        ]
-       ],
-       "obstacles": [
-        "surf_0068"
-       ]
-      },
-      "ML-0152": {
-       "decalage_m": -0.037,
-       "regle": "dégagement 2u = 0.10 m"
-      },
-      "ML-0169": {
-       "interruptions": [
-        [
-         4.3,
-         4.454
-        ]
-       ],
-       "obstacles": [
-        "surf_0072"
-       ]
-      },
-      "ML-0171": {
-       "interruptions": [
-        [
-         1.15,
-         1.273
-        ]
-       ],
-       "obstacles": [
-        "surf_0077"
-       ]
-      },
-      "ML-0172": {
-       "interruptions": [
-        [
-         4.2,
-         4.492
-        ]
-       ],
-       "obstacles": [
-        "surf_0072"
-       ]
-      },
-      "ML-0179": {
-       "interruptions": [
-        [
-         3.1,
-         3.183
-        ]
-       ],
-       "obstacles": [
-        "surf_0081"
-       ]
-      },
-      "ML-0180": {
-       "interruptions": [
-        [
-         3.6,
-         3.89
-        ]
-       ],
-       "obstacles": [
-        "surf_0072"
-       ]
-      },
-      "ML-0182": {
-       "interruptions": [
-        [
-         3.0,
-         3.076
-        ]
-       ],
-       "obstacles": [
-        "surf_0081"
-       ]
-      },
-      "ML-0186": {
-       "interruptions": [
-        [
-         3.9,
-         4.172
-        ]
-       ],
-       "obstacles": [
-        "surf_0072"
-       ]
-      },
-      "ML-0187": {
-       "interruptions": [
-        [
-         0.0,
-         0.25
-        ]
-       ],
-       "obstacles": [
-        "surf_0199"
-       ]
-      },
-      "ML-0188": {
-       "interruptions": [
-        [
-         3.9,
-         4.101
-        ]
-       ],
-       "obstacles": [
-        "surf_0072"
-       ]
-      },
-      "ML-0190": {
-       "decalage_annule": {
-        "decalage_m": 0.251,
-        "reste_en_conflit": 0.19
-       },
-       "interruptions": [
-        [
-         3.45,
-         4.845
-        ]
-       ],
-       "obstacles": [
-        "surf_0201"
-       ]
-      },
-      "ML-0197": {
-       "decalage_m": -0.087,
-       "regle": "dégagement 2u = 0.10 m"
-      },
-      "ML-0206": {
-       "interruptions": [
-        [
-         0.85,
-         1.213
-        ]
-       ],
-       "obstacles": [
-        "surf_0043"
-       ]
-      },
-      "ML-0207": {
-       "interruptions": [
-        [
-         1.05,
-         1.371
-        ]
-       ],
-       "obstacles": [
-        "surf_0043"
-       ]
-      },
-      "ML-0208": {
-       "interruptions": [
-        [
-         3.6,
-         3.964
-        ]
-       ],
-       "obstacles": [
-        "surf_0057"
-       ]
-      },
-      "ML-0209": {
-       "decalage_m": -0.133,
-       "regle": "dégagement 2u = 0.10 m"
-      },
-      "ML-0224": {
-       "interruptions": [
-        [
-         0.0,
-         0.1
-        ]
-       ],
-       "obstacles": [
-        "surf_0078"
-       ]
-      },
-      "ML-0236": {
-       "interruptions": [
-        [
-         0.85,
-         1.04
-        ]
-       ],
-       "obstacles": [
-        "surf_0072"
-       ]
-      },
-      "ML-0241": {
-       "interruptions": [
-        [
-         2.449,
-         2.699
-        ]
-       ],
-       "obstacles": [
-        "surf_0072"
-       ]
-      },
-      "ML-0245": {
-       "interruptions": [
-        [
-         1.4,
-         1.677
-        ]
-       ],
-       "obstacles": [
-        "surf_0072"
-       ]
-      },
-      "ML-0298": {
-       "interruptions": [
-        [
-         1.85,
-         2.908
-        ]
-       ],
-       "obstacles": [
-        "surf_0195"
-       ]
-      },
-      "ML-0477": {
-       "interruptions": [
-        [
-         0.0,
-         0.2
-        ],
-        [
-         3.85,
-         4.0
-        ]
-       ],
-       "obstacles": [
-        "K-0186",
-        "K-0194",
-        "K-0353"
-       ]
-      },
-      "ML-0480": {
-       "interruptions": [
-        [
-         4.85,
-         4.905
-        ]
-       ],
-       "obstacles": [
-        "S-0121"
-       ]
-      },
-      "ML-0810": {
-       "interruptions": [
-        [
-         5.0,
-         7.33
-        ]
-       ],
-       "obstacles": [
-        "surf_0332"
-       ]
-      },
-      "ML-0815": {
-       "interruptions": [
-        [
-         0.0,
-         0.1
-        ]
-       ],
-       "obstacles": [
-        "surf_0309"
-       ]
-      },
-      "ML-9185": {
-       "decalage_m": -0.031,
-       "regle": "dégagement 0,02 m (position levée GAM gardée)",
-       "interruptions": [
-        [
-         0.0,
-         2.1
-        ],
-        [
-         2.1,
-         2.2
-        ],
-        [
-         10.75,
-         11.55
-        ],
-        [
-         15.3,
-         18.95
-        ],
-        [
-         20.45,
-         21.05
-        ]
-       ],
-       "obstacles": [
-        "S-0121",
-        "S-0191"
-       ]
-      },
-      "MT-0563": {
-       "interruptions": [
-        [
-         5.28,
-         5.63
-        ]
-       ],
-       "obstacles": [
-        "S-0342"
-       ]
+      {
+       "dz_m": 0.068,
+       "x": 48.8,
+       "y": 60.3
       }
-     },
-     "decoupes": {
-      "MG-0277": [
-       "K-0381"
-      ],
-      "MG-0285": [
-       "K-0348",
-       "S-0191"
-      ],
-      "MG-0671": [
-       "surf_0333"
-      ],
-      "MP-0001": [
-       "K-0348"
-      ],
-      "MP-0326": [
-       "surf_0195"
-      ],
-      "MP-0333": [
-       "surf_0081",
-       "surf_0193"
-      ],
-      "MP-0444": [
-       "K-0390",
-       "K-0411"
-      ],
-      "MP-0586": [
-       "K-0177",
-       "K-0182"
-      ],
-      "MP-0860": [
-       "surf_0312"
-      ],
-      "MS-0255": [
-       "surf_0293"
-      ],
-      "MS-0256": [
-       "surf_0293"
-      ],
-      "MS-0257": [
-       "surf_0293"
-      ],
-      "MZ-0254": [
-       "surf_0279"
-      ],
-      "MZ-0332": [
-       "surf_0194"
-      ],
-      "MZ-0364": [
-       "S-0192"
-      ]
-     },
-     "deplacements": {
-      "MF-0398": [
-       -0.1,
-       0.0
-      ]
-     },
-     "retraits": {
-      "ML-0079": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de surf_0106 sur 72% de sa longueur : arête de bordure prise pour une ligne, pas un marquage",
-      "ML-0111": "axe dans surf_0012 (espace_vert) (50%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
-      "ML-0165": "axe dans surf_0078 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
-      "ML-0185": "axe dans surf_0072 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
-      "ML-0194": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de surf_0129 sur 73% de sa longueur : arête de bordure prise pour une ligne, pas un marquage",
-      "ML-0196": "axe dans surf_0129 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
-      "ML-0230": "axe dans surf_0071 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
-      "ML-0375": "axe dans surf_0374 (espace_vert) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
-      "ML-0376": "axe dans surf_0374 (espace_vert) (71%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
-      "ML-0422": "marque de 2022 sur le sol 2026 S-0313 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025",
-      "ML-0493": "marque de 2022 sur le sol 2026 S-0192 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025",
-      "ML-0494": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de K-0341, S-0195 sur 100% de sa longueur : arête de bordure prise pour une ligne, pas un marquage",
-      "ML-0496": "marque de 2022 sur le sol 2026 S-0191 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025",
-      "ML-0497": "axe lu sur l'ortho 2022 à moins de 6 cm de l'arête de K-0341, S-0195 sur 99% de sa longueur : arête de bordure prise pour une ligne, pas un marquage",
-      "ML-0533": "marque de 2022 sur le sol 2026 K-0669 (bordure) (70%) de la zone pilote : supprimée par le réaménagement de 2025",
-      "ML-0953": "axe dans surf_0343 (ilot) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
-      "ML-0961": "axe dans surf_0343 (ilot) (100%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
-      "MS-0592": "marque de 2022 sur le sol 2026 S-0195 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025",
-      "MZ-0357": "marque de 2022 sur le sol 2026 S-0195 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025",
-      "MZ-0451": "marque dans surf_0313 (trottoir) (58%, sol surélevé) : bord de bordure ou de surface lu comme une marque sur l'ortho 2022",
-      "MZ-0573": "marque de 2022 sur le sol 2026 S-0191 (trottoir) (100%) de la zone pilote : supprimée par le réaménagement de 2025"
-     },
-     "sur_sol_sureleve": {
-      "ML-0404": "posée sur S-0315 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (levé GAM) ; gardée sur ce sol",
-      "ML-0485": "posée sur surf_0213 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (levé GAM) ; gardée sur ce sol",
-      "ML-0487": "posée sur surf_0213 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (levé GAM) ; gardée sur ce sol",
-      "ML-0491": "posée sur surf_0213 (trottoir) (95%) : piste, bande ou stationnement au niveau du trottoir (levé GAM) ; gardée sur ce sol",
-      "ML-0796": "posée sur surf_0310 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
-      "ML-0797": "posée sur surf_0310 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
-      "ML-0798": "posée sur surf_0310 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
-      "ML-0800": "posée sur surf_0312 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
-      "ML-0801": "posée sur surf_0312 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
-      "ML-0802": "posée sur K-0381 (bordure), S-0312 (trottoir), surf_0312 (trottoir) (82%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
-      "ML-0852": "posée sur S-0315 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (levé GAM) ; gardée sur ce sol",
-      "MS-0258": "posée sur surf_0415 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (symbole posé) ; gardée sur ce sol",
-      "MS-0259": "posée sur surf_0415 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (symbole posé) ; gardée sur ce sol",
-      "MS-0260": "posée sur surf_0415 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (symbole posé) ; gardée sur ce sol",
-      "MS-0261": "posée sur surf_0415 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (symbole posé) ; gardée sur ce sol",
-      "MS-0843": "posée sur surf_0281 (espace_vert), surf_0306 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
-      "MS-0846": "posée sur surf_0281 (espace_vert), surf_0306 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
-      "MS-0896": "posée sur surf_0310 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
-      "MS-0907": "posée sur surf_0312 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
-      "MS-0908": "posée sur surf_0312 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
-      "MS-0909": "posée sur surf_0312 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol",
-      "MS-0910": "posée sur surf_0312 (trottoir) (100%) : piste, bande ou stationnement au niveau du trottoir (plan 2025) ; gardée sur ce sol"
-     },
-     "non_fabriques": {
-      "MF-0766": "marque du plan 2025 posée sur surf_0283 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée",
-      "ML-0405": "marque du plan 2025 posée sur surf_0293 (espace_vert) (71%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée",
-      "MS-0452": "marque du plan 2025 posée sur surf_0293 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée",
-      "MS-0844": "marque du plan 2025 posée sur surf_0281 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
-     },
-     "non_resolus": []
+     ]
     },
-    "recouvrements_restants": []
-   },
-   "non_fabriques": [
-    [
-     "MF-0766",
-     "marque du plan 2025 posée sur surf_0283 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
+    "VAL-SOL-009_TQ-SOL-014_chaussee": {
+     "part_pente_inf_0_5pct": 0.025,
+     "part_pente_inf_0_5pct_hors_xodr": 0.038,
+     "pente_p50_pct": 2.385
+    },
+    "GA-CHA-004_points_bas_chaussee": {
+     "n": 1845,
+     "avaloirs_decrits": 0,
+     "exemples": [
+      [
+       30.2,
+       -149.5
+      ],
+      [
+       39.2,
+       -149.3
+      ],
+      [
+       -131.6,
+       -149.2
+      ],
+      [
+       30.1,
+       -149.0
+      ],
+      [
+       -131.3,
+       -148.9
+      ],
+      [
+       -131.1,
+       -148.7
+      ],
+      [
+       39.0,
+       -148.6
+      ],
+      [
+       30.0,
+       -148.5
+      ],
+      [
+       -130.6,
+       -148.2
+      ],
+      [
+       38.9,
+       -148.2
+      ]
+     ]
+    },
+    "GA-ASS-005_noue": {
+     "pente_05m_max_pct": 33.333,
+     "pente_2m_max_pct": 19.753,
+     "seuil_pct": 33.3
+    },
+    "GA-BOR-005_contacts": {
+     "n_contacts_en_t": 136,
+     "n_contacts": 467,
+     "n_tete_sup_2cm": 175,
+     "n_pied_sup_1cm": 257,
+     "dtete_max_m": 0.154,
+     "dpied_max_m": 0.14,
+     "pires": [
+      {
+       "bordure": "K-0584",
+       "bout": "debut",
+       "contre": "K-0588",
+       "bout_a_bout": true,
+       "dtete_m": 0.154,
+       "dpied_m": 0.139
+      },
+      {
+       "bordure": "K-0588",
+       "bout": "fin",
+       "contre": "K-0584",
+       "bout_a_bout": true,
+       "dtete_m": 0.154,
+       "dpied_m": 0.14
+      },
+      {
+       "bordure": "K-0193",
+       "bout": "fin",
+       "contre": "K-0290",
+       "bout_a_bout": true,
+       "dtete_m": 0.116,
+       "dpied_m": 0.106
+      },
+      {
+       "bordure": "K-0290",
+       "bout": "fin",
+       "contre": "K-0193",
+       "bout_a_bout": true,
+       "dtete_m": 0.116,
+       "dpied_m": 0.106
+      },
+      {
+       "bordure": "K-0327",
+       "bout": "debut",
+       "contre": "K-0309",
+       "bout_a_bout": true,
+       "dtete_m": 0.112,
+       "dpied_m": 0.112
+      },
+      {
+       "bordure": "K-0329",
+       "bout": "debut",
+       "contre": "K-0308",
+       "bout_a_bout": true,
+       "dtete_m": 0.091,
+       "dpied_m": 0.091
+      },
+      {
+       "bordure": "K-0476",
+       "bout": "debut",
+       "contre": "K-0478",
+       "bout_a_bout": true,
+       "dtete_m": 0.083,
+       "dpied_m": 0.019
+      },
+      {
+       "bordure": "K-0658",
+       "bout": "fin",
+       "contre": "K-0658z",
+       "bout_a_bout": true,
+       "dtete_m": 0.073,
+       "dpied_m": 0.073
+      },
+      {
+       "bordure": "K-0658z",
+       "bout": "debut",
+       "contre": "K-0658",
+       "bout_a_bout": true,
+       "dtete_m": 0.073,
+       "dpied_m": 0.073
+      },
+      {
+       "bordure": "K-0085",
+       "bout": "fin",
+       "contre": "K-0086",
+       "bout_a_bout": true,
+       "dtete_m": 0.07,
+       "dpied_m": 0.015
+      },
+      {
+       "bordure": "K-0086",
+       "bout": "debut",
+       "contre": "K-0085",
+       "bout_a_bout": true,
+       "dtete_m": 0.07,
+       "dpied_m": 0.015
+      },
+      {
+       "bordure": "K-0581",
+       "bout": "debut",
+       "contre": "K-0606",
+       "bout_a_bout": true,
+       "dtete_m": 0.07,
+       "dpied_m": 0.05
+      }
+     ],
+     "fins_libres_descendues": 121
+    }
+   }
+  },
+  "regularisation": {
+   "orientation": {
+    "regles": [
+     "GQ-ORI-001",
+     "GQ-ORI-002"
     ],
-    [
-     "ML-0229",
-     "posée sur l'emprise du bâtiment v1 surf_0230 (dalle de parking) : sol absent du paquet, marque gardée non fabriquée"
+    "bordures_verifiees": 481,
+    "retournees": [
+     {
+      "bordure": "K-0453",
+      "longueur_m": 5.28,
+      "critere_origine": "cote_haut_relief",
+      "circulee_haut": 0.0,
+      "circulee_bas": 0.0,
+      "classe_chaussee_haut": 0.82,
+      "classe_pietonne_bas": 0.64,
+      "classe_chaussee_bas": 0.36,
+      "classe_pietonne_haut": 0.18,
+      "decision": "retournee",
+      "regle": "GQ-ORI-002"
+     },
+     {
+      "bordure": "K-0466",
+      "longueur_m": 3.78,
+      "critere_origine": "cote_haut_relief",
+      "circulee_haut": 0.0,
+      "circulee_bas": 0.0,
+      "classe_chaussee_haut": 1.0,
+      "classe_pietonne_bas": 0.88,
+      "classe_chaussee_bas": 0.12,
+      "classe_pietonne_haut": 0.0,
+      "decision": "retournee",
+      "regle": "GQ-ORI-002"
+     },
+     {
+      "bordure": "K-0467",
+      "longueur_m": 5.29,
+      "critere_origine": "cote_haut_relief",
+      "circulee_haut": 0.0,
+      "circulee_bas": 0.0,
+      "classe_chaussee_haut": 1.0,
+      "classe_pietonne_bas": 0.73,
+      "classe_chaussee_bas": 0.27,
+      "classe_pietonne_haut": 0.0,
+      "decision": "retournee",
+      "regle": "GQ-ORI-002"
+     },
+     {
+      "bordure": "K-0469",
+      "longueur_m": 5.4,
+      "critere_origine": "cote_haut_relief",
+      "circulee_haut": 0.0,
+      "circulee_bas": 0.0,
+      "classe_chaussee_haut": 1.0,
+      "classe_pietonne_bas": 1.0,
+      "classe_chaussee_bas": 0.0,
+      "classe_pietonne_haut": 0.0,
+      "decision": "retournee",
+      "regle": "GQ-ORI-002"
+     },
+     {
+      "bordure": "K-0563",
+      "longueur_m": 9.16,
+      "critere_origine": "cote_haut_relief",
+      "circulee_haut": 0.0,
+      "circulee_bas": 0.0,
+      "classe_chaussee_haut": 1.0,
+      "classe_pietonne_bas": 1.0,
+      "classe_chaussee_bas": 0.0,
+      "classe_pietonne_haut": 0.0,
+      "decision": "retournee",
+      "regle": "GQ-ORI-002"
+     },
+     {
+      "bordure": "K-0588",
+      "longueur_m": 15.75,
+      "critere_origine": "cote_haut_relief",
+      "circulee_haut": 0.0,
+      "circulee_bas": 0.0,
+      "classe_chaussee_haut": 1.0,
+      "classe_pietonne_bas": 1.0,
+      "classe_chaussee_bas": 0.0,
+      "classe_pietonne_haut": 0.0,
+      "decision": "retournee",
+      "regle": "GQ-ORI-002"
+     },
+     {
+      "bordure": "K-0632",
+      "longueur_m": 30.05,
+      "critere_origine": "mnt_2026",
+      "circulee_haut": 1.0,
+      "circulee_bas": 0.0,
+      "classe_chaussee_haut": 1.0,
+      "classe_pietonne_bas": 1.0,
+      "classe_chaussee_bas": 0.0,
+      "classe_pietonne_haut": 0.0,
+      "decision": "retournee",
+      "regle": "GQ-ORI-001",
+      "conflit": "CF-GQ-03 : retournée contre le critère d'origine mnt_2026 (mnt_2026 (dz gauche-droite -0.055 m))"
+     },
+     {
+      "bordure": "K-0666",
+      "longueur_m": 165.11,
+      "critere_origine": "cote_haut_relief",
+      "circulee_haut": 1.0,
+      "circulee_bas": 0.0,
+      "classe_chaussee_haut": 1.0,
+      "classe_pietonne_bas": 0.26,
+      "classe_chaussee_bas": 0.74,
+      "classe_pietonne_haut": 0.0,
+      "decision": "retournee",
+      "regle": "GQ-ORI-001"
+     },
+     {
+      "bordure": "K-0669",
+      "longueur_m": 121.75,
+      "critere_origine": "cote_haut_relief",
+      "circulee_haut": 1.0,
+      "circulee_bas": 0.0,
+      "classe_chaussee_haut": 1.0,
+      "classe_pietonne_bas": 0.44,
+      "classe_chaussee_bas": 0.55,
+      "classe_pietonne_haut": 0.0,
+      "decision": "retournee",
+      "regle": "GQ-ORI-001"
+     }
     ],
-    [
-     "ML-0405",
-     "marque du plan 2025 posée sur surf_0293 (espace_vert) (71%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
-    ],
-    [
-     "MS-0452",
-     "marque du plan 2025 posée sur surf_0293 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
-    ],
-    [
-     "MS-0819",
-     "point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise) : sol absent du paquet, marque gardée non fabriquée"
-    ],
-    [
-     "MS-0822",
-     "point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise) : sol absent du paquet, marque gardée non fabriquée"
-    ],
-    [
-     "MS-0844",
-     "marque du plan 2025 posée sur surf_0281 (espace_vert) (100%) du sol v1 : piste ou chaussée 2025 absente du paquet (sol non à jour), marque gardée non fabriquée"
-    ],
-    [
-     "MS-0846",
-     "point d'axe Chronovélo (plan 2025) à cheval sur une marche du sol v1 (espace_vert_2025 / trottoir_2025) : sol absent du paquet, marque gardée non fabriquée"
-    ],
-    [
-     "MS-0895",
-     "point d'axe Chronovélo (plan 2025) sur le talus du sol v1 (trottoir_2025, pente > 30 % sur toute l'emprise) : sol absent du paquet, marque gardée non fabriquée"
+    "conflits_journalises": [
+     {
+      "bordure": "K-0253",
+      "longueur_m": 29.58,
+      "critere_origine": "mnt_2026",
+      "circulee_haut": 0.0,
+      "circulee_bas": 0.0,
+      "classe_chaussee_haut": 0.85,
+      "classe_pietonne_bas": 0.77,
+      "classe_chaussee_bas": 0.23,
+      "classe_pietonne_haut": 0.15,
+      "decision": "garde",
+      "regle": null,
+      "conflit": "classe raster contraire (chaussée côté haut, piétonne côté bas) : gardée (voie ou MNT décisif)"
+     }
     ]
-   ]
+   },
+   "noeuds": {
+    "noeuds": 162,
+    "noeuds_g1": 105,
+    "bouts_accroches": 330,
+    "deplacement_max_m": 0.0177,
+    "contacts_t": 73,
+    "sens_opposes": [
+     [
+      "K-0079",
+      "K-0317"
+     ],
+     [
+      "K-0335",
+      "K-0356"
+     ],
+     [
+      "K-0450",
+      "K-0451"
+     ]
+    ]
+   },
+   "bordures_statuts": {
+    "regularise": 481
+   },
+   "bordures_ajoutees_decrites": {
+    "a_priori:fermeture_ceinture_ilot": 6,
+    "a_priori:limite_ilot_sans_bordure_levee": 3,
+    "a_priori:pont_lacune_bordure": 14
+   },
+   "limites": {
+    "croisements_evites": 27,
+    "ecart_max_fermeture": 0.3054,
+    "ecart_max_limite_revetement": 0.0383,
+    "ecart_max_osm_parking": 0.316,
+    "ecart_max_talus_bas": 0.0354,
+    "ecart_max_talus_haut": 0.0446,
+    "ecart_max_vegetation": 0.0372,
+    "largeur_constante": 19,
+    "largeur_constante_m": 209.7705,
+    "limites_degenerees_retirees": 89,
+    "n_fermeture": 327,
+    "n_limite_revetement": 491,
+    "n_osm_parking": 83,
+    "n_talus_bas": 62,
+    "n_talus_haut": 58,
+    "n_vegetation": 192,
+    "regularise": 1213
+   },
+   "marquages": {
+    "statuts": {
+     "ligne_droite": 235,
+     "ligne_multi": 24,
+     "paralleles_bordure": 3,
+     "regularise": 267,
+     "transversale_droite": 8
+    },
+    "ecart_max_par_source_m": {
+     "gam": 0.0324,
+     "ortho2022": 0.0949,
+     "plan2025": 0.0398,
+     "regle:MQ-DET-002": 0.016,
+     "regle:MQ-LEF-002": 0.0,
+     "regle:MQ-LEF-011": 0.0
+    }
+   }
   }
  },
  "preuves": {
@@ -3317,14 +2811,7 @@
    "type": "norme",
    "ref": "IISR_7_art113-1",
    "date": null,
-   "texte": "T3 3.0/1.33",
-   "fichier": null
-  },
-  "norme:IISR_7_art117-2": {
-   "type": "norme",
-   "ref": "IISR_7_art117-2",
-   "date": null,
-   "texte": "bande 0,50",
+   "texte": "T1 3.0/10.0",
    "fichier": null
   },
   "norme:IISR_7_art117-4": {
@@ -3348,34 +2835,6 @@
    "texte": "éléments 0,994 m + joint 6 mm ; 0,50 m si R < 12 m",
    "fichier": null
   },
-  "norme:NF_P98-351": {
-   "type": "norme",
-   "ref": "NF_P98-351",
-   "date": null,
-   "texte": "mobilier.json bev_podotactile : première ligne de plots à 0,50 m du nez ; dalles 0,40 ; rognée hors îlots",
-   "fichier": null
-  },
-  "norme:arrete_2007-01-15_art1_ressaut_2cm": {
-   "type": "norme",
-   "ref": "arrete_2007-01-15_art1_ressaut_2cm",
-   "date": null,
-   "texte": "passage:PP-0442",
-   "fichier": null
-  },
-  "osm": {
-   "type": "osm",
-   "ref": "osm",
-   "date": null,
-   "texte": "surf_0445 (limites:osm_bdtopo_batiment ; classe:ortho_2024)",
-   "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
-  },
-  "osm:node/1959022961": {
-   "type": "osm",
-   "ref": "node/1959022961",
-   "date": null,
-   "texte": "tactile_paving=no à 2.0 m",
-   "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
-  },
   "osm:node/1959022964": {
    "type": "osm",
    "ref": "node/1959022964",
@@ -3397,6 +2856,13 @@
    "texte": "tactile_paving=yes à 3.8 m",
    "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
   },
+  "osm:node/4419895296": {
+   "type": "osm",
+   "ref": "node/4419895296",
+   "date": null,
+   "texte": "tactile_paving=no à 3.3 m (hors travaux 2025) ; conflit avec GA-BEV-001 signalé (FUS-CON-005)",
+   "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
+  },
   "osm:node/6569623985": {
    "type": "osm",
    "ref": "node/6569623985",
@@ -3411,20 +2877,6 @@
    "texte": "tactile_paving=yes à 2.5 m",
    "fichier": "data/sites/paquet_jardin/vector/osm_crossings.geojson"
   },
-  "panoramax:20d1a815/r01_c02": {
-   "type": "panoramax",
-   "ref": "20d1a815-ee8d-4d99-97c4-8e70270f289d r01_c02",
-   "date": "2025-08-31",
-   "texte": "licence CC-BY-SA-4.0, producteur Binnette, azimut 232",
-   "fichier": "data/raw/panoramax/paquet_jardin/tiles/2025-08-31_20d1a815-ee8d-4d99-97c4-8e70270f289d_hd/2025-08-31_20d1a815-ee8d-4d99-97c4-8e70270f289d_hd_r01_c02.jpg"
-  },
-  "panoramax:9834f494/r01_c01": {
-   "type": "panoramax",
-   "ref": "9834f494-dbcb-4c89-b8f7-0c3a8cb42433 r01_c01",
-   "date": "2025-05-18",
-   "texte": "licence CC-BY-SA-4.0, producteur Eric S, azimut 227",
-   "fichier": "data/raw/panoramax/paquet_jardin/tiles/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd/2025-05-18_9834f494-dbcb-4c89-b8f7-0c3a8cb42433_hd_r01_c01.jpg"
-  },
   "photo_utilisateur": {
    "type": "photo_utilisateur",
    "ref": "photos de référence de l'utilisateur (bordures béton en éléments, BRF, gravier)",
@@ -3438,11 +2890,101 @@
    "src": "a_priori:bordure_existante_beton_gris",
    "attribut": "materiau",
    "entites": [
+    "K-0001",
+    "K-0004",
     "K-0005",
     "K-0007",
     "K-0008",
+    "K-0009",
     "K-0012",
+    "K-0014",
+    "K-0016",
+    "K-0018",
+    "K-0020",
+    "K-0021",
+    "K-0022",
+    "K-0023",
+    "K-0024",
+    "K-0025",
+    "K-0026",
+    "K-0027",
+    "K-0028",
+    "K-0029",
+    "K-0030",
+    "K-0031",
+    "K-0032",
+    "K-0033",
+    "K-0034",
+    "K-0035",
+    "K-0040",
+    "K-0041",
+    "K-0042",
+    "K-0044",
+    "K-0045",
+    "K-0046",
+    "K-0047",
+    "K-0048",
+    "K-0049",
+    "K-0050",
+    "K-0051",
+    "K-0052",
+    "K-0053",
+    "K-0054",
+    "K-0055",
+    "K-0056",
+    "K-0056z",
+    "K-0057",
+    "K-0058",
+    "K-0059",
+    "K-0060",
+    "K-0061",
+    "K-0062",
+    "K-0063",
+    "K-0064",
+    "K-0065",
+    "K-0066",
+    "K-0069",
+    "K-0070",
+    "K-0071",
+    "K-0073",
+    "K-0074",
+    "K-0078",
+    "K-0079",
+    "K-0080",
+    "K-0081",
+    "K-0082",
+    "K-0083",
+    "K-0084",
+    "K-0085",
+    "K-0086",
+    "K-0087",
+    "K-0088",
+    "K-0093",
+    "K-0096",
+    "K-0097",
+    "K-0098",
+    "K-0100",
+    "K-0102",
+    "K-0103",
+    "K-0105",
+    "K-0107",
+    "K-0116",
+    "K-0118",
+    "K-0123",
+    "K-0124",
+    "K-0155",
+    "K-0156",
+    "K-0157",
+    "K-0158",
+    "K-0159",
+    "K-0160",
+    "K-0161",
+    "K-0162",
+    "K-0163",
+    "K-0164",
+    "K-0165",
     "K-0167",
+    "K-0171",
     "K-0172",
     "K-0174",
     "K-0177",
@@ -3451,423 +2993,2159 @@
     "K-0185",
     "K-0186",
     "K-0189",
+    "K-0193",
     "K-0194",
+    "K-0195",
+    "K-0196",
+    "K-0197",
+    "K-0198",
+    "K-0199",
+    "K-0200",
+    "K-0201",
+    "K-0202",
+    "K-0203",
+    "K-0204",
+    "K-0205",
+    "K-0206",
+    "K-0207",
+    "K-0208",
+    "K-0209",
+    "K-0210",
+    "K-0211",
+    "K-0212",
+    "K-0213",
+    "K-0214",
+    "K-0216",
+    "K-0217",
+    "K-0218",
+    "K-0219",
+    "K-0220",
+    "K-0221",
+    "K-0222",
+    "K-0223",
+    "K-0224",
+    "K-0225",
+    "K-0226",
+    "K-0227",
+    "K-0228",
+    "K-0229",
+    "K-0230",
+    "K-0232",
+    "K-0233",
+    "K-0234",
+    "K-0235",
+    "K-0236",
+    "K-0237",
+    "K-0238",
+    "K-0239",
+    "K-0240",
     "K-0241",
+    "K-0242",
+    "K-0243",
+    "K-0244",
+    "K-0245",
+    "K-0246",
+    "K-0247",
+    "K-0249",
+    "K-0253",
+    "K-0254",
+    "K-0256",
+    "K-0259",
+    "K-0260",
+    "K-0262a",
+    "K-0262b",
+    "K-0263",
+    "K-0264",
+    "K-0265",
+    "K-0266",
+    "K-0267",
+    "K-0268",
+    "K-0269",
+    "K-0270",
+    "K-0271",
+    "K-0273",
+    "K-0274",
+    "K-0277",
+    "K-0278",
+    "K-0280",
+    "K-0281",
+    "K-0285",
+    "K-0286",
+    "K-0289",
+    "K-0290",
+    "K-0291",
+    "K-0294",
+    "K-0295",
+    "K-0298",
+    "K-0299",
+    "K-0300",
+    "K-0301",
+    "K-0302",
+    "K-0303",
+    "K-0304",
+    "K-0305",
+    "K-0306",
+    "K-0307",
+    "K-0308",
+    "K-0309",
+    "K-0310",
+    "K-0311",
+    "K-0312",
+    "K-0313",
     "K-0314",
     "K-0315",
+    "K-0316",
+    "K-0317",
+    "K-0318",
+    "K-0319",
+    "K-0320",
+    "K-0321",
+    "K-0322",
+    "K-0323",
+    "K-0324",
+    "K-0325",
+    "K-0326",
+    "K-0327",
+    "K-0328",
+    "K-0329",
+    "K-0330",
+    "K-0331",
     "K-0332",
+    "K-0334",
+    "K-0335",
+    "K-0336",
     "K-0339",
     "K-0341",
+    "K-0342",
+    "K-0343",
     "K-0346",
+    "K-0347",
     "K-0348",
+    "K-0349",
+    "K-0350",
+    "K-0351",
     "K-0352",
     "K-0353",
     "K-0354",
+    "K-0355",
     "K-0356",
     "K-0357",
+    "K-0358",
     "K-0360",
     "K-0361",
+    "K-0362",
+    "K-0364",
+    "K-0365",
+    "K-0366",
+    "K-0367",
+    "K-0368",
+    "K-0368z",
     "K-0369",
     "K-0370",
     "K-0373",
+    "K-0379",
     "K-0381",
+    "K-0382",
     "K-0385",
     "K-0386",
     "K-0386z",
+    "K-0387",
+    "K-0392",
+    "K-0403",
+    "K-0407",
+    "K-0408",
+    "K-0409",
+    "K-0410",
     "K-0411",
     "K-0412",
     "K-0413",
     "K-0415",
     "K-0416",
     "K-0417",
+    "K-0418",
+    "K-0419",
+    "K-0420",
+    "K-0421",
+    "K-0424",
+    "K-0446",
+    "K-0452",
+    "K-0478",
+    "K-0479",
+    "K-0481",
+    "K-0482",
+    "K-0488",
+    "K-0489",
+    "K-0492",
+    "K-0493",
+    "K-0494",
+    "K-0495",
+    "K-0496",
+    "K-0500",
+    "K-0501",
     "K-0507",
+    "K-0508",
+    "K-0509",
+    "K-0510",
+    "K-0511",
+    "K-0512",
+    "K-0513",
+    "K-0516",
+    "K-0517",
+    "K-0518",
+    "K-0519",
+    "K-0520",
+    "K-0521",
+    "K-0522",
+    "K-0524",
+    "K-0526",
+    "K-0528",
+    "K-0530",
+    "K-0533",
+    "K-0535",
+    "K-0536",
+    "K-0539",
+    "K-0540",
+    "K-0542",
+    "K-0544",
+    "K-0545",
+    "K-0546",
+    "K-0548",
+    "K-0551",
+    "K-0561",
+    "K-0563",
+    "K-0565",
+    "K-0568",
+    "K-0570",
+    "K-0571",
+    "K-0572",
+    "K-0573",
+    "K-0576",
+    "K-0578",
+    "K-0579",
+    "K-0581",
+    "K-0584",
+    "K-0586",
+    "K-0588",
+    "K-0590",
     "K-0595",
+    "K-0598",
     "K-0600",
+    "K-0601",
+    "K-0604",
+    "K-0606",
+    "K-0607",
     "K-0609",
     "K-0612",
+    "K-0615",
     "K-0617",
     "K-0619",
+    "K-0630",
+    "K-0631",
+    "K-0632",
+    "K-0633",
+    "K-0634",
+    "K-0635",
+    "K-0636",
+    "K-0637",
+    "K-0638",
+    "K-0639",
+    "K-0640",
+    "K-0641",
+    "K-0642",
+    "K-0643",
+    "K-0644",
+    "K-0645",
+    "K-0646",
+    "K-0647",
+    "K-0648",
+    "K-0649",
+    "K-0650",
+    "K-0651",
+    "K-0652",
+    "K-0653",
+    "K-0654",
+    "K-0655",
+    "K-0656",
+    "K-0657",
+    "K-0658",
+    "K-0658z",
+    "K-0659",
+    "K-0660",
+    "K-0661",
+    "K-0662",
+    "K-0663",
+    "K-0664",
+    "K-0665",
     "K-0666",
+    "K-0667",
+    "K-0668",
     "K-0669",
-    "K-9297a"
+    "K-0670",
+    "K-0671",
+    "K-0672",
+    "K-0673",
+    "K-0673z",
+    "K-0674",
+    "K-0675",
+    "K-0676",
+    "K-0677",
+    "K-0679",
+    "K-0684",
+    "K-0685",
+    "K-0686",
+    "K-0687",
+    "K-0688",
+    "K-9297a",
+    "K-9331a",
+    "K-9331b",
+    "K-9500",
+    "K-9501",
+    "K-9502",
+    "K-9503",
+    "K-9504",
+    "K-9505",
+    "K-9507",
+    "K-9508",
+    "K-9509",
+    "K-9510",
+    "K-9512",
+    "K-9513"
    ]
   },
   {
    "src": "a_priori:bordure_neuve_2025_beton_clair",
    "attribut": "materiau",
    "entites": [
+    "K-0374",
+    "K-0375",
+    "K-0376",
+    "K-0377",
+    "K-0378",
+    "K-0380",
+    "K-0383",
+    "K-0384",
     "K-0388",
+    "K-0391",
+    "K-0393",
     "K-0394",
+    "K-0395",
+    "K-0396",
     "K-0397",
+    "K-0398",
+    "K-0399",
+    "K-0400",
+    "K-0402",
+    "K-0404",
+    "K-0405",
+    "K-0406",
+    "K-0414",
+    "K-0427",
+    "K-0428",
+    "K-0431",
+    "K-0433",
+    "K-0435",
+    "K-0437",
+    "K-0438",
+    "K-0439",
+    "K-0440",
+    "K-0443",
+    "K-0449",
+    "K-0450",
+    "K-0451",
+    "K-0453",
+    "K-0454",
+    "K-0455",
+    "K-0456",
+    "K-0457",
+    "K-0458",
+    "K-0459",
+    "K-0460",
+    "K-0461",
+    "K-0462",
+    "K-0463",
+    "K-0465",
+    "K-0466",
+    "K-0467",
+    "K-0468",
+    "K-0469",
+    "K-0470",
+    "K-0471",
+    "K-0472",
+    "K-0473",
+    "K-0476",
+    "K-0477",
+    "K-0499",
+    "K-0502",
+    "K-0503",
+    "K-0504",
+    "K-0506",
+    "K-0514",
+    "K-0515",
+    "K-0552",
     "K-0592",
     "K-0596",
+    "K-0597",
     "K-0611",
-    "K-0628"
+    "K-0622",
+    "K-0623",
+    "K-0624",
+    "K-0625",
+    "K-0626",
+    "K-0627",
+    "K-0628",
+    "K-9506",
+    "K-9511"
    ]
   },
   {
-   "src": "a_priori:charretiere_vue_2_4cm",
-   "attribut": "abaisses",
+   "src": "a_priori:classes_surfaces_v1",
+   "attribut": "face_vue",
    "entites": [
-    "K-0346"
+    "K-0018",
+    "K-0165",
+    "K-0245",
+    "K-0514",
+    "K-0528",
+    "K-0660"
+   ]
+  },
+  {
+   "src": "a_priori:continuite_file",
+   "attribut": "face_vue",
+   "entites": [
+    "K-9500",
+    "K-9501",
+    "K-9502",
+    "K-9503",
+    "K-9504",
+    "K-9505",
+    "K-9506",
+    "K-9507",
+    "K-9508",
+    "K-9509",
+    "K-9510",
+    "K-9511",
+    "K-9512",
+    "K-9513"
+   ]
+  },
+  {
+   "src": "a_priori:correspondance_materiau_v1",
+   "attribut": "remplissage",
+   "entites": [
+    "I-0056",
+    "I-0242",
+    "I-0331",
+    "I-0368",
+    "I-0658",
+    "I-0673"
    ]
   },
   {
    "src": "a_priori:correspondance_materiau_v1",
    "attribut": "revetement",
    "entites": [
-    "S-0094",
-    "S-0120",
+    "S-0000",
+    "S-0008a",
+    "S-0008b",
+    "S-0027a",
+    "S-0027b",
+    "S-0027c",
+    "S-0027e",
+    "S-0029",
+    "S-0034a",
+    "S-0034b",
+    "S-0034c",
+    "S-0034d",
+    "S-0034e",
+    "S-0035a",
+    "S-0035b",
+    "S-0035c",
+    "S-0035d",
+    "S-0038",
+    "S-0051a",
+    "S-0051b",
+    "S-0051c",
+    "S-0054",
+    "S-0055",
+    "S-0056a",
+    "S-0056b",
+    "S-0056c",
+    "S-0057a",
+    "S-0057b",
+    "S-0057c",
+    "S-0057d",
+    "S-0060",
+    "S-0064",
+    "S-0067",
+    "S-0071b",
+    "S-0072",
+    "S-0081a",
+    "S-0081b",
+    "S-0081c",
+    "S-0081d",
+    "S-0081e",
+    "S-0081f",
+    "S-0081g",
+    "S-0081h",
+    "S-0085",
+    "S-0087a",
+    "S-0087b",
+    "S-0087c",
+    "S-0089",
+    "S-0094a",
+    "S-0094b",
+    "S-0094c",
+    "S-0094d",
+    "S-0094e",
+    "S-0094f",
+    "S-0094g",
+    "S-0094h",
+    "S-0094i",
+    "S-0094j",
+    "S-0094k",
+    "S-0094l",
+    "S-0094m",
+    "S-0094n",
+    "S-0094o",
+    "S-0094p",
+    "S-0094q",
+    "S-0094r",
+    "S-0094s",
+    "S-0094t",
+    "S-0107a",
+    "S-0111a",
+    "S-0111b",
+    "S-0112a",
+    "S-0112c",
+    "S-0112e",
+    "S-0114",
+    "S-0120b",
     "S-0123",
     "S-0125",
-    "S-0129",
-    "S-0168",
-    "S-0191",
-    "S-0192",
-    "S-0195",
-    "S-0204",
-    "S-0205",
+    "S-0127",
+    "S-0129a",
+    "S-0129aa",
+    "S-0129ab",
+    "S-0129ac",
+    "S-0129ad",
+    "S-0129ae",
+    "S-0129af",
+    "S-0129ag",
+    "S-0129ah",
+    "S-0129ai",
+    "S-0129aj",
+    "S-0129ak",
+    "S-0129al",
+    "S-0129am",
+    "S-0129an",
+    "S-0129ao",
+    "S-0129ap",
+    "S-0129aq",
+    "S-0129ar",
+    "S-0129as",
+    "S-0129b",
+    "S-0129c",
+    "S-0129d",
+    "S-0129e",
+    "S-0129f",
+    "S-0129g",
+    "S-0129h",
+    "S-0129i",
+    "S-0129j",
+    "S-0129k",
+    "S-0129l",
+    "S-0129m",
+    "S-0129n",
+    "S-0129o",
+    "S-0129p",
+    "S-0129q",
+    "S-0129r",
+    "S-0129s",
+    "S-0129t",
+    "S-0129u",
+    "S-0129v",
+    "S-0129w",
+    "S-0129x",
+    "S-0129y",
+    "S-0129z",
+    "S-0131",
+    "S-0136a",
+    "S-0136ab",
+    "S-0136ae",
+    "S-0136af",
+    "S-0136ag",
+    "S-0136ah",
+    "S-0136aj",
+    "S-0136ak",
+    "S-0136al",
+    "S-0136b",
+    "S-0136c",
+    "S-0136d",
+    "S-0136e",
+    "S-0136f",
+    "S-0136g",
+    "S-0136h",
+    "S-0136i",
+    "S-0136j",
+    "S-0136k",
+    "S-0136l",
+    "S-0136m",
+    "S-0136n",
+    "S-0136o",
+    "S-0136p",
+    "S-0136q",
+    "S-0136v",
+    "S-0136w",
+    "S-0136y",
+    "S-0136z",
+    "S-0137",
+    "S-0138a",
+    "S-0138b",
+    "S-0138c",
+    "S-0138d",
+    "S-0149a",
+    "S-0149c",
+    "S-0149d",
+    "S-0153a",
+    "S-0153b",
+    "S-0153c",
+    "S-0153d",
+    "S-0153e",
+    "S-0153f",
+    "S-0153g",
+    "S-0153h",
+    "S-0153i",
+    "S-0153j",
+    "S-0153k",
+    "S-0153l",
+    "S-0157a",
+    "S-0157b",
+    "S-0157c",
+    "S-0159a",
+    "S-0159b",
+    "S-0159c",
+    "S-0159d",
+    "S-0159f",
+    "S-0159g",
+    "S-0159h",
+    "S-0159i",
+    "S-0159j",
+    "S-0159k",
+    "S-0159l",
+    "S-0159m",
+    "S-0159n",
+    "S-0159o",
+    "S-0159p",
+    "S-0159q",
+    "S-0159r",
+    "S-0161a",
+    "S-0161b",
+    "S-0161c",
+    "S-0161d",
+    "S-0161e",
+    "S-0161f",
+    "S-0161g",
+    "S-0161h",
+    "S-0161i",
+    "S-0161k",
+    "S-0161l",
+    "S-0161n",
+    "S-0161o",
+    "S-0161p",
+    "S-0161q",
+    "S-0161r",
+    "S-0162",
+    "S-0163",
+    "S-0166a",
+    "S-0166b",
+    "S-0168a",
+    "S-0168as",
+    "S-0168at",
+    "S-0168d",
+    "S-0168h",
+    "S-0168k",
+    "S-0168n",
+    "S-0168q",
+    "S-0168s",
+    "S-0168u",
+    "S-0175a",
+    "S-0175b",
+    "S-0177a",
+    "S-0177c",
+    "S-0180a",
+    "S-0180b",
+    "S-0180c",
+    "S-0180d",
+    "S-0180e",
+    "S-0185",
+    "S-0187",
+    "S-0189",
+    "S-0191a",
+    "S-0191b",
+    "S-0192a",
+    "S-0192b",
+    "S-0192c",
+    "S-0192d",
+    "S-0192e",
+    "S-0193a",
+    "S-0193b",
+    "S-0193c",
+    "S-0194",
+    "S-0195a",
+    "S-0195b",
+    "S-0195c",
+    "S-0195d",
+    "S-0195e",
+    "S-0195f",
+    "S-0195g",
+    "S-0195h",
+    "S-0195i",
+    "S-0195j",
+    "S-0197a",
+    "S-0197b",
+    "S-0202b",
+    "S-0203a",
+    "S-0203b",
+    "S-0203c",
+    "S-0203d",
+    "S-0203e",
     "S-0206",
-    "S-0207",
-    "S-0211",
-    "S-0212",
-    "S-0213",
-    "S-0265",
-    "S-0269",
-    "S-0306",
-    "S-0312",
-    "S-0313",
-    "S-0314",
-    "S-0315",
-    "S-0316",
-    "S-0317",
+    "S-0213a",
+    "S-0213b",
+    "S-0213c",
+    "S-0213d",
+    "S-0213e",
+    "S-0213f",
+    "S-0214a",
+    "S-0214b",
+    "S-0214c",
+    "S-0214d",
+    "S-0214e",
+    "S-0214f",
+    "S-0247a",
+    "S-0247b",
+    "S-0247c",
+    "S-0247d",
+    "S-0248",
+    "S-0261a",
+    "S-0261b",
+    "S-0264a",
+    "S-0264b",
+    "S-0264e",
+    "S-0264f",
+    "S-0264g",
+    "S-0264h",
+    "S-0265a",
+    "S-0265d",
+    "S-0265f",
+    "S-0267a",
+    "S-0267c",
+    "S-0267d",
+    "S-0267e",
+    "S-0267f",
+    "S-0267g",
+    "S-0267h",
+    "S-0267i",
+    "S-0268a",
+    "S-0268b",
+    "S-0268c",
+    "S-0268d",
+    "S-0268e",
+    "S-0268f",
+    "S-0268g",
+    "S-0268h",
+    "S-0268l",
+    "S-0268m",
+    "S-0268n",
+    "S-0268p",
+    "S-0269a",
+    "S-0269aa",
+    "S-0269ad",
+    "S-0269ae",
+    "S-0269aj",
+    "S-0269b",
+    "S-0269c",
+    "S-0269d",
+    "S-0269e",
+    "S-0269f",
+    "S-0269g",
+    "S-0269h",
+    "S-0269k",
+    "S-0269l",
+    "S-0269o",
+    "S-0269p",
+    "S-0269r",
+    "S-0269t",
+    "S-0269v",
+    "S-0269w",
+    "S-0269x",
+    "S-0269z",
+    "S-0270",
+    "S-0271a",
+    "S-0272",
+    "S-0281a",
+    "S-0283a",
+    "S-0283b",
+    "S-0292",
+    "S-0294a",
+    "S-0294b",
+    "S-0294c",
+    "S-0296a",
+    "S-0297a",
+    "S-0299a",
+    "S-0299b",
+    "S-0300a",
+    "S-0300b",
+    "S-0300c",
+    "S-0300e",
+    "S-0300g",
+    "S-0300h",
+    "S-0301c",
+    "S-0301e",
+    "S-0306b",
+    "S-0306c",
+    "S-0306d",
+    "S-0308a",
+    "S-0310b",
+    "S-0310d",
+    "S-0312a",
+    "S-0312b",
+    "S-0312c",
+    "S-0312d",
+    "S-0312e",
+    "S-0312f",
+    "S-0312g",
+    "S-0312h",
+    "S-0312i",
+    "S-0313a",
+    "S-0313b",
+    "S-0313c",
+    "S-0313d",
+    "S-0313e",
+    "S-0313f",
+    "S-0315a",
     "S-0318",
     "S-0319",
-    "S-0320",
-    "S-0321",
-    "S-0323",
+    "S-0320b",
+    "S-0320c",
+    "S-0320e",
+    "S-0320f",
+    "S-0321a",
+    "S-0321c",
+    "S-0321f",
+    "S-0321g",
+    "S-0323a",
+    "S-0323b",
+    "S-0323c",
     "S-0324a",
-    "S-0324b",
-    "S-0340",
-    "S-0341",
-    "S-0342",
-    "S-0359",
+    "S-0324c",
+    "S-0328a",
+    "S-0331a",
+    "S-0331b",
+    "S-0332a",
+    "S-0332b",
+    "S-0332c",
+    "S-0332d",
+    "S-0332e",
+    "S-0332f",
+    "S-0333",
+    "S-0334",
+    "S-0337a",
+    "S-0337b",
+    "S-0337c",
+    "S-0338a",
+    "S-0338b",
+    "S-0339a",
+    "S-0339d",
+    "S-0340a",
+    "S-0340b",
+    "S-0340c",
+    "S-0340d",
+    "S-0340e",
+    "S-0340g",
+    "S-0340i",
+    "S-0341a",
+    "S-0341b",
+    "S-0342a",
+    "S-0343a",
+    "S-0343b",
+    "S-0343c",
+    "S-0343d",
+    "S-0343e",
+    "S-0343f",
+    "S-0343g",
+    "S-0343i",
+    "S-0343j",
+    "S-0343l",
+    "S-0343m",
+    "S-0343o",
+    "S-0343p",
+    "S-0343q",
+    "S-0343r",
+    "S-0343s",
+    "S-0347",
+    "S-0350a",
+    "S-0350b",
+    "S-0350c",
+    "S-0351",
+    "S-0352a",
+    "S-0352c",
+    "S-0353",
+    "S-0356",
+    "S-0357",
     "S-0361",
-    "S-0362",
-    "S-0363",
-    "S-0410",
+    "S-0374a",
+    "S-0374b",
+    "S-0374c",
+    "S-0374d",
+    "S-0374e",
+    "S-0374f",
+    "S-0374g",
+    "S-0374h",
+    "S-0374i",
+    "S-0374j",
+    "S-0374k",
+    "S-0374l",
+    "S-0383",
+    "S-0402",
     "S-0411",
     "S-0415a",
+    "S-0415aa",
+    "S-0415ab",
+    "S-0415ac",
+    "S-0415ad",
+    "S-0415ae",
     "S-0415b",
-    "S-0430",
-    "S-0431",
-    "S-0444",
-    "S-0445"
+    "S-0415c",
+    "S-0415d",
+    "S-0415e",
+    "S-0415f",
+    "S-0415g",
+    "S-0415h",
+    "S-0415i",
+    "S-0415j",
+    "S-0415k",
+    "S-0415m",
+    "S-0415n",
+    "S-0415o",
+    "S-0415p",
+    "S-0415q",
+    "S-0415r",
+    "S-0415s",
+    "S-0415t",
+    "S-0415u",
+    "S-0415v",
+    "S-0415w",
+    "S-0415x",
+    "S-0415y",
+    "S-0415z",
+    "S-0417",
+    "S-0429a",
+    "S-0429b",
+    "S-0429c",
+    "S-0429d",
+    "S-0430a",
+    "S-0430b",
+    "S-0431a",
+    "S-0431aa",
+    "S-0431ab",
+    "S-0431ac",
+    "S-0431b",
+    "S-0431c",
+    "S-0431d",
+    "S-0431e",
+    "S-0431i",
+    "S-0431o",
+    "S-0431p",
+    "S-0431q",
+    "S-0431r",
+    "S-0431s",
+    "S-0431t",
+    "S-0431u",
+    "S-0431v",
+    "S-0431w",
+    "S-0431x",
+    "S-0431y",
+    "S-0431z",
+    "S-0441",
+    "S-0444a",
+    "S-0444b",
+    "S-0445a",
+    "S-0445b",
+    "S-0445c",
+    "S-0445d",
+    "S-0445e",
+    "S-0445f",
+    "S-0445g",
+    "S-0445h",
+    "S-0445i",
+    "S-0445j",
+    "S-0446a",
+    "S-0446b",
+    "S-0447a",
+    "S-0447b",
+    "S-0453a",
+    "S-0453b",
+    "S-0454a",
+    "S-0454b",
+    "S-0454c",
+    "S-0454d",
+    "S-0454e",
+    "S-0454f",
+    "S-0454g",
+    "S-0454h",
+    "S-0454i",
+    "S-0454j",
+    "S-0454k",
+    "S-0454l",
+    "S-0454m",
+    "S-0454n",
+    "S-0454o",
+    "S-0454p",
+    "S-0454q",
+    "S-0455",
+    "S-0457a",
+    "S-0459a",
+    "S-0459b",
+    "S-0461a",
+    "S-0461b",
+    "S-0461c",
+    "S-0461d",
+    "S-0461e",
+    "S-0461f",
+    "S-0461g",
+    "S-0461h",
+    "S-0465a",
+    "S-0465b",
+    "S-0465c",
+    "S-0465d",
+    "S-0465e",
+    "S-0465f",
+    "S-0465g",
+    "S-0465h",
+    "S-0465i"
    ]
   },
   {
    "src": "a_priori:fermeture_ceinture_ilot",
    "attribut": "geometrie",
    "entites": [
+    "K-0056z",
+    "K-0368z",
     "K-0386z",
-    "K-0629z"
+    "K-0629z",
+    "K-0658z",
+    "K-0673z"
    ]
   },
   {
-   "src": "a_priori:fil_eau_bordure_refermee",
-   "attribut": "z",
+   "src": "a_priori:indice_v1",
+   "attribut": "usure",
    "entites": [
-    "K-0386z",
-    "K-0629z"
+    "MF-5042",
+    "MF-5043",
+    "MF-6000",
+    "MF-6003",
+    "ML-0287",
+    "ML-0288",
+    "ML-0481",
+    "ML-5041",
+    "ML-5070",
+    "ML-5072",
+    "ML-5136",
+    "ML-5139",
+    "ML-5141",
+    "ML-5144",
+    "ML-5145",
+    "ML-5147",
+    "ML-5159",
+    "ML-5172",
+    "ML-5179",
+    "ML-5185",
+    "ML-5207",
+    "ML-5208",
+    "ML-5209",
+    "ML-5210",
+    "ML-5231",
+    "ML-5233",
+    "ML-5331",
+    "ML-5332",
+    "ML-5333",
+    "ML-5334",
+    "ML-5335",
+    "ML-5336",
+    "ML-5337",
+    "ML-5338",
+    "ML-5339",
+    "ML-5340",
+    "ML-5341",
+    "ML-5342",
+    "ML-5343",
+    "ML-5344",
+    "ML-5345",
+    "ML-5346",
+    "ML-5347",
+    "ML-5352",
+    "ML-5353",
+    "ML-5358",
+    "ML-5360",
+    "ML-5395",
+    "ML-6200",
+    "ML-6203",
+    "ML-6228",
+    "ML-6229",
+    "ML-6232",
+    "ML-6234",
+    "MP-6101",
+    "MS-5155",
+    "MS-5214",
+    "MZ-5160"
    ]
   },
   {
    "src": "a_priori:interieur_ilot_a_gauche",
    "attribut": "face_vue",
    "entites": [
+    "K-0056z",
+    "K-0368z",
     "K-0386z",
     "K-0629z",
-    "K-9297a"
+    "K-0658z",
+    "K-0673z",
+    "K-9297a",
+    "K-9331a",
+    "K-9331b"
    ]
   },
   {
    "src": "a_priori:limite_espace_vert_p1",
    "attribut": "intervalles",
    "entites": [
+    "K-0023",
+    "K-0030",
+    "K-0206",
+    "K-0207",
+    "K-0222",
+    "K-0239",
     "K-0241",
+    "K-0245",
+    "K-0273",
+    "K-0305",
+    "K-0308",
+    "K-0309",
     "K-0314",
     "K-0315",
+    "K-0316",
+    "K-0319",
+    "K-0320",
+    "K-0321",
+    "K-0322",
+    "K-0323",
+    "K-0324",
+    "K-0325",
+    "K-0327",
+    "K-0328",
     "K-0346",
     "K-0356",
     "K-0370",
-    "K-0592"
+    "K-0427",
+    "K-0428",
+    "K-0431",
+    "K-0433",
+    "K-0440",
+    "K-0443",
+    "K-0446",
+    "K-0449",
+    "K-0450",
+    "K-0451",
+    "K-0453",
+    "K-0456",
+    "K-0458",
+    "K-0459",
+    "K-0460",
+    "K-0463",
+    "K-0466",
+    "K-0467",
+    "K-0469",
+    "K-0470",
+    "K-0471",
+    "K-0472",
+    "K-0473",
+    "K-0476",
+    "K-0477",
+    "K-0479",
+    "K-0481",
+    "K-0482",
+    "K-0500",
+    "K-0502",
+    "K-0503",
+    "K-0504",
+    "K-0506",
+    "K-0513",
+    "K-0514",
+    "K-0515",
+    "K-0528",
+    "K-0546",
+    "K-0552",
+    "K-0592",
+    "K-0597",
+    "K-0679"
    ]
   },
   {
    "src": "a_priori:limite_ilot_sans_bordure_levee",
    "attribut": "geometrie",
    "entites": [
-    "K-9297a"
-   ]
-  },
-  {
-   "src": "a_priori:limite_imposee_v1",
-   "attribut": "geometrie",
-   "entites": [
-    "S-0334",
-    "S-0344"
+    "K-9297a",
+    "K-9331a",
+    "K-9331b"
    ]
   },
   {
    "src": "a_priori:limite_massif_p1",
    "attribut": "intervalles",
    "entites": [
-    "K-9297a"
+    "K-9297a",
+    "K-9331a",
+    "K-9331b"
+   ]
+  },
+  {
+   "src": "a_priori:limite_piste_a2",
+   "attribut": "intervalles",
+   "entites": [
+    "K-0508",
+    "K-0672"
    ]
   },
   {
    "src": "a_priori:massif_2025_en_creux_noue",
    "attribut": "revetement",
    "entites": [
-    "S-0294"
-   ]
-  },
-  {
-   "src": "a_priori:massif_2025_paillage_bois",
-   "attribut": "revetement",
-   "entites": [
-    "S-0284",
-    "S-0293",
-    "S-0295",
-    "S-0296",
-    "S-0297",
-    "S-0298",
-    "S-0299",
-    "S-0334"
-   ]
-  },
-  {
-   "src": "a_priori:mnt_2026",
-   "attribut": "niveau",
-   "entites": [
-    "S-0094",
-    "S-0120",
-    "S-0121",
-    "S-0123",
-    "S-0125",
-    "S-0129",
-    "S-0168",
-    "S-0191",
-    "S-0192",
-    "S-0195",
-    "S-0204",
-    "S-0205",
-    "S-0206",
-    "S-0207",
-    "S-0211",
-    "S-0212",
-    "S-0213",
-    "S-0265",
-    "S-0269",
-    "S-0284",
-    "S-0293",
-    "S-0294",
-    "S-0295",
-    "S-0296",
-    "S-0297",
-    "S-0298",
-    "S-0299",
-    "S-0306",
-    "S-0312",
-    "S-0313",
-    "S-0314",
-    "S-0315",
-    "S-0316",
-    "S-0317",
-    "S-0318",
-    "S-0319",
-    "S-0320",
-    "S-0321",
-    "S-0323",
-    "S-0324a",
-    "S-0324b",
-    "S-0334",
-    "S-0340",
-    "S-0341",
-    "S-0342",
-    "S-0359",
-    "S-0361",
-    "S-0362",
-    "S-0363",
-    "S-0410",
-    "S-0411",
-    "S-0415a",
-    "S-0415b",
-    "S-0430",
-    "S-0431",
-    "S-0444",
-    "S-0445"
-   ]
-  },
-  {
-   "src": "a_priori:mnt_2026_fil_eau",
-   "attribut": "z",
-   "entites": [
-    "K-0005",
-    "K-0007",
-    "K-0008",
-    "K-0012",
-    "K-0167",
-    "K-0172",
-    "K-0174",
-    "K-0177",
-    "K-0178",
-    "K-0182",
-    "K-0185",
-    "K-0186",
-    "K-0189",
-    "K-0194",
-    "K-0241",
-    "K-0314",
-    "K-0315",
-    "K-0332",
-    "K-0339",
-    "K-0341",
-    "K-0346",
-    "K-0348",
-    "K-0352",
-    "K-0353",
-    "K-0354",
-    "K-0356",
-    "K-0357",
-    "K-0360",
-    "K-0361",
-    "K-0369",
-    "K-0370",
-    "K-0372",
-    "K-0373",
-    "K-0381",
-    "K-0385",
-    "K-0386",
-    "K-0388",
-    "K-0389",
-    "K-0390",
-    "K-0394",
-    "K-0397",
-    "K-0411",
-    "K-0412",
-    "K-0413",
-    "K-0415",
-    "K-0416",
-    "K-0417",
-    "K-0507",
-    "K-0592",
-    "K-0595",
-    "K-0596",
-    "K-0600",
-    "K-0609",
-    "K-0611",
-    "K-0612",
-    "K-0617",
-    "K-0619",
-    "K-0628",
-    "K-0629",
-    "K-0666",
-    "K-0669",
-    "K-9297a"
+    "S-0106",
+    "S-0120a",
+    "S-0352b"
    ]
   },
   {
    "src": "a_priori:neuf_2025_u0",
    "attribut": "usure",
    "entites": [
-    "MF-0021",
-    "MF-0761",
-    "MF-0762",
-    "MF-0763",
     "MF-0764",
-    "MF-0765",
-    "MF-0767",
-    "MF-0768",
-    "MF-0770",
-    "MF-0771",
-    "MF-0772",
-    "MF-0773",
-    "MF-0775",
-    "MP-0863",
-    "MP-0869",
-    "MT-0853",
-    "MZ-0919",
-    "MZ-0920"
+    "MF-0767"
+   ]
+  },
+  {
+   "src": "a_priori:partition_vectorielle_site",
+   "attribut": "geometrie",
+   "entites": [
+    "S-0027a",
+    "S-0027c",
+    "S-0027d",
+    "S-0027e",
+    "S-0034a",
+    "S-0034b",
+    "S-0034d",
+    "S-0034e",
+    "S-0035b",
+    "S-0035e",
+    "S-0035f",
+    "S-0035g",
+    "S-0051a",
+    "S-0051c",
+    "S-0054",
+    "S-0055",
+    "S-0056a",
+    "S-0056c",
+    "S-0057a",
+    "S-0057b",
+    "S-0057d",
+    "S-0060",
+    "S-0064",
+    "S-0071a",
+    "S-0071b",
+    "S-0071d",
+    "S-0071f",
+    "S-0072",
+    "S-0081e",
+    "S-0085",
+    "S-0087a",
+    "S-0087b",
+    "S-0087c",
+    "S-0094a",
+    "S-0094b",
+    "S-0094e",
+    "S-0094f",
+    "S-0094g",
+    "S-0094h",
+    "S-0094i",
+    "S-0094j",
+    "S-0094m",
+    "S-0094n",
+    "S-0094o",
+    "S-0094p",
+    "S-0094t",
+    "S-0094u",
+    "S-0106",
+    "S-0108a",
+    "S-0114",
+    "S-0120b",
+    "S-0121b",
+    "S-0121c",
+    "S-0121d",
+    "S-0121e",
+    "S-0123",
+    "S-0125",
+    "S-0127",
+    "S-0129aa",
+    "S-0129ab",
+    "S-0129ac",
+    "S-0129ad",
+    "S-0129ae",
+    "S-0129af",
+    "S-0129ag",
+    "S-0129ai",
+    "S-0129am",
+    "S-0129an",
+    "S-0129ao",
+    "S-0129ap",
+    "S-0129aq",
+    "S-0129ar",
+    "S-0129at",
+    "S-0129b",
+    "S-0129c",
+    "S-0129d",
+    "S-0129e",
+    "S-0129f",
+    "S-0129g",
+    "S-0129i",
+    "S-0129j",
+    "S-0129k",
+    "S-0129l",
+    "S-0129n",
+    "S-0129o",
+    "S-0129p",
+    "S-0129q",
+    "S-0129r",
+    "S-0129u",
+    "S-0129v",
+    "S-0129x",
+    "S-0129z",
+    "S-0136a",
+    "S-0136aa",
+    "S-0136ab",
+    "S-0136ac",
+    "S-0136ad",
+    "S-0136ae",
+    "S-0136af",
+    "S-0136ag",
+    "S-0136ah",
+    "S-0136ai",
+    "S-0136aj",
+    "S-0136ak",
+    "S-0136c",
+    "S-0136d",
+    "S-0136f",
+    "S-0136l",
+    "S-0136m",
+    "S-0136n",
+    "S-0136o",
+    "S-0136p",
+    "S-0136q",
+    "S-0136s",
+    "S-0136t",
+    "S-0136u",
+    "S-0136v",
+    "S-0136w",
+    "S-0136x",
+    "S-0136y",
+    "S-0136z",
+    "S-0137",
+    "S-0138a",
+    "S-0138b",
+    "S-0138c",
+    "S-0138d",
+    "S-0149a",
+    "S-0149b",
+    "S-0149c",
+    "S-0149d",
+    "S-0149e",
+    "S-0149f",
+    "S-0149g",
+    "S-0153a",
+    "S-0153c",
+    "S-0153e",
+    "S-0153h",
+    "S-0153k",
+    "S-0153l",
+    "S-0153m",
+    "S-0157a",
+    "S-0157b",
+    "S-0157c",
+    "S-0159a",
+    "S-0159e",
+    "S-0159m",
+    "S-0159o",
+    "S-0159p",
+    "S-0159q",
+    "S-0161a",
+    "S-0161d",
+    "S-0161f",
+    "S-0161g",
+    "S-0161j",
+    "S-0161k",
+    "S-0161q",
+    "S-0162",
+    "S-0163",
+    "S-0168aa",
+    "S-0168ab",
+    "S-0168ac",
+    "S-0168ad",
+    "S-0168ae",
+    "S-0168af",
+    "S-0168ag",
+    "S-0168ah",
+    "S-0168ai",
+    "S-0168aj",
+    "S-0168ak",
+    "S-0168al",
+    "S-0168am",
+    "S-0168an",
+    "S-0168ao",
+    "S-0168ap",
+    "S-0168aq",
+    "S-0168ar",
+    "S-0168as",
+    "S-0168at",
+    "S-0168k",
+    "S-0168n",
+    "S-0168p",
+    "S-0168q",
+    "S-0168r",
+    "S-0168s",
+    "S-0168t",
+    "S-0168u",
+    "S-0168v",
+    "S-0168w",
+    "S-0168x",
+    "S-0168y",
+    "S-0168z",
+    "S-0175b",
+    "S-0177b",
+    "S-0180b",
+    "S-0180e",
+    "S-0185",
+    "S-0187",
+    "S-0194",
+    "S-0195g",
+    "S-0195h",
+    "S-0195i",
+    "S-0195j",
+    "S-0197b",
+    "S-0202a",
+    "S-0202b",
+    "S-0203c",
+    "S-0203f",
+    "S-0213a",
+    "S-0213b",
+    "S-0213c",
+    "S-0213d",
+    "S-0213e",
+    "S-0213f",
+    "S-0221b",
+    "S-0221c",
+    "S-0221e",
+    "S-0222",
+    "S-0231a",
+    "S-0231b",
+    "S-0231c",
+    "S-0231d",
+    "S-0248",
+    "S-0261a",
+    "S-0261b",
+    "S-0264g",
+    "S-0264h",
+    "S-0265d",
+    "S-0267c",
+    "S-0267d",
+    "S-0267e",
+    "S-0267f",
+    "S-0267g",
+    "S-0267h",
+    "S-0267i",
+    "S-0268d",
+    "S-0268e",
+    "S-0268f",
+    "S-0268g",
+    "S-0268h",
+    "S-0268l",
+    "S-0268p",
+    "S-0269aa",
+    "S-0269ab",
+    "S-0269ad",
+    "S-0269ae",
+    "S-0269ag",
+    "S-0269ah",
+    "S-0269ai",
+    "S-0269c",
+    "S-0269d",
+    "S-0269e",
+    "S-0269f",
+    "S-0269g",
+    "S-0269h",
+    "S-0269i",
+    "S-0269j",
+    "S-0269k",
+    "S-0269l",
+    "S-0269m",
+    "S-0269o",
+    "S-0269q",
+    "S-0269r",
+    "S-0269s",
+    "S-0269t",
+    "S-0269u",
+    "S-0269v",
+    "S-0269w",
+    "S-0269y",
+    "S-0283a",
+    "S-0283b",
+    "S-0294c",
+    "S-0300b",
+    "S-0300d",
+    "S-0300e",
+    "S-0300f",
+    "S-0300g",
+    "S-0301b",
+    "S-0301c",
+    "S-0301e",
+    "S-0301f",
+    "S-0301g",
+    "S-0306c",
+    "S-0308b",
+    "S-0312f",
+    "S-0312g",
+    "S-0312h",
+    "S-0312i",
+    "S-0315b",
+    "S-0315c",
+    "S-0320d",
+    "S-0321b",
+    "S-0323c",
+    "S-0323d",
+    "S-0324b",
+    "S-0328a",
+    "S-0328b",
+    "S-0329",
+    "S-0330",
+    "S-0331b",
+    "S-0332b",
+    "S-0332c",
+    "S-0332d",
+    "S-0339d",
+    "S-0340d",
+    "S-0340e",
+    "S-0340g",
+    "S-0340h",
+    "S-0340i",
+    "S-0340j",
+    "S-0341b",
+    "S-0341c",
+    "S-0342b",
+    "S-0342c",
+    "S-0343d",
+    "S-0343e",
+    "S-0343f",
+    "S-0343g",
+    "S-0343h",
+    "S-0343i",
+    "S-0343j",
+    "S-0343k",
+    "S-0343l",
+    "S-0343m",
+    "S-0343n",
+    "S-0343o",
+    "S-0343p",
+    "S-0343q",
+    "S-0343r",
+    "S-0343s",
+    "S-0344a",
+    "S-0344b",
+    "S-0347",
+    "S-0374a",
+    "S-0374b",
+    "S-0374c",
+    "S-0374e",
+    "S-0374f",
+    "S-0374g",
+    "S-0374h",
+    "S-0374k",
+    "S-0404",
+    "S-0415aa",
+    "S-0415ab",
+    "S-0415ac",
+    "S-0415ad",
+    "S-0415ae",
+    "S-0415af",
+    "S-0415d",
+    "S-0415e",
+    "S-0415n",
+    "S-0429c",
+    "S-0429f",
+    "S-0431a",
+    "S-0431aa",
+    "S-0431ab",
+    "S-0431ac",
+    "S-0431c",
+    "S-0431f",
+    "S-0431g",
+    "S-0431h",
+    "S-0431i",
+    "S-0431l",
+    "S-0431u",
+    "S-0431v",
+    "S-0431w",
+    "S-0431x",
+    "S-0431y",
+    "S-0431z",
+    "S-0444a",
+    "S-0444b",
+    "S-0454b",
+    "S-0454n",
+    "S-0454q",
+    "S-0455",
+    "S-0461a",
+    "S-0461d",
+    "S-0465i",
+    "S-B0001",
+    "S-B0029-2",
+    "S-B0056-5",
+    "S-B0186-2",
+    "S-B0213-2",
+    "S-B0245-2",
+    "S-B0264-2",
+    "S-B0303-2",
+    "S-B0307-4",
+    "S-B0362-2",
+    "S-B0438-2",
+    "S-B0496",
+    "S-B0636-2",
+    "S-B0637-2",
+    "S-B0658-4",
+    "S-B0673-5",
+    "S-B0673-6",
+    "S-B0685-2",
+    "S-B9507",
+    "S-B9507-2",
+    "S-B9511-2"
    ]
   },
   {
    "src": "a_priori:polygone_v1_recale",
    "attribut": "geometrie",
    "entites": [
-    "I-0297"
+    "I-0297",
+    "I-0331",
+    "I-0333",
+    "I-0339"
+   ]
+  },
+  {
+   "src": "a_priori:pont_lacune_bordure",
+   "attribut": "geometrie",
+   "entites": [
+    "K-9500",
+    "K-9501",
+    "K-9502",
+    "K-9503",
+    "K-9504",
+    "K-9505",
+    "K-9506",
+    "K-9507",
+    "K-9508",
+    "K-9509",
+    "K-9510",
+    "K-9511",
+    "K-9512",
+    "K-9513"
    ]
   },
   {
    "src": "a_priori:pratique_remplissage_ilot",
    "attribut": "retrait",
    "entites": [
+    "I-0056",
+    "I-0242",
     "I-0297",
+    "I-0331",
     "I-0332",
+    "I-0333",
+    "I-0339",
+    "I-0368",
     "I-0386",
     "I-0390",
-    "I-0629"
+    "I-0628",
+    "I-0629",
+    "I-0658",
+    "I-0673"
    ]
   },
   {
    "src": "a_priori:profil_voisin",
    "attribut": "intervalles",
    "entites": [
+    "K-0056z",
+    "K-0368z",
     "K-0386z",
-    "K-0629z"
+    "K-0629z",
+    "K-0658z",
+    "K-0673z"
    ]
   },
   {
    "src": "a_priori:relief_hauteur_standard",
    "attribut": "intervalles",
    "entites": [
+    "K-0001",
+    "K-0018",
+    "K-0029",
+    "K-0045",
+    "K-0047",
+    "K-0054",
+    "K-0056",
+    "K-0058",
+    "K-0059",
+    "K-0060",
+    "K-0087",
+    "K-0102",
+    "K-0155",
+    "K-0156",
+    "K-0157",
+    "K-0158",
+    "K-0159",
+    "K-0160",
+    "K-0161",
+    "K-0162",
+    "K-0163",
+    "K-0164",
+    "K-0165",
+    "K-0195",
+    "K-0198",
+    "K-0213",
+    "K-0223",
+    "K-0232",
+    "K-0240",
+    "K-0242",
+    "K-0253",
+    "K-0263",
+    "K-0264",
+    "K-0267",
+    "K-0268",
+    "K-0274",
+    "K-0277",
+    "K-0280",
+    "K-0281",
+    "K-0289",
+    "K-0290",
+    "K-0299",
+    "K-0301",
+    "K-0307",
+    "K-0313",
+    "K-0326",
+    "K-0329",
+    "K-0330",
+    "K-0362",
+    "K-0364",
     "K-0372",
+    "K-0374",
+    "K-0375",
+    "K-0376",
+    "K-0377",
+    "K-0378",
+    "K-0379",
+    "K-0380",
+    "K-0384",
     "K-0388",
     "K-0390",
+    "K-0391",
+    "K-0393",
     "K-0394",
+    "K-0395",
+    "K-0396",
     "K-0397",
+    "K-0398",
+    "K-0399",
+    "K-0400",
+    "K-0402",
+    "K-0404",
+    "K-0405",
+    "K-0406",
+    "K-0407",
+    "K-0409",
+    "K-0414",
     "K-0416",
+    "K-0418",
+    "K-0435",
+    "K-0437",
+    "K-0438",
+    "K-0439",
+    "K-0454",
+    "K-0455",
+    "K-0457",
+    "K-0461",
+    "K-0462",
+    "K-0465",
+    "K-0468",
+    "K-0494",
+    "K-0499",
+    "K-0501",
+    "K-0522",
+    "K-0530",
+    "K-0539",
+    "K-0540",
+    "K-0542",
+    "K-0544",
+    "K-0545",
+    "K-0548",
+    "K-0551",
+    "K-0563",
+    "K-0565",
+    "K-0571",
+    "K-0581",
     "K-0596",
+    "K-0601",
+    "K-0604",
+    "K-0606",
+    "K-0607",
     "K-0611",
+    "K-0615",
     "K-0617",
     "K-0619",
+    "K-0622",
+    "K-0623",
+    "K-0624",
+    "K-0625",
+    "K-0626",
+    "K-0627",
     "K-0628",
-    "K-0629"
+    "K-0629",
+    "K-0646",
+    "K-0654",
+    "K-0656",
+    "K-0660",
+    "K-0670",
+    "K-0677",
+    "K-0687",
+    "K-0688"
    ]
   },
   {
-   "src": "a_priori:tirets_v1_synthetiques",
-   "attribut": "phase_m",
+   "src": "a_priori:revetement_par_defaut_classe",
+   "attribut": "revetement",
    "entites": [
-    "ML-0429",
-    "ML-0511",
-    "ML-0531",
-    "ML-0534",
-    "ML-0554",
-    "ML-0562",
-    "ML-0852",
-    "ML-0924"
+    "S-0027d",
+    "S-0035e",
+    "S-0035f",
+    "S-0035g",
+    "S-0059",
+    "S-0071a",
+    "S-0071c",
+    "S-0071d",
+    "S-0071e",
+    "S-0071f",
+    "S-0094u",
+    "S-0107b",
+    "S-0107c",
+    "S-0108a",
+    "S-0108b",
+    "S-0112b",
+    "S-0112d",
+    "S-0112f",
+    "S-0112g",
+    "S-0129at",
+    "S-0136aa",
+    "S-0136ac",
+    "S-0136ad",
+    "S-0136ai",
+    "S-0136r",
+    "S-0136s",
+    "S-0136t",
+    "S-0136u",
+    "S-0136x",
+    "S-0149b",
+    "S-0149e",
+    "S-0149f",
+    "S-0149g",
+    "S-0152",
+    "S-0153m",
+    "S-0159e",
+    "S-0161j",
+    "S-0161m",
+    "S-0161s",
+    "S-0167",
+    "S-0168aa",
+    "S-0168ab",
+    "S-0168ac",
+    "S-0168ad",
+    "S-0168ae",
+    "S-0168af",
+    "S-0168ag",
+    "S-0168ah",
+    "S-0168ai",
+    "S-0168aj",
+    "S-0168ak",
+    "S-0168al",
+    "S-0168am",
+    "S-0168an",
+    "S-0168ao",
+    "S-0168ap",
+    "S-0168aq",
+    "S-0168ar",
+    "S-0168b",
+    "S-0168c",
+    "S-0168e",
+    "S-0168f",
+    "S-0168g",
+    "S-0168i",
+    "S-0168j",
+    "S-0168l",
+    "S-0168m",
+    "S-0168o",
+    "S-0168p",
+    "S-0168r",
+    "S-0168t",
+    "S-0168v",
+    "S-0168w",
+    "S-0168x",
+    "S-0168y",
+    "S-0168z",
+    "S-0172",
+    "S-0177b",
+    "S-0202a",
+    "S-0203f",
+    "S-0212a",
+    "S-0212b",
+    "S-0221a",
+    "S-0221b",
+    "S-0221c",
+    "S-0221d",
+    "S-0221e",
+    "S-0222",
+    "S-0231a",
+    "S-0231b",
+    "S-0231c",
+    "S-0231d",
+    "S-0264c",
+    "S-0264d",
+    "S-0265b",
+    "S-0265c",
+    "S-0265e",
+    "S-0267b",
+    "S-0268i",
+    "S-0268j",
+    "S-0268k",
+    "S-0268o",
+    "S-0269ab",
+    "S-0269ac",
+    "S-0269af",
+    "S-0269ag",
+    "S-0269ah",
+    "S-0269ai",
+    "S-0269i",
+    "S-0269j",
+    "S-0269m",
+    "S-0269n",
+    "S-0269q",
+    "S-0269s",
+    "S-0269u",
+    "S-0269y",
+    "S-0271b",
+    "S-0280a",
+    "S-0280b",
+    "S-0281b",
+    "S-0282a",
+    "S-0282b",
+    "S-0285",
+    "S-0293",
+    "S-0296b",
+    "S-0297b",
+    "S-0299c",
+    "S-0300d",
+    "S-0300f",
+    "S-0301a",
+    "S-0301b",
+    "S-0301d",
+    "S-0301f",
+    "S-0301g",
+    "S-0306a",
+    "S-0307",
+    "S-0308b",
+    "S-0310a",
+    "S-0310c",
+    "S-0315b",
+    "S-0315c",
+    "S-0320a",
+    "S-0320d",
+    "S-0320g",
+    "S-0320h",
+    "S-0321b",
+    "S-0321d",
+    "S-0321e",
+    "S-0323d",
+    "S-0324b",
+    "S-0328b",
+    "S-0329",
+    "S-0330",
+    "S-0339b",
+    "S-0339c",
+    "S-0340f",
+    "S-0340h",
+    "S-0340j",
+    "S-0341c",
+    "S-0342b",
+    "S-0342c",
+    "S-0343h",
+    "S-0343k",
+    "S-0343n",
+    "S-0404",
+    "S-0409",
+    "S-0415af",
+    "S-0415l",
+    "S-0427",
+    "S-0429e",
+    "S-0429f",
+    "S-0431f",
+    "S-0431g",
+    "S-0431h",
+    "S-0431j",
+    "S-0431k",
+    "S-0431l",
+    "S-0431m",
+    "S-0431n",
+    "S-0457b",
+    "S-0459c",
+    "S-0459d",
+    "S-0465j",
+    "S-0465k"
+   ]
+  },
+  {
+   "src": "a_priori:sens_numerisation",
+   "attribut": "face_vue",
+   "entites": [
+    "K-0030",
+    "K-0206",
+    "K-0207",
+    "K-0223",
+    "K-0479",
+    "K-0481",
+    "K-0482",
+    "K-0515",
+    "K-0530",
+    "K-0539",
+    "K-0552",
+    "K-0672"
    ]
   },
   {
    "src": "a_priori:usure_par_age",
    "attribut": "aspect",
    "entites": [
+    "K-0001",
+    "K-0004",
     "K-0005",
     "K-0007",
     "K-0008",
+    "K-0009",
     "K-0012",
+    "K-0014",
+    "K-0016",
+    "K-0018",
+    "K-0020",
+    "K-0021",
+    "K-0022",
+    "K-0023",
+    "K-0024",
+    "K-0025",
+    "K-0026",
+    "K-0027",
+    "K-0028",
+    "K-0029",
+    "K-0030",
+    "K-0031",
+    "K-0032",
+    "K-0033",
+    "K-0034",
+    "K-0035",
+    "K-0040",
+    "K-0041",
+    "K-0042",
+    "K-0044",
+    "K-0045",
+    "K-0046",
+    "K-0047",
+    "K-0048",
+    "K-0049",
+    "K-0050",
+    "K-0051",
+    "K-0052",
+    "K-0053",
+    "K-0054",
+    "K-0055",
+    "K-0056",
+    "K-0056z",
+    "K-0057",
+    "K-0058",
+    "K-0059",
+    "K-0060",
+    "K-0061",
+    "K-0062",
+    "K-0063",
+    "K-0064",
+    "K-0065",
+    "K-0066",
+    "K-0069",
+    "K-0070",
+    "K-0071",
+    "K-0073",
+    "K-0074",
+    "K-0078",
+    "K-0079",
+    "K-0080",
+    "K-0081",
+    "K-0082",
+    "K-0083",
+    "K-0084",
+    "K-0085",
+    "K-0086",
+    "K-0087",
+    "K-0088",
+    "K-0093",
+    "K-0096",
+    "K-0097",
+    "K-0098",
+    "K-0100",
+    "K-0102",
+    "K-0103",
+    "K-0105",
+    "K-0107",
+    "K-0116",
+    "K-0118",
+    "K-0123",
+    "K-0124",
+    "K-0155",
+    "K-0156",
+    "K-0157",
+    "K-0158",
+    "K-0159",
+    "K-0160",
+    "K-0161",
+    "K-0162",
+    "K-0163",
+    "K-0164",
+    "K-0165",
     "K-0167",
+    "K-0171",
     "K-0172",
     "K-0174",
     "K-0177",
@@ -3876,50 +5154,1172 @@
     "K-0185",
     "K-0186",
     "K-0189",
+    "K-0193",
     "K-0194",
+    "K-0195",
+    "K-0196",
+    "K-0197",
+    "K-0198",
+    "K-0199",
+    "K-0200",
+    "K-0201",
+    "K-0202",
+    "K-0203",
+    "K-0204",
+    "K-0205",
+    "K-0206",
+    "K-0207",
+    "K-0208",
+    "K-0209",
+    "K-0210",
+    "K-0211",
+    "K-0212",
+    "K-0213",
+    "K-0214",
+    "K-0216",
+    "K-0217",
+    "K-0218",
+    "K-0219",
+    "K-0220",
+    "K-0221",
+    "K-0222",
+    "K-0223",
+    "K-0224",
+    "K-0225",
+    "K-0226",
+    "K-0227",
+    "K-0228",
+    "K-0229",
+    "K-0230",
+    "K-0232",
+    "K-0233",
+    "K-0234",
+    "K-0235",
+    "K-0236",
+    "K-0237",
+    "K-0238",
+    "K-0239",
+    "K-0240",
     "K-0241",
+    "K-0242",
+    "K-0243",
+    "K-0244",
+    "K-0245",
+    "K-0246",
+    "K-0247",
+    "K-0249",
+    "K-0253",
+    "K-0254",
+    "K-0256",
+    "K-0259",
+    "K-0260",
+    "K-0262a",
+    "K-0262b",
+    "K-0263",
+    "K-0264",
+    "K-0265",
+    "K-0266",
+    "K-0267",
+    "K-0268",
+    "K-0269",
+    "K-0270",
+    "K-0271",
+    "K-0273",
+    "K-0274",
+    "K-0277",
+    "K-0278",
+    "K-0280",
+    "K-0281",
+    "K-0285",
+    "K-0286",
+    "K-0289",
+    "K-0290",
+    "K-0291",
+    "K-0294",
+    "K-0295",
+    "K-0298",
+    "K-0299",
+    "K-0300",
+    "K-0301",
+    "K-0302",
+    "K-0303",
+    "K-0304",
+    "K-0305",
+    "K-0306",
+    "K-0307",
+    "K-0308",
+    "K-0309",
+    "K-0310",
+    "K-0311",
+    "K-0312",
+    "K-0313",
     "K-0314",
     "K-0315",
+    "K-0316",
+    "K-0317",
+    "K-0318",
+    "K-0319",
+    "K-0320",
+    "K-0321",
+    "K-0322",
+    "K-0323",
+    "K-0324",
+    "K-0325",
+    "K-0326",
+    "K-0327",
+    "K-0328",
+    "K-0329",
+    "K-0330",
+    "K-0331",
     "K-0332",
+    "K-0334",
+    "K-0335",
+    "K-0336",
     "K-0339",
     "K-0341",
+    "K-0342",
+    "K-0343",
     "K-0346",
+    "K-0347",
     "K-0348",
+    "K-0349",
+    "K-0350",
+    "K-0351",
     "K-0352",
+    "K-0355",
     "K-0356",
     "K-0357",
+    "K-0358",
     "K-0360",
     "K-0361",
+    "K-0362",
+    "K-0364",
+    "K-0365",
+    "K-0366",
+    "K-0367",
+    "K-0368",
+    "K-0368z",
     "K-0369",
     "K-0370",
     "K-0373",
+    "K-0374",
+    "K-0375",
+    "K-0376",
+    "K-0377",
+    "K-0378",
+    "K-0379",
+    "K-0380",
     "K-0381",
+    "K-0382",
+    "K-0383",
+    "K-0384",
     "K-0385",
     "K-0386",
     "K-0386z",
+    "K-0387",
     "K-0388",
+    "K-0391",
+    "K-0392",
+    "K-0393",
     "K-0394",
+    "K-0395",
+    "K-0396",
     "K-0397",
+    "K-0398",
+    "K-0399",
+    "K-0400",
+    "K-0402",
+    "K-0403",
+    "K-0404",
+    "K-0405",
+    "K-0406",
+    "K-0407",
+    "K-0408",
+    "K-0409",
+    "K-0410",
     "K-0411",
     "K-0412",
     "K-0413",
+    "K-0414",
     "K-0415",
     "K-0416",
     "K-0417",
+    "K-0418",
+    "K-0419",
+    "K-0420",
+    "K-0421",
+    "K-0424",
+    "K-0427",
+    "K-0428",
+    "K-0431",
+    "K-0433",
+    "K-0435",
+    "K-0437",
+    "K-0438",
+    "K-0439",
+    "K-0440",
+    "K-0443",
+    "K-0446",
+    "K-0449",
+    "K-0450",
+    "K-0451",
+    "K-0452",
+    "K-0453",
+    "K-0454",
+    "K-0455",
+    "K-0456",
+    "K-0457",
+    "K-0458",
+    "K-0459",
+    "K-0460",
+    "K-0461",
+    "K-0462",
+    "K-0463",
+    "K-0465",
+    "K-0466",
+    "K-0467",
+    "K-0468",
+    "K-0469",
+    "K-0470",
+    "K-0471",
+    "K-0472",
+    "K-0473",
+    "K-0476",
+    "K-0477",
+    "K-0478",
+    "K-0479",
+    "K-0481",
+    "K-0482",
+    "K-0488",
+    "K-0489",
+    "K-0492",
+    "K-0493",
+    "K-0494",
+    "K-0495",
+    "K-0496",
+    "K-0499",
+    "K-0500",
+    "K-0501",
+    "K-0502",
+    "K-0503",
+    "K-0504",
+    "K-0506",
     "K-0507",
+    "K-0508",
+    "K-0509",
+    "K-0510",
+    "K-0511",
+    "K-0512",
+    "K-0513",
+    "K-0514",
+    "K-0515",
+    "K-0516",
+    "K-0517",
+    "K-0518",
+    "K-0519",
+    "K-0520",
+    "K-0521",
+    "K-0522",
+    "K-0524",
+    "K-0526",
+    "K-0528",
+    "K-0530",
+    "K-0533",
+    "K-0535",
+    "K-0536",
+    "K-0539",
+    "K-0540",
+    "K-0542",
+    "K-0544",
+    "K-0545",
+    "K-0546",
+    "K-0548",
+    "K-0551",
+    "K-0552",
+    "K-0561",
+    "K-0563",
+    "K-0565",
+    "K-0568",
+    "K-0570",
+    "K-0571",
+    "K-0572",
+    "K-0573",
+    "K-0576",
+    "K-0578",
+    "K-0579",
+    "K-0581",
+    "K-0584",
+    "K-0586",
+    "K-0588",
+    "K-0590",
     "K-0592",
     "K-0595",
     "K-0596",
+    "K-0597",
+    "K-0598",
     "K-0600",
+    "K-0601",
+    "K-0604",
+    "K-0606",
+    "K-0607",
     "K-0609",
     "K-0611",
     "K-0612",
+    "K-0615",
     "K-0617",
     "K-0619",
+    "K-0622",
+    "K-0623",
+    "K-0624",
+    "K-0625",
+    "K-0626",
+    "K-0627",
     "K-0628",
+    "K-0630",
+    "K-0631",
+    "K-0632",
+    "K-0633",
+    "K-0634",
+    "K-0635",
+    "K-0636",
+    "K-0637",
+    "K-0638",
+    "K-0639",
+    "K-0640",
+    "K-0641",
+    "K-0642",
+    "K-0643",
+    "K-0644",
+    "K-0645",
+    "K-0646",
+    "K-0647",
+    "K-0648",
+    "K-0649",
+    "K-0650",
+    "K-0651",
+    "K-0652",
+    "K-0653",
+    "K-0654",
+    "K-0655",
+    "K-0656",
+    "K-0657",
+    "K-0658",
+    "K-0658z",
+    "K-0659",
+    "K-0660",
+    "K-0661",
+    "K-0662",
+    "K-0663",
+    "K-0664",
+    "K-0665",
     "K-0666",
+    "K-0667",
+    "K-0668",
     "K-0669",
-    "K-9297a"
+    "K-0670",
+    "K-0671",
+    "K-0672",
+    "K-0673",
+    "K-0673z",
+    "K-0674",
+    "K-0675",
+    "K-0676",
+    "K-0677",
+    "K-0679",
+    "K-0684",
+    "K-0685",
+    "K-0686",
+    "K-0687",
+    "K-0688",
+    "K-9297a",
+    "K-9331a",
+    "K-9331b",
+    "K-9500",
+    "K-9501",
+    "K-9502",
+    "K-9503",
+    "K-9504",
+    "K-9505",
+    "K-9506",
+    "K-9507",
+    "K-9508",
+    "K-9509",
+    "K-9510",
+    "K-9511",
+    "K-9512",
+    "K-9513"
+   ]
+  },
+  {
+   "src": "a_priori:vote_indices_classe",
+   "attribut": "classe",
+   "entites": [
+    "S-0000",
+    "S-0008a",
+    "S-0008b",
+    "S-0027a",
+    "S-0027b",
+    "S-0027c",
+    "S-0027d",
+    "S-0027e",
+    "S-0029",
+    "S-0034a",
+    "S-0034b",
+    "S-0034c",
+    "S-0034d",
+    "S-0034e",
+    "S-0035a",
+    "S-0035b",
+    "S-0035c",
+    "S-0035d",
+    "S-0035e",
+    "S-0035f",
+    "S-0035g",
+    "S-0038",
+    "S-0051a",
+    "S-0051b",
+    "S-0051c",
+    "S-0054",
+    "S-0055",
+    "S-0056a",
+    "S-0056b",
+    "S-0056c",
+    "S-0057a",
+    "S-0057b",
+    "S-0057c",
+    "S-0057d",
+    "S-0059",
+    "S-0060",
+    "S-0064",
+    "S-0067",
+    "S-0071b",
+    "S-0071c",
+    "S-0072",
+    "S-0081a",
+    "S-0081b",
+    "S-0081c",
+    "S-0081d",
+    "S-0081e",
+    "S-0081f",
+    "S-0081g",
+    "S-0081h",
+    "S-0085",
+    "S-0087a",
+    "S-0087b",
+    "S-0087c",
+    "S-0089",
+    "S-0094a",
+    "S-0094b",
+    "S-0094c",
+    "S-0094d",
+    "S-0094e",
+    "S-0094f",
+    "S-0094g",
+    "S-0094h",
+    "S-0094i",
+    "S-0094j",
+    "S-0094k",
+    "S-0094l",
+    "S-0094m",
+    "S-0094n",
+    "S-0094o",
+    "S-0094p",
+    "S-0094q",
+    "S-0094r",
+    "S-0094s",
+    "S-0094t",
+    "S-0094u",
+    "S-0106",
+    "S-0107a",
+    "S-0107b",
+    "S-0107c",
+    "S-0108a",
+    "S-0108b",
+    "S-0111a",
+    "S-0111b",
+    "S-0112a",
+    "S-0112b",
+    "S-0112c",
+    "S-0112d",
+    "S-0112e",
+    "S-0112f",
+    "S-0112g",
+    "S-0114",
+    "S-0120a",
+    "S-0120b",
+    "S-0121b",
+    "S-0121c",
+    "S-0121d",
+    "S-0121e",
+    "S-0123",
+    "S-0125",
+    "S-0127",
+    "S-0129a",
+    "S-0129aa",
+    "S-0129ab",
+    "S-0129ac",
+    "S-0129ad",
+    "S-0129ae",
+    "S-0129af",
+    "S-0129ag",
+    "S-0129ah",
+    "S-0129ai",
+    "S-0129aj",
+    "S-0129ak",
+    "S-0129al",
+    "S-0129am",
+    "S-0129an",
+    "S-0129ao",
+    "S-0129ap",
+    "S-0129aq",
+    "S-0129ar",
+    "S-0129as",
+    "S-0129b",
+    "S-0129c",
+    "S-0129d",
+    "S-0129e",
+    "S-0129f",
+    "S-0129g",
+    "S-0129h",
+    "S-0129i",
+    "S-0129j",
+    "S-0129k",
+    "S-0129l",
+    "S-0129m",
+    "S-0129n",
+    "S-0129o",
+    "S-0129p",
+    "S-0129q",
+    "S-0129r",
+    "S-0129s",
+    "S-0129t",
+    "S-0129u",
+    "S-0129v",
+    "S-0129w",
+    "S-0129x",
+    "S-0129y",
+    "S-0129z",
+    "S-0131",
+    "S-0136a",
+    "S-0136aa",
+    "S-0136ab",
+    "S-0136ac",
+    "S-0136ad",
+    "S-0136ae",
+    "S-0136af",
+    "S-0136ag",
+    "S-0136ah",
+    "S-0136ai",
+    "S-0136aj",
+    "S-0136ak",
+    "S-0136al",
+    "S-0136b",
+    "S-0136c",
+    "S-0136d",
+    "S-0136e",
+    "S-0136f",
+    "S-0136g",
+    "S-0136h",
+    "S-0136i",
+    "S-0136j",
+    "S-0136k",
+    "S-0136l",
+    "S-0136m",
+    "S-0136n",
+    "S-0136o",
+    "S-0136p",
+    "S-0136q",
+    "S-0136r",
+    "S-0136s",
+    "S-0136t",
+    "S-0136u",
+    "S-0136v",
+    "S-0136w",
+    "S-0136x",
+    "S-0136y",
+    "S-0136z",
+    "S-0137",
+    "S-0138a",
+    "S-0138b",
+    "S-0138c",
+    "S-0138d",
+    "S-0149a",
+    "S-0149b",
+    "S-0149c",
+    "S-0149d",
+    "S-0149e",
+    "S-0149f",
+    "S-0149g",
+    "S-0152",
+    "S-0153a",
+    "S-0153b",
+    "S-0153c",
+    "S-0153d",
+    "S-0153e",
+    "S-0153f",
+    "S-0153g",
+    "S-0153h",
+    "S-0153i",
+    "S-0153j",
+    "S-0153k",
+    "S-0153l",
+    "S-0153m",
+    "S-0157a",
+    "S-0157b",
+    "S-0157c",
+    "S-0159a",
+    "S-0159b",
+    "S-0159c",
+    "S-0159d",
+    "S-0159e",
+    "S-0159f",
+    "S-0159g",
+    "S-0159h",
+    "S-0159i",
+    "S-0159j",
+    "S-0159k",
+    "S-0159l",
+    "S-0159m",
+    "S-0159n",
+    "S-0159o",
+    "S-0159p",
+    "S-0159q",
+    "S-0159r",
+    "S-0161a",
+    "S-0161b",
+    "S-0161c",
+    "S-0161d",
+    "S-0161e",
+    "S-0161f",
+    "S-0161g",
+    "S-0161h",
+    "S-0161i",
+    "S-0161j",
+    "S-0161k",
+    "S-0161l",
+    "S-0161m",
+    "S-0161n",
+    "S-0161o",
+    "S-0161p",
+    "S-0161q",
+    "S-0161r",
+    "S-0161s",
+    "S-0162",
+    "S-0163",
+    "S-0166a",
+    "S-0166b",
+    "S-0167",
+    "S-0168a",
+    "S-0168aa",
+    "S-0168ab",
+    "S-0168ac",
+    "S-0168ad",
+    "S-0168ae",
+    "S-0168af",
+    "S-0168ag",
+    "S-0168ah",
+    "S-0168ai",
+    "S-0168aj",
+    "S-0168ak",
+    "S-0168al",
+    "S-0168am",
+    "S-0168an",
+    "S-0168ao",
+    "S-0168ap",
+    "S-0168aq",
+    "S-0168ar",
+    "S-0168as",
+    "S-0168at",
+    "S-0168b",
+    "S-0168c",
+    "S-0168d",
+    "S-0168e",
+    "S-0168f",
+    "S-0168g",
+    "S-0168h",
+    "S-0168i",
+    "S-0168j",
+    "S-0168k",
+    "S-0168l",
+    "S-0168m",
+    "S-0168n",
+    "S-0168o",
+    "S-0168p",
+    "S-0168q",
+    "S-0168r",
+    "S-0168s",
+    "S-0168t",
+    "S-0168u",
+    "S-0168v",
+    "S-0168w",
+    "S-0168x",
+    "S-0168y",
+    "S-0168z",
+    "S-0172",
+    "S-0175a",
+    "S-0175b",
+    "S-0177a",
+    "S-0177b",
+    "S-0177c",
+    "S-0180a",
+    "S-0180b",
+    "S-0180c",
+    "S-0180d",
+    "S-0180e",
+    "S-0185",
+    "S-0187",
+    "S-0189",
+    "S-0191a",
+    "S-0191b",
+    "S-0192a",
+    "S-0192b",
+    "S-0192c",
+    "S-0192d",
+    "S-0192e",
+    "S-0193a",
+    "S-0193b",
+    "S-0193c",
+    "S-0194",
+    "S-0195a",
+    "S-0195b",
+    "S-0195c",
+    "S-0195d",
+    "S-0195e",
+    "S-0195f",
+    "S-0195g",
+    "S-0195h",
+    "S-0195i",
+    "S-0195j",
+    "S-0197a",
+    "S-0197b",
+    "S-0202a",
+    "S-0202b",
+    "S-0203a",
+    "S-0203b",
+    "S-0203c",
+    "S-0203d",
+    "S-0203e",
+    "S-0203f",
+    "S-0206",
+    "S-0212a",
+    "S-0212b",
+    "S-0213a",
+    "S-0213b",
+    "S-0213c",
+    "S-0213d",
+    "S-0213e",
+    "S-0213f",
+    "S-0214a",
+    "S-0214b",
+    "S-0214c",
+    "S-0214d",
+    "S-0214e",
+    "S-0214f",
+    "S-0221a",
+    "S-0221b",
+    "S-0221c",
+    "S-0221d",
+    "S-0221e",
+    "S-0222",
+    "S-0231a",
+    "S-0231b",
+    "S-0231c",
+    "S-0231d",
+    "S-0247a",
+    "S-0247b",
+    "S-0247c",
+    "S-0247d",
+    "S-0248",
+    "S-0261a",
+    "S-0261b",
+    "S-0264a",
+    "S-0264b",
+    "S-0264c",
+    "S-0264d",
+    "S-0264e",
+    "S-0264f",
+    "S-0264g",
+    "S-0264h",
+    "S-0265a",
+    "S-0265b",
+    "S-0265c",
+    "S-0265d",
+    "S-0265e",
+    "S-0265f",
+    "S-0267a",
+    "S-0267b",
+    "S-0267c",
+    "S-0267d",
+    "S-0267e",
+    "S-0267f",
+    "S-0267g",
+    "S-0267h",
+    "S-0267i",
+    "S-0268a",
+    "S-0268b",
+    "S-0268c",
+    "S-0268d",
+    "S-0268e",
+    "S-0268f",
+    "S-0268g",
+    "S-0268h",
+    "S-0268i",
+    "S-0268j",
+    "S-0268k",
+    "S-0268l",
+    "S-0268m",
+    "S-0268n",
+    "S-0268o",
+    "S-0268p",
+    "S-0269a",
+    "S-0269aa",
+    "S-0269ab",
+    "S-0269ac",
+    "S-0269ad",
+    "S-0269ae",
+    "S-0269af",
+    "S-0269ag",
+    "S-0269ah",
+    "S-0269ai",
+    "S-0269aj",
+    "S-0269b",
+    "S-0269c",
+    "S-0269d",
+    "S-0269e",
+    "S-0269f",
+    "S-0269g",
+    "S-0269h",
+    "S-0269i",
+    "S-0269j",
+    "S-0269k",
+    "S-0269l",
+    "S-0269m",
+    "S-0269n",
+    "S-0269o",
+    "S-0269p",
+    "S-0269q",
+    "S-0269r",
+    "S-0269s",
+    "S-0269t",
+    "S-0269u",
+    "S-0269v",
+    "S-0269w",
+    "S-0269x",
+    "S-0269y",
+    "S-0269z",
+    "S-0270",
+    "S-0271a",
+    "S-0271b",
+    "S-0272",
+    "S-0280a",
+    "S-0280b",
+    "S-0281a",
+    "S-0281b",
+    "S-0282a",
+    "S-0282b",
+    "S-0283a",
+    "S-0283b",
+    "S-0285",
+    "S-0292",
+    "S-0293",
+    "S-0294a",
+    "S-0294b",
+    "S-0294c",
+    "S-0296a",
+    "S-0296b",
+    "S-0297a",
+    "S-0297b",
+    "S-0299a",
+    "S-0299b",
+    "S-0299c",
+    "S-0300a",
+    "S-0300b",
+    "S-0300c",
+    "S-0300d",
+    "S-0300e",
+    "S-0300f",
+    "S-0300g",
+    "S-0300h",
+    "S-0301a",
+    "S-0301b",
+    "S-0301c",
+    "S-0301d",
+    "S-0301e",
+    "S-0301f",
+    "S-0301g",
+    "S-0306a",
+    "S-0306b",
+    "S-0306c",
+    "S-0306d",
+    "S-0307",
+    "S-0308a",
+    "S-0308b",
+    "S-0310a",
+    "S-0310b",
+    "S-0310c",
+    "S-0310d",
+    "S-0312a",
+    "S-0312b",
+    "S-0312c",
+    "S-0312d",
+    "S-0312e",
+    "S-0312f",
+    "S-0312g",
+    "S-0312h",
+    "S-0312i",
+    "S-0313a",
+    "S-0313b",
+    "S-0313c",
+    "S-0313d",
+    "S-0313e",
+    "S-0313f",
+    "S-0315a",
+    "S-0315b",
+    "S-0315c",
+    "S-0318",
+    "S-0319",
+    "S-0320a",
+    "S-0320b",
+    "S-0320c",
+    "S-0320d",
+    "S-0320e",
+    "S-0320f",
+    "S-0320g",
+    "S-0320h",
+    "S-0321a",
+    "S-0321b",
+    "S-0321c",
+    "S-0321d",
+    "S-0321e",
+    "S-0321f",
+    "S-0321g",
+    "S-0323a",
+    "S-0323b",
+    "S-0323c",
+    "S-0323d",
+    "S-0324a",
+    "S-0324b",
+    "S-0324c",
+    "S-0328a",
+    "S-0328b",
+    "S-0329",
+    "S-0330",
+    "S-0331a",
+    "S-0331b",
+    "S-0332a",
+    "S-0332b",
+    "S-0332c",
+    "S-0332d",
+    "S-0332e",
+    "S-0332f",
+    "S-0333",
+    "S-0334",
+    "S-0337a",
+    "S-0337b",
+    "S-0337c",
+    "S-0338a",
+    "S-0338b",
+    "S-0339a",
+    "S-0339b",
+    "S-0339c",
+    "S-0339d",
+    "S-0340a",
+    "S-0340b",
+    "S-0340c",
+    "S-0340d",
+    "S-0340e",
+    "S-0340f",
+    "S-0340g",
+    "S-0340h",
+    "S-0340i",
+    "S-0340j",
+    "S-0341a",
+    "S-0341b",
+    "S-0341c",
+    "S-0342a",
+    "S-0342b",
+    "S-0342c",
+    "S-0343a",
+    "S-0343b",
+    "S-0343c",
+    "S-0343d",
+    "S-0343e",
+    "S-0343f",
+    "S-0343g",
+    "S-0343h",
+    "S-0343i",
+    "S-0343j",
+    "S-0343k",
+    "S-0343l",
+    "S-0343m",
+    "S-0343n",
+    "S-0343o",
+    "S-0343p",
+    "S-0343q",
+    "S-0343r",
+    "S-0343s",
+    "S-0347",
+    "S-0350a",
+    "S-0350b",
+    "S-0350c",
+    "S-0351",
+    "S-0352a",
+    "S-0352b",
+    "S-0352c",
+    "S-0353",
+    "S-0356",
+    "S-0357",
+    "S-0361",
+    "S-0374a",
+    "S-0374b",
+    "S-0374c",
+    "S-0374d",
+    "S-0374e",
+    "S-0374f",
+    "S-0374g",
+    "S-0374h",
+    "S-0374i",
+    "S-0374j",
+    "S-0374k",
+    "S-0374l",
+    "S-0383",
+    "S-0402",
+    "S-0404",
+    "S-0409",
+    "S-0411",
+    "S-0415a",
+    "S-0415aa",
+    "S-0415ab",
+    "S-0415ac",
+    "S-0415ad",
+    "S-0415ae",
+    "S-0415af",
+    "S-0415b",
+    "S-0415c",
+    "S-0415d",
+    "S-0415e",
+    "S-0415f",
+    "S-0415g",
+    "S-0415h",
+    "S-0415i",
+    "S-0415j",
+    "S-0415k",
+    "S-0415l",
+    "S-0415m",
+    "S-0415n",
+    "S-0415o",
+    "S-0415p",
+    "S-0415q",
+    "S-0415r",
+    "S-0415s",
+    "S-0415t",
+    "S-0415u",
+    "S-0415v",
+    "S-0415w",
+    "S-0415x",
+    "S-0415y",
+    "S-0415z",
+    "S-0417",
+    "S-0427",
+    "S-0429a",
+    "S-0429b",
+    "S-0429c",
+    "S-0429d",
+    "S-0429e",
+    "S-0429f",
+    "S-0430a",
+    "S-0430b",
+    "S-0431a",
+    "S-0431aa",
+    "S-0431ab",
+    "S-0431ac",
+    "S-0431b",
+    "S-0431c",
+    "S-0431d",
+    "S-0431e",
+    "S-0431f",
+    "S-0431g",
+    "S-0431h",
+    "S-0431i",
+    "S-0431j",
+    "S-0431k",
+    "S-0431l",
+    "S-0431m",
+    "S-0431n",
+    "S-0431o",
+    "S-0431p",
+    "S-0431q",
+    "S-0431r",
+    "S-0431s",
+    "S-0431t",
+    "S-0431u",
+    "S-0431v",
+    "S-0431w",
+    "S-0431x",
+    "S-0431y",
+    "S-0431z",
+    "S-0441",
+    "S-0444a",
+    "S-0444b",
+    "S-0445a",
+    "S-0445b",
+    "S-0445c",
+    "S-0445d",
+    "S-0445e",
+    "S-0445f",
+    "S-0445g",
+    "S-0445h",
+    "S-0445i",
+    "S-0445j",
+    "S-0446a",
+    "S-0446b",
+    "S-0447a",
+    "S-0447b",
+    "S-0453a",
+    "S-0453b",
+    "S-0454a",
+    "S-0454b",
+    "S-0454c",
+    "S-0454d",
+    "S-0454e",
+    "S-0454f",
+    "S-0454g",
+    "S-0454h",
+    "S-0454i",
+    "S-0454j",
+    "S-0454k",
+    "S-0454l",
+    "S-0454m",
+    "S-0454n",
+    "S-0454o",
+    "S-0454p",
+    "S-0454q",
+    "S-0455",
+    "S-0457a",
+    "S-0457b",
+    "S-0459a",
+    "S-0459b",
+    "S-0459c",
+    "S-0459d",
+    "S-0461a",
+    "S-0461b",
+    "S-0461c",
+    "S-0461d",
+    "S-0461e",
+    "S-0461f",
+    "S-0461g",
+    "S-0461h",
+    "S-0465a",
+    "S-0465b",
+    "S-0465c",
+    "S-0465d",
+    "S-0465e",
+    "S-0465f",
+    "S-0465g",
+    "S-0465h",
+    "S-0465i",
+    "S-0465j",
+    "S-0465k"
    ]
   },
   {
@@ -3982,28 +6382,56 @@
   "scripts": {
    "recon/pcg/decrire/commun.py": "5cc425cbffb234623fc0bfa24f837a2d6ee999243030af14414ff2ab4bff1b5d",
    "recon/pcg/decrire/contexte.py": "99b92680fa844cc6462a34f16499b2fc83f16fb7f1117a55a6c480f2c9036f3a",
-   "recon/pcg/decrire/bordures.py": "352c0119bc0dc4597bebf4dc8e49c431280e28e559f100583642b8406601a33b",
-   "recon/pcg/decrire/surfaces.py": "f27a3560c6ca59c494b20a9644429a55df888dffd96593ef3f464f7dc49867f5",
-   "recon/pcg/decrire/ilots.py": "57819ffc0af70859ee8277a1922834b1f2670b2719d82ff3ca49952fcac8eb22",
-   "recon/pcg/decrire/composer.py": "02a9cd8f595432e08f424709c51dbff8af3f0c5f8af9b38b94809299b0f6842a",
-   "recon/pcg/decrire/valider.py": "36aa7ed6a86211f42d85bad511b450cc800912e8a1a7f6113aef97c861c64c45",
+   "recon/pcg/decrire/bordures.py": "24aac70d95089a732cdaef9b0962d8febf56be57ca955e722b83d967260bfb3b",
+   "recon/pcg/decrire/surfaces.py": "543fe6e92adb1f12e22574c201cf33c64f89d067951911d78e08cfd3f84f02c1",
+   "recon/pcg/decrire/ilots.py": "63df8061477b779d1ecd66e62cc81f34d29451a1655f0c24098c6cde03ef2aa8",
+   "recon/pcg/decrire/composer.py": "14d7c7449e4adfd358efae20a0043637ab8fb237d65c6a3fa384ae908f2af19a",
+   "recon/pcg/decrire/valider.py": "ad887e559aeb6151f45b2122d92af6da09ce43fe0c4e8677c08daa740f1ad6c1",
    "recon/pcg/decrire/apercu.py": "27b2021151a374e32265153d75229c940f25b6bb0f17f12f774b3d5892ace3b6",
-   "recon/pcg/decrire/xodr_echantillonne.py": "87e26da102c50ceebf1412c616855b047c0166962b3ebfc59ad27d02bee6d810",
-   "recon/pcg/decrire/marquages.py": "d117692a9519132fd54fa8d853830571954099b2c3be33d4b7a7ae61bd4589fd",
+   "recon/pcg/decrire/sol_site.py": "476797415cb7dfbd047a1e3b9f477d5d6e83070d694d653654ba19653009b4c5",
+   "recon/pcg/decrire/sol_partition.py": "e9a3228c9f9ccbff5483428270d20dffe89bf10bf994c8fd837b105364db79ef",
+   "recon/pcg/decrire/sol_geometrie.py": "890cf24b8c3dc62ef8fae811eba6fb508c093ea000317219c1ca210b15ffb00c",
+   "recon/pcg/decrire/sol_lacunes.py": "f4004a37a894d000480fedb92998acfc737994bfbd8b772e6909fc9e94ec8d96",
+   "recon/pcg/decrire/sol_composer.py": "b86e6767b301adc491b494e09a8e89763efbe309491671e34aa11e283f74bc58",
+   "recon/pcg/decrire/sol_controles.py": "b83b8ab0c1a44a5c0f947d2281c49ee48aa482209e811c9dae73ca0811970d4d",
+   "recon/pcg/decrire/sol_apercu.py": "54eb464e03787e665b15975256892938996bca2ce8d2c12d6cdee0e66582e571",
+   "recon/pcg/decrire/nivellement.py": "095451d915f409c86fc420256e8b5d90d4b3750559e8919e83153c4eeb1169ae",
+   "recon/pcg/decrire/nivellement_xodr.py": "5411798b7fb867fe7246aea91b8b57e0bd443a389dd642cf53393a44e78e7873",
+   "recon/pcg/decrire/nivellement_requete.py": "4cc81ce6148350f5f745f9a1521126a5cb8e26c5bb271de10519611940ef7e19",
+   "recon/pcg/decrire/detection_commun.py": "a74bb2a9b1751ac8a55ead36da95a2f9ada751acc2f90fa7ec095eab484fdc43",
+   "recon/pcg/decrire/detection_fleches.py": "02757216a0c2e9a2fa4e08babc547f9b45426e2b794dba6dfc7304319e9493fb",
+   "recon/pcg/decrire/detection_indices.py": "48516f1ec887ca89ac36453ef32375cfca8cfddf44c14aabe61e1a2e8dfabc3d",
+   "recon/pcg/decrire/detection_lignes.py": "a445be153a1dd9b964393d665d25acad6fbacc31c31e1d4fa79c986cc4b06d1a",
+   "recon/pcg/decrire/detection_zebras.py": "fa07381e13a493ec9c26f8c97bcd7ffea162283404d9ee354f3b97c757ab0f97",
+   "recon/pcg/decrire/marquages.py": "53c35eed97378718d22c0acac68c3a71f24f86f6c0ffcddc95bffebf4283758d",
+   "recon/pcg/decrire/marquages_bordures.py": "d89281296126aa094892a55d45c0a80c375b5ea4135fad2b4a23fe8b27d1f8fe",
+   "recon/pcg/decrire/marquages_chronovelo.py": "3c0e71baee15d622024588713d2b070bff9a1e01f64428f8aa990031678c2389",
    "recon/pcg/decrire/marquages_commun.py": "e0ff3a9f2db6beb5f5f51cb852f26a011462dc80b3ba7cb7bb6ae987c52645e8",
+   "recon/pcg/decrire/marquages_contraintes.py": "54716841912750b8fe7d3ac3e56a108e73e6d8630178649430fee00231a01ac1",
+   "recon/pcg/decrire/marquages_fusion.py": "a2dc845f700da29da34ceaeae1e0cc796b5bdae0795239beceddd60eafa4a00b",
+   "recon/pcg/decrire/marquages_gam.py": "2a0eb70f6921de8f3ffc47b111d9ac3a5a73378a464d4054c32c6dc035ed159b",
+   "recon/pcg/decrire/marquages_gam_classer.py": "ea3322148b3b60cebcf1a3ea8ea913d22d65c0b0b47de9c04720a57a7fd1e13e",
+   "recon/pcg/decrire/marquages_gam_entites.py": "3ecfc3a2ff438b1952cf4f6948c4c7bcefc91592d336df2fe1c50c969f9cff26",
+   "recon/pcg/decrire/marquages_glyphes.py": "26932de4bee0b592f769b9e3b1c086f5c5f77f65cc95e720ed814d61072cb9f7",
+   "recon/pcg/decrire/marquages_indices_v1.py": "bbc9b4132d25281a4cb587e01cadf492ddea09b1c342dbfe88adf2b5a4e6784a",
+   "recon/pcg/decrire/marquages_inference.py": "a9b11f503164a92d3a80504ae6a305d1296a3176011596ee416c0fcaacb16808",
    "recon/pcg/decrire/marquages_lignes.py": "9185eea73d95b794b1f37d167d7b3ba5d0cc30f34fd15c698feb043f22f443fe",
+   "recon/pcg/decrire/marquages_ortho.py": "5d57ec2ae94146b73ed56a2146734af888820f42a6511b148486dd5cb7f44d8d",
    "recon/pcg/decrire/marquages_passages.py": "3e4b43447a22379b224d2ed76224ed7ddc4bc134c78e3885979c07121db81f93",
+   "recon/pcg/decrire/marquages_reprises.py": "a366ee1f468b4a792075409486c75cfa2e9eaa96b701d27adabc3cae456928e2",
+   "recon/pcg/decrire/marquages_sources.py": "28bbcbe811d461ff34240fdadc09ad700bd9828ab8f968caafb1e227c26f9265",
+   "recon/pcg/decrire/marquages_supports.py": "c503188df3e585ced01270e56fdab71764e8f8b99a8116e5ac4673e40fe81dda",
    "recon/pcg/decrire/marquages_symboles.py": "b1b94dcb8c8037f400ff608a4c901bad7e3af41a23db129bb95ea390008033a8",
    "recon/pcg/decrire/marquages_zones.py": "3eb64b0c50d52c61166267c557c5b570267ed75165df243a8baa38307fe9fcee",
-   "recon/pcg/decrire/marquages_gam.py": "2a0eb70f6921de8f3ffc47b111d9ac3a5a73378a464d4054c32c6dc035ed159b",
-   "recon/pcg/decrire/marquages_glyphes.py": "26932de4bee0b592f769b9e3b1c086f5c5f77f65cc95e720ed814d61072cb9f7",
-   "recon/pcg/decrire/marquages_ortho.py": "5d57ec2ae94146b73ed56a2146734af888820f42a6511b148486dd5cb7f44d8d",
-   "recon/pcg/decrire/marquages_bordures.py": "d89281296126aa094892a55d45c0a80c375b5ea4135fad2b4a23fe8b27d1f8fe",
-   "recon/pcg/decrire/marquages_reprises.py": "a366ee1f468b4a792075409486c75cfa2e9eaa96b701d27adabc3cae456928e2",
-   "recon/pcg/decrire/marquages_controles.py": "59780c0fb60ffcaff66310329043a13326a732810ffdac51a42d7cf8510b37e4"
+   "recon/pcg/decrire/xodr_echantillonne.py": "87e26da102c50ceebf1412c616855b047c0166962b3ebfc59ad27d02bee6d810",
+   "recon/pcg/decrire/marquages_controles.py": "59780c0fb60ffcaff66310329043a13326a732810ffdac51a42d7cf8510b37e4",
+   "recon/pcg/decrire/regulariser.py": "1124ff42db651f8e172843ba7ff235b997aaadcde74dec3f1ac690c96cc7a5f1",
+   "recon/pcg/decrire/regulariser_geometrie.py": "770e354defa3f2d9a7b66bb943893a4f938d1fe6f750d2721c5977fde42ef645",
+   "recon/pcg/decrire/regulariser_controles.py": "48994eef29067231ab65a1d8866ed617e07c44e484b464c54f2203cfff21b763",
+   "recon/pcg/decrire/regulariser_apercu.py": "8dc76e58d01b020fc71fd10bbb4f0588beed6c267cda82e4a99d868dd402d6da"
   },
   "interpreteur": "CPython 3.11.9 ; numpy 2.4.6"
  },
- "hash_description": "c20cdceeac4f0ee7a60bbc791828b3ba421055d32d58ee43326436579d14c157",
- "hash_marquages": "0901b0969348450e8447774bf5a4548e6e4697ec7859dc86389a80dbe1522b32"
+ "hash_description": "222b11f588b7c297f0fbbd522c7aaf69ad514c0aeaa1ce37d49cd6f8e2d2ac91",
+ "hash_marquages": "38072f686867b9724a0464b14e75193c408b546017b5c745507f07c4d86b010c"
 }

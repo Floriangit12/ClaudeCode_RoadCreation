@@ -1,0 +1,273 @@
+# Dialog script for pj::sol::1.0 automatically generated
+
+{
+    name	pj::sol::1.0
+    inputlabel	1	"Surfaces (polygones)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Contexte (entités)"
+    outputlabel	1	"Maillages"
+    script	pj::sol::1.0
+    label	"PJ Sol (surfaces sur le nivellement)"
+
+    help {
+    }
+
+    inputlabel	1	"Surfaces (polygones)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Contexte (entités)"
+
+    group {
+        name    "f_sel"
+        label   "Sélection"
+
+        parm {
+            name    "exclure_ilots"
+            label   "Exclure les surfaces d'îlots"
+            type    toggle
+            default { "1" }
+            help    "Surfaces listées par un îlot (attribut ilots) : fabriquées par pj::ilot (remplissage sous la ceinture)."
+        }
+        parm {
+            name    "emprises"
+            label   "Sol sous les bordures (emprises)"
+            type    toggle
+            default { "1" }
+            help    "Classe emprise_bordure : sol au pied de face, caché par les éléments (TQ-BOR-007)."
+        }
+        parm {
+            name    "classes_exclues"
+            label   "Classes exclues"
+            type    string
+            default { "" }
+            help    "Classes de surfaces à ne pas fabriquer, séparées par des espaces."
+        }
+        parm {
+            name    "bev"
+            label   "Bandes d'éveil (BEV)"
+            type    toggle
+            default { "1" }
+            help    "Dalles podotactiles 3D (ponctuels_sol type bev)."
+        }
+    }
+
+    group {
+        name    "f_tri"
+        label   "Triangulation"
+
+        parm {
+            name    "pas_bords"
+            label   "Pas des bords (m)"
+            type    float
+            default { "0.5" }
+            help    "Bords redécoupés arête par arête (même découpe des deux côtés d'une limite partagée)."
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "arete_chaussee"
+            label   "Arête cible chaussée (m)"
+            type    float
+            default { "0.5" }
+            help    "TQ-SOL-002 : 0,5 m sur la chaussée et les parkings."
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "arete_trottoir"
+            label   "Arête cible trottoirs, pistes, quais (m)"
+            type    float
+            default { "0.35" }
+            help    "Cheminements plans (dévers) ; TQ-SOL-002 vise 0,25 m : les rampes et talus restent à arete_rampe."
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "arete_rampe"
+            label   "Arête cible rampes et talus (m)"
+            type    float
+            default { "0.25" }
+            help    "TQ-SOL-002 : 0,25 m (plans inclinés d'abaissés, talus de noue)."
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "arete_emprise"
+            label   "Arête cible sous les bordures (m)"
+            type    float
+            default { "1" }
+            help    "Sol caché sous les éléments : aucun raffinement utile."
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "arete_parking"
+            label   "Arête cible parkings (m)"
+            type    float
+            default { "0.75" }
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "arete_vert"
+            label   "Arête cible espaces verts (m)"
+            type    float
+            default { "1.2" }
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "angle_min"
+            label   "Angle minimal (°)"
+            type    float
+            default { "25" }
+            help    "TQ-SOL-002 : 25°."
+            range   { 0 33 }
+        }
+        parm {
+            name    "pente_marche_deg"
+            label   "Marches : pente limite (°)"
+            type    float
+            default { "40" }
+            help    "Triangles plus raides (et de plus de 2 cm de dénivelé) adoucis par flou de Z (VAL-SOL-009, E8)."
+            range   { 10 89 }
+        }
+        parm {
+            name    "marches_iterations"
+            label   "Marches : itérations du flou"
+            type    integer
+            default { "40" }
+            range   { 0 500 }
+        }
+        parm {
+            name    "trou_min_m2"
+            label   "Trous comblés sous (m²)"
+            type    float
+            default { "2" }
+            help    "Trous (anneau ≥ 1) plus petits, sans surface décrite dedans (mâts, armoires) : comblés par la surface."
+            range   { 0 20 }
+        }
+        parm {
+            name    "souder_mm"
+            label   "Soudure des coutures (mm)"
+            type    float
+            default { "0.1" }
+            help    "Points confondus (même XY, même Z) soudés : normales continues d'une surface à l'autre (TQ-SOL-008)."
+            range   { 0 5 }
+        }
+        parm {
+            name    "emprise_sous_pied_mm"
+            label   "Sol sous bordure : sous le pied (mm)"
+            type    float
+            default { "0" }
+            range   { 0 50 }
+        }
+    }
+
+    group {
+        name    "f_rac"
+        label   "Raccords aux bordures"
+
+        parm {
+            name    "raccord_avant_m"
+            label   "Raccord au pied de face (m)"
+            type    float
+            default { "0.3" }
+            help    "Chaussée raccordée au pied de face de la bordure (TQ-SOL-013 (4), VAL-SOL-009 (2)) ; 0 : aucun."
+            range   { 0 2 }
+        }
+        parm {
+            name    "raccord_arriere_m"
+            label   "Raccord derrière la tête (m)"
+            type    float
+            default { "1" }
+            help    "Toute surface derrière l'arête arrière : tête − 4 mm (TQ-SOL-013 (6)) ; 0 : aucun."
+            range   { 0 4 }
+        }
+        parm {
+            name    "raccord_pente_avant_pct"
+            label   "Pente max du raccord avant (%)"
+            type    float
+            default { "10" }
+            range   { 1 100 }
+        }
+        parm {
+            name    "raccord_pente_arriere_pct"
+            label   "Pente max du raccord arrière (%)"
+            type    float
+            default { "8" }
+            help    "GA-TRO-004 : 8 % sur 2 m au plus."
+            range   { 1 100 }
+        }
+        parm {
+            name    "raccord_max_m"
+            label   "Longueur max d'un raccord (m)"
+            type    float
+            default { "3" }
+            range   { 0.1 10 }
+        }
+        parm {
+            name    "raccord_lissage_m"
+            label   "Lissage de l'écart le long des bordures (m)"
+            type    float
+            default { "0.5" }
+            help    "Moyenne glissante de ± cette longueur sur l'écart bordure / sol (grille en escalier)."
+            range   { 0 5 }
+        }
+        parm {
+            name    "sous_caniveau_mm"
+            label   "Chaussée sous les caniveaux (mm)"
+            type    float
+            default { "10" }
+            help    "Devant une bordure à caniveau, la chaussée passe sous l'élément CS (TQ-BOR-007, pas de z-fighting)."
+            range   { 0 50 }
+        }
+    }
+
+    group {
+        name    "f_sor"
+        label   "Sorties"
+
+        parm {
+            name    "couche"
+            label   "Couche USD"
+            type    string
+            default { "PJ_Sol" }
+        }
+        parm {
+            name    "format_usd"
+            label   "Format du fichier USD"
+            type    ordinal
+            default { "0" }
+            help    "Lu par fabriquer_hda.py : le sol du site (plus d'un million de triangles) en binaire."
+            menu {
+                "usdc"  "Binaire (.usdc)"
+                "usda"  "Texte (.usda)"
+            }
+        }
+        parm {
+            name    "tuile_m"
+            label   "Taille des tuiles (m)"
+            type    float
+            default { "50" }
+            help    "TQ-SOL-010 : tuiles de 50 m (64 m au plus) depuis le coin SO (−150, −150)."
+            range   { 8 300 }
+        }
+        parm {
+            name    "bev_chants"
+            label   "BEV : chants enterrés"
+            type    toggle
+            default { "0" }
+            help    "Chants verticaux sous le dessus des dalles (sur une rampe, E8 les compte comme sol raide)."
+        }
+        parm {
+            name    "bev_epaisseur_mm"
+            label   "BEV : épaisseur sous le sol (mm)"
+            type    float
+            default { "25" }
+            help    "Profondeur des chants enterrés."
+            range   { 5 29 }
+        }
+        parm {
+            name    "bev_dessus_mm"
+            label   "BEV : dessus au-dessus du sol (mm)"
+            type    float
+            default { "3" }
+            help    "E9 : dessus des dalles à moins de 5 mm du sol."
+            range   { 0 5 }
+        }
+    }
+
+}

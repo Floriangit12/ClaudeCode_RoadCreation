@@ -1,0 +1,177 @@
+# Dialog script for pj::ilot::1.0 automatically generated
+
+{
+    name	pj::ilot::1.0
+    inputlabel	1	"Îlots (polygones)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Contexte (entités)"
+    outputlabel	1	"Maillages"
+    outputlabel	2	"Points d'instances (éclats épars)"
+    outputlabel	3	"Prototypes d'éclats"
+    script	pj::ilot::1.0
+    label	"PJ Îlots (remplissages et éclats)"
+
+    help {
+    }
+
+    inputlabel	1	"Îlots (polygones)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Contexte (entités)"
+
+    group {
+        name    "f_rem"
+        label   "Remplissage"
+
+        parm {
+            name    "mode_altitude"
+            label   "Altitude du remplissage"
+            type    ordinal
+            default { "0" }
+            menu {
+                "ceinture"      "Tête de ceinture − retrait + bombement (TQ-SOL-013 (7))"
+                "nivellement"   "Modèle de nivellement (pj_niv_z)"
+            }
+        }
+        parm {
+            name    "dome_m"
+            label   "Distance du bombement (m)"
+            type    float
+            default { "0.8" }
+            help    "Le bombement atteint sa hauteur à cette distance de l'arête arrière de la ceinture."
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "base_ceinture"
+            label   "Largeur de la ceinture (m)"
+            type    float
+            default { "0.15" }
+            help    "Distance de l'arête avant à l'arête arrière des bordures de ceinture (T2 : 0,15 m)."
+            range   { 0 0.5 }
+        }
+        parm {
+            name    "trou_min_m2"
+            label   "Trous comblés sous (m²)"
+            type    float
+            default { "2" }
+            help    "Trous (anneau ≥ 1) plus petits, sans surface décrite dedans (mâts portés) : comblés par le remplissage."
+            range   { 0 20 }
+        }
+        parm {
+            name    "retrait_defaut"
+            label   "Retrait du polygone d'îlot (m)"
+            type    float
+            default { "0.15" }
+            help    "Îlots sans surface décrite : polygone réduit de la largeur de la ceinture (PolyExpand2D)."
+            range   { 0 1 }
+        }
+        parm {
+            name    "pas_bords"
+            label   "Pas des bords (m)"
+            type    float
+            default { "0.25" }
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "arete_chaussee"
+            label   "Arête cible revêtu (m)"
+            type    float
+            default { "0.25" }
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "arete_trottoir"
+            label   "Arête cible trottoir (m)"
+            type    float
+            default { "0.25" }
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "arete_parking"
+            label   "Arête cible parking (m)"
+            type    float
+            default { "0.25" }
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "arete_vert"
+            label   "Arête cible remplissage (m)"
+            type    float
+            default { "0.2" }
+            help    "TQ-SOL-002 : 0,25 m sur les îlots (bombement lisse)."
+            range   { 0.05 5 }
+        }
+        parm {
+            name    "angle_min"
+            label   "Angle minimal (°)"
+            type    float
+            default { "25" }
+            range   { 0 33 }
+        }
+        parm {
+            name    "souder_mm"
+            label   "Soudure des coutures (mm)"
+            type    float
+            default { "0.1" }
+            range   { 0 5 }
+        }
+    }
+
+    group {
+        name    "f_ecl"
+        label   "Éclats"
+
+        parm {
+            name    "couverture_dense"
+            label   "Couverture dense d'éclats"
+            type    toggle
+            default { "0" }
+            help    "BRF 1 800 /m², concassé 3 000 /m² (aperçu Karma ; dans UE, déplacement Nanite du matériau)."
+        }
+        parm {
+            name    "densite_facteur"
+            label   "Facteur de densité de la couverture"
+            type    float
+            default { "1" }
+            range   { 0 2 }
+        }
+        parm {
+            name    "debordement_facteur"
+            label   "Facteur des éclats épars"
+            type    float
+            default { "1" }
+            help    "Éclats devant la ceinture, sur la chaussée (remplissage.debordement)."
+            range   { 0 5 }
+        }
+    }
+
+    group {
+        name    "f_sor"
+        label   "Sorties"
+
+        parm {
+            name    "couche"
+            label   "Couche USD"
+            type    string
+            default { "PJ_Ilots" }
+        }
+        parm {
+            name    "couche_bibliotheque"
+            label   "Couche USD des prototypes"
+            type    string
+            default { "PJ_Lib_Ilots" }
+        }
+        parm {
+            name    "pivot_prototypes"
+            label   "Pivot des prototypes"
+            type    string
+            default { "centre de l'éclat ; taille unitaire (plus grande dimension 1), échelle = taille en m ; Z haut" }
+        }
+        parm {
+            name    "sens_cd"
+            label   "Sens de cd"
+            type    string
+            default { "[teinte, 0, 0]" }
+        }
+    }
+
+}

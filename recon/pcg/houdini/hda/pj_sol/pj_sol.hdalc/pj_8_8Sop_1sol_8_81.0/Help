@@ -1,0 +1,149 @@
+= PJ Sol (surfaces sur le nivellement) =
+
+"""Sol du site : chaque surface de la description triangulée (Triangulate 2D contraint, raffiné) et posée sur le modèle de nivellement unique (TQ-SOL-013) sans lissage des marches de bordure ; sol sous bordure au pied de face ; BEV en dalles 3D le long de l'arc ; tuiles de 50 m."""
+
+== Entrées ==
+
+1. Surfaces : polygones (anneau 0 = extérieur, anneau >= 1 = trou, même id) avec id, classe, materiau_id,
+   region_niveau, bords (dict[] : bordure, cote), bordure (emprises), ilots ; ponctuels_sol type bev (ancrage).
+2. Nivellement (HeightField de pj::lire_description).
+3. Contexte : entités (bordures pour le sol sous bordure et les BEV).
+
+== Sortie ==
+
+Maillages Y haut : materiau_id, pj_couche = PJ_Sol, pj_entite = T_<i>_<j> (tuile) ou id de BEV, pj_maillage, N (cusp
+30°), uv = (x, y) locaux en mètres.
+
+Règles : TQ-SOL-002, TQ-SOL-003, TQ-SOL-008, TQ-SOL-010, TQ-SOL-013, TQ-BOR-007, GA-BEV-002/003/004, VAL-SOL-009 (E8,
+E9). Conventions : recon/pcg/houdini/hda/README_HDA.md.
+
+@parameters
+
+== Sélection ==
+
+Exclure les surfaces d'îlots:
+    #id: exclure_ilots
+    Surfaces listées par un îlot (attribut ilots) : fabriquées par pj::ilot (remplissage sous la ceinture).
+
+Sol sous les bordures (emprises):
+    #id: emprises
+    Classe emprise_bordure : sol au pied de face, caché par les éléments (TQ-BOR-007).
+
+Classes exclues:
+    #id: classes_exclues
+    Classes de surfaces à ne pas fabriquer, séparées par des espaces.
+
+Bandes d'éveil (BEV):
+    #id: bev
+    Dalles podotactiles 3D (ponctuels_sol type bev).
+
+== Triangulation ==
+
+Pas des bords (m):
+    #id: pas_bords
+    Bords redécoupés arête par arête (même découpe des deux côtés d'une limite partagée).
+
+Arête cible chaussée (m):
+    #id: arete_chaussee
+    TQ-SOL-002 : 0,5 m sur la chaussée et les parkings.
+
+Arête cible trottoirs, pistes, quais (m):
+    #id: arete_trottoir
+    Cheminements plans (dévers) ; TQ-SOL-002 vise 0,25 m : les rampes et talus restent à arete_rampe.
+
+Arête cible rampes et talus (m):
+    #id: arete_rampe
+    TQ-SOL-002 : 0,25 m (plans inclinés d'abaissés, talus de noue).
+
+Arête cible sous les bordures (m):
+    #id: arete_emprise
+    Sol caché sous les éléments : aucun raffinement utile.
+
+Arête cible parkings (m):
+    #id: arete_parking
+    
+
+Arête cible espaces verts (m):
+    #id: arete_vert
+    
+
+Angle minimal (°):
+    #id: angle_min
+    TQ-SOL-002 : 25°.
+
+Marches : pente limite (°):
+    #id: pente_marche_deg
+    Triangles plus raides (et de plus de 2 cm de dénivelé) adoucis par flou de Z (VAL-SOL-009, E8).
+
+Marches : itérations du flou:
+    #id: marches_iterations
+    
+
+Trous comblés sous (m²):
+    #id: trou_min_m2
+    Trous (anneau ≥ 1) plus petits, sans surface décrite dedans (mâts, armoires) : comblés par la surface.
+
+Soudure des coutures (mm):
+    #id: souder_mm
+    Points confondus (même XY, même Z) soudés : normales continues d'une surface à l'autre (TQ-SOL-008).
+
+Sol sous bordure : sous le pied (mm):
+    #id: emprise_sous_pied_mm
+    
+
+== Raccords aux bordures ==
+
+Raccord au pied de face (m):
+    #id: raccord_avant_m
+    Chaussée raccordée au pied de face de la bordure (TQ-SOL-013 (4), VAL-SOL-009 (2)) ; 0 : aucun.
+
+Raccord derrière la tête (m):
+    #id: raccord_arriere_m
+    Toute surface derrière l'arête arrière : tête − 4 mm (TQ-SOL-013 (6)) ; 0 : aucun.
+
+Pente max du raccord avant (%):
+    #id: raccord_pente_avant_pct
+    
+
+Pente max du raccord arrière (%):
+    #id: raccord_pente_arriere_pct
+    GA-TRO-004 : 8 % sur 2 m au plus.
+
+Longueur max d'un raccord (m):
+    #id: raccord_max_m
+    
+
+Lissage de l'écart le long des bordures (m):
+    #id: raccord_lissage_m
+    Moyenne glissante de ± cette longueur sur l'écart bordure / sol (grille en escalier).
+
+Chaussée sous les caniveaux (mm):
+    #id: sous_caniveau_mm
+    Devant une bordure à caniveau, la chaussée passe sous l'élément CS (TQ-BOR-007, pas de z-fighting).
+
+== Sorties ==
+
+Couche USD:
+    #id: couche
+    
+
+Format du fichier USD:
+    #id: format_usd
+    Lu par fabriquer_hda.py : le sol du site (plus d'un million de triangles) en binaire.
+
+Taille des tuiles (m):
+    #id: tuile_m
+    TQ-SOL-010 : tuiles de 50 m (64 m au plus) depuis le coin SO (−150, −150).
+
+BEV : chants enterrés:
+    #id: bev_chants
+    Chants verticaux sous le dessus des dalles (sur une rampe, E8 les compte comme sol raide).
+
+BEV : épaisseur sous le sol (mm):
+    #id: bev_epaisseur_mm
+    Profondeur des chants enterrés.
+
+BEV : dessus au-dessus du sol (mm):
+    #id: bev_dessus_mm
+    E9 : dessus des dalles à moins de 5 mm du sol.
+

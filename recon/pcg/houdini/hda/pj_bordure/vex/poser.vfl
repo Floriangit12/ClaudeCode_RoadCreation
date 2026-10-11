@@ -1,0 +1,151 @@
+// poser (point wrangle) : repère, altitude, orientation, échelle et prototype de chaque élément et joint.
+// Entrée 0 : points de disposer ; 1 : bordures (courbes) ; 2 : nivellement (HeightField, facultatif) ; 3 : profils.
+// Pose (bordures_elements.json pose, z_instance ; TQ-SOL-013 (4)-(5)) :
+//   dessous du bloc = fil d'eau (pied) au milieu de la corde + vue − H (+ jitter de hauteur) ;
+//   X le long de la corde (début -> fin), tangage = pente du fil d'eau sur la corde, lacet et roulis de jitter ;
+//   milieu de corde décalé de la demi-flèche (l'élément chevauche l'arc) ;
+//   échelle X = longueur posée / longueur du prototype, / cos(tangage) (la case est mesurée à plat).
+// Altitude du pied (paramètre « altitude ») : 0 = profil en long du modèle unique (niv_z_pied, nivellement.json),
+//   1 = volume de nivellement (pj_niv_z à 0,12 m devant la face, région basse), repli sur le profil.
+string kid = s@bordure;
+int pr = findattribval(1, "prim", "id", kid);
+dict cb[] = pj_cb_prims(1, pr);
+float S[] = prim(1, "niv_s", pr);
+float ZP[] = prim(1, "niv_z_pied", pr);
+int reg = prim(1, "region_niveau", pr);
+int mode = chi("../altitude");
+float g[] = pj_niv_grille(2);
+
+float s0 = f@s0, s1 = f@s1;
+float c, k;
+string kind = s@kind;
+string ty = s@type;
+float H = f@H;
+if (kind == "joint") {
+    // bouchon de mortier : centré sur le joint, orienté sur la normale du joint (bissectrice ou normale imposée)
+    vector2 p = pj_cb_point(cb, s0, c, k);
+    vector dj = v@n_debut;
+    vector2 d = length(dj) > 1e-6 ? normalize(set(dj.x, dj.y)) : set(cos(c), sin(c));
+    float z = pj_zpied(cb, S, ZP, g, mode, reg, s0) + f@vue - H;
+    vector ex, ey, ez;
+    pj_axes(d, 0.0, 0.0, ex, ey, ez);
+    p@orient = quaternion(pj_repere_houdini(ex, ey, ez));
+    @P = set(p.x, z, -p.y);
+    float w = f@longueur;
+    v@scale = set((w + 0.004) / 0.010, 1.0, 1.0);         // prototype : joint de 6 mm + 2 x 2 mm sous les abouts
+    string mort = s@mortier == "clair" ? "jointf_" : "joint_";
+    s@asset = mort + s@profil;
+    s@proto_type = s@mortier == "clair" ? "jointf" : "joint";
+    f@proto_L = 0.010;
+    i@variante = 0;
+    f@z_pied = H - f@vue;
+} else {
+    vector2 a = pj_cb_point(cb, s0, c, k);
+    vector2 b = pj_cb_point(cb, s1, c, k);
+    vector2 d = normalize(b - a);
+    vector2 y = set(-d.y, d.x);
+    float Lc = length(b - a);
+    vector2 mil = 0.5 * (a + b);
+    if (!i@sur_mesure) mil += y * 0.5 * pj_cb_ecart_milieu(cb, s0, s1);
+    mil += y * f@jit_lateral;
+    float z0 = pj_zpied(cb, S, ZP, g, mode, reg, s0), z1 = pj_zpied(cb, S, ZP, g, mode, reg, s1);
+    float vue = ty == "chartiere" ? max(f@vue, f@vue_fin) : f@vue;
+    if (ty == "muret") vue = 0.0;
+    float z = 0.5 * (z0 + z1) + vue - H + f@jit_dz;
+    float pente = (z1 - z0) / max(Lc, 1e-6);
+    float lac = radians(f@jit_lacet);
+    vector2 dd = set(d.x * cos(lac) - d.y * sin(lac), d.x * sin(lac) + d.y * cos(lac));
+    vector ex, ey, ez;
+    pj_axes(dd, pente, radians(f@jit_roulis), ex, ey, ez);
+    p@orient = quaternion(pj_repere_houdini(ex, ey, ez));
+    @P = set(mil.x, z, -mil.y);
+    f@z_pied = H - vue;                                      // fil d'eau dans le repère de l'élément
+    f@fleche_mm = 1000.0 * pj_cb_fleche(cb, s0, s1);
+    f@z_fe0 = z0;
+    f@z_fe1 = z1;
+    f@pente = pente;
+    // prototype (pj_bordure_pose.nom_prototype) : élément 0,994 / 0,494, coupe, chartière droite ; sur mesure sinon
+    float Le = s1 - s0;
+    float ech = 1.0;
+    string p = s@profil;
+    i@variante = 0;
+    if (ty == "caniveau" && !i@sur_mesure) {
+        // caniveaux CS1-CS3 (bordures_elements.json caniveaux : 0,992 / 0,994 m ; coupes)
+        float bases[] = array(0.194, 0.244, 0.294, 0.344, 0.394, 0.444, 0.494, 0.594, 0.694, 0.794, 0.894, 0.994);
+        if (i@coupe) {
+            float bL = bases[len(bases) - 1];
+            foreach (float x; bases) { if (x >= Le - 1e-6) { bL = x; break; } }
+            ech = Le / bL;
+            s@asset = sprintf("caniveau_%s_coupe_L%d", p, int(rint(bL * 1000)));
+            s@proto_type = "coupe";
+            f@proto_L = bL;
+        } else {
+            ech = Le / 0.994;
+            s@asset = sprintf("caniveau_%s_L994", p);
+            s@proto_type = "element";
+            f@proto_L = 0.994;
+        }
+    } else if (i@sur_mesure) {
+        s@asset = sprintf("sm_%s", re_replace("[^A-Za-z0-9]", "", s@id));
+        s@proto_type = ty == "chartiere" ? "chartiere_sm" : (ty == "muret" ? "muret" : "courbe");
+        f@proto_L = Le;
+    } else if (ty == "chartiere") {
+        float vh = max(f@vue, f@vue_fin), vb = min(f@vue, f@vue_fin);
+        int Lmm = int(rint(Le * 100)) * 10;                    // longueur du prototype au cm (échelle X = reste)
+        s@asset = sprintf("chartiere_%s%03d_%s%03d_L%d_%s", p, int(rint(vh * 1000)), s@profil_bas, int(rint(vb * 1000)),
+                          Lmm, s@sens);
+        s@proto_type = "chartiere";
+        f@proto_L = Lmm / 1000.0;
+        ech = Le / f@proto_L;
+    } else if (i@coupe || (abs(Le - 0.994) > 0.012 && abs(Le - 0.494) > 0.006)) {
+        float bases[] = array(0.194, 0.244, 0.294, 0.344, 0.394, 0.444, 0.494, 0.594, 0.694, 0.794, 0.894, 0.994);
+        float bL = bases[len(bases) - 1];
+        foreach (float x; bases) { if (x >= Le - 1e-6) { bL = x; break; } }
+        if (Le > 0.994 + 1e-6) bL = 0.994;
+        ech = Le / bL;
+        s@asset = sprintf("coupe_%s_L%d", p, int(rint(bL * 1000)));
+        s@proto_type = "coupe";
+        f@proto_L = bL;
+    } else {
+        float bL = Le > 0.75 ? 0.994 : 0.494;
+        ech = Le / bL;
+        // variante d'épaufrures (bordures_elements.json epaufrures.repartition : neuf_2025 / ancien)
+        float rep[] = array(0.85, 0.12, 0.03, 0.0);
+        if (i@ancien) rep = array(0.45, 0.30, 0.18, 0.07);
+        if (!chi("../eclats")) rep = array(1.0, 0.0, 0.0, 0.0);
+        float u = (i@graine % 10007) / 10007.0, acc = 0;
+        int var = 3;
+        for (int q = 0; q < 4; q++) { acc += rep[q]; if (u < acc) { var = q; break; } }
+        i@variante = var;
+        s@asset = sprintf("element_%s_L%d_v%d", p, int(rint(bL * 1000)), var);
+        s@proto_type = "element";
+        f@proto_L = bL;
+    }
+    f@echelle_x = ech;
+    v@scale = set(i@sur_mesure ? 1.0 : ech * sqrt(1 + pente * pente), 1.0, 1.0);
+}
+// instances Unreal (README_HDA.md § 2 : unreal_instance, pj_points/0.1)
+s@unreal_instance = sprintf("/Game/PJ/Lib/Bordures/SM_%s.SM_%s", s@asset, s@asset);
+s@unreal_material = sprintf("/Game/PJ/Materials/MI_%s.MI_%s", s@materiau_id, s@materiau_id);
+// cd = [usure (épaufrures), salissure, mousse_joints, herbe_joints, teinte] (bordures_elements.json aspect)
+int gt = random_shash(s@id + "|aspect");
+float ta = i@ancien ? 0.88 : 0.94, tb = i@ancien ? 1.12 : 1.06;
+f@teinte = lerp(ta, tb, rand(set(gt % 100003, 1, 0.5)));
+f@salissure_inst = clamp(f@salissure * lerp(0.8, 1.2, rand(set(gt % 100003, 2, 0.5))), 0.0, 1.0);
+f[]@cd = array(f@epaufrures, f@salissure_inst, f@mousse_joints, f@herbe_joints, f@teinte);
+dict x;
+x["bordure"] = kid;
+x["type"] = ty;
+x["profil"] = s@profil;
+x["vue_m"] = rint(f@vue * 1000) / 1000.0;
+x["s0"] = rint(s0 * 1000) / 1000.0;
+x["s1"] = rint(s1 * 1000) / 1000.0;
+x["longueur_m"] = rint(f@longueur * 10000) / 10000.0;
+x["coupe"] = i@coupe;
+x["variante"] = i@variante;
+x["materiau"] = s@materiau_id;
+x["z_pied"] = rint(f@z_pied * 10000) / 10000.0;
+if (kind == "joint") x["mortier"] = s@mortier;
+d@x = x;
+i@seed = i@graine;
+f@density = 1.0;

@@ -1,0 +1,105 @@
+= PJ Îlots (remplissages et éclats) =
+
+"""Remplissages d'îlots sous la ceinture de bordures (3 à 5 cm sous la tête, bombés ; GA-ARB-003, TQ-SOL-013 (7)) triangulés sur les surfaces de l'îlot, éclats épars de BRF et de concassé débordant sur la chaussée, couverture dense en option, prototypes d'éclats."""
+
+== Entrées ==
+
+1. Îlots : polygones avec id, remplissage (dict : materiau_id, retrait_sous_bordure_m, bombement_m, debordement),
+   ceinture (string[] : bordures), surface (string[]), region_niveau.
+2. Nivellement (HeightField) : mode « nivellement ».
+3. Contexte : surfaces (géométrie des remplissages) et bordures (têtes de la ceinture, niv_s, niv_z_tete, niv_z_pied).
+
+== Sorties ==
+
+1. Maillages Y haut : remplissage par îlot (pj_couche = PJ_Ilots, pj_entite = îlot, materiau_id, N, uv en mètres),
+   plus la couverture dense si l'option est active.
+2. Points d'instances (éclats épars) : asset eclat_<brf|gravier>_vNN, unreal_instance
+   (/Game/PJ/Lib/Ilots/SM_<asset>), orient, scale, graine, cd, x.
+3. Prototypes d'éclats (taille unitaire, centrés).
+
+Règles : GA-ARB-003, TQ-SOL-013 (7), TQ-SOL-002, GA-ILO-003. Conventions : recon/pcg/houdini/hda/README_HDA.md.
+
+@parameters
+
+== Remplissage ==
+
+Altitude du remplissage:
+    #id: mode_altitude
+    
+
+Distance du bombement (m):
+    #id: dome_m
+    Le bombement atteint sa hauteur à cette distance de l'arête arrière de la ceinture.
+
+Largeur de la ceinture (m):
+    #id: base_ceinture
+    Distance de l'arête avant à l'arête arrière des bordures de ceinture (T2 : 0,15 m).
+
+Trous comblés sous (m²):
+    #id: trou_min_m2
+    Trous (anneau ≥ 1) plus petits, sans surface décrite dedans (mâts portés) : comblés par le remplissage.
+
+Retrait du polygone d'îlot (m):
+    #id: retrait_defaut
+    Îlots sans surface décrite : polygone réduit de la largeur de la ceinture (PolyExpand2D).
+
+Pas des bords (m):
+    #id: pas_bords
+    
+
+Arête cible revêtu (m):
+    #id: arete_chaussee
+    
+
+Arête cible trottoir (m):
+    #id: arete_trottoir
+    
+
+Arête cible parking (m):
+    #id: arete_parking
+    
+
+Arête cible remplissage (m):
+    #id: arete_vert
+    TQ-SOL-002 : 0,25 m sur les îlots (bombement lisse).
+
+Angle minimal (°):
+    #id: angle_min
+    
+
+Soudure des coutures (mm):
+    #id: souder_mm
+    
+
+== Éclats ==
+
+Couverture dense d'éclats:
+    #id: couverture_dense
+    BRF 1 800 /m², concassé 3 000 /m² (aperçu Karma ; dans UE, déplacement Nanite du matériau).
+
+Facteur de densité de la couverture:
+    #id: densite_facteur
+    
+
+Facteur des éclats épars:
+    #id: debordement_facteur
+    Éclats devant la ceinture, sur la chaussée (remplissage.debordement).
+
+== Sorties ==
+
+Couche USD:
+    #id: couche
+    
+
+Couche USD des prototypes:
+    #id: couche_bibliotheque
+    
+
+Pivot des prototypes:
+    #id: pivot_prototypes
+    
+
+Sens de cd:
+    #id: sens_cd
+    
+

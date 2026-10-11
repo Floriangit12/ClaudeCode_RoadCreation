@@ -1,0 +1,220 @@
+// Corps des wrangles de pj::ilot (sections « //@@ <nom> »), repris par construire.py.
+
+//@@ surfaces_ilots
+// surfaces_ilots (primitive) : surfaces de la description qui composent un îlot (attribut ilots, ou liste surface de
+// l'îlot) ; reçoivent l'identifiant de l'îlot et son remplissage. Entrée 1 : îlots.
+// Les surfaces revêtues (trottoir, autre, quai, piste, accès) gardent leur revêtement à 4 mm sous la tête (TQ-SOL-013
+// (6)) ; les autres prennent le remplissage de l'îlot : 3 à 5 cm sous la tête, bombé (GA-ARB-003, TQ-SOL-013 (7)).
+string fam = hasprimattrib(0, "famille") ? s@famille : "";
+string mon = "";
+if (fam == "surfaces") {
+    string il[];
+    if (hasprimattrib(0, "ilots")) il = s[]@ilots;
+    foreach (string x; il) if (findattribval(1, "prim", "id", x) >= 0) { mon = x; break; }
+    if (mon == "") {
+        for (int k = 0; k < nprimitives(1); k++) {
+            string sl[] = prim(1, "surface", k);
+            if (find(sl, s@id) >= 0) { mon = prim(1, "id", k); break; }
+        }
+    }
+}
+if (mon == "" || !primintrinsic(0, "closed", @primnum)) {
+    removeprim(0, @primnum, 1);
+} else {
+    int k = findattribval(1, "prim", "id", mon);
+    dict r = prim(1, "remplissage", k);
+    string rm = "gazon_tondu";
+    if (isvalidindex(r, "materiau_id")) { string x = r["materiau_id"]; rm = x; }
+    float retrait = 0.04, bomb = 0.02;
+    if (isvalidindex(r, "retrait_sous_bordure_m")) { float x = r["retrait_sous_bordure_m"]; retrait = x; }
+    if (isvalidindex(r, "bombement_m")) { float x = r["bombement_m"]; bomb = x; }
+    string revetus[] = array("trottoir", "autre", "quai_bus", "piste_cyclable", "acces_riverain");
+    string remplis[] = array("brf_bois_concasse", "brf_bois_gris", "gravier_concasse_6_10", "gravillons_ilot",
+                             "galets_20_40", "paillage_mineral", "gazon_tondu", "herbe_haute", "terre_nue", "noue_plantee");
+    int paved = find(revetus, s@classe) >= 0 && find(remplis, s@materiau_id) < 0;
+    s@ilot = mon;
+    s@remplissage_mat = rm;
+    if (paved) {
+        i@rempli = 0;
+        f@retrait = 0.004;
+        f@bombement = 0.0;
+    } else {
+        i@rempli = 1;
+        s@materiau_id = rm;
+        f@retrait = retrait;
+        f@bombement = bomb;
+    }
+}
+
+//@@ altitude_ilot
+// altitude_ilot (point) : règle TQ-SOL-013 (7) / GA-ARB-003 appliquée à la ceinture : z = tête de la ceinture (moyenne
+// des têtes des bordures de ceinture projetées, poids 1/d^4) − retrait + bombement · sin(min(d / D, 1) · π / 2), d =
+// distance à l'arête arrière la plus proche ; mode « nivellement » : pj_niv_z dans la région de la surface.
+// Entrées : 1 = îlots, 2 = bordures, 3 = nivellement. Écart au modèle de nivellement gardé (ecart_nivellement).
+int prs[] = pointprims(0, @ptnum);
+int pr = prs[0];
+string il = prim(0, "ilot", pr);
+float retrait = prim(0, "retrait", pr), bomb = prim(0, "bombement", pr);
+int reg = prim(0, "region_niveau", pr);
+float g[] = pj_niv_grille(3);
+float x = @P.x, y = -@P.z;
+float zn = pj_niv_z(g, x, y, reg);
+float z = zn;
+int k = findattribval(1, "prim", "id", il);
+string ceint[];
+if (k >= 0) ceint = prim(1, "ceinture", k);
+float num = 0, den = 0, dmin = 1e9;
+if (chi("../mode_altitude") == 0) {
+    foreach (string kid; ceint) {
+        int kp = findattribval(2, "prim", "id", kid);
+        if (kp < 0) continue;
+        float S[] = prim(2, "niv_s", kp), ZT[] = prim(2, "niv_z_tete", kp);
+        if (len(S) == 0) continue;
+        dict cb[] = pj_cb_prims(2, kp);
+        float d;
+        float s = pj_cb_projeter(cb, x, y, d);
+        float L = pj_cb_longueur(cb);
+        float hors = max(max(-s, s - L), 0.0);                  // au-delà des bouts : distance comptée en plus
+        float dd = sqrt(d * d + hors * hors);
+        dmin = min(dmin, max(dd - chf("../base_ceinture"), 0.0));
+        // tête interpolée par pondération 1/d^4 sur les STATIONS de la ceinture (niv_s) et non au seul point projeté :
+        // sur un anneau (K-0390), le point projeté saute d'un bord à l'autre au droit de l'axe médian de l'îlot, d'où un
+        // pli et un puits dans le remplissage (I-0390, revue réalisme du 11/10/2026)
+        for (int j = 0; j < len(S); j++) {
+            float c_, k_;
+            vector2 q = pj_cb_point(cb, S[j], c_, k_);
+            float dj = length(q - set(x, y));
+            float w = 1.0 / pow(max(dj, 0.05), 4.0);
+            num += w * ZT[j];
+            den += w;
+        }
+    }
+}
+if (den > 0) {
+    float D = chf("../dome_m");
+    z = num / den - retrait + bomb * sin(min(dmin / max(D, 1e-3), 1.0) * PI / 2);
+} else if (zn < 0.5 * PJ_NIV_ABSENT) {
+    z = 0;
+}
+f@ecart_nivellement = zn > 0.5 * PJ_NIV_ABSENT ? z - zn : 0.0;
+@P.y = z;
+
+//@@ eclats_debordement
+// eclats_debordement (detail) : éclats épars devant la ceinture, sur la chaussée (remplissage.debordement : largeur,
+// densité ; ex-pj_ilot : 6 copeaux /m² de BRF, 30 pierres /m² de concassé à densité 0,15), au pied de la bordure
+// (niv_z_pied), plus nombreux près de la face. Entrée 0 : îlots ; 1 : bordures. Points d'instances de bibliothèque.
+int n = nprimitives(0);
+for (int pr = 0; pr < n; pr++) {
+    string il = prim(0, "id", pr);
+    dict r = prim(0, "remplissage", pr);
+    if (!isvalidindex(r, "debordement")) continue;
+    dict db = r["debordement"];
+    if (!isvalidindex(db, "largeur_m")) continue;
+    float larg = db["largeur_m"], dens = db["densite"];
+    string mat = r["materiau_id"];
+    string fam_e = "";
+    float base_m2 = 0, t0 = 0.015, t1 = 0.06;
+    if (startswith(mat, "brf")) { fam_e = "brf"; base_m2 = 6.0; t0 = 0.015; t1 = 0.06; }
+    else if (startswith(mat, "gravier") || startswith(mat, "gravillons")) { fam_e = "gravier"; base_m2 = 30.0; t0 = 0.012; t1 = 0.026; }
+    else if (startswith(mat, "galets")) { fam_e = "gravier"; base_m2 = 10.0; t0 = 0.02; t1 = 0.04; }
+    if (fam_e == "") continue;
+    float rate = base_m2 * dens / 0.15 * chf("../debordement_facteur");
+    string ceint[] = prim(0, "ceinture", pr);
+    int nvar = fam_e == "brf" ? 12 : 8;
+    foreach (string kid; ceint) {
+        int kp = findattribval(1, "prim", "id", kid);
+        if (kp < 0) continue;
+        dict cb[] = pj_cb_prims(1, kp);
+        float L = pj_cb_longueur(cb);
+        float S[] = prim(1, "niv_s", kp), ZP[] = prim(1, "niv_z_pied", kp);
+        int gk = random_shash(il + "|" + kid + "|debord");
+        int ne = int(rint(rate * L * larg));
+        for (int e = 0; e < ne; e++) {
+            float s = L * rand(set(gk % 100003, e, 0.11));
+            float u = -0.01 - larg * pow(rand(set(gk % 100003, e, 0.23)), 2.0);   // devant la face vue (à droite)
+            float c, kk;
+            vector2 p = pj_cb_point(cb, s, c, kk);
+            vector2 q = p + set(sin(c), -cos(c)) * (-u);
+            float z = len(S) > 0 ? pj_interp(s, S, ZP) : 0.0;
+            float taille = lerp(t0, t1, pow(rand(set(gk % 100003, e, 0.37)), 1.5));
+            int var = int(floor(rand(set(gk % 100003, e, 0.41)) * nvar)) % nvar;
+            string asset = sprintf("eclat_%s_v%02d", fam_e, var);
+            vector4 q1 = quaternion(2 * PI * rand(set(gk % 100003, e, 0.53)), {0, 1, 0});
+            vector4 q2 = quaternion(radians(25.0) * (rand(set(gk % 100003, e, 0.61)) - 0.5), {1, 0, 0});
+            int pt = addpoint(0, set(q.x, z + 0.25 * taille * 0.35, -q.y));
+            setpointattrib(0, "orient", pt, qmultiply(q1, q2));
+            // échelle = taille seule (prototype de plus grande dimension 1) ; pas de pscale : Copy to Points et
+            // pj::exporter_points multiplient scale par pscale (s = taille² avant, éclats invisibles, TQ-PCG-001,
+            // revue conformité 11/10/2026)
+            setpointattrib(0, "scale", pt, set(taille, taille, taille));
+            setpointattrib(0, "asset", pt, asset);
+            setpointattrib(0, "unreal_instance", pt, sprintf("/Game/PJ/Lib/Ilots/SM_%s.SM_%s", asset, asset));
+            string eid = sprintf("%s/%s/E%04d", il, kid, e);
+            setpointattrib(0, "id", pt, eid);
+            setpointattrib(0, "ilot", pt, il);
+            int gr = random_shash(eid) & 0x7FFFFFFF;
+            setpointattrib(0, "graine", pt, gr);
+            setpointattrib(0, "seed", pt, gr);
+            setpointattrib(0, "density", pt, 1.0);
+            setpointattrib(0, "materiau_id", pt, fam_e == "brf" ? "eclat_brf" : "eclat_gravier");
+            float teinte = lerp(0.8, 1.2, rand(set(gk % 100003, e, 0.71)));
+            float cdv[] = array(teinte, 0.0, 0.0);
+            setpointattrib(0, "cd", pt, cdv);
+            dict x;
+            x["ilot"] = il;
+            x["bordure"] = kid;
+            x["s"] = rint(s * 1000) / 1000.0;
+            x["u"] = rint(u * 1000) / 1000.0;
+            x["taille_m"] = rint(taille * 10000) / 10000.0;
+            setpointattrib(0, "x", pt, x);
+        }
+    }
+}
+for (int pr = 0; pr < n; pr++) removeprim(0, pr, 1);
+
+//@@ couverture
+// couverture (point, après Scatter) : éclats de la couverture dense (ex-pj_ilot regle:pj_ilot.couverture : BRF
+// 1 800 /m², concassé 3 000 /m²) : variante, orientation (copeaux inclinés σ 20°, 15 % dressés), taille, émergence
+// (40-70 % de la hauteur au-dessus du remplissage). Graine = hachage de l'îlot et du numéro de point.
+string mat = s@materiau_id;
+int brf = startswith(mat, "brf");
+int gk = random_shash(s@ilot + "|couverture") % 100003;
+int e = @ptnum;
+float t0 = brf ? 0.015 : 0.012, t1 = brf ? 0.06 : 0.026;
+float taille = lerp(t0, t1, pow(rand(set(gk, e, 0.37)), 1.5));
+int nvar = brf ? 12 : 8;
+int var = int(floor(rand(set(gk, e, 0.41)) * nvar)) % nvar;
+s@asset = sprintf("eclat_%s_v%02d", brf ? "brf" : "gravier", var);
+float incl = PI * rand(set(gk, e, 0.61));
+if (brf) {
+    incl = radians(20.0) * (rand(set(gk, e, 0.61)) - 0.5) * 2;
+    if (rand(set(gk, e, 0.83)) < 0.15) incl = radians(lerp(50.0, 70.0, rand(set(gk, e, 0.89))));
+}
+vector4 q1 = quaternion(2 * PI * rand(set(gk, e, 0.53)), {0, 1, 0});
+vector4 q2 = quaternion(incl, {1, 0, 0});
+p@orient = qmultiply(q1, q2);
+v@scale = set(taille, taille, taille);
+@P.y += taille * lerp(-0.3, 0.05, rand(set(gk, e, 0.91)));        // éclats à demi enfoncés (sous la tête de ceinture)
+s@materiau_id = brf ? "eclat_brf" : "eclat_gravier";
+i@graine = random_shash(sprintf("%s/%d", s@ilot, e)) & 0x7FFFFFFF;
+
+//@@ prototypes_eclats
+// prototypes_eclats (point, sur la forme de base copiée par variante) : copeaux de BRF (lames minces vrillées et
+// cintrées) et pierres concassées (anguleuses, trapues) ; taille unitaire (la plus grande dimension vaut 1), centre à
+// l'origine ; graine = numéro de variante.
+int v = i@variante;
+string fam = s@famille_eclat;
+vector o = v@origine;
+vector p = @P - o;
+if (fam == "brf") {
+    float tw = radians(30.0) * (rand(set(v, 1, 0.5)) - 0.5) * 2;     // vrille autour de X
+    float a = tw * p.x;
+    p = set(p.x, p.y * cos(a) - p.z * sin(a), p.y * sin(a) + p.z * cos(a));
+    float be = 0.25 * (rand(set(v, 2, 0.5)) - 0.5);                  // cintrage
+    p.y += be * (p.x * p.x - 0.25);
+    p += 0.04 * (noise(p * 6.0 + v * 3.1) - 0.5);
+} else {
+    vector f = set(1.0, lerp(0.7, 0.9, rand(set(v, 3, 0.5))), lerp(0.55, 0.8, rand(set(v, 4, 0.5))));
+    p = normalize(p) * (0.42 + 0.16 * (noise(normalize(p) * 2.2 + v * 1.7) - 0.5)) * f;
+}
+@P = p + o;

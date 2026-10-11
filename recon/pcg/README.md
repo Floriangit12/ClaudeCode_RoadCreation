@@ -86,6 +86,39 @@ Matériaux : `schema/materiaux_description.json` résout chaque `materiau_id` ve
 (`disponible`, `substitut`, `derive`, `a_telecharger` : BRF à télécharger, gravier → `gravillons_ilot`).
 Pas de matériau City Sample côté Houdini / Karma.
 
+## Marquages (schéma 0.3 : GAM d'abord, détection, règles ; v1 = indice)
+
+Famille `marquages` sur tout le carré de 300 m (`decrire/marquages.py`, appelé par `composer.py`). Aucune géométrie v1 n'est
+posée : le paquet v1 n'est qu'un **indice** (existence, type, couleur, usure, fenêtre de recherche). Priorité par élément
+(FUS-SRC-001, `decrire/marquages_sources.py`) :
+
+1. **levé GAM 2026** (`etat_2026/signalisation_horizontale_lin/pct`) : polylignes chaînées puis classées
+   (`marquages_gam_classer.py` : bandes de zébra, flèches ajustées aux gabarits IISR, chevrons, dents, zigzags, hachures,
+   axes et tirets, pictogrammes dessinés ; blocs VELO / PMR / FLECHE) -> entités normatives (`marquages_gam_entites.py`) ;
+2. **plan projet 2025** calé, dans la zone des travaux, pour ce que le GAM n'a pas : détecteurs `detection_fleches.py`
+   (DET-FLE-004), `detection_zebras.py` (DET-ZEB-009), `detection_lignes.py` (DET-PLN-016) et détection guidée des indices
+   v1 (`detection_indices.py`) ;
+3. **ortho 2022** hors des zones refaites ou construites (raster des états de zone `marquages_sources.zones()`) : mêmes
+   détecteurs (DET-FLE-003, DET-LIG-010/011) ; une marque supprimée par les travaux n'est jamais un « fantôme » sans
+   preuve postérieure (aucune photo après 08/2025) : retirée, justifiée ;
+4. **règles** `deduire_si_absent` (`marquages_inference.py`) : lignes d'arrêt virtuelles et hypothèses (MQ-LEF-002/011),
+   flèches par voie (INF-FLE-004, MQ-FLE-003 à 006), passages par groupe R12 (MQ-DET-004), traversées cyclables
+   (MQ-CYC-007), zigzags de bus (MQ-DET-009), files (MQ-DET-002) ;
+5. **v1** seul (zone sans image admissible) : posé `a_verifier`.
+
+Fusion (`marquages_fusion.py`) : appariement FUS-ASS-003 (portes + hongrois), score FUS-SCO-002, accrochage normatif
+FUS-SNP-004, conflits FUS-CON-005 ; contraintes (`marquages_contraintes.py`) : interruptions aux passages, marques et
+bordures GAM (MQ-LIG-002, MQ-DET-010). Chaque entité porte `src`, `confiance`, `score`, `sources [{src, ref, c, S}]`,
+`regles`, `lien_v1`. Sorties `description/base/` : `marquages.geojson` (fabriqué), `marquages_correspondance.geojson`
+(devenir justifié des 996 v1), `marquages_hypotheses.geojson` (toutes les hypothèses et leur décision),
+`marquages_indices_v1.geojson` (indices, non fabriqués). Contrôles 0.3 : `decrire/marquages_verifier.py` (via `valider.py`).
+
+```
+python recon/pcg/decrire/marquages.py [--sortie DOSSIER] [--rapport R.json]   # famille marquages seule
+python recon/pcg/decrire/marquages_couverture.py                            # couverture_marquages*.png (source par couleur)
+python recon/pcg/decrire/detection_evaluation.py                            # précision / rappel des détecteurs contre le GAM
+```
+
 ## Zone pilote ZP-01
 
 Rectangle local x ∈ [−11, 60], y ∈ [−28, 72] (71 × 100 m ; L93 917268.43-917339.43 / 6460261.98-6460361.98) :
@@ -117,3 +150,129 @@ python recon/pcg/decrire/apercu.py SORTIE.png --etiquettes [--emprise x0 y0 x1 y
 - Les refuges à niveau (TPC NE coupé par la traversée) n'ont pas de BEV décrite (pas de bordure où l'ancrer).
 - Le MNT 2026 garde par endroits un relief 2021 disparu (prolongement de l'ancien TPC NE : S-0344,
   `niveau.arasement`) : la fabrication doit araser ces surfaces au niveau indiqué.
+
+## Sol 0.3 : site complet et nivellement unique (bordures, surfaces, îlots, ponctuels_sol)
+
+Le schéma 0.3 étend les familles de sol au carré de 300 m (`decrire/sol_site.py`, local [-150, 150]²) ;
+`composer.py` appelle `sol_composer.familles_sol` (une ligne). Aucune géométrie v1 n'est reprise : le v1 ne
+donne que des indices de classe et de matériau (carte d'indices à 0,10 m).
+
+```
+decrire/
+  sol_site.py        contexte du site (levé GAM 2026 et calques SOL_* du même DWG, OpenDRIVE, passages, cartes d'indices)
+  sol_partition.py   arrangement plan exact (numpy) : polylignes -> faces avec trous, arêtes étiquetées (TQ-SOL-001)
+  sol_geometrie.py   arête arrière et emprise des bordures (largeur de base du profil, bordures.json)
+  sol_lacunes.py     bouts de file libres : ponts K-95nn (bateau déduit GA-ABA-001), fermetures de bout
+  surfaces.py        partition vectorielle : bordures (avant, arrière, bouts), bâtiments, rampes (GA-ABA-003/005,
+                     GA-CHR-002), bords OpenDRIVE, limites GAM (revêtement, végétation, talus), fermetures signalées
+  nivellement.py     modèle de nivellement unique (TQ-SOL-013, CF-26), contrôles « verifier », écriture
+  nivellement_xodr.py  Z OpenDRIVE elevation + superelevation + shape (TQ-SOL-004)
+  nivellement_requete.py  requête autonome (numpy seul) : Nivellement(base).z(x, y, surface_id), z_bordure(id, s)
+  sol_controles.py   contrôles appelés par valider.py (GA-ABA-*, GA-BEV-*, GA-TRO-*, GA-BOR-005, VAL-SOL-009...)
+  sol_apercu.py      planches PNG : site complet + 4 zooms, et ombrage / pentes du nivellement
+recon/out/paquet_jardin/v2/description/base/
+  nivellement.json         régions, modèle par surface, lignes de contrainte des bordures (pied, tête, arrière tous
+                           les 0,5 m), descentes de fin de file, contrôles
+  nivellement_grille.npz   z0/r0 (nœud et région propriétaire), z1/r1 et z2/r2 (prolongements de 2 nœuds des
+                           régions voisines), grille de 0,10 m, nœud (i, j) = (x0 + i·pas, y0 + j·pas), z LOCAL
+```
+
+Règles de fabrication pour Houdini (les deux agents de fabrication) :
+- **surfaces** : partition exacte du carré, trous = bâtiments ; `emprise_bordure` = sol sous l'élément, au niveau
+  du pied (caché) ; `rampe` = plan incliné derrière un abaissé ; `limite_raster` + `fermetures_m` = limites sans
+  source vectorielle (bords de chaussée et limites vert / revêtu des grandes faces mêlées), simplifiées et signalées ;
+- **Z de tout sommet de sol** : `Nivellement(base).z(x, y, surface_id)` (jamais le MNT ni les maillages v1) ; la
+  requête n'interpole qu'à l'intérieur de la région de nivellement de la surface : les marches de bordure ne
+  sont jamais lissées ;
+- **bordures** : Z des sommets = pied de face (fil d'eau du caniveau CS2 au contact, sinon chaussée), `z_ref`
+  `nivellement_2026` ; tête = pied + vue décrite ; sol du côté haut = tête − 4 mm (trottoir), − retrait (îlot
+  rempli), − 2 cm (espace vert) ;
+- **marquages** : drapés sur `z(x, y, surface_id)` de la chaussée.
+
+Limites de la partition, par priorité (TQ-SOL-001) : bordures (avant, arrière, bouts), bâtiments, rampes,
+bords OpenDRIVE, levé GAM 2026 (limites de revêtement, végétation, talus), aires de stationnement OSM
+(`osm_parking`, retirées à < 0,6 m d'une limite déjà présente), puis fermetures signalées (`limite_raster`).
+Les éclats (< 0,01 m² ou < 4 mm de large) sont fusionnés avec leur voisine par une limite continue.
+Nivellement des cheminements (GA-TRO-003) : bande de 4 m derrière chaque bordure de chaussée calée sur
+tête − 4 mm + 1,5 % · d ; le raccord au terrain (MNT lissé) se fait au-delà, dans les espaces verts.
+
+## Régularisation géométrique 0.3 : un plan de VRD professionnel (GQ-*)
+
+Règles : `assets/specs/regles_qualite_geometrique.json` (33 règles GQ-*, sources PCRS v2.0, ASAM OpenDRIVE 1.9,
+arrêté du 16/09/2003, IISR 7e partie, Cerema, Lyon, Paris ; `REGLES_QUALITE_GEOMETRIQUE.md` est généré par
+`decrire/regulariser_regles.py`). Les polylignes levées (GAM, PCRS, plan 2025, fermetures raster) ne sont plus que
+des mesures : bordures, contours d'îlots, limites de surfaces et axes de lignes de marquage sont des suites de
+**droites et d'arcs tangents (G1)**, coins voulus seulement, dans la tolérance de la source (99 % ≤ T, tous ≤ 1,5 T ;
+T = 3 cm GAM, 5 cm plan 2025, 10 cm PCRS / ortho / v1, 25 cm fermetures raster).
+
+```
+decrire/
+  regulariser_geometrie.py  cœur numérique : chaîne intrinsèque (x0, y0, cap, pièces L/k : G1 par construction),
+                            découpage initial droite/arc, Levenberg-Marquardt à jacobien analytique (Huber),
+                            découpe / fusion / rayons normalisés, coins voulus, densification (flèche ≤ 2 mm)
+  regulariser.py            crochets : bordures (orientation GQ-ORI-001/002, nœuds GQ-TOP-001/002/003, ajustement,
+                            remappage des abscisses GQ-TOP-005), lignes_partition (limites GAM, OSM, fermetures ;
+                            largeur constante GQ-LAR-001), marquages (axes GQ-PRI-002), archive des sources
+  regulariser_controles.py  règles « verifier » (appelées par valider.py) : primitives relues, G1, écarts, cassures,
+                            nœuds, partition sans lacune, orientation, rayons, quais, abaissés, zébras, marquages
+  regulariser_apercu.py     planches avant / après (6 zooms), peignes de courbure, carte des écarts
+  regulariser_regles.py     REGLES_QUALITE_GEOMETRIQUE.md depuis le JSON
+```
+
+Ordre dans `composer.py` : `bordures.construire` → **`regulariser.bordures`** → `ilots.construire` (anneaux de
+bordures régularisées) → `surfaces.construire` (limites **régularisées** par `regulariser.lignes_partition`, partition
+reconstruite) → `regulariser.decrire_ajouts` (ponts K-95nn et ceintures, primitives relues sans déplacement) →
+nivellement → marquages → **`regulariser.marquages`** → `regulariser.ecrire_sources`.
+
+Description (schéma 0.3, additif) : `geometrie_reguliere` sur chaque bordure et chaque ligne / transversale de
+marquage : `statut` (regularise | hors_tolerance | source_gardee), `primitives [{type droite|arc|clothoide, s0, s1, x0,
+y0 (L93), cap0_rad, k0, k1?, rayon_m?, coin?}]` (fait foi), `ecart_max_m`, `ecart_p99_m`, `tolerance_m`, `coins`,
+`noeuds {debut, fin : noeud|t|anneau|libre, avec, g1}` ; `prov.regularisation` ; la polyligne est la densification des
+primitives (flèche ≤ 2 mm, pas ≤ 0,5 m sur les bordures). `base/regularisation_sources.geojson` archive les
+géométries avant régularisation (contrôles, planches ; non fabriqué). Statistiques : manifeste
+`statistiques.regularisation` (orientation retournée et conflits journalisés, nœuds, statuts, limites).
+
+Pour Houdini : construire les bordures, les rubans de marquage et les limites depuis la polyligne (déjà densifiée)
+ou, pour une pose exacte, depuis `primitives` (arcs : pas des éléments selon `rayon_m`, `courbes` recalculées sur les
+arcs : pièce courbe si R < 3 m, éléments de 0,50 m si R < 12 m).
+
+```
+python recon/pcg/decrire/regulariser_apercu.py [--dossier DESCRIPTION]     # planches dans <description>/regularisation
+python recon/pcg/decrire/regulariser_regles.py                             # REGLES_QUALITE_GEOMETRIQUE.md
+```
+
+## Vérification des règles de conception (recon/pcg/controle)
+
+Contrôle automatique de la description et de la fabrication Houdini (`fabrique_hda`) contre
+`assets/specs/regles_conception.json` : un contrôle par règle « verifier » et par règle « contraindre » mesurable,
+avec cas testés, violations (entité, coordonnées, valeur, seuil) et sévérité. Détail : `recon/pcg/controle/README.md`.
+
+```
+python recon/pcg/controle/verifier_regles.py          # -> recon/out/paquet_jardin/v2/controle/{rapport_regles.json, RAPPORT_REGLES.md}
+hython recon/pcg/controle/rendre_controle.py          # rendus Karma de la fabrication v2 seule -> recon/pc/rendus/v2_site
+```
+
+## Corrections après revues (11/10/2026, agent corrections)
+
+Description (composer.py, hash_description `222b11f5…`) :
+- `ilots.py` : contour v1 d'îlot rogné au-delà d'une bordure levée qui le traverse (GQ-TOP-004) ; aucune bordure
+  synthétique sur une lacune déjà fermée par une bordure levée hors ceinture (≤ 0,6 m, GA-ILO-003 : K-9339a supprimée) ;
+  bordure synthétique coupée aux croisements des bordures levées (K-9333a supprimée) et de la vue des bordures levées
+  adjacentes ; corde d'anneau comblée par une bordure parallèle à 0,3-0,6 m (K-0628z supprimée).
+- `sol_lacunes.py` : pont de Hermite refusé sous R 1 m ou en S avec plus de 0,10 m de décalage (GQ-RAY-001,
+  GA-BOR-005 : ancien K-9514 devant le zébra de Verdun SO) ; 14 ponts au lieu de 17.
+- `nivellement.py` : pas de descente de fin de file sur un MURET_TALUS (K-0098 « en tente ») ; les raccords de
+  contact entre bordures restent.
+- `surfaces.py` : face plantée dont la moitié de l'aire est à ≤ 2 m d'une marque levée GAM 2026 reclassée revêtue
+  (chaussée, ou piste si un vélo GAM y est levé ; MQ-DET-010, TQ-SOL-001).
+- `marquages.py` : indice v1 seul (P = 0,30) gardé en hypothèse mais `fabrication.statut = non_fabrique`
+  (MP-0370, MS-0262..0265 ; aucune géométrie v1 fabriquée) ; `marquages_supports.py` : flèche non levée à contresens ou
+  sur l'axe d'une chaussée à double sens non fabriquée (VAL-FLE-001 : MF-0286), marque surfacique non levée traversée
+  hors abaissé par une bordure GAM 2026 non fabriquée (MQ-DET-010, FUS-CON-005 : MP-0333) ;
+  `marquages_chronovelo.py` : traversées Chronovélo aux crosswalk « bicycle » 1/1010 et 2/1011 du .xodr sans marque,
+  pavés orange du plan projet 2025 détectés par couleur et régularisés sur PAVE_CHRONOVELO / CARRE_TRAVERSEE_CYCLABLE
+  (MQ-CHR-001, MQ-CYC-007, VAL-XOD-008 ; MP-8200, MP-8201, confiance faible, à vérifier).
+
+Fabrication : `recon/pcg/houdini/hda/README_HDA.md` § 10. Vérificateur (`recon/pcg/controle`) : rastérisation exacte
+des surfaces (pair-impair, plus de faux trous TQ-SOL-009), recouvrements de sol comptés quel que soit l'écart,
+GA-ILO-001 étendue aux îlots typés refuge sans zébra.

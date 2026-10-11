@@ -1,0 +1,226 @@
+// Corps des wrangles de finition des pièces balayées (repris par construire.py, une section par nœud, séparées par
+// les marqueurs « //@@ <nom> »).
+
+//@@ attributs_abouts
+// attributs_abouts (primitive) : le Sweep ne copie pas les attributs de la dorsale sur les faces d'about (end caps) ;
+// on les reprend de la face latérale voisine (même pièce).
+i@cap = inprimgroup(0, "endcaps", @primnum);
+if (inprimgroup(0, "endcaps", @primnum)) {
+    int pts[] = primpoints(0, @primnum);
+    int src = -1;
+    foreach (int q; pointprims(0, pts[0])) if (!inprimgroup(0, "endcaps", q)) { src = q; break; }
+    if (src >= 0) {
+        string as_[] = array("asset", "name", "materiau_id", "proto_type", "profil", "id", "bordure");
+        string ai_[] = array("chanfrein", "variante", "piece", "n_rangs", "graine");
+        string af_[] = array("proto_L", "usure", "salissure");
+        string av_[] = array("decalage", "repere_x", "t_debut", "t_fin", "n_debut", "n_fin");
+        foreach (string a; as_) if (hasprimattrib(0, a)) { string v = prim(0, a, src); setprimattrib(0, a, @primnum, v); }
+        foreach (string a; ai_) if (hasprimattrib(0, a)) { int v = prim(0, a, src); setprimattrib(0, a, @primnum, v); }
+        foreach (string a; af_) if (hasprimattrib(0, a)) { float v = prim(0, a, src); setprimattrib(0, a, @primnum, v); }
+        foreach (string a; av_) if (hasprimattrib(0, a)) { vector v = prim(0, a, src); setprimattrib(0, a, @primnum, v); }
+    }
+}
+
+//@@ attributs_orphelins
+// attributs_orphelins (primitive) : faces créées sans attributs (coins de PolyBevel) : attributs repris d'une face
+// voisine de la même pièce.
+if (s@asset == "") {
+    int pts[] = primpoints(0, @primnum);
+    int src = -1;
+    foreach (int pt; pts) {
+        foreach (int q; pointprims(0, pt)) {
+            string aq = prim(0, "asset", q);
+            if (q != @primnum && aq != "") { src = q; break; }
+        }
+        if (src >= 0) break;
+    }
+    if (src >= 0) {
+        string as_[] = array("asset", "name", "materiau_id", "proto_type", "profil", "id", "bordure");
+        string ai_[] = array("chanfrein", "variante", "piece", "n_rangs", "graine");
+        string af_[] = array("proto_L", "usure", "salissure");
+        string av_[] = array("decalage", "repere_x", "t_debut", "t_fin", "n_debut", "n_fin");
+        foreach (string a; as_) if (hasprimattrib(0, a)) { string v = prim(0, a, src); setprimattrib(0, a, @primnum, v); }
+        foreach (string a; ai_) if (hasprimattrib(0, a)) { int v = prim(0, a, src); setprimattrib(0, a, @primnum, v); }
+        foreach (string a; af_) if (hasprimattrib(0, a)) { float v = prim(0, a, src); setprimattrib(0, a, @primnum, v); }
+        foreach (string a; av_) if (hasprimattrib(0, a)) { vector v = prim(0, a, src); setprimattrib(0, a, @primnum, v); }
+    }
+}
+
+//@@ onglets
+// onglets (point wrangle, pièces sur mesure) : abouts cisaillés pour suivre la normale d'about imposée par l'élément
+// voisin (abouts parallèles, joint constant) ou la bissectrice d'un angle vif (onglet ; pj_bordure_pose
+// _largeurs_joints). Point de la première / dernière rangée à l'arrière u : glissé de δ = −u (nl·n) / (t·n) le long de t.
+int prs[] = pointprims(0, @ptnum);
+if (len(prs) > 0) {
+    int pr = prs[0];
+    int nr = prim(0, "n_rangs", pr);
+    int row = i@ptrow;
+    vector t = {0, 0, 0}, n = {0, 0, 0};
+    if (row == 0) { t = prim(0, "t_debut", pr); n = prim(0, "n_debut", pr); }
+    else if (row == nr - 1) { t = prim(0, "t_fin", pr); n = prim(0, "n_fin", pr); }
+    if (length(n) > 1e-6 && length(t) > 1e-6) {
+        vector nl = normalize(cross({0, 1, 0}, t));
+        float tn = dot(t, n);
+        if (abs(tn) > 0.3) @P += t * (-f@u_cs * dot(nl, n) / tn);
+    }
+}
+
+//@@ abouts
+// abouts (primitive wrangle) : groupe d'arêtes « about » = arêtes des faces d'about sur la face vue et la tête
+// (chaine = 0), pour les chanfreins de 3 x 3 mm (bordures_elements.json aretes.aretes_about) ; ni coupes ni joints.
+if (inprimgroup(0, "endcaps", @primnum) && i@chanfrein) {
+    int pts[] = primpoints(0, @primnum);
+    int m = len(pts);
+    for (int i = 0; i < m; i++) {
+        int a = pts[i], b = pts[(i + 1) % m];
+        int ca = point(0, "chaine", a), cbb = point(0, "chaine", b);
+        if (ca == 0 && cbb == 0) setedgegroup(0, "about", a, b, 1);
+    }
+}
+
+//@@ eclats
+// eclats (detail wrangle) : centres des épaufrures des prototypes v1-v3 (bordures_elements.json epaufrures.variantes ;
+// pj_bordure_prototypes.blocs_epaufrures), graine = hachage du nom du prototype. Entrée 0 : sections + dorsales de
+// bibliothèque ; entrée 1 : profils. Points : P (repère du prototype décalé), scale (rayons), orient, graine.
+int n = nprimitives(0);
+for (int pr = 0; pr < n; pr++) {
+    if (!inprimgroup(0, "dorsale", pr)) continue;
+    int var = prim(0, "variante", pr);
+    string ty = prim(0, "proto_type", pr);
+    if (var <= 0 || ty != "element") continue;
+    string asset = prim(0, "asset", pr);
+    string pf = prim(0, "profil", pr);
+    float L = prim(0, "proto_L", pr);
+    vector dec = prim(0, "decalage", pr);
+    int ip = pj_sec_prim(1, pf);
+    float u[], v[];
+    int it, kb;
+    pj_sec_contour(1, ip, u, v, it, kb);
+    vector2 A, nb;
+    pj_sec_arete(u, v, it, A, nb);
+    float base = prim(1, "base", ip), H = prim(1, "H", ip);
+    int gs = random_shash(asset + "|epaufrures");
+    int q = 0;
+    // (x, centre (u, v), rayons (rx, rp))
+    float cx[], cu[], cv[], rx[], rp[];
+    float r1 = rand(set(gs % 100003, q++, 0.5));
+    float bout = (r1 < 0.5 ? 1.0 : -1.0) * L / 2;
+    if (var == 1) {
+        float lg = lerp(0.015, 0.030, rand(set(gs % 100003, q++, 0.5))), pr_ = lerp(0.005, 0.010, rand(set(gs % 100003, q++, 0.5)));
+        float r_ = 1.4 * pr_;
+        vector2 c = A + nb * (r_ - pr_);
+        append(cx, bout); append(cu, c.x); append(cv, c.y); append(rx, lg / 2); append(rp, r_);
+    } else if (var == 2) {
+        float x = lerp(-L / 2 + 0.12, L / 2 - 0.12, rand(set(gs % 100003, q++, 0.5)));
+        float lg = lerp(0.030, 0.060, rand(set(gs % 100003, q++, 0.5))), pr_ = lerp(0.004, 0.008, rand(set(gs % 100003, q++, 0.5)));
+        float r_ = 1.6 * pr_;
+        vector2 c = A + nb * (r_ - pr_);
+        append(cx, x); append(cu, c.x); append(cv, c.y); append(rx, lg / 2.3); append(rp, r_);
+        lg = lerp(0.010, 0.015, rand(set(gs % 100003, q++, 0.5)));
+        pr_ = lerp(0.004, 0.006, rand(set(gs % 100003, q++, 0.5)));
+        r_ = 1.4 * pr_;
+        c = A + nb * (r_ - pr_);
+        append(cx, bout); append(cu, c.x); append(cv, c.y); append(rx, lg / 2); append(rp, r_);
+    } else {
+        int na = 2 + int(rand(set(gs % 100003, q++, 0.5)) * 2);
+        for (int k = 0; k < na; k++) {
+            float x = lerp(-L / 2 + 0.08, L / 2 - 0.08, rand(set(gs % 100003, q++, 0.5)));
+            float lg = lerp(0.020, 0.050, rand(set(gs % 100003, q++, 0.5))), pr_ = lerp(0.004, 0.008, rand(set(gs % 100003, q++, 0.5)));
+            float r_ = 1.6 * pr_;
+            vector2 c = A + nb * (r_ - pr_);
+            append(cx, x); append(cu, c.x); append(cv, c.y); append(rx, lg / 2.3); append(rp, r_);
+        }
+        float lg = lerp(0.015, 0.025, rand(set(gs % 100003, q++, 0.5))), pr_ = lerp(0.005, 0.009, rand(set(gs % 100003, q++, 0.5)));
+        float r_ = 1.4 * pr_;
+        append(cx, bout); append(cu, base + 0.35 * r_); append(cv, H + 0.35 * r_); append(rx, lg / 2); append(rp, r_);
+    }
+    for (int k = 0; k < len(cx); k++) {
+        int p = addpoint(0, set(cx[k], cv[k], -cu[k]) + dec);
+        setpointattrib(0, "scale", p, set(rx[k], rp[k], rp[k]));
+        float a = 2 * PI * rand(set(gs % 100003, 100 + k, 0.5));
+        setpointattrib(0, "orient", p, quaternion(a, {1, 0, 0}));
+        setpointattrib(0, "graine", p, gs);
+        setpointgroup(0, "eclat", p, 1);
+    }
+}
+
+//@@ uv
+// uv (sommet) : UV en mètres (CONTRAT_EXPORT.md § 4, E3) : faces balayées : u = abscisse le long de l'élément
+// (s_dorsale, corrigée de la courbure à la profondeur u : u × (1 − κ·u_cs)), v = abscisse sur le périmètre du profil
+// (p_cs ; arête de fermeture : + périmètre) ; faces d'about, faces de coupe des épaufrures et faces dont le dépliage
+// serait dégénéré (aire UV / aire 3D hors de [1/3, 3]) : projection sur le plan de la face (base orthonormée) ; jamais
+// de projection de dessus sur une face verticale. Les attributs de point sont lus explicitement (point()).
+function vector2 pj_uv_balaye(int pt; float perim; float pmin; float pmax)
+{
+    float pc = point(0, "p_cs", pt);
+    if (pmax - pmin > 0.5 * perim && pc < 0.5 * perim) pc += perim;        // arête de fermeture du contour
+    float sd = point(0, "s_dorsale", pt), kc = point(0, "courbure", pt), uc = point(0, "u_cs", pt);
+    return set(sd * (1.0 - kc * uc), pc);
+}
+vector n = prim_normal(0, @primnum, {0.5, 0.5, 0});
+int pts[] = primpoints(0, @primnum);
+float perim = haspointattrib(0, "perim") ? point(0, "perim", @ptnum) : 0.0;
+int cap = hasprimattrib(0, "cap") ? prim(0, "cap", @primnum) : 0;
+int balaye = !cap && perim > 0 && haspointattrib(0, "s_dorsale");
+float pmin = 1e9, pmax = -1e9;
+if (balaye) {
+    foreach (int q; pts) {
+        float pc = point(0, "p_cs", q);
+        float pq = point(0, "perim", q);
+        if (pq <= 0) balaye = 0;                                         // face de coupe (Boolean) : projection
+        pmin = min(pmin, pc);
+        pmax = max(pmax, pc);
+    }
+}
+if (balaye) {
+    // contrôle de la face : aire UV / aire 3D (éventail)
+    vector p0 = point(0, "P", pts[0]);
+    vector2 u0 = pj_uv_balaye(pts[0], perim, pmin, pmax);
+    float a3 = 0, au = 0;
+    for (int i = 1; i + 1 < len(pts); i++) {
+        vector p1 = point(0, "P", pts[i]), p2 = point(0, "P", pts[i + 1]);
+        vector2 u1 = pj_uv_balaye(pts[i], perim, pmin, pmax), u2 = pj_uv_balaye(pts[i + 1], perim, pmin, pmax);
+        a3 += 0.5 * length(cross(p1 - p0, p2 - p0));
+        au += 0.5 * abs((u1.x - u0.x) * (u2.y - u0.y) - (u2.x - u0.x) * (u1.y - u0.y));
+    }
+    if (a3 > 1e-10 && (au < 1e-9 || au / a3 < 0.1 || au / a3 > 9.0)) balaye = 0;
+}
+if (balaye) {
+    vector2 u = pj_uv_balaye(@ptnum, perim, pmin, pmax);
+    v@uv = set(u.x, u.y, 0);
+} else {
+    vector t = abs(n.y) < 0.95 ? normalize(cross({0, 1, 0}, n)) : normalize(set(1, 0, 0) - n * n.x);
+    vector b = normalize(cross(n, t));
+    v@uv = set(dot(@P, t), dot(@P, b), 0);
+}
+
+//@@ attributs_pieces
+// attributs_pieces (primitive, bibliothèque) : après le Boolean des épaufrures, les faces de coupe n'ont pas les
+// attributs de la pièce ; la pièce k se retrouve par sa position (prototype k décalé de k m en Z, dorsales_bib) et ses
+// attributs sont repris de sa dorsale (entrée 1).
+int pts[] = primpoints(0, @primnum);
+vector c = point(0, "P", pts[0]);
+int k = int(floor(c.z + 0.5));
+int d = findattribval(1, "prim", "piece", k);
+if (d >= 0) {
+    string as_[] = array("asset", "name", "materiau_id", "proto_type", "profil");
+    string ai_[] = array("chanfrein", "variante", "piece");
+    string af_[] = array("proto_L");
+    string av_[] = array("decalage", "repere_x");
+    foreach (string a; as_) if (hasprimattrib(1, a)) { string v = prim(1, a, d); setprimattrib(0, a, @primnum, v); }
+    foreach (string a; ai_) if (hasprimattrib(1, a)) { int v = prim(1, a, d); setprimattrib(0, a, @primnum, v); }
+    foreach (string a; af_) if (hasprimattrib(1, a)) { float v = prim(1, a, d); setprimattrib(0, a, @primnum, v); }
+    foreach (string a; av_) if (hasprimattrib(1, a)) { vector v = prim(1, a, d); setprimattrib(0, a, @primnum, v); }
+}
+
+//@@ recentrer
+// recentrer (point) : prototype ramené à son pivot (milieu de l'élément, face vue, dessous du bloc) ; prototype k
+// décalé de k m en Z par dorsales_bib (la position suffit : aucun prototype n'est plus large que 0,5 m).
+@P.z -= floor(@P.z + 0.5);
+
+//@@ export
+// export (primitive) : attributs du contrat de branche (README_HDA.md § 4) : couche PJ_Bordures, component par bordure
+// (pj_entite = identifiant de la bordure), un Mesh par matériau ; couleur de sommet R usure, G salissure, B graine.
+s@pj_couche = chs("../couche");
+if (s@bordure != "") s@pj_entite = s@bordure;
+s@pj_maillage = s@materiau_id;

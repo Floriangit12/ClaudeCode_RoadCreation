@@ -1,5 +1,16 @@
-"""Famille `bordures` de la description v2 : une polyligne d'arête avant par bordure, profils NF par
-intervalles, abaissés (traversées, entrées charretières) avec chartières, matériau, aspect et Z.
+"""Famille `bordures` de la description v2 (schéma 0.3, SITE COMPLET : carré de 300 m, sol_site) : une
+polyligne d'arête avant par bordure, profils NF par intervalles, abaissés (traversées, traversées cyclables,
+entrées charretières) avec chartières, matériau, aspect et Z.
+
+Règles appliquées (regles_conception.json) : GA-ABA-001 (abaissé ≥ 1,20 m en vue 0,02), GA-ABA-002 et
+GA-BEV-001 (BEV sur la partie de vue < 50 mm, dans la largeur du passage), GA-ABA-003 / GA-ABA-005
+(configuration plan incliné à 4 ou 5 % / abaissement sur toute la profondeur selon la largeur du trottoir,
+passage horizontal de 0,80 m), GA-ABA-004 et CF-01 (chartières de 1 à 2 m selon la dénivelée, 1 m gardé et
+signalé quand le bloc CHARTIERE est levé), GA-ABA-007 (bordure remontée entre deux abaissés), GA-ABA-010
+(traversée cyclable sans ressaut), GA-CHR-001 / CF-02 (charretière en vue 0,045), GA-CHR-002 / GA-CHR-003
+(abaissement de 1,10 m au plus ou rampants de 2 m), GA-BEV-002 / GA-BEV-003 / CF-03 (pas de freinage 0,50 m,
+profondeur 0,40 m observée sur le site). Le Z final (pied de face) vient du nivellement unique
+(nivellement.py, TQ-SOL-013) ; le Z décrit ici (MNT 2026 régularisé) n'est qu'un contrôle.
 
 Chaîne (déterministe, numpy seul) :
 1. lignes de relief/bordures_hauteurs.geojson (tronçons de 1 m des lignes GAM / PCRS 2019 / plan
@@ -34,7 +45,7 @@ import re
 
 import numpy as np
 
-import contexte as ctx
+import sol_site as ctx
 from commun import (DONNEES, SPECS, abscisses, aire_signee, arrondi, coords_geojson, dans_polygone,
                     dans_polygones, decaler, dedoublonner_sommets, densifier, distance_segments,
                     intervalles_masque, lire_geojson, lire_json, mediane_glissante, normale_gauche,
@@ -48,11 +59,17 @@ L_MIN = 1.0               # morceau de bordure minimal (m) : moins d'un élémen
 PAS_AB = 0.25             # échantillonnage des abaissés (m)
 CHARTIERE_M = 1.0         # longueur d'un élément de raccord (chartière)
 ECART_RESSAUTS_M = 2.5    # arrêté du 15/01/2007 : ressauts successifs espacés d'au moins 2,50 m
-VUE_TRAVERSEE = 0.02
-LARGEUR_ABAISSE_MIN = 1.20  # arrêté du 15/01/2007 : largeur minimale d'un abaissé
+FUSION_ABAISSES_M = 1.0   # GA-ABA-007 : deux abaissés distincts restent séparés (bordure remontée) au-delà
+VUE_TRAVERSEE = 0.02      # GA-ABA-001 : partie abaissée en vue 0,02 ± 0,005
+VUE_TRAVERSEE_CYCLABLE = 0.0  # GA-ABA-010 : franchissement cyclable sans ressaut
+LARGEUR_ABAISSE_MIN = 1.20  # arrêté du 15/01/2007 : largeur minimale d'un abaissé (GA-ABA-001)
 H_LIMITE_PISTE = 0.05      # bordures.json usage_site : séparateurs et rives de piste en A2 (0,05-0,09)
 H_LIMITE_ESPACE_VERT = 0.02  # bordures.json usage_site : limites à niveau (P1, 0-0,05)
-VUE_CHARRETIERE = 0.03
+VUE_CHARRETIERE = 0.045    # GA-CHR-001 (CF-02) : 0,045 par défaut, plage 0,04-0,05
+PENTE_RAMPE_VISEE, PENTE_RAMPE_MAX = 0.04, 0.05      # GA-ABA-005 (≤ 4 % sans palier), GA-TRO-004 (5 %)
+PASSAGE_HORIZONTAL_M = 0.80                          # GA-ABA-003 : passage horizontal conservé
+CHR_TROTTOIR_LARGE_M, CHR_PROFONDEUR_MAX_M, CHR_CHEMINEMENT_M = 2.50, 1.10, 1.40   # GA-CHR-002
+CHR_RAMPANT_ETROIT_M = 2.0                           # GA-CHR-003 option B : rampants de 2 m
 INTERVALLE_MIN = 5.0       # longueur minimale d'un changement de profil (m)
 FENETRE_H = 7             # médiane glissante de h_vue (m)
 BEV_RETRAIT, BEV_PROFONDEUR = 0.50, 0.40
@@ -234,7 +251,21 @@ def cote_haut(P, lg, s_src, sens, mnt):
     zg = mnt(*(repere(q + n * 0.45, "l93").T))
     zd = mnt(*(repere(q - n * 0.25, "l93").T))
     dz = float(np.median(zg - zd))
-    if abs(dz) >= 0.025:
+    # 1) sémantique 2026 (OpenDRIVE) : voie circulée d'un côté, trottoir ou terre-plein (median) de
+    #    l'autre -> le côté haut est le côté non circulé (le MNT garde par endroits le niveau 2021 des
+    #    chaussées rehaussées en 2025, ex. quai bus de Verdun SO)
+    _, tg_ = ctx.xodr_sous(q + n * 0.6)
+    _, td_ = ctx.xodr_sous(q - n * 0.6)
+    g_veh, d_veh = np.mean(tg_ == 1), np.mean(td_ == 1)
+    g_pie, d_pie = np.mean(np.isin(tg_, [2, 5])), np.mean(np.isin(td_, [2, 5]))
+    if d_veh >= 0.6 and g_pie >= 0.6:
+        return 1, "xodr_2026", dz
+    if g_veh >= 0.6 and d_pie >= 0.6:
+        return -1, "xodr_2026", dz
+    rehausse = np.zeros(len(q), bool)
+    for _, _, poly in ctx.zones_relief("ancienne_chaussee_rehaussee_2025"):
+        rehausse |= dans_polygone(q, poly)
+    if abs(dz) >= 0.025 and rehausse.mean() < 0.5:
         return (1 if dz > 0 else -1), "mnt_2026", dz
     ch = [c for c in lg.attr(s_src(s), "cote_haut") if c]
     if ch:
@@ -357,32 +388,62 @@ def detecter_abaisses(P, L, attr, mnt):
         m_ar |= dd
         for i in np.nonzero(dd)[0]:
             ar_ids[i].add(sid)
+    # traversées cyclables (pavés « damier » groupés) : franchissement sans ressaut (GA-ABA-010)
+    m_tc = np.zeros(n, bool)
+    tc_ids = [set() for _ in range(n)]
+    for g in ctx.traversees_cyclables():
+        dd = np.zeros(n, bool)
+        for sd in sondes:
+            dd |= dans_polygone(sd, [g["anneau"]])
+        dd &= np.abs(np.einsum("ij,ij->i", tg, np.tile(g["u"], (n, 1)))) <= COS_MARCHE_MAX
+        m_tc |= dd
+        for i in np.nonzero(dd)[0]:
+            tc_ids[i].add(g["id"])
     # les zones et drapeaux de l'atelier relief ne servent que loin des passages dessinés
     pres_pp = gi >= 0
-    m = nettoyer_masque(m_pp | ((m_rz | m_tf) & ~pres_pp) | m_ar, s, 1.0, 0.5)
+    # trois familles d'intervalles, typées séparément : une traversée piétonne accolée à une traversée
+    # cyclable garde sa vue de 2 cm et la partie cyclable est à 0 (GA-ABA-010)
+    m_ped = nettoyer_masque(m_pp | ((m_rz | m_tf) & ~pres_pp), s, 1.0, 0.5)
+    m_cyc = nettoyer_masque(m_tc & ~m_ped, s, 1.0, 0.5)
+    m_chr = nettoyer_masque(m_ar & ~m_ped & ~m_cyc, s, 1.0, 0.5)
     out = []
-    for s0, s1 in intervalles_masque(m, s, 0.0, L):
-        if s1 - s0 < LARGEUR_ABAISSE_MIN:           # arrêté du 15/01/2007 : abaissé ≥ 1,20 m
-            c, h_ = 0.5 * (s0 + s1), LARGEUR_ABAISSE_MIN / 2
-            s0, s1 = max(0.0, min(c - h_, L - LARGEUR_ABAISSE_MIN)), min(L, max(c + h_, LARGEUR_ABAISSE_MIN))
-        sel = (s >= s0) & (s <= s1)
-        srcs = []
-        if (m_rz & ~pres_pp)[sel].any():
-            srcs.append("relief_zones:traversee_bordure_abaissee")
-        if (m_tf & ~pres_pp)[sel].any():
-            srcs.append("bordures_hauteurs:traversee")
-        pp = sorted(set().union(*[pp_ids[i] for i in np.nonzero(sel)[0]]))
-        srcs += [f"passage:{p}" for p in pp]
-        ar = sorted(set().union(*[ar_ids[i] for i in np.nonzero(sel)[0]]))
-        srcs += [f"acces_riverain:{a}" for a in ar]
-        typ = "charretiere" if ar and m_ar[sel].mean() >= 0.5 else "traversee"
-        mes = [hh for hh, st in zip(h[sel], np.array(statut, dtype=object)[sel])
-               if st in STATUTS_MESURES and np.isfinite(hh)]
-        out.append([float(s0), float(s1), typ, srcs, float(np.median(mes)) if mes else None, pp, ar])
-    # fusion des abaissés trop rapprochés (pas de ressauts successifs à moins de 2,50 m)
+    for famille, mm in (("traversee", m_ped), ("traversee_cyclable", m_cyc), ("charretiere", m_chr)):
+        for s0, s1 in intervalles_masque(mm, s, 0.0, L):
+            if s1 - s0 < LARGEUR_ABAISSE_MIN:           # arrêté du 15/01/2007 : abaissé ≥ 1,20 m (GA-ABA-001)
+                c, h_ = 0.5 * (s0 + s1), LARGEUR_ABAISSE_MIN / 2
+                s0, s1 = max(0.0, min(c - h_, L - LARGEUR_ABAISSE_MIN)), min(L, max(c + h_, LARGEUR_ABAISSE_MIN))
+            sel = (s >= s0) & (s <= s1)
+            srcs = []
+            if (m_rz & ~pres_pp)[sel].any():
+                srcs.append("relief_zones:traversee_bordure_abaissee")
+            if (m_tf & ~pres_pp)[sel].any():
+                srcs.append("bordures_hauteurs:traversee")
+            pp = sorted(set().union(*[pp_ids[i] for i in np.nonzero(sel)[0]])) if famille == "traversee" else []
+            srcs += [f"passage:{p}" for p in pp]
+            ar = sorted(set().union(*[ar_ids[i] for i in np.nonzero(sel)[0]]))
+            srcs += [f"acces_riverain:{a}" for a in ar] if famille == "charretiere" else []
+            tc = sorted(set().union(*[tc_ids[i] for i in np.nonzero(sel)[0]])) if famille == "traversee_cyclable" else []
+            srcs += [f"traversee_cyclable:{x}" for x in tc]
+            mes = [hh for hh, st in zip(h[sel], np.array(statut, dtype=object)[sel])
+                   if st in STATUTS_MESURES and np.isfinite(hh)]
+            out.append([float(s0), float(s1), famille, srcs, float(np.median(mes)) if mes else None, pp,
+                        ar if famille == "charretiere" else []])
+    out.sort(key=lambda x: (x[0], x[1]))
+    # deux intervalles qui se chevauchent après l'élargissement à 1,20 m : le second commence à la fin
+    # du premier (types différents), ou ils sont fusionnés (même type)
+    nett = []
+    for a_ in out:
+        if nett and a_[0] < nett[-1][1] and a_[2] != nett[-1][2]:
+            a_[0] = nett[-1][1]
+            if a_[1] - a_[0] < 0.3:
+                continue
+        nett.append(a_)
+    out = nett
+    # fusion des abaissés presque jointifs du même type ; au-delà de 1 m, deux abaissés restent
+    # distincts et la bordure remonte entre eux (GA-ABA-007 : deux traversées dans un angle)
     fus = []
     for a in out:
-        if fus and a[0] - fus[-1][1] < ECART_RESSAUTS_M and a[2] == fus[-1][2]:
+        if fus and a[0] - fus[-1][1] < FUSION_ABAISSES_M and a[2] == fus[-1][2]:
             f = fus[-1]
             f[1] = a[1]
             f[3] = sorted(set(f[3]) | set(a[3]))
@@ -427,6 +488,65 @@ def caler_chartieres(P, L, abaisses):
     return cales
 
 
+def largeur_trottoir(P, s0, s1, L, w_bordure, dmax=10.0):
+    """Largeur utile du trottoir derrière un abaissé (GA-ABA-003, GA-CHR-002) : minimum de trois
+    rayons tirés depuis l'arête arrière (s0, milieu, s1) vers le côté haut, jusqu'au premier obstacle
+    (bordure, limite de revêtement, végétation, clôture, bâtiment du levé GAM 2026)."""
+    A0, B0 = ctx.obstacles_trottoir()
+    Sp = abscisses(P)
+    ws = []
+    for s in (s0 + 0.1, 0.5 * (s0 + s1), s1 - 0.1):
+        q, tg = point_a(P, float(np.clip(s, 0.0, L)))
+        n = normale_gauche(tg)[0]
+        o = q[0] + n * (w_bordure + 0.03)
+        # la bordure elle-même hors du voisinage de s (ceinture d'îlot en U levée hors GAM : l'autre rive
+        # de l'îlot borne le refuge, GA-ILO-003)
+        loin = (Sp[1:] < s - 0.6) | (Sp[:-1] > s + 0.6)
+        A = np.vstack([A0, P[:-1][loin]]) if loin.any() else A0
+        B = np.vstack([B0, P[1:][loin]]) if loin.any() else B0
+        ws.append(ctx.rayon(o, n, A, B, dmax=dmax, dmin=0.02))
+    return float(min(ws))
+
+
+def configuration_abaisse(typ, dh, W):
+    """(configuration, profondeur de rampe D, pente %) d'un abaissé.
+    Traversée (GA-ABA-003, GA-ABA-005) : plan incliné perpendiculaire à 4 % si W ≥ dh/0,04 + 0,80, à 5 %
+    si W ≥ dh/0,05 + 0,80 (palier GA-TRO-005 au-delà de 4 %), sinon abaissement sur toute la profondeur
+    avec rampants longitudinaux. Charretière : GA-CHR-002 (W ≥ 2,50 : abaissement ≤ 1,10 m, 1,40 m de
+    cheminement plat conservé), sinon GA-CHR-003 option B (fond de trottoir, rampants de 2 m)."""
+    if dh < 0.0095:
+        return "a_niveau", 0.0, 0.0
+    if typ == "charretiere":
+        if W >= CHR_TROTTOIR_LARGE_M:
+            D = max(0.3, min(CHR_PROFONDEUR_MAX_M, W - CHR_CHEMINEMENT_M))
+            return "plan_incline", D, 100.0 * dh / D
+        return "abaissement_total", 0.0, 100.0 * dh / CHR_RAMPANT_ETROIT_M
+    for pente in (PENTE_RAMPE_VISEE, PENTE_RAMPE_MAX):
+        D = dh / pente
+        if W >= D + PASSAGE_HORIZONTAL_M:
+            return "plan_incline", D, 100.0 * pente
+    return "abaissement_total", 0.0, 100.0 * PENTE_RAMPE_MAX
+
+
+def longueur_raccord(typ, config, dh, observee):
+    """Longueur de chaque chartière (raccord de vue) d'un abaissé.
+    GA-ABA-004 / CF-01 : rampant ≥ dh/0,05 recommandé, au minimum dh/0,08 et ≤ 2,00 m, jamais 12 % sur
+    plus de 0,50 m : éléments de 1,00 m, 2 par côté pour une T2 (6 %) ; abaissement sur toute la
+    profondeur (GA-ABA-003) : rampant longitudinal à 5 % ; charretière étroite (GA-CHR-003) : 2,00 m.
+    Chartière observée (bloc CHARTIERE du levé GAM) : 1,00 m gardé et signalé (CF-01)."""
+    if observee:
+        return CHARTIERE_M
+    if typ == "charretiere":
+        if config == "abaissement_total":
+            return CHR_RAMPANT_ETROIT_M
+        return float(max(CHARTIERE_M, math.ceil(dh / 0.08 / 0.5 - 1e-9) * 0.5))   # ≤ 8 % (GA-ABA-004)
+    if config == "abaissement_total":
+        return float(max(1.0, math.ceil(dh / PENTE_RAMPE_MAX / 0.5 - 1e-9) * 0.5))
+    if dh / 0.08 <= 2.0:
+        return float(min(2.0, max(1.0, math.ceil(dh / 0.06 - 1e-9))))
+    return float(math.ceil(dh / PENTE_RAMPE_MAX / 0.5 - 1e-9) * 0.5)
+
+
 # --------------------------------------------------------------------------- bordure complète
 def construire_bordure(kid, lg, P, s_src, sens, coupe, mnt, spec_refs, crit_haut, morceau):
     L = float(abscisses(P)[-1])
@@ -466,7 +586,7 @@ def construire_bordure(kid, lg, P, s_src, sens, coupe, mnt, spec_refs, crit_haut
     # ---- profil courant (hors abaissés et chartières)
     dans_ab = np.zeros(n1, bool)
     for a in abaisses:
-        dans_ab |= (s1m >= a[0] - CHARTIERE_M) & (s1m <= a[1] + CHARTIERE_M)
+        dans_ab |= (s1m >= a[0] - 2.5) & (s1m <= a[1] + 2.5)      # raccords jusqu'à 2,4 m (GA-ABA-004)
     hc = h.copy()
     hc[dans_ab] = np.nan
     if np.isfinite(hc).any():
@@ -494,19 +614,21 @@ def construire_bordure(kid, lg, P, s_src, sens, coupe, mnt, spec_refs, crit_haut
                 return b
         return base[-1]
 
-    # ---- abaissés : bateau + chartières
+    # ---- abaissés : bateau + chartières (GA-ABA-001..005, GA-ABA-007, GA-ABA-010, GA-CHR-001..003, CF-01, CF-02)
     ab_out, overlay = [], []
-    for k, a in enumerate(abaisses):
+    garde = [a for a in abaisses if a[1] - a[0] >= 0.3]
+    for k, a in enumerate(garde):
         s0, s1, typ, srcs, vmes, pp, ar = a
-        if s1 - s0 < 0.3:
-            continue
         cg, cd = courant_a(max(0.0, s0 - 0.5)), courant_a(min(L, s1 + 0.5))
         vue_c = max(cg["vue_m"], cd["vue_m"])
         if typ == "traversee":
-            vue_b, src_vue = VUE_TRAVERSEE, "norme:arrete_2007-01-15_art1_ressaut_2cm"
+            vue_b, src_vue = VUE_TRAVERSEE, "regle:regles_conception.GA-ABA-001"
+        elif typ == "traversee_cyclable":
+            vue_b, src_vue = VUE_TRAVERSEE_CYCLABLE, "regle:regles_conception.GA-ABA-010"
         else:
-            vue_b = VUE_CHARRETIERE if vmes is None else float(np.clip(round(vmes / 0.005) * 0.005, 0.02, 0.04))
-            src_vue = "a_priori:charretiere_vue_2_4cm" if vmes is None else "lidar2021"
+            # GA-CHR-001 (CF-02) : 0,045 par défaut ; vue LiDAR mesurée gardée dans la plage 0,02-0,05
+            vue_b = VUE_CHARRETIERE if vmes is None else float(np.clip(round(vmes / 0.005) * 0.005, 0.02, 0.05))
+            src_vue = "regle:regles_conception.GA-CHR-001" if vmes is None else "lidar2021"
         vue_b = min(vue_b, vue_c)
         sel_b = (s1m >= s0) & (s1m <= s1)
         if not sel_b.any():
@@ -519,23 +641,42 @@ def construire_bordure(kid, lg, P, s_src, sens, coupe, mnt, spec_refs, crit_haut
             prof_b_ref = spec_refs["T2_bateau"]
         else:
             prof_b_ref = spec_refs.get(prof_b, REGLE)
+        dh = max(0.0, vue_c - vue_b)
+        W = largeur_trottoir(P, s0, s1, L, max(largeur_base(cg["profil"]), largeur_base(prof_b)))
+        config, D, pente = configuration_abaisse(typ, dh, W)
+        observee = "chartiere_gam" in srcs
+        l_rac = longueur_raccord(typ, config, dh, observee)
+        # demi-écart aux abaissés voisins (GA-ABA-007 : la bordure remonte entre deux abaissés)
+        g0 = s0 - (garde[k - 1][1] if k > 0 else -1e9)
+        g1 = (garde[k + 1][0] if k + 1 < len(garde) else 1e9) - s1
         raccords = []
         if vue_c - vue_b > 0.0095:                   # chartière dès 1 cm d'écart de vue (marche de tête)
-            if s0 > 0.3:
-                r0 = max(0.0, s0 - CHARTIERE_M)
-                raccords.append({"s0": r0, "s1": s0, "cote": "debut", "vue_m": cg["vue_m"], "vue_m_fin": vue_b,
+            lr = min(l_rac, 0.5 * g0, s0)
+            if s0 > 0.3 and lr >= 0.25:              # pas de raccord entre deux abaissés jointifs
+                r0 = s0 - lr
+                v_r = vue_b + (cg["vue_m"] - vue_b) * min(1.0, lr / max(l_rac, 1e-9))
+                raccords.append({"s0": r0, "s1": s0, "cote": "debut", "vue_m": round(v_r, 3), "vue_m_fin": vue_b,
                                  "profil": cg["profil"]})
-            if s1 < L - 0.3:
-                r1 = min(L, s1 + CHARTIERE_M)
-                raccords.append({"s0": s1, "s1": r1, "cote": "fin", "vue_m": vue_b, "vue_m_fin": cd["vue_m"],
+            lr = min(l_rac, 0.5 * g1, L - s1)
+            if s1 < L - 0.3 and lr >= 0.25:
+                r1 = s1 + lr
+                v_r = vue_b + (cd["vue_m"] - vue_b) * min(1.0, lr / max(l_rac, 1e-9))
+                raccords.append({"s0": s1, "s1": r1, "cote": "fin", "vue_m": vue_b, "vue_m_fin": round(v_r, 3),
                                  "profil": cd["profil"]})
         aid = f"A-{kid[2:]}-{k + 1}"
         bev = None
         if typ == "traversee" and bas_chaussee and haut_pieton:
-            bev = bev_attendue(P, s0, s1, pp)
+            bev = bev_attendue(P, s0, s1, pp, travaux=bool(zone_trav))
+        regles = {"traversee": ["GA-ABA-001", "GA-ABA-002", "GA-ABA-003", "GA-ABA-004", "GA-ABA-005"],
+                  "traversee_cyclable": ["GA-ABA-010", "GA-ABA-004"],
+                  "charretiere": ["GA-CHR-001", "GA-CHR-002" if config == "plan_incline" else "GA-CHR-003", "GA-ABA-004"]}[typ]
         ab_out.append({"id": aid, "type": typ, "s0": s0, "s1": s1, "vue_m": round(vue_b, 3),
                        "profil": prof_b, "raccords": raccords, "bev": bev, "passages": pp,
                        "acces_riverains": ar, "sources": srcs,
+                       "configuration": config, "largeur_trottoir_m": round(W, 3),
+                       "rampe": {"profondeur_m": round(D, 3), "pente_pct": round(pente, 2), "denivele_m": round(dh, 3),
+                                 "longueur_raccord_m": round(l_rac, 3), "chartiere_observee": bool(observee)},
+                       "regles": regles,
                        "_src_vue": src_vue, "_prof_ref": prof_b_ref})
         overlay.append((s0, s1, {"profil": prof_b, "vue_m": round(vue_b, 3), "role": "bateau", "abaisse": aid}))
         for r in raccords:
@@ -659,9 +800,9 @@ def construire_bordure(kid, lg, P, s_src, sens, coupe, mnt, spec_refs, crit_haut
                    "statut_hauteur": statut_major, "ecart_fil_eau_2021_mnt_m": ecart21},
         "prov": {
             "geometrie": {"src": src_geo, "ref": ref_geo, "conf": "haute" if src_geo == "gam" else "moyenne"},
-            "face_vue": {"src": {"mnt_2026": "lidar2021", "cote_haut_relief": "lidar2021",
+            "face_vue": {"src": {"mnt_2026": "lidar2021", "cote_haut_relief": "lidar2021", "xodr_2026": "xodr",
                                  "surfaces_v1": "a_priori:classes_surfaces_v1", "defaut": "a_priori:sens_numerisation"}[crit_haut[0]],
-                         "ref": f"{crit_haut[0]} (dz gauche-droite {crit_haut[1]:+.3f} m)", "conf": "haute" if crit_haut[0] == "mnt_2026" else "moyenne"},
+                         "ref": f"{crit_haut[0]} (dz gauche-droite {crit_haut[1]:+.3f} m)", "conf": "haute" if crit_haut[0] in ("mnt_2026", "xodr_2026") else "moyenne"},
             "intervalles": prov_intervalles,
             "materiau": prov_mat,
             "aspect": prov_aspect,
@@ -798,25 +939,67 @@ def superposer(base, overlay, L):
     return [{k: x[k] for k in ordre if k in x} for x in out]
 
 
-def bev_attendue(P, s0, s1, passages):
-    """BEV attendue sur un abaissé de traversée : norme (NF P98-351) sauf OSM tactile_paving=no."""
+def bev_attendue(P, s0, s1, passages, travaux=False):
+    """BEV attendue sur un abaissé de traversée (GA-BEV-001, déduite si absente, confiance haute :
+    arrêté du 15/01/2007 art. 1, 4°). Une observation OSM tactile_paving=no n'est suivie que hors de la
+    zone des travaux 2025 (traversées refaites après la saisie OSM) ; conflit signalé (FUS-CON-005)."""
     mid, _ = point_a(P, 0.5 * (s0 + s1))
     osm = ctx.osm_traversees()
     if osm:
         xy = np.array([o["xy"] for o in osm])
         d = np.hypot(*(xy - mid[0]).T)
         i = int(np.argmin(d))
-        if d[i] < 6.0 and osm[i]["tactile_paving"] in ("yes", "no"):
-            return {"present": osm[i]["tactile_paving"] == "yes",
-                    "prov": {"src": f"osm:{osm[i]['osm']}", "ref": f"tactile_paving={osm[i]['tactile_paving']} à {d[i]:.1f} m", "conf": "moyenne"}}
-    return {"present": True, "prov": {"src": "norme:NF_P98-351", "ref": "BEV en tête de traversée", "conf": "moyenne"}}
+        if d[i] < 6.0 and osm[i]["tactile_paving"] == "yes":
+            return {"present": True, "prov": {"src": f"osm:{osm[i]['osm']}", "ref": f"tactile_paving=yes à {d[i]:.1f} m", "conf": "moyenne"}}
+        if d[i] < 6.0 and osm[i]["tactile_paving"] == "no":
+            if not travaux:
+                return {"present": False,
+                        "prov": {"src": f"osm:{osm[i]['osm']}", "ref": f"tactile_paving=no à {d[i]:.1f} m (hors travaux 2025) ; conflit avec GA-BEV-001 signalé (FUS-CON-005)", "conf": "faible"}}
+            return {"present": True, "prov": {"src": "regle:regles_conception.GA-BEV-001",
+                                              "ref": f"traversée refaite en 2025 ; OSM tactile_paving=no à {d[i]:.1f} m antérieur (FUS-CON-005)", "conf": "moyenne"}}
+    return {"present": True, "prov": {"src": "regle:regles_conception.GA-BEV-001", "ref": "BEV au droit de chaque traversée équipée d'abaissés (arrêté du 15/01/2007 art. 1, 4°)", "conf": "haute"}}
+
+
+def etendue_bev(P, ab):
+    """Abscisses [s0, s1] de la BEV le long de la bordure (GA-BEV-001 : toute la partie de vue < 50 mm,
+    chartières comprises jusqu'à 50 mm ; GA-ABA-002 : sans dépasser la largeur du passage marqué)."""
+    s0, s1 = ab["s0"], ab["s1"]
+    for r in ab.get("raccords", []):
+        v0, v1 = r["vue_m"], r["vue_m_fin"]
+        if r["cote"] == "debut" and v0 > v1 + 1e-6:          # vue décroissante vers le bateau
+            t = float(np.clip((v0 - 0.05) / (v0 - v1), 0.0, 1.0))
+            s0 = min(s0, r["s0"] + t * (r["s1"] - r["s0"]))
+        if r["cote"] == "fin" and v1 > v0 + 1e-6:
+            t = float(np.clip((0.05 - v0) / (v1 - v0), 0.0, 1.0))
+            s1 = max(s1, r["s0"] + t * (r["s1"] - r["s0"]))
+    # largeur du passage marqué projetée sur la bordure (bandes seulement, sans la prolongation)
+    pp = {g["id"]: g for g in ctx.passages_pietons()}
+    lims = []
+    for pid in ab.get("passages", []):
+        g = pp.get(pid)
+        if g is None:
+            continue
+        c, u = g["c"], g["u"]
+        demi = 0.5 * g["largeur_m"]
+        ends = np.array([c - u * demi, c + u * demi])
+        from commun import projeter
+        sp, _, _ = projeter(P, ends)
+        lims.append((float(sp.min()), float(sp.max())))
+    if lims:
+        a0, a1 = min(l[0] for l in lims), max(l[1] for l in lims)
+        if a1 - a0 >= 0.8:
+            s0, s1 = max(s0, a0), min(s1, a1)
+    return s0, s1
 
 
 def ponctuel_bev(kid, P, ab, mnt, exclusions=()):
-    """Bande de BEV (dalles 0,40 × 0,40) derrière le bateau, à 0,50 m du nez, côté haut (gauche).
-    La bande est rognée à la plus longue portion hors des îlots voisins (`exclusions`, polygones
-    locaux) et de la zone pilote ; moins de deux dalles : pas de BEV."""
-    s = np.arange(ab["s0"], ab["s1"] + 1e-9, 0.1)
+    """Bande de BEV (dalles 0,40 × 0,40) derrière le bateau, côté haut (gauche).
+    GA-BEV-001 (étendue, etendue_bev), GA-BEV-002 (pas de freinage 0,50 m depuis le nez), GA-BEV-003 /
+    CF-03 (profondeur : pratique observée sur le site 0,40-0,45 m prioritaire sur 0,5875), GA-BEV-004
+    (dalles le long de l'arc, jamais en escalier : bande décalée de la bordure). La bande est rognée à
+    la plus longue portion hors des îlots voisins (`exclusions`) et du site ; < 2 dalles : pas de BEV."""
+    e0, e1 = etendue_bev(P, ab)
+    s = np.arange(e0, e1 + 1e-9, 0.1)
     if len(s) < 2:
         return None
     q, tg = point_a(P, s)
@@ -843,7 +1026,7 @@ def ponctuel_bev(kid, P, ab, mnt, exclusions=()):
     ring = np.c_[repere(anneau, "l93"), z]
     ring = np.vstack([ring, ring[:1]])
     long = float(abscisses(seg)[-1])
-    rogne = (s1 - s0) < (ab["s1"] - ab["s0"]) - 0.05
+    rogne = (s1 - s0) < (e1 - e0) - 0.05
     return {"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [coords_geojson(ring)]},
             "properties": arrondi({
                 "id": f"BEV-{ab['id'][2:]}", "famille": "ponctuels_sol", "type": "bev",
@@ -851,7 +1034,9 @@ def ponctuel_bev(kid, P, ab, mnt, exclusions=()):
                 "retrait_nez_m": BEV_RETRAIT, "longueur_m": long, "nb_dalles": max(1, int(round(long / 0.40))),
                 "ancrage": {"bordure": kid, "abaisse": ab["id"], "s0": s0, "s1": s1, "cote": "gauche",
                             "rognee": bool(rogne)},
-                "prov": {"geometrie": {"src": "norme:NF_P98-351", "ref": "mobilier.json bev_podotactile : première ligne de plots à 0,50 m du nez ; dalles 0,40 ; rognée hors îlots", "conf": "moyenne"},
+                "regles": ["GA-BEV-001", "GA-BEV-002", "GA-BEV-003", "GA-BEV-004", "GA-ABA-002"],
+                "prov": {"geometrie": {"src": "regle:regles_conception.GA-BEV-001",
+                                       "ref": "étendue : vue < 50 mm sans dépasser le passage marqué ; première ligne de plots à 0,50 m du nez (GA-BEV-002) ; profondeur 0,40 m, pratique observée sur le site (GA-BEV-003, CF-03) ; rognée hors îlots", "conf": "moyenne"},
                          "presence": ab["bev"]["prov"]}})}
 
 

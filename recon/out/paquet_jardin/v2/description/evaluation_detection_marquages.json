@@ -1,0 +1,89 @@
+{
+ "protocole": "- détecteurs lancés sur TOUT le raster (sans filtre d'admissibilité) ; on n'évalue chaque raster que là où il est\n  admissible (FUS-SRC-001 : plan 2025 en zone refaite ou neuve, ortho 2022 en zone conservée ou refaite à l'identique),\n  sinon la « vérité » 2026 diffère légitimement de l'image ;\n- zone couverte par le levé : points à moins de 6 m d'une polyligne GAM de marquage ;\n- flèches : appariement à 1,0 m et 15° (2,0 m sur le plan, projet), type correct compté à part ;\n- zébras : centres à moins de 2,0 m ou emprises qui se recouvrent ;\n- lignes : longueur peinte (échantillons de 0,25 m) à moins de 0,30 m d'une partie peinte d'une ligne GAM quasi parallèle,\n  sur les bords détectables (deux voies roulables) ; précision = part détectée confirmée par le GAM, rappel = part GAM\n  retrouvée.",
+ "fleches": {
+  "plan2025_meme_voie_8m": {
+   "vrais_positifs": 1,
+   "precision": 0.091,
+   "rappel": 0.25,
+   "type_correct": "1/1",
+   "ecart_long_m": [
+    7.57
+   ]
+  },
+  "plan2025": {
+   "detections": 11,
+   "verite_gam": 4,
+   "vrais_positifs": 0,
+   "precision": 0.0,
+   "rappel": 0.0,
+   "type_correct": "0/0",
+   "ecart_position_m": []
+  },
+  "ortho2022_meme_voie_8m": {
+   "vrais_positifs": 3,
+   "precision": 0.3,
+   "rappel": 1.0,
+   "type_correct": "3/3",
+   "ecart_long_m": [
+    0.3,
+    0.16,
+    0.0
+   ]
+  },
+  "ortho2022": {
+   "detections": 10,
+   "verite_gam": 3,
+   "vrais_positifs": 3,
+   "precision": 0.3,
+   "rappel": 1.0,
+   "type_correct": "3/3",
+   "ecart_position_m": [
+    0.3,
+    0.169,
+    0.026
+   ]
+  }
+ },
+ "zebras": {
+  "plan2025": {
+   "detections": 3,
+   "verite_gam": 7,
+   "vrais_positifs": 3,
+   "precision": 1.0,
+   "rappel": 0.429,
+   "ecart_pas_m": [
+    0.005,
+    0.01,
+    0.55
+   ]
+  },
+  "ortho2022": {
+   "detections": 1,
+   "verite_gam": 1,
+   "vrais_positifs": 1,
+   "precision": 1.0,
+   "rappel": 1.0,
+   "ecart_pas_m": [
+    0.0
+   ]
+  }
+ },
+ "lignes": {
+  "plan2025": {
+   "longueur_detectee_m": 122.8,
+   "longueur_detectee_confirmee_m": 93.8,
+   "precision": 0.764,
+   "longueur_gam_m": 407.0,
+   "longueur_gam_retrouvee_m": 102.0,
+   "rappel": 0.251
+  },
+  "ortho2022": {
+   "longueur_detectee_m": 444.8,
+   "longueur_detectee_confirmee_m": 281.2,
+   "precision": 0.632,
+   "longueur_gam_m": 507.0,
+   "longueur_gam_retrouvee_m": 315.0,
+   "rappel": 0.621
+  }
+ }
+}

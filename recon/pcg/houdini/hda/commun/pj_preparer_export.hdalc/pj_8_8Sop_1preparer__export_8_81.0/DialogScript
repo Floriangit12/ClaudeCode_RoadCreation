@@ -1,0 +1,68 @@
+# Dialog script for pj::preparer_export::1.0 automatically generated
+
+{
+    name	pj::preparer_export::1.0
+    inputlabel	1	"Maillages (Y haut)"
+    script	pj::preparer_export::1.0
+    label	"PJ Préparer l'export USD"
+
+    help {
+    }
+
+    inputlabel	1	"Maillages (Y haut)"
+
+    parm {
+        name    "couche_defaut"
+        label   "Couche par défaut"
+        type    string
+        default { "PJ_Divers" }
+        help    "Prim group sous /World quand pj_couche manque (PJ_Sol, PJ_Bordures…)."
+    }
+    parm {
+        name    "materiau_defaut"
+        label   "Matériau par défaut"
+        type    string
+        default { "PJ_Neutre" }
+        help    "materiau_id des faces qui n'en ont pas (signalé)."
+    }
+    parm {
+        name    "calculer_normales"
+        label   "Normales"
+        type    ordinal
+        default { "0" }
+        help    "Normales par sommet de face (faceVarying) avec angle de rupture (E2)."
+        menu {
+            "si_absentes"   "Calculer si absentes"
+            "toujours"      "Toujours recalculer"
+            "jamais"        "Garder celles d'entrée"
+        }
+    }
+    parm {
+        name    "cusp"
+        label   "Angle de rupture (°)"
+        type    float
+        default { "30" }
+        help    "pj:cusp_deg du calque (30° par défaut, CONTRAT_EXPORT.md § 3)."
+        range   { 0 180 }
+    }
+    parm {
+        name    "uv_secours"
+        label   "UV de secours en mètres si absentes"
+        type    toggle
+        default { "1" }
+        help    "Projection sur le plan dominant de chaque face (E3) ; une branche doit fournir ses UV."
+    }
+    parm {
+        name    "couleurs"
+        label   "Couleur de sommet (usure, salissure, graine)"
+        type    toggle
+        default { "0" }
+    }
+    parm {
+        name    "vers_zup"
+        label   "Passer en Z haut (USD)"
+        type    toggle
+        default { "1" }
+        help    "Transform rx = +90° : (x, y, z) Houdini -> (x, −z, y) = repère local Z haut."
+    }
+}

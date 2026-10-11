@@ -1,0 +1,122 @@
+{
+ "schema": "pj_determinisme_processus/0.1",
+ "date": "2026-10-11",
+ "passes": {
+  "A": "recon/out/paquet_jardin/v2/fabrique_hda (fabriquer_hda.py --verifier-determinisme)",
+  "B": "processus séparé, lancé en parallèle (--sortie dossier temporaire)"
+ },
+ "vex_jit": false,
+ "fichiers": 17,
+ "identiques_A_B": [
+  "bordures.usdc",
+  "caniveaux.usda",
+  "ilots.usda",
+  "marquages_lignes.usda",
+  "materiaux_ue.usda",
+  "passages.usda",
+  "points/bordures.json",
+  "points/caniveaux.json",
+  "points/ilots.json",
+  "points/symboles.json",
+  "prototypes/bordures.usda",
+  "prototypes/caniveaux.usda",
+  "prototypes/ilots.usda",
+  "prototypes/symboles.usda",
+  "sol.usdc",
+  "symboles.usda",
+  "zones.usda"
+ ],
+ "differences_A_B": [],
+ "meme_processus": {
+  "identique": true,
+  "differences": [],
+  "fichiers": 17
+ },
+ "empreintes_lecteur_identiques": true,
+ "empreintes_sop": {
+  "sol": "c92d9fd3f94d63105f012bea127f9fdcc497c030bdb8bb7a2d191e2b7354bdcd",
+  "bordures": "3dc79c07917dd96f2e97e152105e7ea3ba021825a35340f1a5802ad1bc0cb7be",
+  "caniveaux": "c80c00b2299e287f46059102646c51e01e179811305ba3cd9837e89383b0e68c",
+  "ilots": "6f9b277adb7b0a62f44f7fe2d43e3aae65c00baef183cb13e0112e56ac269073",
+  "marquages_lignes": "dfa2c4d01a8639189d9e236398889b9cdc23d6ec01e92846263a73a83952d08b",
+  "passages": "d6259a3c4710c059adcb8bf953d48a5c708d773b29dc1955f7b2f20e3d49b282",
+  "symboles": "61c89da21e764f4019df6504a965d9d5b72544d7301d2aeca118c6bdfd93fae2",
+  "zones": "bf062eb781392e2e6775dfbbb4ed53a6a4072984f65f985d829a5f090f8b4bcd"
+ },
+ "identiques_a_la_passe_precedente": [
+  "bordures.usdc",
+  "caniveaux.usda",
+  "ilots.usda",
+  "marquages_lignes.usda",
+  "materiaux_ue.usda",
+  "passages.usda",
+  "points/bordures.json",
+  "points/caniveaux.json",
+  "points/ilots.json",
+  "points/symboles.json",
+  "prototypes/bordures.usda",
+  "prototypes/caniveaux.usda",
+  "prototypes/ilots.usda",
+  "prototypes/symboles.usda",
+  "sol.usdc",
+  "symboles.usda",
+  "zones.usda"
+ ],
+ "durees_s": {
+  "A": {
+   "chargement_scene": 4.1,
+   "fabrication": {
+    "lecteur": 2.4,
+    "sol:cuisson": 10.9,
+    "sol:total": 153.5,
+    "bordures:cuisson": 20.4,
+    "bordures:total": 106.8,
+    "caniveaux:cuisson": 0.6,
+    "caniveaux:total": 1.1,
+    "ilots:cuisson": 0.5,
+    "ilots:total": 3.2,
+    "marquages_lignes:cuisson": 0.7,
+    "marquages_lignes:total": 5.9,
+    "passages:cuisson": 0.4,
+    "passages:total": 2.4,
+    "symboles:cuisson": 0.5,
+    "symboles:total": 3.4,
+    "zones:cuisson": 0.2,
+    "zones:total": 1.2,
+    "passe": 280.1
+   },
+   "paquet_ue": 5.1,
+   "verification_determinisme": 269.4,
+   "total": 558.9
+  },
+  "B": {
+   "chargement_scene": 4.2,
+   "fabrication": {
+    "lecteur": 2.3,
+    "sol:cuisson": 10.7,
+    "sol:total": 158.0,
+    "bordures:cuisson": 20.5,
+    "bordures:total": 109.4,
+    "caniveaux:cuisson": 0.6,
+    "caniveaux:total": 1.1,
+    "ilots:cuisson": 0.5,
+    "ilots:total": 3.3,
+    "marquages_lignes:cuisson": 0.6,
+    "marquages_lignes:total": 6.0,
+    "passages:cuisson": 0.4,
+    "passages:total": 2.4,
+    "symboles:cuisson": 0.5,
+    "symboles:total": 3.6,
+    "zones:cuisson": 0.3,
+    "zones:total": 1.2,
+    "passe": 287.7
+   },
+   "paquet_ue": 5.0,
+   "total": 297.0
+  }
+ },
+ "causes_corrigees": [
+  "JIT natif de VEX : HOUDINI_VEX_DISABLE_JIT=1 (relance du pilote)",
+  "writer usdc : canoniser_usdc (texte canonique puis réécriture)"
+ ]
+}

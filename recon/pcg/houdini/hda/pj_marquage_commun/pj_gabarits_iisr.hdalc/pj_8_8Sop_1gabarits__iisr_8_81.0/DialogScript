@@ -1,0 +1,27 @@
+# Dialog script for pj::gabarits_iisr::1.0 automatically generated
+
+{
+    name	pj::gabarits_iisr::1.0
+    outputlabel	1	"Gabarits (polygones)"
+    script	pj::gabarits_iisr::1.0
+    label	"PJ Gabarits IISR (marquages)"
+
+    help {
+    }
+
+
+    parm {
+        name    "spec"
+        label   "Spécification des marquages"
+        type    file
+        default { "D:/ClaudeCode_RoadCreation/assets/specs/marquages_geometrie.json" }
+        help    "assets/specs/marquages_geometrie.json (gabarits IISR 7e partie, annexes B et D)."
+    }
+    parm {
+        name    "filtre"
+        label   "Filtre de gabarits"
+        type    string
+        default { "" }
+        help    "Motifs fnmatch séparés par des espaces (TD TA* VELO) ; vide : tous."
+    }
+}

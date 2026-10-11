@@ -1,0 +1,132 @@
+// disposer_caniveau (primitive wrangle) : éléments de caniveau (CS1-CS3) devant la face vue d'une bordure, joints
+// alignés sur ceux de la bordure (bordures_elements.json caniveaux.joints : decalage_joints_m = 0) : la disposition
+// des éléments de bordure (pj_disposer, mêmes règles et mêmes entrées que pj::bordure, donc même découpe) est coupée
+// aux intervalles du caniveau ; pièce sur mesure dès 2 mm de flèche (joints en coin ouverts côté chaussée).
+// Entrée 0 : bordures portant un caniveau ; entrée 1 : profils. Sortie : points (kind element | joint).
+// Intervalles : caniveau.intervalles de la description (lus dans props, la conversion en dict les perd) ; à défaut,
+// toute la bordure.
+string kid = s@id;
+dict cb[] = pj_cb_prims(0, @primnum);
+float L = pj_cb_longueur(cb);
+dict ivs[] = prim(0, "intervalles", @primnum);
+float S[] = prim(0, "niv_s", @primnum);
+float ZP[] = prim(0, "niv_z_pied", @primnum);
+string noms[] = detail(1, "pj_profils_noms");
+float bases[] = detail(1, "pj_profils_base");
+float Hs[] = detail(1, "pj_profils_H");
+float hfe[] = detail(1, "pj_profils_hfe");
+dict can;
+if (hasprimattrib(0, "caniveau")) can = prim(0, "caniveau", @primnum);
+string cprof = chs("../profil_defaut");
+if (isvalidindex(can, "profil")) { string x = can["profil"]; cprof = x; }
+if (cprof == "") cprof = "CS2";
+// intervalles du caniveau (props JSON : "caniveau": {... "intervalles": [[s0, s1], ...] ...})
+float cav[];
+string props = hasprimattrib(0, "props") ? s@props : "";
+int ic = find(props, "\"caniveau\":{");
+if (ic >= 0) {
+    string reste = props[ic:];
+    int ii = find(reste, "\"intervalles\":[");
+    if (ii >= 0) {
+        string t = reste[ii + 15:];
+        int fin = find(t, "]]");
+        if (fin >= 0) {
+            t = t[:fin];
+            foreach (string x; re_findall("-?[0-9]+(\\.[0-9]+)?([eE]-?[0-9]+)?", t)) append(cav, atof(x));
+        }
+    }
+}
+if (len(cav) < 2) cav = array(0.0, L);
+if (!isvalidindex(can, "profil") && !chi("../sans_attribut")) resize(cav, 0);
+int jmm = hasprimattrib(0, "joint_mm") ? prim(0, "joint_mm", @primnum) : 0;
+float joint = (jmm > 0 ? float(jmm) : chf("../joint_mm")) / 1000.0;
+int czd = 0, czf = 0;
+float e_s0[], e_s1[];
+string e_type[];
+int e_coupe[], e_iv[], e_ad[], e_af[], e_sur[];
+pj_disposer(cb, ivs, S, ZP, noms, bases, Hs, joint, czd, czf, chf("../fleche_max_mm") / 1000.0,
+            chf("../coin_max_mm") / 1000.0, chf("../coin_v_max_mm") / 1000.0, chf("../pas_muret"),
+            e_s0, e_s1, e_type, e_coupe, e_iv, e_ad, e_af, e_sur);
+int ip = pj_profil_index(noms, cprof);
+float sal = 0.5;
+if (hasprimattrib(0, "aspect")) {
+    dict asp = prim(0, "aspect", @primnum);
+    if (isvalidindex(asp, "salissure")) { float x = asp["salissure"]; sal = x; }
+}
+// éléments de caniveau : éléments de bordure coupés aux intervalles
+float c0[], c1[];
+int ccoupe[], csur[];
+for (int i = 0; i < len(e_s0); i++) {
+    for (int k = 0; k + 1 < len(cav); k += 2) {
+        float lo = max(e_s0[i], cav[k]), hi = min(e_s1[i], cav[k + 1]);
+        if (hi - lo < 0.05) continue;
+        append(c0, lo);
+        append(c1, hi);
+        int coupe = e_coupe[i] || abs((hi - lo) - (e_s1[i] - e_s0[i])) > 1e-4 || abs((hi - lo) - 0.994) > 0.012;
+        append(ccoupe, coupe);
+        append(csur, e_sur[i] || pj_cb_fleche(cb, lo, hi) > 0.002);
+    }
+}
+int n = len(c0);
+for (int i = 0; i < n; i++) {
+    string eid = sprintf("%s/C%03d", kid, i);
+    int pt = addpoint(0, {0, 0, 0});
+    setpointattrib(0, "kind", pt, "element");
+    setpointattrib(0, "id", pt, eid);
+    setpointattrib(0, "bordure", pt, kid);
+    setpointattrib(0, "index", pt, i);
+    setpointattrib(0, "s0", pt, c0[i]);
+    setpointattrib(0, "s1", pt, c1[i]);
+    setpointattrib(0, "longueur", pt, c1[i] - c0[i]);
+    setpointattrib(0, "type", pt, "caniveau");
+    setpointattrib(0, "coupe", pt, ccoupe[i]);
+    setpointattrib(0, "sur_mesure", pt, csur[i]);
+    setpointattrib(0, "profil", pt, noms[ip]);
+    setpointattrib(0, "profil_bas", pt, noms[ip]);
+    setpointattrib(0, "sens", pt, "");
+    setpointattrib(0, "role", pt, "caniveau");
+    setpointattrib(0, "vue", pt, 0.0);
+    setpointattrib(0, "vue_fin", pt, 0.0);
+    setpointattrib(0, "base", pt, bases[ip]);
+    setpointattrib(0, "H", pt, hfe[ip]);              // dessous = fil d'eau − h côté bordure (pose)
+    setpointattrib(0, "n_debut", pt, {0, 0, 0});
+    setpointattrib(0, "n_fin", pt, {0, 0, 0});
+    int ge = random_shash(eid + "|jitter");
+    setpointattrib(0, "jit_dz", pt, chi("../jitter") ? (rand(set(ge % 100003, 1, 0.5)) - 0.5) * 0.002 : 0.0);
+    setpointattrib(0, "jit_lacet", pt, chi("../jitter") ? (rand(set(ge % 100003, 2, 0.5)) - 0.5) * 0.3 : 0.0);
+    setpointattrib(0, "jit_lateral", pt, 0.0);
+    setpointattrib(0, "jit_roulis", pt, 0.0);
+    setpointattrib(0, "graine", pt, random_shash(eid) & 0x7FFFFFFF);
+    setpointattrib(0, "materiau_id", pt, "caniveau_beton");
+    setpointattrib(0, "epaufrures", pt, 0.0);
+    setpointattrib(0, "salissure", pt, clamp(sal * 1.4, 0.0, 1.0));      // salissure concentrée au fil d'eau
+    setpointattrib(0, "mousse_joints", pt, 0.0);
+    setpointattrib(0, "herbe_joints", pt, 0.0);
+    setpointattrib(0, "ancien", pt, 0);
+}
+for (int i = 0; i + 1 < n; i++) {
+    if (c0[i + 1] - c1[i] >= 0.02) continue;
+    string jid = sprintf("%s/JC%03d", kid, i);
+    int pt = addpoint(0, {0, 0, 0});
+    float m = 0.5 * (c1[i] + c0[i + 1]);
+    setpointattrib(0, "kind", pt, "joint");
+    setpointattrib(0, "id", pt, jid);
+    setpointattrib(0, "bordure", pt, kid);
+    setpointattrib(0, "index", pt, i);
+    setpointattrib(0, "s0", pt, m);
+    setpointattrib(0, "s1", pt, m);
+    setpointattrib(0, "longueur", pt, max(c0[i + 1] - c1[i], 0.0035));
+    setpointattrib(0, "type", pt, "joint");
+    setpointattrib(0, "profil", pt, noms[ip]);
+    setpointattrib(0, "profil_bas", pt, noms[ip]);
+    setpointattrib(0, "vue", pt, 0.0);
+    setpointattrib(0, "vue_fin", pt, 0.0);
+    setpointattrib(0, "base", pt, bases[ip]);
+    setpointattrib(0, "H", pt, hfe[ip]);
+    setpointattrib(0, "n_debut", pt, {0, 0, 0});
+    setpointattrib(0, "mortier", pt, "sombre");
+    setpointattrib(0, "graine", pt, random_shash(jid) & 0x7FFFFFFF);
+    setpointattrib(0, "materiau_id", pt, "mortier_joint");
+    setpointattrib(0, "ancien", pt, 0);
+}
+removeprim(0, @primnum, 1);

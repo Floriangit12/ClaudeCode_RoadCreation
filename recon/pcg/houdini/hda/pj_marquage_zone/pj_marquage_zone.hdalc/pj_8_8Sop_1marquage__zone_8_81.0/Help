@@ -1,0 +1,65 @@
+= PJ Marquage : zones (hachures, zigzags, damiers, chevrons) =
+
+"""Zones de marquage depuis leurs paramètres : hachures (bandes 0,50 au pas perpendiculaire 1,85, inclinaison de la description, contour 3u et espace 2u), zigzags d'arrêt de bus, damiers, chevrons, coupés par le polygone de zone (PolyExpand2D, Boolean) ; contours décrits (levé GAM, glyphes) tels quels ; peinture extrudée et drapée (pj::marquage_solide)."""
+
+== Entrées ==
+
+1. Zones : polygone (hachures, damier, chevrons, contour) ou axe A -> B (zigzag) ; attributs type, bande_m, pas_m, cap_bandes_deg, origine_bandes_l93 (props), contour_peint, amplitude_m, periode_m, trait_m, cote.
+2. Nivellement.
+
+Règles : MQ-ILO-003, MQ-BUS-005, MQ-DET-010. Contrat : README_HDA.md § 7.
+
+@parameters
+
+== Zones ==
+
+Unité u (m):
+    #id: u
+    Largeurs 2u, 3u, 5u (marquages_geometrie.unite_u ; contour 3u et espace 2u des hachures, trait 2u du zigzag).
+
+Angle des chevrons sur la bissectrice (°):
+    #id: angle_chevrons
+    Inclinaison 2 pour 1 des hachures (26,565° sur la rive).
+
+Fragment de motif minimal (m²):
+    #id: fragment_min
+    Morceaux de bande plus petits retirés après la coupe par la zone.
+
+== Peinture (solide) ==
+
+Épaisseur au-dessus du sol (m):
+    #id: epaisseur
+    
+
+Enfouissement des flancs (m):
+    #id: enfouissement
+    
+
+Chanfrein des arêtes du dessus (m):
+    #id: chanfrein
+    
+
+Pas du maillage de drapé (m):
+    #id: pas_maillage
+    
+
+Draper sur le nivellement (entrée 2):
+    #id: draper
+    
+
+Région de drapé:
+    #id: mode_region
+    
+
+Seuil de franchissement (m):
+    #id: seuil_franchissement
+    
+
+Couche USD (pj_couche):
+    #id: couche
+    
+
+Angle de rupture des normales (°):
+    #id: cusp
+    
+

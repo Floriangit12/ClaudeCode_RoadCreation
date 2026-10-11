@@ -1,0 +1,391 @@
+// Corps des wrangles de pj::sol (une section par nœud, marqueurs « //@@ <nom> »), repris par construire.py.
+
+//@@ selectionner
+// selectionner (primitive) : polygones de la famille surfaces (anneaux extérieurs et trous) ; option : sans les
+// surfaces d'îlots (fabriquées par pj::ilot), sans les emprises de bordure (cachées par les éléments), classes exclues.
+string fam = hasprimattrib(0, "famille") ? s@famille : "surfaces";
+int garder = (fam == "surfaces") && primintrinsic(0, "closed", @primnum) && @numvtx >= 3;
+if (garder && chi("../exclure_ilots") && hasprimattrib(0, "ilots")) {
+    string il[] = s[]@ilots;
+    if (len(il) > 0) garder = 0;
+}
+string cl = s@classe;
+if (garder && cl == "emprise_bordure" && !chi("../emprises")) garder = 0;
+string ex[] = split(chs("../classes_exclues"), " ");
+if (find(ex, cl) >= 0) garder = 0;
+if (!garder) removeprim(0, @primnum, 1);
+
+//@@ aplatir
+// aplatir (point) : triangulation dans le plan (Y = 0) ; le Z vient ensuite du modèle de nivellement.
+@P.y = 0;
+
+//@@ petits_trous
+// petits_trous (primitive, avant la triangulation) : un anneau de trou d'aire < trou_min_m2 sans aucune surface
+// décrite dedans (centre testé en pair-impair contre les anneaux extérieurs, entrée 1) est retiré : la surface qui
+// l'entoure le recouvre (emprise de mât ou d'armoire « bâtiment » v1 ; vide noir sinon, I-0390, revue du 11/10/2026).
+if (i@anneau > 0) {
+    float a = abs(primintrinsic(0, "measuredarea", @primnum));
+    if (a < chf("../trou_min_m2")) {
+        vector c = 0;
+        int pts[] = primpoints(0, @primnum);
+        foreach (int p; pts) c += point(0, "P", p);
+        c /= max(1, len(pts));
+        int occupe = 0;
+        for (int e = 0; e < nprimitives(1) && !occupe; e++) {
+            if (prim(1, "id", e) == s@id) continue;
+            float b[] = primintrinsic(1, "bounds", e);
+            if (c.x < b[0] || c.x > b[1] || c.z < b[4] || c.z > b[5]) continue;
+            int hp[] = primpoints(1, e);
+            int n = len(hp), imp = 0;
+            vector q0 = point(1, "P", hp[n - 1]);
+            for (int k = 0; k < n; k++) {
+                vector q = point(1, "P", hp[k]);
+                if ((q.z > c.z) != (q0.z > c.z)) {
+                    float xc = q.x + (q0.x - q.x) * (c.z - q.z) / (q0.z - q.z);
+                    if (c.x < xc) imp = !imp;
+                }
+                q0 = q;
+            }
+            occupe = imp;
+        }
+        if (!occupe) removeprim(0, @primnum, 1);
+    }
+}
+
+//@@ indexer
+// indexer (primitive) : surf_index = numéro de l'anneau extérieur de la surface (entrée 1 : anneaux extérieurs) ;
+// arête cible de la triangulation par classe (TQ-SOL-002 : 0,5 m sur la chaussée, 0,25 m sur trottoirs, rampes et
+// îlots ; hors règle : parkings et espaces verts plus lâches, sol sous bordure sans raffinement utile).
+i@surf_index = findattribval(1, "prim", "id", s@id);
+string cl = s@classe;
+string pietons[] = array("trottoir", "piste_cyclable", "quai_bus", "ilot");
+string verts[] = array("espace_vert", "terre_plein_vegetal");
+float a = chf("../arete_chaussee");
+if (find(pietons, cl) >= 0) a = chf("../arete_trottoir");
+if (find(verts, cl) >= 0) a = chf("../arete_vert");
+if (cl == "parking") a = chf("../arete_parking");
+if (cl == "emprise_bordure") a = chf("../arete_emprise");
+string mz = hasprimattrib(0, "modele_z") ? s@modele_z : "";
+if (mz == "rampe_plan_incline" || mz == "noue_talus_1_3") a = chf("../arete_rampe");
+f@arete_cible = max(a, 0.05);
+
+//@@ echelle
+// echelle (point) : géométrie divisée par l'arête cible de sa surface (Triangulate 2D en arête cible 1 dans la boucle :
+// une seule valeur de paramètre, la boucle reste compilable).
+int prs[] = pointprims(0, @ptnum);
+float a = len(prs) > 0 ? prim(0, "arete_cible", prs[0]) : 1.0;
+@P.x /= a;
+@P.z /= a;
+
+//@@ echelle_inverse
+int prs[] = pointprims(0, @ptnum);
+float a = len(prs) > 0 ? prim(0, "arete_cible", prs[0]) : 1.0;
+@P.x *= a;
+@P.z *= a;
+
+//@@ trous
+// trous (primitive, dans la boucle) : triangles dont le centre tombe dans un trou de la surface (anneau >= 1 :
+// bâtiments, îlots, autres surfaces enclavées) retirés (TQ-SOL-009 : aucun recouvrement). Test pair-impair explicite
+// (nombre de croisements, plan XZ) contre chaque anneau de trou, après un test de boîte : xyzdist sur un polygone
+// concave non plan n'était pas fiable (revue conformité 11/10/2026). Complète le retournement des trous en amont.
+// Entrée 1 : trous de la pièce.
+int nh = nprimitives(1);
+if (nh > 0) {
+    int pts[] = primpoints(0, @primnum);
+    vector c = 0;
+    foreach (int p; pts) c += point(0, "P", p);
+    c /= max(1, len(pts));
+    int dedans = 0;
+    for (int h = 0; h < nh && !dedans; h++) {
+        float b[] = primintrinsic(1, "bounds", h);       // xmin, xmax, ymin, ymax, zmin, zmax
+        if (c.x < b[0] || c.x > b[1] || c.z < b[4] || c.z > b[5]) continue;
+        int hp[] = primpoints(1, h);
+        int n = len(hp);
+        if (n < 3) continue;
+        int imp = 0;
+        vector a = point(1, "P", hp[n - 1]);
+        for (int k = 0; k < n; k++) {
+            vector q = point(1, "P", hp[k]);
+            if ((q.z > c.z) != (a.z > c.z)) {
+                float xc = q.x + (a.x - q.x) * (c.z - q.z) / (a.z - q.z);
+                if (c.x < xc) imp = !imp;
+            }
+            a = q;
+        }
+        dedans = imp;
+    }
+    if (dedans) removeprim(0, @primnum, 1);
+}
+
+//@@ attributs
+// attributs (primitive, dans la boucle) : attributs de la surface repris de son anneau extérieur (entrée 1).
+int src = findattribval(1, "prim", "anneau", 0);
+if (src < 0) src = 0;
+string as_[] = array("id", "classe", "sous_classe", "materiau_id", "modele_z", "bordure", "src", "conf", "ilot");
+string ai_[] = array("region_niveau", "surf_index", "graine", "limite_raster", "rempli");
+string af_[] = array("salissure", "usure", "arete_cible", "retrait", "bombement");
+foreach (string a; as_) if (hasprimattrib(1, a)) { string v = prim(1, a, src); setprimattrib(0, a, @primnum, v); }
+foreach (string a; ai_) if (hasprimattrib(1, a)) { int v = prim(1, a, src); setprimattrib(0, a, @primnum, v); }
+foreach (string a; af_) if (hasprimattrib(1, a)) { float v = prim(1, a, src); setprimattrib(0, a, @primnum, v); }
+
+//@@ altitude
+// altitude (point) : Z du modèle de nivellement unique (TQ-SOL-013), nœuds valides seulement (pj_sol.h).
+// Entrées : 1 = nivellement, 2 = sol triangulé à plat (surf_index), 3 = anneaux extérieurs des surfaces.
+float g[] = pj_niv_grille(1);
+int prs[] = pointprims(0, @ptnum);
+int own = prim(0, "surf_index", prs[0]);
+int reg = prim(0, "region_niveau", prs[0]);
+float z = pj_sol_z(g, 2, 3, own, reg, @P.x, -@P.z);
+i@niv_absent = z < 0.5 * PJ_NIV_ABSENT;
+if (i@niv_absent) z = 0;
+@P.y = z;
+
+//@@ altitude_emprise
+// altitude_emprise (point) : sol sous une bordure (classe emprise_bordure, modèle « sous_bordure_pied » de
+// nivellement.json) : au pied de face de SA bordure (niv_z_pied en s projeté), caché par les éléments posés ;
+// la chaussée passe ainsi sous chaque élément (TQ-BOR-007). Entrée 1 : bordures (courbes).
+int prs[] = pointprims(0, @ptnum);
+string cl = prim(0, "classe", prs[0]);
+if (cl == "emprise_bordure") {
+    string kid = prim(0, "bordure", prs[0]);
+    int kp = findattribval(1, "prim", "id", kid);
+    if (kp >= 0) {
+        float S[] = prim(1, "niv_s", kp), ZP[] = prim(1, "niv_z_pied", kp);
+        if (len(S) > 0) {
+            dict cb[] = pj_cb_prims(1, kp);
+            float d;
+            float s = pj_cb_projeter(cb, @P.x, -@P.z, d);
+            @P.y = pj_interp(s, S, ZP) - chf("../emprise_sous_pied_mm") / 1000.0;
+        }
+    }
+}
+
+//@@ profils_raccord
+// profils_raccord (primitive, sur les bordures) : écart, le long de chaque bordure (pas de 0,25 m), entre ses niveaux
+// du modèle unique et le sol du modèle de part et d'autre (requête pj_sol_z, nœuds valides) :
+//   rac_dav = pied (niv_z_pied) − sol à 5 cm devant l'arête avant (− sous_caniveau si la bordure porte un caniveau) ;
+//   rac_dar = arête arrière (niv_z_arriere = tête − 4 mm) − sol à 5 cm derrière l'arête arrière.
+// Entrées : 1 = nivellement, 2 = sol triangulé à plat, 3 = anneaux extérieurs des surfaces.
+float S[] = f[]@niv_s;
+if (len(S) > 0) {
+    float ZP[] = f[]@niv_z_pied, ZA[] = f[]@niv_z_arriere;
+    dict cb[] = pj_cb_prims(0, @primnum);
+    dict ivs[] = d[]@intervalles;
+    float L = pj_cb_longueur(cb);
+    float g[] = pj_niv_grille(1);
+    // caniveau devant la face (CS1-CS3) : la chaussée passe sous l'élément de caniveau (TQ-BOR-007), sans z-fighting
+    float sous_can = 0;
+    if (hasprimattrib(0, "caniveau")) {
+        dict can = d@caniveau;
+        if (isvalidindex(can, "profil")) sous_can = chf("../sous_caniveau_mm") / 1000.0;
+    }
+    int n = max(2, int(ceil(L / 0.25)) + 1);
+    float rs[], dav[], dar[];
+    for (int i = 0; i < n; i++) {
+        float s = L * i / (n - 1);
+        float c, k;
+        vector2 p = pj_cb_point(cb, s, c, k);
+        vector2 nl = set(-sin(c), cos(c));
+        string pf = "T2";
+        if (len(ivs) > 0) { string x_ = ivs[pj_iv_index(ivs, s)]["profil"]; pf = x_; }
+        float base = pj_base_profil(pf);
+        float a = 0, b = 0;
+        vector2 q = p - nl * 0.05;
+        int t = pj_sol_surface_de(2, q.x, q.y);
+        string ct = t >= 0 ? prim(3, "classe", t) : "";
+        int rt = t >= 0 ? prim(3, "region_niveau", t) : -1;
+        if (t >= 0 && ct != "emprise_bordure") {
+            float z = pj_sol_z(g, 2, 3, t, rt, q.x, q.y);
+            if (z > 0.5 * PJ_NIV_ABSENT) a = pj_interp(s, S, ZP) - sous_can - z;
+        }
+        q = p + nl * (base + 0.05);
+        t = pj_sol_surface_de(2, q.x, q.y);
+        ct = t >= 0 ? prim(3, "classe", t) : "";
+        rt = t >= 0 ? prim(3, "region_niveau", t) : -1;
+        if (t >= 0 && ct != "emprise_bordure") {
+            float z = pj_sol_z(g, 2, 3, t, rt, q.x, q.y);
+            if (z > 0.5 * PJ_NIV_ABSENT) b = pj_interp(s, S, ZA) - z;
+        }
+        append(rs, s);
+        append(dav, a);
+        append(dar, b);
+        int pt = addpoint(0, set(p.x, 0, -p.y));                // échantillon (recherche des bordures voisines)
+        setpointattrib(0, "kprim", pt, @primnum);
+        setpointgroup(0, "echantillons", pt, 1);
+    }
+    // écarts lissés le long de la bordure (moyenne glissante de ±lissage m) : la grille donne un sol en escalier de
+    // ±1 cm le long d'une bordure oblique, l'écart brut ferait onduler le raccord
+    int h = max(0, int(rint(chf("../raccord_lissage_m") / 0.25)));
+    float dav2[], dar2[];
+    for (int i = 0; i < n; i++) {
+        float sa = 0, sb = 0;
+        int c = 0;
+        for (int k = max(0, i - h); k <= min(n - 1, i + h); k++) { sa += dav[k]; sb += dar[k]; c++; }
+        append(dav2, sa / c);
+        append(dar2, sb / c);
+    }
+    f[]@rac_s = rs;
+    f[]@rac_dav = dav2;
+    f[]@rac_dar = dar2;
+}
+
+//@@ raccords_bordures
+// raccords_bordures (point) : interfaces sol / bordure du modèle unique appliquées EXACTEMENT au sol fabriqué
+// (TQ-SOL-013 (4) et (6), VAL-SOL-009 (2)). La grille de 0,10 m ne porte pas les lignes de bordure (marches en escalier
+// de ±1 cm le long d'une bordure oblique ; sol de trottoir 4 cm sous la tête en médiane) : le sol reçoit une correction
+// additive Δ(s)·w(d), égale à l'écart profils_raccord sur la ligne, nulle à la distance D :
+//   devant la face (d <= 0) : pied de face (niv_z_pied), D_avant, toute surface ;
+//   derrière l'arête arrière (d >= base) : tête − 4 mm (niv_z_arriere), D_arrière, toute surface.
+// Aucune règle par classe : deux surfaces qui se touchent sans bordure entre elles reçoivent la même correction.
+// D s'allonge (jusqu'à raccord_max_m) pour que la pente du raccord reste <= pmax (8 % derrière, GA-TRO-004 ; 10 %
+// devant). Bordures retenues PAR POSITION (échantillons à moins de raccord_max_m), et non par les bords de la surface :
+// le champ de correction est le même pour deux surfaces voisines (aucune fissure sur une limite partagée). Plusieurs
+// bordures : Δ = Σ π_k·w_k·Δ_k, π_k = partition de l'unité en 1 / distance² (Shepard) : sur la ligne d'une bordure, sa
+// correction s'applique exactement, quelle que soit la bande d'une bordure voisine ; fondu sur 0,3 m aux bouts.
+// Entrées : 1 = bordures avec profils_raccord (+ échantillons), 2 = anneaux extérieurs des surfaces.
+int prs[] = pointprims(0, @ptnum);
+int own = prim(0, "surf_index", prs[0]);
+string cl = prim(0, "classe", prs[0]);
+if (cl != "emprise_bordure" && own >= 0 && !i@niv_absent) {
+    float Dmax = chf("../raccord_max_m");
+    float x = @P.x, y = -@P.z;
+    int cand[] = nearpoints(1, "echantillons", set(x, 0, -y), Dmax + 0.3, 400);
+    int kps[];
+    foreach (int c; cand) {
+        int k = point(1, "kprim", c);
+        if (find(kps, k) < 0) append(kps, k);
+    }
+    kps = sort(kps);
+    float best_w = 0, sp = 0, spdz = 0, dmin = 1e9;
+    foreach (int kp; kps) {
+        float RS[] = prim(1, "rac_s", kp);
+        if (len(RS) == 0) continue;
+        dict cb[] = pj_cb_prims(1, kp);
+        float L = pj_cb_longueur(cb);
+        float d;
+        float s = pj_cb_projeter(cb, x, y, d);
+        float hors = max(max(-s, s - L), 0.0);
+        float sc = clamp(s, 0.0, L);
+        dict ivs[] = prim(1, "intervalles", kp);
+        string pf = "T2";
+        if (len(ivs) > 0) { string x_ = ivs[pj_iv_index(ivs, sc)]["profil"]; pf = x_; }
+        float base = pj_base_profil(pf);
+        float dist, D, pmax, dz;
+        // sommet d'une surface non emprise SOUS l'empreinte (limite d'emprise de D2 à quelques mm de la ligne régularisée
+        // D3) : rattaché au côté le plus proche, correction pleine ; sinon falaise de Δ entre lui et ses voisins
+        if (d > 0.0 && d < base) d = d < 0.5 * base ? 0.0 : base;
+        if (d <= 0.0) {
+            float RA[] = prim(1, "rac_dav", kp);
+            dz = pj_interp(sc, RS, RA);
+            dist = -d;
+            D = chf("../raccord_avant_m");
+            pmax = chf("../raccord_pente_avant_pct") / 100.0;
+        } else if (d >= base) {
+            float RB[] = prim(1, "rac_dar", kp);
+            dz = pj_interp(sc, RS, RB);
+            dist = d - base;
+            D = chf("../raccord_arriere_m");
+            pmax = chf("../raccord_pente_arriere_pct") / 100.0;
+        } else continue;
+        if (D <= 0) continue;
+        D = clamp(abs(dz) / max(pmax, 1e-3), D, Dmax);
+        if (dist >= D) continue;
+        float w = (1.0 - smooth(0.0, D, dist)) * (1.0 - smooth(0.0, 0.3, hors));
+        if (w <= 0) continue;
+        best_w = max(best_w, w);
+        dmin = min(dmin, dist);
+        float pk = 1.0 / max(dist * dist + hors * hors, 1e-4);
+        sp += pk;
+        spdz += pk * w * dz;
+    }
+    if (best_w > 0) {
+        f@z_modele = @P.y;
+        @P.y += spdz / sp;
+        f@raccord = best_w;
+        f@raccord_d = dmin;
+    }
+}
+
+//@@ limites_partagees
+// limites_partagees (point) : chaque surface est triangulée seule, ses sommets de bord sont doublés sur la limite
+// partagée (même découpe des deux côtés : Resample). Les corrections de raccord et la grille peuvent y donner deux Z
+// différents : entre deux surfaces continues (pj_sol_valide : ni emprise de bordure, ni de part et d'autre d'une même
+// bordure), Z = moyenne des sommets de même XY (à 0,5 mm). Les marches sous une bordure restent (cachées par elle).
+// Entrées : 1 = même sol à plat (f@zr = Z), 2 = anneaux extérieurs des surfaces.
+int prs[] = pointprims(0, @ptnum);
+if (len(prs) > 0) {
+    int own = prim(0, "surf_index", prs[0]);
+    string cl = prim(0, "classe", prs[0]);
+    if (own >= 0 && cl != "emprise_bordure") {
+        int qs[] = nearpoints(1, set(@P.x, 0.0, @P.z), 0.0005, 16);
+        float s = 0;
+        int n = 0;
+        foreach (int q; qs) {
+            int pq[] = pointprims(1, q);
+            if (len(pq) == 0) continue;
+            int t = prim(1, "surf_index", pq[0]);
+            if (t != own && !pj_sol_valide(2, own, t)) continue;
+            s += point(1, "zr", q);
+            n++;
+        }
+        if (n > 1) @P.y = s / n;
+    }
+}
+
+//@@ controle_aires
+// controle_aires (détail) : aire triangulée à plat de chaque surface (entrée 1, avant rognage) comparée à aire_m2 de la
+// description (entrée 2 : anneaux extérieurs) ; écart > 0,5 % et > 0,05 m² : avertissement (TQ-SOL-001, TQ-SOL-009 : un trou non
+// retiré maille deux fois la même aire). Surfaces rognées par l'emprise du nivellement : écart attendu, compté à part.
+int np = nprimitives(1);
+dict aire = {};
+for (int pr = 0; pr < np; pr++) {
+    string id = prim(1, "id", pr);
+    float a = 0;
+    if (isvalidindex(aire, id)) a = aire[id];
+    aire[id] = a + primintrinsic(1, "measuredarea", pr);
+}
+string ks[] = keys(aire);
+ks = sort(ks);
+string ecarts[];
+float emax = 0;
+string idmax = "";
+int n = 0;
+foreach (string id; ks) {
+    int e = findattribval(2, "prim", "id", id);
+    if (e < 0 || !hasprimattrib(2, "aire_m2")) continue;
+    float ref = prim(2, "aire_m2", e);
+    if (ref <= 0.05) continue;
+    n++;
+    float am = aire[id];
+    float r = (am - ref) / ref;
+    if (abs(am - ref) <= 0.05) continue;                  // arrondis des petites faces (aire_m2 au cm²)
+    if (abs(r) > abs(emax)) { emax = r; idmax = id; }
+    if (abs(r) > 0.005) append(ecarts, sprintf("%s : %.2f m2 maillés pour %.2f m2 décrits (%+.2f %%)", id, am, ref, 100 * r));
+}
+dict d;
+d["surfaces"] = n;
+d["ecart_aire_max_pct"] = 100 * emax;
+d["ecart_aire_max_id"] = idmax;
+d["ecarts_aire"] = ecarts;
+string rg[] = {"TQ-SOL-001", "TQ-SOL-009"};
+d["regles"] = rg;
+d@pj_sol_controles = d;
+if (len(ecarts) > 0) warning("%d surface(s) dont l'aire maillée s'écarte de plus de 0,5 %% de l'aire décrite (pire %s : %+.2f %%)", len(ecarts), idmax, 100 * emax);
+
+//@@ uv
+// uv (sommet) : st = (x, y) locaux en mètres, ancrés au monde, continus d'une tuile à l'autre (CONTRAT_EXPORT.md § 4).
+v@uv = set(@P.x, -@P.z, 0);
+
+//@@ export
+// export (primitive) : couche PJ_Sol, component = tuile de sol (TQ-SOL-010 : 50 m, coin SO), Mesh par materiau_id ;
+// couleur de sommet : R usure, G salissure, B graine (pj::preparer_export).
+s@pj_couche = chs("../couche");
+float T = chf("../tuile_m");
+int pts[] = primpoints(0, @primnum);
+vector c = 0;
+foreach (int p; pts) c += point(0, "P", p);
+c /= max(len(pts), 1);
+int i = int(floor((c.x + 150.0) / T)), j = int(floor((-c.z + 150.0) / T));
+if (s@pj_entite == "") s@pj_entite = sprintf("T_%02d_%02d", i, j);
+s@pj_maillage = s@materiau_id;
+if (s@materiau_id == "") s@materiau_id = "PJ_Neutre";

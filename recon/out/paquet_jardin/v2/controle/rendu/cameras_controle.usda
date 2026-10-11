@@ -1,0 +1,207 @@
+#usda 1.0
+(
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def "World"
+{
+    def Scope "Cameras_controle"
+    {
+        def Camera "c_cam1_ensemble_sud" (
+            doc = "Vue d'ensemble depuis le sud : 60 m au-dessus du sol, 95 m au sud du centre du carrefour (barycentre des liaisons de jonction OpenDRIVE), visée de ce centre."
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 34.5777
+            float fStop = 0
+            float horizontalAperture = 36
+            float verticalAperture = 36
+            matrix4d xformOp:transform = ( (1, 0, 0, 0), (0, 0.5287289, 0.848790758, 0), (0, -0.848790758, 0.5287289, 0), (-1.56939369, -100.088820177, 59.197104896, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "c_cam2_conducteur_verdun_so" (
+            doc = "Conducteur (oeil à 1,3 m) sur l'avenue de Verdun SO, chaussée sens NE (entrante), voie de droite (voie OpenDRIVE -2 de la route 1), 0,4 m à gauche du centre de voie, 45 m avant la ligne d'effet des feux ; regard le long de la voie vers le carrefour, plongée 2,5 deg. [œil translaté de +0.019 m : même hauteur au-dessus du sol v2 fabriqué]"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 23.4581
+            float fStop = 0
+            float horizontalAperture = 36
+            float verticalAperture = 36
+            matrix4d xformOp:transform = ( (0.718717517, -0.695302187, 0, 0), (0.030328655, 0.031350018, 0.999048222, 0), (-0.694640413, -0.718033457, 0.043619387, 0), (-48.090932897, -61.2000097, 0.9279226180183817, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "c_cam3_pieton_traversee_so" (
+            doc = "Piéton (oeil à 1,6 m) en attente sur le trottoir SE, 0,6 m derrière la bordure, dans l'axe de la nouvelle traversée de Verdun SO (zébra neuf 2025, reculé de 8,8 m vers le SO par les travaux ; refuge central entre les deux chaussées). Regard vers le NO à travers les deux zébras et le refuge (feux piétons R12 du refuge et de l'extrémité NO face à la caméra), plongée 5 deg. [œil translaté de -0.149 m : même hauteur au-dessus du sol v2 fabriqué]"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 25.7067
+            float fStop = 0
+            float horizontalAperture = 36
+            float verticalAperture = 36
+            matrix4d xformOp:transform = ( (0.699726112, 0.714411204, 0, 0), (-0.062265039, 0.060985149, 0.996194698, 0), (0.711692653, -0.697063443, 0.087155743, 0), (-11.677438649, -27.462686233, 1.4814111678247068, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "c_cam4_conducteur_vercors" (
+            doc = "Conducteur (oeil à 1,3 m) sur l'avenue du Vercors, voie entrante (voie OpenDRIVE 1 de la route 6, seule voie entrante à cet endroit), 0,4 m à gauche du centre de voie, 40 m avant la ligne d'effet des feux ; regard le long de la voie vers le carrefour, plongée 2,5 deg. [œil translaté de -0.015 m : même hauteur au-dessus du sol v2 fabriqué]"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 23.4581
+            float fStop = 0
+            float horizontalAperture = 36
+            float verticalAperture = 36
+            matrix4d xformOp:transform = ( (0.933832098, 0.357711633, 0, 0), (-0.015603162, 0.040733184, 0.999048222, 0), (0.357371171, -0.932943297, 0.043619387, 0), (22.568006595, -56.314502186, 0.14346389844667193, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "p_a_pieton_file_joints" (
+            doc = "piéton (œil 1,60 m) sur la chaussée contre une file de T2 de 1 m (K-0369), regard plongeant le long de la file : joints, arrondi d'arête, massifs BRF derrière (photo utilisateur 2)"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 0.386011
+            float fStop = 0
+            float horizontalAperture = 0.36
+            float verticalAperture = 0.36
+            matrix4d xformOp:transform = ( (-0.7920962387346089, 0.6103962226148569, 2.775557561562892e-17, 0), (-0.18870575186877048, -0.24487883565615196, 0.9510123527375077, 0), (0.5804943477710424, 0.7532933075935309, 0.30915288279534225, 0), (33.03422269290387, 20.75973373405172, 1.8433510029105125, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "p_b_abaisse_traversee_bev" (
+            doc = "abaissé de la traversée NE (A-0385-1) : bateau T2 à 0,02 m, deux chartières de 1 m, BEV à 0,50 m du nez, zébra"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 0.386011
+            float fStop = 0
+            float horizontalAperture = 0.36
+            float verticalAperture = 0.36
+            matrix4d xformOp:transform = ( (-0.4475135979172669, -0.8942771268902854, 0, 0), (0.4507820532835087, -0.22558007185415302, 0.8636603334759445, 0), (-0.7723516816299729, 0.3864997432122463, 0.504074229037967, 0), (13.098916426173576, 3.6455065858531306, 1.68364837994525, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "p_c_entree_charretiere" (
+            doc = "entrée charretière de l'accès riverain (S-0265) : bordures abaissées A2 / T2 bateau à 0,04 m (A-0177-1, A-0182-1) entre l'accès en enrobé et la piste (photo utilisateur 1)"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 0.345777
+            float fStop = 0
+            float horizontalAperture = 0.36
+            float verticalAperture = 0.36
+            matrix4d xformOp:transform = ( (-0.6794080314983055, -0.7337606740181688, -2.7755575615628907e-17, 0), (0.22024262065413105, -0.2039283524575291, 0.9538901483458972, 0), (-0.6999270781895767, 0.6480806279533129, 0.30015593428856563, 0), (44.6, 68.4, 1.5579766535753143, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "p_d_ilot_brf" (
+            doc = "îlot en goutte de BRF (I-0297) et sa ceinture de bordures, regard plongeant (photo utilisateur 2)"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 0.386011
+            float fStop = 0
+            float horizontalAperture = 0.36
+            float verticalAperture = 0.36
+            matrix4d xformOp:transform = ( (0.3420201433256687, -0.9396926207859084, -2.7755575615628907e-17, 0), (0.5686848715875844, 0.20698436593537822, 0.796087299914866, 0), (-0.748077361231378, -0.2722778924166271, 0.6051817998868256, 0), (9.111896045519849, -5.154872754669586, 1.6618468675788534, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "p_e_ilot_gravier" (
+            doc = "îlot gravillonné du Vercors (I-0390, gravier concassé 6/10) dans sa ceinture T2, regard plongeant (photo utilisateur 3)"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 0.386011
+            float fStop = 0
+            float horizontalAperture = 0.36
+            float verticalAperture = 0.36
+            matrix4d xformOp:transform = ( (-0.49999999999999956, -0.8660254037844388, 0, 0), (0.5121997008851125, -0.2957186351848652, 0.8063510124118416, 0), (-0.6983204611159562, 0.4031755062059205, 0.5914372703697308, 0), (0.8565595241449384, -11.521245896248614, 1.6030373732483205, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "p_f_vue_ensemble" (
+            doc = "vue d'ensemble de la zone pilote depuis 14 m (traversée NE, TPC, îlots BRF et Vercors)"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 0.28806
+            float fStop = 0
+            float horizontalAperture = 0.36
+            float verticalAperture = 0.36
+            matrix4d xformOp:transform = ( (0.8660254037844385, -0.5, 2.77555756156289e-17, 0), (0.251935512762043, 0.43636510833477576, 0.8637789008984332, 0), (-0.4318894504492167, -0.7480544714310443, 0.503871025524086, 0), (1.999999999999997, -14.784609690826525, 14.124202334642543, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "n1_centre_dessus_40m" (
+            doc = "centre du carrefour vu de dessus à 40 m, nord en haut (comparable au levé GAM 2026, image 12)"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 26.686098
+            float fStop = 0
+            float horizontalAperture = 36
+            float verticalAperture = 36
+            matrix4d xformOp:transform = ( (1, 0, 0, 0), (0, 1, -0, 0), (0, 0, 1, 0), (-1.569, -5.089, 40.070351935875415, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "n2_verdun_so_traversee_ilot_1m60" (
+            doc = "traversées de Verdun SO et refuge du TPC entre elles (îlots I-0333 / I-0339), œil à 1,60 m sur la chaussée sens NE, 10 m en amont"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 25.706665
+            float fStop = 0
+            float horizontalAperture = 36
+            float verticalAperture = 22.5
+            matrix4d xformOp:transform = ( (0.8682431421244591, -0.496138938356834, 6.938893903907228e-18, 0), (0.06408353089074606, 0.11214617905880557, 0.9916231822577996, 0), (-0.49198287289541, -0.8609700275669672, 0.1291644858655617, 0), (-20.949747468305834, -29.192388155425117, 1.4313387199224692, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "n3_trottoir_ne_falaises" (
+            doc = "trottoir NE (S-0213a, marches et pentes signalées par GA-RES-001 / GA-TRO-004), vue oblique à 4 m"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 25.706665
+            float fStop = 0
+            float horizontalAperture = 36
+            float verticalAperture = 22.5
+            matrix4d xformOp:transform = ( (0.6332377902572627, -0.7739572992033209, 2.7755575615628914e-17, 0), (0.21594725256549036, 0.17668411573540124, 0.9602861590985343, 0), (-0.7432204821582322, -0.6080894854021902, 0.2790170113878083, 0), (67.99999999999999, 35.29999999999999, 3.4942296743392873, 0.9999999999999999) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "n4_fleche_gros_plan_1m30" (
+            doc = "gros plan de la flèche MF-6014 (TD_TAD, Verdun SO) depuis 1,30 m, 5,5 m en arrière dans l'axe"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 31.176914
+            float fStop = 0
+            float horizontalAperture = 36
+            float verticalAperture = 22.5
+            matrix4d xformOp:transform = ( (0.7188061289470048, -0.69521057888112, -1.3877787807814457e-17, 0), (0.13671221833727443, 0.1413522512861213, 0.9804740233242524, 0), (-0.6816359133331543, -0.704770737238801, 0.19664864501529977, 0), (-23.57079151720632, -36.236500376141926, 1.045402613231491, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+
+        def Camera "n5_trottoir_so_capture7" (
+            doc = "trottoir et îlot de Verdun SO de la capture 7 (falaises du v1), œil à 2,20 m"
+        )
+        {
+            float2 clippingRange = (0.02, 3000)
+            float focalLength = 29.957031
+            float fStop = 0
+            float horizontalAperture = 36
+            float verticalAperture = 22.5
+            matrix4d xformOp:transform = ( (0.7384854939281259, 0.6742693640213323, 0, 0), (-0.08941415563624809, 0.09792978950636695, 0.991168434272952, -0), (0.6683145098152431, -0.7319635107500282, 0.13260895482924423, 0), (-14.500000000000004, -40.00000000000001, 2.0834412619471547, 1) )
+            uniform token[] xformOpOrder = ["xformOp:transform"]
+        }
+    }
+}
+

@@ -24,6 +24,8 @@ import bordures
 import contexte as ctx
 import ilots
 import marquages
+import regulariser
+import sol_composer
 import surfaces
 from commun import (DONNEES, MATERIAUX, MNT, RACINE, SCHEMA, SCHEMA_ID, SORTIE, SPECS, VECTEURS, ZONE,
                     arrondi, ecrire_geojson, ecrire_json, lire_geojson, rel, repere, sha256)
@@ -51,8 +53,12 @@ REFERENCES = {
     "zone_pilote": (ZONE, "emprise de la zone pilote"),
 }
 SCRIPTS = ["commun.py", "contexte.py", "bordures.py", "surfaces.py", "ilots.py", "composer.py", "valider.py", "apercu.py"]
+SCRIPTS += sol_composer.SCRIPTS                         # familles de sol 0.3 (site complet, nivellement)
+REFERENCES.update(sol_composer.REFERENCES)
 REFERENCES.update(marquages.REFERENCES)                 # famille marquages (schéma 0.2, site complet)
 SCRIPTS += marquages.SCRIPTS + ["marquages_controles.py"]
+SCRIPTS += ["regulariser.py", "regulariser_geometrie.py", "regulariser_controles.py", "regulariser_apercu.py"]   # GQ-*
+REFERENCES["regles_qualite_geometrique"] = (SPECS / "regles_qualite_geometrique.json", "règles GQ-* de régularisation (droites/arcs, tolérances, topologie)")
 REGLES_PCG = [
     {"id": "R-joints-herbe", "cible": {"famille": "bordures", "attribut": "aspect.herbe_joints"},
      "action": "dispersion_joints", "densite_par_joint": "aspect.herbe_joints", "asset": "herbe_joint_*"},
@@ -163,25 +169,25 @@ def statistiques(K, S, I, B, rk):
 def composer(sortie, png=None):
     sortie = Path(sortie)
     mnt = MNT()
-    K, bev_cand, rk = bordures.construire(mnt)
-    S, rs = surfaces.construire(mnt, K)
-    I, R, ri = ilots.construire(mnt, K, S)
-    K = K + R
-    surfaces.completer_bords(S, K)
-    exclusions = [[repere(np.asarray(r, dtype=float)[:-1, :2]) for r in poly]
-                  for f in I for poly in ([f["geometry"]["coordinates"]] if f["geometry"]["type"] == "Polygon"
-                                          else f["geometry"]["coordinates"])]
-    B = bordures.bev(bev_cand, mnt, exclusions)
-    entete = lambda fam: {"schema": SCHEMA_ID, "famille": fam, "zone_pilote": ctx.zone_pilote()["props"]["id"],
-                          "repere": "EPSG:2154 + NGF-IGN69 ; local = L93 - (917279.43, 6460289.98, 216.30)"}
+    # familles de sol 0.3 (site complet) : bordures, îlots, partition vectorielle, nivellement unique, BEV
+    K, S, I, B, rk, rs, ri, sol_extra = sol_composer.familles_sol(mnt, sortie / "base")
+    R = [f for f in K if f["properties"]["source"].get("statut_hauteur") == "synthetique"]
+    entete = lambda fam: {"schema": "description_scene_v2/0.3", "famille": fam, "zone_pilote": ctx.zone_pilote()["props"]["id"],
+                          "repere": "EPSG:2154 + NGF-IGN69 ; local = L93 - (917279.43, 6460289.98, 216.30)",
+                          "emprise": "site complet : carré local [-150, 150]² (L93 917129.43-917429.43 / 6460139.98-6460439.98)"}
     couches = {"bordures": K, "surfaces": S, "ilots": I, "ponctuels_sol": B}
     info = {}
     for fam, feats in couches.items():
         f = sortie / "base" / f"{fam}.geojson"
         ecrire_geojson(f, feats, fam, entete(fam))
         info[fam] = {"fichier": f"base/{fam}.geojson", "n": len(feats), "sha256": sha256(f)}
+    for fam, f in (("nivellement", sol_extra["nivellement"]["json"]), ("nivellement_grille", sol_extra["nivellement"]["npz"])):
+        info[fam] = {"fichier": f"base/{f.name}", "n": sol_extra["nivellement"]["regions"], "sha256": sha256(f)}
     # famille marquages (site complet) : marquages.geojson + table de correspondance des 996 marquages v1
     feats_m, corr_m, rap_m = marquages.construire()
+    feats_m = regulariser.marquages(feats_m)                 # GQ-PRI-002 : axes des lignes en droites / arcs
+    f_src, n_src = regulariser.ecrire_sources(sortie / "base")   # GQ-PRO-001 : géométries avant régularisation
+    info["regularisation_sources"] = {"fichier": f"base/{f_src.name}", "n": n_src, "sha256": sha256(f_src)}
     for fam, f in zip(("marquages", "marquages_correspondance"), marquages.ecrire(sortie / "base", feats_m, corr_m)):
         info[fam] = {"fichier": f"base/{f.name}", "n": len(feats_m if fam == "marquages" else corr_m), "sha256": sha256(f)}
     preuves, a_priori = preuves_et_apriori(dict(couches, marquages=feats_m))
@@ -211,7 +217,9 @@ def composer(sortie, png=None):
                     "chartieres": sum(len(a["raccords"]) for a in abs_),
                     "bev": len(B), "surfaces": len(S), "ilots": len(I), "preuves": len(preuves),
                     "marquages": len(feats_m), "marquages_v1": len(corr_m)},
-        "statistiques": dict(statistiques(K, S, I, B, rk), marquages=rap_m),
+        "statistiques": dict(statistiques(K, S, I, B, rk), marquages=rap_m,
+                             sol=sol_composer.statistiques_sol(K, S, I, B, sol_extra),
+                             regularisation=regulariser.rapport()),
         "preuves": preuves,
         "a_priori": a_priori,
         "regles_pcg": REGLES_PCG,
@@ -219,7 +227,7 @@ def composer(sortie, png=None):
                        "scripts": {f"recon/pcg/decrire/{s}": sha256(ICI / s) for s in SCRIPTS},
                        "interpreteur": f"CPython {platform.python_version()} ; numpy {np.__version__}"},
     }
-    sol = [k for k in sorted(info) if not k.startswith("marquages")]
+    sol = [k for k in sorted(info) if not k.startswith("marquages") and k != "regularisation_sources"]   # archive GQ-PRO-001 hors hash
     h = hashlib.sha256("".join(info[k]["sha256"] for k in sol).encode()).hexdigest()
     man["hash_description"] = h                          # couches de sol (inchangé par la famille marquages)
     man["hash_marquages"] = hashlib.sha256("".join(info[k]["sha256"] for k in sorted(info) if k.startswith("marquages")).encode()).hexdigest()

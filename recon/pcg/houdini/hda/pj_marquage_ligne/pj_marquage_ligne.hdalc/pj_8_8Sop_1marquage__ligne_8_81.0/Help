@@ -1,0 +1,91 @@
+= PJ Marquage : lignes =
+
+"""Lignes longitudinales et transversales (ML-*, MT-*) en maillages statiques : axe régularisé échantillonné à 2 mm de corde, tirets découpés par abscisse curviligne (modulation IISR, phase, interruptions), ruban de largeur exacte (Sweep), peinture extrudée de 3 mm avec chanfrein de 1 mm, drapée sur le nivellement, tronçons de 20 m au plus."""
+
+== Entrées ==
+
+1. Courbes : attributs id, largeur_m, modulation, trait_m, vide_m, phase_m, interruptions_json ou interruptions_s, geometrie_reguliere (facultatif), materiau_id.
+2. Nivellement (HeightField).
+
+Contrat : README_HDA.md § 7.
+
+@parameters
+
+== Géométrie ==
+
+Erreur de corde max (m):
+    #id: corde
+    Échantillonnage des arcs et clothoïdes régularisés (≤ 2 mm sur la peinture).
+
+Pas max le long de l'axe (m):
+    #id: pas_max
+    Sommets intermédiaires des droites : le ruban suit le profil en long du sol fabriqué (0,25 m : moitié de l'arête de la chaussée, TQ-MQG-005 entre les sommets).
+
+Largeur par défaut (m):
+    #id: largeur_defaut
+    Sans largeur_m : 2u, u = 0,05 m (MQ-LIG-003, unite_u).
+
+Longueur max d'un maillage (m):
+    #id: troncon_max
+    Lignes plus longues découpées en tronçons (pj_entite = id_cNN).
+
+Morceau peint minimal (m):
+    #id: longueur_min
+    
+
+Interrompre aux marches de bordure:
+    #id: couper_marches
+    MQ-DET-010 : jamais de peinture sur une bordure ; coupure là où l'axe franchit une marche du modèle de nivellement.
+
+Seuil de marche (m):
+    #id: seuil_marche
+    Écart d'altitude entre la région de la ligne et la région propriétaire (> vue d'un abaissé, 2 cm).
+
+Dégagement à la marche (m):
+    #id: degagement_marche
+    Espace non peint de 2u de part et d'autre de la marche.
+
+Franchissement minimal coupé (m):
+    #id: longueur_min_marche
+    Franchissements plus courts (ligne posée sur une limite de région, va-et-vient) : non coupés, signalés (pj_marches_ambigues).
+
+== Modulation ==
+
+Modulation par défaut:
+    #id: modulation_defaut
+    Courbes sans attribut modulation (table IISR art. 113-1 B).
+
+== Peinture (solide) ==
+
+Épaisseur au-dessus du sol (m):
+    #id: epaisseur
+    TQ-MQG-002 / TQ-MQG-011 : lignes longitudinales en peinture, 2 mm (roadMark height OpenDRIVE) ; les autres marques (enduit) restent à 3 mm.
+
+Enfouissement des flancs (m):
+    #id: enfouissement
+    
+
+Chanfrein des arêtes du dessus (m):
+    #id: chanfrein
+    
+
+Draper sur le nivellement (entrée 2):
+    #id: draper
+    
+
+Région de drapé:
+    #id: mode_region
+    
+
+Seuil de franchissement (m):
+    #id: seuil_franchissement
+    
+
+Couche USD (pj_couche):
+    #id: couche
+    
+
+Angle de rupture des normales (°):
+    #id: cusp
+    
+

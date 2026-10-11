@@ -1,0 +1,30 @@
+= PJ Niveau Z (nivellement) =
+
+"""Lit le Z du modèle de nivellement unique (TQ-SOL-013) pour chaque point : portage VEX exact de nivellement_requete.Nivellement.z (écart < 0,4 mm, float32)."""
+
+@parameters
+
+Région de nivellement:
+    #id: mode_region
+    Région du modèle dans laquelle interpoler (les marches de bordure ne sont jamais lissées). Attribut absent ou −1 : nœud propriétaire.
+
+Attribut de région:
+    #id: attribut_region
+    Entier : region_niveau (surfaces, îlots, bordures côté bas) ou region_haute.
+
+Écrire dans:
+    #id: sortie
+    
+
+Nom de l'attribut:
+    #id: nom_attribut
+    
+
+Décalage (m):
+    #id: decalage
+    Ajouté au Z du modèle (ex. +0,003 pour une peinture posée).
+
+Hors modèle:
+    #id: si_absent
+    Points hors du modèle : attribut niv_absent = 1.
+

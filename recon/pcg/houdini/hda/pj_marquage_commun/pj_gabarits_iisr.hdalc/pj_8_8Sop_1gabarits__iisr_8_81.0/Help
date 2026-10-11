@@ -1,0 +1,14 @@
+= PJ Gabarits IISR (marquages) =
+
+"""Lit les gabarits normatifs de assets/specs/marquages_geometrie.json (flèches TD, TAD, TAG, TD_TAD, TD_TAG, RAB_*, triangles CEDEZ, figurine VELO, damiers) : un polygone par anneau dans le repère du gabarit (x latéral à droite, y dans le sens de circulation) placé en Houdini (x, 0, −y) ; attributs gabarit, partie, anneau (trous ≥ 1), dimensions, source."""
+
+@parameters
+
+Spécification des marquages:
+    #id: spec
+    assets/specs/marquages_geometrie.json (gabarits IISR 7e partie, annexes B et D).
+
+Filtre de gabarits:
+    #id: filtre
+    Motifs fnmatch séparés par des espaces (TD TA* VELO) ; vide : tous.
+

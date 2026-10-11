@@ -1,0 +1,183 @@
+# Dialog script for pj::marquage_ligne::1.0 automatically generated
+
+{
+    name	pj::marquage_ligne::1.0
+    inputlabel	1	"Lignes (courbes)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Sol fabriqué (facultatif)"
+    outputlabel	1	"Maillages (Y haut)"
+    script	pj::marquage_ligne::1.0
+    label	"PJ Marquage : lignes"
+
+    help {
+    }
+
+    inputlabel	1	"Lignes (courbes)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Sol fabriqué (facultatif)"
+
+    group {
+        name    "f_geometrie"
+        label   "Géométrie"
+
+        parm {
+            name    "corde"
+            label   "Erreur de corde max (m)"
+            type    float
+            default { "0.002" }
+            help    "Échantillonnage des arcs et clothoïdes régularisés (≤ 2 mm sur la peinture)."
+            range   { 0.0001 0.05 }
+        }
+        parm {
+            name    "pas_max"
+            label   "Pas max le long de l'axe (m)"
+            type    float
+            default { "0.25" }
+            help    "Sommets intermédiaires des droites : le ruban suit le profil en long du sol fabriqué (0,25 m : moitié de l'arête de la chaussée, TQ-MQG-005 entre les sommets)."
+            range   { 0.05 10 }
+        }
+        parm {
+            name    "largeur_defaut"
+            label   "Largeur par défaut (m)"
+            type    float
+            default { "0.1" }
+            help    "Sans largeur_m : 2u, u = 0,05 m (MQ-LIG-003, unite_u)."
+            range   { 0.01 1 }
+        }
+        parm {
+            name    "troncon_max"
+            label   "Longueur max d'un maillage (m)"
+            type    float
+            default { "20" }
+            help    "Lignes plus longues découpées en tronçons (pj_entite = id_cNN)."
+            range   { 1 500 }
+        }
+        parm {
+            name    "longueur_min"
+            label   "Morceau peint minimal (m)"
+            type    float
+            default { "0.01" }
+            range   { 0 1 }
+        }
+        parm {
+            name    "couper_marches"
+            label   "Interrompre aux marches de bordure"
+            type    toggle
+            default { "1" }
+            help    "MQ-DET-010 : jamais de peinture sur une bordure ; coupure là où l'axe franchit une marche du modèle de nivellement."
+        }
+        parm {
+            name    "seuil_marche"
+            label   "Seuil de marche (m)"
+            type    float
+            default { "0.03" }
+            help    "Écart d'altitude entre la région de la ligne et la région propriétaire (> vue d'un abaissé, 2 cm)."
+            range   { 0 0.3 }
+        }
+        parm {
+            name    "degagement_marche"
+            label   "Dégagement à la marche (m)"
+            type    float
+            default { "0.1" }
+            help    "Espace non peint de 2u de part et d'autre de la marche."
+            range   { 0 1 }
+        }
+        parm {
+            name    "longueur_min_marche"
+            label   "Franchissement minimal coupé (m)"
+            type    float
+            default { "0.2" }
+            help    "Franchissements plus courts (ligne posée sur une limite de région, va-et-vient) : non coupés, signalés (pj_marches_ambigues)."
+            range   { 0 2 }
+        }
+    }
+
+    group {
+        name    "f_modulation"
+        label   "Modulation"
+
+        parm {
+            name    "modulation_defaut"
+            label   "Modulation par défaut"
+            type    string
+            default { "continue" }
+            help    "Courbes sans attribut modulation (table IISR art. 113-1 B)."
+            menureplace {
+                "continue"  "continue"
+                "T1"        "T1"
+                "T'1"       "T'1"
+                "T2"        "T2"
+                "T'2"       "T'2"
+                "T3"        "T3"
+                "T'3"       "T'3"
+                "T4"        "T4"
+            }
+        }
+    }
+
+    group {
+        name    "f_solide"
+        label   "Peinture (solide)"
+
+        parm {
+            name    "epaisseur"
+            label   "Épaisseur au-dessus du sol (m)"
+            type    float
+            default { "0.002" }
+            help    "TQ-MQG-002 / TQ-MQG-011 : lignes longitudinales en peinture, 2 mm (roadMark height OpenDRIVE) ; les autres marques (enduit) restent à 3 mm."
+            range   { 0 0.02 }
+        }
+        parm {
+            name    "enfouissement"
+            label   "Enfouissement des flancs (m)"
+            type    float
+            default { "0.005" }
+            range   { 0 0.05 }
+        }
+        parm {
+            name    "chanfrein"
+            label   "Chanfrein des arêtes du dessus (m)"
+            type    float
+            default { "0.001" }
+            range   { 0 0.005 }
+        }
+        parm {
+            name    "draper"
+            label   "Draper sur le nivellement (entrée 2)"
+            type    toggle
+            default { "1" }
+        }
+        parm {
+            name    "mode_region"
+            label   "Région de drapé"
+            type    ordinal
+            default { "0" }
+            menu {
+                "piece"     "Région majoritaire de la pièce"
+                "attribut"  "Attribut pj_region"
+                "point"     "Région de chaque sommet (suit les marches)"
+            }
+        }
+        parm {
+            name    "seuil_franchissement"
+            label   "Seuil de franchissement (m)"
+            type    float
+            default { "0.02" }
+            range   { 0 0.2 }
+        }
+        parm {
+            name    "couche"
+            label   "Couche USD (pj_couche)"
+            type    string
+            default { "PJ_Marquages" }
+        }
+        parm {
+            name    "cusp"
+            label   "Angle de rupture des normales (°)"
+            type    float
+            default { "30" }
+            range   { 0 180 }
+        }
+    }
+
+}

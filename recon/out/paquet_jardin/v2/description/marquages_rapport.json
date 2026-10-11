@@ -1,0 +1,536 @@
+{
+ "schema": "description_scene_v2/0.3",
+ "priorite_sources": {
+  "ordre": [
+   {
+    "src": "gam",
+    "rang": 1,
+    "r_source": 0.95,
+    "libelle": "levé vectoriel GAM 2026 (Meylan_Topo.dwg)"
+   },
+   {
+    "src": "plan2025",
+    "rang": 2,
+    "r_source": 0.85,
+    "libelle": "détection sur le plan projet 2025 calé (zone des travaux)"
+   },
+   {
+    "src": "ortho2022",
+    "rang": 3,
+    "r_source": 0.8,
+    "libelle": "détection sur l'ortho PCRS 5 cm 2022 (zones conservées)"
+   },
+   {
+    "src": "regle",
+    "rang": 4,
+    "r_source": null,
+    "libelle": "inférence par règle deduire_si_absent (regles_conception)"
+   },
+   {
+    "src": "v1",
+    "rang": 5,
+    "r_source": 0.3,
+    "libelle": "paquet v1 : indice sémantique (jamais une géométrie)"
+   }
+  ],
+  "v_temporelle": {
+   "gam": {
+    "conserve": 1.0,
+    "refait_2025_identique": 1.0,
+    "neuf_2025": 1.0,
+    "construit_2023_2024": 1.0
+   },
+   "plan2025": {
+    "conserve": 0.0,
+    "refait_2025_identique": 1.0,
+    "neuf_2025": 1.0,
+    "construit_2023_2024": 0.0
+   },
+   "ortho2022": {
+    "conserve": 1.0,
+    "refait_2025_identique": 0.8,
+    "neuf_2025": 0.0,
+    "construit_2023_2024": 0.0
+   },
+   "v1": {
+    "conserve": 1.0,
+    "refait_2025_identique": 1.0,
+    "neuf_2025": 1.0,
+    "construit_2023_2024": 1.0
+   }
+  },
+  "decision": {
+   "pose": 0.5,
+   "a_verifier": 0.3
+  },
+  "regles": [
+   "FUS-SRC-001",
+   "FUS-SCO-002",
+   "FUS-ASS-003",
+   "FUS-SNP-004",
+   "FUS-CON-005"
+  ]
+ },
+ "n_entites": 401,
+ "comptes_par_source": {
+  "gam": 154,
+  "ortho2022": 183,
+  "plan2025": 50,
+  "regle": 9,
+  "v1": 5
+ },
+ "comptes_par_source_type": {
+  "gam": {
+   "fleche/directionnelle": 10,
+   "ligne/continue": 29,
+   "ligne/discontinue": 2,
+   "ligne/segment": 41,
+   "passage/zebra": 8,
+   "symbole/barre": 4,
+   "symbole/chevron": 16,
+   "symbole/dent_requin": 7,
+   "symbole/pmr": 10,
+   "symbole/velo": 16,
+   "zone/bande_isolee": 3,
+   "zone/divers": 4,
+   "zone/hachures": 2,
+   "zone/zigzag": 2
+  },
+  "ortho2022": {
+   "fleche/directionnelle": 3,
+   "ligne/continue": 85,
+   "ligne/discontinue": 15,
+   "ligne/segment": 71,
+   "passage/traversee_cyclable": 1,
+   "passage/zebra": 3,
+   "symbole/pmr": 1,
+   "symbole/texte": 3,
+   "zone/t_stationnement": 1
+  },
+  "plan2025": {
+   "fleche/directionnelle": 12,
+   "ligne/continue": 12,
+   "ligne/discontinue": 2,
+   "passage/traversee_cyclable": 1,
+   "passage/zebra": 2,
+   "symbole/barre": 13,
+   "symbole/dent_requin": 4,
+   "symbole/point": 1,
+   "symbole/velo": 2,
+   "transversale/effet_feux": 1
+  },
+  "regle": {
+   "fleche/directionnelle": 1,
+   "ligne/discontinue": 1,
+   "transversale/effet_feux": 7
+  },
+  "v1": {
+   "passage/traversee_cyclable": 1,
+   "symbole/velo": 4
+  }
+ },
+ "comptes_par_classe": {
+  "fleche/directionnelle": 26,
+  "ligne/continue": 126,
+  "ligne/discontinue": 20,
+  "ligne/segment": 112,
+  "passage/traversee_cyclable": 3,
+  "passage/zebra": 13,
+  "symbole/barre": 17,
+  "symbole/chevron": 16,
+  "symbole/dent_requin": 11,
+  "symbole/pmr": 11,
+  "symbole/point": 1,
+  "symbole/texte": 3,
+  "symbole/velo": 22,
+  "transversale/effet_feux": 8,
+  "zone/bande_isolee": 3,
+  "zone/divers": 4,
+  "zone/hachures": 2,
+  "zone/t_stationnement": 1,
+  "zone/zigzag": 2
+ },
+ "a_verifier": [
+  "MF-6017",
+  "MP-0370",
+  "MS-0262",
+  "MS-0263",
+  "MS-0264",
+  "MS-0265",
+  "MT-8001",
+  "MT-8004",
+  "MT-8006"
+ ],
+ "conflits_norme": [
+  [
+   "MF-6015",
+   {
+    "regle": "FUS-CON-005",
+    "type_observe": "TD",
+    "type_manoeuvres": "TD_TAD",
+    "note": "géométrie et type observés gardés ; les deux hypothèses sont notées"
+   }
+  ]
+ ],
+ "decisions_hypotheses": {
+  "gam/absorbe_par_zebra": 2,
+  "gam/pose": 159,
+  "gam/retire_sans_peinture": 3,
+  "ortho2022/apparie": 43,
+  "ortho2022/confirme": 174,
+  "ortho2022/ecartee": 15,
+  "ortho2022/faible": 1,
+  "ortho2022/nouvelle": 16,
+  "ortho2022/rejete_score": 4,
+  "ortho2022/retire_gam_prioritaire": 2,
+  "ortho2022/retire_sur_zebra": 2,
+  "plan2025/absorbe_par_gam": 2,
+  "plan2025/apparie": 19,
+  "plan2025/confirme": 45,
+  "plan2025/ecartee": 13,
+  "plan2025/fusionne": 1,
+  "plan2025/nouvelle": 9,
+  "plan2025/retire_gam_prioritaire": 1,
+  "regle:INF-FLE-004/infere": 1,
+  "regle:MQ-DET-002/infere": 1,
+  "regle:MQ-LEF-002/infere": 4,
+  "regle:MQ-LEF-011/infere": 3,
+  "v1/apparie": 190,
+  "v1/infirme": 60,
+  "v1/inverifiable": 5,
+  "v1/retire_fantome": 109,
+  "v1/retire_forme_raster": 13
+ },
+ "gam": {
+  "non_decrits": [
+   38,
+   39,
+   40,
+   124,
+   131,
+   225,
+   236,
+   281,
+   326
+  ],
+  "classement": {
+   "anneaux": {
+    "atypique": 4,
+    "bande": 52,
+    "bande_oblique": 10,
+    "carre": 2,
+    "fleche": 6,
+    "picto": 16,
+    "tiret": 1,
+    "triangle": 1
+   },
+   "chaines": {
+    "axe": 36,
+    "chevron": 16,
+    "debris": 3,
+    "picto": 8,
+    "segment": 73,
+    "zigzag": 2
+   },
+   "paires": 3,
+   "blocs": {
+    "fleche": 5,
+    "pmr": 10,
+    "texte_ignore": 3,
+    "velo": 10
+   },
+   "pictos": {
+    "pieton": 2,
+    "velo": 6
+   },
+   "triangles": 6
+  }
+ },
+ "inferences": [
+  {
+   "regle": "MQ-LEF-002",
+   "approche": "Verdun SW",
+   "entite": "MT-8000",
+   "s": 173.02
+  },
+  {
+   "regle": "MQ-LEF-011",
+   "approche": "Verdun SW",
+   "entite": "MT-8001",
+   "s": 172.77
+  },
+  {
+   "regle": "MQ-LEF-002",
+   "approche": "Verdun NE",
+   "entite": "MT-8002",
+   "s": 191.75
+  },
+  {
+   "regle": "MQ-LEF-002",
+   "approche": "Reviree",
+   "entite": "MT-8003",
+   "s": 6.12
+  },
+  {
+   "regle": "MQ-LEF-011",
+   "approche": "Reviree",
+   "entite": "MT-8004",
+   "s": 7.48
+  },
+  {
+   "regle": "MQ-LEF-002",
+   "approche": "Vercors",
+   "entite": "MT-8005",
+   "s": 5.0
+  },
+  {
+   "regle": "MQ-LEF-011",
+   "approche": "Vercors",
+   "entite": "MT-8006",
+   "s": 5.64
+  },
+  {
+   "regle": "FUS-CON-005",
+   "entite": "MF-6015",
+   "observe": "TD",
+   "attendu": "TD_TAD"
+  },
+  {
+   "regle": "INF-FLE-004",
+   "approche": "Vercors",
+   "voie": 3,
+   "entite": "MF-8000",
+   "type": "TD_TAD",
+   "s": 43.06,
+   "axe_voie": "fleches_observees"
+  },
+  {
+   "regle": "MQ-DET-004",
+   "groupe": "feu pietons passage_pieton Verdun SW (chaussee sens NE)",
+   "route": "1",
+   "zebra_existant": true
+  },
+  {
+   "regle": "MQ-DET-004",
+   "groupe": "feu pietons passage_pieton Verdun SW (chaussee sens SW)",
+   "route": "2",
+   "zebra_existant": true
+  },
+  {
+   "regle": "MQ-DET-004",
+   "groupe": "feu pietons passage_pieton Reviree",
+   "route": "5",
+   "zebra_existant": true
+  },
+  {
+   "regle": "MQ-CYC-007",
+   "groupe": "feu cyclistes traversee_cyclable Verdun SW chaussee sens NE",
+   "route": "1",
+   "marque_existante": true
+  },
+  {
+   "regle": "MQ-CYC-007",
+   "groupe": "feu cyclistes traversee_cyclable Verdun SW chaussee sens SW",
+   "route": "2",
+   "marque_existante": true
+  },
+  {
+   "regle": "MQ-DET-009",
+   "arret": "arret_bus La Reviree (ref 21, sens Montbonnot) (zone d'arret en ligne, zigzag)",
+   "zigzag_existant": true
+  },
+  {
+   "regle": "MQ-DET-009",
+   "arret": "arret_bus La Reviree (ref 396, sens Grenoble) (zone d'arret en ligne, zigzag)",
+   "zigzag_existant": true
+  },
+  {
+   "regle": "MQ-DET-009",
+   "arret": "arret_bus La Reviree (ligne Flexo 42, sens nord)",
+   "zigzag_existant": false
+  },
+  {
+   "regle": "MQ-DET-009",
+   "arret": "arret_bus La Reviree (ligne Flexo 42, sens nord)",
+   "non_propose": "recouvrirait MF-6006, MF-6007, MF-6008 (MQ-DET-010)"
+  },
+  {
+   "regle": "MQ-DET-002",
+   "approche": "Verdun SW",
+   "recouvrement": 1.0,
+   "lignes": [
+    "ML-5297"
+   ]
+  },
+  {
+   "regle": "MQ-DET-002",
+   "approche": "Verdun NE",
+   "recouvrement": 1.0,
+   "lignes": [
+    "ML-5136"
+   ]
+  },
+  {
+   "regle": "MQ-DET-002",
+   "approche": "Vercors",
+   "recouvrement": 0.0,
+   "lignes": []
+  }
+ ],
+ "approches": [
+  {
+   "nom": "Verdun SW",
+   "route": "1",
+   "voies": [
+    -2,
+    -1
+   ],
+   "sens": 1,
+   "s_feu": 173.021,
+   "s_arret": 173.021,
+   "t_axes": {
+    "-2": -4.791,
+    "-1": -1.376
+   },
+   "t_axes_source": {
+    "-2": "fleches_observees",
+    "-1": "fleches_observees"
+   }
+  },
+  {
+   "nom": "Verdun NE",
+   "route": "3",
+   "voies": [
+    -2,
+    -1
+   ],
+   "sens": 1,
+   "s_feu": 191.754,
+   "s_arret": 191.754,
+   "t_axes": {
+    "-2": -4.8,
+    "-1": -1.252
+   },
+   "t_axes_source": {
+    "-2": "fleches_observees",
+    "-1": "fleches_observees"
+   }
+  },
+  {
+   "nom": "Reviree",
+   "route": "5",
+   "voies": [
+    1
+   ],
+   "sens": -1,
+   "s_feu": 6.125,
+   "s_arret": 6.125,
+   "t_axes": {
+    "1": 1.898
+   },
+   "t_axes_source": {
+    "1": "xodr"
+   }
+  },
+  {
+   "nom": "Vercors",
+   "route": "6",
+   "voies": [
+    2,
+    3
+   ],
+   "sens": -1,
+   "s_feu": 5.003,
+   "s_arret": 5.003,
+   "t_axes": {
+    "2": 1.069,
+    "3": 4.407
+   },
+   "t_axes_source": {
+    "2": "fleches_observees",
+    "3": "fleches_observees"
+   }
+  }
+ ],
+ "interruptions": {
+  "n_lignes": 29
+ },
+ "lignes_sans_peinture_retirees": [
+  "ML-5037",
+  "ML-5206",
+  "ML-5283"
+ ],
+ "correspondance_v1": {
+  "genere": 686,
+  "retire": 310
+ },
+ "detections_brutes": {
+  "fleches": 24,
+  "zebras": 5,
+  "lignes": 86
+ },
+ "infere": [
+  [
+   "MF-8000",
+   "regle:INF-FLE-004",
+   "fleche",
+   "directionnelle"
+  ],
+  [
+   "ML-8000",
+   "regle:MQ-DET-002",
+   "ligne",
+   "discontinue"
+  ],
+  [
+   "MT-8000",
+   "regle:MQ-LEF-002",
+   "transversale",
+   "effet_feux"
+  ],
+  [
+   "MT-8001",
+   "regle:MQ-LEF-011",
+   "transversale",
+   "effet_feux"
+  ],
+  [
+   "MT-8002",
+   "regle:MQ-LEF-002",
+   "transversale",
+   "effet_feux"
+  ],
+  [
+   "MT-8003",
+   "regle:MQ-LEF-002",
+   "transversale",
+   "effet_feux"
+  ],
+  [
+   "MT-8004",
+   "regle:MQ-LEF-011",
+   "transversale",
+   "effet_feux"
+  ],
+  [
+   "MT-8005",
+   "regle:MQ-LEF-002",
+   "transversale",
+   "effet_feux"
+  ],
+  [
+   "MT-8006",
+   "regle:MQ-LEF-011",
+   "transversale",
+   "effet_feux"
+  ]
+ ],
+ "lignes_axe_v1": {
+  "n": 196,
+  "devenir": {
+   "axe_recale_sur_crete_detectee": 172,
+   "reancree_sur_ligne_gam_ou_detectee": 1,
+   "retiree_infirme": 23
+  }
+ }
+}

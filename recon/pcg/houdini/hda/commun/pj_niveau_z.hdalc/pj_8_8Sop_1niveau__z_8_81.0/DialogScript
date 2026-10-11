@@ -1,0 +1,71 @@
+# Dialog script for pj::niveau_z::1.0 automatically generated
+
+{
+    name	pj::niveau_z::1.0
+    inputlabel	1	"Géométrie"
+    inputlabel	2	"Nivellement (HeightField)"
+    script	pj::niveau_z::1.0
+    label	"PJ Niveau Z (nivellement)"
+
+    help {
+    }
+
+    inputlabel	1	Géométrie
+    inputlabel	2	"Nivellement (HeightField)"
+
+    parm {
+        name    "mode_region"
+        label   "Région de nivellement"
+        type    ordinal
+        default { "0" }
+        help    "Région du modèle dans laquelle interpoler (les marches de bordure ne sont jamais lissées). Attribut absent ou −1 : nœud propriétaire."
+        menu {
+            "attribut"      "Attribut (point ou primitive)"
+            "proprietaire"  "Nœud propriétaire le plus proche"
+        }
+    }
+    parm {
+        name    "attribut_region"
+        label   "Attribut de région"
+        type    string
+        default { "region_niveau" }
+        help    "Entier : region_niveau (surfaces, îlots, bordures côté bas) ou region_haute."
+        hidewhen "{ mode_region != attribut }"
+    }
+    parm {
+        name    "sortie"
+        label   "Écrire dans"
+        type    ordinal
+        default { "0" }
+        menu {
+            "P"         "Position (P.y)"
+            "attribut"  "Attribut flottant"
+        }
+    }
+    parm {
+        name    "nom_attribut"
+        label   "Nom de l'attribut"
+        type    string
+        default { "z_niv" }
+        hidewhen "{ sortie != attribut }"
+    }
+    parm {
+        name    "decalage"
+        label   "Décalage (m)"
+        type    float
+        default { "0" }
+        help    "Ajouté au Z du modèle (ex. +0,003 pour une peinture posée)."
+        range   { -1 1 }
+    }
+    parm {
+        name    "si_absent"
+        label   "Hors modèle"
+        type    ordinal
+        default { "0" }
+        help    "Points hors du modèle : attribut niv_absent = 1."
+        menu {
+            "garder"    "Garder le Z d'entrée"
+            "zero"      "z = 0"
+        }
+    }
+}

@@ -1,0 +1,560 @@
+{
+ "schema": "pj_marquages_controles/0.1",
+ "hda": {
+  "pj::marquage_solide::1.0": {
+   "noeuds": 36,
+   "recursif": 36,
+   "par_type": {
+    "attribdelete": 2,
+    "attribwrangle": 14,
+    "blast": 2,
+    "block_begin": 1,
+    "block_end": 1,
+    "connectivity": 1,
+    "divide": 2,
+    "groupdelete": 2,
+    "merge": 1,
+    "normal": 1,
+    "null": 1,
+    "output": 1,
+    "polybevel::3.0": 1,
+    "polyextrude::2.0": 1,
+    "reverse": 2,
+    "switch": 2,
+    "triangulate2d::3.0": 1
+   }
+  },
+  "pj::gabarits_iisr::1.0": {
+   "noeuds": 4,
+   "recursif": 5,
+   "par_type": {
+    "attribwrangle": 1,
+    "null": 1,
+    "output": 1,
+    "python": 1
+   }
+  },
+  "pj::marquage_ligne::1.0": {
+   "noeuds": 19,
+   "recursif": 19,
+   "par_type": {
+    "attribcopy": 2,
+    "attribwrangle": 9,
+    "blast": 2,
+    "merge": 1,
+    "null": 1,
+    "output": 1,
+    "pj::marquage_solide::1.0": 1,
+    "resample": 1,
+    "sweep::2.0": 1
+   }
+  },
+  "pj::passage_pieton::1.0": {
+   "noeuds": 16,
+   "recursif": 16,
+   "par_type": {
+    "attribcopy": 1,
+    "attribwrangle": 5,
+    "block_begin": 1,
+    "block_end": 1,
+    "boolean::2.0": 1,
+    "null": 1,
+    "output": 1,
+    "pj::gabarits_iisr::1.0": 1,
+    "pj::marquage_solide::1.0": 1,
+    "polyextrude::2.0": 1,
+    "switch": 1,
+    "xform": 1
+   }
+  },
+  "pj::symbole_iisr::1.0": {
+   "noeuds": 25,
+   "recursif": 25,
+   "par_type": {
+    "attribwrangle": 8,
+    "blast": 1,
+    "copytopoints::2.0": 1,
+    "null": 5,
+    "output": 4,
+    "pj::gabarits_iisr::1.0": 1,
+    "pj::marquage_solide::1.0": 2,
+    "switch": 2,
+    "xform": 1
+   }
+  },
+  "pj::marquage_zone::1.0": {
+   "noeuds": 26,
+   "recursif": 26,
+   "par_type": {
+    "attribcopy": 1,
+    "attribwrangle": 4,
+    "blast": 4,
+    "block_begin": 1,
+    "block_end": 1,
+    "boolean::2.0": 2,
+    "merge": 1,
+    "null": 1,
+    "output": 1,
+    "pj::marquage_solide::1.0": 1,
+    "polyexpand2d": 2,
+    "polyextrude::2.0": 2,
+    "switch": 3,
+    "xform": 2
+   }
+  }
+ },
+ "lignes": {
+  "regle": "VAL-LIG-002",
+  "entites": 259,
+  "manquantes": [],
+  "coupures_auto_marches_MQ-DET-010": {
+   "ML-0208": 2,
+   "ML-0797": 1,
+   "ML-0798": 1,
+   "ML-0799": 1
+  },
+  "marches_ambigues_non_coupees": {
+   "ML-0798": 13,
+   "ML-0799": 4
+  },
+  "ecart_relatif_aire": {
+   "n": 255,
+   "p50": 0.0,
+   "p95": 0.0001,
+   "max": 0.2942
+  },
+  "hors_tolerance_2pct": [
+   [
+    "ML-5253",
+    0.2942
+   ]
+  ],
+  "depassement_lateral_m": {
+   "n": 259,
+   "p50": 0.0,
+   "p95": 0.0003,
+   "max": 0.023
+  },
+  "note": "aire de l'empreinte (dessus + chanfreins projetés) contre largeur x longueur peinte attendue ; dépassement = distance max d'un sommet à l'axe régularisé moins la demi-largeur"
+ },
+ "zebras": {
+  "regle": "VAL-ZEB-003",
+  "zebras": 13,
+  "defauts": [
+   "MP-0333",
+   "MP-0875"
+  ],
+  "detail": [
+   {
+    "id": "MP-0085",
+    "bandes": 7,
+    "attendues": 7,
+    "pas_ecart_max_m": 0.0,
+    "angle_max_deg": 0.099,
+    "longueur_ecart_max_m": 0.0,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": false,
+    "ok": true
+   },
+   {
+    "id": "MP-0333",
+    "bandes": 15,
+    "attendues": 15,
+    "pas_ecart_max_m": 0.0104,
+    "angle_max_deg": 7.135,
+    "longueur_ecart_max_m": 0.9777,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": true,
+    "ok": false
+   },
+   {
+    "id": "MP-0860",
+    "bandes": 3,
+    "attendues": 3,
+    "pas_ecart_max_m": 0.0135,
+    "angle_max_deg": 0.267,
+    "longueur_ecart_max_m": 0.0,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": true,
+    "ok": true
+   },
+   {
+    "id": "MP-0875",
+    "bandes": 3,
+    "attendues": 3,
+    "pas_ecart_max_m": 0.0113,
+    "angle_max_deg": 4.238,
+    "longueur_ecart_max_m": 1.2854,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": true,
+    "ok": false
+   },
+   {
+    "id": "MP-5170",
+    "bandes": 6,
+    "attendues": 6,
+    "pas_ecart_max_m": 0.0,
+    "angle_max_deg": 0.022,
+    "longueur_ecart_max_m": 0.0,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": false,
+    "ok": true
+   },
+   {
+    "id": "MP-5189",
+    "bandes": 6,
+    "attendues": 6,
+    "pas_ecart_max_m": 0.0,
+    "angle_max_deg": 0.021,
+    "longueur_ecart_max_m": 0.0,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": false,
+    "ok": true
+   },
+   {
+    "id": "MP-5191",
+    "bandes": 6,
+    "attendues": 6,
+    "pas_ecart_max_m": 0.0,
+    "angle_max_deg": 0.02,
+    "longueur_ecart_max_m": 0.0,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": false,
+    "ok": true
+   },
+   {
+    "id": "MP-5234",
+    "bandes": 9,
+    "attendues": 9,
+    "pas_ecart_max_m": 0.0,
+    "angle_max_deg": 0.033,
+    "longueur_ecart_max_m": 0.0,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": false,
+    "ok": true
+   },
+   {
+    "id": "MP-5246",
+    "bandes": 6,
+    "attendues": 6,
+    "pas_ecart_max_m": 0.0,
+    "angle_max_deg": 0.013,
+    "longueur_ecart_max_m": 0.0,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": false,
+    "ok": true
+   },
+   {
+    "id": "MP-5257",
+    "bandes": 6,
+    "attendues": 6,
+    "pas_ecart_max_m": 0.0,
+    "angle_max_deg": 0.013,
+    "longueur_ecart_max_m": 0.0,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": false,
+    "ok": true
+   },
+   {
+    "id": "MP-5282",
+    "bandes": 8,
+    "attendues": 8,
+    "pas_ecart_max_m": 0.0,
+    "angle_max_deg": 0.023,
+    "longueur_ecart_max_m": 0.0,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": false,
+    "ok": true
+   },
+   {
+    "id": "MP-5311",
+    "bandes": 3,
+    "attendues": 3,
+    "pas_ecart_max_m": 0.0,
+    "angle_max_deg": 0.034,
+    "longueur_ecart_max_m": 0.0,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": false,
+    "ok": true
+   },
+   {
+    "id": "MP-6101",
+    "bandes": 6,
+    "attendues": 6,
+    "pas_ecart_max_m": 0.0,
+    "angle_max_deg": 0.023,
+    "longueur_ecart_max_m": 0.0,
+    "largeur_ecart_max_m": 0.0,
+    "decoupes": false,
+    "ok": true
+   }
+  ],
+  "tolerances": {
+   "pas_m": 0.03,
+   "angle_deg": 3,
+   "longueur_m": 0.2,
+   "largeur_m": 0.02
+  }
+ },
+ "symboles": {
+  "regle": "VAL-FLE-001",
+  "instances": 85,
+  "ecart_cap_deg": {
+   "n": 85,
+   "p50": 0.002,
+   "p95": 0.008,
+   "max": 0.042
+  },
+  "ecart_contour_gabarit_m": {
+   "n": 33,
+   "p50": 0.0198,
+   "p95": 0.027,
+   "max": 0.0279
+  },
+  "pire": [
+   [
+    "MS-5501",
+    "VELO",
+    0.0279,
+    0.001
+   ],
+   [
+    "MS-5000",
+    "VELO",
+    0.0271,
+    0.025
+   ],
+   [
+    "MS-5155",
+    "VELO",
+    0.0269,
+    0.005
+   ],
+   [
+    "MS-5515",
+    "VELO",
+    0.0265,
+    0.018
+   ],
+   [
+    "MS-5506",
+    "VELO",
+    0.0264,
+    0.001
+   ],
+   [
+    "MS-5504",
+    "VELO",
+    0.0257,
+    0.003
+   ],
+   [
+    "MS-5505",
+    "VELO",
+    0.0257,
+    0.001
+   ],
+   [
+    "MS-0366",
+    "VELO",
+    0.0256,
+    0.0
+   ]
+  ],
+  "tolerances": {
+   "origine_p95_m": 0.1,
+   "cap_deg": 2.0
+  },
+  "note": "contour décrit (levé GAM, plan, ortho) contre gabarit IISR posé à l'origine et au cap de l'instance"
+ },
+ "symboles_hda": {
+  "drapes": 22,
+  "ecart_gabarit_max_id": "MS-0822",
+  "ecart_gabarit_max_m": 0.07984797656536102,
+  "entites": 107,
+  "genres": {
+   "gabarit": 43,
+   "glyphe": 19,
+   "parametrique": 45
+  },
+  "instances": 85,
+  "prototypes": 47,
+  "regles": [
+   "FUS-SNP-004",
+   "MQ-FLE-006",
+   "MQ-RAL-001",
+   "MQ-CHR-001",
+   "MQ-ILO-003",
+   "VAL-FLE-001",
+   "TQ-SOL-013"
+  ],
+  "residu_plan_max_id": "MF-8000",
+  "residu_plan_max_m": 0.055058300495147705
+ },
+ "drape": {
+  "regle": "TQ-SOL-013 / CF-26 (un seul modèle de Z) ; MQ-DET-010",
+  "par_branche": {
+   "marquages_lignes": {
+    "sommets": 10064,
+    "ecart_modele_region_m": {
+     "n": 10052,
+     "p50": 0.0,
+     "p95": 0.0,
+     "max": 0.008
+    },
+    "hors_modele": 12,
+    "sommets_sur_marche_2cm": 12,
+    "part_sur_marche": 0.00119
+   },
+   "passages": {
+    "sommets": 4937,
+    "ecart_modele_region_m": {
+     "n": 4937,
+     "p50": 0.0,
+     "p95": 0.0,
+     "max": 0.001
+    },
+    "hors_modele": 0,
+    "sommets_sur_marche_2cm": 0,
+    "part_sur_marche": 0.0
+   },
+   "symboles": {
+    "sommets": 1812,
+    "ecart_modele_region_m": {
+     "n": 1812,
+     "p50": 0.0,
+     "p95": 0.0,
+     "max": 1e-05
+    },
+    "hors_modele": 0,
+    "sommets_sur_marche_2cm": 0,
+    "part_sur_marche": 0.0
+   },
+   "zones": {
+    "sommets": 2165,
+    "ecart_modele_region_m": {
+     "n": 2165,
+     "p50": 0.0,
+     "p95": 0.001,
+     "max": 0.016
+    },
+    "hors_modele": 0,
+    "sommets_sur_marche_2cm": 0,
+    "part_sur_marche": 0.0
+   },
+   "instances_symboles": {
+    "points": 85,
+    "ecart_origine_modele_m": {
+     "n": 85,
+     "p50": 6e-05,
+     "p95": 0.00115,
+     "max": 0.00163
+    }
+   }
+  }
+ },
+ "solide": {
+  "marquages_lignes": {
+   "aire_dessus_m2": 262.2382507324219,
+   "entites_franchissement": [
+    "ML-0798",
+    "ML-0799"
+   ],
+   "pieces": 402,
+   "points": 30161,
+   "primitives": 49466,
+   "regles": [
+    "TQ-SOL-013",
+    "CF-26",
+    "MQ-DET-010"
+   ],
+   "sommets_hors_region": 42
+  },
+  "passages": {
+   "aire_dessus_m2": 125.80231475830078,
+   "entites_franchissement": [],
+   "pieces": 113,
+   "points": 10935,
+   "primitives": 18642,
+   "regles": [
+    "TQ-SOL-013",
+    "CF-26",
+    "MQ-DET-010"
+   ],
+   "sommets_hors_region": 0
+  },
+  "symboles": {
+   "aire_dessus_m2": 21.712528228759766,
+   "entites_franchissement": [],
+   "pieces": 35,
+   "points": 4805,
+   "primitives": 8043,
+   "regles": [
+    "TQ-SOL-013",
+    "CF-26",
+    "MQ-DET-010"
+   ],
+   "sommets_hors_region": 0
+  },
+  "zones": {
+   "aire_dessus_m2": 29.7219181060791,
+   "entites_franchissement": [],
+   "pieces": 25,
+   "points": 5719,
+   "primitives": 9689,
+   "regles": [
+    "TQ-SOL-013",
+    "CF-26",
+    "MQ-DET-010"
+   ],
+   "sommets_hors_region": 0
+  }
+ },
+ "ancienne_fabrication": {
+  "ancienne": {
+   "fichier": "recon/out/paquet_jardin/v2/fabrique/marquages.usda",
+   "entites": 588
+  },
+  "nouvelle": {
+   "entites": 394,
+   "par_classe": {
+    "fleche": 26,
+    "ligne": 258,
+    "passage": 16,
+    "symbole": 81,
+    "transversale": 1,
+    "zone": 12
+   }
+  },
+  "communes": 216,
+  "seulement_ancienne": 372,
+  "seulement_nouvelle": 178,
+  "ecart_centroide_m": {
+   "n": 194,
+   "p50": 0.0279,
+   "p95": 0.1777,
+   "max": 4.8673
+  },
+  "rapport_aire_nouvelle_sur_ancienne": {
+   "n": 194,
+   "p50": 1.0,
+   "p95": 1.002,
+   "max": 4.282
+  },
+  "deplacees_plus_50cm": [
+   [
+    "ML-0113",
+    4.867
+   ],
+   [
+    "ML-0797",
+    0.939
+   ],
+   [
+    "ML-0799",
+    0.549
+   ]
+  ],
+  "note": "l'ancienne fabrication lisait la description 0.2 (597 entités, fantômes v1, axes v1) ; la nouvelle lit la description 0.3 (GAM d'abord, géométrie régularisée)"
+ }
+}

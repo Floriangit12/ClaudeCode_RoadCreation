@@ -1,0 +1,175 @@
+# Dialog script for pj::symbole_iisr::1.0 automatically generated
+
+{
+    name	pj::symbole_iisr::1.0
+    inputlabel	1	"Symboles (polygones décrits ou points)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Sol fabriqué (facultatif)"
+    outputlabel	1	"Maillages drapés (Y haut)"
+    outputlabel	2	"Points d'instances"
+    outputlabel	3	"Prototypes"
+    outputlabel	4	"Aperçu (instances empaquetées)"
+    script	pj::symbole_iisr::1.0
+    label	"PJ Marquage : symboles IISR (flèches, figurines, pictogrammes)"
+
+    help {
+    }
+
+    inputlabel	1	"Symboles (polygones décrits ou points)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Sol fabriqué (facultatif)"
+
+    group {
+        name    "f_symboles"
+        label   "Symboles"
+
+        parm {
+            name    "mode"
+            label   "Sortie des symboles"
+            type    ordinal
+            default { "0" }
+            help    "Instances : un point par symbole (sortie 2) et un prototype par forme et peinture (sortie 3) ; un symbole dont le sol s'écarte du plan de pose de plus de la tolérance est drapé (sortie 1)."
+            menu {
+                "instances" "Instances de prototypes (repli drapé si le sol n'est pas plan)"
+                "drape"     "Maillages drapés uniques"
+                "tout"      "Les deux (contrôle)"
+            }
+        }
+        parm {
+            name    "tol_plan"
+            label   "Tolérance de planéité du sol (m)"
+            type    float
+            default { "0.001" }
+            help    "Résidu max du plan de pose (moindres carrés, sur le sol fabriqué s'il est branché) au-delà duquel le symbole est drapé. TQ-MQG-006 : prototype rigide seulement si le sol est plan à 1 mm près."
+            range   { 0 0.05 }
+        }
+        parm {
+            name    "tol_gabarit"
+            label   "Tolérance d'écart au gabarit (m)"
+            type    float
+            default { "0.03" }
+            help    "Écart max entre le contour décrit et le gabarit IISR posé pour utiliser le gabarit exact (FUS-SNP-004) ; au-delà : forme décrite (glyphe)."
+            range   { 0 0.5 }
+        }
+        parm {
+            name    "glyphes_drapes"
+            label   "Glyphes hors gabarit drapés"
+            type    toggle
+            default { "0" }
+            help    "Formes décrites sans gabarit (PMR, chiffres) en maillages drapés plutôt qu'en instances."
+        }
+        parm {
+            name    "corde"
+            label   "Erreur de corde des disques (m)"
+            type    float
+            default { "0.001" }
+            help    "marquages_geometrie.repere.discretisation : 1 mm."
+            range   { 0.0001 0.01 }
+        }
+        parm {
+            name    "bibliotheque_ue"
+            label   "Dossier Unreal des prototypes"
+            type    string
+            default { "/Game/PJ/Lib/Marquages" }
+            help    "unreal_instance = <dossier>/SM_<asset>.SM_<asset>."
+        }
+        parm {
+            name    "couche_lib"
+            label   "Couche USD des prototypes"
+            type    string
+            default { "PJ_Lib_Marquages" }
+        }
+        parm {
+            name    "pivot_prototypes"
+            label   "Pivot des prototypes (pj_points)"
+            type    string
+            default { "origine du gabarit IISR (flèches : milieu du pied de la tige ; formes : centre ; dent de requin : milieu de la base ; chevron : pointe ; glyphes : centroïde), +X = sens de circulation, +Y à gauche, z = 0 au sol (peinture de -5 à +3 mm)" }
+            help    "Recopié dans le champ pivot de points/symboles.json par le pilote."
+        }
+        parm {
+            name    "sens_cd"
+            label   "Sens de cd (pj_points)"
+            type    string
+            default { "cd = [couverture de peinture 0-1, usure 0-1 (classes IISR 0, 1, 2, 3, F -> 0, 1/3, 2/3, 1, 1)]" }
+            help    "Recopié dans le champ cd de points/symboles.json par le pilote."
+        }
+        parm {
+            name    "spec"
+            label   "Spécification des marquages"
+            type    file
+            default { "D:/ClaudeCode_RoadCreation/assets/specs/marquages_geometrie.json" }
+        }
+    }
+
+    group {
+        name    "f_solide"
+        label   "Peinture (solide)"
+
+        parm {
+            name    "epaisseur"
+            label   "Épaisseur au-dessus du sol (m)"
+            type    float
+            default { "0.003" }
+            range   { 0 0.02 }
+        }
+        parm {
+            name    "enfouissement"
+            label   "Enfouissement des flancs (m)"
+            type    float
+            default { "0.005" }
+            range   { 0 0.05 }
+        }
+        parm {
+            name    "chanfrein"
+            label   "Chanfrein des arêtes du dessus (m)"
+            type    float
+            default { "0.001" }
+            range   { 0 0.005 }
+        }
+        parm {
+            name    "pas_maillage"
+            label   "Pas du maillage de drapé (m)"
+            type    float
+            default { "0.25" }
+            range   { 0.02 5 }
+        }
+        parm {
+            name    "draper"
+            label   "Draper sur le nivellement (entrée 2)"
+            type    toggle
+            default { "1" }
+        }
+        parm {
+            name    "mode_region"
+            label   "Région de drapé"
+            type    ordinal
+            default { "1" }
+            menu {
+                "piece"     "Région majoritaire de la pièce"
+                "attribut"  "Attribut pj_region (région du plan de pose)"
+                "point"     "Région de chaque sommet (suit les marches)"
+            }
+        }
+        parm {
+            name    "seuil_franchissement"
+            label   "Seuil de franchissement (m)"
+            type    float
+            default { "0.02" }
+            range   { 0 0.2 }
+        }
+        parm {
+            name    "couche"
+            label   "Couche USD (pj_couche)"
+            type    string
+            default { "PJ_Marquages" }
+        }
+        parm {
+            name    "cusp"
+            label   "Angle de rupture des normales (°)"
+            type    float
+            default { "30" }
+            range   { 0 180 }
+        }
+    }
+
+}

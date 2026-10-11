@@ -1,0 +1,132 @@
+# Dialog script for pj::marquage_solide::1.0 automatically generated
+
+{
+    name	pj::marquage_solide::1.0
+    inputlabel	1	"Empreintes (polygones plans)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Sol fabriqué (facultatif)"
+    outputlabel	1	"Maillages (Y haut)"
+    script	pj::marquage_solide::1.0
+    label	"PJ Marquage solide (empreintes -> maillage)"
+
+    help {
+    }
+
+    inputlabel	1	"Empreintes (polygones plans)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Sol fabriqué (facultatif)"
+
+    group {
+        name    "f_forme"
+        label   "Forme"
+
+        parm {
+            name    "epaisseur"
+            label   "Épaisseur au-dessus du sol (m)"
+            type    float
+            default { "0.003" }
+            help    "Dessus de la peinture au-dessus du sol (marquages_geometrie.repere.gabarits : posé à +3 mm)."
+            range   { 0 0.02 }
+        }
+        parm {
+            name    "enfouissement"
+            label   "Enfouissement des flancs (m)"
+            type    float
+            default { "0.005" }
+            help    "Les flancs descendent sous le sol : aucun jour entre peinture et chaussée même si le maillage du sol s'écarte de quelques mm du modèle."
+            range   { 0 0.05 }
+        }
+        parm {
+            name    "chanfrein"
+            label   "Chanfrein des arêtes du dessus (m)"
+            type    float
+            default { "0.001" }
+            help    "PolyBevel sur les arêtes vives du dessus (0 : aucun)."
+            range   { 0 0.005 }
+        }
+        parm {
+            name    "pas_maillage"
+            label   "Pas du maillage de drapé (m)"
+            type    float
+            default { "0.25" }
+            help    "Longueur d'arête cible de Triangulate 2D (raffinement) : le dessus suit le bombement et le dévers de la chaussée."
+            range   { 0.02 5 }
+        }
+    }
+
+    group {
+        name    "f_drape"
+        label   "Drapé"
+
+        parm {
+            name    "draper"
+            label   "Draper sur le nivellement (entrée 2)"
+            type    toggle
+            default { "1" }
+            help    "Sans entrée 2 ou décoché : maillage à plat (prototype de bibliothèque)."
+        }
+        parm {
+            name    "mode_region"
+            label   "Région de drapé"
+            type    ordinal
+            default { "0" }
+            help    "Une pièce drapée dans une seule région ne franchit jamais une marche de bordure (TQ-SOL-013)."
+            menu {
+                "piece"     "Région majoritaire de la pièce"
+                "attribut"  "Attribut pj_region (sinon majoritaire)"
+                "point"     "Région de chaque sommet (suit les marches)"
+            }
+        }
+        parm {
+            name    "seuil_franchissement"
+            label   "Seuil de franchissement (m)"
+            type    float
+            default { "0.02" }
+            help    "Écart entre l'altitude de la pièce et celle du nœud propriétaire au-delà duquel l'entité est signalée (détail pj_marquage_controles)."
+            range   { 0 0.2 }
+        }
+        parm {
+            name    "sur_sol"
+            label   "Draper sur le sol fabriqué (entrée 3)"
+            type    toggle
+            default { "1" }
+            help    "Altitude lue sur le sol maillé par pj::sol (rayon vertical, région de la pièce d'abord) au lieu du seul modèle de nivellement (TQ-MQG-005). Sans entrée 3 : modèle."
+        }
+        parm {
+            name    "portee_sol"
+            label   "Portée de la recherche du sol (m)"
+            type    float
+            default { "0.4" }
+            help    "Demi-hauteur du rayon vertical centré sur l'altitude du modèle."
+            range   { 0.01 2 }
+        }
+    }
+
+    group {
+        name    "f_sortie"
+        label   "Sortie"
+
+        parm {
+            name    "couche"
+            label   "Couche USD (pj_couche)"
+            type    string
+            default { "PJ_Marquages" }
+        }
+        parm {
+            name    "cusp"
+            label   "Angle de rupture des normales (°)"
+            type    float
+            default { "30" }
+            help    "Normal SOP par sommet (contrat E2, pj:cusp_deg)."
+            range   { 0 180 }
+        }
+        parm {
+            name    "ombre"
+            label   "Ombre portée dans Unreal"
+            type    toggle
+            default { "0" }
+            help    "unreal_uproperty_CastShadow (Houdini Engine)."
+        }
+    }
+
+}

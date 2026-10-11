@@ -302,7 +302,7 @@ autre arbre), -009, -012, -023/-025 (sous-zones), -056…-062 (absences attendue
 08/2024). Limites : aucune image Mapillary postérieure au 18/05/2025 (cœur du carrefour : rien de valable 2026) ;
 la fusion 0.2 lit `obs_mapillary.json` (source `mly:`, photo classée selon sa date).
 
-## Fusion du recensement (`fusion_recensement.py` 0.2) et contrôle automatique (`controle_auto.py`)
+## Fusion du recensement (`fusion_recensement.py` 0.3) et contrôle automatique (`controle_auto.py`)
 
 `python fusion_recensement.py [--sans-carte]` lit **tous** les `recensement/obs_*.json` (ordre alphabétique) et
 `web/obs_web.json`, plus les arbitrages de revue `description/enrichi/arbitrages_fusion.json`, et écrit la couche
@@ -321,4 +321,24 @@ la fusion 0.2 lit `obs_mapillary.json` (source `mly:`, photo classée selon sa d
   ancrer_bord_ilot, mesure_position) ;
 - chronologie des présences / absences (FUS-EXI-03) ; couverture par tranche de date de la preuve concluante
   (2026, 2025, 2020-2024, ortho 2022 ; FUS-COUV-01) dans `couverture.json` et `couverture_preuves.png`.
+
+Nouveautés de la 0.3 (critique de couverture du 10/10/2026) :
+
+- deux couvertures : **large** (FUS-COUV-01, définition 0.2, comparaison) et **stricte** (FUS-COUV-02 : au moins une
+  observation image manuelle, confiance moyenne ou haute, valide 2026, probante) ; le statut « confirmé »
+  (FUS-STAT-01), l'application d'un déplacement, d'un attribut (FUS-ATT-06) ou d'un retrait (FUS-EXI-04) et la carte
+  utilisent la stricte ;
+- validité « incertaine » : jamais une preuve de présence ni d'absence (FUS-VAL-04) ; constat « indépendant de la
+  date » limité aux projections à 15 m au plus (FUS-VAL-02) ; confiance plafonnée à « faible » au-delà de 20 m
+  (FUS-CONF-02) ;
+- classes de date relatives aux travaux (FUS-DATE-02) : après travaux, avant travaux hors emprise, avant travaux dans
+  l'emprise (± 3 m, au point observé) — ces dernières ne valent qu'avec un appui de règle (FUS-SRC-001 : marquage
+  conservé, bordure levée GAM hors périmètre refait, surface inchangée, objet attesté après les travaux) ; zone des
+  travaux étendue aux surfaces vues refaites en 2026 (FUS-ZONE-01 : S-0268a, chaussée du Vercors) ;
+- liens groupés sur une photo (≥ 3 entités) : seules les entités citées dans la preuve sont prouvées (FUS-LIEN-09) ;
+- contrôles automatiques des bordures requalifiés comme ceux des marquages (FUS-AUTO-01/02 : masque et réponse de
+  ligne fine ou d'arête) ;
+- vote des attributs de bordure (vue, profil, abaissé) depuis les textes libres, par intervalle de la description,
+  et contradictions de vue signalées sans jamais être appliquées (FUS-BOR-01..03) ;
+- arbitrages `invalider_observation` et `constat_revue` (FUS-ARB-01).
 

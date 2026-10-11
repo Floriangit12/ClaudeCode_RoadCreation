@@ -1,16 +1,20 @@
 {
- "schema": "pj_enrichi_arbitrages/0.1",
+ "schema": "pj_enrichi_arbitrages/0.2",
  "role": "décisions de revue appliquées par fusion_recensement.py (règle FUS-ARB-01). Fichier d'entrée tenu à la main : la fusion le lit, ne l'écrit jamais. Clés = identifiants d'observations (stables) ; jamais les ENR-* (renumérotés à chaque exécution).",
  "actions": {
   "ne_pas_instancier": "l'ajout qui contient l'observation reste candidat (instancier = false), avec le motif",
   "ancrer_bord_ilot": "l'ajout ponctuel est ramené au point le plus proche du bord d'un îlot ou d'un espace vert (classes_hote) dans rayon_m, puis décalé de retrait_m vers l'intérieur",
-  "mesure_position": "les coordonnées de l'observation deviennent une mesure de position de l'entité (methode, sigma_m), pondérée par confiance x validité (FUS-POS-01) ; les règles FUS-POS-05/06 s'appliquent ensuite"
+  "mesure_position": "les coordonnées de l'observation deviennent une mesure de position de l'entité (methode, sigma_m), pondérée par confiance x validité (FUS-POS-01) ; les règles FUS-POS-05/06 s'appliquent ensuite",
+  "invalider_observation": "le lien de l'observation aux entités listées (toutes si « entites » est absent) devient « incertain » : ni présence, ni absence, ni attribut, ni couverture (erreur de projection, occultation reconnue par une revue)",
+  "constat_revue": "chaque constat devient une observation « REV-<id>-<k> » (agent revue) : source_image, date_image, classe, statut, confiance et note du constat, position = point de l'entité ; « a_verifier » : un retrait qui n'en dépend ne peut être que « absent_2026_a_verifier » (FUS-EXI-04)"
  },
  "arbitrages": [
   {
    "id": "ARB-001",
    "action": "ne_pas_instancier",
-   "obs": ["ORTHO-B-187"],
+   "obs": [
+    "ORTHO-B-187"
+   ],
    "ajout_au_10_10_2026": "ENR-PON-011",
    "motif": "tache d'enrobé sombre aux bords flous, sans anneau ni cadre : pas un tampon (le tampon rond voisin, net, est un autre objet)",
    "source": "critique de complétude du 10/10/2026 (revue visuelle des ajouts instanciés)",
@@ -23,9 +27,17 @@
   {
    "id": "ARB-002",
    "action": "ancrer_bord_ilot",
-   "obs": ["VISION-PANORAMAX-1-78"],
+   "obs": [
+    "VISION-PANORAMAX-1-78"
+   ],
    "ajout_au_10_10_2026": "ENR-MAT-005",
-   "parametres": {"rayon_m": 3.0, "retrait_m": 0.3, "classes_hote": ["espace_vert"]},
+   "parametres": {
+    "rayon_m": 3.0,
+    "retrait_m": 0.3,
+    "classes_hote": [
+     "espace_vert"
+    ]
+   },
    "motif": "le mât (4,5 m, gris clair) se dresse dans le petit îlot planté rond bordé, à la sortie de la voie privée des Saules Blancs (photo 81f3f695 du 24/08/2024) ; le rayon au sol vient d'une pose a priori (± 1,5 m) et tombe 1,3 m hors de l'îlot, sur le trottoir",
    "source": "critique de complétude du 10/10/2026 ; îlot vérifié sur l'IGN 2024 (20 cm) et sur la photo",
    "preuves": [
@@ -36,15 +48,95 @@
   {
    "id": "ARB-003",
    "action": "mesure_position",
-   "obs": ["DOC-LOCALE-018"],
+   "obs": [
+    "DOC-LOCALE-018"
+   ],
    "entite": "arbre_224",
-   "parametres": {"methode": "coordonnees_inventaire", "sigma_m": 3.0},
+   "parametres": {
+    "methode": "coordonnees_inventaire",
+    "sigma_m": 3.0
+   },
    "motif": "le point de l'inventaire Métropole MEY00085 (peuplier noir) est à 1,2 m du tronc triangulé par VISION-PANORAMAX-2-13 et à 8,5 m de arbre_224 (levé GAM) : deux sources indépendantes concordent ; σ 3 m (écarts de 2 à 4 m constatés entre inventaire et levé). Mapillary (MLY) juge que la position proposée vise un autre arbre : déplacement soumis à revue (FUS-POS-06), un ou deux sujets à trancher sur le terrain (station S2)",
    "source": "critique de complétude du 10/10/2026",
    "preuves": [
     "recon/out/paquet_jardin/v2/enrichi/recensement/web/preuves/patrimoine_arbore_gam2023_site.json",
     "recon/out/paquet_jardin/v2/enrichi/recensement/pano_2/preuves/7651c539_L_tronc.jpg",
     "recon/out/paquet_jardin/v2/description/enrichi/arbitrages/ARB-003_arbre_224_ortho2022.jpg"
+   ]
+  },
+  {
+   "id": "ARB-004",
+   "action": "invalider_observation",
+   "obs": [
+    "MLY-MAR-017"
+   ],
+   "entites": [
+    "ML-5342"
+   ],
+   "motif": "projection de la description à 25,9 m (image Mapillary 1546760642583408 du 24/08/2024) tombée sur la haie qui masque les places depuis Verdun : erreur de projection et occultation, pas un artefact de la description (le constat « faux positif indépendant de la date » est faux) ; la photo du 28/07/2026 (f8d91bb1) montre des places en enrobé à cet endroit",
+   "source": "critique de couverture du 10/10/2026 (vérification 5)",
+   "preuves": [
+    "recon/out/paquet_jardin/v2/enrichi/recensement/mapillary/preuves/marquages/ML-5342__1546760642583408.jpg",
+    "recon/out/paquet_jardin/v2/description/enrichi/arbitrages/ARB-005_ML-5342_ML-5343_f8d91bb1_2026-07-28.jpg"
+   ]
+  },
+  {
+   "id": "ARB-005",
+   "action": "constat_revue",
+   "obs": [
+    "PANO2026-014"
+   ],
+   "source_image": "pnx:f8d91bb1-694d-47fd-b2a4-3f16b57378bb",
+   "date_image": "2026-07-28T13:39:04",
+   "classe": "marquage",
+   "valide_2026": true,
+   "validite": "photo Panoramax du 28/07/2026, postérieure aux travaux (fin 05/12/2025)",
+   "a_verifier": true,
+   "constats": [
+    {
+     "entite": "ML-5342",
+     "statut": "absent_sur_image",
+     "confiance": "moyenne",
+     "sous_type": "lignes_stationnement",
+     "note": "place à l'est de la Dacia vue en entier, de près : enrobé gris et butée béton, aucune ligne blanche le long du tracé décrit (peinture absente ou effacée en 2026)"
+    },
+    {
+     "entite": "ML-5343",
+     "statut": "absent_sur_image",
+     "confiance": "faible",
+     "sous_type": "lignes_stationnement",
+     "note": "tracé en grande partie sous la Dacia et son ombre ; l'extrémité visible côté trottoir n'a aucune peinture"
+    },
+    {
+     "entite": "ML-5341",
+     "statut": "absent_sur_image",
+     "confiance": "faible",
+     "sous_type": "lignes_stationnement",
+     "note": "au bord droit du cadre, au-delà de ML-5342 : enrobé et butée béton, aucune ligne blanche lisible ; vue partielle"
+    }
+   ],
+   "motif": "PANO2026-014 confirmait 10 places par un lien groupé alors que ses pixels de preuve ne citent que ML-5339, ML-5340 et ML-5344 ; sur f8d91bb1, les places à l'est de la Dacia sont en enrobé avec des butées béton, sans aucune ligne blanche. Verdict de la revue : « peinture absente ou effacée en 2026, à vérifier », pas « présent » (station S13)",
+   "source": "critique de couverture du 10/10/2026 (vérification 4), relue sur la vue f8d91bb1_nord",
+   "preuves": [
+    "recon/out/paquet_jardin/v2/description/enrichi/arbitrages/ARB-005_ML-5342_ML-5343_f8d91bb1_2026-07-28.jpg",
+    "recon/out/paquet_jardin/v2/description/enrichi/arbitrages/ARB-005_f8d91bb1_2026-07-28_brut.jpg",
+    "recon/out/paquet_jardin/v2/enrichi/recensement/pano_2026/vues/f8d91bb1_nord_ov.jpg"
+   ]
+  },
+  {
+   "id": "ARB-006",
+   "action": "invalider_observation",
+   "obs": [
+    "MLY-BOR-027"
+   ],
+   "entites": [
+    "K-0358"
+   ],
+   "motif": "la ligne projetée (16,7 m) tombe sur la limite pelouse / haie vue depuis Verdun ; sur le PCRS 2022, K-0358 est la bordure du parking, derrière la haie : masquée sur la photo, ce n'est pas une preuve (occultation)",
+   "source": "critique de couverture du 10/10/2026 (vérification 10)",
+   "preuves": [
+    "recon/out/paquet_jardin/v2/description/enrichi/arbitrages/ARB-006_K-0358_pcrs2022.jpg",
+    "recon/out/paquet_jardin/v2/enrichi/recensement/mapillary/preuves/bordures/K-0358__1063579012136373.jpg"
    ]
   }
  ]

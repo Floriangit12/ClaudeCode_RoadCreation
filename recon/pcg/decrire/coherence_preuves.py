@@ -1,16 +1,18 @@
-"""Preuves des corrections du solveur de cohérence : planches Panoramax + ortho 2022, triangulation.
+"""Planches de preuve du solveur de cohérence v2 : photos calées (P1), porte géométrique (P2), orthos.
 
-Planche d'une correction (déplacement > 0,3 m ou réorientation > 20°) :
-- 2 à 4 photos Panoramax CALÉES (poses acceptées de enrichi/poses/poses.json) dont la date rend
-  l'objet valide (objet inchangé : toute date ; objet posé ou déduit pour 2026 : aucune) et qui
-  voient les deux positions à moins de 30 m ; vignette perspective avec l'axe du support à la
-  position d'origine (magenta, « A ») et à la position corrigée (cyan, « C »), arête avant de la
-  bordure de référence projetée (jaune) ; pour une réorientation : face vue ou dos attendu pour
-  chaque hypothèse ;
-- ortho 5 cm 2022 avec les deux positions, les flèches de face, les bordures et les zones.
-La décision est prise par lecture des planches (revue_coherence.json, verdicts de Claude) ; une
-planche ambiguë garde la position d'origine si elle est légale, sinon la correction par la règle
-avec une confiance faible.
+Planche d'une décision (déplacement > 0,3 m, réorientation > 20°, mesure appliquée, anomalie, non résolu,
+conflit de spec, indice d'ombre) :
+- jusqu'à 4 vignettes de photos CALÉES (coherence_poses : Panoramax 2024-2025 et 2026, Mapillary calées),
+  valides à la date de l'objet, décisives d'abord ; axes des hypothèses A (origine, magenta), C (résolue,
+  cyan), S (spec, orange), T (triangulée, vert), M (mesure retenue, blanc), F (fusion en revue, jaune),
+  O (pied par l'ombre, rouge) ; bordure de référence (jaune) ; pied de chaque vignette : séparation
+  angulaire A↔C rapportée au σ de la pose (« 2,7σ ») et décisivité (P2) ;
+- tableau de la porte géométrique pour chaque paire (A, X) sur TOUTES les photos calées valides : nombre
+  de photos discriminantes (> 3σ, pose décisive), angle d'intersection maximal, verdict (complet / latéral /
+  non observable) et composante validée ;
+- ortho PCRS 5 cm 2022 graduée tous les 0,25 m le long de A -> C (lecture chiffrée, P16), ombre détectée
+  (P10) ; ortho IGN 20 cm 2024.
+Les vignettes de photos de tiers restent locales (*.jpg ignorés par git) ; l'attribution est écrite.
 """
 import math
 import sys
@@ -18,18 +20,17 @@ import sys
 import numpy as np
 from PIL import Image, ImageDraw
 
+import coherence_poses as PO
 from coherence_carte import COHERENCE, azimut, ecart_angle
 from commun import RACINE, point_a
 
 sys.path.insert(0, str(RACINE / "recon/pcg/enrichir"))
-from camera import camera_calee, charger_poses, image_rgb, photo  # noqa: E402
-from projection import camera_virtuelle, ortho_mosaique, projeter, reechantillonner  # noqa: E402
+from projection import camera_virtuelle, reechantillonner  # noqa: E402
 
 PLANCHES = COHERENCE / "planches"
 
 
 def _police(taille=13):
-    """Police TrueType avec accents (Arial de Windows ou DejaVu), sinon police bitmap par défaut."""
     from PIL import ImageFont
     for nom in ("arial.ttf", "C:/Windows/Fonts/arial.ttf", "DejaVuSans.ttf"):
         try:
@@ -42,45 +43,13 @@ def _police(taille=13):
 POLICE = _police(13)
 POLICE_P = _police(11)
 TAILLE = 360
-COUL = {"A": (255, 0, 255), "C": (0, 230, 255), "S": (255, 170, 0), "T": (0, 255, 0)}
+COUL = {"A": (255, 0, 255), "C": (0, 230, 255), "S": (255, 170, 0), "T": (0, 255, 0), "M": (255, 255, 255),
+        "F": (255, 255, 0), "O": (255, 60, 60), "R": (160, 160, 255)}
 
 
-def _poses():
-    if not hasattr(_poses, "c"):
-        _poses.c = charger_poses()
-    return _poses.c
-
-
-def photos_calees(P, h, valide, n=4, dmax=40.0):
-    """Photos calées acceptées, valides pour l'objet, voyant le pied et le sommet de toutes les
-    positions P (liste de (x, y, z)) à moins de dmax : [(score, pid, d, cam)] triés."""
-    out = []
-    for pid, rec in sorted(_poses().items()):
-        if not rec.get("accepte") or not valide(rec["date"]):
-            continue
-        cam, st = camera_calee(pid, _poses())
-        if st != "calee":
-            continue
-        pts = np.vstack([np.asarray(P, float), np.asarray(P, float) + [0, 0, h]])
-        r = projeter(pts, pid, cam=cam, dmax=dmax)
-        if not r["visible"].all():
-            continue
-        c = cam.monde_vers_cam(pts)
-        lat = np.degrees(np.arctan2(c[:, 2], np.hypot(c[:, 0], c[:, 1])))
-        lat_min = photo(pid).seq.get("lat_min", -30.0)
-        if np.any(lat < lat_min + 1.0):
-            continue
-        d = float(r["distance"].min())
-        if d < 1.5:
-            continue
-        res_px = rec["qualite"]["residu_moy_px"]
-        out.append((cam.px_par_rad / d / (1 + res_px / 4), pid, d, cam))
-    out.sort(key=lambda t: (-t[0], t[1]))
-    return out[:n]
-
-
-def _vignette(pid, cam, hyps, h, bordures, azimuts, taille=TAILLE):
-    """Vue perspective centrée sur les hypothèses ; axes des supports et bordure projetés."""
+def _vignette(p, hyps, h, bordures, azimuts, gates, taille=TAILLE):
+    """Vue perspective centrée sur les hypothèses, axes projetés, pied : porte A↔X de cette photo."""
+    cam = p["cam"]
     P = np.array([q["p3"] for q in hyps])
     M = P.mean(axis=0) + [0, 0, h / 2]
     d3 = M - cam.C
@@ -92,7 +61,7 @@ def _vignette(pid, cam, hyps, h, bordures, azimuts, taille=TAILLE):
     lac = math.degrees(math.atan2(d3[0], d3[1])) % 360
     tan = math.degrees(math.atan2(d3[2], math.hypot(d3[0], d3[1])))
     cv = camera_virtuelle(cam, lac, tan, fov, taille)
-    img = reechantillonner(cam, image_rgb(pid).astype(np.float32), cv)
+    img = reechantillonner(cam, PO.image_rgb(p).astype(np.float32), cv)
     im = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8))
     dr = ImageDraw.Draw(im)
     for B in bordures:
@@ -100,7 +69,7 @@ def _vignette(pid, cam, hyps, h, bordures, azimuts, taille=TAILLE):
         pts = [tuple(x) for x, k in zip(uv, ok) if k]
         if len(pts) > 1:
             dr.line(pts, fill=(255, 255, 0), width=1)
-    lignes = []
+    faces = []
     for q in hyps:
         A = q["p3"]
         S = A + [0, 0, h]
@@ -113,47 +82,68 @@ def _vignette(pid, cam, hyps, h, bordures, azimuts, taille=TAILLE):
             u, v = uv[0]
             dr.line([(u - 6, v), (u + 6, v)], fill=col, width=2)
             dr.text((uv[-1][0] + 3, uv[-1][1] - 12), q["cle"], fill=col, font=POLICE)
-        if q.get("az") is not None:
+        if azimuts and q.get("az") is not None:
             cam_az = azimut(cam.C[:2] - A[:2])
             e = ecart_angle(q["az"], cam_az)
-            lignes.append(f"{q['cle']}: {'FACE' if e < 80 else 'DOS' if e > 100 else 'TRANCHE'} ({e:.0f}°)")
+            faces.append(f"{q['cle']}:{'face' if e < 80 else 'dos' if e > 100 else 'tranche'} {e:.0f}°")
     dr.rectangle([0, 0, taille, 14], fill=(0, 0, 0))
-    ph = photo(pid)
-    dr.text((2, 0), f"{pid} {ph.date} d={dist:.1f} m", fill=(255, 255, 255), font=POLICE_P)
-    if lignes:
-        dr.rectangle([0, taille - 14, taille, taille], fill=(0, 0, 0))
-        dr.text((2, taille - 13), "  ".join(lignes), fill=(255, 255, 255), font=POLICE_P)
+    dr.text((2, 0), f"{p['id']} {p['date']} d={dist:.1f} m {'décisive' if p['decisive'] else 'non décisive'}",
+            fill=(255, 255, 255), font=POLICE_P)
+    pied = []
+    for cle, g in gates:
+        x = [l for l in g["photos"] if l["photo"] == p["id"]]
+        if x:
+            pied.append(f"A-{cle} {x[0]['separation_deg']:.2f}°={x[0]['rapport']:.1f}σ")
+    lignes = ["  ".join(pied)] + (["  ".join(faces)] if faces else [])
+    y0 = taille - 14 * len(lignes)
+    dr.rectangle([0, y0, taille, taille], fill=(0, 0, 0))
+    for k, l in enumerate(lignes):
+        dr.text((2, y0 + 14 * k), l[:70], fill=(255, 255, 255), font=POLICE_P)
     return im
 
 
-def _ortho(carte, hyps, bordures, cote_m, taille=TAILLE):
-    img, ox0, oy1 = ortho_mosaique()
+def _ortho(nom, hyps, bordures, cote_m, taille=TAILLE, graduer=None, ombre=None):
+    import coherence_ombres as CO
     P = np.array([q["p3"][:2] for q in hyps])
     c = P.mean(axis=0)
-    demi = max(cote_m / 2, float(np.max(np.abs(P - c))) + 3.0)
-    x0, y0, x1, y1 = c[0] - demi, c[1] - demi, c[0] + demi, c[1] + demi
-    pas = 0.05
-    c0, c1 = int((x0 - ox0) / pas), int((x1 - ox0) / pas)
-    r0, r1 = int((oy1 - y1) / pas), int((oy1 - y0) / pas)
-    a = (np.clip(img[max(r0, 0):r1, max(c0, 0):c1], 0, 1) * 255).astype(np.uint8)
-    im = Image.fromarray(a).convert("RGB").resize((taille, taille))
+    demi = max(cote_m / 2, float(np.max(np.abs(P - c))) + 2.0)
+    g = np.linspace(-demi, demi, taille)
+    X, Y = np.meshgrid(g, -g)
+    V = CO.echantillonner(nom, np.stack([c[0] + X, c[1] + Y], -1))
+    im = Image.fromarray((np.clip(np.nan_to_num(V), 0, 1) * 255).astype(np.uint8)).convert("RGB")
     sc = taille / (2 * demi)
-    to = lambda x, y: ((x - x0) * sc, (y1 - y) * sc)
+    to = lambda x, y: ((x - c[0] + demi) * sc, (c[1] - y + demi) * sc)
     dr = ImageDraw.Draw(im)
-    # zones dérivées (contours légers) : passages, abaissés, îlots peints
     for B in bordures:
-        dr.line([to(*p) for p in B[:, :2]], fill=(255, 40, 40), width=2)
+        dr.line([to(*q) for q in B[:, :2]], fill=(255, 40, 40), width=1)
+    if graduer is not None:
+        A, Cc = np.asarray(graduer[0], float), np.asarray(graduer[1], float)
+        L = float(np.hypot(*(Cc - A)))
+        if L > 0.05:
+            u = (Cc - A) / L
+            n = np.array([-u[1], u[0]])
+            dr.line([to(*A), to(*Cc)], fill=(255, 255, 255), width=1)
+            for k, s in enumerate(np.arange(0.0, L + 1e-6, 0.25)):
+                q = A + u * s
+                lg = 0.18 if k % 4 == 0 else 0.08
+                dr.line([to(*(q - n * lg)), to(*(q + n * lg))], fill=(255, 255, 255), width=1)
+    if ombre is not None:
+        q = np.asarray(ombre["xy"], float)
+        a = math.radians(ombre["az_ombre_grille"])
+        e = q + 2.0 * np.array([math.sin(a), math.cos(a)])
+        dr.line([to(*q), to(*e)], fill=COUL["O"], width=1)
     for q in hyps:
         u, v = to(*q["p3"][:2])
         col = COUL.get(q["cle"], (255, 255, 255))
-        dr.ellipse([u - 6, v - 6, u + 6, v + 6], outline=col, width=2)
-        dr.text((u + 7, v - 14), q["cle"], fill=col, font=POLICE)
+        dr.ellipse([u - 5, v - 5, u + 5, v + 5], outline=col, width=2)
+        dr.text((u + 6, v - 14), q["cle"], fill=col, font=POLICE)
         if q.get("az") is not None:
             a_ = math.radians(q["az"])
-            L = 1.6 * sc
-            dr.line([(u, v), (u + L * math.sin(a_), v - L * math.cos(a_))], fill=col, width=2)
+            Lp = 1.4 * sc
+            dr.line([(u, v), (u + Lp * math.sin(a_), v - Lp * math.cos(a_))], fill=col, width=2)
     dr.rectangle([0, 0, taille, 13], fill=(0, 0, 0))
-    dr.text((2, 0), f"ortho 5 cm 2022  {2 * demi:.0f} m  (bordures 2026 en rouge)", fill=(255, 255, 255), font=POLICE_P)
+    lib = "ortho PCRS 5 cm 2022-05-10" if nom == "pcrs2022" else "ortho IGN 20 cm 2024-08-09"
+    dr.text((2, 0), f"{lib}  {2 * demi:.0f} m  graduation 0,25 m A→C", fill=(255, 255, 255), font=POLICE_P)
     return im
 
 
@@ -173,16 +163,41 @@ def bordures_proches(carte, c, rayon=9.0):
     return out
 
 
-def planche(carte, ident, titre, hyps, h, valide, chemin, azimuts=False, n=4, notes=()):
-    """hyps : [dict(cle 'A'|'C'|'S'|'T', p (2,), az)] ; renvoie (chemin, photos utilisées)."""
+def portes(hyps, photos):
+    """Porte géométrique (P2) de chaque hypothèse X ≠ A contre A, sur toutes les photos valides."""
+    A = [q for q in hyps if q["cle"] == "A"]
+    if not A:
+        return []
+    out = []
+    for q in hyps:
+        if q["cle"] == "A" or float(np.hypot(*(np.asarray(q["p"]) - np.asarray(A[0]["p"])))) < 0.05:
+            continue
+        out.append((q["cle"], PO.porte(A[0]["p"], q["p"], photos)))
+    return out
+
+
+def planche(carte, ident, titre, hyps, h, valide, chemin, azimuts=False, n=4, notes=(), ombre=None, faire=True):
+    """hyps : [dict(cle, p (2,), az)] ; renvoie (chemin, photos utilisées, portes)."""
     for q in hyps:
         p = np.asarray(q["p"], float)
         q["p3"] = np.r_[p, float(carte.z_sol(p[None])[0])]
+    photos = PO.photos_pour([q["p3"] for q in hyps], h, valide, dmax=40.0)
+    gates = portes(hyps, photos)
+    # vignettes : poses décisives ou calées sur GCP ; les poses Mapillary recalées sur les bordures (erreurs de 1 à
+    # 3 m constatées sur les planches) restent dans la porte (non décisives) mais ne sont pas montrées
+    sel = [x for x in photos if x[1]["statut_pose"] != "calee_bordures"][:n]
+    info = [dict(photo=p["id"], date=p["date"], plateforme=p["plateforme"], statut_pose=p["statut_pose"],
+                 decisive=p["decisive"], distance_m=round(d, 1), attribution=p["attribution"]) for _, p, d in sel]
+    if not faire:
+        return chemin, info, gates
     c = np.mean([q["p"] for q in hyps], axis=0)
     B = bordures_proches(carte, c)
-    sel = photos_calees([q["p3"] for q in hyps], h, valide, n=n)
-    vign = [_vignette(pid, cam, hyps, h, B, azimuts) for _, pid, d, cam in sel]
-    orth = _ortho(carte, hyps, B, 10.0)
+    vign = [_vignette(p, hyps, h, B, azimuts, gates) for _, p, d in sel]
+    A = [q for q in hyps if q["cle"] == "A"]
+    Cq = [q for q in hyps if q["cle"] == "C"] or [q for q in hyps if q["cle"] in ("M", "S", "T", "F", "O")]
+    grad = (A[0]["p"], Cq[0]["p"]) if A and Cq else None
+    o22 = _ortho("pcrs2022", hyps, B, 8.0, graduer=grad, ombre=ombre)
+    o24 = _ortho("ign2024", hyps, B, 8.0, graduer=grad)
     W = TAILLE * max(4, len(vign))
     H = 34 + (TAILLE if vign else 0) + TAILLE
     out = Image.new("RGB", (W, H), (25, 25, 25))
@@ -192,19 +207,24 @@ def planche(carte, ident, titre, hyps, h, valide, chemin, azimuts=False, n=4, no
     for k, v in enumerate(vign):
         out.paste(v, (k * TAILLE, 34))
     y = 34 + (TAILLE if vign else 0)
-    out.paste(orth, (0, y))
-    leg = ["A (magenta) : position / face d'origine", "C (cyan) : position / face corrigée",
-           "S (orange) : hypothèse d'une spec (feux.json / panneaux.json)", "T (vert) : position triangulée",
-           "jaune : arête avant de la bordure de référence", "FACE / DOS : côté du panneau attendu vers la caméra"]
-    for k, l in enumerate(leg):
-        dr.text((TAILLE + 10, y + 10 + 17 * k), l, fill=(230, 230, 230), font=POLICE)
-    for k, l in enumerate(notes):
-        dr.text((TAILLE + 10, y + 125 + (25 if not vign else 0) + 17 * k), str(l)[:150], fill=(255, 230, 150), font=POLICE)
+    out.paste(o22, (0, y))
+    out.paste(o24, (TAILLE, y))
+    x0 = 2 * TAILLE + 10
+    lig = ["A magenta : origine ; C cyan : résolue ; S orange : spec ; T vert : triangulée ; M blanc : mesure ;",
+           "F jaune : fusion (revue) ; O rouge : pied par l'ombre (trait = ombre) ; jaune : bordure de référence",
+           "Porte P2 (toutes photos calées valides) : discriminante si séparation > 3σ de la pose ; décisive si LOO ≤ 0,5°"]
+    for cle, g in gates:
+        lig.append(f"A→{cle} {g['d_AC_m']:.2f} m : {g['n_photos']} photos, {g['n_discriminantes']} discriminantes décisives, "
+                   f"angle {g['angle_intersection_max_deg']}° -> {g['verdict']} (validé {g['composante_validee_m']:+.2f} m)")
+    lig += [str(x) for x in notes]
+    for k, l in enumerate(lig[:20]):
+        dr.text((x0, y + 8 + 16 * k), l[:150], fill=(230, 230, 230) if k < 3 else (255, 230, 150), font=POLICE)
     if not vign:
-        dr.text((TAILLE + 10, y + 130), "aucune photo calée valide pour cet objet (date de l'objet, champ ou distance > 40 m)", fill=(255, 120, 120), font=POLICE)
+        dr.text((x0, y + TAILLE - 22), "aucune photo calée valide pour cet objet (date, champ ou distance > 40 m)",
+                fill=(255, 120, 120), font=POLICE)
     PLANCHES.mkdir(parents=True, exist_ok=True)
     out.save(chemin, quality=88)
-    return chemin, [dict(photo=pid, date=photo(pid).date, distance_m=round(d, 1)) for _, pid, d, _ in sel]
+    return chemin, info, gates
 
 
 def trianguler(o, p_a, p_c, valide_de):

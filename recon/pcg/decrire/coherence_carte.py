@@ -17,6 +17,7 @@ Raster 5 cm (emprise LiDAR 300 × 300 m) pour des requêtes ponctuelles rapides,
 Aucune écriture dans le paquet ni dans la description de base : sorties sous
 recon/out/paquet_jardin/v2/description/coherence/carte/.
 """
+import collections
 import functools
 import hashlib
 import math
@@ -134,13 +135,21 @@ class Grille:
 
 
 # --------------------------------------------------------------------------- bordures site
+ORIENTATION_FORTE_SRC = ("lidar2021", "xodr", "regle:regles_qualite_geometrique.GQ-ORI-001",
+                         "a_priori:interieur_ilot_a_gauche")
+
+
 def _bordures_site(mnt):
-    """Bordures orientées (côté haut à gauche) sur tout le site : v2 dans la zone pilote,
-    relief/bordures_hauteurs dédoublonnées et orientées ailleurs. Cache : carte/bordures_site.geojson."""
+    """Bordures orientées (côté haut à gauche, t > 0 côté haut) sur tout le site, lues dans la description
+    régularisée v2 (base/bordures.geojson, schéma 0.3 : site complet, droites et arcs G1, sens corrigé en
+    amont par GQ-ORI-001 / GQ-ORI-002). Correctif P6 de la revue v1 : plus aucune orientation recalculée ici
+    (l'ancien repli « cote_haut_relief » sur bordures_hauteurs retournait 7 bordures). Le drapeau
+    `modifiee_2025` vient des tronçons source (bordures_hauteurs : statut, création après 2021, plan projet).
+    L'orientation est dite « forte » si face_vue vient du MNT (conf haute), de l'OpenDRIVE, de GQ-ORI-001 ou
+    de l'intérieur d'un îlot ; seule une orientation forte peut arbitrer la classe de surface à |t| < 1 m."""
     import bordures as B
-    sources = [DONNEES / "relief/bordures_hauteurs.geojson", BASE_V2 / "bordures.geojson",
-               RACINE / "recon/pcg/zone_pilote.geojson"]
-    cle = _hash_fichiers(sources) + "-v2"
+    sources = [DONNEES / "relief/bordures_hauteurs.geojson", BASE_V2 / "bordures.geojson"]
+    cle = _hash_fichiers(sources) + "-v3"
     cache = CARTE / "bordures_site.geojson"
     if cache.exists():
         d = lire_json(cache)
@@ -154,53 +163,35 @@ def _bordures_site(mnt):
     lignes = {n: B.Ligne(n, par[n]) for n in sorted(par)}
 
     def modifiee(lg, sm):
-        """Bordure reconstruite par les travaux : créée après 2021, modifiée 2025 ou issue du plan projet."""
         st = lg.attr(sm, "statut")
         cr = lg.attr(sm, "creee_apres_2021")
         src = lg.attr(sm, "source")
         return bool(np.mean([a == "modifiee_2025" or bool(b) or "plan projet" in c for a, b, c in zip(st, cr, src)]) >= 0.5)
-    morceaux, _ = B.apparier(lignes, mnt)
-    zone = ctx.zone_pilote()["anneau"]
     out = []
-    compte = collections.Counter()
-    for n, s0, s1, dbl in morceaux:
-        lg = lignes[n]
-        P0 = sous_polyligne(lg.P, s0, s1)
-        sens, crit, dz = B.cote_haut(P0, lg, lambda s, a=s0: a + s, 1, mnt)
-        P1 = P0 if sens > 0 else P0[::-1]
-        L1 = float(abscisses(P1)[-1])
-        dedans = couper_polyligne(P1, [zone])
-        bornes, cur = [], 0.0
-        for a, b in dedans:
-            if a - cur >= 0.5:
-                bornes.append((cur, a))
-            cur = b
-        if L1 - cur >= 0.5:
-            bornes.append((cur, L1))
-        src = lg.source.lower()
-        code = "gam" if src.startswith("gam") else "pcrs2019" if src.startswith("pcrs") else "plan2025"
-        sm = np.linspace(s0, s1, max(2, int(s1 - s0) + 1))
-        trav = float(np.mean(lg.attr(sm, "zone_travaux_2025")))
-        for a, b in bornes:
-            P = sous_polyligne(P1, a, b)
-            compte[n] += 1
-            out.append(dict(id=f"KS-{n:04d}-{compte[n]}", P=P, source=code, ligne=n,
-                            zone_travaux_2025=bool(trav >= 0.5), modifiee_2025=modifiee(lg, sm),
-                            orientation=crit, dz_mnt=round(float(dz), 3)))
     for f in lire_geojson(BASE_V2 / "bordures.geojson"):
         p = f["properties"]
         P = repere(np.asarray(f["geometry"]["coordinates"], dtype=float)[:, :2])
-        lg = lignes.get(p["source"].get("ligne"))
-        s_src = p["source"].get("s_src_m") or [0.0, lg.longueur if lg else 0.0]
+        if len(P) < 2:
+            continue
+        lg = lignes.get((p.get("source") or {}).get("ligne"))
+        s_src = (p.get("source") or {}).get("s_src_m") or [0.0, lg.longueur if lg else 0.0]
         mod = modifiee(lg, np.linspace(min(s_src), max(s_src), 8)) if lg is not None else bool(p.get("zone_travaux_2025"))
-        out.append(dict(id=p["id"], P=P, source=p["prov"]["geometrie"]["src"], ligne=p["source"].get("ligne"),
-                        zone_travaux_2025=bool(p.get("zone_travaux_2025")), modifiee_2025=mod, orientation="v2",
-                        dz_mnt=None, abaisses=p.get("abaisses") or []))
+        fv = (p.get("prov") or {}).get("face_vue") or {}
+        forte = (fv.get("src") in ORIENTATION_FORTE_SRC and fv.get("conf") == "haute") or \
+            fv.get("src") == "regle:regles_qualite_geometrique.GQ-ORI-001"
+        vue = [it.get("vue_m") for it in p.get("intervalles") or [] if it.get("vue_m") is not None]
+        out.append(dict(id=p["id"], P=P, source=(p.get("prov") or {}).get("geometrie", {}).get("src"),
+                        ligne=(p.get("source") or {}).get("ligne"), zone_travaux_2025=bool(p.get("zone_travaux_2025")),
+                        modifiee_2025=mod, orientation=fv.get("src"), orientation_conf=fv.get("conf"),
+                        orientation_forte=bool(forte), dz_mnt=None, abaisses=p.get("abaisses") or [],
+                        vue_max_m=max(vue) if vue else None))
     out.sort(key=lambda k: k["id"])
     feats = [{"type": "Feature", "geometry": {"type": "LineString", "coordinates": coords_geojson(repere(k["P"], "l93"))},
               "properties": {"id": k["id"], **{c: v for c, v in k.items() if c not in ("id", "P")}}} for k in out]
     ecrire_geojson(cache, feats, "bordures_site", {"hash_sources": cle, "orientation": "côté haut à gauche (t > 0)",
-                                                    "sources": [str(s.relative_to(RACINE).as_posix()) for s in sources]})
+                                                    "sources": [str(s.relative_to(RACINE).as_posix()) for s in sources],
+                                                    "methode": "base/bordures.geojson v2 (site complet, régularisé) ; "
+                                                               "aucune réorientation locale (P6)"})
     return out
 
 
@@ -280,10 +271,16 @@ class Carte:
             for poly in _polys_locaux(f["geometry"]):
                 self._peindre(poly, CID["batiment"], self.base, 4, si=vide, faible=False)
         self.peint_v2 = []
+        self.surfaces_v2 = []
         for f in lire_geojson(BASE_V2 / "surfaces.geojson"):
             p = f["properties"]
+            if p["classe"] not in CID:
+                continue            # emprise_bordure (dessus des bordures) : classe arbitrée par la bordure (|t| < 1 m)
             for poly in _polys_locaux(f["geometry"]):
                 pl = [repere(r) for r in poly]
+                self.surfaces_v2.append(dict(id=p["id"], classe=p["classe"], etat=p.get("etat_v1"),
+                                             src_classe=((p.get("prov") or {}).get("classe") or {}).get("src"),
+                                             lien_v1=p.get("lien_v1"), poly=pl, bmin=pl[0].min(0), bmax=pl[0].max(0)))
                 self._peindre(pl, CID[p["classe"]], self.base, 2,
                               faible=bool(p.get("limite_raster")) or p.get("etat_v1") == "modifie_2025")
                 if p.get("sous_classe") == "terre_plein_peint":
@@ -461,29 +458,46 @@ class Carte:
 
     # ---- abaissés, BEV, paliers
     def _abaisses(self):
-        """Abaissés de traversée : v2 (zone pilote) ; ailleurs extrémités des passages sur les bordures
-        (rampe 1,20 m par défaut, palier 0,80 m, BEV 0,40 m à 0,50 m du nez) : géométrie a priori."""
+        """Abaissés de traversée (base/bordures v2, site complet) : rampe [0, max(profondeur, 0,5 m)], BEV
+        (ponctuels_sol v2, sinon 0,50-0,90 m derrière le nez si elle n'est pas déclarée absente), palier de
+        0,80 m derrière la rampe ou la BEV SEULEMENT si la largeur du trottoir ≥ profondeur + 0,80 m + 0,114 m
+        (diamètre d'un support de feux) — ARR2007 art. 1er 4° « si la largeur du trottoir le permet » (P8).
+        Extrémités de passage sans abaissé v2 : rampe 1,20 m a priori (GEN-02), même règle de palier
+        (largeur mesurée par coupe perpendiculaire)."""
         self.abaisses = []
         haut_ok = lambda sl: np.isin(self.base[sl], [CID[c] for c in ("trottoir", "ilot", "quai_bus",
                                                                      "acces_riverain", "espace_vert",
                                                                      "terre_plein_vegetal", "autre")])
-        for k, kb in enumerate(self.bordures):
-            for a in kb.get("abaisses") or []:
-                if a.get("type") != "traversee":
-                    continue
-                self._bande(k, a["s0"], a["s1"], 0.0, PROFONDEUR_RAMPE_DEFAUT, "abaisse_traversee", haut_ok, True)
-                self._bande(k, a["s0"], a["s1"], PROFONDEUR_RAMPE_DEFAUT, PROFONDEUR_RAMPE_DEFAUT + LARGEUR_PALIER,
-                            "palier_abaisse", haut_ok, True)
-                self.abaisses.append(dict(id=a.get("id"), bordure=kb["id"], k=k, s0=a["s0"], s1=a["s1"], source="v2"))
+        bev_v2 = collections.defaultdict(list)
         for f in lire_geojson(BASE_V2 / "ponctuels_sol.geojson"):
             if f["properties"]["type"] == "bev":
                 for poly in _polys_locaux(f["geometry"]):
                     self._bit([repere(r) for r in poly], ZBIT["bev"])
-        x0, y0, x1, y1 = ctx.zone_pilote()["emprise"]
+                anc = f["properties"].get("ancrage") or {}
+                bev_v2[anc.get("bordure")].append((anc.get("s0"), anc.get("s1")))
+        diam = 0.114
+        for k, kb in enumerate(self.bordures):
+            for a in kb.get("abaisses") or []:
+                if a.get("type") != "traversee":
+                    continue
+                prof = float((a.get("rampe") or {}).get("profondeur_m") or 0.0)
+                t_ab = max(prof, 0.5)
+                self._bande(k, a["s0"], a["s1"], 0.0, t_ab, "abaisse_traversee", haut_ok, True)
+                bev_dec = a.get("bev")
+                bev_abs = isinstance(bev_dec, dict) and bev_dec.get("present") is False
+                bev_pt = any(s0 is not None and s0 <= a["s1"] and s1 >= a["s0"] for s0, s1 in bev_v2.get(kb["id"], []))
+                if not bev_abs and not bev_pt:
+                    self._bande(k, a["s0"], a["s1"], 0.50, 0.90, "bev", haut_ok, True)
+                t_pal = max(t_ab, 0.9 if not bev_abs else t_ab)
+                larg = a.get("largeur_trottoir_m")
+                palier = larg is None or float(larg) >= t_pal + LARGEUR_PALIER + diam
+                if palier:
+                    self._bande(k, a["s0"], a["s1"], t_pal, t_pal + LARGEUR_PALIER, "palier_abaisse", haut_ok, True)
+                self.abaisses.append(dict(id=a.get("id"), bordure=kb["id"], k=k, s0=a["s0"], s1=a["s1"], source="v2",
+                                          profondeur_rampe_m=prof, largeur_trottoir_m=larg, palier=bool(palier),
+                                          bev="ponctuels_sol" if bev_pt else ("absente" if bev_abs else "derivee_0.5-0.9")))
         for pp in self.passages:
             for bout, sens in ((pp["a"], -1.0), (pp["b"], 1.0)):
-                if x0 <= bout[0] <= x1 and y0 <= bout[1] <= y1:
-                    continue                        # zone pilote : abaissés v2
                 # bordure coupée par l'axe prolongé du passage au-delà de l'extrémité
                 pts = bout + np.outer(np.linspace(0.0, 3.0, 31), pp["u"] * sens)
                 r = self.ref_bordure(pts, rayon=0.3, circulee=False)
@@ -497,12 +511,21 @@ class Carte:
                     continue                        # bordure parallèle à la marche : pas d'abaissé
                 L = pp["demi_largeur"] / max(math.sqrt(1 - cosx ** 2), 0.5)
                 s0, s1 = max(h["s"] - L, 0.0), min(h["s"] + L, kb["L"])
+                if any(a.get("type") == "traversee" and a["s0"] <= h["s"] + 0.5 and a["s1"] >= h["s"] - 0.5
+                       for a in kb.get("abaisses") or []):
+                    continue                        # abaissé décrit en v2 (base/bordures, site complet)
+                t, m, _ = self.coupe_pietonne(h["k"], h["s"])
+                larg = round(float(m.sum()) * 0.05, 2)
                 self._bande(h["k"], s0, s1, 0.0, PROFONDEUR_RAMPE_DEFAUT, "abaisse_traversee", haut_ok, True)
-                self._bande(h["k"], s0, s1, PROFONDEUR_RAMPE_DEFAUT, PROFONDEUR_RAMPE_DEFAUT + LARGEUR_PALIER,
-                            "palier_abaisse", haut_ok, True)
+                palier = larg >= PROFONDEUR_RAMPE_DEFAUT + LARGEUR_PALIER + diam
+                if palier:
+                    self._bande(h["k"], s0, s1, PROFONDEUR_RAMPE_DEFAUT, PROFONDEUR_RAMPE_DEFAUT + LARGEUR_PALIER,
+                                "palier_abaisse", haut_ok, True)
                 self._bande(h["k"], s0, s1, 0.50, 0.90, "bev", haut_ok, True)
                 self.abaisses.append(dict(id=f"AD-{pp['id']}-{'ab'[int(sens > 0)]}", bordure=kb["id"], k=h["k"],
-                                          s0=round(s0, 3), s1=round(s1, 3), source="deduit_passage"))
+                                          s0=round(s0, 3), s1=round(s1, 3), source="deduit_passage",
+                                          profondeur_rampe_m=PROFONDEUR_RAMPE_DEFAUT, largeur_trottoir_m=larg, palier=bool(palier),
+                                          bev="derivee_0.5-0.9"))
 
     def _bande(self, k, s0, s1, t0, t1, zone, si, defaut):
         P = self.bordures[k]["P"]
@@ -557,6 +580,17 @@ class Carte:
                 continue
             if dans_polygone(q[None], s["poly"])[0]:
                 return {k: s[k] for k in ("id", "classe", "etat", "source")}
+        return None
+
+    def surface_v2(self, q):
+        """Surface v2 (base/surfaces.geojson) sous le point : dict(id, classe, etat, src_classe, lien_v1) ou None."""
+        from commun import dans_polygone
+        q = np.asarray(q, float)
+        for s in self.surfaces_v2:
+            if np.any(q < s["bmin"]) or np.any(q > s["bmax"]):
+                continue
+            if dans_polygone(q[None], s["poly"])[0]:
+                return {k: s[k] for k in ("id", "classe", "etat", "src_classe", "lien_v1")}
         return None
 
     def marquages_poses_2025(self, q, rayon=0.15):

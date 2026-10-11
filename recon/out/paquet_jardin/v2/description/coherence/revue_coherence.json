@@ -1,167 +1,528 @@
 {
- "schema": "pj_revue_coherence/0.1",
- "methode": "lecture par Claude (vision) des planches coherence/planches/<id>.jpg : vignettes Panoramax calées (poses acceptées, photos valides à la date de l'objet) avec l'axe du support aux hypothèses A (origine, magenta), C (corrigée, cyan), S (spec, orange), T (triangulée, vert), arête avant de la bordure projetée (jaune), côté FACE/DOS attendu ; ortho 5 cm 2022 avec les mêmes marques. verdict (position) et verdict_azimut : corrigee | origine | spec | triangulee | ambigu | rejete | fusionne.",
- "date": "2026-10-10",
- "par": "Claude (vision)",
+ "schema": "pj_revue_coherence/0.2",
+ "date": "2026-10-11",
+ "par": "Claude (vision), agent COHERENCE V2",
+ "methode": "lecture des planches coherence/planches/<id>.jpg (photos calées, porte géométrique P2 imprimée, orthos 2022 et 2024 graduées) et des photos non calées pour les tests ordinaux ; champs : verdict (corrigee | origine | spec | triangulee | ambigu | rejete | fusionne), support ('photos' | 'ortho'), mesure {position_local | t | ds, dt ; sigma_m ; methode ; photos ; date}, tests_ordinaux [{test : n_mats | plaques | occultation | presence, valeur, objets, photos, date, note}], raccourci {vues : [{photo, releve_deg, rapport_wh, rapport_face, cote}]}, plaques_vues [formes], verdict_azimut, azimut, instancier.",
  "revues": {
-  "lamp_9665416817": {
-   "verdict": "corrigee",
-   "note": "e5d79de9 (14 m) : fût exactement sur C ; 6e97bb8c, e540bf1d, 7651c539 (6-10 m) : fût entre A et C, plus près de C ; le candélabre (bannière LANDRI) est derrière la bordure, pas sur l'arête avant (A, t = 0,00 m) ; position réelle ≈ 0,4-0,5 m derrière la bordure"
-  },
-  "pan_J5_1": {
-   "verdict": "corrigee",
-   "note": "9834f494, e86aa913, e5d79de9 (dos gris), 6e97bb8c : la balise J5 est sur le nez arrondi du TPC NE ; C est plus près de la balise que A dans les 4 photos (la balise est encore ≈ 0,3 m plus près de la pointe) ; la position de panneaux.json (S, 1,5 m au sud) tombe hors de l'îlot : rejetée"
-  },
   "pan_AB3a_2": {
    "verdict": "corrigee",
-   "verdict_azimut": "corrigee",
-   "note": "79a18815 (2024-08, 29 m) et eeb2f8f1 (2025-05, 34 m) : un seul mât portant un disque et un triangle (dos gris visibles depuis le SO) sur C, pas sur A (chaussée) ; la position de panneaux.json (S, 46,4 ; 65,1) ne porte aucun panneau ; faces tournées vers le NE (dos vus depuis le SO) : azimut 50° retenu",
-   "note_azimut": "dos des panneaux vus depuis le SO dans les 2 photos"
+   "support": "photos",
+   "note": "mât 2 (B2a + AB3a + panonceau « CÉDEZ LE PASSAGE ») sur le rayon commun des 3 photos calées du SO (79a18815, eeb2f8f1, mly:1207034570953803, relèvements 217,5-220,1°) ; profondeur non observable (2,6°) : bornée par la bordure K-0186 (t ≥ 0,1 m, le mât n'est pas sur la piste) et par le mât 1 qu'il masque depuis le SO",
+   "mesure": {
+    "position_local": [
+     52.575,
+     61.64
+    ],
+    "sigma_long_m": 0.25,
+    "sigma_travers_m": 0.06,
+    "azimut_long_deg": 38.5,
+    "methode": "intersection du rayon des photos calées du SO avec la bande t = +0,1 à +0,2 m derrière K-0186",
+    "photos": [
+     "pnx:79a18815",
+     "pnx:eeb2f8f1",
+     "mly:1207034570953803"
+    ],
+    "date": "2025-05-18"
+   },
+   "tests_ordinaux": [
+    {
+     "test": "n_mats",
+     "valeur": 2,
+     "objets": [
+      "pan_AB3a_2",
+      "pan_B1_1"
+     ],
+     "photos": [
+      "pnx:bb9c05ff"
+     ],
+     "date": "2025-08-31",
+     "note": "deux fûts distincts à ≈ 25 px l'un de l'autre (≈ 0,5° à 20 m), chacun avec ses plaques"
+    },
+    {
+     "test": "plaques",
+     "valeur": "mât 1 : disque B2b au-dessus du disque B1 ; mât 2 : disque B2a, triangle AB3a, panonceau « CÉDEZ LE PASSAGE » (de haut en bas)",
+     "objets": [
+      "pan_AB3a_2",
+      "pan_B1_1"
+     ],
+     "photos": [
+      "pnx:bb9c05ff",
+      "pnx:9ef861d4"
+     ],
+     "date": "2025-08-31",
+     "note": "identification faite avant tout transfert (P4)"
+    },
+    {
+     "test": "occultation",
+     "valeur": "depuis le SO le mât 2 masque le mât 1 ; depuis le NE (bb9c05ff) le mât 1 est devant",
+     "objets": [
+      "pan_AB3a_2",
+      "pan_B1_1"
+     ],
+     "photos": [
+      "pnx:79a18815",
+      "pnx:eeb2f8f1",
+      "pnx:bb9c05ff"
+     ],
+     "date": "2024-08-24/2025-08-31",
+     "note": "le mât 1 est au NE du mât 2 sur la même visée (≈ 38°) : les dos vus depuis le SO sont ceux du mât 2"
+    }
+   ],
+   "plaques_vues": [
+    "disque",
+    "triangle",
+    "panonceau"
+   ],
+   "raccourci": {
+    "vues": [
+     {
+      "photo": "pnx:79a18815",
+      "releve_deg": 218.6,
+      "rapport_wh": 1.08,
+      "rapport_face": 1.1547,
+      "cote": "dos",
+      "plaque": "triangle AB3a"
+     },
+     {
+      "photo": "pnx:eeb2f8f1",
+      "releve_deg": 220.1,
+      "rapport_wh": 1.13,
+      "rapport_face": 1.1547,
+      "cote": "dos",
+      "plaque": "triangle AB3a"
+     },
+     {
+      "photo": "pnx:9ef861d4",
+      "releve_deg": 70.0,
+      "rapport_wh": 0.53,
+      "rapport_face": 1.1547,
+      "cote": "face",
+      "plaque": "triangle AB3a",
+      "note": "photo à plat non calée : relèvement par résection sur deux repères (lampadaire lamp_9665416717 et ce mât, écart angulaire mesuré 21,2°, voiture sur la voie SO de Verdun) : 70° ± 4°"
+     },
+     {
+      "photo": "pnx:9ef861d4",
+      "releve_deg": 70.0,
+      "rapport_wh": 0.48,
+      "rapport_face": 1.0,
+      "cote": "face",
+      "plaque": "disque B2a"
+     }
+    ]
+   },
+   "note_azimut": "face ≈ 15° (rms 8°, second minimum 46° à 28°) : ni 342° (v1) ni 50° (solveur v1)"
   },
   "pan_B1_1": {
    "verdict": "origine",
-   "verdict_azimut": "corrigee",
-   "note": "mêmes photos : le mât (disque + triangle) est à la position de la couche ; vu de dos depuis le SO, ce qui exclut 125° (on verrait la tranche) : face ≈ 65° ; la position de panneaux.json (S, dans la piste) ne porte rien ; même mât que pan_AB3a_2 corrigé (0,17 m) : fusion proposée",
-   "note_azimut": "dos visibles depuis le SO"
-  },
-  "pan_C113_1": {
-   "verdict": "origine",
-   "verdict_azimut": "corrigee",
-   "note": "le poteau du C113 est sur A dans les 4 photos (triangulation 8 photos à 0,05 m) ; S (panneaux.json, 3,1 m, dans la piste) rejetée ; face bleue vue depuis le NE (9834f494, 6e97bb8c, e86aa913) et dos vu depuis le SO (5c0d1d39) : la face regarde le NE (65°), pas le SO (225°)",
-   "note_azimut": "face vue depuis le NE, dos depuis le SO"
-  },
-  "pan_B21a1_1": {
-   "verdict": "origine",
+   "support": "photos",
+   "note": "mât 1 (B2b au-dessus de B1) gardé à sa position : il est masqué depuis le SO par le mât 2 et vu devant lui depuis le NE",
    "verdict_azimut": "origine",
-   "note": "e5d79de9 : balise sur l'îlot en D plus près de A que de S ; 119d9094 : disque bleu vu de face depuis le SO (azimut 235° cohérent) ; 5c0d1d39 (2024-08) : balise absente ce jour-là (couchée ou déposée temporairement)",
-   "note_azimut": "face vue depuis le SO, dos depuis le NE"
+   "note_azimut": "bb9c05ff (2025-08-31, relèvement ≈ 51° ± 4°) : disques B2b et B1 en w/h 0,44 -> obliquité ≈ 64° ; faces vers 115° ou 347° ; 125° (v1) est à 10° de 115° ; 65° (spec) donnerait une vue presque de face (w/h ≈ 0,98) : rejeté. Une seule vue utilisable (mât 1 masqué depuis le SO) : azimut gardé",
+   "plaques_vues": [
+    "disque",
+    "disque"
+   ],
+   "tests_ordinaux": [
+    {
+     "test": "n_mats",
+     "valeur": 2,
+     "objets": [
+      "pan_AB3a_2",
+      "pan_B1_1"
+     ],
+     "photos": [
+      "pnx:bb9c05ff"
+     ],
+     "date": "2025-08-31",
+     "note": "deux fûts distincts"
+    }
+   ]
   },
-  "lamp_12894130974": {
-   "verdict": "origine",
-   "verdict_azimut": "origine",
-   "note": "le mât portant C114, AB3a et M9 est exactement sur A dans les 4 photos ; l'ancienne triangulation (T, 2,5 m, dans la haie) est un faux appariement ; les faces sont vues depuis des azimuts 95° à 165° : 130° cohérent, 80° (panneaux.json) non",
-   "note_azimut": "faces visibles de 95° à 165°"
-  },
-  "feu_REV_E_pietons": {
-   "verdict": "origine",
-   "note": "mât de la tête R12 exactement sur A dans 4 photos, à l'angle du passage et de la bordure : c'est la zone d'abaissé dérivée (profondeur a priori 1,20 m) qui est trop profonde à cet endroit"
-  },
-  "feu_VERC_droite": {
-   "verdict": "origine",
-   "note": "mât et dos des modules R11v exactement sur A dans 4 photos ; ds = 4,07 m de la ligne d'effet : écart de 7 cm sur une borne a priori, gardé"
-  },
-  "poteau_bois_REV_ilot": {
-   "verdict": "origine",
-   "note": "poteau bois sans tête de feu sur un petit îlot surélevé (2024-08, 2025-05) ; feux.json « feu_REV_ilot_axial » est ce poteau (rejeté) ; l'îlot est absent du levé GAM 2026 et des surfaces : état 2026 à vérifier sur place"
-  },
-  "pan_D21_1": {
-   "verdict": "ambigu",
-   "note": "le D21 (lames « LA REVIRÉE ») et un mât de tête piétons sont sur l'îlot arrondi en 2024-08 et 2025-05 ; ces photos précèdent les travaux : le levé GAM 2026 n'a plus d'îlot et la traversée cyclable 2025 passe à l'emplacement du poteau ; non instancié jusqu'au relevé 2026"
-  },
-  "pan_J5_2": {
-   "verdict": "ambigu",
-   "note": "balise J5 présente au coin NE de l'îlot en 2024-08 et 2025-05 (≈ 0,5 m au SO de A), panneau de chantier en 2025-05 ; même îlot que le D21 : non instancié jusqu'au relevé 2026"
-  },
-  "feu_VERC_ilot": {
-   "verdict": "ambigu",
-   "note": "aucune photo valide (preuve antérieure aux travaux, îlot reconstruit en 2025) ; l'ortho 2022 montre le mât à la pointe de l'ancien îlot, la bordure GAM 2026 passe à 0,28 m devant lui : déplacement minimal sur le nouvel îlot gardé, confiance faible"
-  },
-  "feu_SW_NO_pietons": {
-   "verdict": "ambigu",
-   "note": "support déduit 2026, aucune photo valide ; décalage le long de la bordure hors de l'abaissé et de la BEV, dans le prolongement du passage"
-  },
-  "feu_VERC_O_pietons": {
-   "verdict": "ambigu",
-   "note": "support déduit 2026, aucune photo valide"
-  },
-  "pan_B21a1_4": {
-   "verdict": "ambigu",
-   "verdict_azimut": "ambigu",
-   "note": "panneau déduit 2026 sur le nez N du nouvel îlot du Vercors ; l'orientation 341° suit l'axe de l'îlot (usagers venant du carrefour)"
-  },
-  "arbre_396": {
-   "verdict": "ambigu",
-   "note": "sommet de couronne LiDAR au bord de la piste ; le tronc n'est pas visible sous la couronne sur l'ortho 2022 ; tronc replacé dans la bande verte (VEG-06), confiance faible"
-  },
-  "arbre_063": {
-   "verdict": "ambigu",
-   "note": "bande plantée étroite entre deux bordures : seules les règles critiques sont imposées"
-  },
-  "arbre_109": {
-   "verdict": "ambigu",
-   "note": "l'ortho 2022 montre une bande plantée (érables de 1975) là où le plan 2025 et OSM 2026 placent la piste cyclable : arbre probablement abattu par les travaux ; non instancié jusqu'au relevé"
-  },
-  "potelet_13827066658": {
-   "verdict": "ambigu",
-   "note": "quartier construit après 2022 : ni photo ni ortho utiles ; la classe « chaussée » y vient du plan 2025 : correction par la règle, confiance faible"
-  },
-  "feu_NE_droite_t2": {
-   "verdict_azimut": "ambigu",
-   "note": "orientation de la tête R12 indiscernable à cette distance"
-  },
-  "feu_NE_droite_t3": {
-   "verdict_azimut": "ambigu",
-   "note": "le répétiteur est visible sous la tête principale mais son orientation n'est pas mesurable sur ces vues"
-  },
-  "feu_REV_droite_t3": {
-   "verdict_azimut": "ambigu",
-   "note": "tête R13c non confirmée sur les photos (à vérifier)"
-  },
-  "SPEC-feu_REV_ilot_axial": {
-   "verdict": "rejete",
-   "note": "feux.json décrit un support de feux sur l'îlot axial : les photos 2024-2025 montrent un poteau bois sans tête de feu (poteau_bois_REV_ilot)"
-  },
-  "SPEC-feu_REV_ilot_E": {
-   "verdict": "ambigu",
-   "note": "un mât sombre avec une tête est visible sur l'îlot du D21 en 2024-08 (2ab4efbc) ; l'îlot a probablement disparu en 2025"
-  },
-  "SPEC-M9c_acces_NE": {
-   "verdict": "rejete",
-   "note": "aucun panneau à cette position sur 79a18815 et eeb2f8f1 ; les panneaux de l'accès NE sont sur un seul mât à (52,9 ; 61,8)"
-  },
-  "SPEC-M9c_ruisseau": {
-   "verdict": "fusionne",
-   "note": "panonceau du mât de lamp_12894130974 (pan_M9_1)"
-  },
-  "SPEC-M12a_feu_REV_droite": {
-   "verdict": "fusionne",
-   "note": "déjà décrit comme tête M12 de feu_REV_droite (instances.json)"
-  },
-  "SPEC-M12a_ou_AB3a_feu_VERC_droite": {
-   "verdict": "fusionne",
-   "note": "déjà décrit comme panonceau AB3a de feu_VERC_droite (instances.json)"
-  },
-  "potelet_REV_3": {
-   "verdict": "origine",
-   "note": "ortho 2022 : tête blanche du potelet visible exactement en A, au bord de la traversée de la Revirée ; la classe « chaussée » v1 (limite raster) est fausse à cet endroit"
+  "lamp_9665416817": {
+   "verdict": "corrigee",
+   "support": "photos",
+   "note": "fût du candélabre (bannière LANDRI) exactement sur C dans les 4 vignettes (6e97bb8c, e540bf1d, 7651c539, e5d79de9) ; C = mesure de la fusion (triangulation), t = +0,44 m derrière K-0353 (lecture v1 : 0,37-0,59 m)"
   },
   "mat_camera_9831317323": {
    "verdict": "corrigee",
-   "note": "ortho 2022 : l'ombre du mât part d'un pied plus proche de C que de A (A est sur l'arête avant) ; C est à 0,3 m de lamp_9514825221 : très probablement le même mât (caméra sur candélabre), fusion proposée"
+   "support": "ortho",
+   "note": "ortho 2022 grille 0,25 m : une seule ombre de mât, qui commence vers (19,0 ; −62,07), au bord NO des images claires (lanterne et boîtier déversés vers le SE) ; nœuds OSM du candélabre et de la caméra à ≈ 1,1 m au NNO",
+   "mesure": {
+    "position_local": [
+     19.0,
+     -62.07
+    ],
+    "sigma_long_m": 0.3,
+    "sigma_travers_m": 0.1,
+    "azimut_long_deg": 334.0,
+    "methode": "lecture du début de l'ombre portée sur l'ortho PCRS 2022 (grille 0,25 m)",
+    "photos": [
+     "ortho:pcrs2022"
+    ],
+    "date": "2022-05-10"
+   },
+   "tests_ordinaux": [
+    {
+     "test": "n_mats",
+     "valeur": 1,
+     "objets": [
+      "mat_camera_9831317323",
+      "lamp_9514825221"
+     ],
+     "photos": [
+      "ortho:pcrs2022"
+     ],
+     "date": "2022-05-10",
+     "note": "une seule ombre de mât portant lanterne et caméra"
+    }
+   ]
+  },
+  "lamp_9514825221": {
+   "verdict": "corrigee",
+   "support": "ortho",
+   "note": "même mât que mat_camera_9831317323 (une seule ombre sur l'ortho 2022)",
+   "mesure": {
+    "position_local": [
+     19.0,
+     -62.07
+    ],
+    "sigma_long_m": 0.3,
+    "sigma_travers_m": 0.1,
+    "azimut_long_deg": 334.0,
+    "methode": "lecture du début de l'ombre portée sur l'ortho PCRS 2022 (grille 0,25 m)",
+    "photos": [
+     "ortho:pcrs2022"
+    ],
+    "date": "2022-05-10"
+   },
+   "tests_ordinaux": [
+    {
+     "test": "n_mats",
+     "valeur": 1,
+     "objets": [
+      "mat_camera_9831317323",
+      "lamp_9514825221"
+     ],
+     "photos": [
+      "ortho:pcrs2022"
+     ],
+     "date": "2022-05-10",
+     "note": "une seule ombre de mât portant lanterne et caméra"
+    }
+   ]
   },
   "lamp_12668578865": {
    "verdict": "corrigee",
-   "note": "ortho 2022 : lanterne (disque clair) et départ de l'ombre du mât à ≈ 0,1 m de C, ≈ 0,5 m de A"
+   "support": "ortho",
+   "note": "ortho 2022 grille 0,25 m : l'ombre du mât (trait fin vers 334°, ombre de la lanterne au bout) s'arrête au bord du disque clair (lanterne vue de dessus) vers (−124,36 ; 119,45) ; début d'ombre possiblement masqué par le disque sur ≤ 0,3 m : pied ≈ (−124,33 ; 119,38), à 1,6 m du nœud OSM (v1 : 0,22 m de recalage + 0,45 m de la règle, dans le mauvais sens le long)",
+   "mesure": {
+    "position_local": [
+     -124.33,
+     119.38
+    ],
+    "sigma_long_m": 0.3,
+    "sigma_travers_m": 0.1,
+    "azimut_long_deg": 334.0,
+    "methode": "lecture du début de l'ombre portée sur l'ortho PCRS 2022 (grille 0,25 m)",
+    "photos": [
+     "ortho:pcrs2022"
+    ],
+    "date": "2022-05-10"
+   }
   },
-  "corbeille_12328578845": {
-   "verdict": "origine",
-   "note": "ortho 2022 : petit objet clair (corbeille probable) en A, au bord du parking, à côté des conteneurs ; la limite raster de la surface est approximative"
+  "pan_J5_1": {
+   "verdict": "corrigee",
+   "support": "photos",
+   "note": "pied de la balise pointé sur 4 vues calées (9834f494, 6e97bb8c, e86aa913, e5d79de9 ; relèvements 80° à 198°) : triangulé en (17,606 ; 14,805), résidus ≤ 0,06 m ; 0,93 m de la position de la couche vers le nez du TPC (lecture v1 : Δs ≈ +0,8 à 0,9 m)",
+   "mesure": {
+    "position_local": [
+     17.606,
+     14.805
+    ],
+    "sigma_m": 0.1,
+    "methode": "triangulation par pointage du pied (4 vues, Claude)",
+    "photos": [
+     "pnx:9834f494",
+     "pnx:6e97bb8c",
+     "pnx:e86aa913",
+     "pnx:e5d79de9"
+    ],
+    "date": "2025-05-18"
+   }
   },
-  "lamp_9665416517": {
+  "pan_AB3a_3": {
+   "verdict": "corrigee",
+   "support": "photos",
+   "note": "photos 2026 calées f8d91bb1, ded07efa, 00c1ba9a : le triangle AB3a et son poteau sont exactement sur C (refuge I-0658), A ne porte rien ; porte P2 complète"
+  },
+  "pan_AB4_2": {
+   "verdict": "corrigee",
+   "support": "photos",
+   "note": "photos 2026 calées : le STOP est sur C, à la pointe NO de l'îlot herbeux (mesure de la fusion PANO2026-015)"
+  },
+  "pan_C113_1": {
+   "verdict_azimut": "corrigee",
+   "note_azimut": "face bleue vue de face depuis le NE : 9834f494 (relèvement 64,5°) et e86aa913 (59,8°), w/h ≈ 0,87 (≈ 30°) ; dos depuis le SO (5c0d1d39, 199°) : face vers le NE (65°), pas le SO (225°)"
+  },
+  "pan_D21_1": {
    "verdict": "ambigu",
-   "note": "sous les arbres : ni pied ni ombre lisibles sur l'ortho 2022 ; aucune photo calée à moins de 40 m"
+   "support": "photos",
+   "note": "présents le 2025-08-31 (en plein chantier) ; le levé GAM 2026 n'a plus d'îlot et la traversée cyclable 2025 passe à l'emplacement : non instancié, à relever (S12)",
+   "tests_ordinaux": [
+    {
+     "test": "presence",
+     "valeur": "présent",
+     "objets": [
+      "pan_D21_1",
+      "pan_D21_2",
+      "pan_J5_2"
+     ],
+     "photos": [
+      "pnx:a83dae90",
+      "pnx:81882270"
+     ],
+     "date": "2025-08-31",
+     "note": "D21 « LA REVIRÉE / Collège L. Terray » et « Commerces de LA REVIRÉE » sur leur mât, balise J5 au pied, barrières de chantier ; antérieur à la fin des travaux (05/12/2025) : ne prouve rien de l'état 2026"
+    }
+   ]
   },
-  "poteau_NO_0021": {
+  "pan_D21_2": {
    "verdict": "ambigu",
-   "note": "quai reconstruit en 2025 : ortho 2022 sans valeur ; déplacement de 0,5 m dans le quai pour libérer 1,40 m"
+   "support": "photos",
+   "note": "présents le 2025-08-31 (en plein chantier) ; le levé GAM 2026 n'a plus d'îlot et la traversée cyclable 2025 passe à l'emplacement : non instancié, à relever (S12)",
+   "tests_ordinaux": [
+    {
+     "test": "presence",
+     "valeur": "présent",
+     "objets": [
+      "pan_D21_1",
+      "pan_D21_2",
+      "pan_J5_2"
+     ],
+     "photos": [
+      "pnx:a83dae90",
+      "pnx:81882270"
+     ],
+     "date": "2025-08-31",
+     "note": "D21 « LA REVIRÉE / Collège L. Terray » et « Commerces de LA REVIRÉE » sur leur mât, balise J5 au pied, barrières de chantier ; antérieur à la fin des travaux (05/12/2025) : ne prouve rien de l'état 2026"
+    }
+   ]
   },
-  "distributeur_12321482421": {
+  "pan_J5_2": {
    "verdict": "ambigu",
-   "note": "quai reconstruit en 2025 : ortho 2022 sans valeur"
+   "support": "photos",
+   "note": "présents le 2025-08-31 (en plein chantier) ; le levé GAM 2026 n'a plus d'îlot et la traversée cyclable 2025 passe à l'emplacement : non instancié, à relever (S12)",
+   "tests_ordinaux": [
+    {
+     "test": "presence",
+     "valeur": "présent",
+     "objets": [
+      "pan_D21_1",
+      "pan_D21_2",
+      "pan_J5_2"
+     ],
+     "photos": [
+      "pnx:a83dae90",
+      "pnx:81882270"
+     ],
+     "date": "2025-08-31",
+     "note": "D21 « LA REVIRÉE / Collège L. Terray » et « Commerces de LA REVIRÉE » sur leur mât, balise J5 au pied, barrières de chantier ; antérieur à la fin des travaux (05/12/2025) : ne prouve rien de l'état 2026"
+    }
+   ]
   },
-  "potelet_13827066657": {
+  "arbre_396": {
    "verdict": "ambigu",
-   "note": "quartier construit après 2022 : ni photo ni ortho utiles"
+   "support": "photos",
+   "note": "sommet de couronne LiDAR au-dessus de la piste ; tronc non visible sur l'ortho",
+   "tests_ordinaux": [
+    {
+     "test": "presence",
+     "valeur": "troncs en retrait",
+     "objets": [
+      "arbre_396"
+     ],
+     "photos": [
+      "pnx:7a182db7"
+     ],
+     "date": "2025-05-18",
+     "note": "grands peupliers penchés au-dessus de la piste, troncs plusieurs mètres en retrait (photo 360° non calée) : le sens de la correction est juste, son ampleur (1,6 m) est un minimum"
+    }
+   ]
+  },
+  "lamp_12668620636": {
+   "verdict": "corrigee",
+   "support": "ortho",
+   "note": "ortho 2022 : le mât est au centre de la jardinière ronde du parking, son ombre (trait vers 334° jusqu'au disque de la lanterne) part de C ; le détecteur d'ombres (O) tombe à 0,2 m ; le nœud OSM (A) est à 1,8 m dans les places. La jardinière manque aux surfaces (classe chaussée) : anomalie de surface"
+  },
+  "potelet_13827066658": {
+   "verdict": "ambigu",
+   "support": "ortho",
+   "note": "quartier en chantier en 2022, ortho 2024 à 20 cm illisible pour un potelet : aucune preuve image ; correction par la règle (sur la classe chaussée d'origine plan 2025), confiance faible ; repère (s, t) hors de l'étendue de K-0596 (P14)"
+  }
+ },
+ "revue_v1_archivee": {
+  "schema": "pj_revue_coherence/0.1",
+  "note": "verdicts v1 (positions C de la v1) : non réutilisés tels quels (revue adverse : 7 faux sur 19) ; conservés pour traçabilité",
+  "revues": {
+   "lamp_9665416817": {
+    "verdict": "corrigee",
+    "note": "e5d79de9 (14 m) : fût exactement sur C ; 6e97bb8c, e540bf1d, 7651c539 (6-10 m) : fût entre A et C, plus près de C ; le candélabre (bannière LANDRI) est derrière la bordure, pas sur l'arête avant (A, t = 0,00 m) ; position réelle ≈ 0,4-0,5 m derrière la bordure"
+   },
+   "pan_J5_1": {
+    "verdict": "corrigee",
+    "note": "9834f494, e86aa913, e5d79de9 (dos gris), 6e97bb8c : la balise J5 est sur le nez arrondi du TPC NE ; C est plus près de la balise que A dans les 4 photos (la balise est encore ≈ 0,3 m plus près de la pointe) ; la position de panneaux.json (S, 1,5 m au sud) tombe hors de l'îlot : rejetée"
+   },
+   "pan_AB3a_2": {
+    "verdict": "corrigee",
+    "verdict_azimut": "corrigee",
+    "note": "79a18815 (2024-08, 29 m) et eeb2f8f1 (2025-05, 34 m) : un seul mât portant un disque et un triangle (dos gris visibles depuis le SO) sur C, pas sur A (chaussée) ; la position de panneaux.json (S, 46,4 ; 65,1) ne porte aucun panneau ; faces tournées vers le NE (dos vus depuis le SO) : azimut 50° retenu",
+    "note_azimut": "dos des panneaux vus depuis le SO dans les 2 photos"
+   },
+   "pan_B1_1": {
+    "verdict": "origine",
+    "verdict_azimut": "corrigee",
+    "note": "mêmes photos : le mât (disque + triangle) est à la position de la couche ; vu de dos depuis le SO, ce qui exclut 125° (on verrait la tranche) : face ≈ 65° ; la position de panneaux.json (S, dans la piste) ne porte rien ; même mât que pan_AB3a_2 corrigé (0,17 m) : fusion proposée",
+    "note_azimut": "dos visibles depuis le SO"
+   },
+   "pan_C113_1": {
+    "verdict": "origine",
+    "verdict_azimut": "corrigee",
+    "note": "le poteau du C113 est sur A dans les 4 photos (triangulation 8 photos à 0,05 m) ; S (panneaux.json, 3,1 m, dans la piste) rejetée ; face bleue vue depuis le NE (9834f494, 6e97bb8c, e86aa913) et dos vu depuis le SO (5c0d1d39) : la face regarde le NE (65°), pas le SO (225°)",
+    "note_azimut": "face vue depuis le NE, dos depuis le SO"
+   },
+   "pan_B21a1_1": {
+    "verdict": "origine",
+    "verdict_azimut": "origine",
+    "note": "e5d79de9 : balise sur l'îlot en D plus près de A que de S ; 119d9094 : disque bleu vu de face depuis le SO (azimut 235° cohérent) ; 5c0d1d39 (2024-08) : balise absente ce jour-là (couchée ou déposée temporairement)",
+    "note_azimut": "face vue depuis le SO, dos depuis le NE"
+   },
+   "lamp_12894130974": {
+    "verdict": "origine",
+    "verdict_azimut": "origine",
+    "note": "le mât portant C114, AB3a et M9 est exactement sur A dans les 4 photos ; l'ancienne triangulation (T, 2,5 m, dans la haie) est un faux appariement ; les faces sont vues depuis des azimuts 95° à 165° : 130° cohérent, 80° (panneaux.json) non",
+    "note_azimut": "faces visibles de 95° à 165°"
+   },
+   "feu_REV_E_pietons": {
+    "verdict": "origine",
+    "note": "mât de la tête R12 exactement sur A dans 4 photos, à l'angle du passage et de la bordure : c'est la zone d'abaissé dérivée (profondeur a priori 1,20 m) qui est trop profonde à cet endroit"
+   },
+   "feu_VERC_droite": {
+    "verdict": "origine",
+    "note": "mât et dos des modules R11v exactement sur A dans 4 photos ; ds = 4,07 m de la ligne d'effet : écart de 7 cm sur une borne a priori, gardé"
+   },
+   "poteau_bois_REV_ilot": {
+    "verdict": "origine",
+    "note": "poteau bois sans tête de feu sur un petit îlot surélevé (2024-08, 2025-05) ; feux.json « feu_REV_ilot_axial » est ce poteau (rejeté) ; l'îlot est absent du levé GAM 2026 et des surfaces : état 2026 à vérifier sur place"
+   },
+   "pan_D21_1": {
+    "verdict": "ambigu",
+    "note": "le D21 (lames « LA REVIRÉE ») et un mât de tête piétons sont sur l'îlot arrondi en 2024-08 et 2025-05 ; ces photos précèdent les travaux : le levé GAM 2026 n'a plus d'îlot et la traversée cyclable 2025 passe à l'emplacement du poteau ; non instancié jusqu'au relevé 2026"
+   },
+   "pan_J5_2": {
+    "verdict": "ambigu",
+    "note": "balise J5 présente au coin NE de l'îlot en 2024-08 et 2025-05 (≈ 0,5 m au SO de A), panneau de chantier en 2025-05 ; même îlot que le D21 : non instancié jusqu'au relevé 2026"
+   },
+   "feu_VERC_ilot": {
+    "verdict": "ambigu",
+    "note": "aucune photo valide (preuve antérieure aux travaux, îlot reconstruit en 2025) ; l'ortho 2022 montre le mât à la pointe de l'ancien îlot, la bordure GAM 2026 passe à 0,28 m devant lui : déplacement minimal sur le nouvel îlot gardé, confiance faible"
+   },
+   "feu_SW_NO_pietons": {
+    "verdict": "ambigu",
+    "note": "support déduit 2026, aucune photo valide ; décalage le long de la bordure hors de l'abaissé et de la BEV, dans le prolongement du passage"
+   },
+   "feu_VERC_O_pietons": {
+    "verdict": "ambigu",
+    "note": "support déduit 2026, aucune photo valide"
+   },
+   "pan_B21a1_4": {
+    "verdict": "ambigu",
+    "verdict_azimut": "ambigu",
+    "note": "panneau déduit 2026 sur le nez N du nouvel îlot du Vercors ; l'orientation 341° suit l'axe de l'îlot (usagers venant du carrefour)"
+   },
+   "arbre_396": {
+    "verdict": "ambigu",
+    "note": "sommet de couronne LiDAR au bord de la piste ; le tronc n'est pas visible sous la couronne sur l'ortho 2022 ; tronc replacé dans la bande verte (VEG-06), confiance faible"
+   },
+   "arbre_063": {
+    "verdict": "ambigu",
+    "note": "bande plantée étroite entre deux bordures : seules les règles critiques sont imposées"
+   },
+   "arbre_109": {
+    "verdict": "ambigu",
+    "note": "l'ortho 2022 montre une bande plantée (érables de 1975) là où le plan 2025 et OSM 2026 placent la piste cyclable : arbre probablement abattu par les travaux ; non instancié jusqu'au relevé"
+   },
+   "potelet_13827066658": {
+    "verdict": "ambigu",
+    "note": "quartier construit après 2022 : ni photo ni ortho utiles ; la classe « chaussée » y vient du plan 2025 : correction par la règle, confiance faible"
+   },
+   "feu_NE_droite_t2": {
+    "verdict_azimut": "ambigu",
+    "note": "orientation de la tête R12 indiscernable à cette distance"
+   },
+   "feu_NE_droite_t3": {
+    "verdict_azimut": "ambigu",
+    "note": "le répétiteur est visible sous la tête principale mais son orientation n'est pas mesurable sur ces vues"
+   },
+   "feu_REV_droite_t3": {
+    "verdict_azimut": "ambigu",
+    "note": "tête R13c non confirmée sur les photos (à vérifier)"
+   },
+   "SPEC-feu_REV_ilot_axial": {
+    "verdict": "rejete",
+    "note": "feux.json décrit un support de feux sur l'îlot axial : les photos 2024-2025 montrent un poteau bois sans tête de feu (poteau_bois_REV_ilot)"
+   },
+   "SPEC-feu_REV_ilot_E": {
+    "verdict": "ambigu",
+    "note": "un mât sombre avec une tête est visible sur l'îlot du D21 en 2024-08 (2ab4efbc) ; l'îlot a probablement disparu en 2025"
+   },
+   "SPEC-M9c_acces_NE": {
+    "verdict": "rejete",
+    "note": "aucun panneau à cette position sur 79a18815 et eeb2f8f1 ; les panneaux de l'accès NE sont sur un seul mât à (52,9 ; 61,8)"
+   },
+   "SPEC-M9c_ruisseau": {
+    "verdict": "fusionne",
+    "note": "panonceau du mât de lamp_12894130974 (pan_M9_1)"
+   },
+   "SPEC-M12a_feu_REV_droite": {
+    "verdict": "fusionne",
+    "note": "déjà décrit comme tête M12 de feu_REV_droite (instances.json)"
+   },
+   "SPEC-M12a_ou_AB3a_feu_VERC_droite": {
+    "verdict": "fusionne",
+    "note": "déjà décrit comme panonceau AB3a de feu_VERC_droite (instances.json)"
+   },
+   "potelet_REV_3": {
+    "verdict": "origine",
+    "note": "ortho 2022 : tête blanche du potelet visible exactement en A, au bord de la traversée de la Revirée ; la classe « chaussée » v1 (limite raster) est fausse à cet endroit"
+   },
+   "mat_camera_9831317323": {
+    "verdict": "corrigee",
+    "note": "ortho 2022 : l'ombre du mât part d'un pied plus proche de C que de A (A est sur l'arête avant) ; C est à 0,3 m de lamp_9514825221 : très probablement le même mât (caméra sur candélabre), fusion proposée"
+   },
+   "lamp_12668578865": {
+    "verdict": "corrigee",
+    "note": "ortho 2022 : lanterne (disque clair) et départ de l'ombre du mât à ≈ 0,1 m de C, ≈ 0,5 m de A"
+   },
+   "corbeille_12328578845": {
+    "verdict": "origine",
+    "note": "ortho 2022 : petit objet clair (corbeille probable) en A, au bord du parking, à côté des conteneurs ; la limite raster de la surface est approximative"
+   },
+   "lamp_9665416517": {
+    "verdict": "ambigu",
+    "note": "sous les arbres : ni pied ni ombre lisibles sur l'ortho 2022 ; aucune photo calée à moins de 40 m"
+   },
+   "poteau_NO_0021": {
+    "verdict": "ambigu",
+    "note": "quai reconstruit en 2025 : ortho 2022 sans valeur ; déplacement de 0,5 m dans le quai pour libérer 1,40 m"
+   },
+   "distributeur_12321482421": {
+    "verdict": "ambigu",
+    "note": "quai reconstruit en 2025 : ortho 2022 sans valeur"
+   },
+   "potelet_13827066657": {
+    "verdict": "ambigu",
+    "note": "quartier construit après 2022 : ni photo ni ortho utiles"
+   }
   }
  }
 }

@@ -9,7 +9,7 @@
  },
  "description_v2": {
   "schema": "description_scene_v2/enrichi/0.1",
-  "generateur": "fusion_recensement/0.2",
+  "generateur": "fusion_recensement/0.3",
   "couche": "corrections_position",
   "repere": "EPSG:2154 ; local = L93 - (917279.43, 6460289.98)",
   "role": "déplacements prouvés par image (et maintiens contre la cohérence), avec preuves",
@@ -54,7 +54,7 @@
      "verdict": "sans_correction_coherence"
     },
     "conflits": [
-     "CF-ENR-017"
+     "CF-ENR-030"
     ],
     "regles": [
      "FUS-POS-07"
@@ -124,7 +124,7 @@
     },
     "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-018"
+     "CF-ENR-031"
     ],
     "regles": [
      "FUS-POS-01",
@@ -176,7 +176,8 @@
     "sigma_m": 0.188,
     "decision": "revue_requise",
     "raisons": [
-     "une seule source non triangulée et pas de correction affirmée"
+     "une seule source non triangulée et pas de correction affirmée",
+     "aucune mesure stricte (FUS-COUV-02)"
     ],
     "methodes": [
      "pixel_ortho"
@@ -201,7 +202,7 @@
     },
     "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-019"
+     "CF-ENR-032"
     ],
     "regles": [
      "FUS-POS-01",
@@ -245,7 +246,8 @@
     "sigma_m": 0.375,
     "decision": "revue_requise",
     "raisons": [
-     "aucune mesure valide 2026 pleine (images antérieures aux travaux ou incertaines)"
+     "aucune mesure valide 2026 pleine (images antérieures aux travaux ou incertaines)",
+     "aucune mesure stricte (FUS-COUV-02)"
     ],
     "methodes": [
      "pixel_ortho"
@@ -270,7 +272,7 @@
     },
     "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-020"
+     "CF-ENR-033"
     ],
     "regles": [
      "FUS-POS-01",
@@ -424,8 +426,8 @@
     },
     "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-011",
-     "CF-ENR-021"
+     "CF-ENR-024",
+     "CF-ENR-034"
     ],
     "regles": [
      "FUS-POS-01",
@@ -642,7 +644,7 @@
     },
     "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-012"
+     "CF-ENR-025"
     ],
     "regles": [
      "FUS-POS-01",
@@ -732,7 +734,7 @@
     "mesures_anterieures": null,
     "conflits": [
      "CF-ENR-006",
-     "CF-ENR-013"
+     "CF-ENR-026"
     ],
     "regles": [
      "FUS-POS-01",
@@ -784,7 +786,8 @@
     "sigma_m": 0.25,
     "decision": "revue_requise",
     "raisons": [
-     "aucune mesure valide 2026 pleine (images antérieures aux travaux ou incertaines)"
+     "aucune mesure valide 2026 pleine (images antérieures aux travaux ou incertaines)",
+     "aucune mesure stricte (FUS-COUV-02)"
     ],
     "methodes": [
      "triangulation"
@@ -829,8 +832,8 @@
     },
     "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-014",
-     "CF-ENR-022"
+     "CF-ENR-027",
+     "CF-ENR-035"
     ],
     "regles": [
      "FUS-POS-01",
@@ -973,7 +976,7 @@
      }
     ],
     "conflits": [
-     "CF-ENR-026"
+     "CF-ENR-045"
     ],
     "regles": [
      "FUS-POS-01",
@@ -1061,7 +1064,7 @@
     },
     "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-015"
+     "CF-ENR-028"
     ],
     "regles": [
      "FUS-POS-01",
@@ -1148,7 +1151,7 @@
     },
     "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-016"
+     "CF-ENR-029"
     ],
     "regles": [
      "FUS-POS-01",
@@ -1190,8 +1193,11 @@
     "nature": "deplacement",
     "d_m": 1.814,
     "sigma_m": 0.35,
-    "decision": "appliquer",
-    "raisons": [],
+    "decision": "revue_requise",
+    "raisons": [
+     "aucune mesure stricte (FUS-COUV-02)",
+     "mesures antérieures aux travaux, dans leur emprise, sans appui de conservation (FUS-DATE-02)"
+    ],
     "methodes": [
      "triangulation"
     ],
@@ -1214,7 +1220,9 @@
      "verdict": "sans_correction_coherence"
     },
     "mesures_anterieures": null,
-    "conflits": [],
+    "conflits": [
+     "CF-ENR-036"
+    ],
     "regles": [
      "FUS-POS-01",
      "FUS-POS-03",
@@ -1255,8 +1263,11 @@
     "nature": "deplacement",
     "d_m": 3.29,
     "sigma_m": 0.4,
-    "decision": "appliquer",
-    "raisons": [],
+    "decision": "revue_requise",
+    "raisons": [
+     "aucune mesure stricte (FUS-COUV-02)",
+     "mesures antérieures aux travaux, dans leur emprise, sans appui de conservation (FUS-DATE-02)"
+    ],
     "methodes": [
      "triangulation"
     ],
@@ -1280,7 +1291,8 @@
     },
     "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-024"
+     "CF-ENR-037",
+     "CF-ENR-039"
     ],
     "regles": [
      "FUS-POS-01",
@@ -1324,7 +1336,8 @@
     "sigma_m": 0.375,
     "decision": "revue_requise",
     "raisons": [
-     "une seule source non triangulée et pas de correction affirmée"
+     "une seule source non triangulée et pas de correction affirmée",
+     "aucune mesure stricte (FUS-COUV-02)"
     ],
     "methodes": [
      "pixel_ortho"
@@ -1349,7 +1362,7 @@
     },
     "mesures_anterieures": null,
     "conflits": [
-     "CF-ENR-023"
+     "CF-ENR-038"
     ],
     "regles": [
      "FUS-POS-01",

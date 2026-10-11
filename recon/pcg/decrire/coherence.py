@@ -1,21 +1,30 @@
-"""Solveur de cohérence des objets (mobilier, arbres, têtes de feux, hypothèses des specs).
+"""Solveur de cohérence des objets v2 (mobilier, arbres, têtes de feux, hypothèses des specs, marquages).
 
-Chaîne (déterministe) :
-1. carte sémantique du site (coherence_carte) ;
-2. objets, groupes rigides, preuves (coherence_objets) ;
-3. évaluation des règles d'implantation et recherche du candidat admissible (coherence_regles) ;
-4. arbitrage : corrigé, anomalie de surface (l'objet prouvé prime, la surface est fausse), photo,
-   a priori, non-instanciation ; orientation recalculée ; z posé sur le sol 2026 ;
-5. têtes de feux (FEU-03/05/06/07), déductions (R12, boutons d'appel, candélabres, îlots manquants),
-   conflits avec feux.json / panneaux.json ;
-6. preuves photo (coherence_preuves) : planches Panoramax + ortho des corrections > 0,3 m ou > 20°,
-   lues par Claude (revue_coherence.json), triangulation des mâts en désaccord ;
-7. sorties : coherence/rapport_coherence.json, corrections.geojson, propositions_ajouts.geojson, REPORT.md.
+Chaîne (déterministe, deux exécutions identiques à l'octet) :
+1. carte sémantique du site (coherence_carte) : bordures de la description régularisée v2 (site complet,
+   orientation corrigée en amont, P6), abaissés / BEV / palier conditionnel (P8) ;
+2. objets, groupes rigides, preuves (coherence_objets) ; ombres portées sur les orthos 2022 et 2024
+   (coherence_ombres, P10) ; canal de mesures : revue, fusion 0.3, triangulations, ombres -> nouvel
+   a priori p0 (coherence_mesures, P3) ; position source brute et budget de déplacement (P9) ;
+3. évaluation des règles d'implantation, dureté selon la nature de la règle et le statut de l'objet (P7),
+   recherche du candidat admissible (coherence_regles ; P5 : jamais sur un objet mieux prouvé) ;
+4. arbitrage : corrigé, anomalie de surface, photo, non-instanciation ; orientation (règle, photo, raccourci
+   P4) ; z posé sur le sol 2026 ;
+5. têtes de feux, déductions, îlots manquants, fusions de supports (P5 : seulement « même support » ou
+   photo à un seul mât), conflits avec feux.json / panneaux.json ;
+6. preuves (coherence_preuves, coherence_poses) : toutes les poses calées (Panoramax 2024-2026, Mapillary
+   calées ; P1), porte géométrique A↔C sur chaque planche (P2) ; revue_coherence.json 0.2 (verdicts,
+   mesures, tests ordinaux, raccourcis, plaques) ;
+7. marquages : flèches centrées dans leur voie (MQ-FLE-006), marques dans la chaussée (MQ-DET-010)
+   (coherence_marquages) ;
+8. sorties : coherence/rapport_coherence.json, corrections.geojson, propositions_ajouts.geojson,
+   marquages_controle.json, corrections_marquages.geojson, ombres.json, REPORT.md.
 
 Usage (depuis la racine du dépôt) :
   python recon/pcg/decrire/coherence.py                 # tout, planches comprises
   python recon/pcg/decrire/coherence.py --sans-planches # évaluation seule
-Ne modifie ni le paquet ni la description de base : couche séparée à fusionner par le composeur.
+Ne modifie ni le paquet ni la description de base : couche séparée à fusionner par le composeur. Les
+planches (photos de tiers) sont des .jpg locaux, ignorés par git.
 """
 import argparse
 import collections
@@ -26,15 +35,13 @@ import time
 import numpy as np
 
 from coherence_carte import COHERENCE, REGLES, Carte, azimut, ecart_angle
-from coherence_objets import (FIN_TRAVAUX, azimut_grossier, charger, hypotheses_specs, tetes,
-                              valide_pour_photo)
+from coherence_objets import (azimut_grossier, charger, hypotheses_specs, tetes, valide_pour_photo)
 from coherence_regles import CIRC_BASE, Solveur
 from commun import RACINE, lire_json
 
-SCHEMA = "pj_coherence/0.1"
+SCHEMA = "pj_coherence/0.2"
 SEUIL_PLANCHE_M = 0.30
 SEUIL_PLANCHE_DEG = 20.0
-REVUE = COHERENCE / "revue_coherence.json"
 
 
 # --------------------------------------------------------------------------- objets
@@ -72,7 +79,7 @@ def arbitrer(S, o, ev, res, photos):
     surf = [v for v in V if v["nature"] == "surface" and v["gravite"] == "critique"]
     # σ de la preuve pour l'état 2026 : doublé si la preuve précède les travaux en zone de travaux
     sig = res["sigma_recherche"]
-    fort = sig <= par["seuil_sigma_preuve_forte_m"]
+    fort = sig <= par["seuil_sigma_preuve_forte_m"] or (o["preuve"] == "mesure" and o["sigma"] <= 0.30)
     leve = sig <= 0.10                     # levé 2026 (GAM) ou équivalent : la surface v1 ne peut pas le contredire
     faible_surface = (ctx["faible"] and not ctx["arbitree_bordure"]) \
         or (ctx["zone"] in ("chaussee",) and (ctx["d_bordure"] or 99) > 2.0) \
@@ -120,6 +127,7 @@ def arbitrer(S, o, ev, res, photos):
         out["p"] = np.asarray(res["candidat"], float)
         out["statut"] = "corrige"
         out["conf"] = "moyenne" if o["sigma"] < 1.0 else "faible"
+        out["passe"] = res.get("passe")
         out["justification"].append(f"candidat admissible le plus proche ({res['mode']}, Δt {res['dt']:+.2f} m, Δs {res['ds']:+.2f} m, "
                                     f"J {res['J']}) dans la limite de la preuve ({o['preuve']}, d_max {res['dmax']} m)")
         if res.get("relaxation"):
@@ -138,12 +146,11 @@ def arbitrer(S, o, ev, res, photos):
         out["statut"] = "a_arbitrer_photo"
         out["justification"].append(f"preuve faible, aucune position admissible dans {res['dmax']} m : arbitrage par {len(photos)} photo(s) calée(s)")
     elif res.get("candidat_hors_dmax") is not None:
-        out["p"] = np.asarray(res["candidat_hors_dmax"], float)
-        out["statut"] = "corrige"
-        out["conf"] = "faible"
+        out["statut"] = "non_resolu"
         out["drapeaux"].append("a_verifier_terrain2026")
-        out["justification"].append(f"aucune preuve photo valide : candidat a priori à {res['d_hors']} m (au-delà de d_max), conf faible")
-        return out
+        out["candidat_indicatif"] = np.asarray(res["candidat_hors_dmax"], float)
+        out["justification"].append(f"aucune position admissible dans le budget de la source brute ({o.get('source_brute')}, "
+                                    f"d_max {o.get('dmax_brut')} m, P9) ; candidat indicatif à {res['d_hors']} m, non appliqué")
     else:
         out["statut"] = "non_resolu"
         out["justification"].append("aucune position admissible et aucune preuve pour trancher")
@@ -162,6 +169,36 @@ ORIENTATION_PHOTO = re.compile(r"face à la caméra|de face|vue? de face|vues? d
                                r"relèvement|lisibles? de face", re.I)
 
 
+def orienter_photo(o, groupe_codes):
+    """P4 : azimut de face par raccourci des plaques (revue : vues avec w/h et côté) et contrôle des
+    plaques identifiées sur le mât. Renvoie dict ou None."""
+    import coherence_mesures as CM
+    rv = CM.revue().get(o["id"]) or {}
+    if not rv.get("raccourci"):
+        for m in sorted(groupe_codes.get("ids", [])):
+            if (CM.revue().get(m) or {}).get("raccourci"):
+                rv = CM.revue()[m]
+                break
+    rc = rv.get("raccourci")
+    if not rc:
+        return None
+    pl = rv.get("plaques_vues")
+    if pl is not None:
+        ok, attendu = CM.plaques_compatibles(groupe_codes["codes"], pl)
+        if not ok:
+            return dict(statut="plaques_incompatibles", raison=f"plaques vues {sorted(pl)} ≠ codes du mât {attendu} : "
+                                                                "conclusion d'orientation non transférée (P4)")
+    sol = CM.azimut_par_raccourci(rc.get("vues") or [])
+    if sol is None:
+        return dict(statut="raccourci_insuffisant", raison="moins de 2 vues mesurées : pas d'azimut par raccourci (P4)")
+    ambigu = sol["second"] is not None and sol["second"]["rms_deg"] <= sol["rms_deg"] + 5.0
+    return dict(statut="ambigu" if ambigu else "mesure", az=sol["azimut"], rms_deg=sol["rms_deg"], second=sol["second"],
+                n_vues=sol["n"], obliquites_deg=sol["obliquites_deg"], vues=rc.get("vues"),
+                raison=f"raccourci des plaques sur {sol['n']} vues : face à {sol['azimut']:.0f}° (rms {sol['rms_deg']}°"
+                       + (f", second minimum {sol['second']['azimut']:.0f}° à {sol['second']['rms_deg']}°" if sol["second"] else "")
+                       + ")")
+
+
 def orienter(S, o, p, ctx, hyp_az):
     """Azimut final. La règle oriente un objet sans azimut ; elle affine un azimut grossier (multiple
     de 45°) ou faiblement prouvé seulement si elle reste à moins de 60° de lui ; un désaccord plus
@@ -171,6 +208,17 @@ def orienter(S, o, p, ctx, hyp_az):
     az0 = o.get("azimut0")
     cible = S.orientation_cible(o, p, ctx, az0=az0) if o["type"] in ("panneau", "lampadaire", "abri_bus", "poteau_incendie") else None
     out = dict(az=az0, statut=None, cible=None, conf=None, motif=None)
+    if o["type"] == "panneau":
+        mem = [m for m in S.objets if m["groupe"] == o["groupe"] and m["type"] == "panneau"]
+        ph = orienter_photo(o, dict(codes=[m.get("code") for m in mem], ids=[m["id"] for m in mem]))
+        if ph is not None:
+            out["raccourci"] = ph
+            if ph["statut"] == "mesure":
+                e = None if az0 is None else ecart_angle(az0, ph["az"])
+                out.update(az=round(ph["az"], 1), statut="reoriente" if (e is None or e > 10.0) else None, conf="moyenne",
+                           cible=None if cible is None else round(cible["az"], 1),
+                           motif=None if cible is None else cible["motif"], raison=ph["raison"] + " (P4)")
+                return out
     if cible is None:
         return out
     out["cible"] = round(cible["az"], 1)
@@ -234,7 +282,7 @@ def evaluer_tetes(S, positions):
     for t in S.tetes:
         sup = t["support"]
         p_sup = positions.get(sup["id"], sup["p0"])
-        dp = p_sup - sup["p0"]
+        dp = p_sup - sup.get("p_source", sup["p0"])
         p = t["p"] + dp
         tt = t["type_tete"]
         cible, motif, tol, regle = None, None, None, None
@@ -429,6 +477,52 @@ def _candelabres_manquants(S, positions):
     return out
 
 
+def anomalies_collectives(S, objets, arbit, resol):
+    """Plusieurs objets indépendants (≥ 3 objets, ≥ 2 classes de preuve ou couches) en violation physique sur
+    la MÊME surface v2 circulée : c'est la classe de la surface qui est douteuse (une classe votée, une voie
+    OpenDRIVE mal tracée), pas chacun des objets. Ils passent en anomalie de surface (instanciés, conf faible,
+    à vérifier) et une proposition « surface_a_corriger » est émise. Renvoie les propositions."""
+    par_surface = collections.defaultdict(list)
+    for o in objets:
+        a = arbit.get(o["id"])
+        if a is None or o["id"] != a["_rep"] or a["statut"] not in ("non_resolu", "a_arbitrer_photo"):
+            continue
+        if not any(v.get("physique") and v.get("dure") for v in a["_V"]):
+            continue
+        sv = S.c.surface_v2(o["p0"])
+        if sv is None or sv["classe"] not in ("chaussee", "piste_cyclable", "parking", "acces_riverain"):
+            continue
+        par_surface[sv["id"]].append((o, sv))
+    out = []
+    for sid, lst in sorted(par_surface.items()):
+        sources = {(o["couche"], o["preuve_propre"]) for o, _ in lst}
+        sv = lst[0][1]
+        v1 = S.c.surface_v1(np.mean([o["p0"] for o, _ in lst], axis=0)) or {}
+        desaccord = str(sv["src_classe"] or "").startswith("a_priori") and v1.get("classe") in (
+            "espace_vert", "terre_plein_vegetal", "trottoir", "ilot")
+        if len(lst) < 3 or (len(sources) < 2 and not desaccord):
+            continue
+        sv = dict(sv, classe_v1=v1.get("classe"), id_v1=v1.get("id"))
+        ids = sorted(o["id"] for o, _ in lst)
+        for o, _ in lst:
+            ar = arbit[o["id"]]
+            ar2 = dict(ar, statut="anomalie_surface", instancier=True, conf="faible", p=o["p0"].copy(),
+                       drapeaux=sorted(set(ar["drapeaux"]) - {"obsolete_probable"} | {"a_verifier_terrain2026", "anomalie_collective"}),
+                       justification=[j for j in ar["justification"] if "non instancié" not in j]
+                       + [f"anomalie collective : {len(lst)} objets indépendants ({', '.join(ids)}) en violation physique sur la "
+                          f"surface {sid} ({sv['classe']}, classe {sv['src_classe']} ; v1 {sv['id_v1']} {sv['classe_v1']}) : la "
+                          "classe de la surface est douteuse, les objets sont gardés"])
+            for m in resol[o["id"]]["membres"]:
+                arbit[m] = ar2
+        c = np.mean([o["p0"] for o, _ in lst], axis=0)
+        out.append(dict(id=f"ADD-SURF-{sid}", type="surface_a_corriger", regle="GEN-01", p=c, conf="faible", preuves=ids,
+                        justification=f"{len(lst)} objets de {len(sources)} source(s) ({', '.join(sorted(f'{a}/{b}' for a, b in sources))}) "
+                                      f"sur la surface {sid} classée {sv['classe']} ({sv['src_classe']} ; v1 {sv['id_v1']} "
+                                      f"{sv['classe_v1']}) : "
+                                      "bande plantée, îlot ou trottoir probable ; à vérifier sur place"))
+    return out
+
+
 def ilots_manquants(S, objets, arbit):
     """Anomalies de surface sur chaussée loin des bordures, regroupées : îlot (ou refuge) absent des
     surfaces. Emprise approchée : MNT 2026 surélevé (≥ 4 cm) autour des objets, sinon disque de 1,5 m."""
@@ -477,7 +571,12 @@ def ilots_manquants(S, objets, arbit):
 
 
 def supports_confondus(S, objets, positions, arbit):
-    """Supports de groupes différents à moins de 0,30 m après résolution : un seul mât (GEN-06)."""
+    """Supports de groupes différents à moins de 0,50 m après résolution (P5) : FUSION seulement si une
+    source dit « même support » (champ support / poteau, instances) ou si une photo (revue, test ordinal
+    n_mats = 1) ou l'ortho n'en montre qu'un ; sinon simple signalement « supports proches » (deux mâts réels
+    proches, ou un déplacement à revoir). Les fusions ne sont jamais créées par un déplacement du solveur :
+    les candidats à moins de r1 + r2 + 0,10 m d'un objet mieux prouvé sont exclus."""
+    import coherence_mesures as CM
     mats = ("panneau", "lampadaire", "support_feux", "poteau_reseau", "mat_camera", "poteau_arret")
     reps = {}
     for o in objets:
@@ -487,16 +586,51 @@ def supports_confondus(S, objets, positions, arbit):
         reps.setdefault(o["groupe"], o)
     cles = sorted(reps)
     out = []
+    rv = CM.revue()
     for i in range(len(cles)):
         for j in range(i + 1, len(cles)):
             a, b = reps[cles[i]], reps[cles[j]]
             d = float(np.hypot(*(positions[a["id"]] - positions[b["id"]])))
-            if d < 0.50:
-                m = (positions[a["id"]] + positions[b["id"]]) / 2
+            if d >= 0.50:
+                continue
+            m = (positions[a["id"]] + positions[b["id"]]) / 2
+            pa, pb = a.get("props") or {}, b.get("props") or {}
+            meme = None
+            for x, y in ((a, b), (b, a)):
+                sx = str((x.get("props") or {}).get("support") or "")
+                if y["id"] in sx or (y.get("props") or {}).get("osm_id", "-") in sx:
+                    meme = f"champ support de {x['id']} : « {sx[:80]} »"
+            un_mat, deux_mats = [], []
+
+            def membres(x):
+                return {m["id"] for m in objets if m["groupe"] == x["groupe"]}
+            for x in (a, b):
+                for mid in sorted(membres(x)):
+                    for t in (rv.get(mid) or {}).get("tests_ordinaux") or []:
+                        objs = set(t.get("objets") or [])
+                        if t.get("test") != "n_mats" or not (objs & membres(a) and objs & membres(b)):
+                            continue
+                        txt = f"{', '.join(t.get('photos') or [])} ({t.get('date', '')}) : {t.get('valeur')} mât(s) ({t.get('note', '')})"
+                        txt = f"{', '.join(t.get('photos') or [])} ({t.get('date', '')}) : {t.get('valeur')} mât(s)"
+                        (un_mat if int(t.get("valeur", 0)) == 1 else deux_mats).append(txt)
+            un_mat, deux_mats = sorted(set(un_mat)), sorted(set(deux_mats))
+            deplaces = [x["id"] for x in (a, b) if float(np.hypot(*(positions[x["id"]] - x["p0"]))) > 0.05]
+            if deux_mats:
+                out.append(dict(id=f"DISTINCTS-{cles[i]}-{cles[j]}", type="supports_distincts", regle="GEN-06", p=m, conf="moyenne",
+                                statut="signalement",
+                                justification=f"supports {cles[i]} et {cles[j]} à {d:.2f} m : deux mâts distincts établis par "
+                                              + "; ".join(deux_mats) + " : jamais fusionnés (P5)", preuves=[a["id"], b["id"]]))
+            elif meme or un_mat:
                 out.append(dict(id=f"FUS-{cles[i]}-{cles[j]}", type="fusion_supports", regle="GEN-06", p=m, conf="moyenne",
-                                justification=f"supports {cles[i]} ({a['type']}) et {cles[j]} ({b['type']}) à {d:.2f} m l'un de "
-                                              "l'autre après résolution : très probablement un seul mât (GEN-06) ; fusionner les "
-                                              "éléments portés sur un support",
+                                justification=f"supports {cles[i]} ({a['type']}) et {cles[j]} ({b['type']}) à {d:.2f} m : un seul mât "
+                                              f"établi par " + "; ".join(([meme] if meme else []) + un_mat) + " (P5)",
+                                preuves=[a["id"], b["id"]]))
+            else:
+                out.append(dict(id=f"PROCHES-{cles[i]}-{cles[j]}", type="supports_proches", regle="GEN-06", p=m, conf="faible",
+                                statut="signalement",
+                                justification=f"supports {cles[i]} ({a['type']}) et {cles[j]} ({b['type']}) à {d:.2f} m sans source "
+                                              f"« même support » ni photo à un seul mât : pas de fusion (P5)"
+                                              + (f" ; déplacés par le solveur : {', '.join(deplaces)}" if deplaces else ""),
                                 preuves=[a["id"], b["id"]]))
     return out
 
@@ -535,83 +669,96 @@ def conflits_specs(S, positions, azim):
 
 
 # --------------------------------------------------------------------------- preuves
-def preuves(S, objets, arbit, orient, conflits, revue, faire_planches=True):
-    """Planches des corrections (> 0,3 m ou > 20°) et des conflits, triangulation, revue."""
+def _hypotheses(o, a, orr, conf_s):
+    """Hypothèses d'une planche : A (origine = position source), C (résolue), M (mesure retenue), F (fusion
+    en revue), S (spec), T (triangulée v1), O (pied par l'ombre)."""
+    p_src = o.get("p_source", o["p0"])
+    hyps = [dict(cle="A", p=p_src, az=o.get("azimut0") if o["type"] != "arbre" else None)]
+    if float(np.hypot(*(a["p"] - p_src))) > 0.05 or orr.get("statut") == "reoriente":
+        hyps.append(dict(cle="C", p=a["p"], az=orr.get("az")))
+    if o.get("mesure") and float(np.hypot(*(o["mesure"]["xy"] - a["p"]))) > 0.05:
+        hyps.append(dict(cle="M", p=o["mesure"]["xy"], az=None))
+    for m in o.get("mesures") or []:
+        if m["source"] == "fusion_recensement_0.3" and m["statut"] == "hypothese":
+            hyps.append(dict(cle="F", p=m["xy"], az=None))
+    for c in conf_s:
+        if c.get("p_spec") is not None:
+            hyps.append(dict(cle="S", p=c["p_spec"], az=c.get("az_spec")))
+    if o.get("triangulation") and o["triangulation"].get("position_triangulee"):
+        hyps.append(dict(cle="T", p=np.array(o["triangulation"]["position_triangulee"][:2]), az=None))
+    om = [m for m in o.get("mesures") or [] if m["source"] == "ombre_ortho"]
+    if om:
+        hyps.append(dict(cle="O", p=om[0]["xy"], az=None))
+    return hyps
+
+
+def preuves(S, objets, arbit, orient, conflits, revue, ombres, faire_planches=True):
+    """Planches et portes géométriques (P2) des décisions : déplacement > 0,3 m (depuis la position source),
+    réorientation > 20°, mesure appliquée, anomalie, non résolu, conflit de spec, indice d'ombre > 0,5 m."""
     import coherence_preuves as CP
     jobs = []
     for o in objets:
         a = arbit.get(o["id"])
         if a is None or o["id"] != a["_rep"]:
             continue
-        d = float(np.hypot(*(a["p"] - o["p0"])))
+        p_src = o.get("p_source", o["p0"])
+        d = float(np.hypot(*(a["p"] - p_src)))
         orr = orient.get(o["id"]) or {}
         daz = None
         if orr.get("statut") == "reoriente" and o.get("azimut0") is not None:
             daz = ecart_angle(orr["az"], o["azimut0"])
         conf_s = [c for c in conflits if c.get("objet") == o["id"] and c["nature"] in ("position", "orientation")]
+        indice = any(m["source"] == "ombre_ortho" and float(np.hypot(*(m["xy"] - p_src))) > 0.5 for m in o.get("mesures") or [])
         if d > SEUIL_PLANCHE_M or (daz or 0) > SEUIL_PLANCHE_DEG or a["statut"] in ("a_arbitrer_photo", "anomalie_surface", "non_resolu") \
-                or orr.get("statut") == "orientation_signalee" or conf_s:
-            jobs.append((o, a, orr, conf_s))
+                or orr.get("statut") in ("orientation_signalee",) or conf_s or indice or o.get("mesure") \
+                or (o["id"] in revue):
+            jobs.append((o, a, orr, list(conf_s)))
     for c in conflits:
         if c["nature"] == "identite":
             o = S.par_id[c["objet_proche"]]
             j = [x for x in jobs if x[0]["id"] == o["id"]]
             if j:
                 j[0][3].append(c)
-            else:
+            elif o["id"] in arbit:
                 jobs.append((o, arbit[o["id"]], orient.get(o["id"]) or {}, [c]))
+    jobs.sort(key=lambda j: j[0]["id"])
     res = {}
     if faire_planches and CP.PLANCHES.exists():
         for f in sorted(CP.PLANCHES.glob("*.jpg")):
             f.unlink()                       # planches d'une exécution précédente
     for o, a, orr, conf_s in jobs:
-        hyps = [dict(cle="A", p=o["p0"], az=o.get("azimut0") if o["type"] != "arbre" else None)]
-        if float(np.hypot(*(a["p"] - o["p0"]))) > 0.05 or orr.get("statut") == "reoriente":
-            hyps.append(dict(cle="C", p=a["p"], az=orr.get("az")))
-        for c in conf_s:
-            hyps.append(dict(cle="S", p=c["p_spec"], az=c.get("az_spec")))
-        if o.get("triangulation") and o["triangulation"].get("position_triangulee"):
-            hyps.append(dict(cle="T", p=np.array(o["triangulation"]["position_triangulee"][:2]), az=None))
+        hyps = _hypotheses(o, a, orr, conf_s)
         h = float(o.get("hauteur") or 2.5) if o["type"] != "arbre" else 3.0
         h = min(max(h, 1.0), 6.0)
         valide = (lambda date, o=o: valide_pour_photo(o, date))
         regles_v = sorted({v["regle"] for v in a["_V"] if v["nature"] != "z"})
+        p_src = o.get("p_source", o["p0"])
         titre = [f"{o['id']} ({o['type']}{' ' + o['code'] if o.get('code') else ''}) - {a['statut']} - preuve {o['preuve']} "
-                 f"sigma {o['sigma']} m - statut 2026 : {o['statut']}",
-                 "règles : " + ", ".join(regles_v) + f" | déplacement {np.hypot(*(a['p'] - o['p0'])):.2f} m"
+                 f"sigma {o['sigma']} m - statut 2026 : {o['statut']} - source brute : {o.get('source_brute')}",
+                 "règles : " + ", ".join(regles_v) + f" | déplacement {np.hypot(*(a['p'] - p_src)):.2f} m"
                  + (f" | azimut {o.get('azimut0')} -> {orr.get('az')}" if orr.get("statut") else "")
                  + (" | spec : " + ", ".join(c["id"] for c in conf_s) if conf_s else "")]
         chemin = CP.PLANCHES / f"{o['id']}.jpg"
-        entree = dict(planche=chemin.relative_to(RACINE).as_posix(), hypotheses=[q["cle"] for q in hyps], photos=[])
         notes = []
         for q in hyps:
             zq = S.zones(np.asarray(q["p"], float)[None])[0][0]
             rq = S.c.ref_bordure(np.asarray(q["p"], float)[None], rayon=10.0, circulee=True)[0]
             notes.append(f"{q['cle']} : ({q['p'][0]:.2f} ; {q['p'][1]:.2f}) zone {zq}"
-                         + ("" if rq is None else f", t = {rq['t']:+.2f} m de {rq['id']}")
+                         + ("" if rq is None else f", s {rq['s']:.2f} t {rq['t']:+.2f} m ({rq['id']})")
                          + ("" if q.get("az") is None else f", face {q['az']:.0f}°"))
         notes += [j[:150] for j in a.get("justification", [])[:2]]
-        if faire_planches:
-            _, photos = CP.planche(S.c, o["id"], titre, hyps, h, valide, chemin, azimuts=True, notes=notes)
-            entree["photos"] = photos
-        dpos = max([float(np.hypot(*(q["p"] - o["p0"]))) for q in hyps if q["cle"] in ("C", "S")] or [0.0])
-        if faire_planches and o["type"] in ("lampadaire", "support_feux", "panneau", "poteau_reseau", "mat_camera",
-                                            "potelet", "poteau_arret") and dpos > 0.75 and len(entree["photos"]) >= 2:
-            alt = max([q for q in hyps if q["cle"] in ("C", "S")], key=lambda q: float(np.hypot(*(q["p"] - o["p0"]))))
-            st = o["statut"]
-            vd = FIN_TRAVAUX if (st.startswith("déduit 2026") or st.startswith("2026")) else "2000-01-01"
-            try:
-                entree["triangulation"] = CP.trianguler(o, o["p0"], alt["p"], vd)
-            except Exception as e:  # noqa: BLE001 - indice seulement
-                entree["triangulation"] = dict(conclusion=f"échec : {e}")
-        entree["revue"] = revue.get(o["id"])
+        om = ((ombres or {}).get("detections") or {}).get(o["id"], {}).get("pcrs2022")
+        _, photos, gates = CP.planche(S.c, o["id"], titre, hyps, h, valide, chemin, azimuts=True, notes=notes,
+                                      ombre=om, faire=faire_planches)
+        entree = dict(planche=chemin.relative_to(RACINE).as_posix(), hypotheses=[q["cle"] for q in hyps], photos=photos,
+                      portes={cle: g for cle, g in gates}, revue=revue.get(o["id"]))
         res[o["id"]] = entree
     return res
 
 
 def preuves_tetes(S, tetes_res, positions, revue, faire_planches=True):
-    """Planches des têtes de feux réorientées (ou signalées) de plus de 20° : axe vertical du support
-    et face attendue (A d'origine, C corrigée) dans chaque photo calée valide."""
+    """Planches des têtes de feux réorientées (ou signalées) de plus de 20° : axe du support et face
+    attendue (A d'origine, C corrigée) dans chaque photo calée valide."""
     import coherence_preuves as CP
     res = {}
     for t in tetes_res:
@@ -619,55 +766,93 @@ def preuves_tetes(S, tetes_res, positions, revue, faire_planches=True):
             continue
         sup = S.par_id[t["support"]]
         p = positions.get(sup["id"], sup["p0"])
-        hyps = [dict(cle="A", p=p, az=t["azimut_source"]), dict(cle="C", p=p, az=t["cible"])]
+        hyps = [dict(cle="A", p=p, az=t["azimut_source"]), dict(cle="C", p=p + 1e-3, az=t["cible"])]
         h = min(max(float(sup.get("hauteur") or 3.0), 1.5), 5.0)
         valide = (lambda date, o=sup: valide_pour_photo(o, date))
         titre = [f"{t['id']} (tête {t['type_tete']} sur {sup['id']}) - {t['statut']} - azimut {t['azimut_source']} -> {t['cible']} "
                  f"({t['regle']})", f"{t['motif']} ; hauteur du centre {t['hauteur_centre_m']} m ; statut 2026 : {t['statut_2026']}"]
         chemin = CP.PLANCHES / f"{t['id']}.jpg"
-        entree = dict(planche=chemin.relative_to(RACINE).as_posix(), photos=[])
-        if faire_planches:
-            notes = [f"A : face {t['azimut_source']}° (couche)", f"C : face {t['cible']}° (règle {t['regle']})"]
-            _, photos = CP.planche(S.c, t["id"], titre, hyps, h, valide, chemin, azimuts=True, notes=notes)
-            entree["photos"] = photos
-        entree["revue"] = revue.get(t["id"])
+        notes = [f"A : face {t['azimut_source']}° (couche)", f"C : face {t['cible']}° (règle {t['regle']})"]
+        _, photos, _ = CP.planche(S.c, t["id"], titre, hyps, h, valide, chemin, azimuts=True, notes=notes, faire=faire_planches)
+        entree = dict(planche=chemin.relative_to(RACINE).as_posix(), photos=photos, revue=revue.get(t["id"]))
         t["planche"], t["photos_planche"] = entree["planche"], entree["photos"]
         res[t["id"]] = entree
     return res
 
 
 # --------------------------------------------------------------------------- principal
+def emprise_travaux(carte, o):
+    """L'objet est-il dans l'emprise des travaux 2025 (bordure modifiée à moins de 3 m ou surface v1
+    refaite) ? (FUS-DATE-02)"""
+    r = carte.ref_bordure(np.asarray(o["p0"], float)[None], rayon=3.0, circulee=False)[0]
+    if r is not None and (r["modifiee"] or r["travaux"]):
+        return True
+    sv = carte.surface_v1(o["p0"])
+    return bool(sv and sv["etat"] == "modifie_2025")
+
+
+def propager_mesures_groupes(objets):
+    """Une mesure sur un élément d'un groupe rigide (même poteau) vaut pour tout le groupe (GEN-05)."""
+    groupes = collections.defaultdict(list)
+    for o in objets:
+        groupes[o["groupe"]].append(o)
+    for g, membres in sorted(groupes.items()):
+        mes = [m for m in membres if m.get("mesure")]
+        if not mes:
+            continue
+        best = sorted(mes, key=lambda m: (m["sigma"], m["id"]))[0]
+        dv = best["p0"] - best["p_source"]
+        for m in membres:
+            if m.get("mesure"):
+                continue
+            m["p0"] = m["p_source"] + dv
+            m["mesure"] = dict(best["mesure"], herite_de=best["id"])
+            m["preuve_avant_mesure"] = (m["preuve"], m["sigma"], m["dmax"])
+            m["preuve"], m["sigma"], m["dmax"] = "mesure", best["sigma"], best["dmax"]
+            m["p_brut"], m["dmax_brut"], m["source_brute"] = m["p0"].copy(), best["dmax_brut"], best["source_brute"]
+
+
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Solveur de cohérence des objets (règles d'implantation + preuves)")
+    ap = argparse.ArgumentParser(description="Solveur de cohérence des objets v2 (règles d'implantation + preuves)")
     ap.add_argument("--sans-planches", action="store_true")
     a = ap.parse_args(argv)
     t0 = time.time()
+    import coherence_mesures as CM
+    import coherence_ombres as CO
+    import coherence_poses as PO
     carte = Carte(verbeux=True)
     carte.ecrire()
     R = lire_json(REGLES)
     objets, clotures = charger(R)
+    ombres = CO.executer(objets)
+    print(f"ombres : {sum(1 for d in ombres['detections'].values() for x in d.values() if isinstance(x, dict) and x['accepte'])} "
+          f"détections acceptées ({time.time() - t0:.1f} s)")
+    from coherence_objets import anterieure_travaux
+    for o in objets:
+        o["_emprise_travaux"] = emprise_travaux(carte, o)
+    journal_mesures = CM.appliquer(objets, carte, R["resolution"], ombres, valide_pour_photo, anterieure_travaux)
+    propager_mesures_groupes(objets)
     tt = tetes(objets)
     hy = hypotheses_specs(objets)
     S = Solveur(carte, R, objets, clotures, tt, hy)
-    revue = lire_json(REVUE)["revues"] if REVUE.exists() else {}
-    print(f"objets {len(objets)}, têtes {len(tt)}, hypothèses specs {len(hy)} ({time.time() - t0:.1f} s)")
+    revue = CM.revue()
+    print(f"objets {len(objets)}, têtes {len(tt)}, hypothèses specs {len(hy)}, mesures appliquées {len(journal_mesures)}, "
+          f"photos calées {len(PO.catalogue())} ({time.time() - t0:.1f} s)")
 
     evals, resol = evaluer_groupes(S, objets)
     for o in objets:
         if o["id"] in resol:
             o["travaux"] = bool(resol[o["id"]].get("degradation_temporelle"))
     collis = S.collisions()
-    import coherence_preuves as CP
-    cams = np.array([[r["pose"]["x"], r["pose"]["y"]] for r in CP._poses().values() if r.get("accepte")])
     nphotos = {}
     for o in objets:
-        if o["statut"].startswith("absent") or np.min(np.hypot(*(cams - o["p0"]).T)) > 30:
+        if o["statut"].startswith("absent"):
             nphotos[o["id"]] = []
             continue
         h = 2.5 if o["type"] != "arbre" else 3.0
         p3 = np.r_[o["p0"], float(carte.z_sol(o["p0"][None])[0])]
-        sel = CP.photos_calees([p3], h, lambda d, o=o: valide_pour_photo(o, d), n=13, dmax=25.0)
-        nphotos[o["id"]] = [pid for _, pid, _, _ in sel]
+        sel = PO.photos_pour([p3], h, lambda d, o=o: valide_pour_photo(o, d), dmax=25.0)
+        nphotos[o["id"]] = [p["id"] for _, p, _ in sel]
     arbit, orient = {}, {}
     for o in objets:
         if o["statut"].startswith("absent"):
@@ -683,7 +868,7 @@ def main(argv=None):
         ar["_V"], ar["_ctx"], ar["_rep"] = V, evals[rep["id"]]["ctx"], rep["id"]
         for m in membres:
             arbit[m["id"]] = ar
-    # îlots manquants : un objet faible voisin d'une anomalie forte partage l'anomalie
+    collectives = anomalies_collectives(S, objets, arbit, resol)
     ilots = ilots_manquants(S, [o for o in objets if o["id"] in arbit], arbit)
     for il in ilots:
         for o in objets:
@@ -724,7 +909,7 @@ def main(argv=None):
     for o in objets:
         if o["id"] in orient and o["type"] == "panneau":
             groupes[o["groupe"]].append(o)
-    for g, membres in groupes.items():
+    for g, membres in sorted(groupes.items()):
         principaux = [m for m in membres if not str(m.get("code") or "").startswith("M")]
         if not principaux:
             continue
@@ -738,13 +923,16 @@ def main(argv=None):
                 orient[m["id"]] = orr
     conflits = conflits_specs(S, positions, orient)
     tetes_res = evaluer_tetes(S, positions)
-    deductions = deduire(S, positions, tetes_res) + ilots + fusions
-    pr = preuves(S, objets, arbit, orient, conflits, revue, faire_planches=not a.sans_planches)
+    deductions = deduire(S, positions, tetes_res) + ilots + fusions + collectives
+    pr = preuves(S, objets, arbit, orient, conflits, revue, ombres, faire_planches=not a.sans_planches)
     pr.update(preuves_tetes(S, tetes_res, positions, revue, faire_planches=not a.sans_planches))
     print(f"évaluation et preuves : {time.time() - t0:.1f} s")
+    import coherence_marquages as CMQ
+    marq = CMQ.controler(carte, revue, faire_planches=not a.sans_planches)
+    print(f"marquages : {marq['comptes']} ({time.time() - t0:.1f} s)")
     import coherence_sorties as CS
     CS.ecrire_sorties(S, objets, clotures, evals, resol, arbit, orient, nphotos, collis, conflits, tetes_res,
-                      deductions, pr, revue)
+                      deductions, pr, revue, ombres=ombres, journal_mesures=journal_mesures, marquages=marq)
     print(f"terminé en {time.time() - t0:.1f} s")
 
 

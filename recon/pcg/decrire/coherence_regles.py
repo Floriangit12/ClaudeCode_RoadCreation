@@ -9,13 +9,21 @@ grille), coût J = (Δt/σ)² + 4 (Δs/σ)² + termes mous, arbitrage (anomalie 
 non-instanciation) et orientation recalculée quand l'azimut est grossier ou non mesuré.
 
 Les classes de surface au voisinage immédiat d'une bordure (|t| < 1 m) sont arbitrées par la bordure
-(levé GAM, σ 0,05 m) : côté haut = classe du côté haut, côté chaussée = classe du côté bas. Les limites
-raster v1 décalées ne créent donc pas de fausse violation.
+(levé GAM, σ 0,05 m) : côté haut = classe du côté haut, côté chaussée = classe du côté bas — seulement si
+l'orientation de la bordure est forte (MNT, OpenDRIVE, GQ-ORI-001 ; P6).
+
+v2 (revue adverse v1) : dureté selon la nature de la règle et le statut de l'objet (P7,
+coherence_politique) ; exception GEN-02 des supports de feux piétons et palier majeur (P8) ; candidats
+exclus à moins de r1 + r2 + 0,10 m d'un objet de preuve au moins aussi bonne (P5) ; budget de
+déplacement compté depuis la position source brute (P9) ; les reculs d'un objet existant sont des coûts
+mous qui orientent le candidat d'un déplacement imposé par une règle physique, jamais un motif de
+déplacement.
 """
 import math
 
 import numpy as np
 
+import coherence_politique as POL
 from coherence_carte import PIETONNES, azimut, ecart_angle
 from coherence_objets import anterieure_travaux, azimut_grossier
 from commun import normale_gauche
@@ -66,6 +74,7 @@ class Solveur:
         self.Rr = np.array([o["rayon"] for o in self.actifs])
         self.Grp = np.array([o["groupe"] for o in self.actifs], dtype=object)
         self.Ids = np.array([o["id"] for o in self.actifs], dtype=object)
+        self.Sig = np.array([o["sigma"] for o in self.actifs], float)
         self.nez = self._nez_ilots()
         self.lignes_effet = {l["branche"]: l for l in carte.lignes_effet}
         self._ctx_cache = {}
@@ -102,7 +111,7 @@ class Solveur:
             idx = np.nonzero(cand)[0]
             rr = self.c.ref_bordure(P[idx], rayon=1.0, circulee=False)
             for i, r in zip(idx, rr):
-                if r is None:
+                if r is None or not self.c.bordures[r["k"]].get("orientation_forte"):
                     continue
                 if r["t"] > 0 and z[i] in CIRC_BASE and r["classe_haut"] not in CIRC_BASE and r["classe_haut"]:
                     z[i], arb[i] = r["classe_haut"], True
@@ -181,16 +190,11 @@ class Solveur:
                     ex |= set(e.get("zones_autorisees", []))
         return ex
 
-    def dure(self, o, g):
-        """Politique de résolution : la règle est-elle une contrainte dure pour cet objet ?"""
-        a_priori = o["preuve"] == "a_priori" or o["statut"].startswith("déduit")
-        if g["action"] == "verifier" and not a_priori:
-            return False
-        if g["gravite"] == "critique":
-            return True
-        if g["gravite"] == "majeur":
-            return o["sigma"] >= self.par["seuil_sigma_normatif_m"]
-        return False
+    def dure(self, o, g, v=None):
+        """Politique de résolution (P7) : la violation v de la règle g est-elle une contrainte dure pour o ?"""
+        v = v or dict(nature="surface", valeur=list(g.get("surfaces_interdites") or []))
+        d, _ = POL.durete(o, g, v, self.par["seuil_sigma_normatif_m"])
+        return d
 
     # ------------------------------------------------------------------ contexte
     def contexte(self, o, p=None):
@@ -210,6 +214,7 @@ class Solveur:
         p = np.asarray(o["p0"] if p is None else p, float)
         az = o.get("azimut0") if az is None else az
         ctx = self.contexte(o, p)
+        ctx["_p"] = p
         V = []
         regs = self.applicables(o, ctx["zone"])
         emp = self.emprise(o, p, az)
@@ -226,19 +231,24 @@ class Solveur:
             gid = g["id"]
             if gid not in EVALUEES:
                 continue
-            if dures_seulement and not self.dure(o, g):
-                continue
             V += self._regle(g, o, p, az, ctx, emp, ze)
         fort = o["sigma"] <= self.par["seuil_sigma_preuve_forte_m"]
+        st = POL.statut_objet(o)
         for v in V:
             g = self.regles[v["regle"]]
             v.setdefault("gravite", g["gravite"])
             v.setdefault("action", g["action"])
-            v["dure"] = bool(self.dure(o, g)) and v.get("nature") not in ("orientation", "z", "info")
+            v["nature_regle"] = POL.nature_regle(g)
+            v["physique"] = POL.violation_physique(v)
+            d, motif = POL.durete(o, g, v, self.par["seuil_sigma_normatif_m"], st)
+            v["dure"], v["motif_durete"] = bool(d), motif
             if v["dure"] and v.get("parametre_a_priori") and o["sigma"] < self.par["seuil_sigma_normatif_m"]:
                 v["dure"], v["note"] = False, "borne a priori de la règle : non opposable à une position bien prouvée"
-            if v["nature"] == "surface" and v.get("zones_a_priori") and fort:
+            if v["nature"] == "surface" and v.get("zones_a_priori") and fort and not v["physique"]:
                 v["dure"], v["note"] = False, "zone dérivée à géométrie a priori : l'objet prouvé prime (anomalie de surface)"
+        if dures_seulement:
+            V = [v for v in V if v["dure"]]
+        ctx["statut_objet"] = st
         return V, ctx, [g["id"] for g in regs]
 
     def _regle(self, g, o, p, az, ctx, emp, ze):
@@ -285,10 +295,21 @@ class Solveur:
         touche = sorted({z for z in ze if z in interd and z not in ex})
         if zc in ex:
             touche = []
+        if g["id"] in ("GEN-02", "FEU-07") and touche and POL.porte_tete_pietonne(o, self.tetes_de):
+            # P8 (CEREMA fiche BEV 03) : support de feux piétons / bouton d'appel à la limite arrière de la BEV,
+            # dans le prolongement du passage : centre seul testé, palier non opposé dans le prolongement
+            touche = [z for z in touche if z == zc]
+            if "palier_abaisse" in touche and self.dans_prolongement_passage(ctx.get("_p")):
+                touche = [z for z in touche if z != "palier_abaisse"]
+            ctx["exception_P8"] = True
         if touche:
             a_priori = all(z in DERIVEES for z in touche) and bool(ctx.get("_defaut_emprise"))
-            out.append(dict(regle=g["id"], nature="surface", valeur=list(touche), attendu="hors " + ", ".join(sorted(interd)),
-                            zones_a_priori=a_priori, message=f"emprise sur {', '.join(touche)}"))
+            v = dict(regle=g["id"], nature="surface", valeur=list(touche), attendu="hors " + ", ".join(sorted(interd)),
+                     zones_a_priori=a_priori, message=f"emprise sur {', '.join(touche)}")
+            if g["id"] == "GEN-02" and set(touche) <= {"palier_abaisse"}:
+                v["gravite"] = v["gravite_effective"] = "majeur"     # P8 : palier « si la largeur le permet »
+                v["message"] += " (palier : majeur, ARR2007 « si la largeur du trottoir le permet »)"
+            out.append(v)
         elif autor:
             dans = self.voc["classes_surface"].get(zc, {}).get("dans", [])
             ok = zc in autor or zc in ex or (zc in DERIVEES and ctx["base"] in autor and ctx["base"] in dans) \
@@ -700,97 +721,150 @@ class Solveur:
                                     min=round(a["rayon"] + b["rayon"] + jeu, 3)))
         return out
 
-    # ------------------------------------------------------------------ résolution
-    def faisable(self, o, P, az, regles_dures, s0=None):
-        """Masque des candidats P (N, 2) qui respectent toutes les contraintes dures + coût mou."""
+    # ------------------------------------------------------------------ résolution (v2)
+    def dans_prolongement_passage(self, p, marge=0.3):
+        """Le point est-il dans la bande d'un passage piéton prolongé au-delà de ses extrémités (≤ 3 m) ?"""
+        if p is None:
+            return False
+        p = np.asarray(p, float)
+        for pp in self.c.passages:
+            d = p - pp["a"]
+            L = float(np.hypot(*(pp["b"] - pp["a"])))
+            u, v = float(d @ pp["u"]), float(d @ pp["v"])
+            if abs(v) <= pp["demi_largeur"] + marge and (-3.0 <= u <= 0.0 or L <= u <= L + 3.0):
+                return True
+        return False
+
+    def contraintes(self, o, ctx, passe="toutes"):
+        """Contraintes de la recherche de candidat (P7, P8) selon le statut de l'objet et la passe :
+        « toutes » (règles dures de l'objet), « critiques » (gravité critique + physiques), « physiques »."""
+        st = POL.statut_objet(o)
+        pieton = POL.porte_tete_pietonne(o, self.tetes_de)
+        C = dict(statut=st, zones_emprise=set(), zones_centre=set(), palier_conditionnel=False, admissions=[],
+                 reculs=[], relations=set(), regles=set())
+        for g in self.applicables(o, ctx["zone"]):
+            gid = g["id"]
+            if gid not in EVALUEES:
+                continue
+            ex = self._excuses(g, o)
+            interd = set(g["surfaces_interdites"]) - ex
+            phys = interd & POL.SURFACES_PHYSIQUES
+            dure_g = st != "existant" and self.dure(o, g, dict(nature="surface", valeur=sorted(interd - POL.SURFACES_PHYSIQUES),
+                                                                 gravite_effective=g["gravite"]))
+            if passe == "physiques" or (passe == "critiques" and g["gravite"] != "critique"):
+                dure_g = False
+            if phys:
+                C["zones_emprise"] |= phys
+                C["regles"].add(gid)
+            if dure_g and interd - phys:
+                autres = interd - phys
+                if gid in ("GEN-02", "FEU-07") and pieton:
+                    C["zones_centre"] |= autres - {"palier_abaisse"}
+                    C["palier_conditionnel"] = C["palier_conditionnel"] or "palier_abaisse" in autres
+                else:
+                    C["zones_emprise"] |= autres
+                C["regles"].add(gid)
+            autor = set(g["surfaces_autorisees"]) if gid not in AUTORISEES_CONDITIONNELLES else set()
+            if dure_g and autor:
+                admis = set(autor) | set(ex)
+                for zn, d in self.voc["classes_surface"].items():
+                    if zn in DERIVEES and zn not in interd and any(x in autor for x in d.get("dans", [])):
+                        admis.add(zn)
+                C["admissions"].append((gid, admis))
+            for rel in g.get("relations", []):
+                if rel["rel"] == "derriere_bordure" and rel["cible"] in ("bordure_chaussee", "bordure_quai"):
+                    rmin = rel.get("recul_min_m")
+                    if gid == "VEG-02":
+                        rmin = g["parametres"]["recul_tronc_min_m"][o.get("developpement", "moyen")]
+                    C["reculs"].append(dict(regle=gid, rmin=rmin, rmax=rel.get("recul_max_m"), dure=dure_g,
+                                            poids=POL.poids_mou(g, None)))
+            if dure_g and gid in ("FEU-01", "SIG-10", "SIG-11", "PMR-01"):
+                C["relations"].add(gid)
+        return C
+
+    def faisable(self, o, P, az, C):
+        """Masque des candidats P (N, 2) qui respectent les contraintes dures C + coût mou."""
         P = np.atleast_2d(P)
         ok = np.ones(len(P), bool)
         mou = np.zeros(len(P))
-        # emprises : zones (avec arbitrage par la bordure)
         E = np.vstack([self.emprise(o, q, az) for q in P])
         k = len(E) // len(P)
         ze, base, _, zdef, _, _ = self.zones(E)
         if o["sigma"] <= self.par["seuil_sigma_preuve_forte_m"]:
             ze = np.where(zdef & np.isin(ze, sorted(DERIVEES)), base, ze)
         ze = ze.reshape(len(P), k)
+        zc = ze[:, 0]
+        if C["zones_emprise"]:
+            ok &= ~np.isin(ze, sorted(C["zones_emprise"])).any(axis=1)
+        if C["zones_centre"]:
+            ok &= ~np.isin(zc, sorted(C["zones_centre"]))
+        if C["palier_conditionnel"]:
+            pal = zc == "palier_abaisse"
+            for i in np.nonzero(pal & ok)[0]:
+                if not self.dans_prolongement_passage(P[i]):
+                    ok[i] = False
+        for gid, admis in C["admissions"]:
+            ok &= np.isin(zc, sorted(admis))
         refs = self.c.ref_bordure(P, rayon=self.par["rayon_bordure_reference_m"], circulee=True)
         r_p0 = self.c.ref_bordure(np.asarray(o["p0"], float)[None], rayon=self.par["rayon_bordure_reference_m"], circulee=True)[0]
-        for gid in regles_dures:
-            g = self.regles[gid]
-            if g["surfaces_interdites"] or g["surfaces_autorisees"]:
-                ex = self._excuses(g, o)
-                interd = set(g["surfaces_interdites"])
-                autor = set(g["surfaces_autorisees"]) if gid not in AUTORISEES_CONDITIONNELLES else set()
-                bad = sorted(interd - ex)
-                zc = ze[:, 0]
-                excuse = np.isin(zc, sorted(ex)) if ex else np.zeros(len(P), bool)
-                viol = np.isin(ze, bad).any(axis=1) if bad else np.zeros(len(P), bool)
-                if autor:
-                    admis = set(autor) | set(ex)
-                    for zn, d in self.voc["classes_surface"].items():
-                        if zn in DERIVEES and zn not in interd and any(x in autor for x in d.get("dans", [])):
-                            admis.add(zn)
-                    viol |= ~np.isin(zc, sorted(admis))
-                ok &= excuse | ~viol
-            for rel in g.get("relations", []):
-                if rel["rel"] == "derriere_bordure" and rel["cible"] in ("bordure_chaussee", "bordure_quai"):
-                    rmin = rel.get("recul_min_m")
-                    if gid == "VEG-02":
-                        rmin = g["parametres"]["recul_tronc_min_m"][o.get("developpement", "moyen")]
-                    rmax = rel.get("recul_max_m")
-                    if r_p0 is None or r_p0["t"] < -1.0:
-                        continue            # objet loin derrière le côté bas : recul non applicable en p0
-                    for i, r in enumerate(refs):
-                        if r is None or r["t"] >= 6.0:
-                            continue
-                        tb = r["t"] - self._demi_profondeur(o, r, az)
-                        if rmin is not None and tb < rmin - 1e-6:
+        if r_p0 is not None and r_p0["t"] >= -1.0:
+            for rc in C["reculs"]:
+                for i, r in enumerate(refs):
+                    if r is None or r["t"] >= 6.0:
+                        continue
+                    tb = r["t"] - self._demi_profondeur(o, r, az)
+                    if rc["rmin"] is not None and tb < rc["rmin"] - 1e-6:
+                        if rc["dure"]:
                             ok[i] = False
-                        elif rmax is not None and tb > rmax:
-                            mou[i] += ((tb - rmax) / 0.5) ** 2
-            if gid in ("FEU-01",):
-                ap = self._approche(o)
-                if ap is not None:
-                    lo, hi = g["parametres"]["ds_ligne_effet_m"]
-                    tol = g["parametres"].get("tolerance_amont_m", 0.5)
-                    v = P - ap["milieu"]
-                    ds = v @ ap["h"]
-                    cote = (ap["h"][0] * v[:, 1] - ap["h"][1] * v[:, 0]) < 0
-                    ok &= (ds >= lo - tol) & (ds <= hi) & cote
-            if gid in ("SIG-10", "SIG-11") and self.nez:
+                        else:
+                            mou[i] += rc["poids"] * ((rc["rmin"] - tb) / 0.25) ** 2
+                    elif rc["rmax"] is not None and tb > rc["rmax"]:
+                        mou[i] += 0.5 * rc["poids"] * ((tb - rc["rmax"]) / 0.5) ** 2
+        if "FEU-01" in C["relations"]:
+            g = self.regles["FEU-01"]
+            ap = self._approche(o)
+            if ap is not None:
+                lo, hi = g["parametres"]["ds_ligne_effet_m"]
+                tol = g["parametres"].get("tolerance_amont_m", 0.5)
+                v = P - ap["milieu"]
+                ds = v @ ap["h"]
+                cote = (ap["h"][0] * v[:, 1] - ap["h"][1] * v[:, 0]) < 0
+                ok &= (ds >= lo - tol) & (ds <= hi) & cote
+        for gid in ("SIG-10", "SIG-11"):
+            if gid in C["relations"] and self.nez:
                 N_ = np.array([n["p"] for n in self.nez])
                 d = np.min(np.hypot(*(P[:, None, :] - N_[None]).transpose(2, 0, 1)), axis=1)
-                ok &= d <= g["parametres"]["distance_nez_max_m"]
-            if gid == "PMR-01":
-                # le cheminement se libère dans le même espace piéton (bande fonctionnelle, adossement) :
-                # le candidat reste sur la même classe que p0, le long de la même coupe
-                z0 = self.zones(np.asarray(o["p0"], float)[None])[0][0]
-                ok &= ze[:, 0] == z0
-                for i in np.nonzero(ok)[0]:
-                    ctx = dict(ref=refs[i], zone=ze[i, 0])
-                    r = self._pmr(o, P[i], ctx)
-                    if r and r["avec"] < r["seuil"] <= r["sans"]:
-                        ok[i] = False
-        # pas de traversée de bordure : un objet du côté haut reste du côté haut ; un objet côté chaussée
-        # (t < 0, à moins de 1 m de sa bordure) peut franchir cette seule bordure
+                ok &= d <= self.regles[gid]["parametres"]["distance_nez_max_m"]
+        if "PMR-01" in C["relations"]:
+            z0 = self.zones(np.asarray(o["p0"], float)[None])[0][0]
+            ok &= zc == z0
+            for i in np.nonzero(ok)[0]:
+                r = self._pmr(o, P[i], dict(ref=refs[i], zone=zc[i]))
+                if r and r["avec"] < r["seuil"] <= r["sans"]:
+                    ok[i] = False
         ok &= self._sans_traversee(o, P)
-        # collisions avec les autres objets (axe à axe)
+        # P5 : jamais à moins de r1 + r2 + 0,10 m d'un objet de preuve au moins aussi bonne ; coût sinon
         d = np.hypot(*(P[:, None, :] - self.P[None]).transpose(2, 0, 1))
         autre = (self.Grp != o["groupe"])
         lim = o["rayon"] + self.Rr + 0.10
-        ok &= ~np.any((d < lim[None]) & autre[None], axis=1)
-        # bâtiments et clôtures : jamais
+        proche = (d < lim[None]) & autre[None]
+        aussi_bon = self.Sig <= o["sigma"] + 1e-9
+        ok &= ~np.any(proche & aussi_bon[None], axis=1)
+        mou += 2.0 * np.sum(proche & ~aussi_bon[None], axis=1)
         ok &= ~np.any(ze == "batiment", axis=1) | ("dalle" in str(o.get("z_source") or ""))
+        # P9 : budget compté depuis la position source brute
+        if o.get("p_brut") is not None:
+            ok &= np.hypot(*(P - np.asarray(o["p_brut"], float)).T) <= float(o["dmax_brut"]) + 1e-9
         return ok, mou
 
-    def _chercher(self, o, ref, dures, az, sigma, dmax, pas_n, pas_l):
+    def _chercher(self, o, ref, C, az, sigma, dmax, pas_n, pas_l):
         """Normale à la bordure en s0, puis grille (Δs, Δt) ; sans bordure : grille plane."""
         if ref is not None:
             n = normale_gauche(ref["tg"][None])[0]
             dt = np.arange(-dmax, dmax + 1e-9, pas_n)
             dt = dt[np.argsort(np.abs(dt) - 1e-6 * (dt > 0))]
             P = o["p0"] + dt[:, None] * n
-            ok, mou = self.faisable(o, P, az, dures, s0=ref["s"])
+            ok, mou = self.faisable(o, P, az, C)
             if ok.any():
                 J = (dt / sigma) ** 2 + mou
                 J[~ok] = np.inf
@@ -803,7 +877,7 @@ class Solveur:
             m = np.hypot(DS, DT) <= dmax + 1e-9
             DS, DT = DS[m], DT[m]
             P = o["p0"] + DS[:, None] * ref["tg"] + DT[:, None] * n
-            ok, mou = self.faisable(o, P, az, dures)
+            ok, mou = self.faisable(o, P, az, C)
             if ok.any():
                 J = (DT / sigma) ** 2 + self.par["poids_longitudinal_ratio"] * (DS / sigma) ** 2 + mou
                 J[~ok] = np.inf
@@ -815,7 +889,7 @@ class Solveur:
         D = np.c_[X.ravel(), Y.ravel()]
         D = D[np.hypot(*D.T) <= dmax]
         P = o["p0"] + D
-        ok, mou = self.faisable(o, P, az, dures)
+        ok, mou = self.faisable(o, P, az, C)
         if ok.any():
             J = (np.hypot(*D.T) / sigma) ** 2 + mou
             J[~ok] = np.inf
@@ -849,38 +923,33 @@ class Solveur:
         return ~coupe.any(axis=1)
 
     def resoudre(self, o, V, ctx):
-        """Recherche du candidat admissible le plus proche ; renvoie un dict de résolution."""
+        """Recherche du candidat admissible le plus proche ; renvoie un dict de résolution. Un objet sans
+        violation dure ne bouge pas (P7 : un recul non respecté par un objet existant est signalé)."""
         dures = sorted({v["regle"] for v in V if v["dure"]})
         sigma, dmax = o["sigma"], o["dmax"]
         degrade = False
         if ctx["ref"] is not None and ctx["ref"]["modifiee"] and anterieure_travaux(o):
             sigma, degrade = sigma * 2.0, True
-        out = dict(regles_dures=dures, sigma_recherche=round(sigma, 3), dmax=dmax, degradation_temporelle=degrade)
+        out = dict(regles_dures=dures, sigma_recherche=round(sigma, 3), dmax=dmax, degradation_temporelle=degrade,
+                   statut_objet=POL.statut_objet(o), p_brut=None if o.get("p_brut") is None else [round(float(v), 3) for v in o["p_brut"]],
+                   dmax_brut=o.get("dmax_brut"))
         if not dures:
             return out
-        # le candidat doit respecter toutes les règles dures applicables à l'objet (pas seulement celles
-        # violées en p0) : un déplacement ne doit pas créer de nouvelle violation (abaissé, BEV, piste...)
-        contraintes = set(dures)
-        for g in self.applicables(o, ctx["zone"]):
-            if g["id"] in EVALUEES and self.dure(o, g) and (
-                    g["surfaces_interdites"] or g["surfaces_autorisees"]
-                    or any(r["rel"] == "derriere_bordure" for r in g.get("relations", []))):
-                contraintes.add(g["id"])
-        dures = sorted(contraintes)
-        out["contraintes"] = dures
         if o["preuve"] == "gam":
             dmax = min(dmax, 0.5)
         az = o.get("azimut0")
         pas_n, pas_l = self.par["pas_normal_m"], self.par["pas_longitudinal_m"]
-        cands = []
         ref = ctx["ref"] or self.c.ref_bordure(o["p0"][None], rayon=30.0, circulee=False)[0]
+        Ct = self.contraintes(o, ctx, "toutes")
+        out["contraintes"] = sorted(Ct["regles"])
         zones_v = {z for v in V if v["dure"] and v["nature"] == "surface" for z in (v.get("valeur") or [])}
-        if ref is not None and zones_v and zones_v <= ZONES_LONGITUDINALES:
-            # 0. violation longitudinale (abaissé, BEV, passage) : d'abord le long de la bordure, à t constant
+        if ref is not None and zones_v and zones_v <= ZONES_LONGITUDINALES and not POL.porte_tete_pietonne(o, self.tetes_de):
+            # (P8 : un support de feux piétons se place à la limite arrière de la BEV, dans le prolongement du
+            # passage : il recule le long de la normale, il ne glisse pas sur le côté)
             dsv = np.arange(-dmax, dmax + 1e-9, pas_l)
             dsv = dsv[np.argsort(np.abs(dsv) - 1e-6 * (dsv > 0))]
             P = o["p0"] + dsv[:, None] * ref["tg"]
-            ok, mou = self.faisable(o, P, az, dures)
+            ok, mou = self.faisable(o, P, az, Ct)
             if ok.any():
                 J = self.par["poids_longitudinal_ratio"] * (dsv / sigma) ** 2 + mou
                 J[~ok] = np.inf
@@ -888,29 +957,29 @@ class Solveur:
                 out.update(candidat=P[i], dt=0.0, ds=round(float(dsv[i]), 3), J=round(float(J[i]), 3),
                            mode="longitudinal", d=round(float(abs(dsv[i])), 3), dans_dmax=True)
                 return out
-        for passe, regles in (("toutes", dures), ("critiques", [g for g in dures if self.regles[g]["gravite"] == "critique"])):
-            if not regles or (passe == "critiques" and regles == dures):
+        for passe in ("toutes", "critiques", "physiques"):
+            C = Ct if passe == "toutes" else self.contraintes(o, ctx, passe)
+            if passe != "toutes" and sorted(C["regles"]) == sorted(Ct["regles"]):
                 continue
-            c = self._chercher(o, ref, regles, az, sigma, dmax, pas_n, pas_l)
+            c = self._chercher(o, ref, C, az, sigma, dmax, pas_n, pas_l)
             if c is not None:
-                cands.append(dict(c, passe=passe))
-                break
-        if cands:
-            c = cands[0]
-            out.update(candidat=c["p"], dt=round(c["dt"], 3), ds=round(c["ds"], 3), J=round(c["J"], 3),
-                       mode=c["mode"], d=round(float(np.hypot(*(c["p"] - o["p0"]))), 3), dans_dmax=True,
-                       relaxation=None if c["passe"] == "toutes" else
-                       sorted(set(dures) - {g for g in dures if self.regles[g]["gravite"] == "critique"}))
-            return out
-        # 3. au-delà de d_max (jusqu'au déplacement maximal absolu) : candidat a priori pour l'arbitrage
+                out.update(candidat=c["p"], dt=round(c["dt"], 3), ds=round(c["ds"], 3), J=round(c["J"], 3),
+                           mode=c["mode"], d=round(float(np.hypot(*(c["p"] - o["p0"]))), 3), dans_dmax=True,
+                           relaxation=None if passe == "toutes" else sorted(set(Ct["regles"]) - set(C["regles"])),
+                           passe=passe)
+                return out
+        # au-delà de d_max : candidat indicatif (jamais appliqué : P9), pour l'arbitrage et la planche
         dabs = self.par["deplacement_max_absolu_m"]
-        critiques = [g for g in dures if self.regles[g]["gravite"] == "critique"] or dures
+        C = self.contraintes(o, ctx, "physiques")
         if dmax < dabs and ref is not None:
             dt = np.arange(-dabs, dabs + 1e-9, pas_n)
             dt = dt[np.argsort(np.abs(dt) - 1e-6 * (dt > 0))]
             n = normale_gauche(ref["tg"][None])[0]
             P = o["p0"] + dt[:, None] * n
-            ok, mou = self.faisable(o, P, az, critiques, s0=ref["s"])
+            pb = o.get("p_brut")
+            o["p_brut"] = None
+            ok, mou = self.faisable(o, P, az, C)
+            o["p_brut"] = pb
             if ok.any():
                 i = int(np.argmax(ok))
                 out.update(candidat_hors_dmax=P[i], d_hors=round(float(abs(dt[i])), 3), dt=round(float(dt[i]), 3), ds=0.0)

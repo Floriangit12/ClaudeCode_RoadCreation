@@ -20,6 +20,12 @@ Sorties (couche séparée, fusionnée plus tard par le composeur) :
 Déterministe : aucun aléa, itérations triées, flottants arrondis. Chaque décision cite ses
 observations (id) et la règle FUS-* appliquée (table REGLES ci-dessous, recopiée dans RESUME.md).
 
+0.3 : couverture large (FUS-COUV-01) et stricte (FUS-COUV-02, seule utilisée pour décider) ; classes de date relatives
+aux travaux avec appui de règle (FUS-DATE-02) et zone des travaux étendue par les photos 2026 (FUS-ZONE-01) ; validité
+incertaine jamais preuve de présence (FUS-VAL-04) ; liens groupés (FUS-LIEN-09) ; contrôles automatiques des bordures
+(FUS-AUTO-01/02) ; vote de la vue, du profil et des abaissés de bordure (FUS-BOR-01..03) ; arbitrages
+invalider_observation et constat_revue (FUS-ARB-01).
+
 Usage : python recon/pcg/enrichir/fusion_recensement.py [--sans-carte]
 """
 from __future__ import annotations
@@ -36,7 +42,7 @@ from pathlib import Path
 
 import numpy as np
 
-VERSION = "fusion_recensement/0.2"
+VERSION = "fusion_recensement/0.3"
 ROOT = Path(__file__).resolve().parents[3]
 DESC = ROOT / "recon/out/paquet_jardin/v2/description"
 BASE = DESC / "base"
@@ -63,6 +69,23 @@ COEUR_DEMI_M = 80.0          # cœur du carrefour : carré ± 80 m autour de l'o
 RAYON_DEDOUBLONNAGE_M = 1.5  # FUS-ADD-04
 # contrat d'un contrôle automatique acceptable (FUS-AUTO-02)
 AUTO_PART_MASQUEE_MAX = 0.2
+CLASSES_AUTO_REQUALIFIEES = ("marquage", "bordure")   # FUS-AUTO-01 (bordures : critique de couverture, cause 4)
+# validité et confiance des projections photo (FUS-VAL-02, FUS-CONF-02)
+DIST_DATE_INDEPENDANT_MAX_M = 15.0
+DIST_CONFIANCE_MAX_M = 20.0
+# classes de date relatives aux travaux (FUS-DATE-02) et zone des travaux (FUS-ZONE-01)
+EMPRISE_MARGE_M = 3.0
+CLASSES_DATE = ["apres_travaux", "avant_travaux_hors_emprise", "avant_travaux_dans_emprise"]
+TRANCHES_STRICTES = CLASSES_DATE + ["indice_seulement", "non_concluant", "non_valable_2026", "aucune"]
+# liens groupés (FUS-LIEN-09)
+GROUPE_LIENS_MIN = 3
+# vote des bordures (FUS-BOR-01..03) : profils de bordures.json (regles_affectation)
+CLASSES_VUE = [("P1", 0.0, 0.03), ("A2", 0.03, 0.09), ("T2", 0.09, 0.175), ("T3", 0.175, 0.30), ("MURET_TALUS", 0.30, 9.0)]
+TOL_VUE_M = 0.02
+FENETRE_BORDURE_M = 5.0     # étendue vue autour du point projeté (FUS-BOR-02/03)
+F_LECTURE = {"haute": 1.0, "moyenne": 0.8, "faible": 0.5}
+CHAMPS_PROFIL = ("hauteur_vue_estimee_m", "profil_observe", "profil_description", "observe", "observation", "note")
+VERDICTS_RETRAIT = ("absent_2026", "retirer", "retirer_doublon", "non_instancier")
 
 # --------------------------------------------------------------------------------------------
 # Règles de fusion (citées dans toutes les sorties)
@@ -76,8 +99,13 @@ REGLES = {
     "FUS-LIEN-06": "observation sans lien (statut ≠ absent_de_description, précision ≤ 3 m) : entité la plus proche de la famille compatible dans la tolérance de classe.",
     "FUS-CTX-01": "observation de contexte (précision absente ou > 5 m, sous-type chantier / hors emprise / programme / état 2022 remplacé, bâtiment) sans lien : indexée, jamais fusionnée ni ajoutée.",
     "FUS-TMP-01": "objet temporaire (chantier, provisoire, temporaire, base vie, bungalow, affiche) : jamais ajouté ; s'il est lié et que l'image est postérieure à l'attestation de l'objet, existence « non_instancier » (sinon conflit validite_2026_douteuse).",
-    "FUS-VAL-01": "poids de validité 2026 : vrai 1 ; incertain 0,5 ; faux 0 (observation historique, conservée pour la traçabilité).",
-    "FUS-VAL-02": "constat indépendant de la date (sous-type faux_positif*, raison « artefact », marquage posé sur une toiture ou un massif) : poids 1 même si valide_2026 = faux.",
+    "FUS-VAL-01": "poids de validité 2026 : vrai 1 ; incertain 0,5 (attributs et mesures seulement, FUS-VAL-04) ; faux 0 (observation historique, conservée pour la traçabilité).",
+    "FUS-VAL-02": "constat indépendant de la date (sous-type faux_positif*, raison « artefact », marquage posé sur une toiture ou un massif) : poids 1 même si valide_2026 = faux, à condition que la projection photo soit vue à 15 m au plus de la caméra (attributs.image.distance_m ; sans limite sur une ortho) ; au-delà, constat ordinaire, que seul un arbitrage de revue (FUS-ARB-01) peut corroborer (critique de couverture : MLY-MAR-017, projection à 25,9 m tombée sur la haie, alors que la photo 2026 montre des places en enrobé).",
+    "FUS-VAL-04": "validité 2026 « incertaine » : jamais une preuve de présence ni d'absence (existence, couverture, statut confirmé) ; seuls les attributs et les mesures de position la gardent avec le poids 0,5 (mesures toujours en revue, FUS-POS-05).",
+    "FUS-CONF-02": "projection de la description sur une photo prise à plus de 20 m (attributs.image.distance_m) : confiance plafonnée à « faible » (à 20 m, 0,5° d'erreur de pose déplace le tracé de 0,17 m et l'occultation n'est plus lisible ; échecs de la critique au-delà de 20 m).",
+    "FUS-DATE-02": "classes de date relatives aux travaux (23/06-05/12/2025 ; trottoirs du Vercors jusqu'au 30/01/2026) : « apres_travaux » (image du 05/12/2025 ou après) ; « avant_travaux_hors_emprise » (image antérieure, entité à plus de 3 m de la zone des travaux FUS-ZONE-01) ; « avant_travaux_dans_emprise » (image antérieure, entité dans la zone ou à 3 m au plus). Les photos de 2025-01 à 2025-08 sont antérieures ou contemporaines du chantier : aucune n'est « après travaux ». Une observation « avant_travaux_dans_emprise » ne vaut (présence, absence, attribut, position) que si une règle appuie la conservation de l'entité pendant les travaux (FUS-SRC-001 de regles_conception, admissibilité par état) : marquage « conserve » ; bordure levée GAM hors du périmètre refait (zone_travaux_2025 faux, hauteur non « modifiee_2025 », à plus de 3 m d'une extension FUS-ZONE-01) ; surface « inchange_2022 » ou « construit_2023_2024 » hors de la zone ; îlot à ceinture levée GAM ; objet ou arbre attesté après les travaux (levé GAM, OSM édité à partir du 01/12/2025, « 2026 confirmé », Panoramax 2026, arbre du levé GAM 2026 à 2 m au plus). Sans appui : présumée conservée, pas prouvée (non probante).",
+    "FUS-ZONE-01": "zone des travaux 2025 : surfaces v1 « modifie_2025 », zones de relief reprises (ancienne chaussée rehaussée, traversées abaissées, trottoirs par défaut), et toute surface de la description dont une photo postérieure aux travaux (valide 2026, confiance moyenne ou haute) montre un revêtement neuf (sous-type ou matériau proposé « neuf ») : S-0268a, chaussée du Vercors, enrobé neuf sur PANO2026-034 (critique, cause 5) ; son état devient « modifie_2025 » (mise à jour etat_v1).",
+    "FUS-LIEN-09": "photo liée à 3 entités ou plus qui ne sont pas sur le même support (liens primaires non co-implantés et liens secondaires) : seule une entité dont l'identifiant est cité dans la preuve (preuve.note) ou dans le texte de l'observation est prouvée ; pour les autres, le lien devient « vu, non prouvé » (incertain : ni présence, ni attribut, ni couverture) (critique : PANO2026-014 liait 10 places, ses pixels de preuve n'en citent que 3).",
     "FUS-VAL-03": "entité créée après l'image (marquage neuf_2025 ou refait, bordure ou surface modifiée 2025, objet « déduit 2026 » ou « planté 2025 », surface construite 2023-2024) : l'image antérieure ne prouve ni absence ni attribut (poids 0). Une absence ne prouve l'absence 2026 que si la première attestation de l'objet (LiDAR 2021, ortho 2022, OSM daté, inventaire 2023, plan 2025, levé GAM postérieur aux travaux ≈ 2025-12, « 2026 confirmé ») précède l'image ; sinon elle est non probante : signalée (conflit validite_2026_douteuse) sauf si l'observateur la dit attendue (« cohérent avec la description », « comme attendu », « plantations postérieures »...).",
     "FUS-LIEN-07": "observation absent_de_description portant un lien vers une entité d'une autre famille (surface, support, proposition de cohérence) : le lien est l'hôte de l'objet nouveau, l'observation devient candidat d'ajout ; ses liens secondaires sont des « liens associés » sans effet sur les attributs. Même famille (surface sur surface) : constat d'état de l'entité (notes).",
     "FUS-LIEN-08": "ids de la carte de cohérence (KS-xxxx-n) et des surfaces v1 (surf_xxxx) : remappés vers la description de base (K- de même ligne GAM, S- de même lien_v1) au plus proche de la mesure (≤ 2 m / ≤ 1 m).",
@@ -88,7 +116,7 @@ REGLES = {
     "FUS-POS-02": "triangulation à angle d'intersection < 15° (lu dans l'observation) : σ x2.",
     "FUS-POS-03": "moyenne pondérée 1/σ², rejet itératif de la mesure au plus fort résidu normalisé (> 3 et > tolérance de classe) -> conflit position_desaccord.",
     "FUS-POS-04": "verdict (README triangulation) : écart d à la description ≤ max(0,35 m ; 3σ), σ de mesure fusionné sans pondération de confiance -> confirmé ; sinon affinage (≤ 0,75 m) ou déplacement (> 0,75 m).",
-    "FUS-POS-05": "application : « appliquer » si une mesure valide 2026 (poids 1) existe, σ ≤ 0,5 m, σ ≤ max(σ de la preuve décrite ; 0,30) et (triangulation, ou ≥ 2 sources indépendantes concordantes, ou position_corrigee affirmée par l'observateur en confiance ≥ moyenne) ; sinon « revue_requise ».",
+    "FUS-POS-05": "application : « appliquer » si une mesure valide 2026 (poids 1) existe, σ ≤ 0,5 m, σ ≤ max(σ de la preuve décrite ; 0,30) et (triangulation, ou ≥ 2 sources indépendantes concordantes, ou position_corrigee affirmée par l'observateur en confiance ≥ moyenne) et qu'au moins une mesure est stricte (FUS-COUV-02) ; sinon « revue_requise ».",
     "FUS-POS-06": "objet levé GAM (σ ≤ 0,05 m) : jamais déplacé de plus de 0,5 m sans revue (« revue_requise »).",
     "FUS-POS-07": "ligne ou polygone (marquage, bordure, clôture, BEV) : vecteur du point le plus proche de la géométrie (ou du point « au lieu de (x ; y) » cité) à la mesure ; translation proposée si |v| > max(0,10 m marquage | 0,20 m autre ; 3σ).",
     "FUS-ATT-01": "attributs normalisés par table d'alias (hauteur, couronne, essence, type, crosses, lanternes, azimut de face, code, modulation, couleur, état, usure, gabarit, largeur, matériau, classe, bouton d'appel...). Le texte libre reste en notes.",
@@ -104,11 +132,18 @@ REGLES = {
     "FUS-COH-01": "contrôle croisé avec coherence/corrections.geojson : accord si la position image est à ≤ max(0,35 ; 2σ) de la position corrigée ; désaccord si elle est à cette distance de la position d'origine seulement ; partiel si elle est loin des deux ; les deux dans la tolérance : tendance_accord / tendance_desaccord si l'écart les départage d'au moins σ, sinon indifférent ; confirmations sans mesure : non concluant ; azimut : accord à ≤ 30° ; propositions d'ajout rejointes par une observation : corroborées (datées).",
     "FUS-SRC-01": "sources : « ortho2022 » (PCRS 5 cm du 10/05/2022) -> ortho_2022 ; « ortho_recente:<couche> » (IGN 20 cm du 09/08/2024 -> ortho_2024 ; Pléiades 2025 non datée, avant travaux -> ortho_2025) ; « pnx: » (Panoramax) et « mly: » (Mapillary) : photos, catégorie selon la date : photo_2026 (≥ 05/12/2025, fin des travaux), photo_2025, photo_2020_2024 ; autres : documents web.",
     "FUS-DATE-01": "priorité photo_2026 : pour l'état 2026, dès qu'une observation photo_2026 de poids > 0 porte sur l'existence, un attribut ou la position d'une entité, elle seule décide de cet aspect ; les observations plus anciennes sont gardées comme antérieures (obs_anterieures_ecartees) ; un désaccord ouvre un conflit d'information changement_2026 ou position_anterieure_divergente (objet déplacé, refait ou retiré pendant les travaux).",
-    "FUS-AUTO-01": "confirmation automatique d'un marquage sur ortho (contrôles ortho_A / ortho_B 2022, orthos récentes 2024) sans masque véhicules / ombres : requalifiée « incertain » (ni présence, ni preuve de couverture) sauf si une observation manuelle (contrôle visuel ou photo) confirme la même entité avec un poids > 0. Deux contrôles automatiques ne se corroborent pas (erreurs corrélées : voitures garées aux mêmes places, ombres de supports fixes, lignes de places détectées à tort).",
-    "FUS-AUTO-02": "contrat de tout contrôle automatique futur : il n'est accepté comme confirmation (poids x0,7) que s'il déclare attributs.controle_auto = {masque_vehicules_ombres: true (taches claires ou sombres de plus de 3 m² et de largeur ≥ 1,2 m, ombres portées), part_masquee ≤ 0,2 le long de l'objet, et pour un marquage reponse_ligne_fine: true (trait de 0,10 à 0,15 m répondant sur toute la longueur) ou reponse_peinture: true (flèche, symbole : part peinte ≥ 0,3)} ; calcul de référence : controle_auto.py ; sinon FUS-AUTO-01 (marquages) ou drapeau « automatique seul » (autres classes).",
+    "FUS-AUTO-01": "confirmation automatique d'un marquage ou d'une bordure sur ortho (contrôles ortho_A / ortho_B 2022, orthos récentes 2024, bordures « automatique_2_dates ») sans contrat FUS-AUTO-02 : requalifiée « incertain » (ni présence, ni preuve de couverture) sauf si une observation manuelle (contrôle visuel ou photo) confirme la même entité avec un poids de présence > 0. Deux contrôles automatiques ne se corroborent pas (erreurs corrélées : voitures garées aux mêmes places, ombres de supports fixes, lignes de places détectées à tort ; bordure K-0236 confirmée sur deux dates sans arête réelle).",
+    "FUS-AUTO-02": "contrat de tout contrôle automatique futur : il n'est accepté comme confirmation (poids x0,7) que s'il déclare attributs.controle_auto = {masque_vehicules_ombres: true (taches claires ou sombres de plus de 3 m² et de largeur ≥ 1,2 m, ombres portées), part_masquee ≤ 0,2 le long de l'objet, et pour un marquage reponse_ligne_fine: true (trait de 0,10 à 0,15 m répondant sur toute la longueur) ou reponse_peinture: true (flèche, symbole : part peinte ≥ 0,3) ; pour une bordure reponse_ligne_fine: true (tête de bordure claire de 0,10 à 0,20 m répondant sur toute la longueur) ou reponse_arete: true (saut de luminance de la face vue sur 80 % des profils non masqués)} ; calcul de référence : controle_auto.py ; sinon FUS-AUTO-01 (marquages, bordures) ou drapeau « automatique seul » (autres classes). Un contrôle automatique n'est jamais une preuve stricte (FUS-COUV-02).",
     "FUS-ADD-04": "dédoublonnage des ajouts : entité existante de même classe (type de marquage compatible ; pavés de traversée = passage) dans un rayon max(1,5 m ; tolérance de classe) ; si elle vient d'un levé GAM (marquage, bordure, îlot, arbre, clôture), pas d'ajout : conflit ajout_contre_leve_gam (l'objet vu est probablement l'objet levé, mal placé ou mal typé ; à trancher sur photo 2026 ou terrain). Exception : l'atelier qui signale l'objet a aussi confirmé à la main l'entité levée, sans la retyper (deux objets distingués par le même observateur).",
-    "FUS-ARB-01": "arbitrages de revue (description/enrichi/arbitrages_fusion.json, clés = identifiants d'observations, jamais les ENR-* renumérotés) : ne_pas_instancier (ajout), ancrer_bord_ilot (ajout ponctuel ramené au bord de l'îlot ou de l'espace vert le plus proche, en retrait vers l'intérieur), mesure_position (coordonnées d'un document utilisées comme mesure de position, σ donné, pondérée comme FUS-POS-01). Chaque arbitrage cite son motif et sa preuve ; un arbitrage sans effet ouvre un conflit arbitrage_inapplicable.",
-    "FUS-COUV-01": "couverture : preuve image la plus récente, valable 2026 et concluante (présence, attribut, position, ou absence probante ; observations « incertain » et confirmations automatiques requalifiées exclues), par tranche : 2026 > 2025 > 2020-2024 (photos, ortho IGN 2024) > ortho 2022 > web seul ; « non concluant » : vue sans conclusion ; « non valable 2026 » : vue seulement avant sa forme 2026.",
+    "FUS-ARB-01": "arbitrages de revue (description/enrichi/arbitrages_fusion.json, clés = identifiants d'observations, jamais les ENR-* renumérotés) : ne_pas_instancier (ajout), ancrer_bord_ilot (ajout ponctuel ramené au bord de l'îlot ou de l'espace vert le plus proche, en retrait vers l'intérieur), mesure_position (coordonnées d'un document utilisées comme mesure de position, σ donné, pondérée comme FUS-POS-01), invalider_observation (lien d'une observation à une entité rendu « incertain » : erreur de projection, occultation), constat_revue (lecture d'une image par une revue, versée comme observation « REV-… » de l'agent revue, avec sa source, sa date, sa confiance et son drapeau « à vérifier »). Chaque arbitrage cite son motif et sa preuve ; un arbitrage sans effet ouvre un conflit arbitrage_inapplicable.",
+    "FUS-COUV-01": "couverture large (définition 0.2, gardée pour comparaison ; aucune décision ne l'utilise) : preuve image la plus récente, valable 2026 et concluante (présence, attribut, position, ou absence probante ; observations « incertain », liens invalidés ou groupés sans preuve propre, confirmations automatiques requalifiées exclues ; confiance faible et validité incertaine admises), par tranche : 2026 > 2025 > 2020-2024 (photos, ortho IGN 2024) > ortho 2022 > web seul ; « non concluant » : vue sans conclusion ; « non valable 2026 » : vue seulement avant sa forme 2026.",
+    "FUS-COUV-02": "couverture stricte (décisions) : au moins une observation image manuelle (ni contrôle automatique, ni document web), de confiance moyenne ou haute (après FUS-CONF-02), valide 2026 (vrai, ou constat indépendant de la date FUS-VAL-02), probante après FUS-VAL-03/04 et FUS-DATE-02, non invalidée (FUS-ARB-01) ni liée en groupe sans preuve propre (FUS-LIEN-09), portant sur la présence (confirme, attribut ou position corrigés) ou sur une absence probante. Classée par la meilleure classe de date (FUS-DATE-02) : après travaux > avant travaux hors emprise > avant travaux dans l'emprise avec appui de règle ; sinon « indice seulement » (vue concluante au sens large, sans preuve stricte). Le statut « confirmé », les décisions d'application (position, attribut, retrait) et la carte utilisent cette définition.",
+    "FUS-STAT-01": "statut de vérification d'une entité : « confirme » (preuve stricte de présence, sans correction ni contradiction) ; « corrige » (preuve stricte de présence, attribut ou position corrigés) ; « conteste » (preuve stricte de présence, mais attribut contredit : vue de bordure FUS-BOR-03) ; « absent_2026 » ou « a_retirer » (absence ou artefact prouvés strictement) ; « absent_2026_a_verifier » (FUS-EXI-04) ; « indice_seulement » (vue sans preuve stricte) ; « non_valable_2026 » (vue seulement avant sa forme 2026 ou sans appui de règle).",
+    "FUS-ATT-06": "décision d'une mise à jour d'attribut : « appliquer » si la valeur gagnante est portée par au moins une observation stricte (FUS-COUV-02) sans conflit d'attribut ; sinon « revue_requise ».",
+    "FUS-EXI-04": "absence sans preuve stricte : un retrait ou une absence 2026 qu'aucune observation stricte ne porte, ou dont un constat de revue est marqué « à vérifier », ou une absence vue (poids ≥ 0,3) sans présence ni seuil de retrait, devient « absent_2026_a_verifier » : l'entité est gardée (instancier = null) et un conflit existence_douteuse_2026 est ouvert.",
+    "FUS-BOR-01": "lecture des profils de bordure en texte libre (champs hauteur_vue_estimee_m, profil_observe, profil_description, observe, observation, note des observations de présence) : vue chiffrée (« vue ≈ 12–14 cm », « ≈0,13-0,15 m », « vue ≤ 5 cm ») -> intervalle [min ; max] (valeur seule « ≈ x » : x ± 0,02 m), lecture haute ; qualificatif explicite (arasée, à niveau, affleurante, sans vue, aucune bordure saillante) -> [0 ; 0,03 m], lecture moyenne ; « basse » -> [0,03 ; 0,09 m], « bordure de trottoir » -> [0,09 ; 0,175 m], lecture faible ; abaissé (abaissé, bateau, chartière) -> abaissé vrai. Profil déduit de la vue par bordures.json (regles_affectation : P1 < 0,03 ; A2 < 0,09 ; T2 < 0,175 ; T3 < 0,30 m). Une limite sans mot de bordure (pelouse, haie, enrobé, rive) ne vote pas.",
+    "FUS-BOR-02": "vote par intervalle de la description : chaque lecture est rapportée à l'abscisse s de l'observation sur la bordure (≤ 3 m) ; poids = confiance x validité (FUS-DATE-02) x lecture (1 ; 0,8 ; 0,5) ; vue observée = moyenne pondérée des milieux ; profil = classe de cette vue ; abaissé : vote contre le rôle de l'intervalle (bateau, chartière). Accord : vue décrite dans l'intervalle lu ± 0,02 m ou même classe de profil -> attribut confirmé.",
+    "FUS-BOR-03": "contradiction de vue : intervalle lu qui exclut la vue décrite (± 0,02 m) avec une autre classe de profil (ex. rive « arasée » contre T2 de 8 à 14 cm), poids ≥ 0,15 -> conflit bordure_vue_contradiction (à vérifier), statut « conteste », proposition « revue_requise » (jamais appliquée sans revue : vue mesurée au LiDAR 2021 ou estimée a priori, signalée) ; lectures incompatibles entre elles -> conflit bordure_vue_desaccord.",
 }
 
 CONF_W = {"haute": 1.0, "moyenne": 0.6, "faible": 0.3}
@@ -332,6 +367,140 @@ def dans_anneau(p, R) -> bool:
     with np.errstate(divide="ignore", invalid="ignore"):
         c = ((yi > y) != (yj > y)) & (x < (xj - xi) * (y - yi) / np.where(yj - yi == 0, 1e-300, yj - yi) + xi)
     return bool(c.sum() % 2 == 1)
+
+
+def dans_anneau_multi(P, R):
+    """Test point-dans-anneau vectorisé pour un nuage de points (n x 2)."""
+    x, y = P[:, 0:1], P[:, 1:2]
+    xi, yi, xj, yj = R[:-1, 0][None, :], R[:-1, 1][None, :], R[1:, 0][None, :], R[1:, 1][None, :]
+    with np.errstate(divide="ignore", invalid="ignore"):
+        c = ((yi > y) != (yj > y)) & (x < (xj - xi) * (y - yi) / np.where(yj - yi == 0, 1e-300, yj - yi) + xi)
+    return c.sum(1) % 2 == 1
+
+
+def dist_points_polyligne(P, C):
+    """Distance de chaque point d'un nuage (n x 2) à une polyligne."""
+    A, B = C[:-1], C[1:]
+    AB = B - A
+    L2 = (AB ** 2).sum(1)
+    t = (((P[:, None, :] - A[None]) * AB[None]).sum(2) / np.where(L2 > 0, L2, 1.0)[None]).clip(0.0, 1.0)
+    Q = A[None] + t[..., None] * AB[None]
+    return np.hypot(P[:, None, 0] - Q[..., 0], P[:, None, 1] - Q[..., 1]).min(1)
+
+
+def abscisse(p, C):
+    """Distance d'un point à une polyligne et abscisse curviligne s de sa projection."""
+    d, q, i = segment_le_plus_proche(p, C)
+    seg = np.hypot(*np.diff(C, axis=0).T)
+    return d, float(seg[:i].sum() + np.hypot(*(q - C[i])))
+
+
+# ---- profils de bordure (FUS-BOR-01) ----
+
+def profil_de_vue(v):
+    for code, a, b in CLASSES_VUE:
+        if a <= v < b:
+            return code
+    return CLASSES_VUE[-1][0]
+
+
+def vue_a_abscisse(it, s):
+    v0 = float(it.get("vue_m") or 0.0)
+    if it.get("vue_m_fin") is None or it["s1"] <= it["s0"]:
+        return v0
+    t = min(1.0, max(0.0, (s - it["s0"]) / (it["s1"] - it["s0"])))
+    return v0 + t * (float(it["vue_m_fin"]) - v0)
+
+
+def vue_compatible(vd, iv):
+    """Vue décrite compatible avec un intervalle lu (± TOL) ou de même classe de profil que son milieu (FUS-BOR-03)."""
+    lo, hi = iv
+    if lo - TOL_VUE_M <= vd <= hi + TOL_VUE_M:
+        return True
+    return profil_de_vue(vd) == profil_de_vue((lo + hi) / 2.0)
+
+
+RE_VUE_CM = re.compile(r"\b(vue|hauteur|ressaut|face)\b([^;]{0,30}?)(≤|<|≈|~)?\s*(\d+(?:[.,]\d+)?)\s*"
+                       r"(?:(?:[–-]|à)\s*(\d+(?:[.,]\d+)?))?\s*cm\b", re.I)
+RE_VUE_M = re.compile(r"\b(vue|hauteur|face)\b([^;]{0,40}?)(≤|<|≈|~)?\s*(0[.,]\d+)\s*(?:(?:[–-]|à)\s*(0[.,]\d+))?\s*m\b", re.I)
+RE_PLAGE_M = re.compile(r"^\s*(≤|<|≈|~)?\s*(\d+[.,]\d+)\s*(?:(?:[–-]|à)\s*(\d+[.,]\d+))?")
+RE_ARASEE = re.compile(r"\baras[ée]e?s?\b|à niveau|affleur|sans vue|pas de vue|aucune vue|aucune bordure saillante|"
+                       r"non saillante|sans ressaut|pas de ressaut", re.I)
+RE_BASSE = re.compile(r"\b(?:bordure|rive)s?\b[^;,()]{0,40}?\bbasses?\b|\bprofil bas\b", re.I)
+RE_TROTTOIR = re.compile(r"\bbordures? de trottoir\b", re.I)
+RE_ABAISSE = re.compile(r"abaiss|\bbateaux?\b|charti[eè]res?", re.I)
+RE_ABAISSE_NON = re.compile(r"\b(?:sans|pas d'|pas de|aucun)\s*(?:abaiss|bateau)", re.I)
+RE_SURVEY = re.compile(r"levé|dz_|décrit|description|non vérifiable", re.I)
+
+
+def _plage(op, a, b, echelle):
+    a = fnum(a) * echelle
+    if b is not None:
+        b = fnum(b) * echelle
+        return round(min(a, b), 3), round(max(a, b), 3)
+    if op in ("≤", "<"):
+        return 0.0, round(a, 3)
+    return round(max(0.0, a - TOL_VUE_M), 3), round(a + TOL_VUE_M, 3)
+
+
+def lire_profil_bordure(attrs):
+    """Lectures de vue et d'abaissé dans le texte libre d'une observation de bordure (FUS-BOR-01)."""
+    cands, abaisses = [], []
+    for k_, champ in enumerate(CHAMPS_PROFIL):
+        v = attrs.get(champ)
+        if not isinstance(v, str) or not v.strip():
+            continue
+        s = v.strip()
+        if re.search(r"non vérifiable", s, re.I):
+            continue
+        if champ == "hauteur_vue_estimee_m":
+            m = RE_PLAGE_M.match(s)
+            if m:
+                lo, hi = _plage(m.group(1), m.group(2), m.group(3), 1.0)
+                cands.append((0, k_, {"attribut": "vue_m", "min": lo, "max": hi, "lecture": "haute", "champ": champ,
+                                      "extrait": court(s, 80)}))
+                continue
+        trouve = False
+        for rx, ech in ((RE_VUE_CM, 0.01), (RE_VUE_M, 1.0)):
+            for m in rx.finditer(s):
+                if RE_SURVEY.search(m.group(0)):
+                    continue
+                lo, hi = _plage(m.group(3), m.group(4), m.group(5), ech)
+                if hi > 0.6:      # pas une vue de bordure (largeur, distance)
+                    continue
+                cands.append((0, k_, {"attribut": "vue_m", "min": lo, "max": hi, "lecture": "haute", "champ": champ,
+                                      "extrait": court(m.group(0), 80)}))
+                trouve = True
+                break
+            if trouve:
+                break
+        if not trouve:
+            m = RE_ARASEE.search(s)
+            if m:
+                cands.append((1, k_, {"attribut": "vue_m", "min": 0.0, "max": 0.03, "lecture": "moyenne", "champ": champ,
+                                      "extrait": court(s, 110)}))
+            else:
+                m = RE_BASSE.search(s)
+                if m:
+                    cands.append((2, k_, {"attribut": "vue_m", "min": 0.03, "max": 0.09, "lecture": "faible", "champ": champ,
+                                          "extrait": court(m.group(0), 80)}))
+                else:
+                    m = RE_TROTTOIR.search(s)
+                    if m:
+                        cands.append((2, k_, {"attribut": "vue_m", "min": 0.09, "max": 0.175, "lecture": "faible",
+                                              "champ": champ, "extrait": court(m.group(0), 80)}))
+        if RE_ABAISSE_NON.search(s):
+            abaisses.append((k_, {"attribut": "abaisse", "valeur": False, "lecture": "moyenne", "champ": champ,
+                                  "extrait": court(RE_ABAISSE_NON.search(s).group(0), 60)}))
+        elif RE_ABAISSE.search(s) and not RE_SURVEY.search(s):
+            abaisses.append((k_, {"attribut": "abaisse", "valeur": True, "lecture": "moyenne", "champ": champ,
+                                  "extrait": court(RE_ABAISSE.search(s).group(0), 60)}))
+    out = []
+    if cands:
+        out.append(sorted(cands, key=lambda c: (c[0], c[1]))[0][2])
+    if abaisses:
+        out.append(sorted(abaisses, key=lambda c: c[0])[0][1])
+    return out
 
 
 def geom_norm(g):
@@ -579,6 +748,21 @@ def dates_texte(s: str) -> list[str]:
     return out
 
 
+def date_attestation_recente(ent) -> str | None:
+    """Dernière date d'attestation de l'objet dans la description (appui de conservation, FUS-DATE-02)."""
+    p = ent["props"]
+    fam = ent["famille"]
+    ds = []
+    if fam in ("mobilier", "arbres", "instances"):
+        s = " ".join(str(p.get(k) or "") for k in ("source", "etat_2026", "statut_2026"))
+        ds = dates_texte(s)
+        if re.search(r"Panoramax 2026|photo 2026", s):
+            ds.append("2026-07-28")
+        if "2026 confirmé" in s:
+            ds.append("2026-01-01")
+    return max(ds) if ds else None
+
+
 def date_attestation(ent) -> str | None:
     """Première date à laquelle la description atteste l'existence de l'objet (FUS-VAL-03)."""
     p = ent["props"]
@@ -668,6 +852,7 @@ def charger_index() -> Index:
         e["date_min"] = date_min_entite(e)
         e["atteste_2026"] = atteste_2026(e)
         e["date_attest"] = date_attestation(e)
+        e["date_attest_max"] = date_attestation_recente(e)
         e["leve_gam"] = leve_gam(e)
     # index de remappage (FUS-LIEN-08)
     ix.par_lien_v1 = defaultdict(list)
@@ -724,14 +909,30 @@ def normaliser_obs(o, agent, ix):
     else:
         n["categorie"] = "web"
     n["photo"] = n["type_source"] in ("panoramax", "mapillary")
+    pos = o.get("position") or {}
+    im = attrs.get("image") if isinstance(attrs.get("image"), dict) else {}
+    try:
+        n["distance_m"] = float(im["distance_m"]) if im.get("distance_m") is not None else None
+    except (TypeError, ValueError):
+        n["distance_m"] = None
+    # confiance plafonnée des projections lointaines (FUS-CONF-02)
+    n["conf_obs"] = n["conf"]
+    if n["photo"] and pos.get("methode") == "projection_description" and n["distance_m"] is not None \
+            and n["distance_m"] > DIST_CONFIANCE_MAX_M and CONF_W.get(n["conf"], 0.6) > CONF_W["faible"]:
+        n["conf"] = "faible"
+        n["drapeaux"].append("FUS-CONF-02")
     # poids de validité (FUS-VAL-01/02)
     w_val = 1.0 if vv is True else (0.5 if vv == "incertain" else 0.0)
-    n["date_independant"] = bool(sous.startswith("faux_positif") or re.search(r"artefact|aucun marquage réel", raison)
-                                 or re.search(r"toiture|sur la bande plantée|tombe sur la bande plantée", atxt)
-                                 and n["statut"] == "absent_sur_image")
+    candidat_di = bool(sous.startswith("faux_positif") or re.search(r"artefact|aucun marquage réel", raison)
+                       or re.search(r"toiture|sur la bande plantée|tombe sur la bande plantée", atxt)
+                       and n["statut"] == "absent_sur_image")
+    loin = n["photo"] and n["distance_m"] is not None and n["distance_m"] > DIST_DATE_INDEPENDANT_MAX_M
+    n["date_independant"] = candidat_di and not loin
     if n["date_independant"]:
         w_val = 1.0
         n["drapeaux"].append("FUS-VAL-02")
+    elif candidat_di:
+        n["drapeaux"].append("FUS-VAL-02:projection_au_dela_de_15m")
     n["w_val"] = w_val
     w_conf = CONF_W.get(n["conf"], 0.6)
     n["auto"] = bool(str(o.get("controle") or "").startswith("automatique") or attrs.get("verification") == "automatique")
@@ -740,11 +941,15 @@ def normaliser_obs(o, agent, ix):
         part = float(ca.get("part_masquee", 1.0)) if isinstance(ca, dict) else 1.0
     except (TypeError, ValueError):
         part = 1.0
-    # contrat FUS-AUTO-02 : masque véhicules / ombres et (marquage) réponse de ligne fine
+    # contrat FUS-AUTO-02 : masque véhicules / ombres et réponse de ligne fine (marquage, bordure) ou d'arête (bordure)
+    if n["classe"] == "marquage":
+        reponse = isinstance(ca, dict) and (ca.get("reponse_ligne_fine") is True or ca.get("reponse_peinture") is True)
+    elif n["classe"] == "bordure":
+        reponse = isinstance(ca, dict) and (ca.get("reponse_ligne_fine") is True or ca.get("reponse_arete") is True)
+    else:
+        reponse = True
     n["auto_masque"] = bool(n["auto"] and isinstance(ca, dict) and ca.get("masque_vehicules_ombres") is True
-                            and part <= AUTO_PART_MASQUEE_MAX
-                            and (n["classe"] != "marquage" or ca.get("reponse_ligne_fine") is True
-                                 or ca.get("reponse_peinture") is True))
+                            and part <= AUTO_PART_MASQUEE_MAX and reponse)
     if n["auto"]:
         w_conf *= 0.7
         n["drapeaux"].append("controle_automatique")
@@ -781,7 +986,30 @@ def normaliser_obs(o, agent, ix):
     n["contexte"] = bool(p is None or prec is None or float(prec) > 5.0 or RE_CTX.match(sous) or n["classe"] == "batiment")
     n["temporaire"] = bool(RE_TMP.search(sous) or RE_TMP_RAISON.search(raison)
                            or (n["classe"] == "cloture" and re.search(r"chantier", texte(attrs.get("type_observe", "")))))
+    n["a_verifier"] = attrs.get("a_verifier") is True   # constat de revue « à vérifier » (FUS-ARB-01, FUS-EXI-04)
     return n
+
+
+CLES_LISTES = {"liens", "confirmes", "arbres_confirmes", "arbres", "image", "autres_vues", "non_verifiables"}
+
+
+def ids_cites(o) -> set:
+    """Identifiants cités dans la preuve (note, ids) et dans le texte libre d'une observation (FUS-LIEN-09)."""
+    textes = []
+    pv = o.get("preuve") if isinstance(o.get("preuve"), dict) else {}
+    for k, v in sorted(pv.items()):
+        if k in ("note", "ids", "entites", "cible"):
+            textes.append(texte(v))
+    for k, v in sorted((o.get("attributs") or {}).items()):
+        if k not in CLES_LISTES and isinstance(v, str):
+            textes.append(v)
+    out = set()
+    for s in textes:
+        for t in re.split(r"[;,\s()«»:/\[\]\"']+", s):
+            t = t.rstrip(".")
+            if RE_ID.match(t):
+                out.add(t)
+    return out
 
 
 def geom_obs(o, p, O):
@@ -1121,6 +1349,10 @@ def extraire_attributs(n, ent, vocab):
         if "classe_proposee" in a and cls == "surface":
             s = texte(a["classe_proposee"]).strip('"')
             add("classe", "cat", re.split(r"[ (]", s)[0] or None, "classe_proposee")
+        # revêtement neuf vu après les travaux : surface refaite en 2025 (FUS-ZONE-01)
+        if cls == "surface" and n["categorie"] == "photo_2026" and n["valide"] is True and fam == "surfaces" \
+                and re.search(r"neuf", (n["sous_type"] + " " + texte(a.get("materiau_propose", ""))).lower()):
+            add("etat_v1", "cat", "modifie_2025", "sous_type|materiau_propose")
     if cls in ("tampon", "avaloir") and "forme" in a:
         s = texte(a["forme"]).lower()
         fo = "rectangulaire" if "rectang" in s else ("carre" if "carr" in s else ("rond" if re.search(r"rond|disque|anneau", s) else None))
@@ -1167,7 +1399,8 @@ def valeur_description(ent, attr):
         return {"modulation": p.get("modulation"), "couleur": p.get("couleur"), "etat": p.get("etat"),
                 "gabarit": p.get("gabarit"), "largeur_m": p.get("largeur_m")}.get(attr)
     if fam == "surfaces":
-        return {"materiau_id": (p.get("revetement") or {}).get("materiau_id"), "classe": p.get("classe")}.get(attr)
+        return {"materiau_id": (p.get("revetement") or {}).get("materiau_id"), "classe": p.get("classe"),
+                "etat_v1": p.get("etat_v1")}.get(attr)
     if fam == "ilots":
         return {"materiau_id": (p.get("remplissage") or {}).get("materiau_id")}.get(attr)
     return None
@@ -1294,6 +1527,10 @@ class Fusion:
         ix.entrees[rel(COH / "corrections.geojson")] = sha256(COH / "corrections.geojson")
         ix.entrees[rel(COH / "propositions_ajouts.geojson")] = sha256(COH / "propositions_ajouts.geojson")
         self.requalifiees = {}                  # obs automatique -> verdict FUS-AUTO-01 (incertain | corroboree)
+        self._ev = {}                           # (entité, obs, rôle) -> poids (FUS-VAL-03/04, FUS-DATE-02)
+        self._dz = {}
+        self.zone_extension = {}
+        self.zone_anneaux = []
         self.ajouts_refuses = []                # groupes d'ajout remplacés par un conflit (FUS-ADD-04)
         # arbitrages de revue (FUS-ARB-01)
         self.arbitrages = []
@@ -1305,7 +1542,35 @@ class Fusion:
             a["_applique"] = []
             for oid in a.get("obs", []):
                 self.arb_par_obs[oid].append(a)
-        par_id = {n["id"]: n for n in obs}
+        # constats de revue versés comme observations (FUS-ARB-01, action constat_revue)
+        synth = []
+        for a in self.arbitrages:
+            if a.get("action") != "constat_revue":
+                continue
+            for k, c in enumerate(a.get("constats", []), 1):
+                ent = ix.E.get(c.get("entite"))
+                if ent is None or ent.get("G") is None:
+                    self.conflit("arbitrage_inapplicable", "a_verifier", a["id"], [],
+                                 f"arbitrage {a['id']} (constat_revue) : entité {c.get('entite')} absente de la description",
+                                 "mettre à jour arbitrages_fusion.json")
+                    continue
+                pt = ent["G"]["pt"]
+                o = {"id": f"REV-{a['id']}-{k:02d}", "source": a["source_image"], "date_image": a["date_image"],
+                     "classe": c.get("classe") or a.get("classe"), "sous_type": c.get("sous_type") or "",
+                     "attributs": {"note": c.get("note") or "", "a_verifier": bool(a.get("a_verifier", False)),
+                                   "arbitrage": a["id"]},
+                     "position": {"l93": [r3(pt[0]), r3(pt[1])], "precision_m": 0.2, "methode": "projection_description"},
+                     "lien_description": c["entite"], "statut": c["statut"],
+                     "valide_2026": {"valeur": a.get("valide_2026", True), "raison": a.get("validite") or ""},
+                     "confiance": c["confiance"],
+                     "preuve": {"fichier": (a.get("preuves") or [None])[0], "note": c["entite"]}}
+                if c.get("distance_m") is not None:
+                    o["attributs"]["image"] = {"distance_m": c["distance_m"]}
+                synth.append(normaliser_obs(o, "revue", ix))
+                a["_applique"].append(c["entite"])
+        self.obs_revue = synth
+        self.obs = sorted(list(obs) + synth, key=lambda n: n["id"])
+        par_id = {n["id"]: n for n in self.obs}
         for a in self.arbitrages:
             if a.get("action") != "mesure_position":
                 continue
@@ -1336,17 +1601,20 @@ class Fusion:
         for n in self.obs:
             tr = {"id": n["id"], "agent": n["agent"], "source": n["source"], "date": n["date"], "categorie": n["categorie"],
                   "classe": n["o"].get("classe"),
-                  "statut": n["statut"], "valide_2026": n["valide"], "confiance": n["conf"], "controle_automatique": n["auto"],
+                  "statut": n["statut"], "valide_2026": n["valide"], "confiance": n["conf"], "confiance_observee": n["conf_obs"],
+                  "distance_camera_m": n["distance_m"], "controle_automatique": n["auto"],
                   "poids_validite": n["w_val"], "poids_confiance": round(n["w_conf"], 3), "liens": [], "role": None,
                   "drapeaux": list(n["drapeaux"])}
             self.index_obs[n["id"]] = tr
             prim = ids_dans(n["o"].get("lien_description")) if n["o"].get("lien_description") else []
             resolus = []
+            cite_de = {}
             for i in prim:
                 e, mode, regle = resoudre_id(ix, i, n)
                 tr["liens"].append({"id_cite": i, "entite": e, "mode": mode, "regle": regle, "role": "primaire"})
                 if e:
                     resolus.append((e, mode, regle))
+                    cite_de.setdefault(e, i)
                 else:
                     self.conflit("lien_introuvable", "a_verifier", i, [n["id"]],
                                  f"id {i} absent de la description courante et sans équivalent spatial",
@@ -1362,6 +1630,7 @@ class Fusion:
                         tr["liens"].append({"id_cite": i, "entite": e, "mode": mode, "regle": "FUS-LIEN-05", "role": "secondaire"})
                         if e and all(e != r[0] for r in resolus) and all(e != s[0] for s in sec):
                             sec.append((e, mode, st))
+                            cite_de.setdefault(e, i)
             # anciens ids si aucun lien
             if not resolus and not prim:
                 for k in ("lien_v02", "id_v0_2"):
@@ -1408,12 +1677,25 @@ class Fusion:
                     n["statut_effectif"] = "attribut_corrige"
                     tr["liens"].append({"id_cite": None, "entite": b[1], "mode": "surface_hote", "regle": "FUS-LIEN-07", "role": "primaire"})
             st_eff = n.get("statut_effectif", n["statut"])
+            # liens groupés sur une photo sans preuve propre (FUS-LIEN-09)
+            non_prouves = set()
+            groupe = ([] if coloc else [e for e, _, _ in resolus]) + [e for e, _, _ in sec]
+            if n["photo"] and len(set(groupe)) >= GROUPE_LIENS_MIN:
+                cites = ids_cites(n["o"])
+                non_prouves = {e for e in groupe if e not in cites and cite_de.get(e) not in cites}
+                if non_prouves:
+                    tr["drapeaux"].append("FUS-LIEN-09")
+                    tr["liens_groupes_non_prouves"] = sorted(non_prouves)
+                    tr["liens_groupes_prouves"] = sorted(set(groupe) - non_prouves)
             for e, mode, regle in resolus:
-                self.membres[e].append({"n": n, "role": "primaire", "statut": st_eff, "mode": mode,
-                                        "regle": regle, "position_ok": coloc})
+                self.membres[e].append({"n": n, "role": "primaire", "statut": "incertain" if e in non_prouves else st_eff,
+                                        "mode": mode, "regle": regle, "position_ok": coloc and e not in non_prouves,
+                                        "lien_groupe_non_prouve": e in non_prouves})
             for e, mode, st in sec:
-                self.membres[e].append({"n": n, "role": "secondaire", "statut": st or n["statut"], "mode": mode,
-                                        "regle": "FUS-LIEN-05", "position_ok": False})
+                self.membres[e].append({"n": n, "role": "secondaire",
+                                        "statut": "incertain" if e in non_prouves else (st or n["statut"]), "mode": mode,
+                                        "regle": "FUS-LIEN-05", "position_ok": False,
+                                        "lien_groupe_non_prouve": e in non_prouves})
             if resolus or sec:
                 tr["role"] = "entite"
                 continue
@@ -1436,11 +1718,11 @@ class Fusion:
             M = self.membres[eid]
             ent = self.ix.E[eid]
             autos = [m for m in M if m["statut"] == "confirme" and m["n"]["auto"] and not m["n"]["auto_masque"]
-                     and m["n"]["classe"] == "marquage" and m["n"]["type_source"] in ("ortho2022", "ortho_recente")]
+                     and m["n"]["classe"] in CLASSES_AUTO_REQUALIFIEES and m["n"]["type_source"] in ("ortho2022", "ortho_recente")]
             if not autos:
                 continue
             corrob = sorted({m["n"]["id"] for m in M if not m["n"]["auto"] and m["statut"] in PRESENCE
-                             and m["n"]["w_conf"] * m["n"]["w_val"] > 0 and self.poids_existence(ent, m)[0] > 0})
+                             and self.evaluer(ent, m)["w_presence"] > 0})
             for m in autos:
                 oid = m["n"]["id"]
                 tr = self.index_obs[oid]
@@ -1473,8 +1755,195 @@ class Fusion:
                              f"arbitrage {a['id']} (mesure_position) : observation non liée à {cible}",
                              "mettre à jour arbitrages_fusion.json")
 
+    # -------- 1c. arbitrages d'observations (FUS-ARB-01 : invalider_observation) --------
+    def appliquer_invalidations(self):
+        for a in self.arbitrages:
+            if a.get("action") != "invalider_observation":
+                continue
+            cibles = set(a.get("entites") or [])
+            for oid in a.get("obs", []):
+                for eid in sorted(self.membres):
+                    if cibles and eid not in cibles:
+                        continue
+                    for m in self.membres[eid]:
+                        if m["n"]["id"] != oid:
+                            continue
+                        m["statut"] = "incertain"
+                        m["invalidee"] = a["id"]
+                        m["position_ok"] = False
+                        tr = self.index_obs[oid]
+                        tr.setdefault("invalidations", {})[eid] = a["id"]
+                        fl = f"FUS-ARB-01:{a['id']}"
+                        if fl not in tr["drapeaux"]:
+                            tr["drapeaux"].append(fl)
+                        a["_applique"].append(f"{oid} -> {eid}")
+            if not a["_applique"]:
+                self.conflit("arbitrage_inapplicable", "a_verifier", a["id"], a.get("obs", []),
+                             f"arbitrage {a['id']} (invalider_observation) : observation non liée aux entités visées",
+                             "mettre à jour arbitrages_fusion.json")
+
+    # -------- 1d. zone des travaux, appui de conservation (FUS-ZONE-01, FUS-DATE-02) --------
+    def preparer_zone(self):
+        """Anneaux de la zone des travaux 2025 et extension par photo 2026 (FUS-ZONE-01)."""
+        ix = self.ix
+        extension = {}
+        for eid in sorted(self.membres):
+            ent = ix.E[eid]
+            if ent["famille"] != "surfaces" or ent.get("G") is None:
+                continue
+            for m in self.membres[eid]:
+                n = m["n"]
+                if m["role"] != "primaire" or m["statut"] not in PRESENCE or n["categorie"] != "photo_2026" \
+                        or n["valide"] is not True or CONF_W.get(n["conf"], 0) < 0.6:
+                    continue
+                s = (n["sous_type"] + " " + texte(n["attrs"].get("materiau_propose", ""))
+                     + " " + texte(n["attrs"].get("materiau_observe", ""))).lower()
+                if re.search(r"neuf", s):
+                    extension.setdefault(eid, []).append(n["id"])
+        self.zone_extension = {k: sorted(v) for k, v in sorted(extension.items())}
+        anneaux = [("v1", R) for R in zones_travaux_2025()]
+        anneaux += [(eid, pg[0]) for eid in self.zone_extension for pg in ix.E[eid]["G"]["polys"]]
+        self.zone_anneaux = [(src, R, (float(R[:, 0].min()), float(R[:, 1].min()), float(R[:, 0].max()), float(R[:, 1].max())))
+                             for src, R in anneaux]
+        self._dz = {}
+
+    def distance_zone(self, ent, seulement_extension=False):
+        """Distance de la géométrie d'une entité à la zone des travaux (0 si elle y entre)."""
+        return self.distance_zone_geom(ent.get("G"), (ent["id"], seulement_extension), seulement_extension)
+
+    def distance_zone_geom(self, G, cle, seulement_extension=False):
+        if cle in self._dz:
+            return self._dz[cle]
+        best = math.inf
+        if G is not None:
+            bb = G["bbox"]
+            P = None
+            mg = EMPRISE_MARGE_M
+            for src, R, rb in self.zone_anneaux:
+                if seulement_extension and src == "v1":
+                    continue
+                if rb[0] - mg > bb[2] or bb[0] - mg > rb[2] or rb[1] - mg > bb[3] or bb[1] - mg > rb[3]:
+                    continue
+                if P is None:
+                    P = densifier(G, 1.0)
+                    if len(P) == 0:
+                        P = np.array([G["pt"]])
+                if dans_anneau_multi(P, R).any():
+                    best = 0.0
+                    break
+                if G["polys"] and any(dans_anneau(R[0], pg[0]) for pg in G["polys"]):
+                    best = 0.0   # zone contenue dans le polygone de l'entité
+                    break
+                best = min(best, float(dist_points_polyligne(P, R).min()))
+        self._dz[cle] = best
+        return best
+
+    def dans_emprise(self, ent) -> bool:
+        if "dans_emprise" not in ent:
+            ent["d_zone_m"] = r3(self.distance_zone(ent)) if math.isfinite(self.distance_zone(ent)) else None
+            ent["dans_emprise"] = self.distance_zone(ent) <= EMPRISE_MARGE_M
+        return ent["dans_emprise"]
+
+    def dans_emprise_obs(self, ent, n) -> bool:
+        """Emprise à l'endroit observé : pour une ligne ou un polygone, au point de l'observation s'il est sur l'entité
+        (≤ 5 m) ; sinon pour toute l'entité (FUS-DATE-02)."""
+        G = ent["G"]
+        if G["type"] != "point" and n["p"] is not None and dist_geom(n["p"], G)[0] <= 5.0:
+            cle = ("pt", round(float(n["p"][0]), 3), round(float(n["p"][1]), 3))
+            return self.distance_zone_geom(construire_geom([n["p"]], [], []), cle) <= EMPRISE_MARGE_M
+        return self.dans_emprise(ent)
+
+    def appui_conservation(self, ent):
+        """Règle qui appuie la conservation de l'entité pendant les travaux (FUS-DATE-02) : (règle, motif) ou None."""
+        if "appui" in ent:
+            return ent["appui"]
+        p = ent["props"]
+        fam = ent["famille"]
+        res = None
+        if fam in ("marquages", "retire_v03"):
+            if p.get("etat") == "conserve":
+                res = ("FUS-SRC-001", "marquage « conserve » (admissibilité ortho 2022 / photos)")
+        elif fam == "bordures":
+            src = str(((p.get("prov") or {}).get("geometrie") or {}).get("src") or "")
+            sh = (p.get("source") or {}).get("statut_hauteur")
+            if p.get("zone_travaux_2025") is False and sh != "modifiee_2025" and src.startswith("gam") \
+                    and self.distance_zone(ent, seulement_extension=True) > EMPRISE_MARGE_M:
+                res = ("FUS-SRC-001", "bordure levée GAM après travaux, hors périmètre refait")
+        elif fam == "bordures_site":
+            if p.get("zone_travaux_2025") is False and self.distance_zone(ent, seulement_extension=True) > EMPRISE_MARGE_M:
+                res = ("FUS-SRC-001", "bordure levée GAM après travaux, hors périmètre refait")
+        elif fam in ("surfaces", "surfaces_v1"):
+            ev = str(p.get("etat_v1") or p.get("etat") or "")
+            if ev in ("inchange_2022", "construit_2023_2024") and ent["id"] not in self.zone_extension \
+                    and not any(dans_anneau(ent["G"]["pt"], R) for _, R, _ in self.zone_anneaux):
+                res = ("FUS-SRC-001", f"surface « {ev} » hors de la zone des travaux")
+        elif fam == "ilots":
+            if ent.get("leve_gam"):
+                res = ("FUS-SRC-001", "îlot à ceinture levée GAM après travaux")
+        elif fam in ("mobilier", "arbres", "instances"):
+            dmax = ent.get("date_attest_max")
+            if ent.get("atteste_2026") or (dmax and dmax >= GAM_DATE):
+                res = ("FUS-SRC-001", f"objet attesté après les travaux ({dmax or '2026 confirmé'})")
+            elif ent["classe"] == "arbre" and len(self.gam_arbres) and ent.get("G") is not None:
+                pt = ent["G"]["pt"]
+                d = float(np.hypot(self.gam_arbres[:, 0] - pt[0], self.gam_arbres[:, 1] - pt[1]).min())
+                if d <= 2.0:
+                    res = ("FUS-SRC-001", f"arbre du levé GAM 2026 à {d:.2f} m")
+        ent["appui"] = res
+        return res
+
+    def evaluer(self, ent, m):
+        """Poids d'une observation pour une entité selon la date, l'emprise et la validité (FUS-VAL-03/04, FUS-DATE-02)."""
+        cle = (ent["id"], m["n"]["id"], m["role"])
+        if cle in self._ev:
+            return self._ev[cle]
+        n = m["n"]
+        w = n["w_conf"] * n["w_val"]
+        t = n["date"] or ""
+        di = n["date_independant"]
+        if t and t >= FIN_TRAVAUX:
+            cd = "apres_travaux"
+        elif ent.get("G") is not None and self.dans_emprise_obs(ent, n):
+            cd = "avant_travaux_dans_emprise"
+        else:
+            cd = "avant_travaux_hors_emprise"
+        appui = self.appui_conservation(ent) if cd == "avant_travaux_dans_emprise" else None
+        motifs = []
+        bloque_creation = bool(ent.get("date_min") and t < ent["date_min"] and not di)
+        if bloque_creation:
+            motifs.append("FUS-VAL-03")
+        bloque_emprise = cd == "avant_travaux_dans_emprise" and appui is None and not di
+        if bloque_emprise:
+            motifs.append("FUS-DATE-02")
+        incertain = n["valide"] == "incertain" and not di
+        if incertain:
+            motifs.append("FUS-VAL-04")
+        ev = {"w": w, "classe_date": cd, "appui": appui[0] + " : " + appui[1] if appui else None,
+              "w_attribut": 0.0 if (bloque_creation or bloque_emprise) else w,
+              "w_presence": 0.0 if (bloque_creation or bloque_emprise or incertain) else w,
+              "w_position": 0.0 if bloque_creation else w,
+              "probant_absence": not (bloque_emprise or incertain), "motifs": motifs}
+        self._ev[cle] = ev
+        return ev
+
+    def est_stricte(self, ent, m) -> bool:
+        """Preuve stricte (FUS-COUV-02) : image manuelle, confiance ≥ moyenne, valide 2026, probante, non invalidée."""
+        n = m["n"]
+        if n["auto"] or n["type_source"] == "web" or CONF_W.get(n["conf"], 0) < 0.6 or n["w_val"] < 1.0:
+            return False
+        if m.get("invalidee") or m.get("lien_groupe_non_prouve") or m.get("requalifiee"):
+            return False
+        ev = self.evaluer(ent, m)
+        if m["statut"] in PRESENCE:
+            return ev["w_presence"] > 0
+        if m["statut"] == "absent_sur_image":
+            v = self.evaluer_absence(ent, n, ev)[0]
+            return v in ("absence", "retrait") or (v == "attendue" and self.probant(ent, n) and ev["probant_absence"])
+        return False
+
     # -------- 2. entités --------
     def poids_existence(self, ent, m):
+        """Poids de présence au sens 0.2 (FUS-VAL-03 seul) : couverture large FUS-COUV-01."""
         n = m["n"]
         w = n["w_conf"] * n["w_val"]
         dm = ent.get("date_min")
@@ -1493,10 +1962,13 @@ class Fusion:
             return False
         return True
 
-    def evaluer_absence(self, ent, n):
-        """Absence sur image -> retrait | absence | attendue | non_probant (FUS-VAL-02/03, FUS-EXI-01/02)."""
+    def evaluer_absence(self, ent, n, ev=None):
+        """Absence sur image -> retrait | absence | attendue | non_probant (FUS-VAL-02/03/04, FUS-DATE-02, FUS-EXI-01/02).
+        Sans `ev` : règles 0.2 (couverture large FUS-COUV-01)."""
         if n["date_independant"]:
             return "retrait", "FUS-VAL-02"
+        if ev is not None and not ev["probant_absence"]:
+            return "non_probant", ("FUS-VAL-04" if "FUS-VAL-04" in ev["motifs"] else "FUS-DATE-02")
         t = n["date"] or ""
         if ent.get("date_min") and t < ent["date_min"]:
             return "attendue", "FUS-VAL-03"
@@ -1509,17 +1981,23 @@ class Fusion:
         return "absence", "FUS-EXI-01"
 
     def existence(self, ent, M, regles):
-        """Poids de présence / absence / retrait... d'un ensemble d'observations (FUS-EXI-01/02, FUS-VAL-03)."""
+        """Poids de présence / absence / retrait... d'un ensemble d'observations (FUS-EXI-01/02, FUS-VAL-03/04, FUS-DATE-02)."""
         W = Counter()
         qui = defaultdict(list)
         dates = defaultdict(list)
         non_probants, attendues, doublon_de = [], [], None
+        stricts, a_verifier = set(), set()
         for m in M:
             n = m["n"]
             st = m["statut"]
+            ev = self.evaluer(ent, m)
             w_brut = n["w_conf"] * n["w_val"]
+            if self.est_stricte(ent, m):
+                stricts.add(n["id"])
+            if n.get("a_verifier"):
+                a_verifier.add(n["id"])
             if st == "absent_sur_image":
-                verdict, regle = self.evaluer_absence(ent, n)
+                verdict, regle = self.evaluer_absence(ent, n, ev)
                 regles.add(regle)
                 if verdict == "non_probant":
                     if w_brut > 0:
@@ -1537,13 +2015,13 @@ class Fusion:
                 if k == "retrait" and md and RE_ID.match(md.group(1)):
                     doublon_de = md.group(1)
                 continue
-            w, regle = self.poids_existence(ent, m)
-            if regle:
-                regles.add(regle)
+            for mo in ev["motifs"]:
+                regles.add(mo)
+            w = ev["w_attribut"]
             if w <= 0:
                 continue
-            if st in PRESENCE:
-                W["presence"] += w
+            if st in PRESENCE and ev["w_presence"] > 0:
+                W["presence"] += ev["w_presence"]
                 qui["presence"].append(n["id"])
                 dates["presence"].append(n["date"] or "")
             temp_explicite = n["temporaire"] and re.search(r"chantier|provisoire|temporaire", n["sous_type"] + " " +
@@ -1560,6 +2038,8 @@ class Fusion:
                 qui["doublon"].append(n["id"])
                 doublon_de = n["attrs"]["doublon"]
         W["_dates"] = dates
+        W["_stricts"] = stricts
+        W["_a_verifier"] = a_verifier
         return W, qui, non_probants, attendues, doublon_de
 
     @staticmethod
@@ -1574,28 +2054,45 @@ class Fusion:
         return None
 
     @classmethod
-    def verdict_existence(cls, W, regles):
+    def verdict_existence(cls, W, regles, qui=None):
+        """Verdict d'existence ; avec `qui`, un retrait ou une absence sans observation stricte devient
+        « absent_2026_a_verifier » (FUS-EXI-04)."""
         chrono = cls.chronologie(W)
+        stricts = W.get("_stricts") or set()
+        a_verif = W.get("_a_verifier") or set()
+
+        def decide(v, cle):
+            if qui is None:
+                return v
+            porteurs = set(qui.get(cle, []))
+            if not (porteurs & stricts) or (porteurs & a_verif):
+                regles.add("FUS-EXI-04")
+                return "absent_2026_a_verifier"
+            return v
+
         if W["retrait"] >= 0.6:
             regles.add("FUS-EXI-02")
-            return "retirer"
+            return decide("retirer", "retrait")
         if W["doublon"] >= 0.6:
             regles.add("FUS-EXI-02")
-            return "retirer_doublon"
+            return decide("retirer_doublon", "doublon")
         if W["non_instancier"] >= 0.3:
             regles.add("FUS-TMP-01")
             return "non_instancier"
         if chrono == "retire_entre_dates":
             regles.add("FUS-EXI-03")
-            return "absent_2026"
+            return decide("absent_2026", "absence")
         if chrono == "pose_entre_dates":
             regles.add("FUS-EXI-03")
             return "present"
         if W["absence"] >= 0.6 and W["absence"] >= 2 * W["presence"]:
             regles.add("FUS-EXI-01")
-            return "absent_2026"
+            return decide("absent_2026", "absence")
         if W["presence"] >= 0.3:
             return "present"
+        if qui is not None and W["absence"] >= 0.3:
+            regles.add("FUS-EXI-04")
+            return "absent_2026_a_verifier"
         return "non_verifie"
 
     def preuve_concluante(self, ent, m) -> bool:
@@ -1617,10 +2114,14 @@ class Fusion:
         r = {"id": eid, "famille": ent["famille"], "type": ent["type"], "classe": ent["classe"],
              "obs": sorted({m["n"]["id"] for m in M}), "sources": sorted({m["n"]["source"] for m in M}),
              "conflits": [], "regles": set()}
-        valides = [m for m in M if m["n"]["w_val"] > 0 and self.poids_existence(ent, m)[0] > 0]
+        evs = {id(m): self.evaluer(ent, m) for m in M}
+        valides = [m for m in M if m["n"]["w_val"] > 0 and evs[id(m)]["w_attribut"] > 0]
         r["date_max_valide"] = max((m["n"]["date"] for m in valides if m["n"]["date"]), default=None)
         r["date_max"] = max((m["n"]["date"] for m in M if m["n"]["date"]), default=None)
-        # ---- preuve la plus récente, valable 2026 et concluante (FUS-COUV-01) ----
+        r["dans_emprise_travaux"] = bool(ent.get("dans_emprise")) if ent.get("G") is not None else None
+        r["d_zone_travaux_m"] = ent.get("d_zone_m")
+        r["appui_conservation"] = (" : ".join(ent["appui"]) if ent.get("appui") else None) if r["dans_emprise_travaux"] else None
+        # ---- couverture large : preuve la plus récente, valable 2026 et concluante (FUS-COUV-01, définition 0.2) ----
         concl = [m for m in M if self.preuve_concluante(ent, m)]
         cats = {m["n"]["categorie"] for m in concl}
         cat = next((c for c in CATEGORIES if c in cats), None)
@@ -1633,11 +2134,49 @@ class Fusion:
         r["requalifiees"] = sorted({m["n"]["id"] for m in M if m.get("requalifiee")})
         if r["requalifiees"]:
             r["regles"].add("FUS-AUTO-01")
-        # ---- existence (FUS-EXI-01/02, FUS-VAL-03), priorité photo 2026 (FUS-DATE-01) ----
-        M26 = [m for m in M if m["n"]["categorie"] == "photo_2026" and m["n"]["w_conf"] * m["n"]["w_val"] > 0
+        # ---- couverture stricte (FUS-COUV-02) par classe de date relative aux travaux (FUS-DATE-02) ----
+        stricts = [m for m in M if self.est_stricte(ent, m)]
+        cls_s = {evs[id(m)]["classe_date"] for m in stricts}
+        cd = next((c for c in CLASSES_DATE if c in cls_s), None)
+        if cd is None:
+            if concl:
+                cd = "indice_seulement"
+            elif any(evs[id(m)]["w_attribut"] > 0 and m["n"]["w_val"] > 0 for m in M):
+                cd = "non_concluant"
+            else:
+                cd = "non_valable_2026"
+        r["tranche_stricte"] = cd
+        r["preuve_stricte"] = {
+            "obs": sorted({m["n"]["id"] for m in stricts}),
+            "obs_meilleure_classe": sorted({m["n"]["id"] for m in stricts if evs[id(m)]["classe_date"] == cd}),
+            "presence": sorted({m["n"]["id"] for m in stricts if m["statut"] in PRESENCE}),
+            "categorie": next((c for c in CATEGORIES if c in {m["n"]["categorie"] for m in stricts}), None)}
+        r["regles"].add("FUS-COUV-02")
+        if any(evs[id(m)]["classe_date"] == "avant_travaux_dans_emprise" for m in M):
+            r["regles"].add("FUS-DATE-02")
+        r["obs_non_probantes"] = {m["n"]["id"]: evs[id(m)]["motifs"] for m in sorted(M, key=lambda m: m["n"]["id"])
+                                  if evs[id(m)]["motifs"] and m["statut"] in PRESENCE + ("absent_sur_image",)} or None
+        for m in M:
+            ev = evs[id(m)]
+            for l in self.index_obs[m["n"]["id"]]["liens"]:
+                if l.get("entite") == eid:
+                    l.update({"classe_date": ev["classe_date"], "appui_conservation": ev["appui"],
+                              "non_probant": ev["motifs"] or None, "stricte": self.est_stricte(ent, m),
+                              "statut_lien": m["statut"]})
+        # ---- existence (FUS-EXI-01/02/04, FUS-VAL-03/04, FUS-DATE-02), priorité photo 2026 (FUS-DATE-01) ----
+        M26 = [m for m in M if m["n"]["categorie"] == "photo_2026" and evs[id(m)]["w_attribut"] > 0
                and m["statut"] in PRESENCE + ("absent_sur_image",)]
         W, qui, non_probants, attendues, doublon_de = self.existence(ent, M26 or M, r["regles"])
-        ex = self.verdict_existence(W, r["regles"])
+        ex = self.verdict_existence(W, r["regles"], qui)
+        if ex == "absent_2026_a_verifier":
+            porteurs = sorted(set(qui.get("absence", [])) | set(qui.get("retrait", [])) | set(qui.get("doublon", [])))
+            notes_ = "; ".join(court(texte(m["n"]["attrs"].get("note") or m["n"]["attrs"].get("observation") or ""), 160)
+                               for m in M if m["n"]["id"] in porteurs)
+            self.conflit("existence_douteuse_2026", "a_verifier", eid, porteurs,
+                         f"absence ou retrait vu sans preuve stricte, ou constat de revue « à vérifier » "
+                         f"(absence {W['absence']:.2f}, retrait {W['retrait']:.2f}, présence {W['presence']:.2f}). {notes_}",
+                         "garder l'objet décrit ; trancher sur le terrain (prise de vue rasante) avant de le retirer")
+            r["conflits"].append("existence_douteuse_2026")
         if doublon_de and ex in ("retirer", "retirer_doublon"):
             r["doublon_de"] = doublon_de
         r["existence"] = {"verdict": ex, "poids": {k: round(v, 3) for k, v in sorted(W.items()) if not k.startswith("_")},
@@ -1663,7 +2202,7 @@ class Fusion:
                 r["existence"]["obs_anterieures_ecartees"] = ecartees
                 r["existence"]["verdict_anterieur"] = ex_a
             pres = {"present"}
-            abse = {"absent_2026", "retirer", "retirer_doublon", "non_instancier"}
+            abse = {"absent_2026", "retirer", "retirer_doublon", "non_instancier", "absent_2026_a_verifier"}
             if (ex_a in pres and ex in abse) or (ex_a in abse and ex in pres):
                 # un retrait « artefact » (constat indépendant de la date) contredit par 2026 reste à vérifier
                 grav = "a_verifier" if ex_a in ("retirer", "retirer_doublon") else "info"
@@ -1685,9 +2224,20 @@ class Fusion:
             notes_abs = "; ".join(court(texte(m["n"]["attrs"].get("note") or m["n"]["attrs"].get("observe")
                                              or m["n"]["attrs"].get("observation") or m["n"]["attrs"].get("proposition") or ""), 140)
                                   for m in M if m["n"]["id"] in non_probants)
+            motifs_np = {}
+            for m in M:
+                if m["n"]["id"] in non_probants:
+                    mo = self.evaluer_absence(ent, m["n"], evs[id(m)])[1] if m["statut"] == "absent_sur_image" else "FUS-VAL-03"
+                    motifs_np.setdefault(mo, set()).add(m["n"]["id"])
+            lib = {"FUS-VAL-03": f"image antérieure à la première attestation de l'objet "
+                                 f"({ent.get('date_attest') or ent['props'].get('statut_2026') or '?'})",
+                   "FUS-DATE-02": "image antérieure à la fin des travaux, dans leur emprise, sans appui de conservation",
+                   "FUS-VAL-04": "validité 2026 incertaine"}
+            r["existence"]["motifs_non_probants"] = {k: sorted(v) for k, v in sorted(motifs_np.items())}
             self.conflit("validite_2026_douteuse", "a_verifier", eid, non_probants,
-                         f"absence (ou retrait proposé) vue sur une image antérieure à la première attestation de l'objet "
-                         f"({ent.get('date_attest') or ent['props'].get('statut_2026') or '?'}) : non probante pour 2026. {notes_abs}",
+                         "absence (ou retrait proposé) non probante pour 2026 : "
+                         + " ; ".join(f"{lib.get(k, k)} ({', '.join(sorted(v))}, {k})" for k, v in sorted(motifs_np.items()))
+                         + f". {notes_abs}",
                          "garder l'objet ; vérifier sur image 2026 ou sur le terrain")
             r["conflits"].append("validite_2026_douteuse")
         # ---- attributs ----
@@ -1696,12 +2246,17 @@ class Fusion:
         sous_zones = []
         cat_obs = {m["n"]["id"]: m["n"]["categorie"] for m in M}
         grande_surface = ent["famille"] == "surfaces" and float(ent["props"].get("aire_m2") or 0) > SURFACE_MAX_PONCTUELLE_M2
+        ids_stricts = set(r["preuve_stricte"]["obs"])
+        valeurs_obs = defaultdict(dict)
         for m in M:
             n = m["n"]
-            w, regle = self.poids_existence(ent, m)
+            w = evs[id(m)]["w_attribut"]
             if w <= 0 or m["statut"] == "absent_sur_image":
                 continue
+            if m.get("invalidee") or m.get("lien_groupe_non_prouve") or m.get("requalifiee"):
+                continue   # lien invalidé, groupé sans preuve propre ou automatique requalifié : aucun attribut
             for attr, genre, val, f, cle in extraire_attributs(n, ent, self.vocab):
+                valeurs_obs[attr][n["id"]] = val
                 if grande_surface and attr in ("materiau_id", "classe"):
                     sous_zones.append({"obs": n["id"], "attribut": attr, "valeur": val,
                                        "l93": [r3(n["p"][0]), r3(n["p"][1])] if n["p"] is not None else None,
@@ -1745,13 +2300,19 @@ class Fusion:
             if res["poids"] >= 0.3 and ecart_significatif(attr, res["valeur"], desc):
                 conf = "haute" if res["poids"] >= 1.5 and len({self.src_of(i) for i in res["obs"]}) >= 2 else (
                     "moyenne" if res["poids"] >= 0.6 else "faible")
+                gagnants = set(res["obs"]) if res["genre"] in ("num", "circ") else {
+                    i for i in res["obs"] if json.dumps(valeurs_obs[attr].get(i), ensure_ascii=False)
+                    == json.dumps(res["valeur"], ensure_ascii=False)}
+                strict_ = sorted(gagnants & ids_stricts)
                 maj[attr] = {"avant": desc, "apres": res["valeur"], "conf": conf, "poids": res["poids"],
-                             "obs": res["obs"], "regle": "FUS-ATT-04", "conflit": res["conflit"]}
+                             "obs": res["obs"], "regle": "FUS-ATT-04 ; FUS-ATT-06", "conflit": res["conflit"],
+                             "obs_strictes": strict_,
+                             "decision": "appliquer" if strict_ and not res["conflit"] else "revue_requise"}
                 if "alternatives" in res:
                     maj[attr]["alternatives"] = res["alternatives"]
                 if attr in anterieurs:
                     maj[attr]["obs_anterieures_ecartees"] = anterieurs[attr]
-                    maj[attr]["regle"] = "FUS-ATT-04 ; FUS-DATE-01"
+                    maj[attr]["regle"] = "FUS-ATT-04 ; FUS-ATT-06 ; FUS-DATE-01"
             elif desc is not None and not ecart_significatif(attr, res["valeur"], desc):
                 confirmes[attr] = {"valeur": desc, "obs": res["obs"]}
                 if attr in anterieurs:
@@ -1772,12 +2333,184 @@ class Fusion:
                         break
         if notes:
             r["notes"] = sorted(notes, key=lambda x: x["obs"])
+        # ---- bordures : vote de la vue, du profil et des abaissés (FUS-BOR-01..03) ----
+        if ent["famille"] in ("bordures", "bordures_site"):
+            self.voter_bordure(ent, M, evs, r)
         # ---- position ----
         self.fusion_position(ent, M, r)
         # ---- cohérence ----
         self.controle_coherence(ent, r)
+        # ---- statut de vérification (FUS-STAT-01) ----
+        ex = r["existence"]["verdict"]
+        pos = r.get("position") or {}
+        if ex == "absent_2026":
+            sv = "absent_2026"
+        elif ex in ("retirer", "retirer_doublon", "non_instancier"):
+            sv = "a_retirer"
+        elif ex == "absent_2026_a_verifier":
+            sv = "absent_2026_a_verifier"
+        elif r["preuve_stricte"]["presence"]:
+            if (r.get("bordure") or {}).get("contradictions_a_verifier"):
+                sv = "conteste"
+            elif r["maj"] or pos.get("verdict") in ("affinage", "deplacement", "translation"):
+                sv = "corrige"
+            else:
+                sv = "confirme"
+        elif r["tranche_stricte"] == "non_valable_2026":
+            sv = "non_valable_2026"
+        else:
+            sv = "indice_seulement"
+        r["statut_verification"] = sv
+        r["regles"].add("FUS-STAT-01")
         r["regles"] = sorted(r["regles"])
         return r
+
+    # -------- bordures (FUS-BOR-01..03) --------
+    def voter_bordure(self, ent, M, evs, r):
+        """Vote de la vue, du profil et des abaissés d'une bordure (FUS-BOR-01..03)."""
+        p = ent["props"]
+        ivs = p.get("intervalles") or []
+        C = max(ent["G"]["lignes"], key=len) if ent["G"]["lignes"] else None
+        lectures, votes, candidats = [], defaultdict(list), defaultdict(list)
+        for m in sorted(M, key=lambda m: m["n"]["id"]):
+            n = m["n"]
+            lec = lire_profil_bordure(n["attrs"])
+            if not lec:
+                continue
+            ev = evs[id(m)]
+            lien_ok = (m["statut"] in PRESENCE and not m.get("invalidee") and not m.get("lien_groupe_non_prouve")
+                       and not m.get("requalifiee"))
+            vote_ok = lien_ok and ev["w_attribut"] > 0
+            s, d = None, None
+            if C is not None and n["p"] is not None and len(C) > 1:
+                d, s = abscisse(n["p"], C)
+            idx = None
+            if s is not None and d <= 3.0 and ivs:
+                idx = next((k for k, it in enumerate(ivs) if it["s0"] - 1e-6 <= s <= it["s1"] + 1e-6), len(ivs) - 1)
+            for lu in lec:
+                w_brut = n["w_conf"] * n["w_val"] * F_LECTURE[lu["lecture"]]
+                rec = {"obs": n["id"], "champ": lu["champ"], "extrait": lu["extrait"], "lecture": lu["lecture"],
+                       "attribut": lu["attribut"], "s_m": r3(s), "d_m": r3(d), "intervalle": idx,
+                       "statut_obs": m["statut"], "stricte": self.est_stricte(ent, m),
+                       "non_probant": ev["motifs"] or None, "poids_brut": round(w_brut, 3)}
+                if lu["attribut"] == "vue_m":
+                    rec["intervalle_lu_m"] = [lu["min"], lu["max"]]
+                else:
+                    rec["valeur"] = lu["valeur"]
+                rec["poids"] = round(ev["w_attribut"] * F_LECTURE[lu["lecture"]], 3) if vote_ok and idx is not None else 0.0
+                if rec["poids"] > 0:
+                    votes[idx].append(rec)
+                elif idx is None:
+                    rec["sans_vote"] = "hors bordure ou sans abscisse"
+                elif not lien_ok:
+                    rec["sans_vote"] = "lien invalidé, groupé, automatique ou sans présence"
+                else:
+                    rec["sans_vote"] = "observation non probante pour 2026 (" + ", ".join(ev["motifs"]) + ")"
+                lectures.append(rec)
+                # contradictions : intervalle de l'observation et intervalles courants vus autour (± 5 m)
+                if lu["attribut"] != "vue_m" or idx is None or not lien_ok or "FUS-VAL-03" in ev["motifs"] \
+                        or w_brut < 0.15:
+                    continue
+                for k, it in enumerate(ivs):
+                    if k != idx and not (it.get("role") == "courant" and it["s1"] - it["s0"] >= 2.0
+                                         and it["s0"] < s + FENETRE_BORDURE_M and it["s1"] > s - FENETRE_BORDURE_M):
+                        continue
+                    vd = vue_a_abscisse(it, min(max(s, it["s0"]), it["s1"]))
+                    if not vue_compatible(vd, rec["intervalle_lu_m"]):
+                        candidats[k].append((rec, vd, k == idx))
+        if not lectures:
+            return
+        out = {"lectures": lectures, "intervalles": [], "contradictions": [], "desaccords": []}
+        r["regles"].update({"FUS-BOR-01", "FUS-BOR-02"})
+        sh = (p.get("source") or {}).get("statut_hauteur")
+        src_iv = (((p.get("prov") or {}).get("intervalles") or {}).get("src"))
+        if sh in ("mesuree", "sans_ressaut_mesuree", "abaissee_mesuree"):
+            origine = "mesurée au LiDAR 2021"
+        else:
+            origine = f"« {sh} » (a priori)"
+        contra_txt = []
+        for idx in sorted(set(votes) | set(candidats)):
+            it = ivs[idx]
+            V = votes.get(idx, [])
+            vues = [v for v in V if v["attribut"] == "vue_m"]
+            res = {"intervalle": idx, "s0": it["s0"], "s1": it["s1"], "role": it.get("role"), "profil_decrit": it.get("profil"),
+                   "statut_hauteur": sh, "source_vue": src_iv, "obs": sorted({v["obs"] for v in V})}
+            if vues:
+                s_obs = [v["s_m"] for v in vues]
+                vd = vue_a_abscisse(it, sum(s_obs) / len(s_obs))
+                W_ = sum(v["poids"] for v in vues)
+                vo = sum(v["poids"] * (v["intervalle_lu_m"][0] + v["intervalle_lu_m"][1]) / 2.0 for v in vues) / W_
+                accord = all(vue_compatible(vd, v["intervalle_lu_m"]) for v in vues)
+                res.update({"vue_decrite_m": r3(vd), "vue_observee_m": r3(vo), "profil_observe": profil_de_vue(vo),
+                            "profil_decrit_classe": profil_de_vue(vd), "poids": round(W_, 3),
+                            "verdict": "accord" if accord else "contradiction"})
+                lo = max(v["intervalle_lu_m"][0] for v in vues)
+                hi = min(v["intervalle_lu_m"][1] for v in vues)
+                if lo > hi + 2 * TOL_VUE_M:
+                    res["desaccord_lectures"] = True
+                    out["desaccords"].append(idx)
+                    self.conflit("bordure_vue_desaccord", "a_verifier", ent["id"], sorted({v["obs"] for v in vues}),
+                                 f"intervalle {idx} (s {it['s0']:.1f}-{it['s1']:.1f} m) : lectures de vue incompatibles "
+                                 + "; ".join(f"{v['obs']} {v['intervalle_lu_m']} « {v['extrait']} »" for v in vues),
+                                 "photo rasante à moins de 5 m, mètre pliant contre la face")
+                    r["conflits"].append("bordure_vue_desaccord")
+            cands = candidats.get(idx, [])
+            if cands:
+                fortes = [c for c, _, _ in cands
+                          if c["lecture"] in ("haute", "moyenne") and "FUS-DATE-02" not in (c["non_probant"] or [])]
+                grav = "a_verifier" if fortes else "info"
+                vd_ = cands[0][1]
+                vo_ = sum((c["intervalle_lu_m"][0] + c["intervalle_lu_m"][1]) / 2.0 for c, _, _ in cands) / len(cands)
+                r["regles"].add("FUS-BOR-03")
+                res["verdict"] = "contradiction"
+                res["decision"] = "revue_requise"
+                lect = []
+                txt = []
+                for c, _, loc in cands:
+                    lect.append({"obs": c["obs"], "s_m": c["s_m"], "intervalle_lu_m": c["intervalle_lu_m"],
+                                 "extrait": c["extrait"], "lecture": c["lecture"], "poids_brut": c["poids_brut"],
+                                 "stricte": c["stricte"], "non_probant": c["non_probant"],
+                                 "position": "intervalle de l'observation" if loc else "intervalle voisin (± 5 m)"})
+                    np_ = (", non probante " + "/".join(c["non_probant"])) if c["non_probant"] else ""
+                    vs_ = "" if loc else ", intervalle voisin"
+                    txt.append(f"{c['obs']} à s {c['s_m']} m « {c['extrait']} » -> {c['intervalle_lu_m']} m "
+                               f"({c['lecture']}{np_}{vs_})")
+                cv = {"intervalle": idx, "gravite": grav, "s0": it["s0"], "s1": it["s1"], "vue_decrite_m": r3(vd_),
+                      "profil_decrit": it.get("profil"), "statut_hauteur": sh, "source_vue": src_iv, "lectures": lect,
+                      "proposition": {"vue_m": r3(vo_), "profil": profil_de_vue(vo_), "decision": "revue_requise"}}
+                out["contradictions"].append(cv)
+                contra_txt.append((grav, sorted({c["obs"] for c, _, _ in cands}),
+                                   f"intervalle {idx} (s {it['s0']:.1f}-{it['s1']:.1f} m, {it.get('profil')}, vue {vd_:.3f} m "
+                                   f"{origine}) contre " + "; ".join(txt) + f" -> vue lue {vo_:.3f} m ({profil_de_vue(vo_)})"))
+            abv = [v for v in V if v["attribut"] == "abaisse"]
+            if abv:
+                decrit = it.get("role") in ("bateau", "chartiere") or str(it.get("profil", "")).endswith("bateau")
+                wt = sum(v["poids"] for v in abv if v["valeur"] is True)
+                wf = sum(v["poids"] for v in abv if v["valeur"] is False)
+                obs_ab = wt >= wf
+                res["abaisse"] = {"decrit": decrit, "observe": obs_ab, "poids": round(max(wt, wf), 3),
+                                  "verdict": "accord" if obs_ab == decrit else "contradiction"}
+                if obs_ab != decrit:
+                    self.conflit("bordure_abaisse_contradiction", "a_verifier", ent["id"], sorted({v["obs"] for v in abv}),
+                                 f"intervalle {idx} : abaissé {'observé' if obs_ab else 'non observé'}, "
+                                 f"{'décrit' if decrit else 'non décrit'} ({it.get('role')})", "vérifier sur le terrain")
+                    r["conflits"].append("bordure_abaisse_contradiction")
+            out["intervalles"].append(res)
+            if res.get("verdict") == "accord":
+                r["attributs_confirmes"].setdefault("vue_m", {"intervalles": [], "obs": []})
+                r["attributs_confirmes"]["vue_m"]["intervalles"].append(idx)
+                r["attributs_confirmes"]["vue_m"]["obs"] = sorted(set(r["attributs_confirmes"]["vue_m"]["obs"]) | set(res["obs"]))
+        out["contradictions_a_verifier"] = [c["intervalle"] for c in out["contradictions"] if c["gravite"] == "a_verifier"]
+        if contra_txt:
+            grav = "a_verifier" if any(g == "a_verifier" for g, _, _ in contra_txt) else "info"
+            reco = ("relever la vue sur le terrain (photo rasante à moins de 5 m, mètre pliant contre la face) avant de changer "
+                    "le profil ; ne pas appliquer sans revue")
+            if grav != "a_verifier":
+                reco += " (lecture déduite, ou antérieure aux travaux dans leur emprise : information)"
+            self.conflit("bordure_vue_contradiction", grav, ent["id"], sorted({o for _, os_, _ in contra_txt for o in os_}),
+                         " | ".join(t for _, _, t in contra_txt), reco)
+            r["conflits"].append("bordure_vue_contradiction" if grav == "a_verifier" else "bordure_vue_contradiction_info")
+        r["bordure"] = out
 
     def src_of(self, oid):
         return self.index_obs[oid]["source"]
@@ -1800,9 +2533,11 @@ class Fusion:
                 continue
             if m["statut"] not in ("confirme", "attribut_corrige", "position_corrigee"):
                 continue
-            w, regle = self.poids_existence(ent, m)
-            if w <= 0:
+            ev = self.evaluer(ent, m)
+            if ev["w_position"] <= 0 or m.get("invalidee") or m.get("lien_groupe_non_prouve"):
                 continue
+            stricte = self.est_stricte(ent, m)
+            date02 = "FUS-DATE-02" in ev["motifs"]
             mesure = (n["methode"] in ("triangulation", "rayon_sol") or bool(n.get("mesure_arbitree"))
                       or (n["methode"] == "pixel_ortho" and m["statut"] == "position_corrigee"))
             if not mesure:
@@ -1811,10 +2546,12 @@ class Fusion:
                 if not inclure_projection or m["statut"] != "confirme":
                     continue
                 ms.append({"obs": n["id"], "p": pd.copy(), "sigma": n["sigma"], "sigma_brut": n["sigma_brut"], "methode": "confirmation",
-                           "methode_obs": n["methode"], "source": n["source"], "w_val": n["w_val"], "statut": m["statut"], "n": n})
+                           "methode_obs": n["methode"], "source": n["source"], "w_val": n["w_val"], "statut": m["statut"], "n": n,
+                           "stricte": stricte, "date02": date02})
             else:
                 ms.append({"obs": n["id"], "p": n["p"], "sigma": n["sigma"], "sigma_brut": n["sigma_brut"], "methode": n["methode"],
-                           "source": n["source"], "w_val": n["w_val"], "statut": m["statut"], "n": n})
+                           "source": n["source"], "w_val": n["w_val"], "statut": m["statut"], "n": n, "stricte": stricte,
+                           "date02": date02})
         # doublons de mesure (FUS-POS-01)
         ms.sort(key=lambda x: (x["sigma"], x["obs"]))
         uniq = []
@@ -1929,6 +2666,11 @@ class Fusion:
             raisons.append(f"σ fusion {sm:.2f} m > preuve de la description ({sd:.2f} m)")
         if not (n_tri >= 1 or n_src >= 2 or affirme):
             raisons.append("une seule source non triangulée et pas de correction affirmée")
+        if not any(x["stricte"] for x in reelles_act):
+            raisons.append("aucune mesure stricte (FUS-COUV-02)")
+        if all(x["date02"] for x in reelles_act):
+            raisons.append("mesures antérieures aux travaux, dans leur emprise, sans appui de conservation (FUS-DATE-02)")
+            r["regles"].add("FUS-DATE-02")
         if sd <= 0.05 and d > 0.5:
             raisons.append("objet levé GAM : déplacement > 0,5 m (FUS-POS-06)")
             r["regles"].add("FUS-POS-06")
@@ -1953,8 +2695,8 @@ class Fusion:
                 continue
             if n["methode"] == "projection_description":
                 continue
-            w, regle = self.poids_existence(ent, m)
-            if w <= 0:
+            ev = self.evaluer(ent, m)
+            if ev["w_position"] <= 0 or m.get("invalidee") or m.get("lien_groupe_non_prouve"):
                 continue
             d, q = dist_geom(n["p"], G)
             ref = q
@@ -1966,7 +2708,8 @@ class Fusion:
             v = n["p"] - ref
             ms.append({"obs": n["id"], "v": v, "d": float(np.hypot(*v)), "sigma": n["sigma_brut"], "statut": m["statut"],
                        "methode": n["methode"], "source": n["source"], "ref": mref, "w_val": n["w_val"], "q": ref,
-                       "p": n["p"], "conf": n["conf"], "categorie": n["categorie"]})
+                       "p": n["p"], "conf": n["conf"], "categorie": n["categorie"], "stricte": self.est_stricte(ent, m),
+                       "date02": "FUS-DATE-02" in ev["motifs"]})
         if not ms:
             r["position"] = {"verdict": "non_mesure"}
             return
@@ -2004,6 +2747,10 @@ class Fusion:
                 raisons.append(f"σ {so:.2f} m > 0,5 m")
             if not any(CONF_W.get(x["conf"], 0) >= 0.6 for x in sig):
                 raisons.append("confiance faible")
+            if not any(x["stricte"] for x in sig):
+                raisons.append("aucune mesure stricte (FUS-COUV-02)")
+            if all(x["date02"] for x in sig):
+                raisons.append("mesures antérieures aux travaux, dans leur emprise, sans appui de conservation (FUS-DATE-02)")
             if (ent.get("sigma") or 1) <= 0.05 and dd > 0.5:
                 raisons.append("géométrie levée GAM : translation > 0,5 m (FUS-POS-06)")
             out["decision"] = "appliquer" if not raisons else "revue_requise"
@@ -2343,6 +3090,18 @@ class Fusion:
                 raisons.append("famille cible inexistante dans la description")
             if any(c[0] == "ajout_proche_existant" for c in conflits):
                 raisons.append("entité existante très proche (FUS-ADD-02)")
+            d_zone = self.distance_zone_geom(G, ("ajout", round(float(pt[0]), 3), round(float(pt[1]), 3)))
+            if d_zone <= EMPRISE_MARGE_M and not any((n["date"] or "") >= FIN_TRAVAUX and n["valide"] is True
+                                                     and CONF_W.get(n["conf"], 0) >= 0.6 for n in g):
+                raisons.append("vu seulement avant la fin des travaux, dans leur emprise (FUS-DATE-02)")
+            st_ = [n for n in g if not n["auto"] and n["type_source"] != "web" and n["valide"] is True
+                   and CONF_W.get(n["conf"], 0) >= 0.6 and n["statut"] != "incertain"]
+            if any((n["date"] or "") >= FIN_TRAVAUX for n in st_):
+                tranche_s = "apres_travaux"
+            elif st_ and d_zone > EMPRISE_MARGE_M:
+                tranche_s = "avant_travaux_hors_emprise"
+            else:
+                tranche_s = "indice_seulement"
             if all(n["statut"] == "incertain" for n in g):
                 raisons.append("observations « incertain » seulement")
             if arb_non is not None:
@@ -2356,6 +3115,7 @@ class Fusion:
                           "xref": xref, "fam_cible": fam_cible, "instancier": not raisons, "raisons": raisons,
                           "conflits": conflits, "ancrage": ancrage,
                           "categorie_preuve": next((c for c in CATEGORIES if c in cats_g), None),
+                          "tranche_stricte": tranche_s, "d_zone_travaux_m": r3(d_zone) if math.isfinite(d_zone) else None,
                           "arbitrages": sorted({a["id"] for a in (arb_non, arb_anc) if a is not None})})
         # identifiants déterministes
         compteur = Counter()
@@ -2458,6 +3218,8 @@ class Fusion:
     # -------- exécution --------
     def executer(self):
         self.lier()
+        self.appliquer_invalidations()
+        self.preparer_zone()
         self.requalifier_automatiques()
         for eid in sorted(self.membres):
             self.res_entites[eid] = self.fusion_entite(eid, self.membres[eid])
@@ -2529,18 +3291,26 @@ def ecrire_sorties(F: Fusion, ix: Index):
     for eid in sorted(F.res_entites):
         r = F.res_entites[eid]
         ex = r["existence"]["verdict"]
-        if not r["maj"] and ex not in ("absent_2026", "retirer", "retirer_doublon", "non_instancier") and not (
+        bord = r.get("bordure") or {}
+        if not r["maj"] and ex not in VERDICTS_RETRAIT + ("absent_2026_a_verifier",) and not bord.get("intervalles") and not (
                 r.get("notes") and any(F.index_obs[n["obs"]]["statut"] in ("attribut_corrige",) for n in r["notes"])):
             continue
         ent = ix.E[eid]
         pt = ent["G"]["pt"] if ent.get("G") else None
         props = {"id": eid, "famille": r["famille"], "type": r["type"], "classe_fusion": r["classe"],
+                 "statut_verification": r["statut_verification"],
                  "maj": r["maj"], "existence": r["existence"],
-                 "instancier": False if ex in ("absent_2026", "retirer", "retirer_doublon", "non_instancier") else None,
+                 "instancier": False if ex in VERDICTS_RETRAIT else None,
+                 "a_verifier_terrain": ex == "absent_2026_a_verifier" or bool(bord.get("contradictions_a_verifier"))
+                 or any(m.get("decision") == "revue_requise" for m in r["maj"].values()),
                  "doublon_de": r.get("doublon_de"), "textes_lus": r.get("textes_lus"),
+                 "bordure": ({"intervalles": bord.get("intervalles"), "contradictions": bord.get("contradictions"),
+                              "contradictions_a_verifier": bord.get("contradictions_a_verifier"),
+                              "desaccords": bord.get("desaccords"), "lectures": bord.get("lectures")} if bord else None),
                  "notes": r.get("notes"), "revue_texte": bool(r.get("notes")) and not r["maj"],
                  "conflits": r["conflits_ids"], "regles": r["regles"], "categorie_preuve": r["categorie_preuve"],
-                 "tranche_preuve": r["tranche_preuve"], "date_max_valide": r["date_max_valide"],
+                 "tranche_preuve": r["tranche_preuve"], "tranche_stricte": r["tranche_stricte"],
+                 "preuve_stricte": r["preuve_stricte"], "date_max_valide": r["date_max_valide"],
                  "provenance": provenance(F, r["obs"])}
         att["features"].append({"type": "Feature", "properties": props,
                                 "geometry": None if pt is None else {"type": "Point", "coordinates": [r3(pt[0]), r3(pt[1])]}})
@@ -2557,8 +3327,9 @@ def ecrire_sorties(F: Fusion, ix: Index):
                  "raisons_non_instanciation": a["raisons"], "hotes": a["hotes"], "liens_associes": a["liens_associes"],
                  "entite_existante_proche": a["proche"], "ancrage": a["ancrage"], "arbitrages": a["arbitrages"],
                  "categorie_preuve": a["categorie_preuve"], "tranche_preuve": TRANCHE.get(a["categorie_preuve"]),
+                 "tranche_stricte": a["tranche_stricte"], "d_zone_travaux_m": a["d_zone_travaux_m"],
                  "references_croisees": a["xref"], "conflits": a["conflits_ids"],
-                 "regles": ["FUS-ADD-01", "FUS-ADD-02", "FUS-ADD-03", "FUS-ADD-04"] + (["FUS-ARB-01"] if a["arbitrages"] else []),
+                 "regles": ["FUS-ADD-01", "FUS-ADD-02", "FUS-ADD-03", "FUS-ADD-04", "FUS-DATE-02"] + (["FUS-ARB-01"] if a["arbitrages"] else []),
                  "provenance": provenance(F, [n["id"] for n in g])}
         adj["features"].append({"type": "Feature", "properties": props, "geometry": geojson_geom(a["G"])})
     ecrire_json(OUT / "ajouts.geojson", adj)
@@ -2614,18 +3385,28 @@ def ecrire_sorties(F: Fusion, ix: Index):
     for eid in sorted(F.res_entites):
         r = F.res_entites[eid]
         pos = r.get("position") or {}
+        bord = r.get("bordure") or {}
         ev[eid] = {"famille": r["famille"], "type": r["type"], "classe_fusion": r["classe"], "obs": r["obs"],
-                   "sources": r["sources"], "categorie_preuve": r["categorie_preuve"], "tranche_preuve": r["tranche_preuve"],
+                   "sources": r["sources"], "statut_verification": r["statut_verification"],
+                   "tranche_stricte": r["tranche_stricte"], "preuve_stricte": r["preuve_stricte"],
+                   "dans_emprise_travaux": r["dans_emprise_travaux"], "d_zone_travaux_m": r["d_zone_travaux_m"],
+                   "appui_conservation": r["appui_conservation"], "obs_non_probantes": r["obs_non_probantes"],
+                   "categorie_preuve": r["categorie_preuve"], "tranche_preuve": r["tranche_preuve"],
                    "obs_preuve": r["obs_preuve"], "preuve_automatique_seule": r["preuve_automatique_seule"],
                    "obs_requalifiees": r["requalifiees"], "date_max": r["date_max"],
                    "date_max_valide": r["date_max_valide"], "existence": r["existence"]["verdict"],
                    "existence_obs_anterieures_ecartees": r["existence"].get("obs_anterieures_ecartees"),
                    "position": {k: pos.get(k) for k in ("verdict", "d_m", "sigma_m", "decision", "n_mesures_reelles") if k in pos},
                    "mesures_anterieures": r.get("mesures_anterieures"),
-                   "attributs_confirmes": r["attributs_confirmes"], "attributs_maj": sorted(r["maj"]),
+                   "attributs_confirmes": r["attributs_confirmes"],
+                   "attributs_maj": sorted(r["maj"]),
+                   "attributs_maj_decisions": {k: v.get("decision") for k, v in sorted(r["maj"].items())},
+                   "bordure_contradictions": {c["intervalle"]: c["gravite"] for c in bord.get("contradictions", [])} or None,
                    "conflits": r["conflits_ids"], "regles": r["regles"]}
-    ecrire_json(OUT / "entites_verifiees.json", {"schema": "pj_enrichi_entites/0.1", "generateur": VERSION,
-                                                  "n": len(ev), "entites": ev})
+    ecrire_json(OUT / "entites_verifiees.json", {"schema": "pj_enrichi_entites/0.2", "generateur": VERSION,
+                                                  "n": len(ev), "comptes_statut": dict(sorted(Counter(
+                                                      v["statut_verification"] for v in ev.values()).items())),
+                                                  "entites": ev})
     # ---- observations_index.json ----
     ecrire_json(OUT / "observations_index.json", {"schema": "pj_enrichi_index_obs/0.1", "generateur": VERSION,
                                                    "n": len(F.index_obs),
@@ -2641,6 +3422,9 @@ PAL = {"fond": (252, 252, 251), "encre": (11, 11, 11), "encre2": (82, 81, 78), "
        "orange": (0xeb, 0x68, 0x34), "aqua": (0x1b, 0xaf, 0x7a), "critique": (0xd0, 0x3b, 0x3b), "blanc": (255, 255, 255)}
 # rampe ordinale par tranche de date de la preuve (FUS-COUV-01) : clair = ancien, foncé = récent
 TRANCHE_COUL = {"ortho_2022": PAL["seq_2022"], "2020_2024": PAL["seq_2024"], "2025": PAL["seq_2025"], "2026": PAL["seq_2026"]}
+# rampe ordinale de la preuve stricte (FUS-COUV-02) par classe de date relative aux travaux (FUS-DATE-02)
+STRICTE_COUL = {"apres_travaux": PAL["seq_2026"], "avant_travaux_hors_emprise": PAL["seq_2024"],
+                "avant_travaux_dans_emprise": PAL["seq_2022"]}
 
 
 def positions_photos(F: Fusion):
@@ -2726,8 +3510,7 @@ def carte(F: Fusion, ix: Index, chemin: Path):
         # zones modifiées 2025 : hachures
         mask = Image.new("L", (W, H), 0)
         dm = ImageDraw.Draw(mask)
-        for f in zones:
-            g = geom_norm(f["geometry"])
+        for g in [geom_norm(f["geometry"]) for f in zones] + [ix.E[e]["G"] for e in sorted(F.zone_extension)]:
             if g is None:
                 continue
             for pg in g["polys"]:
@@ -2741,15 +3524,15 @@ def carte(F: Fusion, ix: Index, chemin: Path):
         im.paste(hach, (0, 0), mask.point(lambda v: 110 if v else 0))
         d = ImageDraw.Draw(im)
         centre, demi = ((x0 + x1) / 2, (y0 + y1) / 2), max(x1 - x0, y1 - y0)
-        # bordures : grises sans preuve ; en mode preuves, colorées par tranche de leur preuve concluante
+        # bordures : grises sans preuve ; en mode preuves, colorées par la classe de leur preuve stricte
         larg = 2 if ppm < 3 else 3
         for eid, g in bords:
             if not bbox_proche(g["bbox"], centre, demi):
                 continue
-            t = (F.res_entites.get(eid) or {}).get("tranche_preuve") if mode == "preuves" else None
+            t = (F.res_entites.get(eid) or {}).get("tranche_stricte") if mode == "preuves" else None
             for C in g["lignes"]:
-                if t in TRANCHE_COUL:
-                    d.line([px(p) for p in C], fill=TRANCHE_COUL[t], width=larg)
+                if t in STRICTE_COUL:
+                    d.line([px(p) for p in C], fill=STRICTE_COUL[t], width=larg)
                 else:
                     d.line([px(p) for p in C], fill=(120, 119, 115), width=1)
         r0 = 2 if ppm < 3 else 3
@@ -2780,22 +3563,22 @@ def carte(F: Fusion, ix: Index, chemin: Path):
                 if r is None:
                     rond(p, 1.5, fill=(175, 174, 170))
                     continue
-                t = r["tranche_preuve"]
-                if t in TRANCHE_COUL:
-                    rond(p, r0 + 2, fill=TRANCHE_COUL[t], out=PAL["blanc"], w=1)
-                elif t == "web":
-                    rond(p, r0 + 2, out=PAL["encre"], w=2)
+                t = r["tranche_stricte"]
+                if t in STRICTE_COUL:
+                    rond(p, r0 + 2, fill=STRICTE_COUL[t], out=PAL["blanc"], w=1)
+                elif t == "indice_seulement":
+                    rond(p, r0 + 2, out=PAL["encre2"], w=2)
                 else:
-                    rond(p, r0 + 2, out=PAL["muet"], w=2)
+                    rond(p, r0 + 2, out=PAL["muet"], w=1)
             for a in F.ajouts:
                 p = a["pt"]
                 if not (x0 <= p[0] <= x1 and y0 <= p[1] <= y1):
                     continue
-                t = TRANCHE.get(a.get("categorie_preuve"))
-                if t in TRANCHE_COUL:
-                    rond(p, r0 + 2, fill=TRANCHE_COUL[t], out=PAL["blanc"], w=1)
+                t = a.get("tranche_stricte")
+                if t in STRICTE_COUL:
+                    rond(p, r0 + 2, fill=STRICTE_COUL[t], out=PAL["blanc"], w=1)
                 else:
-                    rond(p, r0 + 2, out=PAL["muet"], w=2)
+                    rond(p, r0 + 2, out=PAL["encre2"], w=2)
             for x, y in sorted(photos["p2026"].values()):
                 if x0 <= x <= x1 and y0 <= y <= y1:
                     X, Y = px((x, y))
@@ -2811,16 +3594,23 @@ def carte(F: Fusion, ix: Index, chemin: Path):
                 pos = r.get("position") or {}
                 ex = r["existence"]["verdict"]
                 X, Y = px(p)
-                if ex in ("absent_2026", "retirer", "retirer_doublon", "non_instancier"):
+                sv = r["statut_verification"]
+                if ex in VERDICTS_RETRAIT:
                     s = r0 + 3
                     d.line([(X - s, Y - s), (X + s, Y + s)], fill=PAL["encre"], width=3)
                     d.line([(X - s, Y + s), (X + s, Y - s)], fill=PAL["encre"], width=3)
+                elif ex == "absent_2026_a_verifier":
+                    s = r0 + 3
+                    d.line([(X - s, Y - s), (X + s, Y + s)], fill=PAL["encre2"], width=1)
+                    d.line([(X - s, Y + s), (X + s, Y - s)], fill=PAL["encre2"], width=1)
                 elif pos.get("verdict") in ("affinage", "deplacement", "translation"):
                     pass
                 elif r["maj"]:
                     s = r0 + 2
-                    d.rectangle([X - s, Y - s, X + s, Y + s], fill=PAL["orange"], outline=PAL["blanc"])
-                else:
+                    plein = any(m.get("decision") == "appliquer" for m in r["maj"].values())
+                    d.rectangle([X - s, Y - s, X + s, Y + s], fill=PAL["orange"] if plein else None,
+                                outline=PAL["blanc"] if plein else PAL["orange"], width=1 if plein else 2)
+                elif sv == "confirme":
                     rond(p, r0, fill=(130, 129, 125))
             # flèches de déplacement (exagérées x5)
             for eid, r in sorted(F.res_entites.items()):
@@ -2887,15 +3677,15 @@ def carte(F: Fusion, ix: Index, chemin: Path):
     H = ent_h + 40 + pA.size[1] + 40 + pC.size[1] + leg_h + marge
     im = Image.new("RGB", (W, H), PAL["fond"])
     d = ImageDraw.Draw(im)
-    d.text((marge, 18), "Paquet Jardin : preuves images par entité et décisions de la fusion du recensement", fill=PAL["encre"], font=f_titre)
+    d.text((marge, 18), "Paquet Jardin : preuves strictes par entité et décisions de la fusion du recensement (0.3)", fill=PAL["encre"], font=f_titre)
     y = ent_h
-    d.text((marge, y), "A. Site : preuve image concluante la plus récente (entités, bordures)", fill=PAL["encre"], font=f_txt)
+    d.text((marge, y), "A. Site : preuve stricte, classe de date relative aux travaux (entités, bordures)", fill=PAL["encre"], font=f_txt)
     d.text((marge * 2 + pA.size[0], y), "B. Site : décisions de la fusion", fill=PAL["encre"], font=f_txt)
     y += 28
     im.paste(pA, (marge, y))
     im.paste(pB, (marge * 2 + pA.size[0], y))
     y += pA.size[1] + 12
-    d.text((marge, y), "C. Cœur du carrefour (± 80 m) : preuves", fill=PAL["encre"], font=f_txt)
+    d.text((marge, y), "C. Cœur du carrefour (± 80 m) : preuves strictes", fill=PAL["encre"], font=f_txt)
     d.text((marge * 2 + pA.size[0], y), "D. Cœur du carrefour : décisions (flèches < 1 m x5)", fill=PAL["encre"], font=f_txt)
     y += 28
     im.paste(pC, (marge, y))
@@ -2910,25 +3700,25 @@ def carte(F: Fusion, ix: Index, chemin: Path):
     def r_(c, out=None, w=1, r=6):
         return lambda X, Y: d.ellipse([X - r, Y - r, X + r, Y + r], fill=c, outline=out, width=w)
 
-    col1 = [(r_(PAL["seq_2026"], PAL["blanc"]), "photo 2026 (28/07/2026, après travaux)"),
-            (r_(PAL["seq_2025"], PAL["blanc"]), "image 2025 (photos ≤ 31/08/2025, Pléiades)"),
-            (r_(PAL["seq_2024"], PAL["blanc"]), "image 2020-2024 (photos, IGN 09/08/2024)"),
-            (r_(PAL["seq_2022"], PAL["blanc"]), "ortho PCRS 5 cm du 10/05/2022"),
-            (lambda X, Y: d.line([(X - 9, Y), (X + 9, Y)], fill=PAL["seq_2024"], width=3), "bordure : couleur de sa preuve (gris : aucune)"),
-            (r_(None, PAL["encre"], 2), "document web / inventaire seul")]
-    col2 = [(r_(None, PAL["muet"], 2), "vue sans preuve concluante ou avant travaux"),
+    col1 = [(r_(PAL["seq_2026"], PAL["blanc"]), "preuve stricte après travaux (photo du 28/07/2026)"),
+            (r_(PAL["seq_2024"], PAL["blanc"]), "preuve stricte avant travaux, hors emprise"),
+            (r_(PAL["seq_2022"], PAL["blanc"]), "avant travaux, dans l'emprise, conservation appuyée"),
+            (lambda X, Y: d.line([(X - 9, Y), (X + 9, Y)], fill=PAL["seq_2024"], width=3), "bordure : couleur de sa preuve stricte (gris : aucune)"),
+            (r_(None, PAL["encre2"], 2), "indice seulement (faible, incertain, automatique, groupé)"),
+            (r_(None, PAL["muet"], 1), "vue non concluante ou non valable 2026")]
+    col2 = [
             (r_((175, 174, 170), None, 1, 2), "entité décrite sans observation"),
             (lambda X, Y: (d.line([(X - 5, Y), (X + 5, Y)], fill=PAL["encre"]), d.line([(X, Y - 5), (X, Y + 5)], fill=PAL["encre"])),
              "photo Panoramax citée (2020-2025)"),
             (lambda X, Y: d.ellipse([X - 2, Y - 2, X + 2, Y + 2], fill=PAL["encre"]), "photo Mapillary citée"),
             (lambda X, Y: etoile(d, X, Y, 8, PAL["critique"]), "photo du 28/07/2026"),
             (lambda X, Y: d.rectangle([X - 8, Y - 6, X + 8, Y + 6], fill=(230, 205, 180)), "zone refaite 2025 (hachures)")]
-    col3 = [(lambda X, Y: d.rectangle([X - 5, Y - 5, X + 5, Y + 5], fill=PAL["orange"]), "attribut corrigé"),
+    col3 = [(lambda X, Y: d.rectangle([X - 5, Y - 5, X + 5, Y + 5], fill=PAL["orange"]), "attribut corrigé (creux : en revue)"),
             (lambda X, Y: d.line([(X - 8, Y), (X + 8, Y)], fill=PAL["encre"], width=3), "déplacement (< 1 m : x5) : appliquer (épais) / revue (fin)"),
             (lambda X, Y: d.polygon([(X, Y - 7), (X + 7, Y), (X, Y + 7), (X - 7, Y)], fill=PAL["aqua"]), "ajout instancié (creux : candidat)"),
             (lambda X, Y: (d.line([(X - 6, Y - 6), (X + 6, Y + 6)], fill=PAL["encre"], width=3),
-                           d.line([(X - 6, Y + 6), (X + 6, Y - 6)], fill=PAL["encre"], width=3)), "absent 2026 / à retirer")]
-    col4 = [(r_((130, 129, 125), None, 1, 3), "entité confirmée"),
+                           d.line([(X - 6, Y + 6), (X + 6, Y - 6)], fill=PAL["encre"], width=3)), "absent 2026 / à retirer (fin : à vérifier)")]
+    col4 = [(r_((130, 129, 125), None, 1, 3), "entité confirmée (preuve stricte)"),
             (r_(None, PAL["critique"], 2, 8), "conflit à vérifier (voir conflits.json)")]
     xs = [marge, marge + 420, marge * 2 + pA.size[0], marge * 2 + pA.size[0] + 420]
     d.text((xs[0], y), "Preuves (A, C)", fill=PAL["encre2"], font=f_txt)
@@ -2965,9 +3755,15 @@ FAM_COUVERTURE = ("mobilier", "arbres", "marquages", "bordures", "surfaces", "il
 TRANCHES_IMAGE = ("2026", "2025", "2020_2024", "ortho_2022")
 
 
+# couverture publiée par la fusion 0.2 et recomptée en strict par la critique de couverture (10/10/2026), pour comparaison
+REFERENCE_0_2 = {"site": {"large_pct": 23.1, "stricte_critique_pct": 13.2},
+                 "coeur": {"large_pct": 19.8, "stricte_critique_pct": 11.5},
+                 "zone_travaux_2025": {"large_pct": 7.6, "stricte_critique_pct": 3.3}}
+
+
 def couverture(F: Fusion, ix: Index):
-    """Couverture des entités décrites par tranche de date de la preuve concluante (FUS-COUV-01) : site, cœur, zone 2025."""
-    zt = zones_travaux_2025()
+    """Couverture des entités décrites : large (FUS-COUV-01, définition 0.2) et stricte (FUS-COUV-02, décisions) ;
+    site, cœur, zone des travaux 2025 (FUS-ZONE-01, extension comprise)."""
     O = np.array(ix.O)
     tab = {z: defaultdict(Counter) for z in ("site", "coeur", "zone_travaux_2025")}
     for e in sorted(ix.E.values(), key=lambda e: e["id"]):
@@ -2975,18 +3771,22 @@ def couverture(F: Fusion, ix: Index):
             continue
         r = F.res_entites.get(e["id"])
         t = (r or {}).get("tranche_preuve") or "aucune"
+        ts = (r or {}).get("tranche_stricte") or "aucune"
         p = e["G"]["pt"]
         zones = ["site"]
         if float(np.max(np.abs(p - O))) <= COEUR_DEMI_M:
             zones.append("coeur")
-        if any(bbox_proche((R[:, 0].min(), R[:, 1].min(), R[:, 0].max(), R[:, 1].max()), p, 0.0) and dans_anneau(p, R) for R in zt):
+        if any(bbox_proche(rb, p, 0.0) and dans_anneau(p, R) for _, R, rb in F.zone_anneaux):
             zones.append("zone_travaux_2025")
         for z in zones:
             c = tab[z][e["classe"]]
             c["n"] += 1
-            c[t] += 1
+            c["L:" + t] += 1
+            c["S:" + ts] += 1
             if r and r.get("preuve_automatique_seule"):
                 c["automatique_seule"] += 1
+            if r and r.get("statut_verification") == "confirme":
+                c["confirmees"] += 1
     out = {}
     for z, T in tab.items():
         out[z] = {}
@@ -3003,48 +3803,210 @@ def couverture(F: Fusion, ix: Index):
 
 def couv_ligne(c):
     n = c["n"]
-    img = sum(c[t] for t in TRANCHES_IMAGE)
-    d = {"n": n, **{t: c[t] for t in TRANCHES}, "automatique_seule": c["automatique_seule"],
-         "avec_preuve_image": img, "pct_preuve_image": round(100.0 * img / n, 1) if n else 0.0,
-         "pct_2024_et_plus": round(100.0 * (c["2026"] + c["2025"] + c["2020_2024"]) / n, 1) if n else 0.0,
-         "pct_2026": round(100.0 * c["2026"] / n, 1) if n else 0.0}
-    return d
+
+    def pct(k):
+        return round(100.0 * k / n, 1) if n else 0.0
+
+    img = sum(c["L:" + t] for t in TRANCHES_IMAGE)
+    stricte = sum(c["S:" + t] for t in CLASSES_DATE)
+    return {"n": n,
+            "large": {"n": img, "pct": pct(img), **{t: c["L:" + t] for t in TRANCHES_IMAGE}, "web_seul": c["L:web"],
+                      "non_concluant": c["L:non_concluant"], "non_valable_2026": c["L:non_valable_2026"],
+                      "aucune": c["L:aucune"], "pct_2024_et_plus": pct(c["L:2026"] + c["L:2025"] + c["L:2020_2024"])},
+            "stricte": {"n": stricte, "pct": pct(stricte), **{t: c["S:" + t] for t in CLASSES_DATE},
+                        "pct_apres_travaux": pct(c["S:apres_travaux"]),
+                        **{t: c["S:" + t] for t in TRANCHES_STRICTES if t not in CLASSES_DATE}},
+            "automatique_seule": c["automatique_seule"], "confirmees": c["confirmees"]}
+
+
+def stats_bordures(F: Fusion):
+    """Lecture des profils de bordure (FUS-BOR-01) : textes lus, lectures, votes, accords, contradictions."""
+    textes, lectures = 0, Counter()
+    for n in F.obs:
+        if n["classe"] != "bordure":
+            continue
+        for champ in CHAMPS_PROFIL:
+            v = n["attrs"].get(champ)
+            if isinstance(v, str) and v.strip():
+                textes += 1
+        lec = lire_profil_bordure(n["attrs"])
+        for lu in lec:
+            lectures[(lu["attribut"], lu["lecture"])] += 1
+        if not lec:
+            lectures[("sans_lecture", "-")] += 1
+    iv = Counter()
+    contra = []
+    for eid in sorted(F.res_entites):
+        b = F.res_entites[eid].get("bordure")
+        if not b:
+            continue
+        for it in b["intervalles"]:
+            iv[it.get("verdict") or "abaisse_seul"] += 1
+        for c in b["contradictions"]:
+            contra.append((eid, c))
+    return textes, lectures, iv, contra
 
 
 def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
     L = []
     w = L.append
     res = list(F.res_entites.values())
+    tot = {z: couv[z]["total"] for z in ("site", "coeur", "zone_travaux_2025")}
+    noms = {"site": "Site entier", "coeur": "Cœur du carrefour (± 80 m)", "zone_travaux_2025": "Zone des travaux 2025"}
+    sv = Counter(r["statut_verification"] for r in res)
+    liens = [l for t in F.index_obs.values() for l in t["liens"] if "classe_date" in l]
     w("# Fusion du recensement : couche `description/enrichi/`")
     w("")
-    w(f"Générateur : `python recon/pcg/enrichir/fusion_recensement.py` ({VERSION}), déterministe. "
-      "Couche séparée : ni la description de base, ni la cohérence, ni les observations ne sont modifiées. "
-      "Le composeur la fusionnera (priorité arbitré > enrichi vérifié > base).")
+    w(f"Générateur : `python recon/pcg/enrichir/fusion_recensement.py` ({VERSION}), déterministe : deux exécutions "
+      "successives donnent des sorties identiques octet pour octet. Couche séparée : ni la description de base, ni la "
+      "cohérence, ni les observations ne sont modifiées. Le composeur la fusionnera (priorité arbitré > enrichi vérifié > base).")
     w("")
-    # ---- dates des images (corrige la version 0.1) ----
-    w("## Dates des images")
+    # ---- ce qui change en 0.3 ----
+    w("## Ce qui change en 0.3 (critique de couverture du 10/10/2026)")
+    w("")
+    w("La couverture publiée en 0.2 était surestimée. La fusion garde désormais deux mesures : la couverture **large** "
+      "(FUS-COUV-01, définition 0.2, pour comparaison) et la couverture **stricte** (FUS-COUV-02). Toutes les décisions "
+      "utilisent la stricte : statut « confirmé », application d'un déplacement, d'un attribut ou d'un retrait, carte.")
+    w("")
+    w("| zone | entités | large 0.2 (publiée) | stricte 0.2 (recomptée par la critique) | large 0.3 | **stricte 0.3** | "
+      "dont après travaux |")
+    w("|---|---|---|---|---|---|---|")
+    for z in ("site", "coeur", "zone_travaux_2025"):
+        t = tot[z]
+        ref = REFERENCE_0_2[z]
+        w(f"| {noms[z]} | {t['n']} | {ref['large_pct']} % | {ref['stricte_critique_pct']} % | {t['large']['pct']} % | "
+          f"**{t['stricte']['pct']} %** ({t['stricte']['n']}) | {t['stricte']['apres_travaux']} |")
+    w("")
+    w("La large 0.3 applique la définition 0.2 aux liens corrigés (contrôles automatiques des bordures requalifiés, liens "
+      "groupés sans preuve propre, liens invalidés par une revue). La stricte 0.3 est plus basse que le recomptage de la "
+      "critique parce qu'elle applique aussi les classes de date relatives aux travaux (cause 3), le plafond de confiance des "
+      "projections lointaines (FUS-CONF-02) et les liens groupés (FUS-LIEN-09) ; la zone des travaux compte aussi plus "
+      "d'entités (cause 5).")
+    w("")
+    # cause 1
+    n_faible = sum(1 for r in res if r["tranche_preuve"] in TRANCHES_IMAGE and r["tranche_stricte"] == "indice_seulement")
+    w(f"1. **Preuve stricte (FUS-COUV-02).** Une entité n'est couverte, et « confirmée », que si au moins une observation "
+      f"image manuelle, de confiance moyenne ou haute, valide 2026 et probante la porte. {n_faible} entités qui avaient une "
+      f"preuve au sens large n'ont qu'un indice (confiance faible, validité incertaine, contrôle automatique, lien groupé "
+      f"ou image antérieure aux travaux dans leur emprise). Statuts : "
+      + ", ".join(f"{k} {v}" for k, v in sorted(sv.items())) + " (FUS-STAT-01).")
+    # cause 2
+    n_inc = sum(1 for l in liens if "FUS-VAL-04" in (l.get("non_probant") or []))
+    n_inc_seul = 0
+    for r in res:
+        if r["tranche_stricte"] != "indice_seulement":
+            continue
+        ob = [F.index_obs[o] for o in r["obs_preuve"]]
+        if ob and all(o["valide_2026"] == "incertain" for o in ob):
+            n_inc_seul += 1
+    w(f"2. **Validité « incertaine » (FUS-VAL-04).** Elle ne prouve plus ni la présence ni l'absence : {n_inc} liens "
+      f"observation-entité concernés ; {n_inc_seul} entités ne reposaient que sur ce type d'observation et passent en "
+      "« indice seulement ». Les attributs et les mesures la gardent avec le poids 0,5 (toujours en revue).")
+    # cause 3
+    cl = Counter(l["classe_date"] for l in liens)
+    ap = Counter(bool(l.get("appui_conservation")) for l in liens if l["classe_date"] == "avant_travaux_dans_emprise")
+    n_2025 = sum(1 for n in F.obs if n["categorie"] == "photo_2025")
+    n_0831 = sum(1 for n in F.obs if (n["date"] or "").startswith("2025-08-31"))
+    w(f"3. **Dates relatives aux travaux (FUS-DATE-02).** Les {n_2025} observations sur photos de 2025 (12/01 au 31/08/2025, "
+      f"dont {n_0831} du 31/08/2025, en plein chantier) sont toutes antérieures à la fin des travaux. Liens observation-entité : "
+      f"après travaux {cl['apres_travaux']}, avant travaux hors emprise {cl['avant_travaux_hors_emprise']}, avant travaux "
+      f"dans l'emprise (± {EMPRISE_MARGE_M:.0f} m) {cl['avant_travaux_dans_emprise']}, dont {ap[True]} avec un appui de règle "
+      f"(FUS-SRC-001 : marquage conservé, bordure levée GAM hors périmètre refait, surface inchangée, objet attesté après "
+      f"les travaux) et {ap[False]} sans appui, devenus non probants.")
+    # cause 4
+    autos_b = Counter(F.requalifiees.get(n["id"], "non_liee") for n in F.obs
+                      if n["auto"] and n["classe"] == "bordure" and n["statut"] == "confirme")
+    w(f"4. **Contrôles automatiques des bordures (FUS-AUTO-01/02 étendues).** {sum(autos_b.values())} confirmations "
+      f"automatiques de bordures (orthos 2022 et 2024, sans masque véhicules / ombres ni réponse d'arête) : "
+      f"{autos_b['incertain']} requalifiées « incertain », {autos_b['corroboree']} corroborées par une observation manuelle. "
+      "La bordure K-0236 citée par la critique (fausse confirmation sur deux dates) n'a plus d'observation : l'atelier des "
+      "orthos récentes l'a déjà rejetée à l'échantillonnage.")
+    # cause 5
+    ext = F.zone_extension
+    O = np.array(ix.O)
+    n_ext = 0
+    anneaux_v1 = [(R, rb) for src, R, rb in F.zone_anneaux if src == "v1"]
+    anneaux_ext = [(R, rb) for src, R, rb in F.zone_anneaux if src != "v1"]
+    for e in ix.E.values():
+        if e["famille"] not in FAM_COUVERTURE or e.get("G") is None:
+            continue
+        p = e["G"]["pt"]
+        if any(bbox_proche(rb, p, 0.0) and dans_anneau(p, R) for R, rb in anneaux_ext) \
+                and not any(bbox_proche(rb, p, 0.0) and dans_anneau(p, R) for R, rb in anneaux_v1):
+            n_ext += 1
+    w("5. **Zone des travaux (FUS-ZONE-01).** Elle comprend maintenant les surfaces dont une photo du 28/07/2026 montre un "
+      "revêtement neuf : " + ", ".join(
+          f"`{k}` ({ix.E[k]['type']}, {float(ix.E[k]['props'].get('aire_m2') or 0):.0f} m², {', '.join(v)})"
+          for k, v in ext.items())
+      + f". {n_ext} entités décrites y entrent en plus ; l'état de ces surfaces passe à « modifie_2025 » (mise à jour etat_v1).")
+    # 3 cas
+    E = F.res_entites
+
+    def st(eid):
+        r = E.get(eid)
+        return f"`{eid}` {r['statut_verification']}" if r else f"`{eid}` sans observation"
+    w("6. **Trois cas faux corrigés.** Places ML-5341, ML-5342 et ML-5343 : le lien groupé de PANO2026-014 ne les prouve "
+      "plus (FUS-LIEN-09 : seules ML-5339, ML-5340 et ML-5344 sont citées dans sa preuve) et le constat de revue ARB-005 "
+      "(photo f8d91bb1 du 28/07/2026 : enrobé et butées, aucune ligne) les met en « absent_2026_a_verifier » : "
+      + ", ".join(st(e) for e in ("ML-5341", "ML-5342", "ML-5343"))
+      + ". MLY-MAR-017 (« tracé sur la bande plantée », projection à 25,9 m) n'est plus un constat indépendant de la date "
+      "(FUS-VAL-02 limité à 15 m) et son lien est invalidé (ARB-004) ; MLY-MAR-016 et MLY-MAR-018, même image à 23,6 et "
+      "28,1 m, perdent aussi ce statut. K-0358, masquée par la haie, n'est plus confirmée (ARB-006, et confiance faible) : "
+      + st("K-0358") + ".")
+    textes, lec, ivs, contra = stats_bordures(F)
+    nums = sum(v for (a, l_), v in lec.items() if a == "vue_m" and l_ == "haute")
+    expl = sum(v for (a, l_), v in lec.items() if a == "vue_m" and l_ == "moyenne")
+    ded = sum(v for (a, l_), v in lec.items() if a == "vue_m" and l_ == "faible")
+    abv = sum(v for (a, l_), v in lec.items() if a == "abaisse")
+    sans = lec[("sans_lecture", "-")]
+    c_av = sorted({eid for eid, c in contra if c["gravite"] == "a_verifier"})
+    c_in = sorted({eid for eid, c in contra if c["gravite"] == "info"} - set(c_av))
+    w(f"7. **Vote des attributs de bordure (FUS-BOR-01..03).** {textes} textes libres de profil lus sur les observations de "
+      f"bordures : vue chiffrée {nums}, qualificatif explicite {expl}, vue déduite {ded}, abaissé {abv} ; "
+      f"{sans} observations sans lecture de profil. Intervalles votés : "
+      + ", ".join(f"{k} {v}" for k, v in sorted(ivs.items()))
+      + f". Contradictions de vue à vérifier : {len(c_av)} bordures ({', '.join(c_av)}) ; pour information : {len(c_in)} "
+      f"({', '.join(c_in)}). Détail dans la section Bordures.")
+    w("")
+    # ---- dates des images ----
+    w("## Dates des images et classes relatives aux travaux")
     w("")
     par_cat = defaultdict(list)
     for n in F.obs:
         if n["type_source"] != "web" and n["date"]:
             par_cat[n["categorie"]].append(n["date"])
-    w("| catégorie (FUS-SRC-01) | source | dates des observations | observations |")
-    w("|---|---|---|---|")
-    lib = {"photo_2026": "Panoramax, 7 photos (3 calées)", "photo_2025": "Panoramax et Mapillary",
+    w("| catégorie (FUS-SRC-01) | source | dates des observations | observations | classe relative aux travaux |")
+    w("|---|---|---|---|---|")
+    lib = {"photo_2026": "Panoramax, 7 photos (3 calées) et constats de revue", "photo_2025": "Panoramax et Mapillary",
            "ortho_2025": "Pléiades 2025, 50 cm (non datée)", "photo_2020_2024": "Panoramax et Mapillary",
            "ortho_2024": "IGN BD ORTHO, 20 cm", "ortho_2022": "PCRS 5 cm"}
     for c in CATEGORIES:
         if c in par_cat:
             ds = sorted(par_cat[c])
             per = "2025 (sans date publiée)" if c == "ortho_2025" else (ds[0] if ds[0] == ds[-1] else f"{ds[0]} à {ds[-1]}")
-            w(f"| {c} | {lib.get(c, c)} | {per} | {len(ds)} |")
+            classe = "après travaux" if c == "photo_2026" else "avant travaux (hors ou dans l'emprise selon l'entité)"
+            w(f"| {c} | {lib.get(c, c)} | {per} | {len(ds)} | {classe} |")
     w("")
-    w("Les seules images de l'état 2026 sont les photos Panoramax du 28/07/2026 (après la fin des travaux, le 05/12/2025 ; "
-      "trottoirs du Vercors achevés le 30/01/2026). Elles ont été prises sur la place, environ 135 m au sud du cœur, "
-      "et ne voient pas le cœur du carrefour. Toutes les autres images sont antérieures aux travaux du cœur : "
-      "Panoramax jusqu'au 31/08/2025 (série à plat en plein chantier), Mapillary jusqu'au 18/05/2025, IGN du 09/08/2024, "
-      "Pléiades 2025 sans date (le cœur y est encore dans son état de 2024), PCRS du 10/05/2022.")
+    w("Travaux du cœur : 23/06 au 05/12/2025 ; trottoirs du Vercors achevés le 30/01/2026. Les seules images de l'état 2026 "
+      "sont les photos Panoramax du 28/07/2026, prises sur la place, environ 135 m au sud du cœur : aucune ne voit le cœur. "
+      "Toutes les autres sont antérieures à la fin des travaux, y compris la série à plat du 31/08/2025 (en plein chantier). "
+      "Une observation antérieure ne vaut pour une entité dans l'emprise des travaux (à 3 m au plus, au point observé pour "
+      "une ligne ou une surface) que si une règle appuie sa conservation (FUS-DATE-02).")
     w("")
+    w("| classe de date (FUS-DATE-02) | liens observation-entité | avec appui de règle | non probants (motifs) |")
+    w("|---|---|---|---|")
+    for c in CLASSES_DATE:
+        ls_ = [l for l in liens if l["classe_date"] == c]
+        mot = Counter(m for l in ls_ for m in (l.get("non_probant") or []))
+        w(f"| {c} | {len(ls_)} | {sum(1 for l in ls_ if l.get('appui_conservation'))} | "
+          + (", ".join(f"{k} {v}" for k, v in sorted(mot.items())) or "-") + " |")
+    w("")
+    app = Counter(re.sub(r"\s*\([^()]*\)$", "", (l.get("appui_conservation") or "").split(" : ")[-1]) for l in liens
+                  if l["classe_date"] == "avant_travaux_dans_emprise" and l.get("appui_conservation"))
+    if app:
+        w("Appuis de conservation utilisés : " + ", ".join(f"{k} ({v})" for k, v in sorted(app.items(), key=lambda t: (-t[1], t[0])))
+          + ".")
+        w("")
     # ---- entrées ----
     w("## Entrées")
     w("")
@@ -3052,6 +4014,7 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
     w("|---|---|")
     for f, k in obs_par_fichier:
         w(f"| `{rel(f)}` | {k} |")
+    w(f"| `{rel(ARBITRAGES)}` (constats de revue, FUS-ARB-01) | {len(F.obs_revue)} |")
     w("")
     w(f"Total : {len(F.obs)} observations. Description lue : base v0.3 (`{BASE.name}/`), objets du paquet, instances, "
       "bordures du site (carte de cohérence), surfaces v1, corrections et propositions de cohérence, levé GAM 2026 des arbres, "
@@ -3061,16 +4024,21 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
     # ---- synthèse ----
     n_mv = [r for r in res if (r.get("position") or {}).get("verdict") in ("affinage", "deplacement", "translation")]
     n_app = sum(1 for r in n_mv if r["position"].get("decision") == "appliquer")
-    n_ret = sum(1 for r in res if r["existence"]["verdict"] in ("absent_2026", "retirer", "retirer_doublon", "non_instancier"))
-    n_conf = sum(1 for r in res if r["existence"]["verdict"] == "present" and not r["maj"]
-                 and (r.get("position") or {}).get("verdict") not in ("affinage", "deplacement", "translation"))
+    n_ret = sum(1 for r in res if r["existence"]["verdict"] in VERDICTS_RETRAIT)
+    n_av = sum(1 for r in res if r["existence"]["verdict"] == "absent_2026_a_verifier")
+    maj_app = sum(1 for r in res for m in r["maj"].values() if m.get("decision") == "appliquer")
+    maj_tot = sum(len(r["maj"]) for r in res)
     vc_ = Counter(c.get("verdict") for c in F.controle_coh if c.get("verdict"))
     w("## Synthèse")
     w("")
-    w(f"- {len(res)} entités de la description reçoivent au moins une observation ; {n_conf} sont confirmées sans correction ; "
-      f"{sum(1 for r in res if r['maj'])} ont au moins un attribut corrigé ({sum(len(r['maj']) for r in res)} mises à jour).")
+    w(f"- {len(res)} entités de la description reçoivent au moins une observation ; {sv['confirme']} sont **confirmées** "
+      f"(preuve stricte, sans correction) ; {sv['corrige']} corrigées ; {sv['conteste']} contestées (vue de bordure) ; "
+      f"{sv['indice_seulement']} n'ont qu'un indice ; {sv['non_valable_2026']} ne sont vues qu'avant leur forme 2026 ou "
+      "sans appui de conservation.")
+    w(f"- Attributs : {sum(1 for r in res if r['maj'])} entités ont au moins une mise à jour ({maj_tot} mises à jour, dont "
+      f"{maj_app} à appliquer et {maj_tot - maj_app} en revue, FUS-ATT-06).")
     w(f"- Position : {len(n_mv)} corrections mesurées, dont {n_app} à appliquer et {len(n_mv) - n_app} en revue (FUS-POS-05/06).")
-    w(f"- Existence : {n_ret} entités à retirer ou absentes en 2026.")
+    w(f"- Existence : {n_ret} entités à retirer ou absentes en 2026 ; {n_av} absences à vérifier (FUS-EXI-04).")
     w(f"- Ajouts : {len(F.ajouts)} objets nouveaux, dont {sum(1 for a in F.ajouts if a['instancier'])} "
       f"instanciables ; {len(F.ajouts_refuses)} ajouts remplacés par un conflit avec le levé GAM (FUS-ADD-04).")
     w(f"- Conflits : {len(F.conflits)} ({sum(1 for c in F.conflits if c['gravite'] == 'a_verifier')} à vérifier, "
@@ -3078,30 +4046,99 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
     w(f"- Cohérence : {len(F.controle_coh)} corrections du solveur ont une preuve image ; "
       + ", ".join(f"{k} {v}" for k, v in sorted(vc_.items())) + ".")
     w("")
+    # ---- couverture ----
+    w("## Couverture")
+    w("")
+    w("Entités de la description (base v0.3 + objets du paquet). **Stricte** (FUS-COUV-02, décisions) : classe de date de la "
+      "meilleure preuve stricte (après travaux > avant travaux hors emprise > avant travaux dans l'emprise avec appui de "
+      "règle). « indice » : vue concluante au sens large sans preuve stricte. **Large** (FUS-COUV-01, définition 0.2, "
+      "comparaison seulement) : preuve image concluante quelle que soit sa confiance. « auto seul » : preuve large venant "
+      "uniquement de contrôles automatiques. Cœur : carré ± 80 m autour de l'origine ; zone 2025 : FUS-ZONE-01.")
+    w("")
+    for z in ("site", "coeur", "zone_travaux_2025"):
+        T = couv[z]
+        w(f"### {noms[z]}")
+        w("")
+        w("| classe | entités | **stricte %** | après travaux | avant, hors emprise | avant, dans l'emprise (appui) | indice | "
+          "non concluant | non valable 2026 | sans observation | large % | auto seul | confirmées |")
+        w("|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+        for cls, d in T.items():
+            nom = "**total**" if cls == "total" else cls
+            s_, l_ = d["stricte"], d["large"]
+            w(f"| {nom} | {d['n']} | **{s_['pct']}** | {s_['apres_travaux']} | {s_['avant_travaux_hors_emprise']} | "
+              f"{s_['avant_travaux_dans_emprise']} | {s_['indice_seulement']} | {s_['non_concluant']} | {s_['non_valable_2026']} | "
+              f"{s_['aucune']} | {l_['pct']} | {d['automatique_seule']} | {d['confirmees']} |")
+        w("")
+    roles = Counter(t["role"] for t in F.index_obs.values())
+    w(f"Rôle des observations : {', '.join(f'{k} {v}' for k, v in sorted(roles.items()))}. "
+      "« contexte » et « temporaire » ne sont jamais fusionnés (FUS-CTX-01, FUS-TMP-01) ; « conflit_ajout » : ajout remplacé "
+      "par un conflit avec le levé GAM (FUS-ADD-04) ; « non_apparie » : observations sans lien ni candidat (voir l'index).")
+    w("")
+    # ---- liens groupés ----
+    w("## Liens groupés (FUS-LIEN-09)")
+    w("")
+    grp = [t for t in F.index_obs.values() if "FUS-LIEN-09" in t["drapeaux"]]
+    for t in sorted(grp, key=lambda t: t["id"]):
+        w(f"- `{t['id']}` : prouvées {', '.join(t.get('liens_groupes_prouves') or []) or 'aucune'} ; vues sans preuve propre "
+          f"{', '.join(t.get('liens_groupes_non_prouves') or [])}.")
+    w("")
     # ---- contrôles automatiques ----
-    w("## Contrôles automatiques des marquages (FUS-AUTO-01/02)")
+    w("## Contrôles automatiques (FUS-AUTO-01/02)")
     w("")
     auto = Counter()
     for n in F.obs:
-        if n["auto"] and n["classe"] == "marquage" and n["statut"] == "confirme" and n["type_source"] in ("ortho2022", "ortho_recente"):
+        if n["auto"] and n["classe"] in CLASSES_AUTO_REQUALIFIEES and n["statut"] == "confirme" \
+                and n["type_source"] in ("ortho2022", "ortho_recente"):
             v = F.requalifiees.get(n["id"], "non_liee")
-            auto[(n["agent"], v)] += 1
-    w("| atelier | confirmations automatiques | requalifiées « incertain » | corroborées par une observation manuelle |")
-    w("|---|---|---|---|")
-    for ag in sorted({a for a, _ in auto}):
-        tot_ = sum(v for (a, _), v in auto.items() if a == ag)
-        w(f"| {ag} | {tot_} | {auto[(ag, 'incertain')]} | {auto[(ag, 'corroboree')]} |")
+            auto[(n["agent"], n["classe"], v)] += 1
+    w("| atelier | classe | confirmations automatiques | requalifiées « incertain » | corroborées par une observation manuelle |")
+    w("|---|---|---|---|---|")
+    for ag, cls in sorted({(a, c) for a, c, _ in auto}):
+        tot_ = sum(v for (a, c, _), v in auto.items() if a == ag and c == cls)
+        w(f"| {ag} | {cls} | {tot_} | {auto[(ag, cls, 'incertain')]} | {auto[(ag, cls, 'corroboree')]} |")
     w("")
-    w("Aucune n'a de masque véhicules / ombres (FUS-AUTO-02) : les échantillons revus montraient des voitures, des ombres et "
-      "du feuillage pris pour de la peinture (ateliers 2022 ; 18 / 22 correctes en 2024). Une confirmation automatique "
-      "ne compte plus que si une observation manuelle (vue, photo) confirme la même entité ; deux contrôles automatiques "
-      "ne se corroborent pas. Contrat d'un futur contrôle automatique : `attributs.controle_auto` = "
-      "{masque_vehicules_ombres: true, part_masquee ≤ 0,2, reponse_ligne_fine: true (ligne) ou reponse_peinture: true "
-      "(flèche, symbole)}, calculé par `recon/pcg/enrichir/controle_auto.py`. Essai sur le PCRS 2022 "
-      "(`controle_auto_essai.jpg`) : les quatre fausses confirmations relevées par la critique (ML-0294, ML-0295, ML-0119, "
-      "ML-5360 : voitures, ombre de bâtiment) sont masquées ; quatre lignes réelles et une flèche sont confirmées ; "
-      "deux lignes ne sont pas confirmées (l'une sous une ombre d'arbre, l'autre décalée de 0,4 m). Le PCRS 5 cm est requis pour la réponse "
-      "de ligne fine : à 20 cm (IGN 2024), un trait de 0,10-0,15 m n'est pas résolu.")
+    w("Aucune n'a le contrat FUS-AUTO-02 (masque véhicules / ombres, part masquée ≤ 0,2, réponse de ligne fine ou de "
+      "peinture pour un marquage, de ligne fine ou d'arête pour une bordure) : une confirmation automatique ne compte que si "
+      "une observation manuelle confirme la même entité, et n'est jamais une preuve stricte. Calcul de référence : "
+      "`recon/pcg/enrichir/controle_auto.py` (marquages ; essai sur le PCRS 2022 : `controle_auto_essai.jpg`). Le PCRS 5 cm "
+      "est requis pour la réponse de ligne fine : à 20 cm (IGN 2024), un trait de 0,10-0,15 m n'est pas résolu.")
+    w("")
+    # ---- bordures ----
+    w("## Bordures : vue, profil et abaissés (FUS-BOR-01..03)")
+    w("")
+    w(f"{textes} textes libres lus (champs {', '.join(CHAMPS_PROFIL)}) sur les observations de bordures. Lectures : vue chiffrée "
+      f"{nums} (lecture haute), qualificatif explicite {expl} (moyenne : arasée, sans vue, aucune bordure saillante…), vue "
+      f"déduite {ded} (faible : « basse », « bordure de trottoir »), abaissé {abv}. Chaque lecture est rapportée à l'abscisse "
+      "de l'observation sur la bordure ; le vote se fait par intervalle de la description. Une contradiction est cherchée dans "
+      f"l'intervalle observé et dans les intervalles courants vus à ± {FENETRE_BORDURE_M:.0f} m.")
+    w("")
+    w("| bordure | intervalle | décrit (vue, origine) | lecture | obs | gravité |")
+    w("|---|---|---|---|---|---|")
+    for eid, c in contra:
+        for l_ in c["lectures"]:
+            np_ = f", non probante {'/'.join(l_['non_probant'])}" if l_.get("non_probant") else ""
+            w(f"| `{eid}` | {c['intervalle']} (s {c['s0']:.1f}-{c['s1']:.1f} m{', voisin' if l_['position'] != 'intervalle de l' + chr(39) + 'observation' else ''}) | "
+              f"{c['profil_decrit']} {c['vue_decrite_m']} m ({c['statut_hauteur']}) | « {l_['extrait']} » -> "
+              f"{l_['intervalle_lu_m'][0]}-{l_['intervalle_lu_m'][1]} m ({l_['lecture']}{np_}) | {l_['obs']} | {c['gravite']} |")
+    w("")
+    cinq = ["K-0185", "K-0439", "K-0465", "K-0668", "K-0675"]
+    lignes = []
+    for k in cinq:
+        r = E.get(k) or {}
+        b = r.get("bordure") or {}
+        if b.get("contradictions_a_verifier"):
+            lignes.append(f"`{k}` contradiction signalée (intervalles {', '.join(str(i) for i in b['contradictions_a_verifier'])})")
+        else:
+            acc = [it for it in b.get("intervalles", []) if it.get("verdict") == "accord"]
+            if acc:
+                it = acc[0]
+                lignes.append(f"`{k}` pas de contradiction au point observé : intervalle {it['intervalle']} "
+                              f"(s {it['s0']:.1f}-{it['s1']:.1f} m) décrit {it['profil_decrit']} {it['vue_decrite_m']} m, "
+                              f"compatible avec la lecture « arasée »")
+            else:
+                lignes.append(f"`{k}` sans lecture votée")
+    w("Les cinq cas de la critique (« arasée » contre 8 à 14 cm) : " + " ; ".join(lignes) + ". Aucune contradiction n'est "
+      "appliquée : la proposition reste « revue_requise » (relevé terrain : photo rasante à moins de 5 m, mètre pliant).")
     w("")
     # ---- priorité 2026 ----
     def ecartees(r):
@@ -3112,19 +4149,20 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
     v26 = [r for r in res if any(m["n"]["categorie"] == "photo_2026" for m in F.membres[r["id"]])]
     w("## Priorité des photos 2026 (FUS-DATE-01)")
     w("")
-    w(f"{len(v26)} entités sont vues sur les photos du 28/07/2026 ({sum(1 for r in v26 if r['categorie_preuve'] == 'photo_2026')} "
-      f"avec une preuve concluante) ; pour {sum(1 for r in v26 if ecartees(r))} d'entre elles, la photo 2026 a écarté des "
-      "observations plus anciennes (existence, attribut ou position).")
+    w(f"{len(v26)} entités sont vues sur les photos du 28/07/2026 ({sum(1 for r in v26 if r['tranche_stricte'] == 'apres_travaux')} "
+      f"avec une preuve stricte après travaux) ; pour {sum(1 for r in v26 if ecartees(r))} d'entre elles, la photo 2026 a "
+      "écarté des observations plus anciennes (existence, attribut ou position).")
     w("")
-    w("| entité | existence | position | attributs | observations antérieures écartées |")
-    w("|---|---|---|---|---|")
+    w("| entité | statut | existence | position | attributs | observations antérieures écartées |")
+    w("|---|---|---|---|---|---|")
     for r in sorted(v26, key=lambda r: r["id"]):
         pos = r.get("position") or {}
         ant = ecartees(r)
         pv = pos.get("verdict", "")
         if pv in ("affinage", "deplacement"):
             pv += f" {pos.get('d_m')} m ({pos.get('decision')})"
-        w(f"| `{r['id']}` | {r['existence']['verdict']} | {pv} | {', '.join(sorted(r['maj'])) or '-'} | {', '.join(ant) or '-'} |")
+        w(f"| `{r['id']}` | {r['statut_verification']} | {r['existence']['verdict']} | {pv} | "
+          f"{', '.join(sorted(r['maj'])) or '-'} | {', '.join(ant) or '-'} |")
     w("")
     # ---- arbitrages ----
     w("## Arbitrages de revue (FUS-ARB-01)")
@@ -3147,36 +4185,29 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
                 pos = (F.res_entites.get(a.get("entite")) or {}).get("position") or {}
                 eff = (f"{a.get('entite')} : {pos.get('verdict')} {pos.get('d_m')} m, σ {pos.get('sigma_m')} m, "
                        f"{pos.get('n_mesures_reelles')} mesures, décision {pos.get('decision')}")
+            elif a.get("action") == "constat_revue":
+                eff = "; ".join(f"{o['id']} -> {o['o']['lien_description']} ({o['statut']}, {o['conf']}) : "
+                                f"{(F.res_entites.get(o['o']['lien_description']) or {}).get('statut_verification')}"
+                                for o in F.obs_revue if o["attrs"].get("arbitrage") == a["id"])
+            elif a.get("action") == "invalider_observation":
+                eff = "lien invalidé : " + "; ".join(a["_applique"])
             w(f"| {a['id']} | {a.get('action')} | {', '.join(a.get('obs', []))} | {eff} | {court(a.get('motif', ''), 160)} |")
     else:
         w("Aucun arbitrage.")
     w("")
     # ---- comptes par classe ----
-    w("## Comptes par classe")
-    w("")
-    w("Une entité compte une fois par colonne. « confirmées » : présente sans correction. "
-      "« sans preuve concluante » : vue seulement par des observations incertaines (dont les confirmations automatiques "
-      "requalifiées) ou avant sa forme 2026.")
+    w("## Comptes par classe (statut de vérification, FUS-STAT-01)")
     w("")
     tab = defaultdict(Counter)
     for r in res:
         c = r["classe"]
         tab[c]["entites"] += 1
-        ex = r["existence"]["verdict"]
+        tab[c][r["statut_verification"]] += 1
         pos = r.get("position") or {}
-        corr_pos = pos.get("verdict") in ("affinage", "deplacement", "translation")
-        if r["maj"]:
-            tab[c]["attribut"] += 1
-        if corr_pos:
+        if pos.get("verdict") in ("affinage", "deplacement", "translation"):
             tab[c]["position"] += 1
             if pos.get("decision") == "appliquer":
                 tab[c]["position_appliquer"] += 1
-        if ex in ("absent_2026", "retirer", "retirer_doublon", "non_instancier"):
-            tab[c]["retrait"] += 1
-        if r["categorie_preuve"] in ("non_valable_2026", "non_concluant"):
-            tab[c]["non_valable"] += 1
-        elif ex == "present" and not r["maj"] and not corr_pos:
-            tab[c]["confirme"] += 1
         if r["conflits_ids"]:
             tab[c]["conflit"] += 1
     for a in F.ajouts:
@@ -3188,47 +4219,22 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
             tab[c]["conflit"] += 1
     for a in F.ajouts_refuses:
         tab[CLASSE_OBS_FUSION.get(a["classe"], "autre")]["refus"] += 1
-    w("| classe | entités vues | confirmées | attribut corrigé | position corrigée (appliquer) | absentes / à retirer | "
-      "sans preuve concluante | ajouts (instanciés) | ajouts -> conflit GAM | avec conflit |")
-    w("|---|---|---|---|---|---|---|---|---|---|")
-    tot = Counter()
+    w("| classe | entités vues | confirmées | corrigées | contestées | indice seulement | non valables 2026 | "
+      "absentes / à retirer | absence à vérifier | position corrigée (appliquer) | ajouts (instanciés) | ajouts -> conflit GAM | "
+      "avec conflit |")
+    w("|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+    tt = Counter()
     for c in ORDRE_CLASSES:
         t = tab.get(c)
         if not t:
             continue
-        tot.update(t)
-        w(f"| {c} | {t['entites']} | {t['confirme']} | {t['attribut']} | {t['position']} ({t['position_appliquer']}) | "
-          f"{t['retrait']} | {t['non_valable']} | {t['ajout']} ({t['ajout_inst']}) | {t['refus']} | {t['conflit']} |")
-    w(f"| **total** | {tot['entites']} | {tot['confirme']} | {tot['attribut']} | {tot['position']} ({tot['position_appliquer']}) | "
-      f"{tot['retrait']} | {tot['non_valable']} | {tot['ajout']} ({tot['ajout_inst']}) | {tot['refus']} | {tot['conflit']} |")
-    w("")
-    # ---- couverture ----
-    w("## Couverture : preuve image concluante la plus récente, valable 2026 (FUS-COUV-01)")
-    w("")
-    w("Entités de la description (base v0.3 + objets du paquet), par tranche de date de leur preuve la plus récente. "
-      "« % image » : part des entités ayant une preuve image concluante (2026, 2025, 2020-2024 ou ortho 2022). "
-      "« auto seul » : preuve venant uniquement de contrôles automatiques non requalifiés (couronnes d'arbres sur l'ortho 2022, "
-      "bordures vues sur les orthos 2022 et 2024 ; poids x0,7). "
-      "Cœur : carré ± 80 m autour de l'origine ; zone 2025 : surfaces refaites et zones de chaussée reprises en 2025.")
-    w("")
-    noms = {"site": "Site entier", "coeur": "Cœur du carrefour (± 80 m)", "zone_travaux_2025": "Zone des travaux 2025"}
-    for z in ("site", "coeur", "zone_travaux_2025"):
-        T = couv[z]
-        w(f"### {noms[z]}")
-        w("")
-        w("| classe | entités | 2026 | 2025 | 2020-2024 | ortho 2022 | web seul | non concluant | non valable 2026 | sans preuve | "
-          "auto seul | % image | % ≥ 2024 |")
-        w("|---|---|---|---|---|---|---|---|---|---|---|---|---|")
-        for cls, d in T.items():
-            nom = "**total**" if cls == "total" else cls
-            w(f"| {nom} | {d['n']} | {d['2026']} | {d['2025']} | {d['2020_2024']} | {d['ortho_2022']} | {d['web']} | "
-              f"{d['non_concluant']} | {d['non_valable_2026']} | {d['aucune']} | {d['automatique_seule']} | "
-              f"{d['pct_preuve_image']} | {d['pct_2024_et_plus']} |")
-        w("")
-    roles = Counter(t["role"] for t in F.index_obs.values())
-    w(f"Rôle des observations : {', '.join(f'{k} {v}' for k, v in sorted(roles.items()))}. "
-      "« contexte » et « temporaire » ne sont jamais fusionnés (FUS-CTX-01, FUS-TMP-01) ; « conflit_ajout » : ajout remplacé "
-      "par un conflit avec le levé GAM (FUS-ADD-04) ; « non_apparie » : observations sans lien ni candidat (voir l'index).")
+        tt.update(t)
+        w(f"| {c} | {t['entites']} | {t['confirme']} | {t['corrige']} | {t['conteste']} | {t['indice_seulement']} | "
+          f"{t['non_valable_2026']} | {t['absent_2026'] + t['a_retirer']} | {t['absent_2026_a_verifier']} | "
+          f"{t['position']} ({t['position_appliquer']}) | {t['ajout']} ({t['ajout_inst']}) | {t['refus']} | {t['conflit']} |")
+    w(f"| **total** | {tt['entites']} | {tt['confirme']} | {tt['corrige']} | {tt['conteste']} | {tt['indice_seulement']} | "
+      f"{tt['non_valable_2026']} | {tt['absent_2026'] + tt['a_retirer']} | {tt['absent_2026_a_verifier']} | "
+      f"{tt['position']} ({tt['position_appliquer']}) | {tt['ajout']} ({tt['ajout_inst']}) | {tt['refus']} | {tt['conflit']} |")
     w("")
     cnt_attr = Counter(a for r in res for a in r["maj"] if a != "texte_lu")
     w("Attributs mis à jour : " + ", ".join(f"{k} {v}" for k, v in sorted(cnt_attr.items(), key=lambda t: (-t[1], t[0]))) + ".")
@@ -3265,8 +4271,8 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
     w("")
     # ---- existence ----
     exs = [(eid, r) for eid, r in sorted(F.res_entites.items())
-           if r["existence"]["verdict"] in ("absent_2026", "retirer", "retirer_doublon", "non_instancier")]
-    w("## Existence : entités absentes en 2026 ou à retirer")
+           if r["existence"]["verdict"] in VERDICTS_RETRAIT + ("absent_2026_a_verifier",)]
+    w("## Existence : entités absentes en 2026, à retirer ou à vérifier")
     w("")
     for eid, r in exs:
         e = r["existence"]
@@ -3280,7 +4286,8 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
     ca = Counter((a["classe"], a["instancier"]) for a in F.ajouts)
     w(f"{len(F.ajouts)} objets nouveaux (groupes d'observations), dont {sum(1 for a in F.ajouts if a['instancier'])} instanciables. "
       "Par classe (instanciés / candidats) : " + ", ".join(
-          f"{c} {ca[(c, True)]}/{ca[(c, False)]}" for c in sorted({a['classe'] for a in F.ajouts})) + ".")
+          f"{c} {ca[(c, True)]}/{ca[(c, False)]}" for c in sorted({a['classe'] for a in F.ajouts})) + ". "
+      "Un ajout vu seulement avant la fin des travaux, dans leur emprise, n'est pas instancié (FUS-DATE-02).")
     w("")
     if F.ajouts_refuses:
         w(f"{len(F.ajouts_refuses)} ajouts proposés sont remplacés par un conflit `ajout_contre_leve_gam` (FUS-ADD-04, rayon "
@@ -3288,11 +4295,11 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
               f"{', '.join(a['obs'])} ({', '.join(a['sous_types'])}) à {a['d_m']} m de `{a['entite_gam']}`"
               for a in sorted(F.ajouts_refuses, key=lambda a: a["obs"])) + ".")
         w("")
-    w("| id | classe | sous-types | famille cible | preuve | valide 2026 | instancier | obs |")
+    w("| id | classe | sous-types | famille cible | preuve stricte | valide 2026 | instancier | obs |")
     w("|---|---|---|---|---|---|---|---|")
     for a in F.ajouts:
-        st = ", ".join(sorted({n["sous_type"] for n in a["membres"]}))
-        w(f"| `{a['id']}` | {a['classe']} | {court(st, 60)} | {a['fam_cible'] or '-'} | {a['categorie_preuve'] or '-'} | {a['valide']} | "
+        st_ = ", ".join(sorted({n["sous_type"] for n in a["membres"]}))
+        w(f"| `{a['id']}` | {a['classe']} | {court(st_, 60)} | {a['fam_cible'] or '-'} | {a['tranche_stricte']} | {a['valide']} | "
           f"{'oui' if a['instancier'] else 'non : ' + '; '.join(a['raisons'])} | {', '.join(n['id'] for n in a['membres'])} |")
     w("")
     # ---- conflits ----
@@ -3307,18 +4314,20 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
     for c in F.conflits:
         if c["gravite"] == "info":
             continue
-        w(f"| {c['id']} | {c['type']} | `{c['cible']}` | {', '.join(c['obs'])} | {court(texte(c['detail']), 200)} |")
+        w(f"| {c['id']} | {c['type']} | `{c['cible']}` | {', '.join(c['obs'])} | {court(texte(c['detail']), 220)} |")
     w("")
     # ---- carte ----
     w("## Carte de couverture")
     w("")
     if avec_carte:
-        w("`couverture_preuves.png` : A/C preuve image concluante la plus récente par entité et par bordure (rampe bleue "
-          "ordinale : ortho 2022 clair, 2020-2024, 2025, 2026 foncé ; anneau noir : web seul ; anneau gris : vue sans preuve "
-          "concluante ou non valable 2026 ; petit point gris : aucune observation), zones refaites en 2025 hachurées, positions "
-          "des photos citées (croix : Panoramax, point : Mapillary, étoile : photo 2026) ; B/D décisions (carré orange : attribut, "
-          "flèche : déplacement, à l'échelle au-delà de 1 m et x5 en dessous, losange aqua : ajout, croix : absent / retirer, "
-          "anneau rouge : conflit). Fond : ortho 2022 éclaircie. `couverture.json` : tableaux de couverture complets.")
+        w("`couverture_preuves.png` : A/C preuve stricte par entité et par bordure, colorée par classe de date relative aux "
+          "travaux (rampe bleue ordinale : avant travaux dans l'emprise avec appui clair, avant travaux hors emprise moyen, "
+          "après travaux foncé ; anneau gris foncé : indice seulement ; anneau gris clair : non concluant ou non valable 2026 ; "
+          "petit point gris : aucune observation), zone des travaux hachurée (extension FUS-ZONE-01 comprise), positions des "
+          "photos citées (croix : Panoramax, point : Mapillary, étoile : photo 2026) ; B/D décisions (carré orange plein : "
+          "attribut à appliquer, creux : en revue ; flèche : déplacement, à l'échelle au-delà de 1 m et x5 en dessous ; "
+          "losange aqua : ajout ; croix épaisse : absent / retirer, fine : absence à vérifier ; point gris : confirmée ; anneau "
+          "rouge : conflit à vérifier). Fond : ortho 2022 éclaircie. `couverture.json` : tableaux complets (large et stricte).")
     else:
         w("Carte non produite (`--sans-carte`) ; `couverture.json` : tableaux de couverture.")
     w("")
@@ -3329,13 +4338,22 @@ def resume(F: Fusion, ix: Index, obs_par_fichier, avec_carte, couv):
     w("")
     w("## Limites")
     w("")
-    w("- Le cœur du carrefour n'a aucune image postérieure aux travaux : les 7 photos du 28/07/2026 sont sur la place, "
-      "environ 135 m au sud, et seules 3 sont calées. Les objets du cœur refaits en 2025 restent sans preuve concluante ou en "
-      "« revue_requise » ; une prise de vue terrain (protocole du critique, stations S1 à S12) trancherait.")
-    w("- Les confirmations automatiques requalifiées ne sont pas des absences : ces marquages restent décrits, sans preuve.")
+    w("- Aucune image publique ne montre le cœur après les travaux : les 7 photos du 28/07/2026 sont sur la place, environ "
+      "135 m au sud, et seules 3 sont calées ; aucune entité du cœur n'a de preuve stricte après travaux. Seule une campagne "
+      "terrain (stations du protocole, à compléter de S13, S14 et S15 proposées par la critique) peut couvrir le cœur et la "
+      "zone des travaux.")
+    w("- L'emprise des travaux est celle des surfaces et zones de relief 2025 connues, plus les surfaces vues refaites en 2026 "
+      "(FUS-ZONE-01) ; une reprise non vue (trottoirs du Vercors au-delà de la photo) reste hors emprise.")
+    w("- Les appuis de conservation (FUS-DATE-02) reposent sur les états de la description (marquage « conserve », bordure "
+      "hors périmètre refait…) : une erreur de ces états se propage.")
+    w("- Les lectures de profil de bordure viennent de textes libres : la vue chiffrée est une estimation visuelle, pas une "
+      "mesure ; une contradiction n'est jamais appliquée sans relevé.")
+    w("- Les confirmations automatiques requalifiées ne sont pas des absences : ces objets restent décrits, sans preuve.")
+    w("- `recon/pcg/enrichir/PROTOCOLE_TERRAIN.md` n'est pas modifié par la fusion : son propriétaire doit y reporter les "
+      "stations S13, S14 et S15 de la critique, l'ordre de passage et les nouveaux taux sans preuve stricte (tableaux "
+      "ci-dessus), et demander une photo rasante, mètre pliant en place, sur chaque bordure contestée.")
     w("- La description de base est régénérée en parallèle : relancer ce script après chaque régénération "
       "(les liens disparus deviennent des conflits `lien_introuvable`).")
-    w("- Les attributs en texte libre ne sont pas votés : ils restent dans `notes` (revue humaine, `revue_texte`).")
     w("- Les poids et seuils (REGLES) sont des choix documentés, pas des mesures ; les sorties restent des propositions "
       "pour le composeur et l'arbitrage.")
     w("")
@@ -3368,10 +4386,16 @@ def main():
     couv = couverture(F, ix)
     ix.entrees[rel(PKG / "relief/relief_zones_2026.geojson")] = sha256(PKG / "relief/relief_zones_2026.geojson")
     ecrire_json(OUT / "couverture.json", {
-        "schema": "pj_enrichi_couverture/0.1", "generateur": VERSION, "regle": "FUS-COUV-01",
-        "tranches": TRANCHES, "zones": {"site": "toutes les entités décrites",
-                                        "coeur": f"carré ± {COEUR_DEMI_M:.0f} m autour de l'origine",
-                                        "zone_travaux_2025": "surfaces modifie_2025 et zones de chaussée reprises en 2025"},
+        "schema": "pj_enrichi_couverture/0.2", "generateur": VERSION,
+        "regles": {"large": "FUS-COUV-01 (définition 0.2, comparaison seulement)",
+                   "stricte": "FUS-COUV-02 (décisions : statut confirmé, application, carte)",
+                   "classes_date": "FUS-DATE-02", "zone_travaux": "FUS-ZONE-01"},
+        "tranches_large": TRANCHES, "tranches_strictes": TRANCHES_STRICTES,
+        "zones": {"site": "toutes les entités décrites",
+                  "coeur": f"carré ± {COEUR_DEMI_M:.0f} m autour de l'origine",
+                  "zone_travaux_2025": "surfaces modifie_2025, zones de chaussée reprises en 2025 et extension FUS-ZONE-01 ("
+                                       + ", ".join(f"{k} : {', '.join(v)}" for k, v in F.zone_extension.items()) + ")"},
+        "reference_0_2": REFERENCE_0_2,
         "couverture": couv})
     if not args.sans_carte:
         carte(F, ix, OUT / "couverture_preuves.png")
@@ -3381,7 +4405,7 @@ def main():
                    "entrees": dict(sorted(ix.entrees.items())), "regles": REGLES}
     ecrire_json(OUT / "observations_index.json", idx)
     resume(F, ix, par_fichier, not args.sans_carte, couv)
-    print(f"observations {len(obs)} ; entités {len(F.res_entites)} ; ajouts {len(F.ajouts)} "
+    print(f"observations {len(F.obs)} (dont {len(F.obs_revue)} constats de revue) ; entités {len(F.res_entites)} ; ajouts {len(F.ajouts)} "
           f"({sum(1 for a in F.ajouts if a['instancier'])} instanciés) ; conflits {len(F.conflits)} ; "
           f"corrections {sum(1 for r in F.res_entites.values() if (r.get('position') or {}).get('verdict') in ('affinage', 'deplacement', 'translation'))}")
     print(f"sorties : {rel(OUT)}")

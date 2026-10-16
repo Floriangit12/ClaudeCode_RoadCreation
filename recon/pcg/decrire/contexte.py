@@ -2,16 +2,27 @@
 
 Lecture seule du paquet v1 (recon/out/paquet_jardin/package/donnees), des vecteurs GAM / OSM
 (data/sites/paquet_jardin) et des constats vérifiés (analysis/paquet_jardin/constats_verifies.json).
+Avec un état cible (commun.E), chaque chemin vient de l'état (E.reference / E.source : masque de chaussée,
+OSM à T, levé GAM, indices v1) ; sans état, chemins historiques (état 2026). Le filtrage temporel des indices
+(hors emprise des événements, E.valide) se fait dans les familles (phase 2).
 Les géométries rendues sont en repère LOCAL (commun.repere).
 """
 import functools
 
 import numpy as np
 
-from commun import (DONNEES, RACINE, VECTEURS, ZONE, anneaux, aire_signee, dans_polygone,
+from commun import (DONNEES, EC, RACINE, VECTEURS, ZONE, anneaux, aire_signee, dans_polygone,
                     lire_geojson, lire_json, repere)
 
-CONSTATS_JSON = RACINE / "analysis/paquet_jardin/constats_verifies.json"
+R = EC.reference                                    # référence de l'état, sinon chemin historique (état 2026)
+CONSTATS_JSON = R("constats", RACINE / "analysis/paquet_jardin/constats_verifies.json")
+SURFACES_V1 = R("surfaces_v1", DONNEES / "surfaces/surfaces_2026.geojson")
+RELIEF_ZONES = R("relief_zones", DONNEES / "relief/relief_zones_2026.geojson")   # avec un état : masque de chaussée
+MARQUAGES_V1 = R("marquages_v1", DONNEES / "marquages/marquages_2026.geojson")
+MOBILIER_V1 = R("mobilier_v1", DONNEES / "objets/mobilier.geojson")
+ARBRES_V1 = R("arbres_v1", DONNEES / "objets/arbres.geojson")
+OSM_CROSSINGS = R("osm_crossings", VECTEURS / "vector/osm_crossings.geojson")    # avec un état : OSM à T
+GAM = EC.source("gam", VECTEURS / "etat_2026")     # levé GAM (avec un état : admissible par classe de datation)
 MARGE = 12.0      # marge de lecture autour de la zone (m) : appariements et contexte aux bords
 
 
@@ -45,7 +56,7 @@ def touche_emprise(polys, marge=MARGE):
 def surfaces_v1():
     """Surfaces du paquet v1 proches de la zone : [(id, props, polys locaux)]."""
     out = []
-    for f in lire_geojson(DONNEES / "surfaces/surfaces_2026.geojson"):
+    for f in lire_geojson(SURFACES_V1):
         polys = _local_polys(f["geometry"])
         if polys and touche_emprise(polys):
             out.append((f["properties"]["id"], f["properties"], polys))
@@ -56,7 +67,7 @@ def surfaces_v1():
 def zones_relief(nom):
     """Polygones locaux des relief_zones_2026 d'un type donné (ex. traversee_bordure_abaissee)."""
     out = []
-    for i, f in enumerate(lire_geojson(DONNEES / "relief/relief_zones_2026.geojson")):
+    for i, f in enumerate(lire_geojson(RELIEF_ZONES)):
         if f["properties"]["zone"] != nom:
             continue
         for p in _local_polys(f["geometry"]):
@@ -107,7 +118,7 @@ def acces_riverains():
 def chartieres_gam():
     """Blocs CHARTIERE_GAUCHE / _DROITE du levé GAM (SOL_BORDURE, points)."""
     out = []
-    for f in lire_geojson(VECTEURS / "etat_2026/bordure_pct_L93.geojson"):
+    for f in lire_geojson(GAM / "bordure_pct_L93.geojson"):
         bloc = f["properties"].get("bloc") or ""
         if not bloc.startswith("CHARTIERE"):
             continue
@@ -141,7 +152,7 @@ def passages_pietons(ext_traversee=1.5, ext_largeur=0.0, nb_min=2):
     bordures) et de `ext_largeur` m dans le sens de la longueur des bandes (abaissé = largeur du
     passage). Les bandes isolées (< nb_min, restes d'ortho) ne forment pas de passage."""
     bandes = []
-    for f in lire_geojson(DONNEES / "marquages/marquages_2026.geojson"):
+    for f in lire_geojson(MARQUAGES_V1):
         p = f["properties"]
         if p["type"] != "passage_pieton_bande":
             continue
@@ -214,7 +225,7 @@ def axe_local_polygone(polys, pts, rayon=8.0):
 def caniveaux_gam():
     """Lignes SOL_CANIVEAU du levé GAM (12 lignes, sans attribut) en local : [(indice, polyligne)]."""
     out = []
-    for i, f in enumerate(lire_geojson(VECTEURS / "etat_2026/caniveau_lin_L93.geojson")):
+    for i, f in enumerate(lire_geojson(GAM / "caniveau_lin_L93.geojson")):
         P = repere(np.asarray(f["geometry"]["coordinates"], dtype=float)[:, :2])
         if dans_emprise(P).any():
             out.append((i, P))
@@ -227,7 +238,7 @@ def osm_traversees():
     from pyproj import Transformer
     t = Transformer.from_crs(4326, 2154, always_xy=True)
     out = []
-    for f in lire_geojson(VECTEURS / "vector/osm_crossings.geojson"):
+    for f in lire_geojson(OSM_CROSSINGS):
         g = f["geometry"]
         if g["type"] != "Point":
             continue
@@ -245,7 +256,7 @@ def osm_traversees():
 def mobilier():
     """Supports (feux, panneaux, lampadaires...) du paquet v1 en local : [(id, catégorie, xy)]."""
     out = []
-    for f in lire_geojson(DONNEES / "objets/mobilier.geojson"):
+    for f in lire_geojson(MOBILIER_V1):
         if f["geometry"]["type"] != "Point":
             continue
         xy = repere(np.asarray(f["geometry"]["coordinates"][:2], dtype=float)[None])[0]
@@ -257,7 +268,7 @@ def mobilier():
 @functools.lru_cache(maxsize=None)
 def arbres():
     out = []
-    for f in lire_geojson(DONNEES / "objets/arbres.geojson"):
+    for f in lire_geojson(ARBRES_V1):
         if f["geometry"]["type"] != "Point":
             continue
         xy = repere(np.asarray(f["geometry"]["coordinates"][:2], dtype=float)[None])[0]

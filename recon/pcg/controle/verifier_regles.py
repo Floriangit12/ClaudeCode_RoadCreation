@@ -1,25 +1,40 @@
 """Vérificateur automatique des règles de conception (assets/specs/regles_conception.json) sur la description v2
 et sur la fabrication Houdini (fabrique_hda).
 
-    python recon/pcg/controle/verifier_regles.py [--description DIR] [--fabrique DIR] [--sortie DIR]
+    python recon/pcg/controle/verifier_regles.py [--etat ID] [--description DIR] [--fabrique DIR] [--sortie DIR]
                                                  [--regles ID,ID...] [--forcer-extraction]
 
 Pour chaque règle d'action « verifier » (principale ou secondaire) et pour les règles « contraindre » mesurables, un
 contrôle (modules ctl_*.py, décorateur @regle) mesure la scène et rend : n_teste, n_ok, n_violations, pires cas
 (entité, coordonnées locales et Lambert-93, valeur, seuil), sévérité. Les règles sans contrôle sont listées avec
-la raison. Sorties dans <sortie> (défaut recon/out/paquet_jardin/v2/controle) :
+la raison. Sorties dans <sortie> (défaut : <dossier de l'état>/controle avec --etat ou PJ_ETAT ; sans état, le
+dossier controle de l'archive 2026) :
     rapport_regles.json    tout le détail (déterministe : tri fixe, arrondis fixes, aucun horodatage)
     RAPPORT_REGLES.md      synthèse par famille et 30 pires violations
 Les USD sont lus via un cache numpy (extraire_fabrication.py, lancé dans hython si une source a changé).
+--etat ID fixe PJ_ETAT AVANT l'import des contrôles (chemins calculés à l'import) : description, fabrication,
+sortie et références de l'état ; le rapport cite etat_cible {id, sha256} et l'écriture croisée est refusée.
 """
 import argparse
 import hashlib
 import json
+import os
 import sys
 import time
 import traceback
 from pathlib import Path
 
+
+def _etat_avant_import(argv):
+    """--etat ID ou --etat=ID : PJ_ETAT posé avant les imports (comme recon/pcg/etat/lancer.py)."""
+    for i, x in enumerate(argv):
+        if x == "--etat" and i + 1 < len(argv):
+            os.environ["PJ_ETAT"] = argv[i + 1]
+        elif x.startswith("--etat="):
+            os.environ["PJ_ETAT"] = x.split("=", 1)[1]
+
+
+_etat_avant_import(sys.argv[1:])
 ICI = Path(__file__).resolve().parent
 sys.path.insert(0, str(ICI))
 import ctl_commun as K  # noqa: E402
@@ -39,6 +54,8 @@ def est_verifier(r):
 
 def principal():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--etat", default=os.environ.get("PJ_ETAT", ""),
+                    help="état cible (recon/pcg/etat/etats/<id>.json) ; posé avant les imports")
     ap.add_argument("--description", default=str(K.DESCRIPTION / "base"))
     ap.add_argument("--fabrique", default=str(K.FABRIQUE))
     ap.add_argument("--sortie", default=str(K.SORTIE))
@@ -47,6 +64,11 @@ def principal():
     ap.add_argument("--chrono", action="store_true", help="affiche la durée de chaque contrôle (non écrite)")
     a = ap.parse_args()
     sortie = Path(a.sortie)
+    K.EC.verifier_ecriture(sortie)               # pas d'écriture croisée entre états (§ 3.5)
+    if K.E:
+        action, msg = K.EC.figer(K.E)
+        if action.startswith("refus"):
+            raise SystemExit(f"état {K.E.id} : {msg}")
     sortie.mkdir(parents=True, exist_ok=True)
     ctx = K.Contexte(a.description, a.fabrique)
     if a.forcer_extraction:
@@ -96,6 +118,7 @@ def construire_rapport(ctx, base, resultats):
     regles = base["regles"]
     cache = ctx.cache
     entree = {
+        **({"etat_cible": dict(K.E.manifeste(), gam_non_filtre=sorted(ctx.gam_non_filtre))} if K.E else {}),
         "regles": {"fichier": "assets/specs/regles_conception.json", "version": base.get("version"),
                    "sha256": K.sha256(K.SPECS / "regles_conception.json"), "n": len(regles)},
         "description": {"dossier": K.Path(ctx.dbase).resolve().relative_to(K.RACINE).as_posix(),

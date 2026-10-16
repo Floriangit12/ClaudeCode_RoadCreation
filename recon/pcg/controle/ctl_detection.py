@@ -1,6 +1,9 @@
 """Contrôles de la détection, de la fusion et de la preuve image (DET-*, FUS-*, VAL-IMG-007) sur la description des
 marquages (attributs detection, classement, sources, score, zone_etat), les hypothèses (marquages_hypotheses
 .geojson), l'évaluation des détecteurs, le levé LiDAR des bordures et les tuiles de contraste de l'ortho 2022.
+État cible (K.E) : FUS-SRC-001 lit la table d'admissibilité de l'état (E.v_temporelle_marquages, la même que
+decrire/marquages_sources) ; ortho 2022 et plan 2025 sont lus par E.source. Les règles « plan2025 » et les
+attendus de site de l'état sont traités en phase 6 (surcharge etats/<id>.regles.json).
 """
 import collections
 import json
@@ -11,6 +14,9 @@ import numpy as np
 import ctl_commun as K
 from ctl_commun import regle, r4, stats
 import ctl_marquages as M
+
+ORTHO2022 = K.EC.source("ortho2022", K.SITE / "ortho5cm_2022")
+PLAN2025 = K.EC.source("plan2025", K.SITE / "plan_projet_2025")
 
 
 def detectees(ctx, classe, src=None):
@@ -277,7 +283,7 @@ def det_pln_016(ctx, R):
        "recalages image appliqués aux entités (recalage_image_m, recalage_ortho) ≤ 0,10 m (tolérance des mires). "
        "Unités : calage du plan, entité recalée.", "implemente")
 def det_reg_001(ctx, R):
-    g = json.loads((K.SITE / "plan_projet_2025/georef.json").read_text(encoding="utf-8"))
+    g = json.loads((PLAN2025 / "georef.json").read_text(encoding="utf-8"))
     rm = float(g.get("rmse_m", 0))
     R.tester(rm <= 0.04, entite="plan_projet_2025/georef.json", valeur=r4(rm, 4), seuil="≤ 0,03 m (±0,01)",
              detail=f"RMSE {rm:.3f} m sur {g.get('points_homologues')} points homologues", ecart=rm / 0.03)
@@ -330,19 +336,49 @@ SRC_BASE = {"gam": "leve", "pcrs": "leve", "plan2025": "plan2025", "ortho2022": 
        "règle} ; neuve 2025 {levé, plan, Panoramax ≥ 2025-09, règle}. Source v1 seule : admise seulement a_verifier. "
        "Unité : marque fabriquée.", "implemente")
 def fus_src_001(ctx, R):
-    adm = {"conserve": {"leve", "ortho2022", "lidar2021", "plan2025", "panoramax", "regle"},
-           "refait_2025_identique": {"leve", "plan2025", "ortho2022", "panoramax", "regle"},
-           "neuf_2025": {"leve", "plan2025", "panoramax", "regle"},
-           "construit_2023_2024": {"leve", "plan2025", "panoramax", "regle"}}
+    if K.E:
+        # état cible : même table que decrire/marquages_sources (E.v_temporelle_marquages) ; v_temporelle > 0 = admise
+        adm = admissibilite_etat(K.E)
+        base = src_base_etat
+    else:
+        adm = {"conserve": {"leve", "ortho2022", "lidar2021", "plan2025", "panoramax", "regle"},
+               "refait_2025_identique": {"leve", "plan2025", "ortho2022", "panoramax", "regle"},
+               "neuf_2025": {"leve", "plan2025", "panoramax", "regle"},
+               "construit_2023_2024": {"leve", "plan2025", "panoramax", "regle"}}
+        base = lambda src: "regle" if src.startswith("regle") else SRC_BASE.get(src, src)  # noqa: E731
+    if K.E:
+        R.mesure("etat_cible", {"id": K.E.id, "admissibilite": {z: sorted(v) for z, v in sorted(adm.items())}})
     for i, e in sorted(ctx.marquages.items()):
         p = e["p"]
         if not ctx.fabrique_marquage(p):
             continue
         src = str(p.get("src"))
-        b = "regle" if src.startswith("regle") else SRC_BASE.get(src, src)
+        b = base(src)
         z = p.get("zone_etat")
         ok = b in adm.get(z, set()) or (b == "v1" and p.get("a_verifier"))
         R.tester(ok, entite=i, valeur=src, seuil=f"admissible en {z}", detail=f"source {src} en zone {z}")
+
+
+def src_base_etat(src):
+    """Source de base d'une marque pour un état : regle:<ID> -> regle ; photo:/mapillary:/panoramax: -> photo."""
+    if src.startswith("regle"):
+        return "regle"
+    if ":" in src and src.split(":", 1)[0] in ("photo", "mapillary", "panoramax"):
+        return "photo"
+    return src
+
+
+def admissibilite_etat(E):
+    """{état de zone: sources admises} tiré de E.v_temporelle (poids > 0), plus l'inférence par règle ; le paquet v1
+    reste un germe : admis seulement avec a_verifier (test de fus_src_001)."""
+    adm = {}
+    for s, t in E.v_temporelle.items():
+        for z, v in t.items():
+            if v > 0 and s != "v1":
+                adm.setdefault(z, set()).add(s)
+    for z in adm:
+        adm[z].add("regle")
+    return adm
 
 
 @regle("FUS-SCO-002", "description", "mineur",
@@ -474,7 +510,7 @@ def tuile_tophat(ctx, x0, y0):
     (DET-PRE-002) : (tableau, géotransformation (x centre pixel 0, dx, y centre pixel 0, dy))."""
     def f():
         from PIL import Image
-        fp = K.SITE / f"ortho5cm_2022/pcrs5cm_{int(x0)}_{int(y0)}.jpg"
+        fp = ORTHO2022 / f"pcrs5cm_{int(x0)}_{int(y0)}.jpg"
         if not fp.exists():
             return None
         L = np.asarray(Image.open(fp).convert("L"), np.float64)

@@ -1,0 +1,96 @@
+{
+ "schema": "pj_regles_surcharge/0.1",
+ "etat": "avant_travaux",
+ "principe": "Surcharge des paramètres d'état des règles pour l'état avant travaux (PLAN § 3.2 et § 3.4, ligne specs). Les fichiers assets/specs/regles_*.json ne sont pas modifiés : un contrôleur ou un générateur lancé avec un état lit d'abord ce fichier (E.regles), puis la règle d'origine. Les paramètres absents ici gardent leur valeur d'origine. Branchement : phase 2 (génération) et phase 6 (contrôle).",
+ "regles": {
+  "INF-FLE-004": {
+   "fichier": "assets/specs/regles_conception.json",
+   "condition": "voie entrante d'une approche dont au moins une voie est affectée à T (manoeuvres_avant_travaux.json, E.reference('manoeuvres'))",
+   "parametres": {
+    "attendu_site": {
+     "statut": "a_produire",
+     "source": "recon/out/paquet_jardin/v2_avant_travaux/sources/opendrive/manoeuvres_avant_travaux.json (lot 1e) : les identifiants de voies du .xodr 2026 (R1.v-1, R3.v-2, ...) ne valent pas pour l'état",
+     "constats": [
+      {"fleche": "B-FL01", "approche": "Verdun NE", "type": "TD_TAD", "preuve": "ortho 2022 (IoU 0,773, à 0,011 de TD) ; GAM à 2,2 cm ; photos du 18/03/2023, 08/2024 et 05/2025 (MARQUAGES.md)"},
+      {"fleche": "B-FL02", "approche": "Verdun NE", "type": "TD_TAG", "preuve": "ortho 2022 IoU 0,667 ; Panoramax 18/03/2023 (pano_0-55)"},
+      {"fleche": "B-FL03", "approche": "Verdun SO", "type": "TAD", "preuve": "ortho 2022 IoU 0,857 ; présente sur la photo du 18/05/2025 (31d16b8e)"},
+      {"fleche": "A-FL01 / A-FL03", "approche": "Vercors", "type": "TRIDENT_SITE", "preuve": "ortho 2022 (gabarit site, MARQUAGES.md § 3)"},
+      {"fleche": "A-FL02 / A-FL04", "approche": "Vercors", "type": "TAG", "preuve": "ortho 2022 IoU 0,695 et 0,869"}
+     ],
+     "note": "CHG-008 (marquages de l'approche NE de Verdun, 18/03/2023 -> 09/08/2024) : les flèches de 2022 dans cette emprise ne valent pas à T ; IGN 2024 et photos du 24/08/2024"
+    },
+    "types_autorises_supplementaires": ["TRIDENT_SITE"]
+   }
+  },
+  "FUS-SRC-001": {
+   "fichier": "assets/specs/regles_conception.json",
+   "parametres": {
+    "priorite": ["ortho_pcrs_2022_detection", "leve_vectoriel_gam (present_identique en 2022 à < 0,10 m)", "ortho_ign_2024 / photos aux poses de l'état", "inference_regle", "v1 (germe)"],
+    "fiabilite_source_score": "E.sources_marquages (etats/avant_travaux.json)",
+    "admissibilite_par_etat": "E.v_temporelle_marquages (même table que decrire/marquages_sources.py)",
+    "plan2025": "inadmissible"
+   }
+  },
+  "FUS-DATE-01": {"fichier": "assets/specs/regles_conception.json", "remplacee_par": "E.valide (table d'événements) puis arbitrage par précision (etats/avant_travaux.json, regles_chronologie)"},
+  "FUS-DATE-02": {"fichier": "assets/specs/regles_conception.json", "remplacee_par": "E.valide : une preuve vaut à T si aucun événement ne la sépare de T au point visé"},
+  "VAL-KRB-005": {
+   "fichier": "assets/specs/regles_conception.json",
+   "parametres": {
+    "reference_plan": "levé admissible : GAM daté hors TRV-C1 (classes de sources.gam.admissibilite), leve_emprise (PCRS 2019, crête LiDAR 2021, contour ortho 2022) dans TRV-C1",
+    "plan_p95_m": {"gam": 0.05, "leve_emprise": 0.10},
+    "vue": "h_lidar_2021_m partout (aucune zone de travaux 2025 à exclure pour l'état d'avant)"
+   }
+  },
+  "GQ-TOL-001": {
+   "fichier": "assets/specs/regles_qualite_geometrique.json",
+   "parametres": {
+    "T_m_ajouts": {"ortho2024": 0.25, "leve_emprise": 0.10, "pleiades2025": 0.50},
+    "T_m_sans_objet": ["plan2025"],
+    "note": "ajouts seulement ; les autres T gardent leur valeur (gam 0,03 ; pcrs2019 0,10 ; ortho2022 0,10 ; lidar2021 0,10 ...)"
+   }
+  },
+  "GEN-07": {
+   "fichier": "assets/specs/regles_implantation.json",
+   "mode": "a_rebours",
+   "enonce_etat": "Réancrage à rebours : dans l'emprise de TRV-C1, un objet dont la position vient de la description 2026 est transporté vers la bordure de l'état (avant travaux) homologue en conservant ses coordonnées (s, t) relatives à la bordure 2026, puis contrôlé ; hors emprise, inchangé. Les 113 objets d'emprise issus de la description 2026 sont triangulés ou confirmés sur le LiDAR 2021 ou l'ortho 2022 avant la jonction de la phase 2.",
+   "parametres": {"evenement": "TRV-C1-2025", "deplacement_bordure_min_m": 0.2, "date_fin_travaux_s": null},
+   "relations": [{"rel": "derriere_bordure", "cible": "bordure_etat_homologue"}]
+  },
+  "SIG-04": {
+   "fichier": "assets/specs/regles_implantation.json",
+   "parametres": {"voies": "E.reference('lanes') (lanes_avant_travaux.geojson, lot 1e)"},
+   "note": "direction des usagers : voie d'avant travaux la plus proche dont le sens approche du panneau ; panneaux d'îlot : voie qui contourne l'îlot d'avant travaux"
+  },
+  "FEU-05": {"fichier": "assets/specs/regles_implantation.json", "parametres": {"couloirs": "manœuvres d'avant travaux (E.reference('manoeuvres'))"}},
+  "ECL-02": {"fichier": "assets/specs/regles_implantation.json", "parametres": {"bordures": "bordures de la description de l'état (pas le levé 2026)"}},
+  "GA-ARB-005": {"fichier": "assets/specs/regles_conception.json", "statut": "sans_objet", "raison": "arbres « planté 2025 » absents à T (E.statut_objet)"}
+ },
+ "regles_locales": {
+  "fichier": "assets/specs/regles_locales_meylan.json",
+  "non_applicables": [
+   {"id": "LOC-CTX-002", "raison": "âge des ouvrages en octobre 2026 ; remplacé par E.age (âge relatif à T)"},
+   {"id": "LOC-CTX-003", "raison": "bilan du projet C1 (état 2026)"},
+   {"id": "LOC-TRV-001", "raison": "traversée « sécurisée » du projet C1 (2025)"},
+   {"id": "LOC-TRV-002", "raison": "traversée type du Vercors du projet C1"},
+   {"id": "LOC-TC-004", "raison": "équipement d'un arrêt C1 après travaux ; arrêts La Revirée à leur position d'avant travaux (PLAN § 2.5)"},
+   {"id": "LOC-CHR-008", "raison": "domaine de l'identité Chronovélo en 2026 (carte de janvier 2026) ; à reformuler pour T d'après les photos 2024-2025"}
+  ],
+  "a_adapter": [
+   {"id": "LOC-CHR-009", "adaptation": "traversées cyclables jaunes en pavés 2022 (0,40 × 0,49 m au pas de 0,589 m), pas le gabarit Chronovélo 2025 (0,70 × 0,37) ; le plan 2025 est sans objet"},
+   {"id": "LOC-CHR-007", "adaptation": "station Chronovélo : carte de 2026 sans valeur à T ; poser seulement sur observation valable à T"},
+   {"id": "LOC-MAT-001", "adaptation": "les observations « après travaux » et « 2026 » ne valent pas dans TRV-C1 ; matériaux d'après l'ortho 2022 et les photos 2024-2025"},
+   {"id": "LOC-MAT-002", "adaptation": "« zone de travaux 2025 » sans objet ; résine verte possible là où elle est observée à T"},
+   {"id": "LOC-TRV-004", "adaptation": "îlots plantés du projet 2025 sans objet ; têtes d'îlot d'avant travaux d'après les photos"},
+   {"id": "LOC-FEU-001", "adaptation": "supports de feux créés en 2025 sans objet ; répétiteurs observés à T"},
+   {"id": "LOC-FEU-002", "adaptation": "vérifications OSM de 2023 valables ; celles de 2026 seulement hors TRV-C1"},
+   {"id": "LOC-VEG-003", "adaptation": "plantations de fin 2025 sans objet (14 arbres plantés en 2025 exclus)"},
+   {"id": "LOC-VIT-002", "adaptation": "ellipses « 30 » / « 50 » : celles vues sur l'ortho 2022 et les photos valables à T"}
+  ],
+  "applicables": "toutes les autres règles LOC-* (contexte général de la Métropole, gabarits, couleurs, mobilier, végétation)"
+ },
+ "realisme_validation": {
+  "statut": "a_produire",
+  "phase": 6,
+  "note": "famille de règles P4, M2, M3, L1, V1 (PLAN § 4.2) rapportées par verifier_regles.py : à déclarer ici, pas dans regles_conception.json tant que l'autre workflow y travaille"
+ }
+}

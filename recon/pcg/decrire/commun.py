@@ -1,7 +1,11 @@
-"""Outils communs de la description v2 : repère, GeoJSON déterministe, MNT 2026, géométrie numpy.
+"""Outils communs de la description v2 : repère, GeoJSON déterministe, MNT de l'état, géométrie numpy.
 
 Repère unique (recon/CONVENTIONS.md) : local = Lambert-93 − O, z = NGF − 216,30 ; mètres,
 Z vers le haut, X à l'est, Y au nord. Toute conversion passe par `repere()` (et nulle part ailleurs).
+
+État cible (recon/pcg/etat/etat_cible.py) : E = état sélectionné par PJ_ETAT (lanceur recon/pcg/etat/lancer.py),
+None sans PJ_ETAT. Avec un état, SORTIE et le MNT viennent de E ; sans état, chemins historiques (archive v2/ de
+l'état 2026, gelée). Toute écriture passe par verifier_ecriture (pas d'écriture croisée entre états).
 
 Aucune dépendance hors numpy / Pillow (pas de shapely) : les découpes de polygones et de
 polylignes sont écrites ici (demi-plans successifs pour une zone convexe).
@@ -9,11 +13,16 @@ polylignes sont écrites ici (demi-plans successifs pour une zone convexe).
 import hashlib
 import json
 import math
+import sys
 from pathlib import Path
 
 import numpy as np
 
 RACINE = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(RACINE / "recon/pcg/etat"))
+import etat_cible as EC  # noqa: E402
+
+E = EC.courant()                     # état cible (None sans PJ_ETAT)
 O = (917279.43, 6460289.98, 216.30)
 CRS = {"type": "name", "properties": {"name": "urn:ogc:def:crs:EPSG::2154"}}
 SCHEMA_ID = "description_scene_v2/0.1"
@@ -22,7 +31,7 @@ PAQUET = RACINE / "recon/out/paquet_jardin/package"
 DONNEES = PAQUET / "donnees"
 VECTEURS = RACINE / "data/sites/paquet_jardin"
 SPECS = RACINE / "assets/specs"
-SORTIE = RACINE / "recon/out/paquet_jardin/v2/description"
+SORTIE = EC.dossier("description")   # <dossier_sortie de l'état>/description ; sans état : archive 2026
 ZONE = RACINE / "recon/pcg/zone_pilote.geojson"
 SCHEMA = RACINE / "recon/pcg/schema/description_scene_v2.schema.json"
 MATERIAUX = RACINE / "recon/pcg/schema/materiaux_description.json"
@@ -96,6 +105,7 @@ def coords_geojson(a, nd=ND_XY):
 
 def ecrire_json(chemin, obj):
     chemin = Path(chemin)
+    EC.verifier_ecriture(chemin)
     chemin.parent.mkdir(parents=True, exist_ok=True)
     txt = json.dumps(obj, ensure_ascii=False, indent=1, sort_keys=False)
     chemin.write_text(txt + "\n", encoding="utf-8", newline="\n")
@@ -104,6 +114,7 @@ def ecrire_json(chemin, obj):
 def ecrire_geojson(chemin, features, nom, entete=None):
     """FeatureCollection déterministe : entités triées par id, une entité par ligne, CRS EPSG:2154."""
     chemin = Path(chemin)
+    EC.verifier_ecriture(chemin)
     chemin.parent.mkdir(parents=True, exist_ok=True)
     feats = sorted(features, key=lambda f: f["properties"]["id"])
     tete = {"type": "FeatureCollection", "name": nom, "crs": CRS}
@@ -118,13 +129,18 @@ def ecrire_geojson(chemin, features, nom, entete=None):
     chemin.write_text("\n".join(lignes) + "\n", encoding="utf-8", newline="\n")
 
 
-# --------------------------------------------------------------------------- MNT 2026
+# --------------------------------------------------------------------------- MNT de l'état
+MNT_JSON = EC.reference("mnt", DONNEES / "relief/heightmap_3025_10cm.json")   # sans état : sol nu octobre 2026
+
+
 class MNT:
-    """Sol nu octobre 2026 (heightmap_3025_10cm.png + .json du paquet), interpolation bilinéaire.
+    """Sol nu de l'état (E.reference("mnt") : heightmap .png + .json), interpolation bilinéaire ; sans état,
+    sol nu octobre 2026 du paquet (heightmap_3025_10cm).
     Valeur au NŒUD : colonne c -> x_min + c·pas ; ligne r -> y_max − r·pas (ligne 0 = nord)."""
 
-    def __init__(self, chemin_json=DONNEES / "relief/heightmap_3025_10cm.json"):
+    def __init__(self, chemin_json=None):
         from PIL import Image
+        chemin_json = MNT_JSON if chemin_json is None else chemin_json
         Image.MAX_IMAGE_PIXELS = None
         self.meta = lire_json(chemin_json)
         self.png = Path(chemin_json).with_name(self.meta["fichier"])

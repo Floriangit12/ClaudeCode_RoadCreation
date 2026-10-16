@@ -3,12 +3,14 @@ paquet jsonschema n'étant pas installé) puis contrôles géométriques et de c
 
 Usage :
     python recon/pcg/decrire/valider.py [DOSSIER_DESCRIPTION]
-Défaut : recon/out/paquet_jardin/v2/description. Code de sortie 0 si tout est valide, 1 sinon.
+Défaut : commun.SORTIE (<dossier de l'état>/description avec PJ_ETAT ; sinon l'archive 2026). Code de sortie 0 si
+tout est valide, 1 sinon.
 
 Contrôles en plus du schéma :
 - intervalles de chaque bordure : partition exacte de [0, longueur], vues dans la plage du profil ;
 - abaissés et chartières dans [0, L], sans chevauchement ; BEV ancrées sur un abaissé existant ;
-- longueur_m = longueur 2D de la polyligne (± 2 cm) ; Z dans la plage du MNT 2026 ;
+- longueur_m = longueur 2D de la polyligne (± 2 cm) ; Z dans la plage du MNT de l'état (E.mnt_plage_z_ngf ;
+  sans état, celle du MNT 2026) ;
 - anneaux fermés, aires > 0 ; tout dans l'emprise de la zone pilote (± 0,5 m) ;
 - identifiants uniques et références résolues (bords, ceintures, îlots, surfaces, ancrages) ;
 - remplissages d'îlots 0 à 8 cm sous le dessus de bordure ; materiau_id présents dans la table ;
@@ -22,10 +24,11 @@ from pathlib import Path
 
 import numpy as np
 
-from commun import MATERIAUX, SCHEMA, SORTIE, lire_json
+from commun import MATERIAUX, SCHEMA, SORTIE, E, lire_json
 import contexte as ctx
 import sol_site
 
+MNT_PLAGE_Z = tuple(E.param("mnt_plage_z_ngf")) if E else (213.1, 219.9)   # plage NGF du MNT de référence
 VUE_PLAGE = {"P1": (0.0, 0.03), "A2": (0.03, 0.09), "T2": (0.09, 0.175), "T3": (0.175, 0.30),
              "QUAI_BUS": (0.15, 0.24), "T2_bateau": (0.0, 0.04), "MURET_TALUS": (0.30, 1.5)}
 
@@ -162,7 +165,8 @@ def anneaux_de(g):
     return [g["coordinates"]] if g["type"] == "Polygon" else g["coordinates"] if g["type"] == "MultiPolygon" else []
 
 
-def controles(couches, mnt_z=(213.1, 219.9)):
+def controles(couches, mnt_z=None):
+    mnt_z = MNT_PLAGE_Z if mnt_z is None else mnt_z
     err, warn = [], []
     x0, y0, x1, y1 = sol_site.EMPRISE                   # 0.3 : familles de sol sur le site complet
     e = (x0 + 917279.43 - 0.5, y0 + 6460289.98 - 0.5, x1 + 917279.43 + 0.5, y1 + 6460289.98 + 0.5)
@@ -295,7 +299,7 @@ def valider_dossier(dossier):
     e2, w2 = e2 + [f"[geometrie] {e}" for e in e6], w2 + [f"[geometrie] {w}" for w in w6]
     if "marquages" in couches:
         sch = (lire_json(dossier / "base" / "marquages.geojson").get("description_v2") or {}).get("schema")
-        if sch == "description_scene_v2/0.3":           # refonte « GAM d'abord » : contrôles marquages_verifier
+        if sch in ("description_scene_v2/0.3", "description_scene_v2/0.4"):   # refonte 0.3 : marquages_verifier
             import marquages_verifier
             e3, w3, _ = marquages_verifier.controles(couches["marquages"], couches.get("marquages_correspondance", []))
         else:
@@ -316,7 +320,8 @@ def main():
         for e in err[:200]:
             print("  -", e)
         sys.exit(1)
-    print("valide : schéma description_scene_v2 (0.1 / 0.2) + contrôles géométriques")
+    print("valide : schéma description_scene_v2 (0.1 à 0.4) + contrôles géométriques"
+          + (f" ; état {E.id} (T = {E.date_cible})" if E else ""))
 
 
 if __name__ == "__main__":

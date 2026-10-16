@@ -1,9 +1,12 @@
 """Socle du vérificateur de règles : chemins, contexte (données chargées à la demande), géométrie numpy,
 requêtes exactes sur les maillages fabriqués, rasters de contrôle et objet Resultat.
 
-Repère : local = L93 − O, z = NGF − 216,30 (decrire/commun.repere, seule conversion). Aucune écriture hors de
-recon/out/paquet_jardin/v2/controle. Python 3.11 + numpy + Pillow ; les USD sont lus par extraire_fabrication.py
-(hython) et relus ici en .npz.
+Repère : local = L93 − O, z = NGF − 216,30 (decrire/commun.repere, seule conversion). Aucune écriture hors du
+dossier controle de l'état (<dossier_sortie>/controle avec PJ_ETAT ; sans état, celui de l'archive 2026).
+Python 3.11 + numpy + Pillow ; les USD sont lus par extraire_fabrication.py (hython) et relus ici en .npz.
+État cible (commun.E) : description, fabrication, sortie, MNT, réseau OpenDRIVE, voies, manœuvres, objets et levé
+GAM viennent de l'état (E.dossier, E.reference, E.source) ; le levé GAM est filtré par classe de datation dès que
+le filtre du lot 1c existe (E.filtre_leve), sinon il est signalé non filtré (Contexte.gam_non_filtre).
 """
 import functools
 import hashlib
@@ -22,14 +25,22 @@ import commun as C  # noqa: E402
 from nivellement_requete import Nivellement  # noqa: E402
 import xodr_echantillonne as X  # noqa: E402
 
-V2 = RACINE / "recon/out/paquet_jardin/v2"
-DESCRIPTION = V2 / "description"
-FABRIQUE = V2 / "fabrique_hda"
-SORTIE = V2 / "controle"
+EC, E = C.EC, C.E                       # état cible (None sans PJ_ETAT : chemins de l'archive 2026)
+V2 = EC.racine_sortie()                 # racine des sorties de l'état (nom historique)
+DESCRIPTION = EC.dossier("description")
+FABRIQUE = EC.dossier("fabrique_hda")
+SORTIE = EC.dossier("controle")
 CACHE = SORTIE / "cache"
 SPECS = RACINE / "assets/specs"
 DONNEES = RACINE / "recon/out/paquet_jardin/package/donnees"
 SITE = RACINE / "data/sites/paquet_jardin"
+XODR = EC.reference("xodr", X.XODR)
+LANES = EC.reference("lanes", DONNEES / "opendrive/lanes_2026.geojson")
+MANOEUVRES = EC.reference("manoeuvres", DONNEES / "opendrive/manoeuvres_2026.json")
+MOBILIER_V1 = EC.reference("mobilier_v1", DONNEES / "objets/mobilier.geojson")
+ARBRES_V1 = EC.reference("arbres_v1", DONNEES / "objets/arbres.geojson")
+BORDURES_HAUTEURS = EC.reference("bordures_hauteurs", DONNEES / "relief/bordures_hauteurs.geojson")
+GAM = EC.source("gam", SITE / "etat_2026")
 HYTHON = Path("C:/Program Files/Side Effects Software/Houdini 22.0.459/bin/hython.exe")
 O = C.O
 PAS_GRILLE = 0.10
@@ -363,7 +374,9 @@ def assurer_cache(forcer=False):
                 besoin = True
                 break
     if besoin:
-        cmd = [str(HYTHON), str(ICI / "extraire_fabrication.py")] + (["--forcer"] if forcer else [])
+        EC.verifier_ecriture(CACHE)
+        cmd = [str(HYTHON), str(ICI / "extraire_fabrication.py"), "--fabrique", str(FABRIQUE), "--cache", str(CACHE)] \
+            + (["--forcer"] if forcer else [])
         r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace",
                            env={**__import__("os").environ, "PYTHONDONTWRITEBYTECODE": "1"})
         if r.returncode != 0:
@@ -484,6 +497,7 @@ class Contexte:
         self.dbase = Path(description)
         self.fab = Path(fabrique)
         self._c = {}
+        self.gam_non_filtre = set()     # couches GAM lues sans filtre de datation (état sans filtre 1c)
 
     def _m(self, cle, f):
         if cle not in self._c:
@@ -589,7 +603,7 @@ class Contexte:
     # ---------------------------------------------------------------- réseau OpenDRIVE
     @property
     def reseau(self):
-        return self._m("reseau", lambda: X.lire_xodr(X.XODR))
+        return self._m("reseau", lambda: X.lire_xodr(XODR))
 
     @property
     def xodr_objets(self):
@@ -612,10 +626,10 @@ class Contexte:
 
     @property
     def voies(self):
-        """Polygones des voies (lanes_2026.geojson) : liste de dict(route, voie, type, jonction, poly)."""
+        """Polygones des voies (LANES : lanes de l'état, sinon lanes_2026) : liste de dict(route, voie, type, jonction, poly)."""
         def f():
             out = []
-            for ft in C.lire_geojson(DONNEES / "opendrive/lanes_2026.geojson"):
+            for ft in C.lire_geojson(LANES):
                 p = ft["properties"]
                 if p.get("type") in (None, "reference"):
                     continue
@@ -632,24 +646,34 @@ class Contexte:
 
     @property
     def manoeuvres(self):
-        return self._m("manoeuvres", lambda: json.loads((DONNEES / "opendrive/manoeuvres_2026.json")
-                                                         .read_text(encoding="utf-8")))
+        return self._m("manoeuvres", lambda: json.loads(MANOEUVRES.read_text(encoding="utf-8")))
 
     # ---------------------------------------------------------------- objets, levés
     @property
     def mobilier(self):
-        return self._m("mobilier", lambda: C.lire_geojson(DONNEES / "objets/mobilier.geojson"))
+        return self._m("mobilier", lambda: C.lire_geojson(MOBILIER_V1))
 
     @property
     def arbres(self):
-        return self._m("arbres", lambda: C.lire_geojson(DONNEES / "objets/arbres.geojson"))
+        return self._m("arbres", lambda: C.lire_geojson(ARBRES_V1))
 
     def gam(self, nom):
-        return self._m("gam:" + nom, lambda: C.lire_geojson(SITE / f"etat_2026/{nom}_L93.geojson"))
+        """Couche du levé GAM ; avec un état, filtrée par classe de datation (E.filtre_leve, lot 1c) si le filtre
+        existe, sinon lue brute et notée dans gam_non_filtre."""
+        def f():
+            feats = C.lire_geojson(GAM / f"{nom}_L93.geojson")
+            if E:
+                filtre = E.filtre_leve()
+                if filtre is None:
+                    self.gam_non_filtre.add(nom)
+                else:
+                    feats = filtre(nom, feats)
+            return feats
+        return self._m("gam:" + nom, f)
 
     @property
     def bordures_hauteurs(self):
-        return self._m("bh", lambda: C.lire_geojson(DONNEES / "relief/bordures_hauteurs.geojson"))
+        return self._m("bh", lambda: C.lire_geojson(BORDURES_HAUTEURS))
 
     # ---------------------------------------------------------------- fabrication
     @property

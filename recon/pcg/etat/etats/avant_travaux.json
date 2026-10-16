@@ -1,0 +1,333 @@
+{
+ "schema": "pj_etat_cible/0.2",
+ "id": "avant_travaux",
+ "libelle": "Carrefour Paquet Jardin avant les travaux C1 (23/06/2025 -> 05/12/2025) : état du 24/08/2024 par défaut",
+ "statut": "configuration de la phase 0 (PLAN_AVANT_TRAVAUX.md, révision 1 du 11/10/2026). Corrige l'ébauche audit/proposition_etat_cible_avant_travaux.json sur les six points de corrections_ebauche. L'identifiant est indépendant de la date : la date se choisit par date_cible ou par la variable PJ_DATE_CIBLE (variantes).",
+ "date_cible": "2024-08-24",
+ "date_etat": "2024-08",
+ "date_cible_justification": "PLAN § 1.1 et 1.3 : séance Panoramax et Mapillary 360° du 24/08/2024 (15:05:21 -> 15:11:01 UTC, 56 photos uniques sur les cinq secteurs, 31 vues calées avant recalcul 1i) ; BD ORTHO IGN du 09/08/2024 à T - 15 j ; géométrie au cœur r <= 40 m valable et certaine sur 91,2 % (75,7 % le 18/05/2025). À reconfirmer après le lot 1i (moins de 15 poses Mapillary du 24/08/2024 sur 26 sans bordures GAM : matrice à refaire).",
+ "dates_derivees": {
+  "osm": "2024-08-24",
+  "_note": "date de l'extraction OSM « attic » de l'état (lot 1g) ; variante : 2025-06-01 (PLAN lot 1e)"
+ },
+ "variantes": {
+  "2025-05-18": {
+   "libelle": "veille des travaux (séance Panoramax du 18/05/2025, 13:37:08 -> 13:38:10 UTC)",
+   "consequences": [
+    "CHG-019 (travaux annoncés sur le Vercors, non observés) : T dans l'intervalle, 18,5 % du cœur incertain tant qu'il n'est pas rogné par observations négatives (lot 1b)",
+    "CHG-006 / 007 : haies et parkings (photos du 18/05/2025) ; photos de 2024 non valables dans ces emprises",
+    "CHG-018 / 021 : date Pléiades inconnue, état incertain",
+    "Vercors : état du 12/01/2025 (aucune photo après), incertain ; S3 : exception documentée"
+   ],
+   "surcharges": {
+    "date_etat": "2025-05",
+    "libelle": "Carrefour Paquet Jardin avant les travaux C1 : état du 18/05/2025 (veille des travaux)",
+    "dates_derivees": {"osm": "2025-06-01"},
+    "saison": {
+     "nom": "printemps",
+     "mois": 5,
+     "feuillage": "plein feuillage printanier (mi-mai)",
+     "jaunissement": 0.0,
+     "feuilles_mortes_sol": 0.0,
+     "soleil": {
+      "date_heure_utc": "2025-05-18T13:37:39Z",
+      "azimut_deg": 235.4,
+      "hauteur_deg": 53.85,
+      "plage": "235,2° / 53,9° (13:37:08 UTC) à 235,6° / 53,8° (13:38:10 UTC)",
+      "source": "PLAN § 1.1 et § 7 (soleil recontrôlé)"
+     }
+    }
+   }
+  }
+ },
+ "saison": {
+  "nom": "ete",
+  "mois": 8,
+  "feuillage": "plein feuillage (fin août) ; état des gazons à mesurer sur les photos (sécheresse estivale possible)",
+  "jaunissement": 0.0,
+  "feuilles_mortes_sol": 0.0,
+  "soleil": {
+   "date_heure_utc": "2024-08-24T15:08:11Z",
+   "azimut_deg": 249.2,
+   "hauteur_deg": 33.8,
+   "plage": "248,6° / 34,3° (15:05:21 UTC) à 249,8° / 33,3° (15:11:01 UTC)",
+   "source": "PLAN § 1.1 ; remplace le soleil d'octobre (220° / 27,6°) de recon/pcg/ue/pj_tools/pj_tools/eclairage.py:31"
+  }
+ },
+ "regles_pcg_desactivees": ["R-feuilles-automne"],
+ "mnt_plage_z_ngf": [213.1, 219.9],
+ "evenements": {
+  "fichier": "recon/pcg/etat/etats/avant_travaux.evenements.geojson",
+  "copie_figee": "{dossier_sortie}/sources/evenements/evenements.geojson",
+  "marge_defaut_m": 1.0,
+  "familles": ["geometrie", "marquage", "texture", "objet", "vegetation", "apparence"],
+  "note": "table du § 2.1 amorcée en phase 0 (changements 2022-2025, TRV-C1-2025, TRV-VERCORS-TROTTOIRS) ; enrichie par le lot 1b (EVT-2019-*, SURF-0344, observe_post, observations négatives OBS-*). Format : etats/README.md."
+ },
+ "regles_chronologie": {
+  "validite": "Une observation datée d, au point p, pour une famille f, est valable pour T si aucun événement E ne touche f, ne contient p (marge comprise) et n'a pu se produire entre d et T, c'est-à-dire max(date_min, min(d, T)) < min(date_max, max(d, T)) (date_min : dernier jour de l'état ancien certain ; date_max : premier jour de l'état nouveau certain).",
+  "non_valable": "p dans l'emprise (au-delà de la marge) d'un événement observé qui sépare d de T, ou d pendant cet événement",
+  "incertain": "p à moins de marge_m (+ précision du point) du bord de l'emprise ; T pendant un événement observé ; événement non observé ; position inconnue",
+  "observation_negative": "zone A vue inchangée le jour d1 (pose acceptée, visibilité calculée) : dans A, date_min des événements visés (défaut : non observés) := max(date_min, d1) ; pour T <= d1, A est retirée de l'événement ; seulement pour les familles que la vue prouve",
+  "observe_post": "première observation de l'état d'après : date_max := min(date_max, observe_post), partout ou zone par zone",
+  "classes_date": ["jour_cible", "contemporaine", "anterieure_valable", "posterieure_valable", "incertaine", "separee_par_evenement", "pendant_evenement"],
+  "arbitrage": {
+   "regle": "entre preuves valables : priorité par attribut (PLAN § 2.3 à 2.7), puis précision σ ; la proximité de T ne départage que deux preuves dont les σ diffèrent d'un facteur <= facteur_sigma. Exemple : l'IGN 2024 (±0,1 à 0,2 m) ne remplace jamais le PCRS 2022 (5 cm) là où les deux sont valables.",
+   "facteur_sigma": 1.5
+  },
+  "absence": "une absence vue à d ne prouve l'absence à T que si d et T ne sont séparés par aucun événement touchant p ; l'IGN 2024 et OSM prouvent une présence, jamais une absence",
+  "remplace": ["valide_2026 (enrichir/*)", "FUS-DATE-01 et FUS-DATE-02", "apres_travaux() et anterieure_travaux()", "TRANCHES_PROBANTES", "les 11 constantes de travaux (audit § 2.2), retirées des modules aux phases 2 à 7"]
+ },
+ "sources": {
+  "_note": "chemin : fichier ou dossier lu par E.source(nom) ; sigma_m : précision planimétrique retenue pour l'arbitrage (§ 2.1)",
+  "pcrs2019": {
+   "chemin": "data/sites/paquet_jardin/vector",
+   "fichiers": ["gam_limite_voirie_pcrs.geojson", "gam_changement_revetements_pcrs.geojson", "gam_accotement_pcrs.geojson", "gam_mur_pcrs.geojson", "gam_seuil_pcrs.geojson"],
+   "date": "2019-01-01",
+   "sigma_m": 0.10,
+   "role": "seul vecteur d'avant travaux : bordures et limites dans TRV-C1 (rang 1), ancienne bretelle SE, contre-allée, bord ouest de l'ancien îlot du tourne-à-droite ; hors EVT-2019-COLAS non vérifié ; périmé sur 432 m sur 4 192 (CHG-001 à 004)",
+   "licence": "Licence Ouverte (Grenoble-Alpes Métropole, geoflux)"
+  },
+  "gam": {
+   "chemin": "data/sites/paquet_jardin/etat_2026",
+   "equivalents": ["data/sites/paquet_jardin/vector/gam_topo_sol_*", "data/vector_gz/gam"],
+   "date": null,
+   "sigma_m": 0.03,
+   "nature": "levé Meylan_Topo.dwg : mosaïque non datée, état APRÈS travaux ; jamais en bloc",
+   "admissibilite": {
+    "classes_admissibles_hors_trv_c1": ["relief_2021", "arasee_visible", "apparue_2022_2024 (dans CONSTR-EST, si l'IGN 2024 la confirme)"],
+    "classes_a_revoir": ["relief_seul", "terrain_remanie_2021", "masquee"],
+    "revue": "revue sur planche obligatoire à ±80 m ; conservées au-delà avec confiance faible",
+    "classes_rejetees": ["absente_avant"],
+    "dans_trv_c1": {"evenement": "TRV-C1-2025", "tolerance_m": 0.10, "regle": "une ligne GAM n'est admise que si son arête coïncide à moins de 0,10 m avec une arête de rang 1 ou 2 (PCRS 2019, crête LiDAR 2021, contour ortho 2022) ; elle sert alors à affiner"},
+    "marquages": "rang 2 seulement, s'il est present_identique en 2022 à moins de 0,10 m"
+   },
+   "datation": "{dossier_sortie}/sources/datation",
+   "filtre": {"module": "recon/pcg/decrire/datation_leve.py", "fonction": "filtrer", "lot": "1c", "note": "filtrer(couche, features, etat) -> features admissibles ; tant qu'il n'existe pas, le levé brut est signalé non filtré"},
+   "licence": "Licence Ouverte (Grenoble-Alpes Métropole)"
+  },
+  "lidar2021": {
+   "chemin": "data/sites/paquet_jardin/avant_travaux/lidar_hd/LHD_FXX_0917_6461_PTS_LAMB93_IGN69.copc.laz",
+   "disponible": true,
+   "taille_octets": 150890899,
+   "versionne": false,
+   "dates": ["2021-08-12", "2021-09-06"],
+   "part_points": {"2021-08-12": 0.779, "2021-09-06": 0.218},
+   "outil": "PDAL 2.10.0 (C:/Program Files/QGIS 4.2.3/bin/pdal.exe)",
+   "sigma_z_m": 0.006,
+   "role": "relief, vues de bordure (h_lidar_2021_m), hauteurs des mâts et des arbres ; hors CHG-001 à 004, 013 à 017 et SURF-0344 ; contrôle réservé : lignes de vol du 06/09 contre celles du 12/08",
+   "licence": "Licence Ouverte Etalab 2.0 (IGN LiDAR HD)"
+  },
+  "ortho2022": {
+   "chemin": "data/sites/paquet_jardin/ortho5cm_2022",
+   "date": "2022-05-10",
+   "sigma_m": 0.03,
+   "precision_mesuree": "marquages 1 à 3 cm ; contours ortho / GAM p50 4,7 cm, p90 12,3 cm",
+   "role": "référence géométrique hors CHG-001 à 006 et hors marquages de CHG-008 ; rang 1 des marquages",
+   "licence": "Licence Ouverte (PCRS image, Grenoble-Alpes Métropole / CRAIG)"
+  },
+  "ortho2024": {
+   "chemin": "data/raw/ortho_recentes/ign_bdortho_2024_rvb_20cm",
+   "complements": ["data/raw/ortho_recentes/ign_bdortho_2024_irc_20cm", "data/raw/ortho_recentes/craig_ortho_2024_20cm"],
+   "date": "2024-08-09",
+   "sigma_m": 0.15,
+   "recalage": {"translation_m": [0.035, 0.029], "mad_m": [0.102, 0.053], "fenetres_max_m": 0.51, "fichier": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/recalage.json"},
+   "role": "référence d'aspect à T - 15 j ; géométrie là où 2022 n'est pas valable (±0,1 à 0,2 m) ; prouve une présence, jamais une absence",
+   "licence": "Licence Ouverte Etalab 2.0 (IGN BD ORTHO, CRAIG)"
+  },
+  "pleiades2025": {
+   "chemin": "data/raw/ortho_recentes/ign_pleiades_2025_50cm",
+   "date": null,
+   "date_intervalle": ["2025-05-03", "2025-08-08"],
+   "sigma_m": 0.5,
+   "role": "contrôle de persistance des masses après T, hors CHG-006, 018 et 021 (recalée de +0,47 / +1,17 m)",
+   "licence": "IGN Géoplateforme (ORTHO-SAT PLEIADES 2025)"
+  },
+  "osm": {
+   "chemin": "{dossier_sortie}/sources/osm_{date_osm}",
+   "date": "{date_osm}",
+   "brut": "data/sites/paquet_jardin/avant_travaux/osm_historique",
+   "lot": "1g",
+   "role": "topologie, arrêts, feux, traversées à T ; prouve une présence, pas une absence",
+   "licence": "ODbL 1.0 (© contributeurs OpenStreetMap) : mention dans meta.json, partage à l'identique de toute base dérivée diffusée"
+  },
+  "photos": {
+   "chemin": "data/sites/paquet_jardin/panoramax_pictures.geojson",
+   "plateformes": ["panoramax", "mapillary"],
+   "fenetre": ["2022-01-01", "2025-06-22"],
+   "poses": "{dossier_sortie}/sources/poses/poses_etat.json",
+   "poses_lot": "1i (poses 2026 de l'archive : points de départ seulement)",
+   "role": "type, existence, matériaux, aspect, validation ; validité de chaque photo par E.valide",
+   "licence": "CC-BY-SA 4.0 : jamais versionnées (photos_non_versionnees/), attribution dans meta.json"
+  },
+  "bdtopo": {
+   "chemin": "data/sites/paquet_jardin/vector/bdtopo_batiment.geojson",
+   "role": "22 emprises anciennes ; quartier est : 111 lignes batiment_lin du levé GAM confirmées par l'IGN 2024 et 12 emprises BD TOPO « IA » ; l'édition 2025-03-15 n'est pas utilisée (sans les bâtiments est)",
+   "licence": "Licence Ouverte Etalab 2.0 (IGN)"
+  },
+  "plan2025": {
+   "chemin": "data/sites/paquet_jardin/plan_projet_2025",
+   "admissible": false,
+   "role": "emprise de TRV-C1 et jeu témoin du lot 1c seulement ; planches *_plan2025.* traitées comme des photos de tiers",
+   "licence": "document public de la commune, droits du maître d'œuvre non précisés : à clarifier"
+  },
+  "v1": {
+   "chemin": "recon/out/paquet_jardin/package/donnees",
+   "admissible": "indice hors emprise des événements seulement ; marques v1 et fantômes : germes de détection ré-ajustés sur l'ortho 2022 (IoU >= 0,60) puis filtrés par E.valide",
+   "licence": "dépôt"
+  }
+ },
+ "sources_exclues": [
+  {"id": "plan_projet_2025", "raison": "projet 2025, sauf comme emprise de TRV-C1 et jeu témoin du lot 1c"},
+  {"id": "etat_2026_en_bloc", "raison": "levé GAM après travaux : admissible tronçon par tronçon seulement (sources.gam.admissibilite)"},
+  {"id": "paquet_v1_dans_l_emprise", "raison": "état 2026 : contre-indice dans l'emprise des événements"},
+  {"id": "osm_actuel", "chemins": ["data/sites/paquet_jardin/vector/osm_*.geojson", "data/sites/paquet_jardin/avant_travaux/osm_actuel_2026-10-11"], "raison": "OSM 2026"},
+  {"id": "mnt_3025", "chemins": ["recon/out/paquet_jardin/package/donnees/relief/heightmap_3025_10cm.png"], "raison": "sol nu octobre 2026 modélisé"},
+  {"id": "opendrive_2026", "chemins": ["recon/out/paquet_jardin/package/paquet_jardin_2026.xodr", "recon/out/paquet_jardin/package/donnees/opendrive/lanes_2026.geojson", "recon/out/paquet_jardin/package/donnees/opendrive/manoeuvres_2026.json"], "raison": "réseau 2026"},
+  {"id": "inventaires_specs_2026", "chemins": ["assets/specs/panneaux.json", "assets/specs/feux.json"], "raison": "inventaires de l'état 2026 (remplacés par sources/inventaires/)"},
+  {"id": "bdtopo_2025_03_15", "raison": "les 12 emprises du quartier est n'y entrent que le 04/07/2025, sans hauteur"},
+  {"id": "poses_2026_telles_quelles", "raison": "GCP de marquages_2026 et z du MNT 2026 ; 27 poses Mapillary calées sur les bordures GAM 2026 : recalcul (lot 1i)"}
+ ],
+ "sources_interdites": [
+  {"id": "google_street_view", "libelle": "Google Street View", "motifs": ["street view", "streetview", "street_view", "maps.google.", "google.com/maps", "google.fr/maps", "maps.googleapis.com", "streetviewpixels", "cbk0.google", "geo0.ggpht.com", "goo.gl/maps", "maps.app.goo.gl"]},
+  {"id": "google_earth", "libelle": "Google Earth", "motifs": ["google earth", "earth.google.com", "khms0.google", "kh.google.com"]},
+  {"id": "apple_look_around", "libelle": "Apple Look Around / Plans", "motifs": ["look around", "lookaround", "maps.apple.com"]},
+  {"id": "bing_streetside", "libelle": "Bing Streetside / Bing Maps", "motifs": ["streetside", "bing.com/maps", "virtualearth.net", "tiles.virtualearth"]},
+  {"id": "imagerie_rue_commerciale", "libelle": "toute imagerie de rue commerciale", "motifs": ["cyclomedia", "here.com/streetlevel", "yandex.ru/maps", "yandex panorama"]}
+ ],
+ "sources_marquages": {
+  "_note": "table SOURCES de decrire/marquages_sources.py pour l'état (FUS-SRC-001, PLAN § 2.4) : l'ortho 2022 passe devant le GAM ; plan2025 inadmissible (r = 0)",
+  "ortho2022": {"rang": 1, "r": 0.90, "libelle": "ortho PCRS 5 cm du 10/05/2022 ajustée aux gabarits (1 à 3 cm)"},
+  "gam": {"rang": 2, "r": 0.85, "libelle": "levé GAM : seulement present_identique en 2022 à moins de 0,10 m (datation 1c)"},
+  "ortho2024": {"rang": 3, "r": 0.60, "libelle": "BD ORTHO IGN du 09/08/2024 et ortho-photos des 360° calées (±0,1 à 0,2 m ; présence)"},
+  "photo": {"rang": 3, "r": 0.60, "libelle": "photos 2024-08 et 2025-05 projetées aux poses de l'état (type, existence, usure)"},
+  "regle": {"rang": 4, "r": null, "libelle": "inférence par règle deduire_si_absent (affectation des voies de 2022, jamais OpenDRIVE 2026)"},
+  "v1": {"rang": 5, "r": 0.30, "libelle": "paquet v1 : germe de détection et indice sémantique (jamais une géométrie)"},
+  "plan2025": {"rang": 9, "r": 0.0, "libelle": "plan projet 2025 : exclu pour l'état avant travaux"}
+ },
+ "v_temporelle_marquages": {
+  "_note": "poids par (source, état de zone de marquages_sources.zones()) ; les zones gardent leurs noms 2026 : neuf_2025 / refait_2025_identique = emprise de TRV-C1 (où l'état d'avant est à reconstruire), construit_2023_2024 = CONSTR-EST ; 0 = inadmissible. La validité d'une preuve à T reste décidée par E.valide (CHG-008 pour les marquages 2022, etc.).",
+  "ortho2022": {"conserve": 1.0, "refait_2025_identique": 1.0, "neuf_2025": 1.0, "construit_2023_2024": 0.0},
+  "gam": {"conserve": 1.0, "refait_2025_identique": 0.5, "neuf_2025": 0.0, "construit_2023_2024": 1.0},
+  "ortho2024": {"conserve": 1.0, "refait_2025_identique": 1.0, "neuf_2025": 1.0, "construit_2023_2024": 1.0},
+  "photo": {"conserve": 1.0, "refait_2025_identique": 1.0, "neuf_2025": 1.0, "construit_2023_2024": 1.0},
+  "lidar2021": {"conserve": 1.0, "refait_2025_identique": 1.0, "neuf_2025": 1.0, "construit_2023_2024": 0.0},
+  "v1": {"conserve": 1.0, "refait_2025_identique": 0.5, "neuf_2025": 0.0, "construit_2023_2024": 1.0},
+  "plan2025": {"conserve": 0.0, "refait_2025_identique": 0.0, "neuf_2025": 0.0, "construit_2023_2024": 0.0}
+ },
+ "references": {
+  "_note": "chemins lus par E.reference(nom) ; statut a_produire : fichier écrit par le lot indiqué (phase 1)",
+  "mnt": {"chemin": "{dossier_sortie}/sources/relief/heightmap_avant_10cm.json", "statut": "a_produire", "lot": "1a", "role": "sol nu 2021 (LiDAR HD, classe 2) à 10 cm ; décodage de la heightmap (commun.MNT)"},
+  "mnt_png": {"chemin": "{dossier_sortie}/sources/relief/heightmap_avant_10cm.png", "statut": "a_produire", "lot": "1a", "role": "heightmap 16 bits du sol nu d'avant travaux"},
+  "mnt_flottant": {"chemin": "{dossier_sortie}/sources/relief/dtm_sol_2021_10cm.tif", "statut": "a_produire", "lot": "1a", "role": "sol nu 2021 flottant (non versionné)"},
+  "relief_zones": {"chemin": "{dossier_sortie}/sources/relief/masque_chaussee_avant.geojson", "statut": "a_produire", "lot": "1f", "role": "masque de chaussée d'avant travaux (remplace relief_zones_2026 et dans_chaussee_2026)"},
+  "bordures_hauteurs": {"chemin": "recon/out/paquet_jardin/package/donnees/relief/bordures_hauteurs.geojson", "statut": "disponible", "role": "tronçons de 1 m : vue h_lidar_2021_m et fil d'eau 2021 (reclassés par datation)"},
+  "xodr": {"chemin": "{dossier_sortie}/sources/opendrive/paquet_jardin_avant_travaux.xodr", "statut": "a_produire", "lot": "1e", "role": "réseau OpenDRIVE d'avant travaux"},
+  "lanes": {"chemin": "{dossier_sortie}/sources/opendrive/lanes_avant_travaux.geojson", "statut": "a_produire", "lot": "1e", "role": "polygones des voies d'avant travaux"},
+  "manoeuvres": {"chemin": "{dossier_sortie}/sources/opendrive/manoeuvres_avant_travaux.json", "statut": "a_produire", "lot": "1e", "role": "manœuvres autorisées à T (attendus INF-FLE-004, VAL-FLE-001, VAL-COV-006, VAL-JCT-010, FUS-CON-005)"},
+  "surfaces_v1": {"chemin": "recon/out/paquet_jardin/package/donnees/surfaces/surfaces_2026.geojson", "statut": "disponible", "role": "indice hors emprise des événements ; emprise datée (etat)"},
+  "marquages_v1": {"chemin": "recon/out/paquet_jardin/package/donnees/marquages/marquages_2026.geojson", "statut": "disponible", "role": "germes de détection et emprise datée (zone)"},
+  "mobilier_v1": {"chemin": "recon/out/paquet_jardin/package/donnees/objets/mobilier.geojson", "statut": "disponible", "role": "objets v1 reclassés par E.statut_objet"},
+  "arbres_v1": {"chemin": "recon/out/paquet_jardin/package/donnees/objets/arbres.geojson", "statut": "disponible", "role": "arbres v1 reclassés par E.statut_objet"},
+  "objets_etat": {"chemin": "recon/out/paquet_jardin/v2_avant_travaux/inventaire/objets/objets_avant_travaux.geojson", "statut": "disponible", "role": "759 objets avec statut à T (base de la phase 2c)"},
+  "panneaux": {"chemin": "{dossier_sortie}/sources/inventaires/panneaux_avant.json", "statut": "a_produire", "lot": "1h", "role": "inventaire des panneaux à T"},
+  "feux": {"chemin": "{dossier_sortie}/sources/inventaires/feux_avant.json", "statut": "a_produire", "lot": "1h", "role": "inventaire des feux à T"},
+  "leve_emprise": {"chemin": "{dossier_sortie}/sources/leve_emprise", "statut": "a_produire", "lot": "1d", "role": "bordures et limites reconstruites (PCRS 2019, LiDAR 2021, ortho 2022) avec leur classe de datation"},
+  "lignes_2022": {"chemin": "{dossier_sortie}/sources/lignes_2022", "statut": "a_produire", "lot": "1j", "role": "lignes longitudinales et bords de voie de l'ortho 2022"},
+  "datation_leve": {"chemin": "{dossier_sortie}/sources/datation", "statut": "a_produire", "lot": "1c", "role": "classes de datation du levé GAM tronçon par tronçon"},
+  "poses": {"chemin": "{dossier_sortie}/sources/poses/poses_etat.json", "statut": "a_produire", "lot": "1i", "role": "poses recalculées avec les GCP de l'état"},
+  "evenements_figes": {"chemin": "{dossier_sortie}/sources/evenements/evenements.geojson", "statut": "a_produire", "lot": "1b", "role": "copie figée de la table d'événements"},
+  "osm_crossings": {"chemin": "{dossier_sortie}/sources/osm_{date_osm}/osm_crossings.geojson", "statut": "a_produire", "lot": "1g", "role": "traversées OSM à T (tactile_paving)"},
+  "panoramax_index": {"chemin": "data/sites/paquet_jardin/panoramax_pictures.geojson", "statut": "disponible", "role": "index des photos Panoramax du site (preuves datées)"},
+  "constats": {"chemin": "analysis/paquet_jardin/constats_verifies.json", "statut": "disponible", "role": "constats vérifiés, filtrés par E.valide (date_source)"}
+ },
+ "dossier_sortie": "recon/out/paquet_jardin/v2_avant_travaux",
+ "dossiers": {
+  "description": "description",
+  "enrichi": "enrichi",
+  "fabrique_hda": "fabrique_hda",
+  "controle": "controle",
+  "validation": "validation",
+  "ue_pilote": "ue_pilote",
+  "sources": "sources",
+  "inventaire": "inventaire",
+  "photos_non_versionnees": "photos_non_versionnees"
+ },
+ "entrees_partagees": {
+  "_note": "lues en LECTURE SEULE dans l'archive 2026 ; jamais écrites (verifier_ecriture refuse toute écriture sous v2/)",
+  "poses_panoramax": "recon/out/paquet_jardin/v2/enrichi/poses/poses.json",
+  "poses_mapillary": "recon/out/paquet_jardin/v2/enrichi/recensement/mapillary/poses_mapillary.json",
+  "triangulation": "recon/out/paquet_jardin/v2/enrichi/poses/triangulation.json",
+  "observations_brutes": "recon/out/paquet_jardin/v2/enrichi/recensement",
+  "observations_web": "recon/out/paquet_jardin/v2/enrichi/recensement/web/obs_web.json",
+  "recalage_ign2024": "recon/out/paquet_jardin/v2/enrichi/recensement/ortho_recentes/recalage.json"
+ },
+ "ue": {
+  "niveau": "/Game/PJ/Maps/PJ_AvantTravaux",
+  "racine_contenu_etat": "/Game/PJ/Etats/AvantTravaux",
+  "import": "/Game/PJ/Etats/AvantTravaux/Import",
+  "pcg_donnees": "/Game/PJ/Etats/AvantTravaux/PCG/Donnees",
+  "partages": ["/Game/PJ/Lib", "/Game/PJ/Materials", "/Game/PJ/Textures", "/Game/PJ/PCG (graphes)"],
+  "citysample": "variantes MI_<id>__citysample optionnelles côté UE, exclues des mesures M2 et V1"
+ },
+ "schema_description": {
+  "version": "description_scene_v2/0.4",
+  "date_etat": "{date_etat}",
+  "z_ref": "nivellement_avant_travaux",
+  "age": "relatif à T (neuf | recent | ancien | inconnu)",
+  "src_ajoutees": ["ortho2024", "pleiades2025", "mapillary:<id>", "photo:<plateforme>:<id>", "leve_emprise"]
+ },
+ "regles_surcharge": "recon/pcg/etat/etats/avant_travaux.regles.json",
+ "familles_observations": {
+  "_note": "classe d'observation (recensement) -> familles d'événements qui la concernent",
+  "marquage": ["marquage"],
+  "bordure": ["geometrie"],
+  "ilot": ["geometrie"],
+  "surface_ilot": ["geometrie", "texture"],
+  "bev": ["geometrie"],
+  "surface": ["geometrie", "texture"],
+  "tampon": ["objet"],
+  "avaloir": ["objet"],
+  "candelabre": ["objet"],
+  "panneau": ["objet"],
+  "feu": ["objet"],
+  "mobilier": ["objet"],
+  "potelet": ["objet"],
+  "cloture": ["objet"],
+  "abri_bus": ["objet"],
+  "autre_poteau": ["objet"],
+  "arbre": ["vegetation"],
+  "haie": ["vegetation"],
+  "massif": ["vegetation"],
+  "batiment": ["apparence", "geometrie"],
+  "autre": ["toutes"],
+  "_defaut": ["toutes"]
+ },
+ "statut_objets_v1": {
+  "_note": "statut_2026 du paquet v1 -> statut à T (PLAN § 2.5 ; ébauche de l'audit corrigée)",
+  "existant (inchangé)": "present",
+  "2026 confirmé": "a_verifier",
+  "déduit 2026 (à vérifier)": "absent_sauf_preuve",
+  "planté 2025 (projet)": "absent",
+  "absent 2026": "present_probable",
+  "à vérifier": "a_verifier",
+  "_defaut": "a_verifier"
+ },
+ "age": {
+  "_note": "âge relatif à T (PLAN § 2.3) ; seuils en années entre la réalisation et T",
+  "seuils_ans": [["neuf", 1.0], ["recent", 5.0]],
+  "au_dela": "ancien",
+  "par_contexte": {
+   "quartier_est": {"age": "neuf", "note": "CONSTR-EST livré en 2024"},
+   "reprises_enrobe_2023_2024": {"age": "recent", "note": "CHG-009 à 011 (reprises vues le 09/08/2024)"},
+   "verdun_colas_2019": {"age": "recent", "note": "réfection COLAS mars-avril 2019 : 5 ans à T"}
+  }
+ },
+ "corrections_ebauche": [
+  {"point": 1, "objet": "levé GAM", "ebauche": "admissible hors emprise des événements entre T et la date du levé (r 0,95)", "correction": "admissible tronçon par tronçon par classe de datation, avec la règle des 0,10 m dans TRV-C1 (sources.gam.admissibilite) ; jamais en bloc"},
+  {"point": 2, "objet": "marquages", "ebauche": "GAM 0,95 avant ortho 2022", "correction": "ortho 2022 en rang 1 (1 à 3 cm), GAM en rang 2 seulement present_identique à < 0,10 m (sources_marquages)"},
+  {"point": 3, "objet": "événements", "ebauche": "3 événements (CONSTR-EST, TRV-C1, TRV-VERCORS) à emprise symbolique", "correction": "table du § 2.1 dans avant_travaux.evenements.geojson, avec familles, observe, marge_m, observe_post et observations négatives"},
+  {"point": 4, "objet": "LiDAR 2021", "ebauche": "MNT flottant à produire, nuage absent", "correction": "COPC présent (150 890 899 octets) et PDAL 2.10.0 disponible (sources.lidar2021)"},
+  {"point": 5, "objet": "arbitrage", "ebauche": "la preuve valable la plus proche de T décide", "correction": "priorité par attribut puis précision σ ; la proximité de T ne départage que si les σ diffèrent d'un facteur <= 1,5 (regles_chronologie.arbitrage)"},
+  {"point": 6, "objet": "sources interdites", "ebauche": "absentes", "correction": "liste sources_interdites (Street View, Earth, Look Around, Streetside, imagerie de rue commerciale), contrôlée par controle_licences.py"}
+ ]
+}

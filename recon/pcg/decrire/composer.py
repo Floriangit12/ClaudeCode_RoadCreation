@@ -2,7 +2,8 @@
 
 Usage :
     python recon/pcg/decrire/composer.py [--sortie DOSSIER] [--png PLANCHE.png] [--sans-validation]
-Sorties (défaut recon/out/paquet_jardin/v2/description) :
+    python recon/pcg/etat/lancer.py --etat avant_travaux -- recon/pcg/decrire/composer.py ...   (état cible)
+Sorties (défaut commun.SORTIE : <dossier de l'état>/description ; sans état, archive 2026) :
     base/bordures.geojson, base/surfaces.geojson, base/ilots.geojson, base/ponctuels_sol.geojson
         FeatureCollection Lambert-93 / NGF, une entité par ligne, triées par id
     description_scene_v2.json
@@ -10,6 +11,9 @@ Sorties (défaut recon/out/paquet_jardin/v2/description) :
         couches (sha256), comptes, statistiques, index des preuves, règles a priori, hash global
 Déterministe : aucune date d'exécution, flottants arrondis au mm, identifiants stables ; deux
 exécutions sur les mêmes entrées donnent des fichiers identiques à l'octet.
+Avec un état (commun.E) : références lues dans E (E.reference / E.source), date_etat et saison de l'état,
+règles PCG désactivées par l'état (regles_pcg_desactivees), schéma de l'état et bloc etat_cible {id, sha256}
+dans le manifeste.
 """
 import argparse
 import collections
@@ -27,22 +31,29 @@ import marquages
 import regulariser
 import sol_composer
 import surfaces
-from commun import (DONNEES, MATERIAUX, MNT, RACINE, SCHEMA, SCHEMA_ID, SORTIE, SPECS, VECTEURS, ZONE,
+from commun import (DONNEES, EC, MATERIAUX, MNT, RACINE, SCHEMA, SCHEMA_ID, SORTIE, SPECS, VECTEURS, ZONE, E,
                     arrondi, ecrire_geojson, ecrire_json, lire_geojson, rel, repere, sha256)
 
 ICI = Path(__file__).resolve().parent
+R = EC.reference                                        # référence de l'état, sinon chemin historique (archive 2026)
+PANORAMAX_INDEX = R("panoramax_index", VECTEURS / "panoramax_pictures.geojson")
+OSM_CROSSINGS = R("osm_crossings", VECTEURS / "vector/osm_crossings.geojson")
+GAM = EC.source("gam", VECTEURS / "etat_2026")
 REFERENCES = {
-    "bordures_hauteurs": (DONNEES / "relief/bordures_hauteurs.geojson", "tronçons de bordure de 1 m (h_vue, statut, fil d'eau 2021)"),
-    "relief_zones": (DONNEES / "relief/relief_zones_2026.geojson", "traversées abaissées, chaussée 2026"),
-    "mnt_2026": (DONNEES / "relief/heightmap_3025_10cm.png", "sol nu octobre 2026, 10 cm (Z de toute la description)"),
-    "mnt_2026_echelle": (DONNEES / "relief/heightmap_3025_10cm.json", "décodage de la heightmap"),
-    "surfaces_v1": (DONNEES / "surfaces/surfaces_2026.geojson", "polygones de surface v1"),
-    "marquages_v1": (DONNEES / "marquages/marquages_2026.geojson", "bandes de passages piétons"),
-    "mobilier_v1": (DONNEES / "objets/mobilier.geojson", "objets portés par les îlots"),
-    "arbres_v1": (DONNEES / "objets/arbres.geojson", "plantations des îlots"),
-    "gam_bordure_pct": (VECTEURS / "etat_2026/bordure_pct_L93.geojson", "blocs CHARTIERE du levé GAM"),
-    "osm_crossings": (VECTEURS / "vector/osm_crossings.geojson", "tactile_paving des traversées"),
-    "panoramax_index": (VECTEURS / "panoramax_pictures.geojson", "photos Panoramax du site"),
+    "bordures_hauteurs": (R("bordures_hauteurs", DONNEES / "relief/bordures_hauteurs.geojson"), "tronçons de bordure de 1 m (h_vue, statut, fil d'eau 2021)"),
+    "relief_zones": (R("relief_zones", DONNEES / "relief/relief_zones_2026.geojson"),
+                     "masque de chaussée de l'état" if E else "traversées abaissées, chaussée 2026"),
+    ("mnt" if E else "mnt_2026"): (R("mnt_png", DONNEES / "relief/heightmap_3025_10cm.png"),
+                                   "sol nu de l'état, 10 cm (Z de toute la description)" if E
+                                   else "sol nu octobre 2026, 10 cm (Z de toute la description)"),
+    ("mnt_echelle" if E else "mnt_2026_echelle"): (R("mnt", DONNEES / "relief/heightmap_3025_10cm.json"), "décodage de la heightmap"),
+    "surfaces_v1": (R("surfaces_v1", DONNEES / "surfaces/surfaces_2026.geojson"), "polygones de surface v1"),
+    "marquages_v1": (R("marquages_v1", DONNEES / "marquages/marquages_2026.geojson"), "bandes de passages piétons"),
+    "mobilier_v1": (R("mobilier_v1", DONNEES / "objets/mobilier.geojson"), "objets portés par les îlots"),
+    "arbres_v1": (R("arbres_v1", DONNEES / "objets/arbres.geojson"), "plantations des îlots"),
+    "gam_bordure_pct": (GAM / "bordure_pct_L93.geojson", "blocs CHARTIERE du levé GAM"),
+    "osm_crossings": (OSM_CROSSINGS, "tactile_paving des traversées"),
+    "panoramax_index": (PANORAMAX_INDEX, "photos Panoramax du site"),
     "constats": (ctx.CONSTATS_JSON, "constats vérifiés (deux vérificateurs)"),
     "spec_bordures": (SPECS / "bordures.json", "profils NF, regles_affectation, abaissés"),
     "spec_mobilier": (SPECS / "mobilier.json", "BEV (bev_podotactile)"),
@@ -72,6 +83,8 @@ REGLES_PCG = [
     {"id": "R-visibilite-traversees", "type": "exclusion", "zone": "2 m autour des abaissés de type traversee",
      "h_max_m": 0.6},
 ]
+if E:                                                   # saison de l'état (ex. pas de feuilles mortes fin août)
+    REGLES_PCG = [r for r in REGLES_PCG if r["id"] not in (E.param("regles_pcg_desactivees") or [])]
 
 
 def parcourir_prov(obj, ou, sortie):
@@ -97,7 +110,7 @@ def preuves_et_apriori(couches):
                 if a.get("bev"):
                     pr = a["bev"]["prov"]
                     trouve.append((pr["src"], a["id"], "bev", pr.get("ref", "")))
-    pnx = {f["properties"]["id"][:8]: f["properties"] for f in lire_geojson(VECTEURS / "panoramax_pictures.geojson")}
+    pnx = {f["properties"]["id"][:8]: f["properties"] for f in lire_geojson(PANORAMAX_INDEX)}
     preuves = {}
     for src, ent, attr, ref in trouve:
         if src.startswith("constat:"):
@@ -114,10 +127,10 @@ def preuves_et_apriori(couches):
                             "fichier": f"data/raw/panoramax/paquet_jardin/tiles/{nom}/{nom}_{tuile}.jpg"}
         elif src.startswith("osm"):
             preuves[src] = {"type": "osm", "ref": src.split(":", 1)[-1], "date": None, "texte": ref[:200],
-                            "fichier": rel(VECTEURS / "vector/osm_crossings.geojson")}
+                            "fichier": rel(OSM_CROSSINGS)}
         elif src.startswith("norme:"):
             preuves[src] = {"type": "norme", "ref": src.split(":", 1)[1], "date": None, "texte": ref[:200], "fichier": None}
-        elif src == "photo_utilisateur":
+        elif src == "photo_utilisateur":                # date des photos de référence (rendu), pas de l'état
             preuves[src] = {"type": "photo_utilisateur", "ref": "photos de référence de l'utilisateur (bordures béton en éléments, BRF, gravier)",
                             "date": "2026-10", "texte": "références de rendu, pas des observations du site", "fichier": None}
     groupes = collections.defaultdict(set)
@@ -168,6 +181,7 @@ def statistiques(K, S, I, B, rk):
 
 def composer(sortie, png=None):
     sortie = Path(sortie)
+    EC.verifier_ecriture(sortie)                        # pas d'écriture croisée entre états (§ 3.5)
     mnt = MNT()
     # familles de sol 0.3 (site complet) : bordures, îlots, partition vectorielle, nivellement unique, BEV
     K, S, I, B, rk, rs, ri, sol_extra = sol_composer.familles_sol(mnt, sortie / "base")
@@ -196,18 +210,20 @@ def composer(sortie, png=None):
     from pyproj import Transformer
     t84 = Transformer.from_crs(4326, 2154, always_xy=True)
     pnx = [t84.transform(f["properties"]["lon"], f["properties"]["lat"])
-           for f in lire_geojson(VECTEURS / "panoramax_pictures.geojson")]
+           for f in lire_geojson(PANORAMAX_INDEX)]
     n_pnx = int(sum(1 for x, y in repere(np.array(pnx)) if x0 <= x <= x1 and y0 <= y <= y1))
     abs_ = [a for f in K for a in f["properties"]["abaisses"]]
     man = {
-        "schema": marquages.SCHEMA_ID,
+        "schema": E.config["schema_description"]["version"] if E else marquages.SCHEMA_ID,
         "site": {"id": "paquet_jardin", "nom": "carrefour Paquet Jardin, Meylan (Isère)", "crs": "EPSG:2154",
                  "altitudes": "NGF-IGN69", "origine_l93_ngf": [917279.43, 6460289.98, 216.3],
                  "repere_local": "local = L93 - O ; z = NGF - 216,30 ; m, Z haut, X est, Y nord (Unreal : X = x·100, Y = -y·100, Z = z·100)",
-                 "unites": "m", "date_etat": "2026-10",
-                 "saison": {"nom": "automne", "mois": 10, "feuillage": "automne, jaunissement en cours",
-                            "jaunissement": 0.4, "feuilles_mortes_sol": 0.3}},
+                 "unites": "m", "date_etat": E.date_etat if E else "2026-10",
+                 "saison": dict(E.saison) if E else
+                 {"nom": "automne", "mois": 10, "feuillage": "automne, jaunissement en cours",
+                  "jaunissement": 0.4, "feuilles_mortes_sol": 0.3}},
         "references": {k: {"fichier": rel(p), "sha256": sha256(p), "role": r} for k, (p, r) in REFERENCES.items()},
+        **({"etat_cible": E.manifeste()} if E else {}),
         "zone_pilote": {"fichier": rel(ZONE), "id": zp["id"], "emprise_local_m": zp["emprise_local_m"],
                         "emprise_l93": zp["emprise_l93"], "photos_panoramax": n_pnx},
         "couches": info,

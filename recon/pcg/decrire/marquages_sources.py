@@ -1,4 +1,10 @@
-"""Priorité des sources des marquages (état octobre 2026) : ordre, admissibilité par zone, scores et décision.
+"""Priorité des sources des marquages : ordre, admissibilité par zone, scores et décision.
+
+État cible (commun.E, PJ_ETAT) : les tables SOURCES et V_TEMPORELLE sont celles de l'état
+(etats/<id>.json : sources_marquages, v_temporelle_marquages ; même table que FUS-SRC-001 dans
+controle/ctl_detection.py). Pour l'état avant travaux : ortho 2022 en rang 1, GAM en rang 2 (present_identique
+à < 0,10 m), IGN 2024 et photos en rang 3, plan 2025 inadmissible (r = 0). Sans état, tables de l'état octobre
+2026 décrites ci-dessous.
 
 Règles appliquées (assets/specs/regles_conception.json) :
 - FUS-SRC-001 : ordre de priorité par attribut (existence, géométrie, type) :
@@ -30,8 +36,10 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from commun import DONNEES, anneaux, lire_geojson, repere  # noqa: E402
+from commun import DONNEES, EC, E, anneaux, lire_geojson, repere  # noqa: E402
 
+SURFACES_V1 = EC.reference("surfaces_v1", DONNEES / "surfaces/surfaces_2026.geojson")      # emprise datée (etat)
+MARQUAGES_V1 = EC.reference("marquages_v1", DONNEES / "marquages/marquages_2026.geojson")  # emprise datée (zone)
 SOURCES = {
     "gam": {"rang": 1, "r": 0.95, "libelle": "levé vectoriel GAM 2026 (Meylan_Topo.dwg)"},
     "plan2025": {"rang": 2, "r": 0.85, "libelle": "détection sur le plan projet 2025 calé (zone des travaux)"},
@@ -39,6 +47,8 @@ SOURCES = {
     "regle": {"rang": 4, "r": None, "libelle": "inférence par règle deduire_si_absent (regles_conception)"},
     "v1": {"rang": 5, "r": 0.30, "libelle": "paquet v1 : indice sémantique (jamais une géométrie)"},
 }
+if E:
+    SOURCES = E.sources_marquages
 CONFIANCE_REGLE = {"haute": 0.7, "moyenne": 0.5, "faible": 0.3}          # fusion_detection_inference.confiance_regle_score
 SEUIL_POSE, SEUIL_A_VERIFIER = 0.5, 0.3                                 # FUS-SCO-002
 ETATS = ("conserve", "refait_2025_identique", "neuf_2025", "construit_2023_2024")
@@ -49,12 +59,19 @@ V_TEMPORELLE = {
     "ortho2022": {"conserve": 1.0, "refait_2025_identique": 0.8, "neuf_2025": 0.0, "construit_2023_2024": 0.0},
     "v1": {"conserve": 1.0, "refait_2025_identique": 1.0, "neuf_2025": 1.0, "construit_2023_2024": 1.0},
 }
+if E:
+    V_TEMPORELLE = E.v_temporelle
+PREFIXES_PHOTO = ("photo", "mapillary", "panoramax")   # src « photo:<plateforme>:<id> » ou « mapillary:<id> » (0.4)
 RES_ZONE = 0.25
 EMPRISE = (-152.0, -152.0, 152.0, 152.0)
 
 
 def src_base(src):
-    return "regle" if src.startswith("regle:") else src
+    if src.startswith("regle:"):
+        return "regle"
+    if "photo" in SOURCES and src.split(":", 1)[0] in PREFIXES_PHOTO and ":" in src:
+        return "photo"
+    return src
 
 
 def rang(src):
@@ -116,7 +133,7 @@ def zones():
     im_c = Image.new("L", (W, H), 0)
     im_r = Image.new("L", (W, H), 0)
     dn, dc, dr = ImageDraw.Draw(im_n), ImageDraw.Draw(im_c), ImageDraw.Draw(im_r)
-    for f in sorted(lire_geojson(DONNEES / "surfaces/surfaces_2026.geojson"), key=lambda f: f["properties"]["id"]):
+    for f in sorted(lire_geojson(SURFACES_V1), key=lambda f: f["properties"]["id"]):
         e = f["properties"].get("etat")
         polys = [[repere(r) for r in poly] for poly in anneaux(f["geometry"])]
         if e == "modifie_2025":
@@ -125,7 +142,7 @@ def zones():
             _poly_raster(dc, polys, x0, y1, res, 255)
     im_n2 = Image.new("L", (W, H), 0)
     dn2 = ImageDraw.Draw(im_n2)
-    for f in sorted(lire_geojson(DONNEES / "marquages/marquages_2026.geojson"), key=lambda f: f["properties"]["id"]):
+    for f in sorted(lire_geojson(MARQUAGES_V1), key=lambda f: f["properties"]["id"]):
         z = f["properties"].get("zone")
         polys = [[repere(r) for r in poly] for poly in anneaux(f["geometry"])]
         if z == "refait_2025":
@@ -161,12 +178,13 @@ def etat_majoritaire(Q):
 
 def admissible(src, etat):
     b = src_base(src)
-    return b == "regle" or V_TEMPORELLE[b].get(etat, 0.0) > 0.0
+    return b == "regle" or V_TEMPORELLE.get(b, {}).get(etat, 0.0) > 0.0
 
 
 def doc():
     """Texte de la priorité des sources (rapport, manifeste)."""
-    return {"ordre": [{"src": k, "rang": v["rang"], "r_source": v["r"], "libelle": v["libelle"]} for k, v in SOURCES.items()],
+    return {**({"etat_cible": E.manifeste()} if E else {}),
+            "ordre": [{"src": k, "rang": v["rang"], "r_source": v["r"], "libelle": v["libelle"]} for k, v in SOURCES.items()],
             "v_temporelle": V_TEMPORELLE, "decision": {"pose": SEUIL_POSE, "a_verifier": SEUIL_A_VERIFIER},
             "regles": ["FUS-SRC-001", "FUS-SCO-002", "FUS-ASS-003", "FUS-SNP-004", "FUS-CON-005"]}
 

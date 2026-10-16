@@ -1,0 +1,66 @@
+= Route Signal lumineux (R11v, R12, R13) =
+
+"""Signal lumineux de circulation : modules à optique circulaire, visières, pattes, console."""
+
+@parameters
+
+Nombre de feux:
+    #id: nb_feux
+    
+
+Disposition:
+    #id: disposition
+    
+
+Diamètre des optiques (m):
+    #id: diametre
+    IISR 6e partie : 200 ou 300 mm ; répétiteurs 90 mm.
+
+Optique carrée (R12 piétons):
+    #id: optique_carree
+    
+
+Diamètre de l'optique du haut (m, 0 = identique):
+    #id: diametre_haut
+    Ensemble mixte (IISR 6e partie, art. 109-4) : rouge 300 mm sur jaune et vert 200 mm ; module du haut mis à l'échelle.
+
+Couleurs (haut → bas):
+    #id: couleurs
+    
+
+Pictogrammes:
+    #id: pictos
+    R12 : pieton_arret pieton_marche ; R13c : cycle ; R13b : bus.
+
+Module : largeur (m):
+    #id: boitier_l
+    
+
+Module : hauteur (m):
+    #id: boitier_h
+    
+
+Module : profondeur (m):
+    #id: boitier_p
+    
+
+Visière : longueur (m):
+    #id: visiere
+    
+
+Matériau du corps:
+    #id: materiau_corps
+    plastique_noir_feux (monobloc) ou feu_corps_gris (modules gris RAL 7035 observés au carrefour).
+
+Angle de coupure des normales (°):
+    #id: cusp
+    Arêtes plus vives que cet angle : normales dures ; en dessous (congés), normales lissées.
+
+LOD : polygones conservés (%):
+    #id: lod_pourcentage
+    100 = LOD0 (aucune réduction) ; LOD1 ≈ 50 %, LOD2 ≈ 20 % (PolyReduce 2.0).
+
+Matériau:
+    #id: materiau
+    Nom du matériau (bibliothèque route_fr ou assets/lib/materiaux) posé dans l'attribut de primitive « materiau ».
+

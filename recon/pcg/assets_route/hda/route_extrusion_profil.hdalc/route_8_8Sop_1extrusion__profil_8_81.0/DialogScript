@@ -1,0 +1,123 @@
+# Dialog script for route::extrusion_profil::1.0 automatically generated
+
+{
+    name	route::extrusion_profil::1.0
+    script	route::extrusion_profil::1.0
+    label	"Route Extrusion de profil (bordures, caniveaux)"
+
+    help {
+    }
+
+    inputlabel	1	"Sub-Network Input #1"
+    inputlabel	2	"Sub-Network Input #2"
+    inputlabel	3	"Sub-Network Input #3"
+    inputlabel	4	"Sub-Network Input #4"
+
+    parm {
+        name    "contour_a"
+        label   "Contour A (u v …, m)"
+        type    string
+        default { "" }
+        help    "Coins du profil : u depuis la face vue vers l'arrière, v depuis le dessous (assets/specs/bordures_elements.json « repere »), contour fermé."
+    }
+    parm {
+        name    "contour_b"
+        label   "Contour B (rampant)"
+        type    string
+        default { "" }
+        help    "Profil d'arrivée du rampant (même nombre de points que A)."
+    }
+    parm {
+        name    "mode"
+        label   "Pièce"
+        type    ordinal
+        default { "0" }
+        menu {
+            "0" "Élément droit"
+            "1" "Rampant A → B (raccord de bateau)"
+            "2" "Courbe / quart de rond, face convexe"
+            "3" "Courbe / quart de rond, face concave"
+            "4" "Angle sortant (onglet 45°)"
+            "5" "Angle rentrant (onglet 45°)"
+        }
+    }
+    parm {
+        name    "longueur"
+        label   "Longueur (m)"
+        type    float
+        default { "0.994" }
+        help    "Longueur réelle (pas de pose − joint) ; pour les angles : longueur de chaque branche sur la face."
+        range   { 0.01 5 }
+    }
+    parm {
+        name    "rayon"
+        label   "Rayon de la face (m)"
+        type    float
+        default { "0.5" }
+        range   { 0.05 50 }
+    }
+    parm {
+        name    "angle_deg"
+        label   "Angle de la courbe (°)"
+        type    float
+        default { "90" }
+        range   { 1 180 }
+    }
+    parm {
+        name    "sections"
+        label   "Sections (rampant, courbes)"
+        type    integer
+        default { "12" }
+        range   { 2 200 }
+    }
+    parm {
+        name    "centrer"
+        label   "Pivot au milieu de la longueur"
+        type    toggle
+        default { "1" }
+    }
+    parm {
+        name    "inverser"
+        label   "Inverser l'orientation des faces"
+        type    toggle
+        default { "0" }
+    }
+    parm {
+        name    "chanfrein"
+        label   "Cassure des arêtes vives (m)"
+        type    float
+        default { "0.002" }
+        help    "PolyBevel en chanfrein sur les arêtes vives (abouts, arête arrière) : joints lisibles en V."
+        range   { 0 0.02 }
+    }
+    parm {
+        name    "angle_plat"
+        label   "Angle sous lequel une arête n'est pas cassée (°)"
+        type    float
+        default { "25" }
+        range   { 0 90 }
+    }
+    parm {
+        name    "cusp"
+        label   "Angle de coupure des normales (°)"
+        type    float
+        default { "35" }
+        help    "Arêtes plus vives que cet angle : normales dures ; en dessous (congés), normales lissées."
+        range   { 0 180 }
+    }
+    parm {
+        name    "lod_pourcentage"
+        label   "LOD : polygones conservés (%)"
+        type    float
+        default { "100" }
+        help    "100 = LOD0 (aucune réduction) ; LOD1 ≈ 50 %, LOD2 ≈ 20 % (PolyReduce 2.0)."
+        range   { 1 100 }
+    }
+    parm {
+        name    "materiau"
+        label   "Matériau"
+        type    string
+        default { "beton_bordure" }
+        help    "Nom du matériau (bibliothèque route_fr ou assets/lib/materiaux) posé dans l'attribut de primitive « materiau »."
+    }
+}

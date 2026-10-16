@@ -1,0 +1,129 @@
+# Dialog script for route::poteau::1.0 automatically generated
+
+{
+    name	route::poteau::1.0
+    script	route::poteau::1.0
+    label	"Route Poteau de signalisation"
+
+    help {
+    }
+
+    inputlabel	1	"Sub-Network Input #1"
+    inputlabel	2	"Sub-Network Input #2"
+    inputlabel	3	"Sub-Network Input #3"
+    inputlabel	4	"Sub-Network Input #4"
+
+    parm {
+        name    "section"
+        label   "Section"
+        type    ordinal
+        default { "0" }
+        menu {
+            "rond"  "Ronde (tube)"
+            "rect"  "Rectangulaire"
+        }
+    }
+    parm {
+        name    "d1"
+        label   "Diamètre ou largeur (m)"
+        type    float
+        default { "0.0603" }
+        range   { 0.02 0.5 }
+    }
+    parm {
+        name    "d2"
+        label   "Profondeur (m, rectangulaire)"
+        type    float
+        default { "0.0603" }
+        range   { 0.02 0.5 }
+    }
+    parm {
+        name    "hauteur"
+        label   "Hauteur hors sol (m)"
+        type    float
+        default { "3" }
+        range   { 0.3 12 }
+    }
+    parm {
+        name    "divisions"
+        label   "Divisions (rond)"
+        type    integer
+        default { "24" }
+        range   { 6 64 }
+    }
+    parm {
+        name    "bouchon"
+        label   "Bouchon en tête"
+        type    toggle
+        default { "1" }
+    }
+    parm {
+        name    "bande_contrastee"
+        label   "Bande contrastée 1,25-1,35 m (arrêté du 15/01/2007)"
+        type    toggle
+        default { "1" }
+    }
+    parm {
+        name    "platine"
+        label   "Platine carrée"
+        type    toggle
+        default { "0" }
+    }
+    parm {
+        name    "platine_cote"
+        label   "Côté de la platine (m)"
+        type    float
+        default { "0.2" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "platine_ep"
+        label   "Épaisseur de la platine (m)"
+        type    float
+        default { "0.003" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "serrage"
+        label   "Platine de serrage circulaire"
+        type    toggle
+        default { "0" }
+    }
+    parm {
+        name    "serrage_diam"
+        label   "Diamètre de la platine de serrage (m)"
+        type    float
+        default { "0.155" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "serrage_ep"
+        label   "Épaisseur de la platine de serrage (m)"
+        type    float
+        default { "0.0027" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "cusp"
+        label   "Angle de coupure des normales (°)"
+        type    float
+        default { "40" }
+        help    "Arêtes plus vives que cet angle : normales dures ; en dessous (congés), normales lissées."
+        range   { 0 180 }
+    }
+    parm {
+        name    "lod_pourcentage"
+        label   "LOD : polygones conservés (%)"
+        type    float
+        default { "100" }
+        help    "100 = LOD0 (aucune réduction) ; LOD1 ≈ 50 %, LOD2 ≈ 20 % (PolyReduce 2.0)."
+        range   { 1 100 }
+    }
+    parm {
+        name    "materiau"
+        label   "Matériau"
+        type    string
+        default { "acier_galvanise" }
+        help    "Nom du matériau (bibliothèque route_fr ou assets/lib/materiaux) posé dans l'attribut de primitive « materiau »."
+    }
+}

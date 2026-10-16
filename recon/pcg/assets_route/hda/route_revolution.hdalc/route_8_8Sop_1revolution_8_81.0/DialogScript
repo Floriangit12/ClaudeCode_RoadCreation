@@ -1,0 +1,60 @@
+# Dialog script for route::revolution::1.0 automatically generated
+
+{
+    name	route::revolution::1.0
+    script	route::revolution::1.0
+    label	"Route Révolution (potelets, bornes)"
+
+    help {
+    }
+
+    inputlabel	1	"Sub-Network Input #1"
+    inputlabel	2	"Sub-Network Input #2"
+    inputlabel	3	"Sub-Network Input #3"
+    inputlabel	4	"Sub-Network Input #4"
+
+    parm {
+        name    "profil"
+        label   "Profil (r h …, m)"
+        type    string
+        default { "" }
+        help    "Polyligne (rayon, hauteur) de l'axe en bas à l'axe en haut ; h = 0 au sol."
+    }
+    parm {
+        name    "bandes"
+        label   "Bandes de matériau (h0 h1 matériau …)"
+        type    string
+        default { "" }
+        help    "Ex. « 0.87 1.01 blanc_ral9010 » : tête contrastée."
+    }
+    parm {
+        name    "divisions"
+        label   "Divisions en tour"
+        type    integer
+        default { "24" }
+        range   { 6 128 }
+    }
+    parm {
+        name    "cusp"
+        label   "Angle de coupure des normales (°)"
+        type    float
+        default { "30" }
+        help    "Arêtes plus vives que cet angle : normales dures ; en dessous (congés), normales lissées."
+        range   { 0 180 }
+    }
+    parm {
+        name    "lod_pourcentage"
+        label   "LOD : polygones conservés (%)"
+        type    float
+        default { "100" }
+        help    "100 = LOD0 (aucune réduction) ; LOD1 ≈ 50 %, LOD2 ≈ 20 % (PolyReduce 2.0)."
+        range   { 1 100 }
+    }
+    parm {
+        name    "materiau"
+        label   "Matériau"
+        type    string
+        default { "acier_thermolaque_7016" }
+        help    "Nom du matériau (bibliothèque route_fr ou assets/lib/materiaux) posé dans l'attribut de primitive « materiau »."
+    }
+}

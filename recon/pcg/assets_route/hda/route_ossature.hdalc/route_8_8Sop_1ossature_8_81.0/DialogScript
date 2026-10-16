@@ -1,0 +1,87 @@
+# Dialog script for route::ossature::1.0 automatically generated
+
+{
+    name	route::ossature::1.0
+    script	route::ossature::1.0
+    label	"Route Ossature (garde-corps, barrières, potence)"
+
+    help {
+    }
+
+    inputlabel	1	"Sub-Network Input #1"
+    inputlabel	2	"Sub-Network Input #2"
+    inputlabel	3	"Sub-Network Input #3"
+    inputlabel	4	"Sub-Network Input #4"
+
+    parm {
+        name    "modele"
+        label   "Modèle"
+        type    ordinal
+        default { "0" }
+        menu {
+            "0" "Garde-corps de pont S8 (Setra)"
+            "1" "Garde-corps urbain (Angers)"
+            "2" "Barrière à croix de Saint-André"
+            "3" "Barrière Lyon 1530"
+            "4" "Potence de feux (principe)"
+        }
+    }
+    parm {
+        name    "longueur"
+        label   "Longueur / portée (m)"
+        type    float
+        default { "3" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "hauteur"
+        label   "Hauteur (m)"
+        type    float
+        default { "1" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "entraxe_montants"
+        label   "Entraxe des montants (m)"
+        type    float
+        default { "1.5" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "entraxe_barreaux"
+        label   "Entraxe des barreaux (m)"
+        type    float
+        default { "0.14" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "lisse_basse"
+        label   "Hauteur de la lisse basse (m)"
+        type    float
+        default { "0.1" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "cusp"
+        label   "Angle de coupure des normales (°)"
+        type    float
+        default { "40" }
+        help    "Arêtes plus vives que cet angle : normales dures ; en dessous (congés), normales lissées."
+        range   { 0 180 }
+    }
+    parm {
+        name    "lod_pourcentage"
+        label   "LOD : polygones conservés (%)"
+        type    float
+        default { "100" }
+        help    "100 = LOD0 (aucune réduction) ; LOD1 ≈ 50 %, LOD2 ≈ 20 % (PolyReduce 2.0)."
+        range   { 1 100 }
+    }
+    parm {
+        name    "materiau"
+        label   "Matériau"
+        type    string
+        default { "acier_galvanise" }
+        help    "Nom du matériau (bibliothèque route_fr ou assets/lib/materiaux) posé dans l'attribut de primitive « materiau »."
+    }
+}

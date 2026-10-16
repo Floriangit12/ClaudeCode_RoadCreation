@@ -1,0 +1,30 @@
+= Route Révolution (potelets, bornes) =
+
+"""Objet de révolution à partir d'un profil coté (potelets, bornes)."""
+
+@parameters
+
+Profil (r h …, m):
+    #id: profil
+    Polyligne (rayon, hauteur) de l'axe en bas à l'axe en haut ; h = 0 au sol.
+
+Bandes de matériau (h0 h1 matériau …):
+    #id: bandes
+    Ex. « 0.87 1.01 blanc_ral9010 » : tête contrastée.
+
+Divisions en tour:
+    #id: divisions
+    
+
+Angle de coupure des normales (°):
+    #id: cusp
+    Arêtes plus vives que cet angle : normales dures ; en dessous (congés), normales lissées.
+
+LOD : polygones conservés (%):
+    #id: lod_pourcentage
+    100 = LOD0 (aucune réduction) ; LOD1 ≈ 50 %, LOD2 ≈ 20 % (PolyReduce 2.0).
+
+Matériau:
+    #id: materiau
+    Nom du matériau (bibliothèque route_fr ou assets/lib/materiaux) posé dans l'attribut de primitive « materiau ».
+

@@ -1,0 +1,108 @@
+# Dialog script for route::dalle::1.0 automatically generated
+
+{
+    name	route::dalle::1.0
+    script	route::dalle::1.0
+    label	"Route Dalle / pavé / BEV"
+
+    help {
+    }
+
+    inputlabel	1	"Sub-Network Input #1"
+    inputlabel	2	"Sub-Network Input #2"
+    inputlabel	3	"Sub-Network Input #3"
+    inputlabel	4	"Sub-Network Input #4"
+
+    parm {
+        name    "longueur"
+        label   "Longueur (m)"
+        type    float
+        default { "0.2" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "largeur"
+        label   "Largeur (m)"
+        type    float
+        default { "0.1" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "epaisseur"
+        label   "Épaisseur (m)"
+        type    float
+        default { "0.08" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "chanfrein"
+        label   "Chanfrein des arêtes (m)"
+        type    float
+        default { "0.005" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "plots"
+        label   "Plots podotactiles (BEV)"
+        type    toggle
+        default { "0" }
+    }
+    parm {
+        name    "plot_diam_base"
+        label   "Plot : diamètre de base (m)"
+        type    float
+        default { "0.035" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "plot_diam_haut"
+        label   "Plot : diamètre du sommet (m)"
+        type    float
+        default { "0.025" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "plot_hauteur"
+        label   "Plot : hauteur (m)"
+        type    float
+        default { "0.005" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "plot_entraxe"
+        label   "Plot : entraxe (m)"
+        type    float
+        default { "0.075" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "plot_marge"
+        label   "Plot : marge au bord (m)"
+        type    float
+        default { "0.0375" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "cusp"
+        label   "Angle de coupure des normales (°)"
+        type    float
+        default { "40" }
+        help    "Arêtes plus vives que cet angle : normales dures ; en dessous (congés), normales lissées."
+        range   { 0 180 }
+    }
+    parm {
+        name    "lod_pourcentage"
+        label   "LOD : polygones conservés (%)"
+        type    float
+        default { "100" }
+        help    "100 = LOD0 (aucune réduction) ; LOD1 ≈ 50 %, LOD2 ≈ 20 % (PolyReduce 2.0)."
+        range   { 1 100 }
+    }
+    parm {
+        name    "materiau"
+        label   "Matériau"
+        type    string
+        default { "paves_beton_rect" }
+        help    "Nom du matériau (bibliothèque route_fr ou assets/lib/materiaux) posé dans l'attribut de primitive « materiau »."
+    }
+}

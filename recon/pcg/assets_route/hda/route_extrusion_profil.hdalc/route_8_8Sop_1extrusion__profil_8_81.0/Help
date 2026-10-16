@@ -1,0 +1,62 @@
+= Route Extrusion de profil (bordures, caniveaux) =
+
+"""Élément préfabriqué de bordure ou de caniveau à partir d'un profil coté (catalogues NF)."""
+
+@parameters
+
+Contour A (u v …, m):
+    #id: contour_a
+    Coins du profil : u depuis la face vue vers l'arrière, v depuis le dessous (assets/specs/bordures_elements.json « repere »), contour fermé.
+
+Contour B (rampant):
+    #id: contour_b
+    Profil d'arrivée du rampant (même nombre de points que A).
+
+Pièce:
+    #id: mode
+    
+
+Longueur (m):
+    #id: longueur
+    Longueur réelle (pas de pose − joint) ; pour les angles : longueur de chaque branche sur la face.
+
+Rayon de la face (m):
+    #id: rayon
+    
+
+Angle de la courbe (°):
+    #id: angle_deg
+    
+
+Sections (rampant, courbes):
+    #id: sections
+    
+
+Pivot au milieu de la longueur:
+    #id: centrer
+    
+
+Inverser l'orientation des faces:
+    #id: inverser
+    
+
+Cassure des arêtes vives (m):
+    #id: chanfrein
+    PolyBevel en chanfrein sur les arêtes vives (abouts, arête arrière) : joints lisibles en V.
+
+Angle sous lequel une arête n'est pas cassée (°):
+    #id: angle_plat
+    
+
+Angle de coupure des normales (°):
+    #id: cusp
+    Arêtes plus vives que cet angle : normales dures ; en dessous (congés), normales lissées.
+
+LOD : polygones conservés (%):
+    #id: lod_pourcentage
+    100 = LOD0 (aucune réduction) ; LOD1 ≈ 50 %, LOD2 ≈ 20 % (PolyReduce 2.0).
+
+Matériau:
+    #id: materiau
+    Nom du matériau (bibliothèque route_fr ou assets/lib/materiaux) posé dans l'attribut de primitive « materiau ».
+

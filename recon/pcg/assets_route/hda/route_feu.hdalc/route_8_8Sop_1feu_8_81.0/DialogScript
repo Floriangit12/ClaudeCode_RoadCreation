@@ -1,0 +1,126 @@
+# Dialog script for route::feu::1.0 automatically generated
+
+{
+    name	route::feu::1.0
+    script	route::feu::1.0
+    label	"Route Signal lumineux (R11v, R12, R13)"
+
+    help {
+    }
+
+    inputlabel	1	"Sub-Network Input #1"
+    inputlabel	2	"Sub-Network Input #2"
+    inputlabel	3	"Sub-Network Input #3"
+    inputlabel	4	"Sub-Network Input #4"
+
+    parm {
+        name    "nb_feux"
+        label   "Nombre de feux"
+        type    integer
+        default { "3" }
+        range   { 1 4 }
+    }
+    parm {
+        name    "disposition"
+        label   "Disposition"
+        type    ordinal
+        default { "0" }
+        menu {
+            "0" "Verticale (haut → bas)"
+            "1" "Horizontale (gauche → droite vu de face)"
+        }
+    }
+    parm {
+        name    "diametre"
+        label   "Diamètre des optiques (m)"
+        type    float
+        default { "0.2" }
+        help    "IISR 6e partie : 200 ou 300 mm ; répétiteurs 90 mm."
+        range   { 0 10 }
+    }
+    parm {
+        name    "optique_carree"
+        label   "Optique carrée (R12 piétons)"
+        type    toggle
+        default { "0" }
+    }
+    parm {
+        name    "diametre_haut"
+        label   "Diamètre de l'optique du haut (m, 0 = identique)"
+        type    float
+        default { "0" }
+        help    "Ensemble mixte (IISR 6e partie, art. 109-4) : rouge 300 mm sur jaune et vert 200 mm ; module du haut mis à l'échelle."
+        range   { 0 10 }
+    }
+    parm {
+        name    "couleurs"
+        label   "Couleurs (haut → bas)"
+        type    string
+        default { "rouge jaune vert" }
+    }
+    parm {
+        name    "pictos"
+        label   "Pictogrammes"
+        type    string
+        default { "" }
+        help    "R12 : pieton_arret pieton_marche ; R13c : cycle ; R13b : bus."
+    }
+    parm {
+        name    "boitier_l"
+        label   "Module : largeur (m)"
+        type    float
+        default { "0.265" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "boitier_h"
+        label   "Module : hauteur (m)"
+        type    float
+        default { "0.24" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "boitier_p"
+        label   "Module : profondeur (m)"
+        type    float
+        default { "0.25" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "visiere"
+        label   "Visière : longueur (m)"
+        type    float
+        default { "0.2" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "materiau_corps"
+        label   "Matériau du corps"
+        type    string
+        default { "plastique_noir_feux" }
+        help    "plastique_noir_feux (monobloc) ou feu_corps_gris (modules gris RAL 7035 observés au carrefour)."
+    }
+    parm {
+        name    "cusp"
+        label   "Angle de coupure des normales (°)"
+        type    float
+        default { "40" }
+        help    "Arêtes plus vives que cet angle : normales dures ; en dessous (congés), normales lissées."
+        range   { 0 180 }
+    }
+    parm {
+        name    "lod_pourcentage"
+        label   "LOD : polygones conservés (%)"
+        type    float
+        default { "100" }
+        help    "100 = LOD0 (aucune réduction) ; LOD1 ≈ 50 %, LOD2 ≈ 20 % (PolyReduce 2.0)."
+        range   { 1 100 }
+    }
+    parm {
+        name    "materiau"
+        label   "Matériau"
+        type    string
+        default { "plastique_noir_feux" }
+        help    "Nom du matériau (bibliothèque route_fr ou assets/lib/materiaux) posé dans l'attribut de primitive « materiau »."
+    }
+}

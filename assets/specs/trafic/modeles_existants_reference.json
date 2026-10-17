@@ -1,0 +1,2695 @@
+{
+ "description": "Paramètres et valeurs de référence des modèles existants (volet 03, état de l'art). Généré par recon/trafic/etat_art_sumo/parametres_reference.py.",
+ "format_entree": "{id, grandeur, population, loi, parametres, unite, conditions, source:{doc, page, annee}, nature, confiance}",
+ "n_entrees": 95,
+ "entrees": [
+  {
+   "id": "sumo.passenger.accel",
+   "grandeur": "accélération max choisie par le conducteur (pas la capacité du véhicule)",
+   "population": "SUMO vClass passenger (véhicule par défaut)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 2.6
+   },
+   "unite": "m/s²",
+   "conditions": "doc : « not the car's maximum acceleration possibility but rather the maximum acceleration a driver chooses »",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») ; SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.passenger.decel",
+   "grandeur": "décélération souhaitée (borne dure pour Krauss)",
+   "population": "SUMO vClass passenger (véhicule par défaut)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 4.5
+   },
+   "unite": "m/s²",
+   "conditions": "valeur par défaut",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») ; SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.passenger.emergencyDecel",
+   "grandeur": "décélération maximale physique (urgence)",
+   "population": "SUMO vClass passenger (véhicule par défaut)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 9.0
+   },
+   "unite": "m/s²",
+   "conditions": "valeur par défaut",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») ; SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.passenger.tau",
+   "grandeur": "temps inter-véhiculaire minimal désiré (Krauss : écart net arrière-meneur/avant+minGap)",
+   "population": "SUMO vClass passenger (véhicule par défaut)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.0
+   },
+   "unite": "s",
+   "conditions": "valeur par défaut",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») ; SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.passenger.minGap",
+   "grandeur": "distance à l'arrêt derrière le meneur",
+   "population": "SUMO vClass passenger (véhicule par défaut)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 2.5
+   },
+   "unite": "m",
+   "conditions": "valeur identique pour tous les véhicules (pas de dispersion)",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») ; SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.passenger.length",
+   "grandeur": "longueur",
+   "population": "SUMO vClass passenger (véhicule par défaut)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 5.0
+   },
+   "unite": "m",
+   "conditions": "valeur par défaut",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») ; SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.passenger.width",
+   "grandeur": "largeur",
+   "population": "SUMO vClass passenger (véhicule par défaut)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.8
+   },
+   "unite": "m",
+   "conditions": "valeur par défaut",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») ; SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.passenger.mass",
+   "grandeur": "masse à vide",
+   "population": "SUMO vClass passenger (véhicule par défaut)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1500
+   },
+   "unite": "kg",
+   "conditions": "valeur par défaut",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») ; SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.passenger.maxSpeed",
+   "grandeur": "vitesse max technique",
+   "population": "SUMO vClass passenger (véhicule par défaut)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 55.55
+   },
+   "unite": "m/s",
+   "conditions": "200 km/h",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») ; SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.passenger.startupDelay",
+   "grandeur": "retard supplémentaire au démarrage après arrêt",
+   "population": "SUMO vClass passenger (véhicule par défaut)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.0
+   },
+   "unite": "s",
+   "conditions": "valeur par défaut",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») ; SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.passenger.sigma",
+   "grandeur": "imperfection du conducteur Krauss (« dawdling »)",
+   "population": "SUMO vClass passenger (véhicule par défaut)",
+   "loi": "uniforme (tirage à chaque pas)",
+   "parametres": {
+    "valeur": 0.5,
+    "effet": "v <- v - sigma*accel*U(0,1)*dt (si v >= accel), MSCFModel_Krauss::dawdle2"
+   },
+   "unite": "-",
+   "conditions": "tirage renouvelé à chaque pas de simulation sauf si sigmaStep est fixé",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») ; code cfmodels/MSCFModel_Krauss.cpp",
+    "page": "dawdle2()",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.passenger.speedFactor",
+   "grandeur": "facteur multiplicatif de la limite de vitesse (vitesse désirée individuelle)",
+   "population": "SUMO vClass passenger (véhicule par défaut)",
+   "loi": "normale tronquée normc(moyenne, écart-type, min, max)",
+   "parametres": {
+    "moyenne": 1.0,
+    "ecart_type": 0.1,
+    "min": 0.2,
+    "max": 2.0
+   },
+   "unite": "-",
+   "conditions": "tiré une fois par véhicule ; ~95 % entre 0,8 et 1,2 × limite (doc)",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes »)",
+    "page": "§ Speed Distributions",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.step_length",
+   "grandeur": "pas de simulation par défaut (= temps de réaction implicite)",
+   "population": "SUMO (option --step-length)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.0
+   },
+   "unite": "s",
+   "conditions": "actionStepLength = pas par défaut ; doc : le temps de réaction est égal au pas",
+   "source": {
+    "doc": "SUMO userdoc, Car-Following-Models/index.html § Reaction time",
+    "page": "§ Reaction time",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.integration",
+   "grandeur": "schéma d'intégration par défaut",
+   "population": "SUMO",
+   "loi": "catégorielle",
+   "parametres": {
+    "valeur": "Euler semi-implicite (vitesse constante sur le pas)",
+    "alternative": "ballistic (--step-method.ballistic)"
+   },
+   "unite": "-",
+   "conditions": "doc : le ballistique est plus réaliste pour les grands pas (1 s)",
+   "source": {
+    "doc": "SUMO userdoc, Simulation/Basic_Definition.html § Defining the Integration Method",
+    "page": "§",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.truck.dynamique",
+   "grandeur": "accel/decel/emergencyDecel/longueur/masse par défaut vClass truck",
+   "population": "SUMO vClass truck",
+   "loi": "constantes",
+   "parametres": {
+    "accel": 1.3,
+    "decel": 4.0,
+    "emergencyDecel": 7.0,
+    "length": 7.1,
+    "mass": 4500
+   },
+   "unite": "m/s², m, kg",
+   "conditions": "valeurs par défaut (sources de la doc : wikis, colliseum…)",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "moyenne"
+  },
+  {
+   "id": "sumo.trailer.dynamique",
+   "grandeur": "accel/decel/emergencyDecel/longueur/masse par défaut vClass trailer",
+   "population": "SUMO vClass trailer",
+   "loi": "constantes",
+   "parametres": {
+    "accel": 1.0,
+    "decel": 4.0,
+    "emergencyDecel": 7.0,
+    "length": 16.5,
+    "mass": 13000
+   },
+   "unite": "m/s², m, kg",
+   "conditions": "valeurs par défaut (sources de la doc : wikis, colliseum…)",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "moyenne"
+  },
+  {
+   "id": "sumo.bus.dynamique",
+   "grandeur": "accel/decel/emergencyDecel/longueur/masse par défaut vClass bus",
+   "population": "SUMO vClass bus",
+   "loi": "constantes",
+   "parametres": {
+    "accel": 1.2,
+    "decel": 4.0,
+    "emergencyDecel": 7.0,
+    "length": 12.0,
+    "mass": 12000
+   },
+   "unite": "m/s², m, kg",
+   "conditions": "valeurs par défaut (sources de la doc : wikis, colliseum…)",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "moyenne"
+  },
+  {
+   "id": "sumo.motorcycle.dynamique",
+   "grandeur": "accel/decel/emergencyDecel/longueur/masse par défaut vClass motorcycle",
+   "population": "SUMO vClass motorcycle",
+   "loi": "constantes",
+   "parametres": {
+    "accel": 6.0,
+    "decel": 10.0,
+    "emergencyDecel": 10.0,
+    "length": 2.2,
+    "mass": 200
+   },
+   "unite": "m/s², m, kg",
+   "conditions": "valeurs par défaut (sources de la doc : wikis, colliseum…)",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "moyenne"
+  },
+  {
+   "id": "sumo.bicycle.dynamique",
+   "grandeur": "accel/decel/emergencyDecel/longueur/masse par défaut vClass bicycle",
+   "population": "SUMO vClass bicycle",
+   "loi": "constantes",
+   "parametres": {
+    "accel": 1.2,
+    "decel": 3.0,
+    "emergencyDecel": 7.0,
+    "length": 1.6,
+    "mass": 10
+   },
+   "unite": "m/s², m, kg",
+   "conditions": "valeurs par défaut (sources de la doc : wikis, colliseum…)",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Vehicle_Type_Parameter_Defaults.html",
+    "page": "tableaux",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "moyenne"
+  },
+  {
+   "id": "sumo.jm.jmTimegapMinor",
+   "grandeur": "marge temporelle minimale avant/après un prioritaire (non encore engagé)",
+   "population": "SUMO tous véhicules",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.0
+   },
+   "unite": "s",
+   "conditions": "MSLink::blockedByFoe : lookAhead",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») (tableau « Junction Model Parameters »)",
+    "page": "tableau",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.jm.impatience",
+   "grandeur": "impatience de base (volonté d'imposer un freinage au prioritaire)",
+   "population": "SUMO tous véhicules",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.0
+   },
+   "unite": "-",
+   "conditions": "impatience = max(0, min(1, base + attente/time-to-impatience))",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») (tableau « Junction Model Parameters »)",
+    "page": "tableau",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.jm.jmStoplineGap",
+   "grandeur": "distance d'arrêt avant une ligne de feu / prioritaire",
+   "population": "SUMO tous véhicules",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.0
+   },
+   "unite": "m",
+   "conditions": "défaut",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») (tableau « Junction Model Parameters »)",
+    "page": "tableau",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.jm.jmStoplineGapMinor",
+   "grandeur": "distance d'arrêt avant une ligne non prioritaire",
+   "population": "SUMO tous véhicules",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.0
+   },
+   "unite": "m",
+   "conditions": "défaut",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») (tableau « Junction Model Parameters »)",
+    "page": "tableau",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.jm.jmCrossingGap",
+   "grandeur": "distance minimale à un piéton se dirigeant vers le conflit",
+   "population": "SUMO tous véhicules",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 10.0
+   },
+   "unite": "m",
+   "conditions": "défaut",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») (tableau « Junction Model Parameters »)",
+    "page": "tableau",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.jm.jmDriveAfterYellowTime",
+   "grandeur": "franchissement volontaire du jaune",
+   "population": "SUMO tous véhicules",
+   "loi": "constante",
+   "parametres": {
+    "valeur": -1
+   },
+   "unite": "s",
+   "conditions": "désactivé : seuls les véhicules incapables de s'arrêter passent",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») (tableau « Junction Model Parameters »)",
+    "page": "tableau",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.jm.jmDriveAfterRedTime",
+   "grandeur": "franchissement volontaire du rouge",
+   "population": "SUMO tous véhicules",
+   "loi": "constante",
+   "parametres": {
+    "valeur": -1
+   },
+   "unite": "s",
+   "conditions": "désactivé",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») (tableau « Junction Model Parameters »)",
+    "page": "tableau",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.jm.jmIgnoreFoeProb",
+   "grandeur": "probabilité d'ignorer un prioritaire",
+   "population": "SUMO tous véhicules",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.0
+   },
+   "unite": "-",
+   "conditions": "défaut",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») (tableau « Junction Model Parameters »)",
+    "page": "tableau",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.jm.jmStopSignWait",
+   "grandeur": "durée d'arrêt minimale au STOP",
+   "population": "SUMO tous véhicules",
+   "loi": "constante",
+   "parametres": {
+    "valeur": "1 pas de simulation"
+   },
+   "unite": "s",
+   "conditions": "mesuré : 0,1 s au pas 0,1 s (S3 variante STOP)",
+   "source": {
+    "doc": "SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») (tableau « Junction Model Parameters »)",
+    "page": "tableau",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.time_to_impatience",
+   "grandeur": "temps pour que l'impatience passe de 0 à 1",
+   "population": "SUMO (option --time-to-impatience)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 180
+   },
+   "unite": "s",
+   "conditions": "la description de l'option dans MSFrame.cpp annonce 300 s mais la valeur codée est 180 s (doc userdoc : 180 s)",
+   "source": {
+    "doc": "code src/microsim/MSFrame.cpp l. 532-533 ; userdoc § Impatience",
+    "page": "l. 532",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "moyenne"
+  },
+  {
+   "id": "sumo.tls_yellow_min_decel",
+   "grandeur": "décélération minimale admise pour s'arrêter au jaune/rouge",
+   "population": "SUMO (option --tls.yellow.min-decel)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 3.0,
+    "regle": "stopDecel = max(min(3,0 ; emergencyDecel) ; decel) ; s'arrête si distance > brakeGap(v, decel)"
+   },
+   "unite": "m/s²",
+   "conditions": "décision binaire déterministe",
+   "source": {
+    "doc": "code MSFrame.cpp l. 513 ; MSVehicle.cpp l. 2792-2797 et 3766-3773",
+    "page": "lignes citées",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.turn_speed_factor",
+   "grandeur": "vitesse limite en virage dans le carrefour : sqrt(R × facteur)",
+   "population": "SUMO (netconvert --junctions.limit-turn-speed)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 5.5
+   },
+   "unite": "m/s² (accélération latérale implicite)",
+   "conditions": "v_virage = sqrt(5,5 R) ; plafonnée à la moyenne des vitesses amont/aval",
+   "source": {
+    "doc": "SUMO userdoc, Simulation/Intersections.html § Speed while passing the Intersection",
+    "page": "§",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.friction_device",
+   "grandeur": "facteur de réduction de vitesse selon le frottement perçu",
+   "population": "SUMO device.friction",
+   "loi": "fonction déterministe + bruit gaussien",
+   "parametres": {
+    "formule": "facteur = -0,3491 f² + 0,8922 f + 0,4493",
+    "stdDev_bruit": 1.0,
+    "offset": 0.0
+   },
+   "unite": "-",
+   "conditions": "f = coefficient de frottement de la voie (défaut 1)",
+   "source": {
+    "doc": "SUMO userdoc, Simulation/Friction.html",
+    "page": "§ Vehicle Behavior",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.driverstate",
+   "grandeur": "erreurs de perception (processus d'Ornstein-Uhlenbeck) — device driverstate",
+   "population": "SUMO (Krauss, IDM, ACC, CACC)",
+   "loi": "processus OU",
+   "parametres": {
+    "initialAwareness": 1.0,
+    "errorTimeScaleCoefficient": 100.0,
+    "errorNoiseIntensityCoefficient": 0.2,
+    "speedDifferenceErrorCoefficient": 0.15,
+    "headwayErrorCoefficient": 0.75,
+    "freeSpeedErrorCoefficient": 0.0,
+    "minAwareness": 0.1
+   },
+   "unite": "-",
+   "conditions": "aucun effet tant que awareness = 1 (défaut)",
+   "source": {
+    "doc": "SUMO userdoc, Driver_State.html",
+    "page": "tableau",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.treaction",
+   "grandeur": "paramètre EIDM treaction",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.5
+   },
+   "unite": "s",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.tpreview",
+   "grandeur": "paramètre EIDM tpreview",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 4.0
+   },
+   "unite": "s",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.tPersDrive",
+   "grandeur": "paramètre EIDM tPersDrive",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 3.0
+   },
+   "unite": "s",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.tPersEstimate",
+   "grandeur": "paramètre EIDM tPersEstimate",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 10.0
+   },
+   "unite": "s",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.coolness",
+   "grandeur": "paramètre EIDM coolness",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.99
+   },
+   "unite": "-",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.sigmaleader",
+   "grandeur": "paramètre EIDM sigmaleader",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.02
+   },
+   "unite": "-",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.sigmagap",
+   "grandeur": "paramètre EIDM sigmagap",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.1
+   },
+   "unite": "-",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.jerkmax",
+   "grandeur": "paramètre EIDM jerkmax",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 3.0
+   },
+   "unite": "m/s³",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.epsilonacc",
+   "grandeur": "paramètre EIDM epsilonacc",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.0
+   },
+   "unite": "m/s²",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.taccmax",
+   "grandeur": "paramètre EIDM taccmax",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.2
+   },
+   "unite": "s",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.Mflatness",
+   "grandeur": "paramètre EIDM Mflatness",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 2.0
+   },
+   "unite": "-",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.Mbegin",
+   "grandeur": "paramètre EIDM Mbegin",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.7
+   },
+   "unite": "-",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.delta",
+   "grandeur": "paramètre EIDM delta",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 4.0
+   },
+   "unite": "-",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.stepping",
+   "grandeur": "paramètre EIDM stepping",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.25
+   },
+   "unite": "s",
+   "conditions": "défaut (identique doc et code)",
+   "source": {
+    "doc": "code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF",
+    "page": "l. 56-71",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.eidm.sigmaerror",
+   "grandeur": "amplitude de l'erreur de conduite EIDM",
+   "population": "SUMO carFollowModel=EIDM",
+   "loi": "constante",
+   "parametres": {
+    "valeur_code": 0.04,
+    "valeur_doc": 0.1
+   },
+   "unite": "-",
+   "conditions": "INCOHÉRENCE doc/code : le code 1.27.1 utilise 0,04",
+   "source": {
+    "doc": "code MSCFModel_EIDM.cpp l. 66 ; userdoc tableau CF",
+    "page": "l. 66",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "faible"
+  },
+  {
+   "id": "sumo.w99",
+   "grandeur": "paramètres Wiedemann 99 (CC1-CC9) ; CC0 = minGap",
+   "population": "SUMO carFollowModel=W99",
+   "loi": "constantes",
+   "parametres": {
+    "cc1_s": 1.3,
+    "cc2_m": 8.0,
+    "cc3_s": -12.0,
+    "cc4_ms": -0.25,
+    "cc5_ms": 0.35,
+    "cc6": 6.0,
+    "cc7_ms2": 0.25,
+    "cc8_ms2": 2.0,
+    "cc9_ms2": 1.5
+   },
+   "unite": "mixtes",
+   "conditions": "défauts SUMO (proches des défauts Vissim d'après la doc)",
+   "source": {
+    "doc": "code MSCFModel_W99.cpp l. 51-61 ; userdoc tableau CF",
+    "page": "l. 51-61",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.wiedemann74",
+   "grandeur": "paramètres Wiedemann (2 paramètres)",
+   "population": "SUMO carFollowModel=Wiedemann",
+   "loi": "constantes",
+   "parametres": {
+    "security": 0.5,
+    "estimation": 0.5,
+    "AX": "length + 1 + 2·security",
+    "CX": "25·(1 + security + estimation)",
+    "D_MAX_m": 150
+   },
+   "unite": "mixtes",
+   "conditions": "défauts",
+   "source": {
+    "doc": "code MSCFModel_Wiedemann.cpp l. 45-60",
+    "page": "l. 45-60",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.acc",
+   "grandeur": "gains du modèle ACC (Milanés & Shladover 2014)",
+   "population": "SUMO carFollowModel=ACC",
+   "loi": "constantes",
+   "parametres": {
+    "speedControlGain": -0.4,
+    "gapClosingControlGainSpeed": 0.8,
+    "gapClosingControlGainSpace": 0.04,
+    "gapControlGainSpeed": 0.07,
+    "gapControlGainSpace": 0.23,
+    "collisionAvoidanceGainSpace": 0.8,
+    "collisionAvoidanceGainSpeed": 0.23,
+    "collisionAvoidanceOverride_ms": 2.0
+   },
+   "unite": "mixtes",
+   "conditions": "modes : vitesse (> 120 m), rapprochement (< 100 m), écart, anticollision",
+   "source": {
+    "doc": "SUMO userdoc, Car-Following-Models/ACC.html et tableau CF",
+    "page": "§",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.lc2013",
+   "grandeur": "paramètres de changement de voie LC2013",
+   "population": "SUMO laneChangeModel=LC2013",
+   "loi": "constantes",
+   "parametres": {
+    "lcStrategic": 1.0,
+    "lcCooperative": 1.0,
+    "lcSpeedGain": 1.0,
+    "lcKeepRight": 1.0,
+    "lcSpeedGainRight": 0.1,
+    "lcAssertive": 1.0,
+    "lcStrategicLookahead_m": 3000,
+    "lcSpeedGainRemainTime_s": 20,
+    "lcOvertakeRight": 0.0,
+    "lcSigma": 0.0,
+    "seuil_gain_vitesse_gauche": "0,2/lcSpeedGain (gain relatif cumulé)",
+    "seuil_droite": "(0,2/lcSpeedGainRight)/lcSpeedGain",
+    "KEEP_RIGHT_TIME_s": 5.0,
+    "CUT_IN_LEFT_SPEED_THRESHOLD_ms": 27.0,
+    "facteur_urgence_strategique": {
+     "gauche": 10,
+     "droite": 20
+    }
+   },
+   "unite": "mixtes",
+   "conditions": "changement de voie instantané (sans sous-voies ni --lanechange.duration)",
+   "source": {
+    "doc": "userdoc tableau LC ; code lcmodels/MSLCM_LC2013.cpp l. 48-78, 145-149 ; Erdmann 2014 p. 4",
+    "page": "l. 48-149 ; p. 4",
+    "annee": 2014
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sumo.sl2015",
+   "grandeur": "paramètres latéraux du modèle à sous-voies SL2015",
+   "population": "SUMO laneChangeModel=SL2015",
+   "loi": "constantes",
+   "parametres": {
+    "minGapLat_m": 0.6,
+    "maxSpeedLat_ms": 1.0,
+    "lcAccelLat_ms2": 1.0,
+    "lcPushy": 0.0,
+    "lcImpatience": 0.0,
+    "lcSublane": 1.0,
+    "latAlignment": "center"
+   },
+   "unite": "mixtes",
+   "conditions": "activé par --lateral-resolution",
+   "source": {
+    "doc": "SUMO userdoc, SublaneModel.html et tableau LC",
+    "page": "§",
+    "annee": 2026
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "idm.treiber2000",
+   "grandeur": "paramètres IDM « typiques » (autoroute)",
+   "population": "trafic autoroutier allemand (calage sur états congestionnés observés)",
+   "loi": "constantes",
+   "parametres": {
+    "v0_kmh": 120,
+    "T_s": 1.6,
+    "a_ms2": 0.73,
+    "b_ms2": 1.67,
+    "delta": 4,
+    "s0_m": 2.0,
+    "s1_m": 0.0,
+    "longueur_m": 5.0
+   },
+   "unite": "mixtes",
+   "conditions": "a = 0,73 m/s² ⇔ 0-100 km/h en 45 s (« accélérations quotidiennes ») ; T = 1,6 s légèrement sous la recommandation allemande 1,8 s",
+   "source": {
+    "doc": "Treiber, Hennecke, Helbing, Phys. Rev. E 62 (2000), arXiv cond-mat/0002177",
+    "page": "tableau I p. 29 ; p. 9",
+    "annee": 2000
+   },
+   "nature": "calage",
+   "confiance": "élevée"
+  },
+  {
+   "id": "acc_idm.kesting2010",
+   "grandeur": "paramètres IDM / ACC-IDM (CAH, coolness)",
+   "population": "voiture / poids lourd (simulation)",
+   "loi": "constantes",
+   "parametres": {
+    "voiture": {
+     "v0_kmh": 120,
+     "delta": 4,
+     "T_s": 1.5,
+     "s0_m": 2.0,
+     "a_ms2": 1.4,
+     "b_ms2": 2.0,
+     "c": 0.99
+    },
+    "poids_lourd": {
+     "v0_kmh": 85,
+     "delta": 4,
+     "T_s": 2.0,
+     "s0_m": 4.0,
+     "a_ms2": 0.7,
+     "b_ms2": 2.0,
+     "c": 0.99
+    }
+   },
+   "unite": "mixtes",
+   "conditions": "c réaliste dans [0,95 ; 1,00]",
+   "source": {
+    "doc": "Kesting, Treiber, Helbing, Phil. Trans. R. Soc. A 368 (2010), arXiv 0912.3613",
+    "page": "tableau 1 p. 4 ; p. 6",
+    "annee": 2010
+   },
+   "nature": "estimation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "hdm.treiber2006",
+   "grandeur": "extensions « conducteur humain » (HDM)",
+   "population": "simulations",
+   "loi": "constantes / plages",
+   "parametres": {
+    "temps_reaction_s": [
+     0.0,
+     2.0
+    ],
+    "vehicules_anticipes_na": [
+     1,
+     7
+    ],
+    "Vs_erreur_relative_distance": 0.05,
+    "rc_erreur_inverse_TTC_par_s": 0.01,
+    "tau_correlation_erreurs_s": 20,
+    "IDM_sous_jacent": {
+     "v0_kmh": 128,
+     "T_s": 1.1,
+     "a_ms2": 1.0,
+     "b_ms2": 1.5,
+     "s0_m": 2.0
+    }
+   },
+   "unite": "mixtes",
+   "conditions": "erreurs = processus de Wiener corrélés ; s_est = s·exp(Vs·w_s) ; Δv_est = Δv + s·rc·w_Δv",
+   "source": {
+    "doc": "Treiber, Kesting, Helbing, Physica A 360 (2006), arXiv cond-mat/0404736",
+    "page": "tableau 1 p. 9 ; éq. 3-7 p. 5-6",
+    "annee": 2006
+   },
+   "nature": "estimation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "idm.calage_stuttgart2008",
+   "grandeur": "IDM calé sur 3 trajectoires radar (ville, Stuttgart, 1995, heure de pointe)",
+   "population": "3 conducteurs, route urbaine à une voie",
+   "loi": "plage (min-max sur 3 jeux × 3 critères)",
+   "parametres": {
+    "T_s": [
+     1.03,
+     1.51
+    ],
+    "s0_m": [
+     1.04,
+     3.4
+    ],
+    "a_ms2": [
+     0.956,
+     1.58
+    ],
+    "b_ms2": [
+     0.614,
+     3.73
+    ],
+    "erreur_calage_pc": [
+     11,
+     29
+    ]
+   },
+   "unite": "mixtes",
+   "conditions": "ajouter un temps de réaction explicite n'améliore pas l'ajustement (anticipation) ; variabilité intra-conducteur dominante",
+   "source": {
+    "doc": "Kesting & Treiber, TRR 2088 (2008), arXiv 0803.4063",
+    "page": "tableau 1 p. 7 ; p. 1",
+    "annee": 2008
+   },
+   "nature": "calage",
+   "confiance": "élevée"
+  },
+  {
+   "id": "idm.calage_shanghai2018",
+   "grandeur": "IDM calé par conducteur (SH-NDS, voies rapides urbaines)",
+   "population": "42 conducteurs chinois, 2 100 périodes de poursuite (161 055 km)",
+   "loi": "empirique (moyenne, médiane, écart-type, p5, p95)",
+   "parametres": {
+    "a_ms2": {
+     "moyenne": 0.8418,
+     "mediane": 0.8088,
+     "ecart_type": 0.2775,
+     "p5": 0.5024,
+     "p95": 1.3222
+    },
+    "v0_kmh": {
+     "moyenne": 105.63,
+     "mediane": 101.93,
+     "ecart_type": 24.74,
+     "p5": 74.0,
+     "p95": 150.0
+    },
+    "delta": {
+     "moyenne": 3.52,
+     "mediane": 1.5,
+     "ecart_type": 3.62,
+     "p5": 1.0,
+     "p95": 10.0
+    },
+    "b_ms2": {
+     "moyenne": 0.815,
+     "mediane": 0.612,
+     "ecart_type": 0.725,
+     "p5": 0.118,
+     "p95": 2.362
+    },
+    "s0_m": {
+     "moyenne": 1.555,
+     "mediane": 1.381,
+     "ecart_type": 0.963,
+     "p5": 0.1,
+     "p95": 3.425
+    },
+    "T_s": {
+     "moyenne": 0.878,
+     "mediane": 0.946,
+     "ecart_type": 0.334,
+     "p5": 0.356,
+     "p95": 1.432
+    }
+   },
+   "unite": "mixtes",
+   "conditions": "erreur de calage 19-25 % (5 modèles) ; erreur de validation inter-conducteurs 31 % vs intra 19 % ; IDM meilleur que W99",
+   "source": {
+    "doc": "Zhu, Wang, Tarko, Fang, Transp. Res. C 93 (2018), arXiv 1811.06395",
+    "page": "tableau 2 p. 14 ; p. 17-18",
+    "annee": 2018
+   },
+   "nature": "calage",
+   "confiance": "élevée"
+  },
+  {
+   "id": "gipps.reaction_shanghai2018",
+   "grandeur": "temps de réaction du modèle de Gipps calé",
+   "population": "42 conducteurs (SH-NDS)",
+   "loi": "empirique",
+   "parametres": {
+    "moyenne": 1.2214,
+    "mediane": 1.2,
+    "ecart_type": 0.4831,
+    "p5": 0.5,
+    "p95": 2.04
+   },
+   "unite": "s",
+   "conditions": "paramètre calé (pas une mesure directe de TR)",
+   "source": {
+    "doc": "Zhu et al. 2018, arXiv 1811.06395",
+    "page": "tableau 2 p. 14",
+    "annee": 2018
+   },
+   "nature": "calage",
+   "confiance": "élevée"
+  },
+  {
+   "id": "mobil.kesting2007",
+   "grandeur": "paramètres MOBIL",
+   "population": "simulations IDM + MOBIL",
+   "loi": "constantes",
+   "parametres": {
+    "politesse_p": [
+     0.0,
+     1.0
+    ],
+    "seuil_delta_a_th_ms2": 0.1,
+    "b_safe_ms2": 4.0,
+    "biais_voie_droite_ms2": 0.3,
+    "b_max_sec_ms2": 9.0
+   },
+   "unite": "m/s²",
+   "conditions": "b_safe nettement inférieur à ~9 m/s² (décélération max sur sol sec)",
+   "source": {
+    "doc": "Kesting, Treiber, Helbing, TRR 1999 (2007), préprint",
+    "page": "tableau 1 p. 10 ; p. 6",
+    "annee": 2007
+   },
+   "nature": "estimation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "eidm.demarrage_salles2020",
+   "grandeur": "démarrage depuis l'arrêt (véhicules instrumentés)",
+   "population": ">2 000 démarrages, moteurs thermiques, véhicules d'essai (Stuttgart)",
+   "loi": "moyennes",
+   "parametres": {
+    "t_pour_1ms_s": 0.8,
+    "t_pour_amax_s": 2.3,
+    "ecart_type_accel_ms2": 0.5
+   },
+   "unite": "s ; m/s²",
+   "conditions": "ces temps comptent depuis le début du mouvement",
+   "source": {
+    "doc": "Salles, Kaufmann, Reuss, SUMO User Conf. 2020",
+    "page": "p. 14",
+    "annee": 2020
+   },
+   "nature": "mesure",
+   "confiance": "moyenne"
+  },
+  {
+   "id": "eidm.amax_salles2020",
+   "grandeur": "accélération max IDM : EIDM vs littérature",
+   "population": "comparaison de jeux de paramètres",
+   "loi": "plages",
+   "parametres": {
+    "EIDM_ms2": [
+     2.5,
+     3.5
+    ],
+    "Kovacs2016_ms2": 1.6,
+    "Kesting2008_ms2": [
+     1.5,
+     1.6
+    ],
+    "Treiber_Kesting2013b_ms2": 1.0,
+    "Dallmeyer2014_ms2": 1.5,
+    "Treiber_Kesting2013a_ms2": 1.4
+   },
+   "unite": "m/s²",
+   "conditions": "le calage sur données autoroutières donne des a faibles (aérodynamique)",
+   "source": {
+    "doc": "Salles et al. 2020",
+    "page": "tableau 4 p. 19",
+    "annee": 2020
+   },
+   "nature": "calage",
+   "confiance": "moyenne"
+  },
+  {
+   "id": "file.jiang2014",
+   "grandeur": "écart-type de vitesse par rang dans une file de 25 voitures",
+   "population": "expérience sur route ouverte (Chine), meneur à 50 km/h",
+   "loi": "lecture graphique",
+   "parametres": {
+    "rang_1": 0.84,
+    "rang_9": 1.3,
+    "rangs_20_25": 1.5
+   },
+   "unite": "m/s",
+   "conditions": "croissance linéaire à basse vitesse, concave à vitesse plus élevée (p. 6)",
+   "source": {
+    "doc": "Jiang et al., PLoS ONE 9(4) e94351 (2014)",
+    "page": "fig. 5D p. 7 ; p. 6",
+    "annee": 2014
+   },
+   "nature": "mesure",
+   "confiance": "moyenne"
+  },
+  {
+   "id": "file.sugiyama2008",
+   "grandeur": "formation spontanée d'un bouchon sans goulot",
+   "population": "22 véhicules sur un circuit de 230 m",
+   "loi": "observation",
+   "parametres": {
+    "n_vehicules": 22,
+    "circonference_m": 230
+   },
+   "unite": "-",
+   "conditions": "bouchon apparu puis se propageant sur le circuit",
+   "source": {
+    "doc": "Sugiyama et al., New J. Phys. 10, 033001 (2008)",
+    "page": "p. 3-4",
+    "annee": 2008
+   },
+   "nature": "mesure",
+   "confiance": "élevée"
+  },
+  {
+   "id": "r157.ccdm",
+   "grandeur": "conducteur « compétent et prudent » CCDM (ONU R157, annexe 3) — coupure de trajectoire",
+   "population": "modèle de référence réglementaire",
+   "loi": "constantes",
+   "parametres": {
+    "zone_errance_m": 0.375,
+    "temps_perception_s": 0.4,
+    "delai_freinage_s": 0.75,
+    "TTC_declenchement_s": 2.0,
+    "decel_ms2": 7.6,
+    "montee_s": 0.6,
+    "jerk_ms3": 12.65
+   },
+   "unite": "mixtes",
+   "conditions": "valeurs relevées par Olleja et al. dans R157 ; R157 non téléchargeable (HTTP 403 sur unece.org)",
+   "source": {
+    "doc": "Olleja, Markkula, Bärgman 2024, arXiv 2406.09493",
+    "page": "p. 5-6",
+    "annee": 2024
+   },
+   "nature": "norme",
+   "confiance": "moyenne"
+  },
+  {
+   "id": "r157.fsm",
+   "grandeur": "Fuzzy Safety Model (ONU R157)",
+   "population": "modèle de référence réglementaire",
+   "loi": "constantes",
+   "parametres": {
+    "decel_confort_ms2": 4.0,
+    "decel_max_ms2": 6.0,
+    "jerk_ms3": 12.65
+   },
+   "unite": "m/s², m/s³",
+   "conditions": "freinage proportionnel au risque (métriques PFS/CFS)",
+   "source": {
+    "doc": "Olleja et al. 2024, arXiv 2406.09493",
+    "page": "p. 6",
+    "annee": 2024
+   },
+   "nature": "norme",
+   "confiance": "moyenne"
+  },
+  {
+   "id": "r157.validation_olleja2024",
+   "grandeur": "comparaison CCDM/FSM vs conducteurs réels (38 quasi-accidents SHRP2)",
+   "population": "38 quasi-accidents de coupure SHRP2",
+   "loi": "résultats",
+   "parametres": {
+    "CCDM": "freinage plus tardif que l'humain ; collisions dans 3 quasi-accidents",
+    "FSM_reagit_avant_humain_pc": 74,
+    "FSM_mediane_avance_s": 0.7
+   },
+   "unite": "-",
+   "conditions": "les modèles réglementaires ne reproduisent pas le comportement humain",
+   "source": {
+    "doc": "Olleja et al. 2024, arXiv 2406.09493",
+    "page": "p. 1, 9",
+    "annee": 2024
+   },
+   "nature": "mesure",
+   "confiance": "élevée"
+  },
+  {
+   "id": "vehicule.bicyclette_cinematique_validite",
+   "grandeur": "domaine de validité du modèle bicyclette cinématique",
+   "population": "véhicule particulier",
+   "loi": "seuil",
+   "parametres": {
+    "a_lat_max": "0,5 µ g"
+   },
+   "unite": "m/s²",
+   "conditions": "au-delà, utiliser un modèle dynamique (dérives des pneus)",
+   "source": {
+    "doc": "Polack et al. 2018, arXiv 1804.08290 (renvoie à Polack et al. IV 2017)",
+    "page": "p. 1-2",
+    "annee": 2018
+   },
+   "nature": "estimation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "reference.saturation_fr",
+   "grandeur": "saturation fr",
+   "population": "voir conditions",
+   "loi": "valeur(s)",
+   "parametres": {
+    "valeur": 1800.0
+   },
+   "unite": "uvpd/h/voie (=> 2,0 s/véh)",
+   "conditions": "norme (valeur moyenne de dimensionnement)",
+   "source": {
+    "doc": "CERTU, Guide de conception des carrefours à feux, 2010, p. 34 (§4.8)",
+    "page": "voir doc",
+    "annee": null
+   },
+   "nature": "norme",
+   "confiance": "élevée"
+  },
+  {
+   "id": "reference.jaune_fr",
+   "grandeur": "jaune fr",
+   "population": "voir conditions",
+   "loi": "valeur(s)",
+   "parametres": {
+    "valeur": 3.0
+   },
+   "unite": "s",
+   "conditions": "norme (réglementation, en agglomération)",
+   "source": {
+    "doc": "CERTU, Guide de conception des carrefours à feux, 2010, p. 68",
+    "page": "voir doc",
+    "annee": null
+   },
+   "nature": "norme",
+   "confiance": "élevée"
+  },
+  {
+   "id": "reference.temps_perdu_demarrage",
+   "grandeur": "temps perdu demarrage",
+   "population": "voir conditions",
+   "loi": "valeur(s)",
+   "parametres": {
+    "valeur": 2.0
+   },
+   "unite": "s",
+   "conditions": "valeur usuelle (« commonly assumed »)",
+   "source": {
+    "doc": "FHWA Traffic Signal Timing Manual, FHWA-HOP-08-024, 2008, p. 3-5",
+    "page": "voir doc",
+    "annee": null
+   },
+   "nature": "estimation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "reference.zone_indecision",
+   "grandeur": "zone indecision",
+   "population": "voir conditions",
+   "loi": "valeur(s)",
+   "parametres": {
+    "valeur": {
+     "P_arret_90pc_TTS_s": 5.5,
+     "P_arret_10pc_TTS_s": 2.5
+    }
+   },
+   "unite": "s (temps jusqu'à la ligne)",
+   "conditions": "synthèse de mesures (Zegeer & Deen ; ITE ; Chang et al.)",
+   "source": {
+    "doc": "FHWA Traffic Signal Timing Manual, 2008, p. 4-25 (fig. 4-18/4-19)",
+    "page": "voir doc",
+    "annee": null
+   },
+   "nature": "mesure",
+   "confiance": "élevée"
+  },
+  {
+   "id": "reference.chang_85pc",
+   "grandeur": "chang 85pc",
+   "population": "voir conditions",
+   "loi": "valeur(s)",
+   "parametres": {
+    "valeur": {
+     "TTS_s": 3.0,
+     "P_arret": 0.85,
+     "TTS_passe_s": 2.0
+    }
+   },
+   "unite": "s",
+   "conditions": "mesure (Chang et al., cité)",
+   "source": {
+    "doc": "FHWA Traffic Signal Timing Manual, 2008, p. 4-25",
+    "page": "voir doc",
+    "annee": null
+   },
+   "nature": "mesure",
+   "confiance": "élevée"
+  },
+  {
+   "id": "reference.decel_ite_jaune",
+   "grandeur": "decel ite jaune",
+   "population": "voir conditions",
+   "loi": "valeur(s)",
+   "parametres": {
+    "valeur": 3.05
+   },
+   "unite": "m/s² (10 ft/s²)",
+   "conditions": "valeur de dimensionnement souvent citée (ITE)",
+   "source": {
+    "doc": "FHWA Traffic Signal Timing Manual, 2008, p. 5-13 (éq. 5-3, PDF p. 138)",
+    "page": "voir doc",
+    "annee": null
+   },
+   "nature": "norme",
+   "confiance": "élevée"
+  },
+  {
+   "id": "reference.decel_cerema_arret",
+   "grandeur": "decel cerema arret",
+   "population": "voir conditions",
+   "loi": "valeur(s)",
+   "parametres": {
+    "valeur": {
+     "30-50 km/h": 4.512600000000001,
+     "70 km/h": 4.316400000000001
+    }
+   },
+   "unite": "m/s²",
+   "conditions": "norme de conception (distance d'arrêt, TPR 1,8 s)",
+   "source": {
+    "doc": "Cerema, Révision des règles sur la visibilité, oct. 2018, p. 13 (§3.2)",
+    "page": "voir doc",
+    "annee": null
+   },
+   "nature": "norme",
+   "confiance": "élevée"
+  },
+  {
+   "id": "reference.creneau_critique_fr",
+   "grandeur": "creneau critique fr",
+   "population": "voir conditions",
+   "loi": "valeur(s)",
+   "parametres": {
+    "valeur": {
+     "30 km/h": 4.0,
+     "50 km/h": 5.0,
+     "70 km/h": 6.0
+    }
+   },
+   "unite": "s",
+   "conditions": "norme (insertion TAD/TAG, voie principale à sens unique ou TAD double sens)",
+   "source": {
+    "doc": "CERTU, Carrefours urbains, 2010, p. 93",
+    "page": "voir doc",
+    "annee": null
+   },
+   "nature": "norme",
+   "confiance": "élevée"
+  },
+  {
+   "id": "reference.cerema_TPR",
+   "grandeur": "temps de perception-réaction de conception",
+   "population": "conception routière FR",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.8
+   },
+   "unite": "s",
+   "conditions": "distance d'arrêt d_a = (T_PR·v + (1+m_c)·v²/(2g(γv+p)))·K",
+   "source": {
+    "doc": "Cerema, Révision des règles sur la visibilité (oct. 2018)",
+    "page": "p. 13",
+    "annee": 2018
+   },
+   "nature": "norme",
+   "confiance": "élevée"
+  },
+  {
+   "id": "carla_tm.constantes",
+   "grandeur": "constantes du Traffic Manager CARLA 0.9.15",
+   "population": "PNJ CARLA en autopilot",
+   "loi": "constantes",
+   "parametres": {
+    "distance_marge_defaut_m": 2.0,
+    "distance_suivi": "2,0 s × v + 2,0 m",
+    "vitesse_approche_relative_kmh": 12,
+    "marge_freinage_critique_m": 0.2,
+    "ralentissement_max_par_trame": "8 % de v",
+    "vitesse_virage": "sqrt(R × 0,6 × 9,81)",
+    "vitesse_cible_feu_kmh": 15,
+    "vitesse_cible_stop_kmh": 10,
+    "attente_min_carrefour_non_signale_s": 2.0,
+    "un_seul_vehicule_dans_carrefour_non_signale": true,
+    "ecart_limite_vitesse_global_pc_code": 0.0,
+    "ecart_limite_doc": "« 70 % de la limite » (doc) — incohérent avec le code (0 %)",
+    "PID_long": [
+     12.0,
+     0.05,
+     0.02
+    ],
+    "PID_lat": [
+     4.0,
+     0.02,
+     0.08
+    ],
+    "throttle_max": 0.85,
+    "frein_max": 0.7,
+    "dt_PID_s": 0.05
+   },
+   "unite": "mixtes",
+   "conditions": "carrefours non signalés : premier arrivé premier servi, attentes fixes (doc)",
+   "source": {
+    "doc": "CARLA 0.9.15 : Constants.h, Parameters.h l. 47 et 77, MotionPlanStage.cpp l. 308-388 et 405-421, TrafficLightStage.cpp l. 119-128, adv_traffic_manager.md",
+    "page": "lignes citées",
+    "annee": 2023
+   },
+   "nature": "défaut logiciel",
+   "confiance": "élevée"
+  },
+  {
+   "id": "masstraffic.reglages",
+   "grandeur": "réglages par défaut MassTraffic (City Sample UE 5.7), convertis en SI",
+   "population": "PNJ MassTraffic",
+   "loi": "uniforme par véhicule (RandomFraction) + bruit",
+   "parametres": {
+    "accel_ms2": 3.0,
+    "variance_accel_pc": 10,
+    "decel_ms2": 20.0,
+    "variance_decel_pc": 10,
+    "variance_sous_limite_pc": 35,
+    "bruit_vitesse_pc": 10,
+    "temps_ideal_vehicule_suivant_s": [
+     1.5,
+     2.0
+    ],
+    "distance_min_vehicule_suivant_m": [
+     0.8,
+     5.0
+    ],
+    "distance_arret_feu_m": [
+     0.5,
+     3.5
+    ],
+    "temps_freinage_stop_s": 4.0,
+    "duree_jaune_s": 2.0,
+    "facteur_vitesse_virage": 0.5,
+    "decision_changement_voie_s": [
+     30,
+     60
+    ],
+    "duree_changement_voie_s": 3.0
+   },
+   "unite": "mixtes",
+   "conditions": "modèle cinématique de commande (cible de vitesse + PID), pas de modèle de conducteur",
+   "source": {
+    "doc": "Plugins/Traffic/Source/MassTraffic/Public/MassTrafficSettings.h (l. 96-400) et MassTrafficIntersections.h l. 321-323",
+    "page": "lignes citées",
+    "annee": null
+   },
+   "nature": "défaut logiciel",
+   "confiance": "moyenne"
+  },
+  {
+   "id": "sim.S1.krauss_pas1s",
+   "grandeur": "file de 10 véhicules à 50 km/h (meneur piloté)",
+   "population": "SUMO Krauss (défaut), pas 1 s, 5 graines",
+   "loi": "empirique",
+   "parametres": {
+    "temps_inter_net_s": {
+     "p5": 1.196,
+     "p25": 1.3,
+     "p50": 1.378,
+     "p75": 1.47,
+     "p95": 2.113,
+     "n": 1350,
+     "moyenne": 1.442,
+     "ecart_type": 0.249,
+     "min": 1.049,
+     "max": 2.228
+    },
+    "jerk_abs_ms3": {
+     "p50": 1.045,
+     "p90": 2.873,
+     "p95": 3.531,
+     "p99": 4.648,
+     "n": 8910,
+     "moyenne": 1.3,
+     "ecart_type": 1.109,
+     "min": 0.0,
+     "max": 6.906
+    },
+    "part_pas_jerk_sup_1.5": 0.3515,
+    "distance_arret_m": {
+     "p5": 2.501,
+     "p25": 2.501,
+     "p50": 2.501,
+     "p75": 2.502,
+     "p95": 2.503,
+     "n": 17,
+     "moyenne": 2.502,
+     "ecart_type": 0.001,
+     "min": 2.501,
+     "max": 2.506
+    },
+    "ecart_type_vitesse_par_rang_ms": {
+     "1": 0.392,
+     "2": 0.55,
+     "3": 0.639,
+     "4": 0.713,
+     "5": 0.822,
+     "6": 0.785,
+     "7": 0.793,
+     "8": 0.871,
+     "9": 0.793
+    },
+    "retard_redemarrage_par_rang_s": {
+     "1": 1.0,
+     "2": 1.0,
+     "3": 1.0,
+     "4": 1.0,
+     "5": 1.0,
+     "6": 1.0,
+     "7": 1.0,
+     "8": 1.0,
+     "9": 1.0
+    }
+   },
+   "unite": "s, m/s³, m, m/s",
+   "conditions": "suiveurs speedFactor 1,2 sans dispersion",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S1_resume.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S1.krauss_pas01s",
+   "grandeur": "file de 10 véhicules à 50 km/h (meneur piloté)",
+   "population": "SUMO Krauss (défaut), pas 0,1 s, 5 graines",
+   "loi": "empirique",
+   "parametres": {
+    "temps_inter_net_s": {
+     "p5": 1.188,
+     "p25": 1.194,
+     "p50": 1.198,
+     "p75": 1.203,
+     "p95": 1.971,
+     "n": 13500,
+     "moyenne": 1.283,
+     "ecart_type": 0.243,
+     "min": 1.176,
+     "max": 1.98
+    },
+    "jerk_abs_ms3": {
+     "p50": 8.053,
+     "p90": 20.539,
+     "p95": 24.476,
+     "p99": 32.224,
+     "n": 89550,
+     "moyenne": 9.642,
+     "ecart_type": 7.698,
+     "min": 0.0,
+     "max": 52.535
+    },
+    "part_pas_jerk_sup_1.5": 0.8676,
+    "distance_arret_m": {
+     "p5": 2.503,
+     "p25": 2.503,
+     "p50": 2.505,
+     "p75": 2.507,
+     "p95": 2.507,
+     "n": 10,
+     "moyenne": 2.505,
+     "ecart_type": 0.002,
+     "min": 2.503,
+     "max": 2.507
+    },
+    "ecart_type_vitesse_par_rang_ms": {
+     "1": 0.039,
+     "2": 0.049,
+     "3": 0.054,
+     "4": 0.057,
+     "5": 0.06,
+     "6": 0.065,
+     "7": 0.069,
+     "8": 0.078,
+     "9": 0.085
+    },
+    "retard_redemarrage_par_rang_s": {
+     "1": 0.6,
+     "2": 0.6,
+     "3": 0.7,
+     "4": 0.7,
+     "5": null,
+     "6": null,
+     "7": null,
+     "8": null,
+     "9": null
+    }
+   },
+   "unite": "s, m/s³, m, m/s",
+   "conditions": "suiveurs speedFactor 1,2 sans dispersion",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S1_resume.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S1.eidm_pas01s",
+   "grandeur": "file de 10 véhicules à 50 km/h (meneur piloté)",
+   "population": "SUMO EIDM (défaut), pas 0,1 s, 5 graines",
+   "loi": "empirique",
+   "parametres": {
+    "temps_inter_net_s": {
+     "p5": 1.108,
+     "p25": 1.165,
+     "p50": 1.207,
+     "p75": 1.255,
+     "p95": 1.307,
+     "n": 13500,
+     "moyenne": 1.208,
+     "ecart_type": 0.062,
+     "min": 1.004,
+     "max": 1.385
+    },
+    "jerk_abs_ms3": {
+     "p50": 0.281,
+     "p90": 0.83,
+     "p95": 1.063,
+     "p99": 1.828,
+     "n": 89550,
+     "moyenne": 0.381,
+     "ecart_type": 0.415,
+     "min": 0.0,
+     "max": 9.824
+    },
+    "part_pas_jerk_sup_1.5": 0.0181,
+    "distance_arret_m": {
+     "p5": 2.564,
+     "p25": 2.67,
+     "p50": 2.736,
+     "p75": 2.854,
+     "p95": 2.997,
+     "n": 33,
+     "moyenne": 2.755,
+     "ecart_type": 0.134,
+     "min": 2.478,
+     "max": 3.039
+    },
+    "ecart_type_vitesse_par_rang_ms": {
+     "1": 0.108,
+     "2": 0.15,
+     "3": 0.184,
+     "4": 0.174,
+     "5": 0.226,
+     "6": 0.247,
+     "7": 0.288,
+     "8": 0.267,
+     "9": 0.294
+    },
+    "retard_redemarrage_par_rang_s": {
+     "1": 1.2,
+     "2": 1.1,
+     "3": 1.1,
+     "4": 1.1,
+     "5": 1.1,
+     "6": 1.1,
+     "7": 1.1,
+     "8": 1.2,
+     "9": 1.1
+    }
+   },
+   "unite": "s, m/s³, m, m/s",
+   "conditions": "suiveurs speedFactor 1,2 sans dispersion",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S1_resume.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S2.krauss_pas1s",
+   "grandeur": "feu isolé 50 km/h : jaune, freinage, écoulement",
+   "population": "SUMO Krauss (défaut), pas 1 s, 8 graines",
+   "loi": "empirique",
+   "parametres": {
+    "TTS_max_passage_s": 1.0381569474442014,
+    "TTS_min_arret_s": 0.6833527357392322,
+    "decel_max_premier_arret_ms2": {
+     "p5": 3.8,
+     "p25": 4.26,
+     "p50": 4.5,
+     "p75": 4.5,
+     "p95": 4.5,
+     "n": 217,
+     "moyenne": 4.347,
+     "ecart_type": 0.247,
+     "min": 3.22,
+     "max": 4.5
+    },
+    "intervalle_saturation_s": 1.954,
+    "debit_saturation_veh_h": 1843.0,
+    "temps_perdu_demarrage_s": 0.58,
+    "franchissements_rouge": 0
+   },
+   "unite": "s, m/s², véh/h",
+   "conditions": "cycle 60 s, jaune 3 s, arrivées de Poisson 720 véh/h",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S2_resume.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S2.krauss_pas01s",
+   "grandeur": "feu isolé 50 km/h : jaune, freinage, écoulement",
+   "population": "SUMO Krauss (défaut), pas 0,1 s, 8 graines",
+   "loi": "empirique",
+   "parametres": {
+    "TTS_max_passage_s": 1.5729099157485407,
+    "TTS_min_arret_s": 1.146641438032167,
+    "decel_max_premier_arret_ms2": {
+     "p5": 4.5,
+     "p25": 4.5,
+     "p50": 4.5,
+     "p75": 4.5,
+     "p95": 4.5,
+     "n": 200,
+     "moyenne": 4.503,
+     "ecart_type": 0.016,
+     "min": 4.5,
+     "max": 4.6
+    },
+    "intervalle_saturation_s": 1.598,
+    "debit_saturation_veh_h": 2253.0,
+    "temps_perdu_demarrage_s": 0.48,
+    "franchissements_rouge": 0
+   },
+   "unite": "s, m/s², véh/h",
+   "conditions": "cycle 60 s, jaune 3 s, arrivées de Poisson 720 véh/h",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S2_resume.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S2.eidm_pas01s",
+   "grandeur": "feu isolé 50 km/h : jaune, freinage, écoulement",
+   "population": "SUMO EIDM (défaut), pas 0,1 s, 8 graines",
+   "loi": "empirique",
+   "parametres": {
+    "TTS_max_passage_s": 1.31646380525304,
+    "TTS_min_arret_s": 1.159315931593159,
+    "decel_max_premier_arret_ms2": {
+     "p5": 3.427,
+     "p25": 3.73,
+     "p50": 4.02,
+     "p75": 5.018,
+     "p95": 8.96,
+     "n": 208,
+     "moyenne": 4.819,
+     "ecart_type": 1.73,
+     "min": 3.28,
+     "max": 9.0
+    },
+    "intervalle_saturation_s": 1.983,
+    "debit_saturation_veh_h": 1816.0,
+    "temps_perdu_demarrage_s": 1.32,
+    "franchissements_rouge": 0
+   },
+   "unite": "s, m/s², véh/h",
+   "conditions": "cycle 60 s, jaune 3 s, arrivées de Poisson 720 véh/h",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S2_resume.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S3.cedez.krauss_pas1s",
+   "grandeur": "insertion TAD depuis voie secondaire (créneau critique)",
+   "population": "SUMO Krauss (défaut), pas 1 s, cedez, 6 graines",
+   "loi": "log-normale (MLE Troutbeck) + empirique",
+   "parametres": {
+    "creneau_critique_MLE_arretes": {
+     "moyenne_s": 13.224,
+     "ecart_type_s": 2.725,
+     "mu_log": 2.5612,
+     "sigma_log": 0.204,
+     "n_conducteurs": 128
+    },
+    "creneau_accepte_arretes_s": {
+     "p5": 8.46,
+     "p25": 12.218,
+     "p50": 14.927,
+     "p75": 18.831,
+     "p95": 29.069,
+     "n": 179,
+     "moyenne": 16.273,
+     "ecart_type": 6.602,
+     "min": 6.249,
+     "max": 52.985
+    },
+    "plus_grand_refuse_arretes_s": {
+     "p5": 4.643,
+     "p25": 8.194,
+     "p50": 10.695,
+     "p75": 13.882,
+     "p95": 19.434,
+     "n": 179,
+     "moyenne": 11.439,
+     "ecart_type": 4.546,
+     "min": 2.672,
+     "max": 29.065
+    },
+    "attente_s": {
+     "p5": 0.177,
+     "p25": 0.366,
+     "p50": 0.56,
+     "p75": 23.95,
+     "p95": 45.2,
+     "n": 554,
+     "moyenne": 11.325,
+     "ecart_type": 17.077,
+     "min": 0.049,
+     "max": 69.2
+    },
+    "duree_arret_ligne_s": {
+     "p5": 14.9,
+     "p25": 23.0,
+     "p50": 31.0,
+     "p75": 40.0,
+     "p95": 55.0,
+     "n": 179,
+     "moyenne": 31.989,
+     "ecart_type": 12.286,
+     "min": 1.0,
+     "max": 67.0
+    },
+    "part_arret_complet": 0.323,
+    "creneau_critique_MLE_depuis_arret_entree": {
+     "moyenne_s": 13.172,
+     "ecart_type_s": 2.655,
+     "mu_log": 2.5582,
+     "sigma_log": 0.1996,
+     "n_conducteurs": 129
+    },
+    "creneau_critique_MLE_depuis_arret_point_conflit": {
+     "moyenne_s": 13.253,
+     "ecart_type_s": 2.659,
+     "mu_log": 2.5645,
+     "sigma_log": 0.1987,
+     "n_conducteurs": 129
+    }
+   },
+   "unite": "s",
+   "conditions": "flux prioritaire 600 véh/h/sens, secondaire 180 véh/h",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S3_resume.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S3.cedez.krauss_pas01s",
+   "grandeur": "insertion TAD depuis voie secondaire (créneau critique)",
+   "population": "SUMO Krauss (défaut), pas 0,1 s, cedez, 6 graines",
+   "loi": "log-normale (MLE Troutbeck) + empirique",
+   "parametres": {
+    "creneau_critique_MLE_arretes": {
+     "moyenne_s": 12.982,
+     "ecart_type_s": 3.338,
+     "mu_log": 2.5315,
+     "sigma_log": 0.253,
+     "n_conducteurs": 139
+    },
+    "creneau_accepte_arretes_s": {
+     "p5": 8.438,
+     "p25": 11.413,
+     "p50": 15.009,
+     "p75": 19.727,
+     "p95": 31.277,
+     "n": 185,
+     "moyenne": 16.825,
+     "ecart_type": 7.853,
+     "min": 7.185,
+     "max": 59.241
+    },
+    "plus_grand_refuse_arretes_s": {
+     "p5": 4.537,
+     "p25": 7.954,
+     "p50": 10.4,
+     "p75": 13.34,
+     "p95": 20.16,
+     "n": 185,
+     "moyenne": 11.074,
+     "ecart_type": 4.686,
+     "min": 1.293,
+     "max": 25.441
+    },
+    "attente_s": {
+     "p5": 0.337,
+     "p25": 0.4,
+     "p50": 0.476,
+     "p75": 0.898,
+     "p95": 39.818,
+     "n": 742,
+     "moyenne": 8.06,
+     "ecart_type": 14.743,
+     "min": 0.3,
+     "max": 85.8
+    },
+    "duree_arret_ligne_s": {
+     "p5": 12.02,
+     "p25": 21.5,
+     "p50": 28.5,
+     "p75": 36.5,
+     "p95": 50.82,
+     "n": 185,
+     "moyenne": 29.632,
+     "ecart_type": 13.167,
+     "min": 1.0,
+     "max": 84.4
+    },
+    "part_arret_complet": 0.249,
+    "creneau_critique_MLE_depuis_arret_entree": {
+     "moyenne_s": 12.95,
+     "ecart_type_s": 3.334,
+     "mu_log": 2.529,
+     "sigma_log": 0.2533,
+     "n_conducteurs": 139
+    },
+    "creneau_critique_MLE_depuis_arret_point_conflit": {
+     "moyenne_s": 12.943,
+     "ecart_type_s": 3.326,
+     "mu_log": 2.5285,
+     "sigma_log": 0.2529,
+     "n_conducteurs": 141
+    }
+   },
+   "unite": "s",
+   "conditions": "flux prioritaire 600 véh/h/sens, secondaire 180 véh/h",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S3_resume.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S3.cedez.eidm_pas01s",
+   "grandeur": "insertion TAD depuis voie secondaire (créneau critique)",
+   "population": "SUMO EIDM (défaut), pas 0,1 s, cedez, 6 graines",
+   "loi": "log-normale (MLE Troutbeck) + empirique",
+   "parametres": {
+    "creneau_critique_MLE_arretes": {
+     "moyenne_s": 12.431,
+     "ecart_type_s": 2.992,
+     "mu_log": 2.492,
+     "sigma_log": 0.2373,
+     "n_conducteurs": 140
+    },
+    "creneau_accepte_arretes_s": {
+     "p5": 8.322,
+     "p25": 10.595,
+     "p50": 13.699,
+     "p75": 19.264,
+     "p95": 29.083,
+     "n": 217,
+     "moyenne": 15.725,
+     "ecart_type": 7.077,
+     "min": 6.919,
+     "max": 44.886
+    },
+    "plus_grand_refuse_arretes_s": {
+     "p5": 4.883,
+     "p25": 8.448,
+     "p50": 10.85,
+     "p75": 14.94,
+     "p95": 19.406,
+     "n": 217,
+     "moyenne": 11.723,
+     "ecart_type": 4.569,
+     "min": 1.683,
+     "max": 25.347
+    },
+    "attente_s": {
+     "p5": 0.702,
+     "p25": 0.815,
+     "p50": 0.964,
+     "p75": 24.05,
+     "p95": 46.0,
+     "n": 726,
+     "moyenne": 11.252,
+     "ecart_type": 17.257,
+     "min": 0.624,
+     "max": 91.12
+    },
+    "duree_arret_ligne_s": {
+     "p5": 13.98,
+     "p25": 23.5,
+     "p50": 30.5,
+     "p75": 39.0,
+     "p95": 51.6,
+     "n": 217,
+     "moyenne": 31.727,
+     "ecart_type": 13.005,
+     "min": 1.6,
+     "max": 87.4
+    },
+    "part_arret_complet": 0.299,
+    "creneau_critique_MLE_depuis_arret_entree": {
+     "moyenne_s": 12.384,
+     "ecart_type_s": 2.97,
+     "mu_log": 2.4884,
+     "sigma_log": 0.2365,
+     "n_conducteurs": 142
+    },
+    "creneau_critique_MLE_depuis_arret_point_conflit": {
+     "moyenne_s": 12.453,
+     "ecart_type_s": 2.987,
+     "mu_log": 2.494,
+     "sigma_log": 0.2365,
+     "n_conducteurs": 142
+    }
+   },
+   "unite": "s",
+   "conditions": "flux prioritaire 600 véh/h/sens, secondaire 180 véh/h",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S3_resume.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S3.stop.krauss_pas1s",
+   "grandeur": "insertion TAD depuis voie secondaire (créneau critique)",
+   "population": "SUMO Krauss (défaut), pas 1 s, stop, 6 graines",
+   "loi": "log-normale (MLE Troutbeck) + empirique",
+   "parametres": {
+    "creneau_critique_MLE_arretes": {
+     "moyenne_s": 13.95,
+     "ecart_type_s": 2.814,
+     "mu_log": 2.6155,
+     "sigma_log": 0.1997,
+     "n_conducteurs": 221
+    },
+    "creneau_accepte_arretes_s": {
+     "p5": 8.239,
+     "p25": 11.208,
+     "p50": 14.666,
+     "p75": 19.361,
+     "p95": 30.877,
+     "n": 374,
+     "moyenne": 16.421,
+     "ecart_type": 7.749,
+     "min": 6.101,
+     "max": 59.471
+    },
+    "plus_grand_refuse_arretes_s": {
+     "p5": 6.88,
+     "p25": 10.14,
+     "p50": 12.589,
+     "p75": 16.073,
+     "p95": 23.471,
+     "n": 364,
+     "moyenne": 13.537,
+     "ecart_type": 4.85,
+     "min": 4.723,
+     "max": 29.346
+    },
+    "attente_s": {
+     "p5": 16.2,
+     "p25": 27.2,
+     "p50": 35.2,
+     "p75": 43.2,
+     "p95": 53.2,
+     "n": 375,
+     "moyenne": 34.598,
+     "ecart_type": 11.805,
+     "min": 2.22,
+     "max": 69.2
+    },
+    "duree_arret_ligne_s": {
+     "p5": 14.65,
+     "p25": 25.0,
+     "p50": 33.0,
+     "p75": 41.0,
+     "p95": 51.0,
+     "n": 374,
+     "moyenne": 32.537,
+     "ecart_type": 11.688,
+     "min": 1.0,
+     "max": 66.0
+    },
+    "part_arret_complet": 0.997,
+    "creneau_critique_MLE_depuis_arret_entree": {
+     "moyenne_s": 13.174,
+     "ecart_type_s": 2.638,
+     "mu_log": 2.5586,
+     "sigma_log": 0.1983,
+     "n_conducteurs": 246
+    },
+    "creneau_critique_MLE_depuis_arret_point_conflit": {
+     "moyenne_s": 13.427,
+     "ecart_type_s": 2.735,
+     "mu_log": 2.5769,
+     "sigma_log": 0.2016,
+     "n_conducteurs": 240
+    }
+   },
+   "unite": "s",
+   "conditions": "flux prioritaire 600 véh/h/sens, secondaire 180 véh/h",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S3_resume.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S3.stop.krauss_pas01s",
+   "grandeur": "insertion TAD depuis voie secondaire (créneau critique)",
+   "population": "SUMO Krauss (défaut), pas 0,1 s, stop, 6 graines",
+   "loi": "log-normale (MLE Troutbeck) + empirique",
+   "parametres": {
+    "creneau_critique_MLE_arretes": {
+     "moyenne_s": 13.328,
+     "ecart_type_s": 3.182,
+     "mu_log": 2.5621,
+     "sigma_log": 0.2354,
+     "n_conducteurs": 270
+    },
+    "creneau_accepte_arretes_s": {
+     "p5": 8.128,
+     "p25": 10.596,
+     "p50": 14.26,
+     "p75": 19.617,
+     "p95": 33.707,
+     "n": 448,
+     "moyenne": 16.757,
+     "ecart_type": 8.719,
+     "min": 6.103,
+     "max": 59.241
+    },
+    "plus_grand_refuse_arretes_s": {
+     "p5": 6.371,
+     "p25": 9.373,
+     "p50": 12.232,
+     "p75": 15.499,
+     "p95": 23.404,
+     "n": 417,
+     "moyenne": 13.086,
+     "ecart_type": 5.035,
+     "min": 3.994,
+     "max": 29.507
+    },
+    "attente_s": {
+     "p5": 1.438,
+     "p25": 21.038,
+     "p50": 29.438,
+     "p75": 37.938,
+     "p95": 47.558,
+     "n": 448,
+     "moyenne": 29.168,
+     "ecart_type": 12.599,
+     "min": 1.3,
+     "max": 85.8
+    },
+    "duree_arret_ligne_s": {
+     "p5": 0.1,
+     "p25": 19.7,
+     "p50": 28.1,
+     "p75": 36.6,
+     "p95": 46.22,
+     "n": 448,
+     "moyenne": 27.833,
+     "ecart_type": 12.596,
+     "min": 0.1,
+     "max": 84.4
+    },
+    "part_arret_complet": 1.0,
+    "creneau_critique_MLE_depuis_arret_entree": {
+     "moyenne_s": 12.911,
+     "ecart_type_s": 3.014,
+     "mu_log": 2.5315,
+     "sigma_log": 0.2303,
+     "n_conducteurs": 288
+    },
+    "creneau_critique_MLE_depuis_arret_point_conflit": {
+     "moyenne_s": 13.224,
+     "ecart_type_s": 3.117,
+     "mu_log": 2.555,
+     "sigma_log": 0.2325,
+     "n_conducteurs": 275
+    }
+   },
+   "unite": "s",
+   "conditions": "flux prioritaire 600 véh/h/sens, secondaire 180 véh/h",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S3_resume.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S3.stop.eidm_pas01s",
+   "grandeur": "insertion TAD depuis voie secondaire (créneau critique)",
+   "population": "SUMO EIDM (défaut), pas 0,1 s, stop, 6 graines",
+   "loi": "log-normale (MLE Troutbeck) + empirique",
+   "parametres": {
+    "creneau_critique_MLE_arretes": {
+     "moyenne_s": 13.694,
+     "ecart_type_s": 3.207,
+     "mu_log": 2.5903,
+     "sigma_log": 0.2311,
+     "n_conducteurs": 220
+    },
+    "creneau_accepte_arretes_s": {
+     "p5": 8.398,
+     "p25": 10.827,
+     "p50": 14.55,
+     "p75": 19.143,
+     "p95": 33.358,
+     "n": 370,
+     "moyenne": 16.589,
+     "ecart_type": 8.133,
+     "min": 6.698,
+     "max": 59.61
+    },
+    "plus_grand_refuse_arretes_s": {
+     "p5": 6.576,
+     "p25": 9.461,
+     "p50": 12.256,
+     "p75": 16.25,
+     "p95": 23.783,
+     "n": 359,
+     "moyenne": 13.314,
+     "ecart_type": 5.217,
+     "min": 3.713,
+     "max": 29.965
+    },
+    "attente_s": {
+     "p5": 14.375,
+     "p25": 27.129,
+     "p50": 35.1,
+     "p75": 42.1,
+     "p95": 53.945,
+     "n": 372,
+     "moyenne": 34.867,
+     "ecart_type": 13.923,
+     "min": 3.827,
+     "max": 116.12
+    },
+    "duree_arret_ligne_s": {
+     "p5": 11.225,
+     "p25": 23.625,
+     "p50": 31.5,
+     "p75": 38.5,
+     "p95": 50.5,
+     "n": 370,
+     "moyenne": 31.403,
+     "ecart_type": 13.777,
+     "min": 0.1,
+     "max": 112.4
+    },
+    "part_arret_complet": 0.995,
+    "creneau_critique_MLE_depuis_arret_entree": {
+     "moyenne_s": 12.906,
+     "ecart_type_s": 3.099,
+     "mu_log": 2.5296,
+     "sigma_log": 0.2367,
+     "n_conducteurs": 241
+    },
+    "creneau_critique_MLE_depuis_arret_point_conflit": {
+     "moyenne_s": 13.185,
+     "ecart_type_s": 3.094,
+     "mu_log": 2.5523,
+     "sigma_log": 0.2315,
+     "n_conducteurs": 238
+    }
+   },
+   "unite": "s",
+   "conditions": "flux prioritaire 600 véh/h/sens, secondaire 180 véh/h",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S3_resume.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S3.sensibilite.defaut",
+   "grandeur": "créneau critique SUMO selon impatience / jmTimegapMinor",
+   "population": "SUMO Krauss pas 0,1 s, cédez, (défauts)",
+   "loi": "log-normale (MLE)",
+   "parametres": {
+    "creneau_critique_MLE": {
+     "moyenne_s": 13.199,
+     "ecart_type_s": 3.198,
+     "mu_log": 2.5516,
+     "sigma_log": 0.2388,
+     "n_conducteurs": 68
+    },
+    "accel_min_prioritaire_suivant_ms2": {
+     "p1": -4.5,
+     "p5": -1.953,
+     "p50": -1.14,
+     "n": 370,
+     "moyenne": -1.278,
+     "ecart_type": 0.67,
+     "min": -4.5,
+     "max": -0.85
+    }
+   },
+   "unite": "s, m/s²",
+   "conditions": "3 graines",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S3_sensibilite_jm.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S3.sensibilite.impatience_0.5",
+   "grandeur": "créneau critique SUMO selon impatience / jmTimegapMinor",
+   "population": "SUMO Krauss pas 0,1 s, cédez, impatience=\"0.5\"",
+   "loi": "log-normale (MLE)",
+   "parametres": {
+    "creneau_critique_MLE": {
+     "moyenne_s": 4.659,
+     "ecart_type_s": 0.014,
+     "mu_log": 1.5388,
+     "sigma_log": 0.003,
+     "n_conducteurs": 124
+    },
+    "accel_min_prioritaire_suivant_ms2": {
+     "p1": -4.5,
+     "p5": -4.5,
+     "p50": -1.16,
+     "n": 372,
+     "moyenne": -1.645,
+     "ecart_type": 1.195,
+     "min": -4.5,
+     "max": -0.81
+    }
+   },
+   "unite": "s, m/s²",
+   "conditions": "3 graines",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S3_sensibilite_jm.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S3.sensibilite.impatience_1",
+   "grandeur": "créneau critique SUMO selon impatience / jmTimegapMinor",
+   "population": "SUMO Krauss pas 0,1 s, cédez, impatience=\"1\"",
+   "loi": "log-normale (MLE)",
+   "parametres": {
+    "creneau_critique_MLE": {
+     "moyenne_s": 3.133,
+     "ecart_type_s": 0.036,
+     "mu_log": 1.1419,
+     "sigma_log": 0.0114,
+     "n_conducteurs": 88
+    },
+    "accel_min_prioritaire_suivant_ms2": {
+     "p1": -5.346,
+     "p5": -4.5,
+     "p50": -1.175,
+     "n": 372,
+     "moyenne": -2.139,
+     "ecart_type": 1.57,
+     "min": -6.0,
+     "max": -0.74
+    }
+   },
+   "unite": "s, m/s²",
+   "conditions": "3 graines",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S3_sensibilite_jm.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  },
+  {
+   "id": "sim.S3.sensibilite.timegap_0",
+   "grandeur": "créneau critique SUMO selon impatience / jmTimegapMinor",
+   "population": "SUMO Krauss pas 0,1 s, cédez, jmTimegapMinor=\"0\"",
+   "loi": "log-normale (MLE)",
+   "parametres": {
+    "creneau_critique_MLE": {
+     "moyenne_s": 13.081,
+     "ecart_type_s": 2.308,
+     "mu_log": 2.5559,
+     "sigma_log": 0.1751,
+     "n_conducteurs": 54
+    },
+    "accel_min_prioritaire_suivant_ms2": {
+     "p1": -4.5,
+     "p5": -4.5,
+     "p50": -1.15,
+     "n": 370,
+     "moyenne": -1.736,
+     "ecart_type": 1.285,
+     "min": -4.5,
+     "max": -0.78
+    }
+   },
+   "unite": "s, m/s²",
+   "conditions": "3 graines",
+   "source": {
+    "doc": "Ce dépôt : recon/trafic/etat_art_sumo (SUMO 1.27.1), résultats dans DocRoute/17_.../03_Modeles_Existants/scenarios_sumo",
+    "page": "S3_sensibilite_jm.json",
+    "annee": 2026
+   },
+   "nature": "mesure en simulation",
+   "confiance": "élevée"
+  }
+ ]
+}

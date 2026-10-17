@@ -1,0 +1,1113 @@
+{
+ "meta": {
+  "titre": "Paramètres propres au prototype du modèle conducteur + véhicule (v0.2)",
+  "generateur": "recon/trafic/prototype/calage.py",
+  "entree": "D:\\ClaudeCode_RoadCreation\\assets\\specs\\trafic\\parametres_modele.json",
+  "note": "calages, conventions et hypothèses du prototype ; les entrées avec « reference_modele » sont lues dans parametres_modele.json (recopiées ici pour mémoire seulement) ; seules les entrées « calage » sont relues par le code"
+ },
+ "parametres": [
+  {
+   "id": "pas_s",
+   "grandeur": "pas_s",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.1
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "conception § 2.2 (exigence E2 du volet 03)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "collision_traitement",
+   "grandeur": "collision_traitement",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": "impulsion"
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "v0.2 : choc parfaitement inélastique (quantité de mouvement conservée, masses du volet 01), puis les deux véhicules accidentés freinent à d_max jusqu'à l'arrêt ; collisions primaires (meneur intact) et secondaires comptées à part. v0.1 : recul et vitesse ramenée à celle du meneur (décélération infinie non perçue, d'où des chocs en chaîne)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "parc_vehicules",
+   "grandeur": "parc_vehicules",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": "circulation"
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "population.py du volet 01 : familles de motorisation ramenées au parc en circulation (SDES 2026), d_max du parc (Greibe 2007)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "idm_delta",
+   "grandeur": "idm_delta",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 4
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "calage",
+   "reference_modele": [
+    "LON.idm.treiber2000"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → LON.idm.treiber2000 ['delta'] (Treiber, Hennecke, Helbing, Phys. Rev. E 62 (2000), arXiv cond-mat/0002177, tableau I p. 29 ; p. 9, 2000)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "cah_c",
+   "grandeur": "cah_c",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.99
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "estimation",
+   "reference_modele": [
+    "LON.acc_idm.kesting2010"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → LON.acc_idm.kesting2010 ['voiture', 'c'] (Kesting, Treiber, Helbing, Phil. Trans. R. Soc. A 368 (2010), arXiv 0912.3613, tableau 1 p. 4 ; p. 6, 2010)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "epsilon_acc",
+   "grandeur": "epsilon_acc",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "defaut_logiciel",
+   "reference_modele": [
+    "REF.sumo.eidm.epsilonacc"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → REF.sumo.eidm.epsilonacc ['valeur'] (code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF, l. 56-71, 2026)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "jerk_confort",
+   "grandeur": "jerk_confort",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.5
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "estimation",
+   "reference_modele": [
+    "LON.acc.jerk_confort"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → LON.acc.jerk_confort ['valeur'] (Extending the Intelligent Driver Model in SUMO and Verifying the Drive Off Trajectories with Aerial Measurements, p. 3, 2020)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "tpreview_s",
+   "grandeur": "tpreview_s",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 4.667
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "calage",
+   "reference_modele": [
+    "TAC.pieton.approche"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → TAC.pieton.approche ['_tpreview_ind'] (Naturalistic Yielding Behavior of Drivers at an Unsignalized Intersection based on Survival Analysis, p. 4, tableau 1, 2023) ; calé sur inD (Gankhuyag 2023 tab. 1, approche d'un passage piéton sans interaction : début du freinage à 39,81 m pour 8,53 m/s) ; v0.1 : 4 s (défaut EIDM)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "demarrage_taccmax",
+   "grandeur": "durée caractéristique du facteur de démarrage EIDM",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 3.562
+   },
+   "unite": "s",
+   "conditions": "Mflatness au défaut SUMO ; médiane de la population",
+   "nature": "calage",
+   "reference_modele": [
+    "REF.sumo.eidm.taccmax"
+   ],
+   "source": {
+    "doc": "calé sur Salles 2020 p. 14 (1 m/s en 0,8 s ; pic à 2,3 s), calage.py",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "demarrage_Mflatness",
+   "grandeur": "demarrage_Mflatness",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 2.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "defaut_logiciel",
+   "reference_modele": [
+    "REF.sumo.eidm.Mflatness"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → REF.sumo.eidm.Mflatness ['valeur'] (code cfmodels/MSCFModel_EIDM.cpp l. 56-71 ; userdoc tableau CF, l. 56-71, 2026)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "demarrage_Mbegin",
+   "grandeur": "décalage du facteur de démarrage EIDM",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.118
+   },
+   "unite": "-",
+   "conditions": "",
+   "nature": "calage",
+   "reference_modele": [
+    "REF.sumo.eidm.Mbegin"
+   ],
+   "source": {
+    "doc": "calé sur Salles 2020 p. 14 (1 m/s en 0,8 s ; pic à 2,3 s), calage.py",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "jerk_borne_au_demarrage",
+   "grandeur": "jerk_borne_au_demarrage",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": false
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "P-02 : la phase de démarrage suit le facteur EIDM (cible V-08) ; 1 m/s en 0,8 s exige un jerk ≥ 3 m/s³",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "duree_demarrage_s",
+   "grandeur": "duree_demarrage_s",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 6.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "P-02 : durée de la phase de démarrage exemptée du jerk de confort",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "fenetre_facteur_demarrage_s",
+   "grandeur": "fenetre_facteur_demarrage_s",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 30.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "durée d'application du facteur de démarrage EIDM après un départ",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "facteur_a_decharge",
+   "grandeur": "facteur sur a (IIDM) pendant la décharge d'une file ou d'une ligne",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.3481
+   },
+   "unite": "-",
+   "conditions": "pic moyen du rang 1 au feu = 2,67 m/s² (Salles 2020 fig. 8)",
+   "nature": "calage",
+   "reference_modele": null,
+   "source": {
+    "doc": "H-14 : facteur sur a en décharge de file de feu ; calé sur Salles 2020 fig. 8 (pic du rang 1 : 2,67 m/s²)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "reaction_depart_feu",
+   "grandeur": "reaction_depart_feu",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": "vert"
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "conception § 6.2 (« le conducteur voit aussi le feu ») : chacun peut partir un TPR anticipé après le vert, dès que l'écart s'ouvre ; variante « meneur »",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "T_decharge_rapport",
+   "grandeur": "r = T_décharge / T_suivi (décharge d'une file)",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.334
+   },
+   "unite": "-",
+   "conditions": "IIDM + CAH ; départ après TPR anticipé au vert ; T_i ≥ Δ_a,i ; contrainte zéro collision (5 × 200 files)",
+   "nature": "calage",
+   "reference_modele": [
+    "LON.MOD.T_decharge_rapport"
+   ],
+   "source": {
+    "doc": "calé : TIV moyen des rangs 5-12 = 2,0 s (Certu Feux 2010 p. 34), réaction au vert (reaction_depart_feu), facteur_a_decharge calé avant, T_i ≥ Δ_a,i (H-17), puis plus petit r sans collision primaire sur 5 graines × 200 files (r(2,0 s) = 0.334) ; calage.py",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "T_min_intervalle_action",
+   "grandeur": "T_min_intervalle_action",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": true
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "H-17 : T_i ≥ Δ_a,i (TPR anticipé, intervalle entre deux points d'action) ; stabilité de la file (v0.1 : T < Δ_a pour 35 % des conducteurs en décharge)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "fin_decharge_aval_m",
+   "grandeur": "fin_decharge_aval_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 50.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "P-05 : fin du contexte de décharge 50 m après la ligne de feu",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "fin_decharge_frac_v0",
+   "grandeur": "fin_decharge_frac_v0",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.8
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "P-05 : fin du contexte de décharge à 0,8 v0",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "relaxation_passive",
+   "grandeur": "relaxation_passive",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": true
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "P-05 : après la décharge, T rejoint T_suivi sans dépasser l'écart temporel observé",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "T_relaxation_taux_s-1",
+   "grandeur": "T_relaxation_taux_s-1",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.15
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "forme du modèle 2D de Jiang 2014 (conception § 6.2, H-03) ; taux non sourcé, à caler",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "T_v_ref",
+   "grandeur": "T_v_ref",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": "mediane_reseau"
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "T_suivi = TIV_moyen - s0 / v_ref avec v_ref = médiane de la loi de vitesse désirée du réseau (v0.1 : 12 m/s pour tous, y compris hors agglomération)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "d_en_file_m",
+   "grandeur": "d_en_file_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 15.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "un véhicule arrêté à moins de 15 m de son meneur ou de la ligne est « en file » (contexte de décharge)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "hdm_Vs",
+   "grandeur": "hdm_Vs",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.05
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "estimation",
+   "reference_modele": [
+    "PER.hdm.treiber2006"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → PER.hdm.treiber2006 ['Vs_erreur_relative_distance'] (Treiber, Kesting, Helbing, Physica A 360 (2006), arXiv cond-mat/0404736, tableau 1 p. 9 ; éq. 3-7 p. 5-6, 2006)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "hdm_rc_s-1",
+   "grandeur": "hdm_rc_s-1",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.01
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "estimation",
+   "reference_modele": [
+    "PER.hdm.treiber2006"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → PER.hdm.treiber2006 ['rc_erreur_inverse_TTC_par_s'] (Treiber, Kesting, Helbing, Physica A 360 (2006), arXiv cond-mat/0404736, tableau 1 p. 9 ; éq. 3-7 p. 5-6, 2006)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "hdm_tau_s",
+   "grandeur": "hdm_tau_s",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 20
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "estimation",
+   "reference_modele": [
+    "PER.hdm.treiber2006"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → PER.hdm.treiber2006 ['tau_correlation_erreurs_s'] (Treiber, Kesting, Helbing, Physica A 360 (2006), arXiv cond-mat/0404736, tableau 1 p. 9 ; éq. 3-7 p. 5-6, 2006)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "markkula_seuil_looming_s-1",
+   "grandeur": "markkula_seuil_looming_s-1",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.2
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "mesure",
+   "reference_modele": null,
+   "source": {
+    "doc": "Markkula 2016 éq. 2 : t0,2 = premier instant où τ⁻¹ ≥ 0,2 s⁻¹ (définition du modèle publié, PER.tpr.markkula.alphaB_*)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "markkula_kB",
+   "grandeur": "markkula_kB",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": {
+     "mu_log": 1.23,
+     "sigma_log": 0.62
+    }
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "mesure",
+   "reference_modele": [
+    "PER.tpr.markkula.kB"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → PER.tpr.markkula.kB [] (A farewell to brake reaction times? Kinematics-dependent brake response in naturalistic rear-end emergencies, fig. 10 p. 15 du manuscrit (PDF 16), 2016)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "markkula_jB_plafond_ms3",
+   "grandeur": "markkula_jB_plafond_ms3",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 8.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "estimation",
+   "reference_modele": null,
+   "source": {
+    "doc": "Markkula 2016 annexe B.3 (plafond proposé « par exemple » jB ≤ 8 m/s³)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "distraction_part_temps_FR",
+   "grandeur": "distraction_part_temps_FR",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.083
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "hypothese",
+   "reference_modele": [
+    "POP.hetero.distraction_part_temps"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → POP.hetero.distraction_part_temps ['France'] (UDRIVE D41.1 - The UDrive dataset and key analysis results, p. 5 (fig. 0.3, PDF 6) et p. 46-47 (PDF 47-48), 2017) ; H-18 : part du temps en tâche secondaire (UDRIVE D41.1 p. 5, conversations comprises) prise comme probabilité moyenne d'avoir les yeux hors de la menace : proxy, pas une mesure de regards",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "distraction_charge_vigilance",
+   "grandeur": "distraction_charge_vigilance",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.5
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "hypothese",
+   "reference_modele": null,
+   "source": {
+    "doc": "H-18 : la probabilité d'être distrait croît quand la vigilance baisse ; charge 0,5 (même valeur absolue que le groupe TPR du volet 02)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "feux_stop_seuil_ms2",
+   "grandeur": "feux_stop_seuil_ms2",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.3
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "seuil de détection des feux stop par le suiveur. Repris par analogie du R13-H § 5.2.22.2 (JO L 2026/502 p. 21), qui vise le freinage automatique ou régénératif ; pour le conducteur, le § 5.2.22.1 allume les feux à toute action sur le frein de service (requalifié le 17/10/2026 : ce n'est pas une norme)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "h15_v_meneur_lent_ms",
+   "grandeur": "h15_v_meneur_lent_ms",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 5.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "H-15 : un freinage d'un meneur à moins de 5 m/s n'est pas une surprise",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "h15_d_ligne_m",
+   "grandeur": "h15_d_ligne_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 50.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "H-15 : ligne d'arrêt visible à moins de 50 m devant le meneur",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "h15_d_file_m",
+   "grandeur": "h15_d_file_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 60.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "H-15 : véhicule arrêté ou freinant à moins de 60 m devant le meneur (anticipation sur deux véhicules, n_a du HDM)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "h15_v_arrete_ms",
+   "grandeur": "h15_v_arrete_ms",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 2.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "H-15 : véhicule devant le meneur considéré arrêté sous 2 m/s",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "marge_urgence_frac_s0",
+   "grandeur": "marge_urgence_frac_s0",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.5
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "décélération requise calculée avec une marge de 0,5 s0 derrière le meneur",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "arret_ligne_feu_m",
+   "grandeur": "arret_ligne_feu_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 1.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "defaut_logiciel",
+   "reference_modele": [
+    "REF.sumo.jm.jmStoplineGap"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → REF.sumo.jm.jmStoplineGap ['valeur'] (SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») (tableau « Junction Model Parameters »), tableau, 2026)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "arret_ligne_stop_m",
+   "grandeur": "arret_ligne_stop_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "defaut_logiciel",
+   "reference_modele": [
+    "REF.sumo.jm.jmStoplineGapMinor"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → REF.sumo.jm.jmStoplineGapMinor ['valeur'] (SUMO 1.27.1 userdoc, Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html (tableau « Available vType Attributes ») (tableau « Junction Model Parameters »), tableau, 2026)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "point_decision_stop_m",
+   "grandeur": "point_decision_stop_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 4.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "norme",
+   "reference_modele": null,
+   "source": {
+    "doc": "Certu Carrefours urbains 2010 p. 97 : œil à 4 m de la ligne au STOP (95 % des conducteurs)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "recul_oeil_avant_m",
+   "grandeur": "recul_oeil_avant_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 2.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "distance de l'œil du conducteur à l'avant du véhicule (ordre de grandeur, non sourcé) : l'avant est à 4 - 2 = 2 m de la ligne au point de décision (v0.1 : l'avant à 4 m)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "stop_v_arret_ms",
+   "grandeur": "stop_v_arret_ms",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.3
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "P-11 : arrêt au STOP reconnu sous 0,3 m/s à moins de 2 m de la ligne",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "stop_d_arret_m",
+   "grandeur": "stop_d_arret_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 2.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "P-11",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "stop_zone_vmin_m",
+   "grandeur": "stop_zone_vmin_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 3.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "zone de 3 m avant la ligne où la vitesse minimale est relevée (méthode du volet 03)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "stop_frac_b_decision",
+   "grandeur": "stop_frac_b_decision",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.5
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "P-11 : un conducteur en mouvement décide d'assez loin pour s'arrêter à 0,5 b_i",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "stop_portee_m",
+   "grandeur": "stop_portee_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 80.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "distance à la ligne à partir de laquelle la logique STOP est active",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "creneau_TAD_50_s",
+   "grandeur": "creneau_TAD_50_s",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 5
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "norme",
+   "reference_modele": [
+    "TAC.creneau.norme_fr"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → TAC.creneau.norme_fr ['insertion_double_sens_TAD', '50'] (Carrefours urbains : guide (coll. Références n°103), p. 93 imprimée (PDF 92-93), 2010)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "h10_horizon_s",
+   "grandeur": "h10_horizon_s",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 15.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "H-10 : horizon de prédiction de la manœuvre d'insertion",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "h10_d_apres_conflit_m",
+   "grandeur": "h10_d_apres_conflit_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 20.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "H-10 : prédiction arrêtée 20 m après le point de conflit",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "h10_prioritaire_generique",
+   "grandeur": "h10_prioritaire_generique",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": true
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "H-10 : le non-prioritaire prédit la réaction d'un prioritaire « médian » (médianes de la population : v0, T, s0, a, b), pas les paramètres privés du prioritaire réel (v0.1)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "R0_courbe_m",
+   "grandeur": "R0_courbe_m",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 40.0
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "derive",
+   "reference_modele": [
+    "LAT.MOD.R0_courbe"
+   ],
+   "source": {
+    "doc": "parametres_modele.json → LAT.MOD.R0_courbe ['valeur'] (Calculs de cohérence (verifier_coherence.py) : Bosetti 2014 tab. 5 contre Cerema 2018 p. 8, coherence.json, section C3, 2026)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "moyenne"
+  },
+  {
+   "id": "v0_quantile_min",
+   "grandeur": "v0_quantile_min",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.05
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "H-04 : la loi ONISR contient des véhicules contraints (pas de filtre par véhicule) ; sa queue sous le 5e centile est retirée (tirage dans [P5 ; 1]). Sensibilité publiée au rapport",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "correlation_intra_groupe",
+   "grandeur": "correlation_intra_groupe",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.5
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "hypothese",
+   "reference_modele": null,
+   "source": {
+    "doc": "H-01 complétée : corrélation des résidus propres de deux paramètres d'un même groupe de la copule (v0.1 : 1, rangs identiques, ce qu'aucune source n'appuie)",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "vitesse_arret_ms",
+   "grandeur": "vitesse_arret_ms",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.05
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "seuil numérique d'arrêt",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  },
+  {
+   "id": "seuil_depart_ms2",
+   "grandeur": "seuil_depart_ms2",
+   "population": "conducteurs VL (prototype)",
+   "loi": "constante",
+   "parametres": {
+    "valeur": 0.1
+   },
+   "unite": "",
+   "conditions": "",
+   "nature": "convention",
+   "reference_modele": null,
+   "source": {
+    "doc": "seuil numérique : la contrainte se relâche",
+    "page": "",
+    "annee": 2026
+   },
+   "confiance": "faible"
+  }
+ ]
+}

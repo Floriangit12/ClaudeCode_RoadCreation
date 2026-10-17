@@ -1,0 +1,46 @@
+# Dialog script for route::assemblage::1.0 automatically generated
+
+{
+    name	route::assemblage::1.0
+    script	route::assemblage::1.0
+    label	"Route Assemblage de pièces cotées"
+
+    help {
+    }
+
+    inputlabel	1	"Sub-Network Input #1"
+    inputlabel	2	"Sub-Network Input #2"
+    inputlabel	3	"Sub-Network Input #3"
+    inputlabel	4	"Sub-Network Input #4"
+
+    parm {
+        name    "pieces"
+        label   "Pièces (une par ligne ou séparées par « ; »)"
+        type    string
+        default { "" }
+        help    "B cx cy cz sx sy sz rz mat | T n nc caps mat (x y z r)×n | Q n k caps mat upx upy upz (x y z)×n (u v)×k | E cx cy cz rx ry rz ns mat | F cx cy cz nx ny nz ux uy uz w h mat | G cx cy cz nx ny nz r ns mat. Repère USD (Z haut, m). caps : 0 aucun, 1 deux bouts, 2 début, 3 fin."
+    }
+    parm {
+        name    "cusp"
+        label   "Angle de coupure des normales (°)"
+        type    float
+        default { "40" }
+        help    "Arêtes plus vives que cet angle : normales dures ; en dessous (congés), normales lissées."
+        range   { 0 180 }
+    }
+    parm {
+        name    "lod_pourcentage"
+        label   "LOD : polygones conservés (%)"
+        type    float
+        default { "100" }
+        help    "100 = LOD0 (aucune réduction) ; LOD1 ≈ 50 %, LOD2 ≈ 20 % (PolyReduce 2.0)."
+        range   { 1 100 }
+    }
+    parm {
+        name    "materiau"
+        label   "Matériau"
+        type    string
+        default { "acier_galvanise" }
+        help    "Nom du matériau (bibliothèque route_fr ou assets/lib/materiaux) posé dans l'attribut de primitive « materiau »."
+    }
+}

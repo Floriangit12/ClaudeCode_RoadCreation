@@ -1,0 +1,321 @@
+{
+ "site": "auto_a41_section_courante",
+ "date_releve": "2026-10-17",
+ "etat_decrit": "2024-2025 (ortho IGN du 09/08/2024 ; photos Panoramax du 01/05/2024 au 14/06/2025, contrôle 28/07/2026)",
+ "repere": {
+  "crs": "EPSG:2154",
+  "origine_l93": [
+   917403.3,
+   6459717.4
+  ],
+  "convention_t": "t positif à gauche du sens du tronçon (vers l'ENE, cap 13,0°) = côté chaussée ouest (vers Grenoble)"
+ },
+ "sources": [
+  {
+   "id": "ortho_ign_2024",
+   "nature": "ortho IGN BD ORTHO 20 cm RVB (WMS Géoplateforme, couche HR.ORTHOIMAGERY.ORTHOPHOTOS, identique pixel à pixel à ORTHOIMAGERY.ORTHOPHOTOS2024 sur la dalle 917200/6460200), prise de vue 09/08/2024",
+   "licence": "Etalab 2.0",
+   "fichiers_non_versionnes": "recon/out/generateur/meylan/auto_travail_lotB/ortho/ign_hr/"
+  },
+  {
+   "id": "osm",
+   "nature": "OpenStreetMap, Overpass API, extrait du 17/10/2026 20:13 UTC",
+   "licence": "ODbL",
+   "ways": {
+    "759037980": "A41 sens est, 2 voies, maxspeed 110, lit=no",
+    "4247774": "A41 sens ouest, 2 voies, 110",
+    "4247849": "chemin des Pépinières (pont, layer 1)",
+    "822420923": "piste cyclable sur le pont",
+    "822420926": "trottoir sur le pont"
+   }
+  },
+  {
+   "id": "panoramax",
+   "nature": "photos Panoramax, voir photos.json",
+   "licence": "CC-BY-SA 4.0"
+  },
+  {
+   "id": "regles",
+   "nature": "assets/specs/route/regles_route_fr.json (RF-MQ-SC-06, RF-MQ-U-01, RF-MQ-DEC-02, RF-OSM-LAR-014, RF-GV-TPC-006/-008, RF-GV-PON-012, DEF-033)"
+  }
+ ],
+ "axe": {
+  "nature": "médiane des lignes OSM des deux chaussées (759037980, 4247774)",
+  "polyligne_l93": [
+   [
+    917403.3,
+    6459717.4
+   ],
+   [
+    917939.1,
+    6459841.3
+   ]
+  ],
+  "longueur_m": 549.9,
+  "cap_opendrive_deg": 13.0
+ },
+ "coupes_ortho": {
+  "outil": "recon/generateur/meylan/auto_outils/coupe_ortho.py puis analyse_coupes.py",
+  "fichiers_non_versionnes": "recon/out/generateur/meylan/auto_a41_section_courante/coupes/{a41_sc.json, a41_sc_stats.json, a41_sc_s*.png, tuiles/}",
+  "methode": "bande redressée de 39 m le long × 60 m en travers, 0,10 m/px (ortho 0,20 m suréchantillonnée bilinéaire) ; pics de luminance moyennés le long de l'axe = lignes blanches ; indice 2G−R−B et saturation = bords végétalisés ; images regardées en tuiles natives (decoupe.py image)",
+  "stations_m": [
+   30.0,
+   130.0,
+   180.0,
+   230.0,
+   280.0,
+   330.0,
+   380.0,
+   430.0,
+   480.0,
+   530.0
+  ],
+  "station_exclue": {
+   "80": "tablier du pont des Pépinières"
+  },
+  "lignes": {
+   "rive_tpc_ouest": {
+    "t_mediane_m": 3.25,
+    "ecart_type_m": 0.15,
+    "n": 5,
+    "valeurs": [
+     3.55,
+     3.35,
+     3.25,
+     3.15,
+     3.15
+    ]
+   },
+   "voie_ouest": {
+    "t_mediane_m": 6.85,
+    "ecart_type_m": 0.13,
+    "n": 8,
+    "valeurs": [
+     7.15,
+     6.85,
+     6.85,
+     6.75,
+     6.75,
+     6.85,
+     6.95,
+     7.05
+    ]
+   },
+   "bau_ouest": {
+    "t_mediane_m": 10.4,
+    "ecart_type_m": 0.16,
+    "n": 10,
+    "valeurs": [
+     10.85,
+     10.55,
+     10.45,
+     10.35,
+     10.35,
+     10.35,
+     10.35,
+     10.35,
+     10.45,
+     10.65
+    ]
+   },
+   "rive_tpc_est": {
+    "t_mediane_m": -3.65,
+    "ecart_type_m": 0.07,
+    "n": 6,
+    "valeurs": [
+     -3.65,
+     -3.65,
+     -3.65,
+     -3.65,
+     -3.65,
+     -3.45
+    ]
+   },
+   "voie_est": {
+    "t_mediane_m": -7.2,
+    "ecart_type_m": 0.11,
+    "n": 8,
+    "valeurs": [
+     -7.25,
+     -7.25,
+     -7.25,
+     -7.25,
+     -7.15,
+     -7.15,
+     -7.05,
+     -6.95
+    ]
+   },
+   "bau_est": {
+    "t_mediane_m": -10.85,
+    "ecart_type_m": 0.08,
+    "n": 10,
+    "valeurs": [
+     -10.65,
+     -10.85,
+     -10.85,
+     -10.85,
+     -10.85,
+     -10.85,
+     -10.85,
+     -10.85,
+     -10.75,
+     -10.65
+    ]
+   }
+  },
+  "bords_revetus": {
+   "ouest_t_m": "+14,0 (indice de végétation > 17 à +13,95/+14,45 ; s0180, s0330, s0480)",
+   "est_t_m": "−14,05 ± 0,75 (n = 9)"
+  },
+  "bande_mediane_vegetalisee": {
+   "de_t_m": 2.4,
+   "a_t_m": -2.4,
+   "critere": "saturation 0,08-0,13 entre deux plateaux d'enrobé à 0,02-0,04 ; s0180, s0330, s0480"
+  },
+  "incertitude": "± 0,15 m sur une ligne (pas de 0,20 m de l'ortho, rééchantillonnage, géoréférencement relatif) ; ± 0,3 m sur un bord revêtu (ombres, herbe débordante)"
+ },
+ "profil_mesure": [
+  {
+   "element": "berme nord (au-delà de la glissière)",
+   "largeur_m": 1.5,
+   "prov": "P a2064553 (estimée ± 0,5) ; non mesurable sur l'ortho (herbe)"
+  },
+  {
+   "element": "BAU sens ouest",
+   "largeur_m": 3.6,
+   "de_t": 14.0,
+   "a_t": 10.4,
+   "prov": "O"
+  },
+  {
+   "element": "voie de droite sens ouest",
+   "largeur_m": 3.55,
+   "de_t": 10.4,
+   "a_t": 6.85,
+   "prov": "O axe à axe"
+  },
+  {
+   "element": "voie de gauche sens ouest",
+   "largeur_m": 3.6,
+   "de_t": 6.85,
+   "a_t": 3.25,
+   "prov": "O axe à axe"
+  },
+  {
+   "element": "BDG sens ouest",
+   "largeur_m": 0.85,
+   "de_t": 3.25,
+   "a_t": 2.4,
+   "prov": "O"
+  },
+  {
+   "element": "bande médiane enherbée à 2 glissières",
+   "largeur_m": 4.8,
+   "de_t": 2.4,
+   "a_t": -2.4,
+   "prov": "O + P"
+  },
+  {
+   "element": "BDG sens est",
+   "largeur_m": 1.25,
+   "de_t": -2.4,
+   "a_t": -3.65,
+   "prov": "O"
+  },
+  {
+   "element": "voie de gauche sens est",
+   "largeur_m": 3.55,
+   "de_t": -3.65,
+   "a_t": -7.2,
+   "prov": "O"
+  },
+  {
+   "element": "voie de droite sens est",
+   "largeur_m": 3.65,
+   "de_t": -7.2,
+   "a_t": -10.85,
+   "prov": "O"
+  },
+  {
+   "element": "BAU sens est",
+   "largeur_m": 3.2,
+   "de_t": -10.85,
+   "a_t": -14.05,
+   "prov": "O"
+  },
+  {
+   "element": "berme sud",
+   "largeur_m": 1.5,
+   "prov": "P 28b78e21 (estimée)"
+  }
+ ],
+ "profil_retenu_description": {
+  "symetrique": true,
+  "BAU_m": 3.4,
+  "voie_m": 3.6,
+  "BDG_m": 1.0,
+  "bande_mediane_m": 4.9,
+  "largeur_revetue_totale_m": 28.1,
+  "commentaire": "valeurs mesurées arrondies et symétrisées ; total entre bords revêtus mesuré 28,05 m, retenu 28,1 m"
+ },
+ "ouvrage_pepinieres": {
+  "abscisse_m": 69.7,
+  "tablier_de_s": 65.7,
+  "tablier_a_s": 73.7,
+  "largeur_tablier_m": 8.0,
+  "biais_deg": 88,
+  "prov": "O coupe s0080 (tablier visible de 65,7 à 73,7) ; OSM 4247849 ; P 28b78e21 (pile dans le TPC, culées perrées), 716ad033 (trottoir, garde-corps)",
+  "tirant_air": "non mesuré (≥ 4,75 + 0,10 exigé, RF-GV-PON-012)"
+ },
+ "signalisation": [
+  {
+   "code": "D41c",
+   "texte": "A41 CHAMBÉRY | N87 SISTERON ST MARTIN d'H. | 500 m",
+   "sens": "est",
+   "cote": "droite",
+   "abscisse_m": 100,
+   "incertitude_m": 20,
+   "prov": "P 716ad033 l+103 t−10 : base du panneau à −13,8° sous l'horizon, caméra ≈ 8 m au-dessus de la chaussée → ≈ 33 m de distance, ≈ 28 m le long de l'axe après le pont"
+  }
+ ],
+ "marquages": {
+  "u_m": 0.075,
+  "rive_tpc": "continue 3u (toutes coupes)",
+  "bau": "T4 3u (traits de 39 m vus en s0180, s0330)",
+  "entre_voies": "T1 2u ; T3 2u sens est à partir de s ≈ 130 ± 25 et sens ouest jusqu'à s ≈ 130 ± 25",
+  "prov": "O coupes ; P 716ad033 ; R RF-MQ-SC-06, RF-MQ-DEC-02"
+ },
+ "ecarts_aux_regles": [
+  {
+   "regle": "RF-OSM-LAR-014",
+   "attendu": "voie 3,50, BAU 3,00",
+   "mesure": "voie 3,55-3,65, BAU 3,2-3,6",
+   "commentaire": "écarts dans l'incertitude (± 0,15 / ± 0,3) ; la BAU mesurée inclut la surlargeur revêtue jusqu'au pied de glissière ; le compilateur ne relève aucune non-conformité"
+  },
+  {
+   "regle": "RF-GV-TPC-006 (interurbain : bande médiane ≥ 3 m engazonnée + berme 1 m)",
+   "mesure": "4,8-4,9 m enherbée",
+   "commentaire": "conforme"
+  },
+  {
+   "regle": "RF-GV-TPC-008 (barrières si TPC < 12 m)",
+   "mesure": "TPC 6,9 m avec 2 glissières",
+   "commentaire": "conforme"
+  }
+ ],
+ "osm": {
+  "lanes": "2 + 2",
+  "maxspeed": 110,
+  "lit": "no",
+  "toll": "no",
+  "surface": "asphalt",
+  "int_ref": "E 712 (partie est)"
+ },
+ "lacunes": [
+  "hauteur des glissières et type exact (N2 ?) non mesurés",
+  "dévers non mesurés (pas de MNT utilisé)",
+  "tirant d'air du pont non mesuré",
+  "emplacement exact des T3 à ± 25 m (pas de coupe entre s0080 et s0130)"
+ ]
+}

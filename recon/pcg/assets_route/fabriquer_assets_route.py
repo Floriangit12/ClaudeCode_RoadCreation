@@ -352,7 +352,8 @@ def ecrire_catalogues(bilan, fusion=True):
     for e in bilan:
         anciens[e["id"]] = e
     ids_valides = {a["id"] for a in SP.ASSETS}
-    assets = [anciens[i] for i in sorted(anciens) if i in ids_valides]
+    # les entrées de l'étape 3 (fabriquer_assets_etape3.py, champ « etape » = 3) sont conservées telles quelles
+    assets = [anciens[i] for i in sorted(anciens) if i in ids_valides or anciens[i].get("etape") == 3]
     mats = json.loads((MAT_ROUTE / "catalogue.json").read_text(encoding="utf-8")) if (MAT_ROUTE / "catalogue.json").exists() else {}
     site = []
     for d in sorted(MAT_SITE.iterdir()) if MAT_SITE.exists() else []:
@@ -381,10 +382,24 @@ def ecrire_catalogues(bilan, fusion=True):
                regle_materiaux="élément unitaire (pavé, dalle, bordure) = matériau de matière (béton, granit) ; textures d'appareillage "
                                "(paves_*, dalles_*) réservées aux sols tuilables",
                assets=assets)
-    CATALOGUE_VERSIONNE.parent.mkdir(parents=True, exist_ok=True)
-    CATALOGUE_VERSIONNE.write_text(json.dumps(cat, indent=1, ensure_ascii=False), encoding="utf-8")
-    cat_loc.parent.mkdir(parents=True, exist_ok=True)
-    cat_loc.write_text(json.dumps(cat, indent=1, ensure_ascii=False), encoding="utf-8")
+    if fusion and CATALOGUE_VERSIONNE.exists():          # clés et entrées ajoutées par l'étape 3 : conservées
+        ancien = json.loads(CATALOGUE_VERSIONNE.read_text(encoding="utf-8"))
+        for k, v in ancien.items():
+            if k not in cat:
+                cat[k] = v
+        for k in ("sources", "materiaux_simples"):
+            for kk, vv in (ancien.get(k) or {}).items():
+                cat[k].setdefault(kk, vv)
+        noms = {m["nom"] for m in cat["materiaux_pbr"]}
+        cat["materiaux_pbr"] += [m for m in ancien.get("materiaux_pbr", []) if m["nom"] not in noms]
+    import os
+    import tempfile
+    for chemin in (CATALOGUE_VERSIONNE, cat_loc):          # écriture atomique (le générateur lit ce fichier en parallèle)
+        chemin.parent.mkdir(parents=True, exist_ok=True)
+        fd, tmp = tempfile.mkstemp(prefix=chemin.name + ".", suffix=".tmp", dir=str(chemin.parent))
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(cat, f, indent=1, ensure_ascii=False)
+        os.replace(tmp, chemin)
     print("catalogues :", CATALOGUE_VERSIONNE, len(assets), "assets")
 
 

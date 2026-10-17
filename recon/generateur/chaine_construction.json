@@ -1,0 +1,3011 @@
+{
+ "schema": "chaine_construction/0.1",
+ "date": "2026-10-17",
+ "document": "recon/generateur/CHAINE_CONSTRUCTION.md",
+ "format_description_reseau": "recon/generateur/FORMAT_DESCRIPTION_RESEAU.md",
+ "base_regles": "assets/specs/route/regles_route_fr.json",
+ "sortie_reseau": "recon/out/generateur/meylan/<reseau>",
+ "principes": [
+  {
+   "id": "P1",
+   "titre": "Une seule épure",
+   "regle": "Une description, un graphe, un plan-masse et un champ de Z pour tout le réseau. Chaque couche fabriquée lit l'épure et n'en garde jamais de copie locale : c'est la fin des « mondes (s, t) » séparés, un par route."
+  },
+  {
+   "id": "P2",
+   "titre": "Concevoir avant de construire",
+   "regle": "Les étapes E01 à E06 fixent toute la géométrie : plan, altitudes, profils, carrefours, plan-masse et nivellement. Les étapes E07 à E17 posent des objets sur cette géométrie, dans l'ordre d'un chantier réel, et n'en modifient aucune cote."
+  },
+  {
+   "id": "P3",
+   "titre": "Raccords par contrat",
+   "regle": "Une route se termine toujours sur un nœud partagé. Au droit d'un carrefour, son profil d'extrémité est figé (position t de chaque limite, niveaux) et la frontière du carrefour le reprend exactement (segment `joint`, OpenDRIVE 1.8.1 § 12.10 ; 12M § 4.1)."
+  },
+  {
+   "id": "P4",
+   "titre": "Les objets linéaires suivent des chaînes, pas des routes",
+   "regle": "Chaque objet linéaire est porté par une chaîne qui ignore les découpes en routes : les bordures font le tour de l'îlot bâti ou du terre-plein, coins compris ; les marquages suivent l'itinéraire ; les cheminements piétons et cyclables forment des réseaux ; le fil d'eau est découpé en bassins."
+  },
+  {
+   "id": "P5",
+   "titre": "Houdini n'invente rien (inchangé)",
+   "regle": "Chaque valeur vient de la description (avec sa plage si elle est approchée), d'une mesure ou d'une règle nommée RF-*, DEF-* ou ARB-*, et porte sa provenance (`prov`). Sans aucune de ces sources, l'étape s'arrête et le dit."
+  },
+  {
+   "id": "P6",
+   "titre": "Portes bloquantes",
+   "regle": "Une étape ne démarre que si la porte de l'étape précédente est franchie (0 échec bloquant). Chaque porte écrit son rapport JSON. Un écart admis (`ecarts_admis`, FORMAT_DESCRIPTION § 12 bis) lève un contrôle « non conforme », jamais un contrôle de continuité."
+  },
+  {
+   "id": "P7",
+   "titre": "Déterminisme et identifiants stables",
+   "regle": "Les identifiants sont dérivés des noms de la description et la graine vaut hash(id). Deux fabrications donnent les mêmes octets (README_HDA § 9.2 ; README_RG § 1)."
+  },
+  {
+   "id": "P8",
+   "titre": "Chantiers et tuiles",
+   "regle": "Le réseau est fabriqué par chantiers : une emprise plus une bande de recouvrement, avec une origine locale par chantier. Chaque chantier est découpé en tuiles de 50 m le long de lignes de grille insérées comme contraintes (TQ-SOL-002, TQ-SOL-010). Les arêtes communes à deux tuiles, ou à deux chantiers, sont identiques à l'octet."
+  }
+ ],
+ "phases": [
+  {
+   "id": "A",
+   "nom": "Décrire",
+   "etapes": [
+    "E00"
+   ]
+  },
+  {
+   "id": "B",
+   "nom": "Concevoir l'épure unique",
+   "etapes": [
+    "E01",
+    "E02",
+    "E03",
+    "E04",
+    "E05",
+    "E06"
+   ]
+  },
+  {
+   "id": "C",
+   "nom": "Construire par couches (ordre du chantier)",
+   "etapes": [
+    "E07",
+    "E08",
+    "E09",
+    "E10",
+    "E11",
+    "E12",
+    "E13",
+    "E14",
+    "E15",
+    "E16",
+    "E17"
+   ]
+  },
+  {
+   "id": "D",
+   "nom": "Livrer et contrôler",
+   "etapes": [
+    "E18",
+    "E19"
+   ]
+  }
+ ],
+ "etapes": [
+  {
+   "id": "E00",
+   "n": 0,
+   "phase": "A",
+   "proposition": "0",
+   "nom": "Description du réseau (texte libre et photos → YAML réseau)",
+   "but": "Écrire ce que montrent les photos Panoramax, l'ortho et OSM, sans viser le millimètre : routes, carrefours, giratoires, bretelles et ouvrages, accrochés à des ancrages (nœuds nommés, OSM, Lambert-93). Chaque valeur dite garde sa plage (« environ 20 m » devient [18 ; 22] m) et sa preuve.",
+   "entrees": [
+    "phrases de l'utilisateur ou de Claude (« route 2 × 1 voies avec terre-plein planté sur environ 20 m »)",
+    "photos Panoramax (API STAC, CC-BY-SA ou Etalab) : identifiant, date, pose ; tuiles natives ≤ 1092 px (`recon/pcg/vision/decoupe.py equirect`) rangées dans `recon/out/generateur/meylan/<site>/photos_non_versionnees/`",
+    "ortho IGN 20 cm (WMS Géoplateforme ; `data/raw/ortho_recentes/ign_bdortho_2024_rvb_20cm`) pour les largeurs (`decoupe.py ortho`)",
+    "OSM : `data/vector_gz/osm/roads.geojson.gz` (5 506 ways) ; BD TOPO : `data/vector_gz/bdtopo/troncon_de_route.geojson.gz` (6 890 tronçons : nature, nombre_de_voies, largeur_de_chaussee, position_par_rapport_au_sol)",
+    "constats du dossier 13 (`observations.json` : 72 sites, dont 34 à Meylan) et `assets/specs/regles_locales_meylan.json` (46 règles LOC-*)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/generateur/meylan/<reseau>/description_reseau.yaml",
+     "contrat": "description_reseau/0.1 (FORMAT_DESCRIPTION_RESEAU.md), versionné, sans aucune image : identifiants de photos, coordonnées et constats seulement ; à côté de `mesures.json` et `photos.json`, comme les descriptions de sites des lots voisins"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/description_resolue.yaml",
+     "contrat": "description exacte au format `description_simple/0.2` de l'étape 2 (troncons[] à id, carrefours, giratoires, bretelles), entrée du compilateur de réseau"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/compilation_reseau.json",
+     "contrat": "approximations résolues (valeur dite, plage, valeur retenue, raison : mesure, règle ou centre), ancrages résolus, avertissements, erreurs"
+    }
+   ],
+   "hda": [],
+   "outils": [
+    "`recon/pcg/vision/decoupe.py` (tuiles natives)",
+    "`recon/pcg/enrichir/projection.py` (`decoupe_perspective`) et `recon/pcg/vision/decoupe.py` (`vue_equirect`) : découpes ciblées à la taille native",
+    "`inference/osm_vers_modele.py` (brouillon du graphe et des régimes, lecture seule)",
+    "`description/description_vers_modele.py` et `commun/profil.py` (grammaire des profils, importés sans modification)",
+    "à créer : `recon/generateur/reseau/resoudre_reseau.py` (lot N1), qui écrit une description au format de l'étape 2 puis appelle son compilateur (FORMAT_DESCRIPTION_RESEAU § 9)"
+   ],
+   "regles": {
+    "route_fr": [
+     "RF-OBS-MAR-01",
+     "RF-OBS-MAR-02",
+     "RF-OBS-ILO-03",
+     "RF-OSM-CAR-011",
+     "RF-OSM-CAR-012",
+     "RF-OSM-PRF-011",
+     "RF-OBS-VEG-02",
+     "RF-OBS-MAR-03",
+     "RF-OSM-OUV-001",
+     "RF-OSM-BDT-001"
+    ],
+    "def": [
+     "DEF-008",
+     "DEF-020"
+    ],
+    "arb": [
+     "ARB-19"
+    ],
+    "depot": [],
+    "docroute": [
+     "00_SYNTHESE § 0.1 (ordre de priorité) et § 16 (pratiques locales)",
+     "13 OBSERVATIONS_ISERE.md",
+     "12I INFERENCE_OSM_VERS_PROFIL.md"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [],
+   "controles": [
+    {
+     "id": "P00-1",
+     "controle": "clés et mots connus",
+     "seuil": "0 inconnu (erreur, jamais ignoré)",
+     "regle": "FORMAT_DESCRIPTION § 12"
+    },
+    {
+     "id": "P00-2",
+     "controle": "chaque route a `de` et `vers` sur des nœuds déclarés ; chaque nœud a un ancrage résoluble (L93, local, OSM ou relatif)",
+     "seuil": "100 %",
+     "regle": ""
+    },
+    {
+     "id": "P00-3",
+     "controle": "chaque valeur approchée a une plage finie et non vide",
+     "seuil": "100 %",
+     "regle": ""
+    },
+    {
+     "id": "P00-4",
+     "controle": "chaque pratique locale non conforme à l'IISR (ocre, vert, Chronovélo, damier) porte une preuve `photo:` ou `mesure:`",
+     "seuil": "100 %",
+     "regle": "00_SYNTHESE § 0.1 ; RF-OBS-MAR-01"
+    },
+    {
+     "id": "P00-5",
+     "controle": "date d'état unique ; photos citées datées, valables à cette date, hors marquage de chantier",
+     "seuil": "0 photo hors état (avertissement si la date manque)",
+     "regle": "RF-OBS-MAR-03"
+    },
+    {
+     "id": "P00-6",
+     "controle": "aucune image ni tuile dans un fichier versionné",
+     "seuil": "0",
+     "regle": "CLAUDE.md du dépôt"
+    }
+   ],
+   "continuite": [
+    "Les nœuds portent un nom partagé : deux routes qui se touchent citent le même nœud.",
+    "Un carrefour est un objet décrit (type, régime, branches), jamais la fin d'un tronçon.",
+    "Les itinéraires (nom de voie, u, priorité) sont déclarés une fois pour toute la suite de routes."
+   ],
+   "etat": {
+    "existe": [
+     "format d'un tronçon isolé (`description/FORMAT_DESCRIPTION.md`) et son compilateur (`description_vers_modele.py`, 2 418 lignes à la lecture)",
+     "compilateur de réseau de l'étape 2 en cours d'écriture : `description/carrefours.py`, format `description_simple/0.2` (troncons[] à id, carrefours, giratoires, bretelles ; scènes `scenes_carrefours/J1` à `J3`)",
+     "descriptions de sites de Meylan en cours dans les lots voisins (`recon/generateur/meylan/<site>/` : description.yaml, mesures.json, photos.json, et `extensions_auto` pour ce que le format ne dit pas encore)",
+     "12 exemples, catalogue S01 à S12, trois rues de Meylan décrites d'après photo (M20, M24, M27)",
+     "inférence OSM → modèle avec nœuds partagés et carrefours topologiques"
+    ],
+    "manque": [
+     "couche réseau (proposée : FORMAT_DESCRIPTION_RESEAU.md) : nœuds ancrés, valeurs approchées, accrochage à OSM, itinéraires, ouvrages, échangeurs",
+     "résolveur (lot N1)"
+    ]
+   },
+   "lot": "N1"
+  },
+  {
+   "id": "E01",
+   "n": 1,
+   "phase": "B",
+   "proposition": "1",
+   "nom": "Graphe topologique",
+   "but": "Construire un seul graphe pour tout le réseau. Il contient les nœuds partagés et les routes de nœud à nœud. Chaque carrefour regroupe un ou plusieurs nœuds fusionnés. Les branches sont triées par azimut. Le graphe porte aussi les sens, les régimes, les priorités, les mouvements autorisés voie à voie et les itinéraires.",
+   "entrees": [
+    "description compilée (E00)",
+    "topologie OSM (`osm_vers_modele.construire`) quand la route est ancrée sur OSM"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/modele/modele_reseau.json",
+     "contrat": "modele_voie/0.2 (proposé) : `noeuds[]` (type RF-OSM-CAR-001), `routes[]` (noeud_debut, noeud_fin, categorie, vitesse_kmh, agglomeration, prioritaire), `carrefours[]` (type, regime, noeuds fusionnés, branches : regime, bandes_entrantes, bandes_sortantes, mouvements), `itineraires[]` (nouveau : suite ordonnée de routes, nom, u_m, prioritaire)"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/controle/p01_graphe.json",
+     "contrat": "porte P01"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::lire_modele::1.0",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/rg_lire_modele",
+     "note": "ne lit pas `carrefours` (lecteur.py l. 30-32, avertissement l. 313) : version lisant les carrefours = lot de l'étape 2, à reprendre"
+    },
+    {
+     "nom": "rg::graphe::1.0",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/rg_graphe",
+     "note": "branches triées par azimut, valence (construire.py l. 247-282) : utilisable tel quel"
+    }
+   ],
+   "outils": [
+    "compilateur réseau (N1) : fusion des carrefours complexes (osm2streets CollapseShortRoads), mouvements depuis `turn:lanes`"
+   ],
+   "regles": {
+    "route_fr": [
+     "RF-OSM-CAR-001",
+     "RF-OSM-CAR-002",
+     "RF-OSM-CAR-010",
+     "RF-OSM-CAR-011",
+     "RF-OSM-CAR-012",
+     "RF-OSM-PRF-011",
+     "RF-OSM-VOI-001",
+     "RF-OSM-VOI-004",
+     "RF-OSM-VIT-001",
+     "RF-OSM-AGG-001",
+     "RF-GV-CAR-001",
+     "RF-GV-CAR-006",
+     "RF-GV-GIR-017",
+     "RF-SV-CARREFOUR.COMPLEXE",
+     "RF-MQ-U-05",
+     "RF-OSM-MRQ-001",
+     "RF-MQ-CED-03"
+    ],
+    "def": [
+     "DEF-001"
+    ],
+    "arb": [
+     "ARB-19"
+    ],
+    "depot": [],
+    "docroute": [
+     "12M § 1 à § 4",
+     "12I § 5",
+     "10C § 1",
+     "09F § 3 (couloirs)"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [],
+   "controles": [
+    {
+     "id": "P01-1",
+     "controle": "chaque extrémité de route est un nœud du graphe ; `limite_carte` seulement au bord de l'emprise déclarée",
+     "seuil": "100 %",
+     "regle": "CC-01"
+    },
+    {
+     "id": "P01-2",
+     "controle": "tout nœud de valence ≥ 3 appartient à un carrefour ; deux nœuds reliés par une route de moins de 15 m [G] sont fusionnés ou la route est justifiée",
+     "seuil": "0 exception non justifiée",
+     "regle": "RF-OSM-CAR-001"
+    },
+    {
+     "id": "P01-3",
+     "controle": "graphe orienté connexe (sens uniques compris) ou composante isolée déclarée",
+     "seuil": "0 cul-de-sac non déclaré",
+     "regle": ""
+    },
+    {
+     "id": "P01-4",
+     "controle": "chaque branche entrante a ≥ 1 mouvement sortant ; chaque branche a un régime, sinon « à vérifier » (rien de peint)",
+     "seuil": "100 %",
+     "regle": "RF-OSM-CAR-012 ; ARB-19"
+    },
+    {
+     "id": "P01-5",
+     "controle": "aucune ligne cédez ni AB4 prévue sur une branche à feux",
+     "seuil": "0",
+     "regle": "RF-MQ-CED-03 ; RF-SV-AB4.POSITION"
+    },
+    {
+     "id": "P01-6",
+     "controle": "u constant le long d'un itinéraire",
+     "seuil": "0 changement",
+     "regle": "RF-MQ-U-05"
+    }
+   ],
+   "continuite": [
+    "Les routes partagent leurs nœuds : il n'y a plus de `limite_carte` à l'intérieur du réseau.",
+    "Un itinéraire est une chaîne de routes. Elle porte à travers les carrefours la ligne d'axe, sa phase, u et la priorité (RF-MQ-CAR-01).",
+    "Les mouvements voie à voie sont les futurs liens du graphe de voies (E18)."
+   ],
+   "etat": {
+    "existe": [
+     "inférence OSM : nœuds partagés et carrefours (osm_vers_modele.py l. 585-613 ; `carrefour_plan` l. 766 ; `carrefour_giratoire` l. 928)",
+     "rg::graphe : branches et valence"
+    ],
+    "manque": [
+     "description : chaque tronçon isolé reçoit deux nœuds `limite_carte` (description_vers_modele.py l. 2221-2222) ; l'étape 2 crée désormais les nœuds des carrefours décrits (`description/carrefours.py`), mais pas encore les nœuds de connexion ni les ancrages",
+     "itinéraires, mouvements voie à voie, fusion des carrefours complexes",
+     "lecture des carrefours dans Houdini (lot de l'étape 2)"
+    ]
+   },
+   "lot": "N1, N3"
+  },
+  {
+   "id": "E02",
+   "n": 2,
+   "phase": "B",
+   "proposition": "2",
+   "nom": "Tracé en plan et profil en long",
+   "but": "Donner à chaque route une ligne de référence régulière (droites, arcs, clothoïdes), raccordée en tangence à ses voisines d'itinéraire. Lui donner aussi une altitude réelle : un profil en long (pentes et raccordements) calé sur le terrain et sur les gabarits des ouvrages, et un dévers en courbe.",
+   "entrees": [
+    "graphe (E01)",
+    "polylignes OSM ou tracé décrit",
+    "mesures d'axe sur l'ortho",
+    "MNT ou LiDAR HD : 4 dalles de 1 km² autour de Paquet Jardin (`data/sites/paquet_jardin/avant_travaux/lidar_hd*`) ; le reste de Meylan est à télécharger (lacune L-08)",
+    "gabarits verticaux des ouvrages (E04, E07)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/modele/modele_reseau.json",
+     "contrat": "`routes[].ligne_reference.geometrie_reguliere` (schéma 0.1) ; `routes[].profil_long` (0.1 : points [s, z] ; 0.2 proposé : déclivités + raccordements de rayon R, source mnt | lidar | mesure | ouvrage) ; `routes[].devers` (loi de s) ; z de chaque nœud"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/controle/p02_trace.json",
+     "contrat": "porte P02 (écarts au tracé OSM ou mesuré, ruptures de cap, déclivités)"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::graphe::1.0",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/rg_graphe",
+     "note": "échantillonnage à flèche ≤ 0,5 mm des droites, arcs et clothoïdes"
+    },
+    {
+     "nom": "lecture du profil en long",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "`profil_long` existe au schéma 0.1 mais n'est lu nulle part ; le Z de la chaussée est ancré à 0 en t = 0 (rg_niveau.h l. 5)"
+    }
+   ],
+   "outils": [
+    "ajustement des géométries régulières sur les polylignes OSM ou sur les mesures (Python hors Houdini, lot N2)",
+    "échantillonnage du MNT le long des axes (Python, lot N2)"
+   ],
+   "regles": {
+    "route_fr": [
+     "RF-GV-DEV-001",
+     "RF-GV-DEV-002",
+     "RF-GV-DEV-003",
+     "RF-GV-RAY-012",
+     "RF-GV-RAY-009",
+     "RF-MA-CYC-004",
+     "RF-GV-CAR-004",
+     "RF-GV-CAR-005",
+     "RF-GV-GIR-022",
+     "RF-MA-TRO-003",
+     "RF-GV-PON-012",
+     "RF-OSM-OUV-001",
+     "RF-OSM-OUV-002",
+     "RF-GV-PT-008",
+     "RF-MQ-PS-01",
+     "RF-MQ-MIX-01"
+    ],
+    "def": [],
+    "arb": [],
+    "depot": [
+     "TQ-SOL-004"
+    ],
+    "docroute": [
+     "10PT § 3 (surlargeur) et § 5 (dévers, pentes)",
+     "10P § 4 (gabarits)"
+    ],
+    "a_verser": [
+     "ICTAVRU (2009) p. 29-30 : rayons en plan A 80 : 240 m (dévers 5 %), non déversé 400 m ; U 60 : 120 m ; U 80 : 240 m ; clothoïde L = max(14 (δ1 − δ0) ; R/9)",
+     "ICTAVRU p. 31 : déclivité moyenne ≤ 6 % (U 60, U 80, A 80), ≤ 5 % (A 100), ≤ 3 % conseillé à l'approche d'un carrefour plan (type U) ; rayon rentrant minimal 800 / 1 000 / 1 500 m (U 60 / U 80 et A 80 / A 100)",
+     "VSA 90/110 (Cerema 2014) p. 12-14 : Rm 240 m (VSA 90) et 400 m (VSA 110) avec d = 7 % ; Rdn 370 / 650 m ; clothoïde si R < 1,5 Rdn ; alignement ≥ 75 / 92 m entre deux courbes de même sens ≤ 1 500 m ; déclivité ≤ 6 % ; saillant ≥ 2 700 / 6 000 m ; rentrant ≥ 1 300 / 1 900 m"
+    ]
+   },
+   "bibliotheques": [],
+   "controles": [
+    {
+     "id": "P02-1",
+     "controle": "raccords des primitives et des routes d'un même itinéraire : continuité de position et de cap",
+     "seuil": "écart ≤ 1 mm ; rupture de cap ≤ 0,5°",
+     "regle": "CC-02"
+    },
+    {
+     "id": "P02-2",
+     "controle": "écart du tracé régulier à l'ancrage (OSM ou mesure)",
+     "seuil": "OSM ≤ 1,50 m [G] ; mesure ortho ≤ 0,30 m [G]",
+     "regle": "RF-OSM-BDT-001 (contrôle croisé)"
+    },
+    {
+     "id": "P02-3",
+     "controle": "z continu aux nœuds : toutes les routes d'un nœud ont le même z (centre du carrefour ou joint)",
+     "seuil": "|Δz| ≤ 1 cm",
+     "regle": "CC-03"
+    },
+    {
+     "id": "P02-4",
+     "controle": "déclivités et rayons dans les plages de la catégorie",
+     "seuil": "0 hors plage non admis",
+     "regle": "à verser (ICTAVRU, VSA 90/110)"
+    },
+    {
+     "id": "P02-5",
+     "controle": "deux routes qui se croisent sans nœud ont un ouvrage qui déclare l'écart de niveau",
+     "seuil": "écart ≥ gabarit (4,30 m ; 4,75 m sous autoroute) + 0,10 m",
+     "regle": "RF-GV-PON-012 ; RF-OSM-OUV-001"
+    },
+    {
+     "id": "P02-6",
+     "controle": "dévers : variation le long des clothoïdes seulement, jamais dans l'arc",
+     "seuil": "0",
+     "regle": "RF-GV-DEV-003"
+    }
+   ],
+   "continuite": [
+    "Les itinéraires sont continus en tangence (G1) à travers les nœuds de connexion et les carrefours.",
+    "Toutes les routes d'un nœud partagent le même z.",
+    "Un croisement sans nœud est forcément dénivelé, avec un ouvrage déclaré."
+   ],
+   "etat": {
+    "existe": [
+     "droites, arcs et clothoïdes dans la description et dans rg::graphe",
+     "dévers en toit ou à pente unique (DEF-006, commun/profil.py l. 632-684)"
+    ],
+    "manque": [
+     "ajustement de géométries régulières sur OSM (README_RG § 8 : décalés en onglet, replis aux sommets)",
+     "profil en long : jamais lu ; chaussée ancrée à Z = 0 (README_RG § 5)",
+     "dévers en courbe (RF-GV-DEV-002) et gauchissement le long des clothoïdes",
+     "règles de tracé des voies rapides urbaines (ICTAVRU, VSA 90/110) absentes de la base"
+    ]
+   },
+   "lot": "N2"
+  },
+  {
+   "id": "E03",
+   "n": 3,
+   "phase": "B",
+   "proposition": "3",
+   "nom": "Profils en travers et transitions le long des arcs",
+   "but": "Dérouler le profil de chaque route (bandes et limites), ses transitions (élargissements, rabattements, voies de tourne-à-gauche, terre-pleins qui naissent) et son profil d'extrémité. Le profil d'extrémité devient le contrat passé avec le carrefour ou avec la route suivante.",
+   "entrees": [
+    "modèle (E01, E02)",
+    "profils décrits ou inférés"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/modele/modele_reseau.json",
+     "contrat": "`profils[]`, `routes[].sections[]` contiguës de 0 à L, lois de largeur"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/l1/courbes_controle.json",
+     "contrat": "limites (s, t, x, y), rubans, profils d'extrémité (sortie 3 de rg::profils), profil en long"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::profils::1.0",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/rg_profils",
+     "note": "limites décalées, rubans, profils d'extrémité « frontière des futurs carrefours » (construire.py l. 264-269)"
+    }
+   ],
+   "outils": [
+    "`commun/profil.py` (constructeur commun à la description et à l'inférence, 844 lignes)"
+   ],
+   "regles": {
+    "route_fr": [
+     "RF-OSM-PRF-001",
+     "RF-OSM-PRF-002",
+     "RF-OSM-PRF-010",
+     "RF-OSM-LAR-010",
+     "RF-OSM-LAR-014",
+     "RF-GV-PT-001",
+     "RF-GV-PT-002",
+     "RF-GV-PT-006",
+     "RF-GV-PT-008",
+     "RF-GV-PT-009",
+     "RF-GV-PT-014",
+     "RF-GV-VS-001",
+     "RF-GV-VS-005",
+     "RF-GV-VS-010",
+     "RF-MQ-OBL-02",
+     "RF-OSM-NIV-010",
+     "RF-OSM-NIV-011",
+     "RF-OSM-NIV-013",
+     "RF-MA-TRO-001",
+     "RF-MA-PIS-006",
+     "RF-MA-SEP-001",
+     "RF-GV-TPC-001",
+     "RF-GV-TPC-002",
+     "RF-GV-TPC-005",
+     "RF-GV-TPC-006"
+    ],
+    "def": [
+     "DEF-002",
+     "DEF-003",
+     "DEF-004",
+     "DEF-005",
+     "DEF-006",
+     "DEF-007",
+     "DEF-008",
+     "DEF-009"
+    ],
+    "arb": [
+     "ARB-06",
+     "ARB-17",
+     "ARB-18"
+    ],
+    "depot": [],
+    "docroute": [
+     "10PT § 1 et § 2",
+     "10T § 2",
+     "11C § 3",
+     "12M § 3"
+    ],
+    "a_verser": [
+     "ICTAVRU p. 91 : bretelle à 1 voie 4 m + S(R) avec BAU, 5 m + S(R) sans ; 2 voies 7 m + 2 S(R) ; S(R) = 35/R (diffuseurs), 50/R (nœuds) ; berme ≥ 1 m ; BAU 2 m si possible ; BDG 0,50 à 1 m"
+    ]
+   },
+   "bibliotheques": [],
+   "controles": [
+    {
+     "id": "P03-1",
+     "controle": "contrôles du lot L1 : largeurs > 0, 0 chevauchement, sections contiguës, jonctions de sections",
+     "seuil": "écart ≤ 1 mm",
+     "regle": "README_RG § 4"
+    },
+    {
+     "id": "P03-2",
+     "controle": "nœud de connexion (valence 2) : mêmes bandes et mêmes largeurs des deux côtés, ou transition déclarée",
+     "seuil": "écart ≤ 1 mm",
+     "regle": "CC-04"
+    },
+    {
+     "id": "P03-3",
+     "controle": "cheminement libre de 1,40 m sur chaque trottoir (hors bande technique)",
+     "seuil": "100 % du linéaire",
+     "regle": "RF-MA-TRO-001"
+    },
+    {
+     "id": "P03-4",
+     "controle": "non-conformités de compilation non admises",
+     "seuil": "0 (bloque la fabrication, comme aujourd'hui)",
+     "regle": "FORMAT_DESCRIPTION § 11"
+    }
+   ],
+   "continuite": [
+    "Le profil d'extrémité est figé : le carrefour (E04) le reprend tel quel, avec les mêmes t et les mêmes niveaux.",
+    "Les transitions se font par lois de largeur, jamais par saut, sauf changement instantané déclaré."
+   ],
+   "etat": {
+    "existe": [
+     "rg::profils et commun/profil.py (lots L0 à L2b)"
+    ],
+    "manque": [
+     "contrôle de continuité d'une route à la suivante (aujourd'hui seulement d'une section à l'autre dans une route)",
+     "profils d'autoroute et de bretelle (BAU, BDG, séparateur GBA) : lot de l'étape 2"
+    ]
+   },
+   "lot": "N1 (contrôle inter-routes), étape 2 (profils d'autoroute)"
+  },
+  {
+   "id": "E04",
+   "n": 4,
+   "phase": "B",
+   "proposition": "4",
+   "nom": "Conception des carrefours, giratoires et échangeurs",
+   "but": "Résoudre chaque carrefour : coins, coupes des routes, frontière fermée, îlots (gouttes d'eau, central, directionnel, refuges), giratoires (anneau, îlot central, couronne, îlots séparateurs), échangeurs (bretelles, musoirs, voies d'insertion et de décélération), trajectoires, conflits et zone de conflit. Placer aussi les lignes d'arrêt et les passages, comme données de conception (la peinture vient en E12).",
+   "entrees": [
+    "graphe, tracé, profils d'extrémité (E01 à E03)",
+    "véhicules de projet (lot L3a de l'étape 2)",
+    "description des carrefours (E00)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/modele/modele_reseau.json",
+     "contrat": "`carrefours[]` complets (frontiere, ilots, anneau, trajectoires, conflits, zone_conflit, passages_pieton, controleur) ; routes coupées (`trim`) et routes trop courtes absorbées ; `ilots[]`"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/controle/p04_carrefours.json",
+     "contrat": "porte P04 (rg_carrefours_controles)"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "compilateur de réseau `description/carrefours.py`",
+     "statut": "etape2",
+     "fichier": "recon/generateur/description/carrefours.py",
+     "note": "en cours dans l'étape 2 : deux passes de compilation ; branches, frontière (limite de la chaussée abordée), coins, lignes transversales, passages, sas, flèches, îlots, trajectoires, conflits, zone de conflit, signaux, contrôleur de feux, anneau de giratoire, musoirs de bretelle ; géométrie calculée en Python (shapely) à la compilation. Cette chaîne en consomme les sorties sans les refaire"
+    },
+    {
+     "nom": "rg::carrefours::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "prévue au plan (lot L3) ; à redéfinir : la conception est faite à la compilation, Houdini fabrique (E05 et suivantes)"
+    }
+   ],
+   "outils": [
+    "`vehicules/vehicules_projet.json`, `vehicules/balayage.py` (lot L3a, étape 2)"
+   ],
+   "regles": {
+    "route_fr": [
+     "RF-GV-RAY-001",
+     "RF-GV-RAY-003",
+     "RF-GV-RAY-005",
+     "RF-GV-RAY-006",
+     "RF-GV-RAY-007",
+     "RF-GV-CAR-004",
+     "RF-GV-CAR-007",
+     "RF-GV-CAR-010",
+     "RF-GV-CAR-015",
+     "RF-GV-CAR-017",
+     "RF-GV-ILO-001",
+     "RF-GV-ILO-003",
+     "RF-GV-ILO-004",
+     "RF-GV-ILO-007",
+     "RF-GV-ILO-008",
+     "RF-GV-ILO-015",
+     "RF-GV-GIR-004",
+     "RF-GV-GIR-006",
+     "RF-GV-GIR-008",
+     "RF-GV-GIR-013",
+     "RF-GV-GIR-014",
+     "RF-GV-VS-016",
+     "RF-GV-VS-017",
+     "RF-GV-VS-018",
+     "RF-GV-TPC-014",
+     "RF-GV-TRJ-001",
+     "RF-GV-TRJ-006",
+     "RF-GV-PIE-010",
+     "RF-MQ-INS-01",
+     "RF-MQ-INS-02",
+     "RF-MQ-INS-03",
+     "RF-MQ-DEC-01",
+     "RF-MQ-OBL-04",
+     "RF-SV-INSERTION.AB3A",
+     "RF-OSM-CAR-030",
+     "RF-OSM-CAR-040",
+     "RF-OSM-CAR-060"
+    ],
+    "def": [
+     "DEF-010",
+     "DEF-012",
+     "DEF-022",
+     "DEF-023",
+     "DEF-024"
+    ],
+    "arb": [
+     "ARB-02",
+     "ARB-09",
+     "ARB-15"
+    ],
+    "depot": [],
+    "docroute": [
+     "10C § 2 à § 9 (algorithme § 9)",
+     "10G § 2 à § 7",
+     "10T § 3",
+     "PLAN_GENERATEUR § 2.4",
+     "12A § 4"
+    ],
+    "a_verser": [
+     "ICTAVRU p. 83-84 : bretelle = déboîtement ou insertion, décélération ou accélération, courbe, transition ; obliquité d'une entrée entre 1/20 et 1/30",
+     "ICTAVRU p. 87-89 : longueur de décélération L = (Vs² − V(R)²)/3 (1,5 m/s²), d'accélération L' = (Vi² − V(R)²)/2 (1 m/s²) ; R ≥ 20 m sur une attache, ≤ 50 m sur une boucle ; V(R) = 30 km/h pour R = 22 m, 50 km/h pour R = 80 m (dévers 5 %)",
+     "ICTAVRU p. 90 : déclivités des bretelles de diffuseur, entrée 5 % en rampe et 8 % en pente, sortie 7 % et 6 %",
+     "VSA 90/110 p. 37-38 : obliquité de sortie 1/33 (1/20 depuis une bretelle à une voie), d'entrée 1/33 à 1/20 ; entrecroisement de 300 à 750 m entre une entrée et une sortie rapprochées ; 0,70 m au moins entre la balise de musoir et le bord de la bretelle"
+    ]
+   },
+   "bibliotheques": [],
+   "controles": [
+    {
+     "id": "P04-1",
+     "controle": "frontière fermée, segments dans le sens trigonométrique",
+     "seuil": "100 %",
+     "regle": "12M § 4.1"
+    },
+    {
+     "id": "P04-2",
+     "controle": "coins tangents et rayon = consigne",
+     "seuil": "rupture ≤ 0,5° ; ± 1 cm",
+     "regle": "PLAN_GENERATEUR L3"
+    },
+    {
+     "id": "P04-3",
+     "controle": "traversée piétonne hors refuge",
+     "seuil": "≤ 12 m (bloquant)",
+     "regle": "RF-GV-PIE-010"
+    },
+    {
+     "id": "P04-4",
+     "controle": "refuge au droit du passage",
+     "seuil": "≥ 2,00 m (2,50 m aux feux si chaussée ≥ 12 m)",
+     "regle": "DEF-022 ; ARB-15"
+    },
+    {
+     "id": "P04-5",
+     "controle": "giratoire : déflexion",
+     "seuil": "< 100 m sur chaque couple de branches",
+     "regle": "RF-GV-GIR-008"
+    },
+    {
+     "id": "P04-6",
+     "controle": "trajectoires : rayon d'axe ≥ véhicule de projet",
+     "seuil": "100 %",
+     "regle": "RF-GV-TRJ-006"
+    },
+    {
+     "id": "P04-7",
+     "controle": "nombre de voies constant dans l'intersection",
+     "seuil": "100 %",
+     "regle": "RF-GV-CAR-007"
+    },
+    {
+     "id": "P04-8",
+     "controle": "joint : la frontière reprend le profil d'extrémité de la route",
+     "seuil": "t des limites ± 1 mm ; z ± 1 mm",
+     "regle": "CC-04"
+    }
+   ],
+   "continuite": [
+    "Chaque segment `joint` de la frontière coïncide avec le profil d'extrémité de sa route (P3).",
+    "Les coins raccordent en tangence les limites extérieures de deux branches voisines. Les bordures deviennent ainsi continues d'une rue à l'autre.",
+    "Une bretelle est une route de catégorie `bretelle`. Ses deux bouts sont des nœuds `fourche` (musoirs de divergence et de convergence) partagés avec la chaussée principale."
+   ],
+   "etat": {
+    "existe": [
+     "contrat de données (schéma : carrefour, branche, frontiere_segment, trajectoire, conflit, ilot, anneau)",
+     "compilateur de réseau de l'étape 2 en cours, scènes J1 (T en cédez), J2 (croix à STOP), J3 (croix à feux)"
+    ],
+    "manque": [
+     "fin de l'étape 2 (hors de ce lot) : giratoires et autoroutes encore vides le 17/10/2026 (`scenes_giratoires/`, `scenes_autoroutes/`)",
+     "échangeurs : aucune règle de géométrie de bretelle dans la base (lacune L-01)"
+    ]
+   },
+   "lot": "étape 2 (solveur) ; N4 consomme ses sorties"
+  },
+  {
+   "id": "E05",
+   "n": 5,
+   "phase": "B",
+   "proposition": "nouvelle",
+   "nom": "Plan-masse unique (épure 2D du réseau)",
+   "but": "Assembler toutes les limites en un seul arrangement plan du chantier, typé et sans trou : rives et bordures des routes, coins, frontières de carrefour, îlots, bretelles, abords. Chaque face reçoit un type, un matériau et une région de niveau. Chaque arête reçoit une nature (bordure, changement de revêtement, ligne de rupture, bord de plate-forme). Les arêtes de bordure s'enchaînent en chaînes continues.",
+   "entrees": [
+    "limites décalées et rubans (E03)",
+    "coins, frontières et îlots (E04)",
+    "abords décrits (pelouse, parking…)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/plan_masse/arrangement.json",
+     "contrat": "faces (id stable, type : chaussee | trottoir | piste | terre_plein | ilot | quai | abord, materiau_id, region_niveau, route ou carrefour propriétaire) ; arêtes (nature, profil de bordure, vue (loi), caniveau, abaissés) ; chaînes de bordure (id, suite d'arêtes, côté haut, fermée ou non, points durs) ; lignes de rupture (couronnes, joints de sections)"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/plan_masse/tuiles.json",
+     "contrat": "chantiers, origines locales, grille de tuiles de 50 m (lignes de grille = contraintes)"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/controle/p05_plan_masse.json",
+     "contrat": "porte P05"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::plan_masse::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "VEX, Intersection Analysis, Boolean, PolyExpand2D ; remplace la partition en (s, t) propre à chaque route"
+    }
+   ],
+   "outils": [
+    "contrôle indépendant en Python (shapely), comme `validation/controler_L1.py`"
+   ],
+   "regles": {
+    "route_fr": [
+     "RF-GV-RAY-001",
+     "RF-MA-ABA-006",
+     "RF-AS-pas_element",
+     "RF-MA-TRO-011"
+    ],
+    "def": [
+     "DEF-005"
+    ],
+    "arb": [
+     "ARB-18"
+    ],
+    "depot": [
+     "TQ-SOL-001",
+     "TQ-SOL-002",
+     "TQ-SOL-003",
+     "TQ-SOL-010"
+    ],
+    "docroute": [
+     "03 CNIG PCRS v2.0 (classes limite de voirie, fil d'eau, bordure)",
+     "12A § 5 (contrat de `pj::sol`)"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [],
+   "controles": [
+    {
+     "id": "P05-1",
+     "controle": "arrangement plan valide : 0 auto-intersection, 0 trou, 0 recouvrement ; somme des aires des faces = aire de l'emprise",
+     "seuil": "écart d'aire ≤ 1e-6 relatif",
+     "regle": "CC-05 ; TQ-SOL-001"
+    },
+    {
+     "id": "P05-2",
+     "controle": "chaque face a un seul type et un seul matériau",
+     "seuil": "100 %",
+     "regle": ""
+    },
+    {
+     "id": "P05-3",
+     "controle": "entre deux faces de niveaux différents : une bordure, ou « sans bordure » déclarée avec dz = 0",
+     "seuil": "100 %",
+     "regle": ""
+    },
+    {
+     "id": "P05-4",
+     "controle": "chaînes de bordure sans lacune ; un bout de chaîne seulement sur un point dur déclaré (abaissé, bateau, chartière, bord de chantier)",
+     "seuil": "lacune ≤ 1 mm",
+     "regle": "CC-06"
+    },
+    {
+     "id": "P05-5",
+     "controle": "arêtes calées sur une grille de 1 mm ; arêtes < 5 mm et contraintes quasi parallèles à < 5 mm fusionnées",
+     "seuil": "100 %",
+     "regle": "TQ-SOL-001"
+    }
+   ],
+   "continuite": [
+    "C'est la garantie centrale : une seule vérité plane pour toutes les couches fabriquées (sol, bordures, marquages, objets).",
+    "Les arêtes partagées sont identiques des deux côtés : même polyligne, même sens de parcours inversé."
+   ],
+   "etat": {
+    "existe": [
+     "partition en (s, t) d'une seule route (rg::nivellement, rg::sol) ; zones sous les bordures"
+    ],
+    "manque": [
+     "arrangement plan à l'échelle du réseau (tout est à créer)"
+    ]
+   },
+   "lot": "N4"
+  },
+  {
+   "id": "E06",
+   "n": 6,
+   "phase": "B",
+   "proposition": "5",
+   "nom": "Nivellement unique et hydraulique de surface",
+   "but": "Calculer un seul champ de Z pour tout le chantier. Sur la chaussée hors carrefour : profil en long et dévers. Dans l'aire d'un carrefour : un plan coté, interpolé entre les profils des branches. Ensuite viennent les caniveaux, les pieds et les têtes de bordure, les trottoirs, les îlots et les abords raccordés au terrain. Le même calcul vérifie que chaque point bas a un exutoire et donne les pentes du fil d'eau.",
+   "entrees": [
+    "plan-masse (E05)",
+    "profil en long et dévers (E02)",
+    "vues de bordure et niveaux des bandes (E03)",
+    "MNT"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/niveau/heightfield_<tuile>.npy",
+     "contrat": "HeightField 0,10 m (height, r0, z1, r1, z2, r2), rangé comme celui de pj::lire_description (README_HDA § 2)"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/niveau/niveaux.json",
+     "contrat": "sections, files de bordure (pied, tête, vue, fil d'eau), aires de carrefour"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/niveau/hydraulique.json",
+     "contrat": "points bas et leur exutoire, pente de chaque file de fil d'eau, bassins de surface et aire collectée"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::nivellement::1.0",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/rg_nivellement",
+     "note": "modèle de Z unique par route ; nappes numérotées par route (construire.py l. 777-815)"
+    },
+    {
+     "nom": "rg::nivellement::2.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "Z réseau : profil en long, aires de carrefour, MNT, hydraulique"
+    }
+   ],
+   "outils": [
+    "`hda/commun/vex/rg_niveau.h` (coupe en travers, inversion (x, y) → (s, t)) : réutilisé"
+   ],
+   "regles": {
+    "route_fr": [
+     "RF-GV-DEV-001",
+     "RF-GV-DEV-002",
+     "RF-GV-GIR-005",
+     "RF-GV-GIR-006",
+     "RF-GV-CAR-005",
+     "RF-MA-TRO-002",
+     "RF-MA-TRO-003",
+     "RF-MA-TRO-004",
+     "RF-MA-ABA-001",
+     "RF-MA-ABA-004",
+     "RF-MA-RAL-001",
+     "RF-GV-PON-012",
+     "RF-MA-BUS-011"
+    ],
+    "def": [
+     "DEF-005",
+     "DEF-006",
+     "DEF-031",
+     "DEF-034"
+    ],
+    "arb": [],
+    "depot": [
+     "TQ-SOL-013",
+     "TQ-SOL-014",
+     "TQ-SOL-004",
+     "TQ-SOL-007",
+     "GA-CHA-003",
+     "GA-CHA-004",
+     "GA-ASS-001"
+    ],
+    "docroute": [
+     "10PT § 5",
+     "10G § 4",
+     "11P § 1 et § 3"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [],
+   "controles": [
+    {
+     "id": "P06-1",
+     "controle": "un seul Z par (x, y, région) ; les marches existent seulement aux bordures",
+     "seuil": "vue = modèle ± 5 mm",
+     "regle": "TQ-SOL-013"
+    },
+    {
+     "id": "P06-2",
+     "controle": "continuité aux joints, aux tuiles et aux chantiers",
+     "seuil": "|Δz| ≤ 1 mm",
+     "regle": "CC-03 ; CC-07"
+    },
+    {
+     "id": "P06-3",
+     "controle": "cheminement : dévers ≤ 2 % ; pente < 5 % hors rampants",
+     "seuil": "100 %",
+     "regle": "RF-MA-TRO-002 ; RF-MA-TRO-003"
+    },
+    {
+     "id": "P06-4",
+     "controle": "aucun point bas sans exutoire (avaloir à moins de 1 m)",
+     "seuil": "0",
+     "regle": "GA-CHA-004 ; CC-12"
+    },
+    {
+     "id": "P06-5",
+     "controle": "fil d'eau : pente ≥ 0,5 %, sinon dents de scie avec un avaloir à chaque point bas",
+     "seuil": "100 %",
+     "regle": "GA-CHA-003"
+    },
+    {
+     "id": "P06-6",
+     "controle": "aire de carrefour : pente résultante ≥ 0,5 %, dévers local ≤ 4 %, aucun minimum dans un passage, un abaissé ou un sas",
+     "seuil": "100 %",
+     "regle": "TQ-SOL-014"
+    },
+    {
+     "id": "P06-7",
+     "controle": "anneau de giratoire : dévers vers l'extérieur, ≤ 3 %",
+     "seuil": "100 %",
+     "regle": "RF-GV-GIR-005"
+    },
+    {
+     "id": "P06-8",
+     "controle": "hauteur libre sous ouvrage",
+     "seuil": "≥ 4,30 m (4,75 m autoroute) + 0,10 m",
+     "regle": "RF-GV-PON-012"
+    }
+   ],
+   "continuite": [
+    "Le Z est continu à travers les joints, les carrefours, les tuiles et les chantiers.",
+    "Le fil d'eau est continu d'une route au coin de carrefour suivant : les caniveaux tournent avec les bordures.",
+    "Hors des surfaces modélisées, le terrain est le MNT conditionné, raccordé aux bords de plate-forme (TQ-SOL-007)."
+   ],
+   "etat": {
+    "existe": [
+     "modèle de Z unique sur une route (README_RG § 5), HeightField 0,10 m, abaissés, ralentisseurs, grilles au droit des plateaux"
+    ],
+    "manque": [
+     "Z réel (profil en long, MNT) : la chaussée est à Z = 0 en t = 0",
+     "aires de carrefour (TQ-SOL-014), points bas, exutoires, pentes du fil d'eau",
+     "HeightField à l'échelle du réseau (régions numérotées 100 × rang de route + nappe)"
+    ]
+   },
+   "lot": "N5"
+  },
+  {
+   "id": "E07",
+   "n": 7,
+   "phase": "C",
+   "proposition": "nouvelle",
+   "nom": "Terrassements, plate-forme et ouvrages d'art",
+   "but": "Fabriquer ce qui porte la chaussée. D'abord la plate-forme étanche, raccordée au terrain par des talus. Puis les murs de soutènement et les ouvrages : tablier, corniches, piles, culées, joints, trémies, par exemple les trois ponts OSM de la bretelle de la Rocade Sud vers l'A41 et l'« Hélice de Meylan ». Le terrain est abaissé sous les ouvrages.",
+   "entrees": [
+    "plan-masse et Z (E05, E06)",
+    "`ouvrages[]` du modèle (routes portées, franchit, gabarit, travées)",
+    "MNT"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/fabrique/terrain_<tuile>.usda",
+     "contrat": "terrain et talus (materiau_id, pj_couche)"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/fabrique/ouvrages.usda",
+     "contrat": "tabliers, piles, culées, murs ; points `pj_points/0.1` des garde-corps et barrières"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::ouvrages::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "prévue au lot L8 du plan"
+    },
+    {
+     "nom": "rg::terrain::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "raccord au MNT, talus, abaissement sous ouvrage"
+    }
+   ],
+   "outils": [],
+   "regles": {
+    "route_fr": [
+     "RF-GV-PON-001",
+     "RF-GV-PON-002",
+     "RF-GV-PON-003",
+     "RF-GV-PON-005",
+     "RF-GV-PON-007",
+     "RF-GV-PON-009",
+     "RF-GV-PON-010",
+     "RF-GV-PON-011",
+     "RF-GV-PON-012",
+     "RF-GV-PON-014",
+     "RF-GV-PON-015",
+     "RF-AS-garde_corps_S8",
+     "RF-AS-garde_corps_hauteur",
+     "RF-OSM-OUV-001"
+    ],
+    "def": [
+     "DEF-033"
+    ],
+    "arb": [],
+    "depot": [
+     "TQ-SOL-007",
+     "TQ-SOL-009"
+    ],
+    "docroute": [
+     "10P (PONTS_OUVRAGES.md)",
+     "14 § 6.8"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [
+    "garde-corps (4 meshes, dont S8) et barrières (3) de `catalogue_assets_route.json`",
+    "matériaux béton PBR `route_fr`",
+    "manquent : glissières GS2/GS4, BN4, parapets béton, garde-corps à lisses (ASSETS_ROUTE § 9) ; GBA, DBA et corniches (non prévus au dossier 14)"
+   ],
+   "controles": [
+    {
+     "id": "P07-1",
+     "controle": "hauteur libre sous ouvrage",
+     "seuil": "≥ gabarit + 0,10 m",
+     "regle": "RF-GV-PON-012"
+    },
+    {
+     "id": "P07-2",
+     "controle": "épaisseur de tablier selon le type",
+     "seuil": "l/20 à l/28 (dalle PSIDA)",
+     "regle": "RF-GV-PON-015"
+    },
+    {
+     "id": "P07-3",
+     "controle": "hauteur des garde-corps",
+     "seuil": "[0,90 + 0,005 Hc ; min(1,00 + 0,005 Hc ; 1,20)]",
+     "regle": "DEF-033"
+    },
+    {
+     "id": "P07-4",
+     "controle": "terrain sans trou ni surplomb sous l'ouvrage ; plate-forme étanche",
+     "seuil": "0 arête libre intérieure",
+     "regle": "TQ-SOL-009"
+    }
+   ],
+   "continuite": [
+    "Le dessus du tablier est la plate-forme d'E06 : la chaussée sur l'ouvrage est la même face du plan-masse.",
+    "Les joints de chaussée aux abouts traversent aussi le trottoir (RF-GV-PON-011)."
+   ],
+   "etat": {
+    "existe": [
+     "contrat `ouvrage` au schéma (type, routes_portees, franchit, gabarit, tablier, appuis, joints)"
+    ],
+    "manque": [
+     "toute la fabrication ; le rendu de l'étape 1 pose la route sur un socle plat neutre (decor_l2b.py l. 820-861)"
+    ]
+   },
+   "lot": "N9"
+  },
+  {
+   "id": "E08",
+   "n": 8,
+   "phase": "C",
+   "proposition": "7",
+   "nom": "Bordures et caniveaux en chaînes continues",
+   "but": "Poser les bordures et les caniveaux élément par élément le long des chaînes du plan-masse. Une chaîne fait le tour de l'îlot bâti et des terre-pleins, passe les coins en pièces courbes et inclut les abaissés, les bateaux, les chartières et les raccords de vue comme des intervalles. Comme sur un vrai chantier, bordures et caniveaux viennent avant l'enrobé : ils en sont le coffrage.",
+   "entrees": [
+    "chaînes de bordure (E05)",
+    "pieds, têtes et fil d'eau (E06)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/fabrique/bordures/elements.json",
+     "contrat": "éléments posés (profil, longueur, transformation, rôle : courant, chartière, bateau, angle, retour)"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/points/bordures.json",
+     "contrat": "`pj_points/0.1` pour PG_Bordures (TQ-PCG-001)"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::vers_entites::1.0",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/rg_vers_entites",
+     "note": "files de bordure par route, boucles ouvertes au premier point"
+    },
+    {
+     "nom": "rg::vers_entites::2.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "entités au contrat de pj::lire_description depuis les chaînes du plan-masse"
+    },
+    {
+     "nom": "pj::bordure::2.0",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/pj_bordure_v2",
+     "note": "pièces d'angle en onglet, éléments sur mesure"
+    },
+    {
+     "nom": "pj::caniveau::2.1",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/pj_caniveau_v2_1",
+     "note": "coupe partagée < 0,20 m"
+    }
+   ],
+   "outils": [],
+   "regles": {
+    "route_fr": [
+     "RF-AS-liste_profils_nf",
+     "RF-AS-profil_T2",
+     "RF-AS-profil_I2",
+     "RF-AS-profil_A2",
+     "RF-AS-profil_CS2",
+     "RF-AS-pas_element",
+     "RF-AS-raccord_bateau",
+     "RF-OSM-NIV-010",
+     "RF-OSM-NIV-012",
+     "RF-MA-ABA-001",
+     "RF-MA-ABA-006",
+     "RF-MA-TRO-015",
+     "RF-MA-TRO-016",
+     "RF-GV-GIR-006",
+     "RF-MA-REF-003",
+     "RF-GV-RAY-001"
+    ],
+    "def": [
+     "DEF-005",
+     "DEF-031"
+    ],
+    "arb": [
+     "ARB-18"
+    ],
+    "depot": [
+     "TQ-BOR-001",
+     "TQ-BOR-002",
+     "TQ-BOR-005",
+     "TQ-BOR-007",
+     "bordures_elements.json (autre équipe, lecture seule)"
+    ],
+    "docroute": [
+     "14 § 6.1 et § 6.2",
+     "11P § 3"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [
+    "64 bordures et 12 caniveaux de `catalogue_assets_route.json` (33 profils lus sur les dessins Alkern)",
+    "matériaux `beton_bordure_gris`, `beton_bordure_clair`, `granit_bordure`, `calcaire_bordure`, `caniveau_beton` (`materiaux_sol.json`)",
+    "manquent : pièces d'angle T3/T4, courbes A et I, quart de rond intérieur T2 coté (ASSETS_ROUTE § 9)"
+   ],
+   "controles": [
+    {
+     "id": "P08-1",
+     "controle": "joints entre éléments",
+     "seuil": "3,5 à 9,5 mm ; 0 fente",
+     "regle": "pj::bordure::2.0 (README_RG § 5)"
+    },
+    {
+     "id": "P08-2",
+     "controle": "coupe minimale d'un élément",
+     "seuil": "≥ 0,20 m",
+     "regle": "TQ-BOR-002"
+    },
+    {
+     "id": "P08-3",
+     "controle": "vue posée",
+     "seuil": "= modèle ± 5 mm",
+     "regle": "DEF-005"
+    },
+    {
+     "id": "P08-4",
+     "controle": "chaîne d'îlot fermée ; coin posé en pièce courbe du rayon du coin",
+     "seuil": "100 %",
+     "regle": "CC-06"
+    },
+    {
+     "id": "P08-5",
+     "controle": "aucun élément sur une face de chaussée",
+     "seuil": "0",
+     "regle": ""
+    }
+   ],
+   "continuite": [
+    "Les identifiants de chaîne sont stables. La pose part d'un point dur et les joints sont phasés le long de la chaîne, pas le long de la route.",
+    "Le caniveau suit sa bordure à travers le coin et ne s'interrompt qu'aux grilles, aux bateaux et aux ralentisseurs."
+   ],
+   "etat": {
+    "existe": [
+     "pose en éléments, pièces d'angle, chartières, retours transversaux, grilles d'avaloir (lots L2, L2b, corrections)"
+    ],
+    "manque": [
+     "chaînes à l'échelle du réseau : aujourd'hui une file par route et par côté, coupée aux bouts de route",
+     "coins de carrefour (solveur de l'étape 2)",
+     "types de bordures étendus (étape 2)"
+    ]
+   },
+   "lot": "N6"
+  },
+  {
+   "id": "E09",
+   "n": 9,
+   "phase": "C",
+   "proposition": "9",
+   "nom": "Assainissement : avaloirs, grilles, regards, tampons",
+   "but": "Poser les ouvrages d'assainissement visibles, avant la couche de roulement comme sur un vrai chantier : un avaloir à chaque point bas d'E06 et au pas réglementaire, des grilles au pied des rampes de plateau, des regards de visite et des tampons sur l'axe de la voie lente, hors traces de roues.",
+   "entrees": [
+    "hydraulique (E06)",
+    "chaînes de caniveau (E08)",
+    "trajectoires (E04) pour éviter les traces de roues"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/points/assainissement.json",
+     "contrat": "`pj_points/0.1` (avaloir, grille, tampon ; classe EN 124) ; trous dans les faces de chaussée et de caniveau"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::vers_entites (sortie 3)",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/rg_vers_entites",
+     "note": "grilles au pied des rampes de plateau et en bout de file fermée"
+    },
+    {
+     "nom": "rg::assainissement::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "points bas → avaloirs ; regards au pas"
+    }
+   ],
+   "outils": [],
+   "regles": {
+    "route_fr": [
+     "RF-MA-BUS-016",
+     "RF-MA-RAL-001"
+    ],
+    "def": [],
+    "arb": [],
+    "depot": [
+     "GA-ASS-001",
+     "GA-ASS-002",
+     "GA-ASS-003",
+     "GA-ASS-004",
+     "GA-ASS-006",
+     "GA-CHA-004"
+    ],
+    "docroute": [
+     "Certu, Coussins et plateaux 2010, p. 46 (cité par README_RG § 5)"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [
+    "`decal_grille_avaloir` (décalque) ; prototypes d'avaloir de GA-ASS-002",
+    "manquent : avaloirs et regards en volume (ASSETS_ROUTE § 9)"
+   ],
+   "controles": [
+    {
+     "id": "P09-1",
+     "controle": "chaque point bas a son avaloir",
+     "seuil": "≤ 1 m",
+     "regle": "GA-CHA-004"
+    },
+    {
+     "id": "P09-2",
+     "controle": "pas des avaloirs",
+     "seuil": "s = min(350 / largeur drainée ; 50 m)",
+     "regle": "GA-ASS-001"
+    },
+    {
+     "id": "P09-3",
+     "controle": "regards de visite",
+     "seuil": "pas 50 m, ≤ 75 à 80 m ; hors traces de roues et hors stationnement",
+     "regle": "GA-ASS-004"
+    },
+    {
+     "id": "P09-4",
+     "controle": "aucun avaloir dans un passage piéton, une BEV ou un abaissé",
+     "seuil": "0",
+     "regle": "[G]"
+    }
+   ],
+   "continuite": [
+    "L'avaloir remplace la pièce de caniveau qu'il occupe. La chaîne de caniveau reste continue (README_RG § 5)."
+   ],
+   "etat": {
+    "existe": [
+     "grilles au pied des rampes et en bout de file (rg::vers_entites, corrections du 17/10/2026)"
+    ],
+    "manque": [
+     "points bas, pas réglementaire, regards et tampons"
+    ]
+   },
+   "lot": "N6"
+  },
+  {
+   "id": "E10",
+   "n": 10,
+   "phase": "C",
+   "proposition": "6",
+   "nom": "Chaussée (bitume) : revêtement, reprises, joints",
+   "but": "Revêtir toutes les faces de chaussée du chantier (routes, carrefours, bretelles) d'un seul maillage étanche, coupé contre les faces de caniveau et autour des tampons. Puis ajouter l'aspect : type d'enrobé par zone, reprises et rapiéçages, pontages de fissures, faïençage, usure dans les traces de roues. Les masques sont calculés en coordonnées du chantier, pas en (s, t) d'une route.",
+   "entrees": [
+    "faces `chaussee` (E05)",
+    "Z (E06)",
+    "éléments posés (E08, E09)",
+    "trajectoires (E04) pour les traces de roues"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/fabrique/sol_<tuile>.usda",
+     "contrat": "maillage Y haut → USD Z haut ; materiau_id ; pj_couche ; pj_entite ; N ; uv en m continues entre tuiles ; primvars de masques (usure, reprise, graine)"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/points/decalques_chaussee.json",
+     "contrat": "décalques (pontages, rapiéçages, tampons) en `pj_points/0.1`"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::sol::1.0",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/rg_sol",
+     "note": "triangulation contrainte en (s, t) d'une route"
+    },
+    {
+     "nom": "rg::sol::2.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "triangulation (x, y) du chantier contrainte par le plan-masse, Z par région (E06)"
+    },
+    {
+     "nom": "rg::aspect_chaussee::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "masques d'usure le long des trajectoires, zones de reprise"
+    }
+   ],
+   "outils": [
+    "`rendu/textures_sol.py` et `rendu/textures.py` (cartes d'usure) : à reporter en coordonnées du chantier"
+   ],
+   "regles": {
+    "route_fr": [
+     "RF-OBS-REV-01",
+     "RF-OBS-MAR-03",
+     "RF-AS-regle_materiaux_elements"
+    ],
+    "def": [],
+    "arb": [],
+    "depot": [
+     "TQ-SOL-002",
+     "TQ-SOL-003",
+     "TQ-SOL-008",
+     "TQ-SOL-009",
+     "TQ-SOL-010",
+     "TQ-SOL-011",
+     "TQ-SOL-012",
+     "TQ-BOR-007"
+    ],
+    "docroute": [
+     "14 § 3 et § 5 (matériaux PBR)",
+     "13 § 2.9 (revêtements observés)"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [
+    "`materiaux_sol.json` (34 matériaux : enrobe_bbsg_ancien, enrobe_bbsg_neuf_2025, enrobe_reprise_tranchee, enrobe_clair_granulats…)",
+    "27 matériaux PBR CC0 `route_fr` + matériaux du site ; `materiaux_rendu_v2.json`",
+    "`assets/lib` (2,6 Go non versionnés, régénérables)"
+   ],
+   "controles": [
+    {
+     "id": "P10-1",
+     "controle": "sol 2-variété, sans doublon ni auto-intersection",
+     "seuil": "0 défaut",
+     "regle": "TQ-SOL-009 ; CC-07"
+    },
+    {
+     "id": "P10-2",
+     "controle": "arêtes communes aux tuiles identiques ; normales calculées avant découpe",
+     "seuil": "100 %",
+     "regle": "TQ-SOL-002 ; TQ-SOL-008"
+    },
+    {
+     "id": "P10-3",
+     "controle": "caniveau / enrobé au même Z",
+     "seuil": "± 3 mm ; chaussée sous l'élément ≥ flèche + 1,5 mm",
+     "regle": "TQ-BOR-007"
+    },
+    {
+     "id": "P10-4",
+     "controle": "masques d'aspect continus d'une route au carrefour",
+     "seuil": "0 couture visible (revue en tuiles)",
+     "regle": "CC-07"
+    }
+   ],
+   "continuite": [
+    "Un seul maillage par chantier, découpé en tuiles le long de lignes de grille : plus de nappe par route.",
+    "Les UV et les masques sont en coordonnées du chantier (ou de l'itinéraire pour les traces de roues) : aucun raccord de texture au changement de route."
+   ],
+   "etat": {
+    "existe": [
+     "rg::sol (étanche sur une route, lignes de rupture, BEV) ; rendu Karma avec cartes d'usure"
+    ],
+    "manque": [
+     "triangulation du réseau",
+     "cartes d'usure lues en (s, t) de la route avec un décalage propre à la scène (rendu_l2b.py l. 963, README_RG § 6) : couture à chaque changement de route"
+    ]
+   },
+   "lot": "N5"
+  },
+  {
+   "id": "E11",
+   "n": 11,
+   "phase": "C",
+   "proposition": "8",
+   "nom": "Trottoirs, pistes, terre-pleins et îlots (revêtements)",
+   "but": "Revêtir les autres faces : trottoirs (enrobé, béton balayé ou désactivé avec joints sciés, dalles), pistes et séparateurs, BEV, quais de bus, entrées charretières. Fabriquer aussi les cinq genres de terre-plein (planté, BRF, gravier, hachuré, franchissable) et les îlots.",
+   "entrees": [
+    "faces non circulées (E05)",
+    "Z (E06)",
+    "bordures posées (E08)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/fabrique/sol_<tuile>.usda",
+     "contrat": "faces non circulées dans le même maillage que E10 (même triangulation)"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/fabrique/ilots.usda",
+     "contrat": "remplissages (pj::ilot)"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/points/bev.json",
+     "contrat": "BEV (dalles podotactiles)"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::sol (BEV)",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/rg_sol",
+     "note": "BEV à 0,50 m du nez, contraste avec le revêtement voisin"
+    },
+    {
+     "nom": "rg::terre_pleins::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "prévue au plan (genres → pj::ilot, pj::marquage_zone, semis)"
+    },
+    {
+     "nom": "pj::ilot::1.0",
+     "statut": "existe_pj",
+     "fichier": "recon/pcg/houdini/hda/pj_ilot",
+     "note": "remplissages BRF, gravier, gazon"
+    }
+   ],
+   "outils": [],
+   "regles": {
+    "route_fr": [
+     "RF-MA-TRO-001",
+     "RF-MA-TRO-010",
+     "RF-MA-TRO-011",
+     "RF-MA-BEV-001",
+     "RF-MA-BEV-002",
+     "RF-MA-BEV-004",
+     "RF-MA-PIS-001",
+     "RF-MA-PIS-002",
+     "RF-MA-SEP-005",
+     "RF-MA-SEP-006",
+     "RF-GV-TPC-010",
+     "RF-GV-TPC-012",
+     "RF-GV-TPC-013",
+     "RF-MQ-ILOT-01",
+     "RF-MA-BUS-002",
+     "RF-MA-BUS-005",
+     "RF-GV-GIR-006",
+     "RF-OBS-ILO-04"
+    ],
+    "def": [
+     "DEF-004",
+     "DEF-008",
+     "DEF-031",
+     "DEF-032"
+    ],
+    "arb": [
+     "ARB-06",
+     "ARB-17"
+    ],
+    "depot": [],
+    "docroute": [
+     "10T § 1 à § 6 (cinq genres)",
+     "11P § 1 à § 4",
+     "11T § 1",
+     "12M § 5"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [
+    "dalles et BEV (5), pavés (4) de `catalogue_assets_route.json`",
+    "`materiaux_sol.json` : beton_balaye, beton_desactive, dalles_beton, paves_granit, bev_podotactile, remplissages d'îlots (brf_bois_concasse, gravier_concasse_6_10, galets_20_40, gazon_tondu…)"
+   ],
+   "controles": [
+    {
+     "id": "P11-1",
+     "controle": "réseau piéton connexe (trottoirs, passages, refuges) ; cheminement de 1,40 m continu",
+     "seuil": "100 %",
+     "regle": "CC-10 ; RF-MA-TRO-001"
+    },
+    {
+     "id": "P11-2",
+     "controle": "BEV à chaque traversée matérialisée",
+     "seuil": "100 %",
+     "regle": "RF-MA-BEV-001"
+    },
+    {
+     "id": "P11-3",
+     "controle": "refuge : BEV selon la largeur",
+     "seuil": "table BEV03",
+     "regle": "RF-MA-BEV-004"
+    },
+    {
+     "id": "P11-4",
+     "controle": "part de surface perméable rapportée (Métropole de Grenoble)",
+     "seuil": "≥ 10 % visé (avertissement)",
+     "regle": "RF-GV-TPC-013"
+    }
+   ],
+   "continuite": [
+    "Les trottoirs d'une rue et ceux du coin de carrefour forment une seule face par îlot bâti, avec les mêmes joints de dalle.",
+    "Les itinéraires cyclables restent continus à travers les traversées. Leurs interruptions sont déclarées (RF-MA-BAN-008)."
+   ],
+   "etat": {
+    "existe": [
+     "trottoirs, pistes, bandes plantées, zones hachurées, îlot refuge bordé dans une même nappe par route ; BEV"
+    ],
+    "manque": [
+     "rg::terre_pleins (genres)",
+     "joints sciés des bétons",
+     "réseau piéton et cyclable à l'échelle du réseau"
+    ]
+   },
+   "lot": "N5, N6"
+  },
+  {
+   "id": "E12",
+   "n": 12,
+   "phase": "C",
+   "proposition": "10",
+   "nom": "Marquages : longitudinaux, puis transversaux, puis flèches et symboles",
+   "but": "Peindre dans cet ordre. (a) Les lignes longitudinales le long des itinéraires, continues à travers les approches et absentes de la zone de conflit. (b) Les approches : annonces, continues d'approche, contours d'îlots, zébras, chevrons. (c) Les lignes transversales : STOP, cédez, effet des feux. (d) Les passages piétons et les sas. (e) Les flèches et symboles, posés après la ligne d'arrêt qu'ils visent. (f) Le guidage seulement s'il est décrit.",
+   "entrees": [
+    "sol fabriqué (E10, E11)",
+    "itinéraires (E01)",
+    "lignes d'arrêt, passages, sas, trajectoires (E04)",
+    "profils (E03)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/fabrique/marquages_<tuile>.usda",
+     "contrat": "peinture drapée (+2 à 3 mm), materiau_id peinture_<couleur>_u<usure>"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/marquages/table_marques.json",
+     "contrat": "une ligne par marque (type, gabarit, ancrage, règle)"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/points/marquages_symboles.json",
+     "contrat": "instances de symboles pour PG_Symboles"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::marquages::1.0",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/rg_marquages",
+     "note": "section courante d'une route (lot L2b)"
+    },
+    {
+     "nom": "rg::marquages::2.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "lignes par itinéraire, transversales et symboles de carrefour"
+    },
+    {
+     "nom": "pj::marquage_solide::1.0",
+     "statut": "existe_pj",
+     "fichier": "recon/pcg/houdini/hda/pj_marquage_commun",
+     "note": "drapage de la peinture"
+    }
+   ],
+   "outils": [
+    "`rg_marquages/gabarits_iisr7.py`, `gabarits_iisr7_pj.json` (gabarits et glyphes du dossier 08)"
+   ],
+   "regles": {
+    "route_fr": [
+     "RF-MQ-CAR-01",
+     "RF-MQ-CAR-02",
+     "RF-MQ-CAR-04",
+     "RF-GV-TRJ-002",
+     "RF-OSM-MRQ-042",
+     "RF-MQ-U-01",
+     "RF-MQ-U-05",
+     "RF-MQ-LAR-A1b",
+     "RF-MQ-LAR-B1b",
+     "RF-MQ-LAR-B2d",
+     "RF-MQ-LAR-B3",
+     "RF-MQ-SC-06",
+     "RF-MQ-SC-13",
+     "RF-MQ-PS-03",
+     "RF-MQ-PS-04",
+     "RF-MQ-PS-05",
+     "RF-MQ-OBL-01",
+     "RF-MQ-OBL-05",
+     "RF-MQ-OBL-08",
+     "RF-MQ-MUS-01",
+     "RF-MQ-HACH-01",
+     "RF-MQ-HACH-02",
+     "RF-MQ-STOP-01",
+     "RF-MQ-STOP-03",
+     "RF-MQ-CED-01",
+     "RF-MQ-CED-03",
+     "RF-MQ-FEU-01",
+     "RF-MQ-PP-01",
+     "RF-MQ-PP-03",
+     "RF-MQ-PP-05",
+     "RF-MQ-SAS-01",
+     "RF-MQ-DIR-01",
+     "RF-MQ-DIR-03",
+     "RF-MQ-DIR-06",
+     "RF-MQ-DIR-09",
+     "RF-MQ-RAB-04",
+     "RF-MQ-RAB-06",
+     "RF-MQ-INS-01",
+     "RF-MQ-DEC-02",
+     "RF-MQ-GUI-01",
+     "RF-MQ-TC-02",
+     "RF-MQ-GIR-01",
+     "RF-MQ-GIR-04"
+    ],
+    "def": [
+     "DEF-001",
+     "DEF-011",
+     "DEF-012",
+     "DEF-013",
+     "DEF-014",
+     "DEF-015",
+     "DEF-016",
+     "DEF-017",
+     "DEF-018",
+     "DEF-019",
+     "DEF-020",
+     "DEF-021"
+    ],
+    "arb": [
+     "ARB-01",
+     "ARB-02",
+     "ARB-03",
+     "ARB-07",
+     "ARB-08",
+     "ARB-11",
+     "ARB-12",
+     "ARB-16"
+    ],
+    "depot": [
+     "TQ-MQG-004",
+     "TQ-MQG-005",
+     "TQ-MQG-014"
+    ],
+    "docroute": [
+     "08 MARQUAGES_IISR7_COMPLET.md (§ 5 à § 15)",
+     "08 marquages_iisr7.json (42 gabarits, 72 glyphes, 15 motifs)"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [
+    "`marquages_iisr7.json` du dossier 08 : 42 gabarits, 72 glyphes",
+    "`assets/specs/peinture.json`, `marquages_geometrie.json`"
+   ],
+   "controles": [
+    {
+     "id": "P12-1",
+     "controle": "modulations : période et trait ; largeurs",
+     "seuil": "± 1 cm sur 100 m ; ± 2 mm",
+     "regle": "PLAN_GENERATEUR L4"
+    },
+    {
+     "id": "P12-2",
+     "controle": "phase continue le long de l'itinéraire : aucun trait tronqué à moins de la moitié au droit d'un joint",
+     "seuil": "0",
+     "regle": "CC-08"
+    },
+    {
+     "id": "P12-3",
+     "controle": "0 ligne longitudinale dans la zone de conflit, hors guidage décrit",
+     "seuil": "0",
+     "regle": "RF-MQ-CAR-02 ; RF-MQ-CAR-04"
+    },
+    {
+     "id": "P12-4",
+     "controle": "flèches : pointe de la dernière à 1,50 m de la ligne d'arrêt ; interdistance 20 m",
+     "seuil": "± 2 cm ; ± 5 cm",
+     "regle": "DEF-017"
+    },
+    {
+     "id": "P12-5",
+     "controle": "peinture au-dessus du sol fabriqué",
+     "seuil": "+2 à 3 mm",
+     "regle": "TQ-MQG-005"
+    },
+    {
+     "id": "P12-6",
+     "controle": "ligne de la route prioritaire non interrompue au droit d'une route non prioritaire",
+     "seuil": "100 %",
+     "regle": "RF-MQ-CAR-01"
+    }
+   ],
+   "continuite": [
+    "Les lignes sont construites sur la courbe de l'itinéraire, à travers les routes et les approches. La phase est portée par l'itinéraire, pas remise à zéro à chaque tronçon.",
+    "Les marques transversales et les symboles sont rattachés à leur branche de carrefour, donc à une ligne d'arrêt unique."
+   ],
+   "etat": {
+    "existe": [
+     "rg::marquages : lignes, passages, zébras, flèches, triangles, figurines de la section courante, drapés par pj::marquage_solide"
+    ],
+    "manque": [
+     "phase par itinéraire : aujourd'hui « chaque tronçon commence par un trait » [G] (README_RG § 6)",
+     "transversales et symboles de carrefour (lots L3 et L4)",
+     "marquages d'autoroute (u 7,5 cm, T4, T2 5u) : étape 2"
+    ]
+   },
+   "lot": "N7"
+  },
+  {
+   "id": "E13",
+   "n": 13,
+   "phase": "C",
+   "proposition": "12 (partie retenue)",
+   "nom": "Dispositifs de retenue : glissières, séparateurs béton, BN4, garde-corps",
+   "but": "Poser, avant les panneaux, les dispositifs de retenue qu'exigent la plate-forme et les ouvrages : glissières de rive et de terre-plein, séparateurs en béton (GBA, DBA), barrières BN4 et garde-corps d'ouvrage. Ils forment des files continues, avec extrémités et raccords traités. Leur emprise devient un obstacle connu pour la pose des supports de panneaux et de feux (E14) et du mobilier (E16).",
+   "entrees": [
+    "profils et terre-pleins (E03)",
+    "plan-masse (E05)",
+    "Z (E06)",
+    "ouvrages, talus et appuis (E07)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/points/retenue.json",
+     "contrat": "`pj_points/0.1` : files d'éléments le long d'une chaîne du plan-masse, extrémités, raccords ; emprise de chaque file (polygone) pour E14 et E16"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::retenue::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "files le long des limites du plan-masse ; éléments, extrémités et raccords en instances"
+    }
+   ],
+   "outils": [],
+   "regles": {
+    "route_fr": [
+     "RF-GV-TPC-002",
+     "RF-GV-TPC-003",
+     "RF-GV-TPC-004",
+     "RF-GV-TPC-005",
+     "RF-GV-TPC-007",
+     "RF-GV-TPC-008",
+     "RF-GV-PON-004",
+     "RF-GV-PON-007",
+     "RF-GV-PON-008",
+     "RF-GV-PON-009",
+     "RF-GV-PON-010",
+     "RF-GV-PON-014",
+     "RF-AS-garde_corps_S8",
+     "RF-AS-garde_corps_hauteur"
+    ],
+    "def": [
+     "DEF-033"
+    ],
+    "arb": [],
+    "depot": [],
+    "docroute": [
+     "10T § 2 et § 5",
+     "10P § 2 et § 4",
+     "14 § 6.8"
+    ],
+    "a_verser": [
+     "guides `Cerema_Guide_Dispositifs_Retenue_Routiers.pdf` et `SETRA_CSEE121_Separateurs_Modulaires_2001.pdf` du dossier 10, non exploités (L-05)"
+    ]
+   },
+   "bibliotheques": [
+    "garde-corps (4 meshes, dont S8) et barrières (3) de `catalogue_assets_route.json`",
+    "manquent : glissières GS2/GS4, BN4, parapets béton, garde-corps à lisses (ASSETS_ROUTE § 9) ; GBA et DBA (non prévus au dossier 14)"
+   ],
+   "controles": [
+    {
+     "id": "P13-1",
+     "controle": "terre-plein central de voie rapide de moins de 12 m : barrière de niveau N",
+     "seuil": "100 %",
+     "regle": "RF-GV-TPC-008"
+    },
+    {
+     "id": "P13-2",
+     "controle": "appuis d'ouvrage proches des voies isolés par un dispositif de retenue ; ≥ 2 m entre voie et appui",
+     "seuil": "100 %",
+     "regle": "RF-GV-PON-014"
+    },
+    {
+     "id": "P13-3",
+     "controle": "garde-corps : hauteur et vides",
+     "seuil": "[0,90 + 0,005 Hc ; min(1,00 + 0,005 Hc ; 1,20)] ; vides < 15 cm",
+     "regle": "DEF-033 ; RF-GV-PON-008"
+    },
+    {
+     "id": "P13-4",
+     "controle": "files continues : aucune interruption non déclarée ; extrémités et raccords traités",
+     "seuil": "0",
+     "regle": "P4 (chaînes)"
+    }
+   ],
+   "continuite": [
+    "Les files suivent les limites du plan-masse à travers les routes et les ouvrages : une glissière de terre-plein continue sous un passage supérieur et contourne la pile. Elles ne s'arrêtent qu'aux extrémités déclarées."
+   ],
+   "etat": {
+    "existe": [
+     "garde-corps et barrières en assets ; règles BN01, GC02 et GC97 versées dans la base"
+    ],
+    "manque": [
+     "toute la pose ; assets de glissières et de séparateurs"
+    ]
+   },
+   "lot": "N8"
+  },
+  {
+   "id": "E14",
+   "n": 14,
+   "phase": "C",
+   "proposition": "11",
+   "nom": "Signalisation verticale et feux",
+   "but": "Implanter les panneaux, balises et feux. Leurs positions s'appuient sur les lignes et les surfaces déjà fabriquées : AB4 au droit de la ligne STOP, R11 au droit ou à l'aval de la ligne d'effet, C24 dès qu'il y a des flèches d'affectation, aucun support dans le cheminement de 1,40 m ni dans l'emprise d'un dispositif de retenue (E13). Il faut aussi poser les séquences d'itinéraire (AB6/AB7, B14, EB10/EB20) et, sur autoroute, les panneaux de très grande gamme répétés à gauche.",
+   "entrees": [
+    "marquages (E12)",
+    "dispositifs de retenue (E13)",
+    "surfaces (E10, E11)",
+    "branches, régimes et contrôleurs (E01, E04)",
+    "itinéraires (E01)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/points/signalisation.json",
+     "contrat": "`pj_points/0.1` : panneau (code IISR, face, gamme), support, panonceaux"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/points/feux.json",
+     "contrat": "mâts, têtes, répétiteurs, R12, boutons ; `controleurs[]` du modèle"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::signalisation::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "prévue au plan (lot L6) ; algorithmes 09S § 13 et 09F § 13"
+    }
+   ],
+   "outils": [],
+   "regles": {
+    "route_fr": [
+     "RF-SV-GEN.DISTANCE_RIVE",
+     "RF-SV-GEN.DISTANCE_RIVE.RASE_CAMPAGNE",
+     "RF-SV-GEN.HAUTEUR.AGGLO",
+     "RF-SV-GEN.HAUTEUR.RASE_CAMPAGNE",
+     "RF-SV-GEN.EMPLACEMENT",
+     "RF-SV-GEN.ORIENTATION",
+     "RF-SV-GEN.REPETITION_GAUCHE_2X2",
+     "RF-SV-DIM.CHOIX_GAMME",
+     "RF-SV-AB3A.POSITION",
+     "RF-SV-AB4.POSITION",
+     "RF-SV-AB6.EMPLOI",
+     "RF-SV-AB25.EMPLOI",
+     "RF-SV-B14.EMPLOI",
+     "RF-SV-EB.POSITION",
+     "RF-SV-J5",
+     "RF-SV-J14",
+     "RF-MQ-DIR-01",
+     "RF-FEU.POSITION_LIGNE_EFFET",
+     "RF-FEU.R11.NOMBRE_ET_COTES",
+     "RF-FEU.R14",
+     "RF-FEU.R12.POSITION",
+     "RF-FEU.HAUTEUR.TROTTOIR",
+     "RF-FEU.JUXTAPOSITION",
+     "RF-GV-ILO-008",
+     "RF-GV-ILO-009",
+     "RF-GV-VIS-003"
+    ],
+    "def": [
+     "DEF-025",
+     "DEF-026",
+     "DEF-027",
+     "DEF-028"
+    ],
+    "arb": [
+     "ARB-04",
+     "ARB-05",
+     "ARB-14",
+     "ARB-19",
+     "ARB-20"
+    ],
+    "depot": [
+     "RI GEN-01",
+     "RI GEN-02",
+     "RI GEN-05",
+     "RI GEN-08"
+    ],
+    "docroute": [
+     "09S § 4 à § 13",
+     "09F § 4 à § 13"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [
+    "`panneaux_fr_catalogue.json` : 870 faces (licence non levée : PNG non diffusés)",
+    "supports (15) et feux (8) de `catalogue_assets_route.json`",
+    "manquent : mât de feux Ø 114, potence, R12m, R14 à R25, écran de contraste (ASSETS_ROUTE § 9 ; 00_SYNTHESE § 15) ; portiques de signalisation d'autoroute (non prévus au dossier 14)"
+   ],
+   "controles": [
+    {
+     "id": "P14-1",
+     "controle": "branches à régime : panneaux présents (AB3a + M9c, AB4, AB25, B21-1…)",
+     "seuil": "100 %",
+     "regle": "PLAN_GENERATEUR L6"
+    },
+    {
+     "id": "P14-2",
+     "controle": "0 AB4 sur une branche à feux ou « à vérifier »",
+     "seuil": "0",
+     "regle": "RF-SV-AB4.POSITION ; ARB-19"
+    },
+    {
+     "id": "P14-3",
+     "controle": "bord de panneau à la rive",
+     "seuil": "≥ 0,70 m, sauf « contrainte » signalée",
+     "regle": "RF-SV-GEN.DISTANCE_RIVE ; ARB-20"
+    },
+    {
+     "id": "P14-4",
+     "controle": "rase campagne : aplomb hors de la zone de récupération ou support à ≥ 2 m du bord ; aucun support dans l'emprise d'un dispositif de retenue",
+     "seuil": "100 %",
+     "regle": "RF-SV-GEN.DISTANCE_RIVE.RASE_CAMPAGNE"
+    },
+    {
+     "id": "P14-5",
+     "controle": "0 support dans le cheminement de 1,40 m ; ≥ 2,20 m au-dessus",
+     "seuil": "0",
+     "regle": "RF-MA-TRO-001 ; RF-MA-TRO-008"
+    },
+    {
+     "id": "P14-6",
+     "controle": "flèches d'affectation ⇒ C24a/C24b ou Da30",
+     "seuil": "100 %",
+     "regle": "RF-MQ-DIR-01"
+    },
+    {
+     "id": "P14-7",
+     "controle": "feux : R11 à droite de chaque couloir, au droit ou à l'aval de la ligne d'effet ; bas ≥ 2,00 m ; axe < 4,20 m",
+     "seuil": "100 %",
+     "regle": "RF-FEU.POSITION_LIGNE_EFFET ; RF-FEU.HAUTEUR.TROTTOIR"
+    },
+    {
+     "id": "P14-8",
+     "controle": "séquences le long des itinéraires (AB6 ↔ AB7, B14 répété, EB10/EB20)",
+     "seuil": "0 incohérence",
+     "regle": "CC-13"
+    }
+   ],
+   "continuite": [
+    "Les séquences de signalisation sont calculées par itinéraire, à l'échelle du réseau, et non par segment.",
+    "Un même support porte les ensembles de feux et de panneaux d'un couloir (RF-FEU.JUXTAPOSITION ; RI GEN-05)."
+   ],
+   "etat": {
+    "existe": [
+     "signaux décrits (C20a…) portés par le modèle ; régimes inférés d'OSM"
+    ],
+    "manque": [
+     "toute l'implantation (lot L6)"
+    ]
+   },
+   "lot": "N8"
+  },
+  {
+   "id": "E15",
+   "n": 15,
+   "phase": "C",
+   "proposition": "13",
+   "nom": "Éclairage",
+   "but": "Implanter les candélabres en rangées régulières, à recul constant, sur trottoir, terre-plein ou îlot, avec la crosse vers la chaussée, en évitant les supports déjà posés.",
+   "entrees": [
+    "surfaces et bordures (E08, E11)",
+    "retenue et supports (E13, E14)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/points/eclairage.json",
+     "contrat": "`pj_points/0.1` (mât, crosse, lanterne, hauteur de feu)"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::eclairage::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "rangées par chaîne de bordure"
+    }
+   ],
+   "outils": [],
+   "regles": {
+    "route_fr": [
+     "RF-OBS-ECL-01",
+     "RF-MA-TRO-001"
+    ],
+    "def": [],
+    "arb": [],
+    "depot": [
+     "RI ECL-01",
+     "RI ECL-02",
+     "RI ECL-03",
+     "RI ECL-04",
+     "RI ECL-05",
+     "LOC-ECL (regles_locales_meylan.json)"
+    ],
+    "docroute": [
+     "13 § 2.9 (candélabres de 8 à 11 m observés)"
+    ],
+    "a_verser": [
+     "aucune norme d'éclairage (NF EN 13201) dans DocRoute (L-04)"
+    ]
+   },
+   "bibliotheques": [
+    "manquent : candélabres (ASSETS_ROUTE § 9)"
+   ],
+   "controles": [
+    {
+     "id": "P15-1",
+     "controle": "intervalle dans une rangée",
+     "seuil": "3 à 5 fois la hauteur de feu",
+     "regle": "RI ECL-04"
+    },
+    {
+     "id": "P15-2",
+     "controle": "nu du fût à ≥ 0,50 m de la bordure, hors cheminement",
+     "seuil": "100 %",
+     "regle": "RI ECL-01"
+    },
+    {
+     "id": "P15-3",
+     "controle": "distance aux arbres (vérifiée en E17)",
+     "seuil": "≥ 2 m (plus selon la couronne)",
+     "regle": "RI ECL-05"
+    }
+   ],
+   "continuite": [
+    "Une rangée suit une chaîne de bordure à travers les routes, avec le même recul (RI ECL-03)."
+   ],
+   "etat": {
+    "existe": [
+     "règles RI ECL-01 à ECL-05"
+    ],
+    "manque": [
+     "pose et assets"
+    ]
+   },
+   "lot": "N8"
+  },
+  {
+   "id": "E16",
+   "n": 16,
+   "phase": "C",
+   "proposition": "12 (partie mobilier)",
+   "nom": "Mobilier urbain : potelets, barrières, arceaux, abris, bancs",
+   "but": "Poser le mobilier dans la place qui reste : potelets et barrières de ville, arceaux vélos, abris de quai, bancs, corbeilles, bornes et armoires. Chaque objet respecte l'abaque de détection, le cheminement libre, les reculs et les supports déjà posés (E13 à E15).",
+   "entrees": [
+    "surfaces et bordures (E08, E10, E11)",
+    "retenue, supports et candélabres (E13 à E15)",
+    "passages, abaissés et BEV (E04, E11)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/points/mobilier.json",
+     "contrat": "`pj_points/0.1` (files de potelets ou de barrières le long d'une chaîne ; objets ponctuels)"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::mobilier::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "files le long des chaînes de bordure ; objets ponctuels par règles RI"
+    }
+   ],
+   "outils": [],
+   "regles": {
+    "route_fr": [
+     "RF-MA-OBS-001",
+     "RF-MA-OBS-002",
+     "RF-MA-OBS-005",
+     "RF-MA-OBS-006",
+     "RF-MA-SEP-014",
+     "RF-MA-SVE-001",
+     "RF-MA-SVE-004",
+     "RF-MA-BUS-007",
+     "RF-MA-TRO-011",
+     "RF-SV-J11_J12",
+     "RF-SV-J13"
+    ],
+    "def": [
+     "DEF-032"
+    ],
+    "arb": [],
+    "depot": [
+     "RI GEN-01",
+     "RI GEN-03",
+     "RI GEN-08",
+     "RI POT-01",
+     "RI POT-02",
+     "RI POT-04",
+     "RI BAR-01",
+     "RI MOB-01",
+     "RI MOB-04",
+     "RI RES-01",
+     "mobilier.json (autre équipe, lecture seule)"
+    ],
+    "docroute": [
+     "11P § 2",
+     "11T § 1"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [
+    "potelets (5) et barrières (3) de `catalogue_assets_route.json`",
+    "`mobilier.json` : 23 modèles",
+    "`assets/catalogue_besoins.json` : 122 noms d'assets relevés à Paquet Jardin",
+    "manquent : arceaux, bornes, balises J11/J13 (ASSETS_ROUTE § 9)"
+   ],
+   "controles": [
+    {
+     "id": "P16-1",
+     "controle": "aucun objet sur une surface circulée",
+     "seuil": "0",
+     "regle": "RI GEN-01"
+    },
+    {
+     "id": "P16-2",
+     "controle": "recul du nu ≥ 0,30 m derrière l'arête de bordure (objet > 0,30 m)",
+     "seuil": "100 %",
+     "regle": "RI GEN-03"
+    },
+    {
+     "id": "P16-3",
+     "controle": "abaque de détection (hauteur et largeur) ; contraste",
+     "seuil": "100 %",
+     "regle": "RF-MA-OBS-001 ; RF-MA-OBS-002"
+    },
+    {
+     "id": "P16-4",
+     "controle": "cheminement de 1,40 m libre",
+     "seuil": "100 %",
+     "regle": "RF-MA-TRO-001"
+    },
+    {
+     "id": "P16-5",
+     "controle": "potelets et barrières hors des rampes et des BEV des traversées",
+     "seuil": "0",
+     "regle": "RI POT-04"
+    }
+   ],
+   "continuite": [
+    "Les files de potelets et de barrières suivent les chaînes de bordure à travers les routes ; leur entraxe (1,20 à 1,60 m, RI POT-02) est phasé sur la chaîne."
+   ],
+   "etat": {
+    "existe": [
+     "assets potelets et barrières ; règles d'implantation RI du dépôt"
+    ],
+    "manque": [
+     "toute la pose"
+    ]
+   },
+   "lot": "N8"
+  },
+  {
+   "id": "E17",
+   "n": 17,
+   "phase": "C",
+   "proposition": "14",
+   "nom": "Végétation (étape ultérieure)",
+   "but": "Planter les arbres d'alignement, les massifs et les îlots de giratoire, et semer les zones vertes pour le PCG. Les plantations respectent les triangles de visibilité, les passages, les abaissés, le cheminement et la couronne de giratoire. Décision de l'utilisateur du 17/10/2026 : la végétation vient dans un deuxième temps.",
+   "entrees": [
+    "toutes les surfaces et tous les objets posés (E08 à E16)",
+    "objets_le_long du modèle"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/points/vegetation.json",
+     "contrat": "`rg_vegetation/0.2` puis `pj_points/0.1` ; zones/*.json pour PG_Herbe"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "rg::vegetation_bati::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "prévue au plan (lot L8)"
+    },
+    {
+     "nom": "rg::vers_entites (sortie 2)",
+     "statut": "existe",
+     "fichier": "recon/generateur/hda/rg_vers_entites",
+     "note": "arbres des objets_le_long, exportés pour l'étape 2"
+    }
+   ],
+   "outils": [],
+   "regles": {
+    "route_fr": [
+     "RF-GV-TPC-010",
+     "RF-GV-TPC-011",
+     "RF-GV-VIS-001",
+     "RF-OSM-VEG-001",
+     "RF-OBS-VEG-01",
+     "RF-OBS-VEG-02",
+     "RF-GV-GIR-006",
+     "RF-OBS-GIR-04"
+    ],
+    "def": [
+     "DEF-029",
+     "DEF-030"
+    ],
+    "arb": [
+     "ARB-10",
+     "ARB-13"
+    ],
+    "depot": [
+     "RI VEG-05",
+     "RI GEN-08",
+     "vegetation.json (autre équipe, lecture seule)"
+    ],
+    "docroute": [
+     "10T § 4",
+     "06 (triangles de visibilité)"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [
+    "`vegetation.json` : 35 essences",
+    "`assets/lib` (CC0)"
+   ],
+   "controles": [
+    {
+     "id": "P17-1",
+     "controle": "0 arbre dans les triangles de visibilité, passages, abaissés, cheminement, pistes",
+     "seuil": "0",
+     "regle": "DEF-029 ; DEF-030"
+    },
+    {
+     "id": "P17-2",
+     "controle": "couronne de 2 m sans masque autour de l'îlot central",
+     "seuil": "100 %",
+     "regle": "RF-GV-GIR-006"
+    },
+    {
+     "id": "P17-3",
+     "controle": "distance arbre ↔ candélabre",
+     "seuil": "RI ECL-05",
+     "regle": "RI ECL-05"
+    }
+   ],
+   "continuite": [
+    "Les alignements suivent la chaîne du trottoir ou du terre-plein. Le pas (7,5 m, DEF-030) est phasé sur la chaîne et non remis à zéro à chaque route."
+   ],
+   "etat": {
+    "existe": [
+     "arbres des objets_le_long exportés (l2/vegetation.json, `rg_vegetation/0.2`), rendu de l'étape 2 désactivé (`--decor-etape2`)"
+    ],
+    "manque": [
+     "pose réseau, exclusions, zones PCG"
+    ]
+   },
+   "lot": "après N8"
+  },
+  {
+   "id": "E18",
+   "n": 18,
+   "phase": "D",
+   "proposition": "15",
+   "nom": "Exports : USD et PCG d'Unreal, OpenDRIVE, graphe de voies",
+   "but": "Livrer le chantier. Les maillages partent en USD par tuile et par couche, les instances en `pj_points/0.1` pour les graphes PCG d'Unreal. On produit aussi l'OpenDRIVE (1.4 restreint pour CARLA, 1.8.1 complet) et le graphe de voies pour ZoneGraph et le routage piétons et vélos.",
+   "entrees": [
+    "toutes les couches (E07 à E17)",
+    "modèle complet (E01 à E04)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/export/usd/",
+     "contrat": "une couche par famille (PJ_Sol, PJ_Bordures, PJ_Marquages, PJ_Ouvrages, PJ_Signalisation…), Z haut, materiau_id remappé en MI_<id>"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/export/points/*.json",
+     "contrat": "pj_points/0.1 → PCGDataAsset → Static Mesh Spawner (TQ-PCG-001)"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/export/opendrive/reseau_1_4.xodr, reseau_1_8_1.xodr",
+     "contrat": "PLAN_GENERATEUR L7"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/export/graphe_voies.json",
+     "contrat": "12M § 7 (≤ 32 tags, zones spline et polygone)"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/manifest_reseau.json",
+     "contrat": "empreintes sha256 de chaque sortie, versions des HDA, description"
+    }
+   ],
+   "hda": [
+    {
+     "nom": "pj::preparer_export, pj::exporter_points",
+     "statut": "existe_pj",
+     "fichier": "recon/pcg/houdini/hda",
+     "note": "contrat E1 à E9"
+    },
+    {
+     "nom": "rg::exporter_opendrive::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "lot L7"
+    },
+    {
+     "nom": "rg::exporter_graphe::1.0",
+     "statut": "a_creer",
+     "fichier": "",
+     "note": "lot L4"
+    }
+   ],
+   "outils": [
+    "`recon/pcg/ue/contrat/verifier_usd.py`",
+    "`recon/pcg/ue/pj_tools` (charger_points)",
+    "graphes PCG existants : PG_Bordures, PG_Symboles, PG_Arbres, PG_Massifs, PG_Herbe (ARCHITECTURE § 1.5) ; à ajouter : PG_Retenue, PG_Signalisation, PG_Eclairage, PG_Mobilier, PG_Assainissement, PG_Decalques"
+   ],
+   "regles": {
+    "route_fr": [
+     "RF-OSM-CAR-060",
+     "RF-OSM-CAR-061"
+    ],
+    "def": [],
+    "arb": [],
+    "depot": [
+     "TQ-PCG-001",
+     "TQ-PCG-003",
+     "TQ-PCG-004",
+     "TQ-PCG-005",
+     "TQ-SOL-010",
+     "TQ-BOR-001"
+    ],
+    "docroute": [
+     "12A § 6 et § 7",
+     "12M § 7 et § 8"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [
+    "`DT_Bibliotheque` (assets/bibliotheque.json prévu par ARCHITECTURE § 1.5)"
+   ],
+   "controles": [
+    {
+     "id": "P18-1",
+     "controle": "USD",
+     "seuil": "0 erreur à verifier_usd.py",
+     "regle": "12A § 9"
+    },
+    {
+     "id": "P18-2",
+     "controle": "OpenDRIVE 1.4 se charge dans CARLA, 1.8.1 sans erreur au validateur ; waypoints continus",
+     "seuil": "saut ≤ 0,1 m",
+     "regle": "PLAN_GENERATEUR L7 ; CC-09"
+    },
+    {
+     "id": "P18-3",
+     "controle": "graphe de voies : chaque voie entrante a ≥ 1 successeur ; ≤ 32 tags",
+     "seuil": "100 %",
+     "regle": "CC-09"
+    },
+    {
+     "id": "P18-4",
+     "controle": "déterminisme : deux fabrications identiques à l'octet",
+     "seuil": "100 %",
+     "regle": "README_HDA § 9.2"
+    }
+   ],
+   "continuite": [
+    "Une zone spline par section et une zone polygone par carrefour et par changement de profil (12M § 7) : les formes ZoneGraph se raccordent."
+   ],
+   "etat": {
+    "existe": [
+     "route_l2.usda et route_l2b.usda par scène ; contrat pj_points/0.1 ; outillage UE de recon/pcg/ue"
+    ],
+    "manque": [
+     "OpenDRIVE, graphe de voies, export par tuile et par chantier, import UE des sorties du générateur ; CARLA non installé"
+    ]
+   },
+   "lot": "N10"
+  },
+  {
+   "id": "E19",
+   "n": 19,
+   "phase": "D",
+   "proposition": "16",
+   "nom": "Contrôles globaux et revue visuelle",
+   "but": "Rejouer les contrôles de continuité CC-01 à CC-13 sur le réseau entier. Comparer ensuite le rendu aux photos Panoramax, à pose égale et en tuiles natives, puis passer la revue indépendante.",
+   "entrees": [
+    "toutes les sorties",
+    "photos Panoramax recalées par points d'appui (`recon/pcg/enrichir/poses.py`, `calage_sequence.py`)"
+   ],
+   "sorties": [
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/controle/rapport_reseau.json",
+     "contrat": "CC-01 à CC-13, portes P00 à P18, écarts au réel"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<site>/photos_non_versionnees/planches/",
+     "contrat": "planches rendu | photo (jamais versionnées)"
+    },
+    {
+     "fichier": "recon/generateur/validation/comparaison_<reseau>.json",
+     "contrat": "constats sans photo (critère, constat, tuile, règle, identifiant)"
+    }
+   ],
+   "hda": [],
+   "outils": [
+    "`recon/pcg/vision/decoupe.py`",
+    "`recon/pcg/enrichir/poses.py` (acceptation si ≤ 0,5° en 360° ou ≤ 8 px à plat)",
+    "`rendu/planches_photo.py`"
+   ],
+   "regles": {
+    "route_fr": [],
+    "def": [],
+    "arb": [],
+    "depot": [],
+    "docroute": [
+     "PLAN_GENERATEUR § 5 et § 6.3",
+     "recon/pcg/ARCHITECTURE.md § 1.7"
+    ],
+    "a_verser": []
+   },
+   "bibliotheques": [],
+   "controles": [
+    {
+     "id": "P19-1",
+     "controle": "contrôles de continuité CC-01 à CC-13",
+     "seuil": "0 échec",
+     "regle": "§ 4 de ce document"
+    },
+    {
+     "id": "P19-2",
+     "controle": "reprojection des arêtes sur les photos recalées",
+     "seuil": "≤ 8 px à plat",
+     "regle": "ARCHITECTURE § 1.7"
+    },
+    {
+     "id": "P19-3",
+     "controle": "revue indépendante (rendus et photos en ordre aléatoire)",
+     "seuil": "moyenne ≥ 2, aucun 0",
+     "regle": "PLAN_GENERATEUR § 5.2"
+    },
+    {
+     "id": "P19-4",
+     "controle": "conclusions seulement sur des tuiles natives ≤ 1092 px",
+     "seuil": "100 %",
+     "regle": "CLAUDE.md"
+    }
+   ],
+   "continuite": [
+    "Les vues de contrôle sont choisies aussi aux raccords (joints, coins, changements de tuile) et pas seulement au milieu des segments."
+   ],
+   "etat": {
+    "existe": [
+     "contrôles par lot (controler_L1, L2, L2b), rendus en tuiles, planches rendu | photo"
+    ],
+    "manque": [
+     "contrôles de réseau ; vues de raccord"
+    ]
+   },
+   "lot": "N11"
+  }
+ ],
+ "controles_continuite": [
+  {
+   "id": "CC-01",
+   "objet": "topologie",
+   "controle": "chaque extrémité de route est un nœud partagé ; `limite_carte` seulement au bord du chantier",
+   "seuil": "100 %",
+   "porte": "P01"
+  },
+  {
+   "id": "CC-02",
+   "objet": "plan",
+   "controle": "itinéraires continus en position et en cap aux nœuds et aux raccords",
+   "seuil": "≤ 1 mm ; ≤ 0,5°",
+   "porte": "P02"
+  },
+  {
+   "id": "CC-03",
+   "objet": "altimétrie",
+   "controle": "même z de chaussée de part et d'autre de chaque joint ; pente continue",
+   "seuil": "|Δz| ≤ 1 mm",
+   "porte": "P02, P06"
+  },
+  {
+   "id": "CC-04",
+   "objet": "profil au joint",
+   "controle": "chaque limite a le même t des deux côtés d'un joint (route ↔ carrefour, route ↔ route)",
+   "seuil": "≤ 1 mm",
+   "porte": "P03, P04"
+  },
+  {
+   "id": "CC-05",
+   "objet": "plan-masse",
+   "controle": "0 trou, 0 recouvrement ; somme des aires = emprise",
+   "seuil": "≤ 1e-6 relatif",
+   "porte": "P05"
+  },
+  {
+   "id": "CC-06",
+   "objet": "bordures",
+   "controle": "chaînes sans lacune ; fin seulement sur point dur déclaré ; coins en pièces courbes",
+   "seuil": "lacune ≤ 1 mm (joint posé 3,5 à 9,5 mm)",
+   "porte": "P05, P08"
+  },
+  {
+   "id": "CC-07",
+   "objet": "sol",
+   "controle": "maillage 2-variété sur tout le chantier ; arêtes de tuiles identiques ; Z continu ; masques sans couture",
+   "seuil": "0 défaut",
+   "porte": "P06, P10"
+  },
+  {
+   "id": "CC-08",
+   "objet": "marquage",
+   "controle": "phase continue le long de l'itinéraire ; u constant ; 0 trait tronqué < ½ trait au joint",
+   "seuil": "0",
+   "porte": "P12"
+  },
+  {
+   "id": "CC-09",
+   "objet": "graphe de voies",
+   "controle": "chaque voie entrante a un successeur ; voies continues",
+   "seuil": "saut ≤ 0,1 m",
+   "porte": "P18"
+  },
+  {
+   "id": "CC-10",
+   "objet": "réseau piéton",
+   "controle": "trottoirs, passages et refuges forment un graphe connexe ; cheminement de 1,40 m continu",
+   "seuil": "100 %",
+   "porte": "P11"
+  },
+  {
+   "id": "CC-11",
+   "objet": "réseau cyclable",
+   "controle": "itinéraires cyclables continus ; interruptions déclarées (RF-MA-BAN-008)",
+   "seuil": "0 interruption non déclarée",
+   "porte": "P11, P12"
+  },
+  {
+   "id": "CC-12",
+   "objet": "hydraulique",
+   "controle": "chaque point bas a un exutoire ; chaque bassin de surface a un avaloir",
+   "seuil": "0 point bas orphelin",
+   "porte": "P06, P09"
+  },
+  {
+   "id": "CC-13",
+   "objet": "signalisation",
+   "controle": "séquences cohérentes le long des itinéraires (AB6 ↔ AB7, B14 répété hors agglomération, EB10 ↔ EB20)",
+   "seuil": "0 incohérence",
+   "porte": "P14"
+  }
+ ],
+ "ruptures_actuelles": [
+  {
+   "id": "R-01",
+   "rupture": "Chaque tronçon décrit seul reçoit ses deux nœuds `limite_carte` : il n'y a ni nœud partagé ni carrefour. L'étape 2 corrige en ce moment le cas des carrefours décrits (`description/carrefours.py`) ; restent les nœuds de connexion, les ancrages et les itinéraires.",
+   "preuve": "description/description_vers_modele.py l. 2221-2222",
+   "etape": "E00, E01",
+   "lot": "N1"
+  },
+  {
+   "id": "R-02",
+   "rupture": "Les carrefours du modèle ne sont pas lus par Houdini.",
+   "preuve": "hda/rg_lire_modele/lecteur.py l. 30-32 (NON_LUS_L1), l. 313",
+   "etape": "E01",
+   "lot": "étape 2, N3"
+  },
+  {
+   "id": "R-03",
+   "rupture": "Aucune altitude de réseau : chaque route est ancrée à Z = 0 en t = 0 et `profil_long` n'est jamais lu.",
+   "preuve": "hda/commun/vex/rg_niveau.h l. 5 et l. 128 ; README_RG § 5",
+   "etape": "E02, E06",
+   "lot": "N2, N5"
+  },
+  {
+   "id": "R-04",
+   "rupture": "Une triangulation et un HeightField par route : nappes numérotées 100 × rang de route + nappe.",
+   "preuve": "README_RG § 5 ; hda/rg_nivellement/construire.py l. 777-815 ; hda/rg_sol/construire.py l. 1-9",
+   "etape": "E05, E06, E10",
+   "lot": "N4, N5"
+  },
+  {
+   "id": "R-05",
+   "rupture": "Bordures et caniveaux en files par route et par côté, avec retour transversal aux bouts et sans coin de carrefour.",
+   "preuve": "README_RG § 5 (files, retours) et § 8 (pas de carrefour)",
+   "etape": "E05, E08",
+   "lot": "N4, N6"
+  },
+  {
+   "id": "R-06",
+   "rupture": "La phase des tirets est remise à zéro à chaque tronçon : « chaque tronçon commence par un trait » [G].",
+   "preuve": "README_RG § 6 ; hda/rg_marquages/marquages.vfl l. 435",
+   "etape": "E12",
+   "lot": "N7"
+  },
+  {
+   "id": "R-07",
+   "rupture": "Les cartes d'usure sont lues en (s, t) de la route avec un décalage propre à la scène : il y a une couture de texture à chaque changement de route.",
+   "preuve": "rendu/rendu_l2b.py l. 963 (`st_route`) ; README_RG § 6",
+   "etape": "E10",
+   "lot": "N5"
+  },
+  {
+   "id": "R-08",
+   "rupture": "Au rendu, la route repose sur un socle à coupe nette en s = 0 et s = L, sur un sol plat neutre (choix de l'étape 1).",
+   "preuve": "rendu/decor_l2b.py l. 820-861 ; README_RG § 6",
+   "etape": "E07",
+   "lot": "N9"
+  },
+  {
+   "id": "R-09",
+   "rupture": "Routes OSM sans géométrie régulière : décalés en onglet et replis aux sommets. Les chaussées séparées et les îlots d'OSM découpent l'avenue de Verdun en dizaines de ways à sens unique entre (−305 ; −314) et (646 ; 641) en local, soit autant de micro-routes.",
+   "preuve": "README_RG § 3 et § 8 ; data/vector_gz/osm/roads.geojson.gz (ways 63600584, 1275266695, 1412130583 à 1412130610…)",
+   "etape": "E01, E02",
+   "lot": "N1, N2"
+  },
+  {
+   "id": "R-10",
+   "rupture": "Précision : Houdini stocke les positions en flottants 32 bits. Le pas de quantification vaut 0,12 mm entre 1 et 2 km de l'origine O, 0,24 mm de 2 à 4 km et 0,49 mm de 4 à 8 km. Or l'extrait BD TOPO de Meylan mesure ≈ 6,7 × 8 km et le contrôle de flèche est à 0,5 mm.",
+   "preuve": "README_RG § 1 (résolution ≤ 1,5e-5 m sous 256 m) ; emprise de data/vector_gz/bdtopo/troncon_de_route.geojson.gz",
+   "etape": "toutes",
+   "lot": "N4 (origine locale par chantier, P8)"
+  }
+ ],
+ "lots_migration": [
+  {
+   "id": "N0",
+   "nom": "Chaîne et format réseau (ce lot)",
+   "livrables": [
+    "CHAINE_CONSTRUCTION.md",
+    "chaine_construction.json",
+    "FORMAT_DESCRIPTION_RESEAU.md"
+   ],
+   "touche_etape2": false,
+   "depend": [],
+   "critere": "identifiants cités tous présents dans la base (vérifié)"
+  },
+  {
+   "id": "N1",
+   "nom": "Compilateur réseau et graphe (E00, E01, contrôle inter-routes de E03)",
+   "livrables": [
+    "recon/generateur/reseau/resoudre_reseau.py (description réseau → description exacte de l'étape 2)",
+    "recon/generateur/reseau/tests/",
+    "schéma modele_voie/0.2 proposé (copie nouvelle, la 0.1 reste)",
+    "recon/generateur/meylan/<reseau>/description_reseau.yaml"
+   ],
+   "touche_etape2": false,
+   "depend": [
+    "N0",
+    "compilateur de réseau de l'étape 2"
+   ],
+   "critere": "une description au format de l'étape 2 ressort du résolveur identique à l'octet ; S01-S12, J1-J3, exemples et M20/M24/M27 : empreintes sha256 des modèles inchangées ; porte P01 sur 2 réseaux de Meylan"
+  },
+  {
+   "id": "N2",
+   "nom": "Tracé en plan et profil en long (E02)",
+   "livrables": [
+    "recon/generateur/reseau/trace.py (ajustement droites, arcs, clothoïdes)",
+    "recon/generateur/reseau/profil_long.py (MNT, déclivités, raccordements)",
+    "règles ICTAVRU / VSA 90/110 proposées au propriétaire de regles_route_fr.json"
+   ],
+   "touche_etape2": false,
+   "depend": [
+    "N1"
+   ],
+   "critere": "porte P02 ; écart à l'axe ortho ≤ 0,30 m sur le corridor de l'avenue de Verdun"
+  },
+  {
+   "id": "N3",
+   "nom": "Lecture des carrefours dans Houdini (E01)",
+   "livrables": [
+    "adoption de la version de rg::lire_modele produite par l'étape 2"
+   ],
+   "touche_etape2": true,
+   "depend": [
+    "étape 2 terminée"
+   ],
+   "critere": "aucun développement propre : réutiliser, ne pas refaire"
+  },
+  {
+   "id": "N4",
+   "nom": "Plan-masse (E05) et chantiers (P8)",
+   "livrables": [
+    "hda/rg_plan_masse/ (rg::plan_masse::1.0)",
+    "validation/controler_plan_masse.py"
+   ],
+   "touche_etape2": false,
+   "depend": [
+    "N1",
+    "étape 2 (compilateur de réseau)"
+   ],
+   "critere": "porte P05 sur un carrefour à feux et un giratoire de Meylan"
+  },
+  {
+   "id": "N5",
+   "nom": "Nivellement réseau et sol (E06, E10, E11)",
+   "livrables": [
+    "rg::nivellement::2.0",
+    "rg::sol::2.0",
+    "rg::aspect_chaussee::1.0"
+   ],
+   "touche_etape2": false,
+   "depend": [
+    "N2",
+    "N4"
+   ],
+   "critere": "portes P06, P10 ; CC-03, CC-07, CC-12 ; les versions 1.0 restent intactes et servent toujours S01-S12"
+  },
+  {
+   "id": "N6",
+   "nom": "Bordures en chaînes et assainissement (E08, E09)",
+   "livrables": [
+    "rg::vers_entites::2.0",
+    "rg::assainissement::1.0"
+   ],
+   "touche_etape2": false,
+   "depend": [
+    "N4",
+    "N5"
+   ],
+   "critere": "portes P08, P09 ; CC-06"
+  },
+  {
+   "id": "N7",
+   "nom": "Marquages réseau (E12)",
+   "livrables": [
+    "rg::marquages::2.0 (itinéraires, transversales, symboles de carrefour)"
+   ],
+   "touche_etape2": false,
+   "depend": [
+    "N5",
+    "étape 2 (lignes d'arrêt)"
+   ],
+   "critere": "porte P12 ; CC-08"
+  },
+  {
+   "id": "N8",
+   "nom": "Retenue, signalisation, éclairage, mobilier (E13 à E16)",
+   "livrables": [
+    "rg::retenue::1.0",
+    "rg::signalisation::1.0",
+    "rg::eclairage::1.0",
+    "rg::mobilier::1.0",
+    "assets manquants (glissières, mât Ø 114, potence, candélabres, arceaux)"
+   ],
+   "touche_etape2": false,
+   "depend": [
+    "N7"
+   ],
+   "critere": "portes P13 à P16 ; CC-13"
+  },
+  {
+   "id": "N9",
+   "nom": "Terrain et ouvrages (E07)",
+   "livrables": [
+    "rg::terrain::1.0",
+    "rg::ouvrages::1.0",
+    "dalles LiDAR HD du chantier"
+   ],
+   "touche_etape2": false,
+   "depend": [
+    "N2",
+    "N5"
+   ],
+   "critere": "porte P07 (échangeur A41 / N87 et Hélice de Meylan)"
+  },
+  {
+   "id": "N10",
+   "nom": "Exports et Unreal (E18)",
+   "livrables": [
+    "rg::exporter_opendrive",
+    "rg::exporter_graphe",
+    "export USD par tuile",
+    "graphes PCG PG_Retenue, PG_Signalisation, PG_Eclairage, PG_Mobilier, PG_Assainissement, PG_Decalques"
+   ],
+   "touche_etape2": false,
+   "depend": [
+    "N5 à N9"
+   ],
+   "critere": "porte P18"
+  },
+  {
+   "id": "N11",
+   "nom": "Premiers chantiers de Meylan (E19)",
+   "livrables": [
+    "corridor de l'avenue de Verdun (≈ 920 m à vol d'oiseau, carrefours M13 et M17)",
+    "échangeur A41 / N87 (Rocade Sud) et Hélice de Meylan",
+    "comparaisons Panoramax"
+   ],
+   "touche_etape2": false,
+   "depend": [
+    "N10"
+   ],
+   "critere": "porte P19"
+  }
+ ],
+ "lacunes": [
+  {
+   "id": "L-01",
+   "sujet": "géométrie des autoroutes et des échangeurs",
+   "etat": "ICTAAL absente de DocRoute. ICTAVRU (2009), VSA 90/110 (2014) et VSA Voies auxiliaires (2020) sont présents dans `10_…/sources/` mais n'ont pas été versés dans la base, sauf deux règles ICTAVRU (RF-GV-PT-008, RF-GV-TPC-002). La base ne couvre de l'autoroute que le marquage et la signalisation (RF-MQ-INS-*, RF-MQ-DEC-*, RF-MQ-SC-06, RF-MQ-SC-13, RF-SV-J14…).",
+   "proposition": "Verser dans `regles_route_fr.json` les valeurs relues le 17/10/2026 et citées en E02, E03 et E04. C'est le travail du propriétaire de la base : ce lot n'y écrit pas."
+  },
+  {
+   "id": "L-02",
+   "sujet": "profil en long en ville",
+   "etat": "Aucune règle de déclivité ni de raccordement pour les rues. Seuls existent le palier avant carrefour (RF-GV-CAR-005), la pente du site d'un giratoire (RF-GV-GIR-022) et la pente du cheminement (RF-MA-TRO-003).",
+   "proposition": "Sans règle, prendre le MNT tel quel (provenance `mesure:mnt`) et vérifier les pentes du cheminement et du fil d'eau."
+  },
+  {
+   "id": "L-03",
+   "sujet": "assainissement",
+   "etat": "Les règles GA-ASS-* et GA-CHA-003/004 existent dans `assets/specs/regles_conception.json` (relevé du site), pas dans la base fusionnée ; DocRoute n'a pas de volet assainissement.",
+   "proposition": "Reprendre ces règles telles quelles (provenance `depot:GA-ASS-*`) ; les proposer à la fusion."
+  },
+  {
+   "id": "L-04",
+   "sujet": "éclairage",
+   "etat": "Seules existent les règles RI ECL-* du dépôt et une observation (RF-OBS-ECL-01). Aucune norme lue (NF EN 13201).",
+   "proposition": "Pose par règles RI, hauteurs observées ; marquer [G]."
+  },
+  {
+   "id": "L-05",
+   "sujet": "dispositifs de retenue",
+   "etat": "Le guide Cerema des dispositifs de retenue (`Cerema_Guide_Dispositifs_Retenue_Routiers.pdf`) et le guide Setra CSEE121 (séparateurs modulaires) sont dans `10_…/sources/` sans avoir été exploités. La base ne tire de la retenue que quatre règles : RF-GV-TPC-003, RF-GV-TPC-004 et RF-GV-TPC-008 (BN01, TPC) et RF-GV-PON-010 (GC02, bord d'ouvrage). Aucune ne fixe l'implantation d'une glissière le long d'une route.",
+   "proposition": "Volet à ouvrir avant le lot N8."
+  },
+  {
+   "id": "L-06",
+   "sujet": "couches de chaussée, joints de reprise, rapiéçages",
+   "etat": "Pas de règle : les seules données sont des observations (RF-OBS-REV-01).",
+   "proposition": "Aspect seulement, choix [G] déclarés ; jamais de géométrie inventée."
+  },
+  {
+   "id": "L-07",
+   "sujet": "assets manquants",
+   "etat": "Mât de feux Ø 114, potence, R12m, R14 à R25, écran de contraste, glissières et BN4, candélabres, arceaux, bornes, balises J11/J13, avaloirs et regards en volume (ASSETS_ROUTE § 9 ; 00_SYNTHESE § 15). S'y ajoutent, hors du dossier 14 : GBA, DBA, corniches, portiques.",
+   "proposition": "Les fabriquer avec les HDA `route::*` du dossier 14 avant les lots N8 et N9."
+  },
+  {
+   "id": "L-08",
+   "sujet": "terrain",
+   "etat": "LiDAR HD local : 4 dalles de 1 km² autour de Paquet Jardin (0916-0917 × 6460-6461). L'échangeur A41 / N87 (≈ 918,4 km ; 6459,9 km) est en dehors.",
+   "proposition": "Télécharger les dalles LiDAR HD (IGN, Licence Ouverte) des chantiers, sur D:."
+  },
+  {
+   "id": "L-09",
+   "sujet": "schéma",
+   "etat": "`modele_voie/0.1` n'a ni itinéraires, ni profil en long régulier (seulement des points [s, z]), ni plage pour une valeur approchée, ni ancrage d'un nœud sur OSM autre que `osm_node`.",
+   "proposition": "Proposer `modele_voie/0.2` dans une nouvelle copie de schéma (FORMAT_DESCRIPTION_RESEAU § 9) ; la 0.1 reste valide."
+  },
+  {
+   "id": "L-10",
+   "sujet": "OSM d'avant travaux",
+   "etat": "L'extrait OSM local (`data/vector_gz/osm`) est l'état actuel. L'état « avant travaux » de Paquet Jardin a ses propres extraits (`data/sites/paquet_jardin/avant_travaux/osm_*`).",
+   "proposition": "La description réseau porte sa date d'état ; l'ancrage OSM cite l'extrait utilisé."
+  }
+ ],
+ "coexistence_etape2": {
+  "intouchables": [
+   "recon/generateur/hda/",
+   "recon/generateur/description/",
+   "recon/generateur/schema/",
+   "recon/generateur/rendu/",
+   "recon/generateur/vehicules/",
+   "recon/generateur/scenes_*/",
+   "recon/generateur/fabriquer_*.py"
+  ],
+  "regles": [
+   "Aucun fichier existant de l'étape 2 n'est modifié pendant qu'elle tourne. Le travail réseau va dans de nouveaux dossiers et dans de nouvelles HDA ou versions (rg::*::2.0 installées à côté de la 1.0). Le résolveur va dans recon/generateur/reseau/ ; les descriptions réseau vont dans recon/generateur/meylan/<reseau>/, selon la convention des descriptions de sites des lots voisins.",
+   "Le compilateur de réseau de l'étape 2 (description/carrefours.py, format description_simple/0.2) est réutilisé tel quel : le résolveur écrit une description à son format puis l'appelle. Les clés qui lui manquent lui sont proposées.",
+   "Le résolveur importe description/vocabulaire.py et description/format_profil.py sans les modifier ; une description déjà au format de l'étape 2 le traverse sans changer d'un octet.",
+   "Non-régression : empreintes sha256 des modèles compilés (méthode de tmp/scenes/empreintes.py de l'étape 2) et des USD de S01-S12, J1-J3 et M20/M24/M27, avant et après chaque lot.",
+   "Le solveur de carrefours, les types de bordures, les giratoires, les autoroutes et les véhicules appartiennent à l'étape 2 ; la chaîne réseau consomme leurs sorties (E04) sans les réécrire.",
+   "Sorties du réseau dans recon/out/generateur/meylan/<reseau>/, sans collision avec recon/out/generateur/<scene>/."
+  ]
+ }
+}

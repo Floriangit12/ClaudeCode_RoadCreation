@@ -1,0 +1,83 @@
+# Chemin du Vieux Chêne (Meylan, Inovallée) — rue à piste cyclable séparée et carrefour en T à feux (site M16).
+# État décrit : 28/07/2026 (photos IGN 360° 7d44455e, 17826b13 ; Licence Ouverte ; jamais versionnées) : enrobé neuf,
+# marquages refaits depuis 2024. Cotes : coupes sur le levé GAM et le PCRS (mesures.json « coupes ») ; OSM local.
+# Provenance en fin de ligne : coupe:<nom>, photo:<id>, osm:<way|node>, DEF-/RF- (règle complétée si non dit).
+# Simplifications : branches droites ; arrêts de bus et zigzags non décrits ; îlots peints ocre décrits en zones
+# hachurées (le remplissage ocre sans hachures n'a pas de mot, ../BESOINS_FORMAT.md) ; plan de feux = hypothèse.
+scene: meylan_vieux_chene_inovallee
+nom: vieux_chene_inovallee
+titre: Chemin du Vieux Chêne (Inovallée, Meylan) — piste séparée, îlot peint ocre, T à feux, état du 28/07/2026
+date: 2026-07-28
+confiance: faible
+origine: [919608.06, 6460487.77, 215.74]           # point du site M16 (dossier 13) ; z RGE ALTI
+description: >
+  Rue d'Inovallée à 50 km/h, une voie par sens d'environ 3,3 m séparées par un îlot peint ocre de 1 à 2,3 m. Côté nord,
+  bande enherbée puis piste séparée piétons / vélos sous de grands arbres. Carrefour en T à feux avec une rue de
+  desserte à double sens d'environ 5 m ; passages piétons à feux à bouton d'appel, traversée cyclable à figurines et
+  doubles chevrons. Enrobé neuf.
+contexte:
+  agglomeration: oui
+  vitesse: 50                                       # osm:192617503 maxspeed=50
+materiaux:
+  chaussee: enrobé neuf                             # photo:7d44455e (l+0000.0) : enrobé sombre récent
+  pistes: enrobé                                    # photo:7d44455e (l+0051.4)
+marquages:
+  usure: neuf                                       # photo:7d44455e
+troncons:
+  # Chemin du Vieux Chêne ouest (azimut 300°) ; gauche = sud (voie entrante, sens est-sud-est)
+  - id: vc_ouest
+    nom: chemin du Vieux Chêne ouest
+    de: [-1.04, -2.64]
+    vers: [-70.32, 37.36]
+    profil:
+      - trottoir 1,8                                # coupe:o_20 (gam 8,03 → 9,88)
+      - voie 3,3 ←                                  # coupe:o_20 (gam 9,88 → 13,22)
+      - zone hachurée 2,3                           # îlot peint ocre, coupe:o_20 (gam 13,39 → 15,68) ; photo:17826b13
+      - voie 3,3 →                                  # coupe:o_20 (gam 15,68 → 18,99)
+      - trottoir 3,7                                # au droit du passage : liaison revêtue (photo:7d44455e) ; herbe au-delà
+      - piste cyclable 2,9 bidirectionnelle         # coupe:o_20 (gam 22,66 → ligne 25,59) ; osm:1025301610 segregated=yes
+      - trottoir 1,6                                # coupe:o_20 (ligne 25,59 → gam 27,20)
+    evenements:
+      # bande enherbée entre chaussée et piste au-delà du passage (coupe:o_20, gam 18,99 → 22,66)
+      - profil: {a: 11, nouveau: "trottoir 1,8 | voie 3,3 ← | zone hachurée 2,3 | voie 3,3 → | bande enherbée 3,7 | piste cyclable 2,9 bidirectionnelle | trottoir 1,6"}
+  # Chemin du Vieux Chêne est (azimut 120°) ; gauche = nord (voie entrante, sens ouest-nord-ouest)
+  - id: vc_est
+    nom: chemin du Vieux Chêne est
+    de: [-1.04, -2.64]
+    vers: [68.24, -42.64]
+    profil:
+      - piste cyclable 2,9 bidirectionnelle         # osm:1025301610 (coupe:e_20 : 21,44 → 23,32, mesure partielle)
+      - bande enherbée 7,1                          # coupe:e_20 (gam 14,29 → 21,41)
+      - voie 3,0 ←                                  # coupe:e_20 (gam 11,00 → pcrs 14,01)
+      - zone hachurée 1,0                           # îlot peint ocre, coupe:e_20 (gam 10,05 → 11,00) ; photo:7d44455e (l-0154.3)
+      - voie 3,4 →                                  # coupe:e_20 (gam 6,69 → 10,05)
+      - bande enherbée 1,1                          # coupe:e_20 (gam 5,56 → 6,67) ; bande étroite et haie, photo:7d44455e (l-0154.3)
+  # Rue de desserte nord (azimut 35°, osm:1425974964 shared_lane) ; gauche = ouest
+  - id: desserte_n
+    nom: chemin du Vieux Chêne (desserte nord)
+    de: [-1.04, -2.64]
+    vers: [33.37, 46.51]
+    profil: "trottoir 2,0 | voie 2,6 ← | voie 2,6 → | trottoir 1,4"   # coupe:n_12 (gam 2,71 → 4,69 ; pcrs 4,73 → 9,91 ; → gam 11,30)
+carrefours:
+  - id: VCI
+    nom: Vieux Chêne × desserte (Inovallée)
+    centre: [-1.04, -2.64]                          # nœud osm du carrefour
+    regime: feux                                    # osm traffic_signals 13051761817 / 818 / 819
+    branches:
+      - troncon: vc_ouest
+        passage: {largeur: 4.0}                     # osm:2214342016 / 2214342020 (feux, bouton d'appel), refuge rond, photo:7d44455e
+      - troncon: vc_est
+      - troncon: desserte_n
+        passage: {largeur: 4.0}                     # osm:311840595 (feux) + traversée cyclable à figurines et chevrons, photo:7d44455e (l+0051.4)
+    feux:
+      # HYPOTHÈSE (plan de feux non observable) : 2 phases, cycle ≈ 60 s (DEF-028)
+      note: plan de feux supposé, à remplacer par le plan réel de la Métropole
+      phases:
+        - nom: P1 Vieux Chêne
+          mouvements: [vc_ouest TD, vc_ouest TAG, vc_est TD, vc_est TAD]
+          vert: 35
+        - nom: P2 desserte
+          mouvements: [desserte_n TAG, desserte_n TAD]
+          vert: 15
+ecarts_admis:
+  RF-OSM-LAR-010: "voies relevées entre lignes et bordures du levé GAM : 3,3 m à l'ouest (coupe o_20), 3,0-3,4 m à l'est (coupe e_20), desserte de 5,18 m à double sens sans axe (coupe n_12 : 2 × 2,6 m)"

@@ -1,0 +1,134 @@
+# A41 à Meylan — demi-échangeur n° 26 « Meylan-Est / Inovallée » et convergence de la branche venant de la N87.
+# État 2024-2025 (photos Panoramax 23/06/2024, 01/06/2025, 14/06/2025 ; ortho IGN BD ORTHO 2024 du 09/08/2024).
+# Traduction de DESCRIPTION.md § 1. Provenances : [O] ortho (coupes a41_est, branche_n87, bretelle_* ; mesures.json),
+# [P] photo Panoramax (photos.json), [OSM] tag OpenStreetMap, [R] règle de regles_route_fr.json, [G] choix faute de
+# mesure. Abscisses s en mètres le long de chaque tronçon. Ce que le format ne porte pas encore : extensions_auto.
+scene: auto_a41_echangeur_meylan_est
+nom: A41 (Meylan) échangeur 26 Meylan-Est
+titre: A41 à Meylan — sortie 26 Meylan-Est (sens Chambéry → Grenoble), branche N87 → A41 et convergence 2 + 2 → 4 → 3 voies
+date: 2025-06-14
+confiance: moyenne
+origine: [919112.7, 6460164.9]           # [OSM] médiane des chaussées A41 (4014134 / 4020688) à x = 919 113, L93
+description: >
+  Section d'autoroute à 2 × 3 puis 2 × 2 voies séparées par un terre-plein étroit revêtu avec une GBA en béton ; côté
+  sud, une seconde chaussée à 2 voies (la branche qui vient de la Rocade Sud N87) court parallèlement à l'A41 sens
+  Chambéry, séparée par une double glissière, puis la rejoint : 4 voies côte à côte sur 260 m, et la voie de droite
+  disparaît en biseau (3 voies). Dans le sens Grenoble, une voie de décélération de 100 m s'ouvre à droite puis la
+  sortie 26 « Meylan-Est » se détache avec un musoir à chevrons ; la bretelle (1 voie de 4 m, 70 km/h) monte en courbe
+  vers un pont qui enjambe l'autoroute. BAU de 3 m, glissières simples aux bords, rideaux d'arbres des deux côtés,
+  pas d'éclairage.
+contexte:
+  agglomeration: non                     # [P] rase campagne (photos bf8e09f3, e8712f96)
+  categorie: autoroute                   # [OSM] highway=motorway, ref=A 41
+  vitesse: 110                           # [OSM] maxspeed=110
+  u: 7,5 cm                              # [R] RF-MQ-U-01
+troncons:
+  # --- 1. A41, les deux sens, le long de la médiane (sens du tronçon : vers Chambéry, ENE) ---
+  - nom: A41 deux sens
+    polyligne: [[0.0, 0.0], [94.5, 32.5], [188.6, 65.9], [282.3, 100.6], [375.5, 136.8], [468.2, 174.0], [560.3, 212.6], [651.2, 253.8], [741.2, 297.0], [830.6, 341.5], [917.8, 389.7], [1003.4, 441.1], [1087.2, 495.3], [1168.7, 552.7]]   # [OSM] médiane 4014134+667912799+28712695 / 4020688+4014149+165939594+801982926
+    profil:
+      - berme 2,0 herbe haute            # [P] 8b731487 l+51 : herbe puis bois
+      - glissière                        # [P] 8b731487 l+51, c0a557b7
+      - BAU 3,0                          # [O] a41_est s0150-s0400 : bord revêtu +14,3 ± 0,6 → ligne +11,5
+      - ligne T4 3u
+      - voie 3,6 ←                       # [O] lignes +11,55 / +7,95 / +4,35 / +0,85 (3,60 / 3,60 / 3,50)
+      - voie 3,6 ←
+      - voie 3,5 ←
+      - ligne continue 3u                # [O] rive continue du TPC
+      - BDG 1,0                          # [O] +0,85 → GBA ; [P] c0a557b7
+      - terre-plein 0,4 béton niveau chaussée   # [P] bf8e09f3, c0a557b7, 8b731487 : GBA béton double face ; [O] bande claire ≈ 0,8 m (B3 : GBA écrite en limite, emprise en 2 demi-bandes)
+      - GBA
+      - terre-plein 0,4 béton niveau chaussée
+      - BDG 1,4                          # [O] GBA → ligne −2,45 (TPC de 3,3 m entre lignes)
+      - ligne continue 3u
+      - voie 3,6 →                       # [O] −2,45 / −6,05 / −9,75 (3,60 / 3,70)
+      - voie 3,6 →
+      - ligne T4 3u
+      - BAU 3,0                          # [O] −9,75 → bord −12,75
+      - glissière                        # [P] e8712f96, 0ee0e9e0 : double glissière entre l'A41 et la branche N87 (portée par le tronçon 2)
+    evenements:
+      # sens Grenoble (←) : voie de décélération de la sortie 26 entre s = 364 (divergence) et s = 463 (début), [OSM] 667912799 (4 voies), [O] s0400 ligne +14,25
+      - profil: {a: 364, nouveau: "berme 2,0 herbe haute | glissière | BAU 2,5 | ligne T4 3u | voie de décélération 3,5 ← | ligne T2 5u | voie 3,6 ← | voie 3,6 ← | voie 3,5 ← | ligne continue 3u | BDG 1,0 | terre-plein 0,4 béton niveau chaussée | GBA | terre-plein 0,4 béton niveau chaussée | BDG 1,4 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 3,0 | glissière"}
+      - profil: {a: 463, nouveau: "berme 2,0 herbe haute | glissière | BAU 3,0 | ligne T4 3u | voie 3,6 ← | voie 3,6 ← | voie 3,5 ← | ligne continue 3u | BDG 1,0 | terre-plein 0,4 béton niveau chaussée | GBA | terre-plein 0,4 béton niveau chaussée | BDG 1,4 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 3,0 | glissière"}
+      # sens Chambéry (→) : la branche N87 rejoint l'A41 à s = 908 ([OSM] 165939594, 4 voies) ; BAU portée par la branche
+      - profil: {a: 908, nouveau: "berme 2,0 herbe haute | glissière | BAU 3,0 | ligne T4 3u | voie 3,6 ← | voie 3,6 ← | voie 3,5 ← | ligne continue 3u | BDG 1,0 | terre-plein 0,4 béton niveau chaussée | GBA | terre-plein 0,4 béton niveau chaussée | BDG 1,0 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T3 2u | voie 3,6 → | voie 3,2 → | ligne T4 3u | BAU 3,6 | glissière | berme 2,0 herbe haute"}   # [O] s0950-s1150 : −0,6 / −4,15 / −7,75 (T3) / −11,35 / −14,55 / bord −18,25
+      # la voie de droite disparaît (4 → 3) : [OSM] 801982926 (3 voies) à s = 1170 ; [O] s1250 encore en biseau ; [P] d5742174
+      - rabattement: {a: 1250, sens: →, voie: droite, biseau: 80, fleches: non}   # [O] ± 30 m ; flèches non vues (coupe s1050 : une flèche de rabattement dans la voie de droite, non confirmée sur photo)
+  # --- 2. Branche N87 → A41 sens Chambéry (chaussée parallèle, sens unique) ---
+  - nom: branche N87 vers A41
+    polyligne: [[81.4, 5.8], [141.7, 27.3], [202.0, 48.9], [262.1, 70.9], [321.9, 93.8], [381.5, 117.3], [440.9, 141.1], [499.9, 165.9], [558.0, 192.8], [615.3, 221.4], [672.2, 250.8], [729.1, 280.3], [785.9, 309.7], [842.8, 339.2]]   # [OSM] 169543115 (axe de la chaussée)
+    profil:
+      - glissière                        # [P] e8712f96 : double glissière à gauche (côté A41)
+      - BDG 0,8                          # [O] branche_n87 : ligne gauche +4,0 ; BAU de l'A41 au-delà
+      - ligne continue 3u
+      - voie 3,6 →                       # [O] lignes +4,0 / +0,4 / −3,35 (3,6 / 3,75)
+      - voie 3,7 →
+      - ligne T4 3u
+      - BAU 2,7                          # [O] −3,35 → bord ≈ −6,0
+      - glissière                        # [P] e8712f96 l+0 : glissière simple à droite
+      - berme 2,0 herbe haute
+    evenements:
+      # entrée depuis Meylan-Est à s ≈ 280 ([OSM] 4014138 rejoint 169543115 à x = 919 457) : voie d'insertion à droite
+      - profil: {a: 280, nouveau: "glissière | BDG 0,8 | ligne continue 3u | voie 3,6 → | voie 3,7 → | ligne T2 5u | voie d'accélération 3,5 → | ligne T4 3u | BAU 2,5 | glissière | berme 2,0 herbe haute"}   # [P] e8712f96 : T2 5u ; [R] RF-MQ-INS-01
+      - rabattement: {a: 480, sens: →, voie: droite, biseau: 60, fleches: non}   # [G] fin non relevée (≥ 100 m vus sur e8712f96) ; [R] RF-MQ-RAB-01 : pas de flèche sur une voie d'insertion
+  # --- 3. Bretelle de sortie 26 « Meylan-Est » (sens Grenoble) ---
+  - nom: sortie 26 Meylan-Est
+    contexte: {vitesse: 70}              # [OSM] 344514532 maxspeed=70 ; [P] 8b731487 : panneau rond à droite, valeur non lisible
+    polyligne: [[340.1, 129.6], [308.5, 121.4], [276.8, 113.2], [245.2, 104.8], [213.3, 97.7], [180.8, 98.4], [149.1, 106.6], [117.8, 115.8], [88.2, 129.8], [64.7, 152.3], [49.4, 181.1], [37.0, 211.3]]   # [OSM] 4014135 + 344514532
+    profil: "berme 1,5 herbe haute | glissière | accotement 0,5 | ligne continue 3u | voie 4,1 → | ligne T'3 3u | BAU 2,0 | glissière | berme 1,5 herbe haute"   # [O] bretelle_sortie26 : lignes ± 2,05 ; [P] 4d06322c : rive gauche continue, droite T'3, glissière ; [R] RF-MQ-LAR-B2d
+  # --- 4. Bretelle d'entrée depuis Meylan-Est vers la branche (sens Chambéry) ---
+  - nom: entrée Meylan-Est vers Chambéry
+    contexte: {vitesse: 70}              # [G] comme la sortie (aucun panneau relevé)
+    polyligne: [[224.8, -55.4], [234.4, -31.1], [241.2, -6.0], [248.6, 19.0], [260.2, 42.2], [277.1, 61.9], [298.8, 76.2], [321.3, 89.3], [344.0, 102.3]]   # [OSM] 4014138
+    profil: "berme 1,5 herbe haute | glissière | accotement 0,5 | ligne continue 3u | voie 4,0 → | ligne T'3 3u | BAU 2,0 | glissière | berme 1,5 herbe haute"   # [O] bretelle_entree_branche : lignes +2,25 / −1,75
+  # --- 5. Bretelle de sortie de la branche vers Meylan-Est ---
+  - nom: sortie de la branche vers Meylan-Est
+    contexte: {vitesse: 70}              # [G]
+    polyligne: [[81.4, 5.8], [106.0, 11.4], [130.5, 17.0], [155.1, 22.4], [180.0, 22.2], [202.9, 12.2], [219.5, -6.5], [226.8, -30.3], [224.8, -55.4]]   # [OSM] 625997622
+    profil: "berme 1,5 herbe haute | glissière | accotement 0,5 | ligne continue 3u | voie 4,2 → | ligne T'3 3u | BAU 2,0 | glissière | berme 1,5 herbe haute"   # [O] bretelle_sortie_branche : lignes +2,05 / −2,15
+materiaux:
+  chaussee: enrobé                       # [P] enrobé gris, quelques reprises (bf8e09f3)
+marquages:
+  usure: légère                          # [P] lignes nettes 2024-2025
+abords:
+  gauche: {type: forêt, largeur: 20}     # [P] 8b731487, c0a557b7 : rideau d'arbres feuillus au nord
+  droite: {type: forêt, largeur: 20}     # [P] e8712f96, d5742174 : bois et champ au sud
+
+extensions_auto:
+  chaussees_separees: {tronçons: ["A41 deux sens", "branche N87 vers A41"], separation: "double glissière + BAU de l'A41", entraxe_m: 21, prov: "O branche_n87 : lignes de l'A41 à +7,85 / +11,15 / +14,75"}   # B1
+  raccordements:                                                                       # B2 : divergences et convergences
+    - {type: divergence, de: "A41 deux sens", sens: ←, a: 364, vers: "sortie 26 Meylan-Est", a_vers: 0, voie_quittante: "voie de décélération", musoir: {chevrons: oui, longueur_zone_m: 90, nez_a: 270, balise: J14a}, prov: "P 4d06322c (chevrons, balise au nez), 8b731487 ; O s0250 chevrons de t = +11,5 à +19 ; OSM 4014135"}
+    - {type: divergence, de: "branche N87 vers A41", a: 0, vers: "sortie de la branche vers Meylan-Est", a_vers: 0, prov: "OSM 625997622 (n'est pas sur le tronçon : il part à x = 919 194, juste avant s = 0)"}
+    - {type: convergence, vers: "branche N87 vers A41", a: 280, de: "entrée Meylan-Est vers Chambéry", a_de: 208.4, voie_entrante: "voie d'accélération", ligne: "T2 5u", prov: "P e8712f96 ; R RF-MQ-INS-01"}
+    - {type: convergence, vers: "A41 deux sens", a: 908, de: "branche N87 vers A41", a_de: 832.3, mode: "juxtaposition 2 + 2 voies (fin de la double glissière)", prov: "OSM 165939594 ; P d7473696, efe0ae74"}
+  dispositifs_retenue:                                                                 # B3
+    - {troncon: "A41 deux sens", limite: TPC, type: GBA_double_face, hauteur_m: 0.8, largeur_base_m: 0.6, de: 0, a: 1298, prov: "P bf8e09f3, c0a557b7, d7473696, d5742174 ; hauteur [R] GBA usuelle 0,80"}
+    - {troncon: "branche N87 vers A41", limite: gauche, type: glissiere_double, de: 0, a: 832, prov: "P e8712f96, 0ee0e9e0"}
+    - {troncon: tous, limite: "bords extérieurs", type: glissiere_simple, prov: "P toutes photos"}
+  ouvrages:                                                                            # B5
+    - {type: passage_superieur, nom: "pont de l'échangeur 26", troncon: "A41 deux sens", a: 87, porte: "route à 2 voies à double sens (OSM 28712702, 4014136, 28712703)", travees: 4, appuis: "piles poteaux dans le TPC et entre l'A41 et la branche N87, culée en talus bétonné au sud", prov: "P 0ee0e9e0 (sous le pont), bf8e09f3 (au loin) ; OSM 28712702 bridge=yes"}
+  route_de_liaison:                                                                    # B4 : route à double sens portée par le pont
+    - {nom: "liaison Inovallée ↔ échangeur", polyligne: [[37.0, 211.3], [41.5, 181.5], [46.3, 151.6], [52.2, 122.0], [59.9, 92.8], [69.5, 64.2], [79.4, 35.6], [89.4, 7.1], [99.5, -21.4], [109.9, -49.7], [125.5, -75.4], [150.8, -91.3], [180.6, -92.7], [207.6, -79.8], [224.8, -55.4]], profil: "voie ← | voie →", prov: "OSM 4014136, 28712702, 28712703 (2 voies, double sens) ; largeurs non relevées"}
+  signalisation:                                                                       # B9
+    - {code: B14, valeur: 70, troncon: "sortie 26 Meylan-Est", a: 20, cote: droite, prov: "OSM 344514532 maxspeed=70 ; P 8b731487 (panneau rond à droite à l'entrée de la bretelle, valeur non lisible)"}
+    - {code: J14a, troncon: "sortie 26 Meylan-Est", a: 95, cote: nez, prov: "P 4d06322c (balise verte et blanche au nez du musoir)"}
+    - {code: AB3a, panonceau: "CÉDEZ LE PASSAGE", troncon: "A41 deux sens", a: 990, cote: droite, prov: "P efe0ae74"}
+    - {code: portique_PMV, troncon: "A41 deux sens", a: 1450, cote: au-dessus, prov: "P d5742174 (au loin, hors tronçon)"}
+    - {code: portique_direction, troncon: "A41 deux sens", a: 87, porte_par: "pont de l'échangeur", prov: "P bf8e09f3, 8b731487 (panneaux verts sur le pont, non lisibles)"}
+  equipements: [{type: eclairage, valeur: aucun, prov: "OSM lit=no ; P"}, {type: ligne_haute_tension, prov: "P bf8e09f3 (pylône dans l'axe au loin)"}]
+  etapes:                                                                              # B12
+    - "1 plate-forme : remblai léger dans la plaine, emprise commune A41 + branche N87"
+    - "2 ouvrage : piles et tablier du pont de l'échangeur (avant les enrobés)"
+    - "3 chaussées : A41 (3 + 2 voies), branche N87 (2 voies), bretelles (1 voie de 4 m) en enrobé ; voie de décélération et voie d'insertion"
+    - "4 TPC : GBA béton coulée en place sur toute la longueur"
+    - "5 retenue : glissières simples aux bords, double glissière entre A41 et branche jusqu'à la convergence"
+    - "6 marquages : rives continues 3u, T4 3u des BAU, T1/T3 entre voies, T2 5u des voies d'insertion et de décélération, T'3 3u des bretelles, puis chevrons du musoir de la sortie 26"
+    - "7 signalisation : B14 70 et J14a sur la sortie, AB3a + panonceau dans la zone à 4 voies, portiques"
+    - "8 abords : bois au nord et au sud, champ"
+  provenance:
+    troncons[0].profil: "O coupes a41_est s0050-s0400 (lignes médianes ± 0,15)"
+    troncons[0].evenements[2]: "O coupes s0950-s1150"
+    troncons[1].profil: "O coupes branche_n87 s0042-s0624"
+    troncons[2].profil: "O coupes bretelle_sortie26 s0072-s0288"
+    troncons[3].profil: "O coupes bretelle_entree_branche"
+    troncons[4].profil: "O coupes bretelle_sortie_branche"

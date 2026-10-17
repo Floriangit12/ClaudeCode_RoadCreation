@@ -1,0 +1,134 @@
+# Dialog script for route::panneau::1.0 automatically generated
+
+{
+    name	route::panneau::1.0
+    script	route::panneau::1.0
+    label	"Route Panneau de signalisation (plaque à bord tombé)"
+
+    help {
+    }
+
+    inputlabel	1	"Sub-Network Input #1"
+    inputlabel	2	"Sub-Network Input #2"
+    inputlabel	3	"Sub-Network Input #3"
+    inputlabel	4	"Sub-Network Input #4"
+
+    parm {
+        name    "contours"
+        label   "Contours convexes (x z …, m ; plaques séparées par « | »)"
+        type    string
+        default { "" }
+        help    "Contours relevés sur l'emprise opaque de la face officielle, à l'échelle de la gamme ; repère de la face."
+    }
+    parm {
+        name    "img_x0"
+        label   "Image : x du bord gauche (m)"
+        type    float
+        default { "0" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "img_z0"
+        label   "Image : z du bord bas (m)"
+        type    float
+        default { "0" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "img_l"
+        label   "Image : largeur (m)"
+        type    float
+        default { "1" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "img_h"
+        label   "Image : hauteur (m)"
+        type    float
+        default { "1" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "bord_tombe"
+        label   "Profondeur du bord tombé (m)"
+        type    float
+        default { "0.025" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "rebord"
+        label   "Largeur du rebord arrière (m)"
+        type    float
+        default { "0.012" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "tole"
+        label   "Épaisseur de la tôle (m)"
+        type    float
+        default { "0.002" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "rails"
+        label   "Rails de fixation au dos"
+        type    toggle
+        default { "1" }
+    }
+    parm {
+        name    "rail_seuil"
+        label   "Hauteur de plaque au-delà de laquelle on pose 2 rails (m)"
+        type    float
+        default { "0.45" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "rail_h"
+        label   "Rail : hauteur (m)"
+        type    float
+        default { "0.03" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "rail_p"
+        label   "Rail : saillie (m)"
+        type    float
+        default { "0.022" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "materiau_face"
+        label   "Matériau de la face"
+        type    string
+        default { "face_panneau" }
+    }
+    parm {
+        name    "materiau_revers"
+        label   "Matériau du revers et du bord tombé"
+        type    string
+        default { "revers_panneau" }
+    }
+    parm {
+        name    "cusp"
+        label   "Angle de coupure des normales (°)"
+        type    float
+        default { "30" }
+        help    "Arêtes plus vives que cet angle : normales dures ; en dessous (congés), normales lissées."
+        range   { 0 180 }
+    }
+    parm {
+        name    "lod_pourcentage"
+        label   "LOD : polygones conservés (%)"
+        type    float
+        default { "100" }
+        help    "100 = LOD0 (aucune réduction) ; LOD1 ≈ 50 %, LOD2 ≈ 20 % (PolyReduce 2.0)."
+        range   { 1 100 }
+    }
+    parm {
+        name    "materiau"
+        label   "Matériau"
+        type    string
+        default { "revers_panneau" }
+        help    "Nom du matériau (bibliothèque route_fr ou assets/lib/materiaux) posé dans l'attribut de primitive « materiau »."
+    }
+}

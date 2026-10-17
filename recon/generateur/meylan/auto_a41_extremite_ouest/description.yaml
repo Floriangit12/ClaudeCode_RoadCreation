@@ -1,0 +1,117 @@
+# A41 à Meylan — extrémité ouest (« bout d'autoroute ») : début / fin de l'autoroute au carrefour à feux de l'avenue
+# de Verdun et de L'Alpine (limite de La Tronche), entrée et sortie n° 27 « Meylan Mi-Plaine / La Tronche / Corenc ».
+# État 2024-2025 (photos Panoramax 01/06/2025 et 14/06/2025 ; ortho IGN 09/08/2024). Le tronçon s'arrête là où
+# commence auto_a41_section_courante (s = 808 ici = s = 0 là-bas) : les deux descriptions se raccordent.
+# Provenances : [O] ortho (coupes a41_ouest, bretelle_* ; mesures.json), [P] photo (photos.json), [OSM], [R] règle,
+# [G] choix faute de mesure.
+scene: auto_a41_extremite_ouest
+nom: A41 (Meylan) extrémité ouest
+titre: A41 à Meylan — début de l'autoroute à La Tronche, réduction 3 → 2 voies, entrée et sortie 27 Mi-Plaine
+date: 2025-06-14
+confiance: moyenne
+origine: [916625.1, 6459501.0]           # [OSM] médiane A41 (4247773 / 4247752) au bout des voies d'autoroute, L93
+description: >
+  L'autoroute commence au feu tricolore de L'Alpine : trois voies vers Chambéry avec panneaux « autoroute » et 110 des
+  deux côtés, la voie de gauche se rabat après 100 m (panneau de réduction de voies), il en reste deux ; terre-plein
+  central très large (10 m d'herbe entre deux glissières, 14 m entre les lignes continues) qui se resserre à 7 m en
+  700 m. Vers Grenoble, deux voies à 90 puis trois voies à 70 après l'entrée de Mi-Plaine, candélabres, et l'autoroute
+  se termine sur un carrefour à feux (feux sur potence) ; la sortie 27 se détache 800 m avant. Talus enherbés et
+  arbres, zone d'activités de Mi-Plaine au nord.
+contexte:
+  agglomeration: non                     # [P] 07416282 : C207 « autoroute » au départ ; la fin est en limite d'agglomération
+  categorie: autoroute                   # [OSM] motorway A 41 (4247773, 4247746, 4247752) ; 1310424870 / 1310424871 = A 41 en primary (raccord)
+  vitesse: 110                           # [P] 07416282 : B14 110 des deux côtés (sens est) ; sens ouest 90 puis 70 (extensions_auto.vitesses)
+  u: 7,5 cm                              # [R] RF-MQ-U-01
+troncons:
+  - nom: A41 extrémité ouest, carrefour → entrée Mi-Plaine
+    polyligne: [[0.0, 0.0], [53.0, 20.2], [129.1, 44.5], [206.9, 66.8]]   # [OSM] médiane 4247773+759037980 / 4247752 (s = 0 à 206,9)
+    profil:   # s = 0-108 : 3 voies dans chaque sens
+      - berme 1,5 herbe haute            # [P] 31863b68 : talus enherbé et glissière à gauche (sens ouest = droite des usagers)
+      - glissière
+      - BAU 2,5                          # [O] coupe s0140 : ligne +13,95 → bord +17,65 (3,7) ; [G] 2,5 près du carrefour
+      - ligne T4 3u
+      - voie 3,6 ←                       # [O] s0140 : +13,95 / +10,15 / +6,55 / +3,55
+      - voie 3,6 ←
+      - voie 3,0 ←
+      - ligne continue 3u
+      - BDG 1,0
+      - glissière                        # [P] 80d3d532 : glissière et balises jaunes au TPC
+      - terre-plein 8,0 herbe haute niveau chaussée   # [O] s0140 : TPC de 10,1 m entre lignes continues
+      - glissière
+      - BDG 1,0
+      - ligne continue 3u
+      - voie 3,5 →                       # [P] 80d3d532 : 3 voies, flèche de rabattement dans la voie de gauche
+      - voie 3,5 →
+      - voie 3,5 →
+      - ligne T4 3u
+      - BAU 2,5                          # [G]
+      - glissière                        # [P] 80d3d532 : glissière, grillage, candélabres à droite
+      - berme 1,5 herbe haute
+    evenements:
+      - rabattement: {a: 108, sens: →, voie: gauche, biseau: 80, fleches: non}   # [OSM] 1310424871 turn:lanes=merge_to_right|none|none, 3 voies jusqu'à s = 108 ; [P] 80d3d532 : C28 ; biseau [G] ; une seule flèche de rabattement vue (extensions_auto.marquages_detail), aucune inventée
+      - panneau: {a: 50, code: C28, cote: droite}   # [P] 80d3d532 (≈ 20 m devant la caméra à s = 29)
+  # sens ouest : l'entrée de Mi-Plaine rejoint à s = 206 ([OSM] 4247747 → 4247752, 3 voies) ; au-delà 2 voies et TPC de 14 m :
+  # second tronçon (le format compare une transition au profil de départ du tronçon, BESOINS B13)
+  - nom: A41 extrémité ouest, entrée Mi-Plaine → section courante
+    polyligne: [[206.9, 66.8], [283.5, 87.9], [360.5, 109.8], [437.6, 131.4], [515.0, 152.4], [592.6, 172.3], [631.4, 181.8], [693.6, 196.2], [778.2, 216.4]]   # [OSM] médiane 4247746 / 759037980 (s = 0 ici = 206,9 sur le tronçon précédent ; fin = s 601,3 = auto_a41_section_courante s 0)
+    profil: "berme 1,5 herbe haute | glissière | BAU 2,8 | ligne T4 3u | voie 3,6 ← | voie 3,6 ← | ligne continue 3u | BDG 2,9 | glissière | terre-plein 10,3 herbe haute niveau chaussée | glissière | BDG 0,9 | ligne continue 3u | voie 3,5 → | voie 3,7 → | ligne T4 3u | BAU 3,2 | glissière | berme 1,5 herbe haute"   # [O] coupes s0260-s0380 : +14,45 / +10,85 / +7,15 | −6,95 / −10,40 / −14,15 ; bords +17,2 / −17,35 ; BDG ouest revêtue jusqu'à +4,3
+    evenements:
+      - profil: {a: 193, transition: 160, nouveau: "berme 1,5 herbe haute | glissière | BAU 3,0 | ligne T4 3u | voie 3,6 ← | voie 3,6 ← | ligne continue 3u | BDG 2,4 | glissière | terre-plein 6,0 herbe haute niveau chaussée | glissière | BDG 0,9 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 3,2 | glissière | berme 1,5 herbe haute"}   # [O] s0500-s0560 : +12,05 / +8,35 / +4,85 | −4,45 / −11,75 ; végétation de +2,45 à −3,55
+      - profil: {a: 353, transition: 248, nouveau: "berme 1,5 herbe haute | glissière | BAU 3,4 | ligne T4 3u | voie 3,6 ← | ligne T3 2u | voie 3,6 ← | ligne continue 3u | BDG 1,0 | glissière | terre-plein 4,9 herbe haute niveau chaussée | glissière | BDG 1,0 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 3,4 | glissière | berme 1,5 herbe haute"}   # profil atteint à s = 601 (fin du tronçon) = raccord avec auto_a41_section_courante (s = 0) ; T3 de dissuasion avant la sortie 27 : [P] 8eb030a9
+  - nom: sortie 27 Mi-Plaine
+    contexte: {vitesse: 70}              # [OSM] 4247740 maxspeed=70
+    polyligne: [[753.1, 218.1], [726.5, 213.8], [699.8, 209.5], [673.2, 205.2], [646.5, 200.9], [619.8, 196.9], [592.9, 193.9], [566.1, 190.9], [539.6, 185.7], [513.7, 178.1], [487.4, 172.4]]   # [OSM] 4247740
+    profil: "berme 1,5 herbe haute | glissière | accotement 0,5 | ligne continue 3u | voie 4,0 → | ligne T'3 3u | BAU 2,0 | glissière | berme 1,5 herbe haute"   # [O] bretelle_sortie27 : lignes +2,05 / −1,95 ; [R] RF-MQ-SC-06
+  - nom: entrée Mi-Plaine vers Grenoble
+    contexte: {vitesse: 70}              # [OSM] 4247747 maxspeed=70
+    polyligne: [[272.5, 120.0], [252.8, 96.8], [222.9, 86.1], [193.1, 75.4]]   # [OSM] 4247747
+    profil: "berme 1,5 herbe haute | glissière | accotement 0,5 | ligne continue 3u | voie 4,0 → | ligne T'3 3u | BAU 1,5 | glissière | berme 1,5 herbe haute"   # [O] bretelle_entree_miplaine : +2,55 / −2,45 au raccord
+materiaux:
+  chaussee: enrobé                       # [P] enrobé gris, quelques reprises
+marquages:
+  usure: légère
+ecarts_admis:
+  RF-OSM-LAR-050: "terre-plein central d'autoroute de 8,0 à 10,3 m d'herbe mesuré (ortho IGN 09/08/2024, coupes a41_ouest s0140-s0380, ± 0,3) ; la plage 2-6 m de la règle vise un TPC planté urbain ; RF-GV-TPC-006 (≥ 3 m engazonné) et RF-GV-TPC-008 (barrières si < 12 m) sont respectées"
+abords:
+  gauche: {type: herbe haute, largeur: 10}   # [P] 31863b68 : talus enherbé ; Mi-Plaine (concessions, bureaux) au-delà
+  droite: {type: forêt, largeur: 15}         # [P] 8eb030a9, 80d3d532 : bois et haies au sud
+
+extensions_auto:
+  vitesses:                                                                            # B10 : vitesse par sens
+    - {sens: →, de: 0, a: 808, repere: "abscisse cumulée des deux premiers tronçons", kmh: 110, prov: "P 07416282 (B14 110 des deux côtés) ; OSM 4247773"}
+    - {sens: ←, de: 206, a: 808, kmh: 90, prov: "OSM 4247746 maxspeed=90"}
+    - {sens: ←, de: 0, a: 206, kmh: 70, prov: "OSM 4247752 maxspeed=70 ; [P] 095f42ab"}
+  extremite:                                                                           # B11 : début / fin d'autoroute
+    a: 0
+    sens_est: {panneaux: [{code: C207, cotes: [gauche, droite]}, {code: B14, valeur: 110, cotes: [gauche, droite]}, {code: D21_D43, texte: "A41 Turin-Milan Chambéry (bleu), N87 Sisteron, St-Martin-d'H. (vert)"}], prov: "P 07416282 (sur L'Alpine, ≈ 30 m avant s = 0)"}
+    sens_ouest: {fin: "carrefour à feux (feux R11 sur mâts et sur potence), panneau « ZONE » de circulation restreinte, B1 et AB3a des branches voisines, balises de virage bleues et blanches", prov: "P 0916d10b, 31863b68"}
+    carrefour: "carrefour à feux A41 / L'Alpine / avenue de Verdun (M14 du dossier 13) — hors lot B, à décrire avec les carrefours"
+  raccordements:                                                                       # B2
+    - {type: divergence, de: "A41 extrémité ouest, entrée Mi-Plaine → section courante", sens: ←, a: 577, vers: "sortie 27 Mi-Plaine", a_vers: 0, musoir: {chevrons: oui, balise: J14a}, prov: "OSM 4247740 ; P 8eb030a9 (zone hachurée et balise au nez au loin)"}
+    - {type: convergence, vers: "A41 extrémité ouest, carrefour → entrée Mi-Plaine", sens: ←, a: 206.9, de: "entrée Mi-Plaine vers Grenoble", a_de: 95.2, mode: "ajout de voie (3e voie jusqu'au carrefour)", prov: "OSM 4247747 → 4247752 (3 voies)"}
+    - {type: continuite, de: "A41 extrémité ouest, carrefour → entrée Mi-Plaine", a: 206.9, vers: "A41 extrémité ouest, entrée Mi-Plaine → section courante", a_vers: 0, prov: "même médiane OSM"}
+    - {type: continuite, de: "A41 extrémité ouest, entrée Mi-Plaine → section courante", a: 601.3, vers: "auto_a41_section_courante / A41 section courante", a_vers: 0, prov: "même médiane OSM"}
+  marquages_detail:                                                                    # B8
+    - {type: fleche_rabattement, voie: "gauche, sens →", a: 45, nombre: 1, prov: "P 80d3d532 (une flèche vue dans la voie de gauche, à ≈ 15 m de la caméra) ; les autres éventuelles non vues"}
+  dispositifs_retenue:                                                                 # B3
+    - {limite: "TPC (deux files)", type: glissiere_simple, de: 0, a: 808, prov: "P 80d3d532, 095f42ab"}
+    - {limite: "bords extérieurs", type: glissiere_simple, de: 0, a: 808, prov: "P 31863b68, 8eb030a9, 80d3d532"}
+    - {limite: "TPC", type: balises_jaunes, de: 0, a: 60, prov: "P 80d3d532 (poteaux jaunes près du nez du TPC, type non identifié)"}
+  equipements:
+    - {type: eclairage, de: 0, a: 300, implantation: "accotement droit des deux sens", hauteur_m: 10, crosse: simple, prov: "P 095f42ab, 80d3d532, 07416282 (candélabres près de l'extrémité) ; hauteur estimée"}
+    - {type: cloture, cote: droite, prov: "P 80d3d532 (grillage)"}
+  etapes:                                                                              # B12
+    - "1 plate-forme : talus enherbés, TPC large (14 m) qui se resserre (7 m)"
+    - "2 chaussées : 3 + 3 voies à l'extrémité, 2 + 2 ensuite ; BDG ouest large (2,4-2,9 m) ; bretelles de 4 m"
+    - "3 TPC : herbe haute"
+    - "4 retenue : 2 glissières au TPC, glissières aux bords"
+    - "5 marquages : rives continues, T4 des BAU, T1 / T3 entre voies, oblique et 2 flèches de rabattement (3 → 2 sens est), T'3 des bretelles, chevrons du musoir de la sortie 27"
+    - "6 signalisation : C207 + B14 110 au départ, C28, panneaux de direction ; fin d'autoroute au carrefour à feux (hors lot)"
+    - "7 éclairage : candélabres sur les 300 premiers mètres"
+    - "8 abords : zone d'activités au nord, bois au sud"
+  provenance:
+    troncons[0].profil: "O coupe s0140 ; P 80d3d532, 31863b68"
+    troncons[1].profil: "O coupes s0260-s0380 (stats : +14,45 ± 0,14 / +7,15 ± 0,12 / −6,95 ± 0,14 / −14,15 ± 0,09)"
+    troncons[1].evenements[0]: "O coupes s0500-s0560"
+    troncons[2].profil: "O bretelle_sortie27"
+    troncons[3].profil: "O bretelle_entree_miplaine"

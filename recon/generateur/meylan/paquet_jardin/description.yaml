@@ -1,0 +1,134 @@
+# Carrefour Paquet Jardin (Meylan) — avenue de Verdun × chemin de la Revirée × avenue du Vercors.
+# État décrit : le plus récemment photographié, 31/08/2025 (Panoramax, série « Binnette », photos planes 72°, CC-BY-SA ;
+# jamais versionnées : recon/out/generateur/meylan/paquet_jardin/photos_non_versionnees/). Revirée et Vercors : photo 360°
+# 119d9094 du 18/05/2025 (avant travaux). Constats par photo et tuile : photos.json ; cotes : mesures.json (« coupes »).
+# Provenance des valeurs (commentaire en fin de ligne) :
+#   coupe:<nom>   = intersections d'une coupe avec les bordures et lignes du levé GAM (Meylan_Topo.dwg) et la limite PCRS,
+#                   relues sur l'ortho IGN 2024 20 cm (mesures.json) ;
+#   photo:<id>    = vu sur les tuiles natives de la photo Panoramax ; osm:<way> = extrait OSM local du 09/10/2026 ;
+#   DEF-/RF-      = règle de assets/specs/route/regles_route_fr.json (valeur non dite, complétée par le compilateur).
+# Simplifications : branches droites ; plan de feux = hypothèse (non observable) ; chantier du 31/08/2025 non décrit dans
+# le YAML (aucun mot du format : voir ../BESOINS_FORMAT.md) — il est décrit dans DESCRIPTION.md.
+scene: meylan_paquet_jardin
+nom: paquet_jardin
+titre: Carrefour Paquet Jardin (Meylan) — Verdun × Revirée × Vercors, état du 31/08/2025
+date: 2025-08-31
+confiance: faible
+origine: [917279.43, 6460289.98, 216.12]           # centre du site (= O du dépôt) ; z RGE ALTI (API altimétrie IGN)
+description: >
+  Grand carrefour à feux en croix : avenue de Verdun (RD1090) en 2 × 2 voies d'environ 3 m, chemin de la Revirée au
+  nord-ouest (deux voies d'environ 4 m séparées au débouché par un îlot étroit), avenue du Vercors au sud-est (entrée
+  2 voies, sortie 1 voie large). Zone hachurée d'environ 2 m et voie de tourne-à-gauche sur l'approche nord-est.
+  Chronovélo (piste bidirectionnelle de 3 m) le long du côté nord-ouest de Verdun derrière une bande enherbée,
+  passages piétons à feux de 3 m sur les quatre branches, enrobé ancien fissuré, marquages usés.
+contexte:
+  agglomeration: oui
+  vitesse: 50                                       # osm:63600584 maxspeed=50
+materiaux:
+  chaussee: enrobé usé                              # photo:20d1a815, photo:e96ea4be (fissures pontées)
+  trottoirs: enrobé                                 # photo:119d9094
+  pistes: enrobé                                    # photo:10ec04d5 (t009)
+  bordures: béton                                   # photo:10ec04d5 (t005)
+marquages:
+  usure: usée                                       # photo:20d1a815 (t006, t007)
+troncons:
+  # Avenue de Verdun nord-est (vers Montbonnot), du centre vers l'extérieur (azimut 45°, osm:1275266692 / 63600587).
+  # Profil au droit de l'approche, de gauche (nord-ouest) à droite (sud-est) en regardant vers le nord-est :
+  - id: verdun_ne
+    nom: avenue de Verdun nord-est
+    de: [0, 0]
+    vers: [70.71, 70.71]
+    profil:
+      - trottoir 1,8                                # coupe:verdun_ne_40 (gam 30,92 → 32,71)
+      - piste cyclable 3,0 bidirectionnelle         # coupe:verdun_ne_40 (gam 27,80 → 30,81) ; Chronovélo, osm:398052219
+      - trottoir 2,7                                # près de l'angle, liaison revêtue (BEV, photo:e96ea4be t008) ; herbe au-delà de 15 m
+      - voie 2,9 ←                                  # coupe:verdun_ne_40 (22,02 → 24,94) ; flèche TD + TAD, photo:20d1a815 (t007)
+      - tourne-à-gauche 3,0 ←                       # coupe:verdun_ne_40 (19,02 → 22,02) ; flèche TAG, photo:20d1a815 (t005)
+      - terre-plein 2,2 enrobé                      # îlot bordé au droit du passage (bordures gam 13,69 / 16,12 à 20 m) ; J5 et mâts, photo:20d1a815 (t006)
+      - voie 2,9 →                                  # coupe:verdun_ne_40 (13,92 → 16,78)
+      - voie 3,3 →                                  # coupe:verdun_ne_40 (pcrs 10,59 → gam 13,92)
+      - trottoir 4,0                                # coupe:verdun_ne_40 (revêtement 6,67 → 10,59) ; osm:301046541 (piétons et cycles)
+    evenements:
+      # bande enherbée entre chaussée et Chronovélo au-delà de l'angle (coupe:verdun_ne_40, gam 25,11 → 27,80 ; photo:20d1a815 t007)
+      # au-delà de l'îlot (≈ 15 m) : zone hachurée de 2,2 m (coupe:verdun_ne_40, gam 16,78 → 19,02 ; photo:20d1a815 t005)
+      - profil: {a: 15, nouveau: "trottoir 1,8 | piste cyclable 3,0 bidirectionnelle | bande enherbée 2,7 | voie 2,9 ← | tourne-à-gauche 3,0 ← | zone hachurée 2,2 | voie 2,9 → | voie 3,3 → | trottoir 4,0"}
+      # au-delà de 40 m la zone hachurée disparaît : 2 + 2 voies séparées par une ligne (coupe:verdun_ne_80)
+      - profil: {a: 45, transition: 15, nouveau: "trottoir 1,8 | piste cyclable 3,0 bidirectionnelle | bande enherbée 4,8 | voie 2,9 ← | voie 3,0 ← | voie 2,9 → | voie 3,2 → | trottoir 4,0"}
+  # Chemin de la Revirée (nord-nord-ouest, azimut ≈ 330°, osm:40994097 / 185326634 / 185326638), de gauche (ouest) à droite :
+  - id: reviree
+    nom: chemin de la Revirée
+    de: [0, 0]
+    vers: [-40.0, 69.28]
+    profil:
+      - trottoir 2,0                                # coupe:reviree_30 (gam 4,47 → 6,48)
+      - voie 3,5 ←                                  # coupe:reviree_30 (chaussée 8,05 m) moins l'îlot ; osm:185326634 width=4
+      - terre-plein 1,0 béton                       # îlot étroit bordé portant les D21, photo:119d9094 (l+102.9) ; largeur estimée
+      - voie 3,5 →                                  # osm:40994097 width=3
+      - trottoir 1,8                                # coupe:reviree_30 (gam 14,53 → 16,31)
+    evenements:
+      # l'îlot s'arrête à ≈ 15 m du centre : ensuite une voie par sens, axe au milieu (coupe:reviree_30, gam 10,46)
+      - profil: {a: 16, nouveau: "trottoir 2,0 | voie 4,0 ← | voie 4,0 → | trottoir 1,8"}
+  # Avenue de Verdun sud-ouest (vers La Tronche, azimut 225°, osm:63600584 / 185326640), de gauche (sud-est) à droite (nord-ouest) :
+  - id: verdun_so
+    nom: avenue de Verdun sud-ouest
+    de: [0, 0]
+    vers: [-70.71, -70.71]
+    profil:
+      - trottoir 4,5                                # coupe:verdun_so_40 (gam 4,65 → 9,27) ; arrêt de bus « La Revirée », photo:7dcdf1d1
+      - voie 3,25 ←                                 # coupe:verdun_so_40 : chaussée 15,44 m (gam 9,27 → 24,71) ; 4 voies de 3,25 + bande médiane
+      - voie 3,25 ←
+      - terre-plein 2,4 enrobé                      # refuge au droit du passage (ortho IGN 2024, zoom du centre) ; largeur = bande médiane (lignes gam 12,53 / 21,51)
+      - voie 3,25 →                                 # « 50 » au sol, ligne discontinue entre les voies, photo:7dcdf1d1 (t006)
+      - voie 3,25 →
+      - trottoir 3,0                                # près de l'angle, liaison revêtue ; herbe au-delà de 15 m (coupe:verdun_so_40, gam 24,73 → 27,72)
+      - piste cyclable 3,0 bidirectionnelle         # coupe:verdun_so_40 (pcrs 28,02 → gam 31,13) ; osm:385035086 width=3 (Chronovélo)
+      - trottoir 3,4                                # coupe:verdun_so_40 (gam 31,13 → pcrs 34,57)
+    evenements:
+      # en chantier le 31/08/2025 côté nord-ouest (photo:22c050a5 t008, photo:4c652c50 t008) ; état permanent : bande enherbée
+      - profil: {a: 15, nouveau: "trottoir 4,5 | voie 3,25 ← | voie 3,25 ← | zone hachurée 2,4 | voie 3,25 → | voie 3,25 → | bande enherbée 3,0 | piste cyclable 3,0 bidirectionnelle | trottoir 3,4"}
+  # Avenue du Vercors (sud-sud-est, azimut ≈ 151°, osm:185326635 entrée / 169866973 sortie), de gauche (est) à droite (ouest) :
+  - id: vercors
+    nom: avenue du Vercors
+    de: [0, 0]
+    vers: [38.79, -69.97]
+    profil:
+      - trottoir 2,2                                # coupe:vercors_35 (gam 15,60 → 17,75) ; osm:1530751498
+      - trottoir 1,7                                # près de l'angle revêtu ; bande enherbée au-delà de 15 m (coupe:vercors_35, gam 13,93 → 15,60)
+      - voie 3,0 ←                                  # coupe:vercors_35 (10,89 → 13,91) ; osm:185326635 lanes=2 width=6
+      - voie 2,75 ←                                 # coupe:vercors_35 (8,14 → 10,89)
+      - voie 5,0 →                                  # coupe:vercors_35 (pcrs 3,13 → gam 8,14) ; une seule voie de sortie, osm:169866973
+      - trottoir 3,0                                # côté ouest : bordure gam 2,64 / pcrs 3,13, la Chronovélo (osm:54585242) passe au-delà ; largeur estimée
+    evenements:
+      - profil: {a: 15, nouveau: "trottoir 2,2 | bande enherbée 1,7 | voie 3,0 ← | voie 2,75 ← | voie 5,0 → | trottoir 3,0"}
+carrefours:
+  - id: PJ
+    nom: carrefour Paquet Jardin
+    centre: [0, 0]                                  # osm : nœuds des chaussées à moins de 10 m du centre
+    regime: feux                                    # osm crossing=traffic_signals ; photo:10ec04d5 (R11)
+    branches:
+      - troncon: verdun_ne
+        passage: {largeur: 3.0}                     # ortho IGN 2024 ; DEF-011 (« paquet_jardin » : 3,00 m) ; photo:e96ea4be (t006)
+      - troncon: reviree
+        passage: {largeur: 3.0}                     # photo:119d9094 (l+102.9) ; DEF-011
+      - troncon: verdun_so
+        passage: {largeur: 3.0}                     # refuge dans la bande médiane : ortho IGN 2024 (zoom du centre)
+      - troncon: vercors
+        passage: {largeur: 3.0}                     # ortho IGN 2024 (zoom du centre)
+    feux:
+      # HYPOTHÈSE (plan de feux non observable sur photo) : 2 phases, cycle ≈ 60 s (DEF-028 : 50-70 s en 2 phases)
+      note: plan de feux supposé, à remplacer par le plan réel de la Métropole
+      phases:
+        - nom: P1 avenue de Verdun
+          mouvements: [verdun_ne TD, verdun_ne TAD, verdun_ne TAG, verdun_so TD, verdun_so TAD, verdun_so TAG]
+          vert: 30
+        - nom: P2 Revirée et Vercors
+          mouvements: [reviree TD, reviree TAD, reviree TAG, vercors TD, vercors TAD, vercors TAG]
+          vert: 20
+abords:
+  gauche: haie 3                                    # haies taillées le long des trottoirs, photo:20d1a815 (t007), photo:119d9094
+  droite: haie 3
+ecarts_admis:
+  RF-OSM-LAR-012: "voie extérieure sortante de Verdun nord-est de 3,30 m mesurée (coupe verdun_ne_40 : limite PCRS 10,59 → ligne GAM 13,92 ; ortho IGN 2024)"
+  RF-OSM-LAR-010: "voies relevées hors de la plage par défaut : Revirée 3,5-4,0 m (coupe reviree_30 : chaussée 8,05 m pour deux voies ; OSM width 3 et 4), sortie du Vercors en une voie de 5,0 m (coupe vercors_35)"
+  DEF-022: "îlot de la Revirée d'environ 1 m, traversé par les deux passages à feux (photo 119d9094 du 18/05/2025) : refuge étroit réel"
+  RF-MA-REF-003: "vues des bordures des refuges (îlots de Verdun nord-est, de Verdun sud-ouest et de la Revirée) non mesurables sur les photos 20d1a815 et 119d9094 ; 0,11 m (DEF-005, îlot) retenu"

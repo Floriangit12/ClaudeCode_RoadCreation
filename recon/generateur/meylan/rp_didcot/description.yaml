@@ -1,0 +1,101 @@
+# Rond-point de Didcot (Meylan, Inovallée) — chemin du Vieux Chêne × avenue de Chamechaude × bretelle de la rocade.
+# État décrit : 28/07/2026 (photos IGN 25cbe3d8, 7544b177, 0f41f230, 7b6c1e1a ; Licence Ouverte ; jamais versionnées).
+# Cotes : bordures et lignes du levé GAM, coupes radiales (mesures.json « giratoire », « coupes ») ; bras : OSM local.
+# Provenance en fin de ligne : coupe:<nom>, radial:<az>, photo:<id>, osm:<way>, DEF-/RF- (règle complétée si non dit).
+# Simplifications : sept bras radiaux et droits (entrées et sorties séparées) ; largeurs non mesurées prises à 4 m
+# d'après les photos ; butte plantée, mâts rouges, barrière et feu de la bretelle non décrits (../BESOINS_FORMAT.md).
+scene: meylan_rp_didcot
+nom: rond_point_de_didcot
+titre: Rond-point de Didcot (Meylan) — giratoire de 47 m, couronne en pavés rouges, état du 28/07/2026
+date: 2026-07-28
+confiance: faible
+origine: [919119.28, 6460492.69, 221.86]           # point du site M03 (dossier 13) ; z RGE ALTI
+description: >
+  Giratoire moyen d'environ 47 m dans les arbres : anneau de 9 m sans voies marquées, couronne franchissable de 2 m en
+  pavés rouges avec deux rangs de galets, îlot central en butte plantée avec B21-1 nominatif. Avenue de Chamechaude au
+  nord (2 voies larges et bande médiane peinte, passage piéton), chemin du Vieux Chêne à l'est et à l'ouest (entrées et
+  sorties d'une voie séparées par de grands îlots), bretelle de la rocade au sud (entrée en 2 voies, sortie d'une voie).
+contexte:
+  agglomeration: oui
+  vitesse: 50                                       # osm:1268386834 maxspeed=50 ; osm:624258028 FR:urban
+materiaux:
+  chaussee: enrobé                                  # photo:25cbe3d8 (enrobé sombre peu usé)
+  pistes: béton                                     # photo:7b6c1e1a (piste mixte en béton)
+marquages:
+  usure: légère                                     # photo:7544b177
+troncons:
+  # azimuts depuis le centre de l'anneau (osm) ; chaque bras part du bord extérieur de l'anneau (rayon 23,5 m)
+  - id: chamechaude                                 # osm:8015851 (tertiary, lanes=2), azimut 5°
+    nom: avenue de Chamechaude
+    de: [1.49, 23.08]
+    vers: [6.72, 82.85]
+    profil:
+      - trottoir                                    # osm sidewalk=right ; largeur non mesurée (DEF-004)
+      - voie 4,7 ←                                  # coupe:br_n (rive 3,82 → 8,55 ; chaussée 11,49 m)
+      - zone hachurée 1,0                           # coupe:br_n (lignes gam 8,55 → 9,56)
+      - voie 4,7 →                                  # coupe:br_n (9,56 → 14,31)
+      - trottoir 3,2                                # au droit du passage : liaison revêtue vers la piste osm:1351825057
+    evenements:
+      # au-delà du passage, bande enherbée entre chaussée et piste (coupe:br_n, gam 14,83 → pcrs 18,02)
+      - profil: {a: 12, nouveau: "trottoir | voie 4,7 ← | zone hachurée 1,0 | voie 4,7 → | bande enherbée 3,2"}
+  - id: vc_est_entree                               # osm:1268386834 (entrée seule, lanes=1), azimut 42°
+    nom: chemin du Vieux Chêne est (entrée)
+    de: [15.16, 17.13]
+    vers: [55.31, 61.72]
+    profil: "trottoir | voie 4,0 ← | bande enherbée 3,0"   # largeur non mesurée (photos) ; accotements plantés
+  - id: vc_est_sortie                               # osm:1413619617 (sortie seule), azimut 123°
+    nom: chemin du Vieux Chêne est (sortie)
+    de: [19.15, -13.13]
+    vers: [69.47, -45.81]
+    profil: "bande enherbée 3,0 | voie 4,0 → | bande enherbée 3,0"
+  - id: helice_entree                               # osm:8015852 (trunk_link, lanes=2), azimut 147° ; feu osm:10577671775
+    nom: bretelle de la rocade (entrée)
+    de: [12.24, -20.04]
+    vers: [44.92, -70.36]
+    profil:
+      - bande enherbée 3,0                          # accotement enherbé, photo:0f41f230
+      - voie 4,1 ←                                  # coupe:br_s_in (gam 11,43 → 15,52)
+      - voie 4,1 ←                                  # coupe:br_s_in (gam 15,52 → 19,64)
+      - bande enherbée 3,0
+  - id: helice_sortie                               # osm:8015846 (trunk_link, lanes=1), azimut 197° ; barrière + B1, photo:0f41f230
+    nom: bretelle de la rocade (sortie)
+    de: [-7.43, -22.8]
+    vers: [-24.97, -80.18]
+    profil: "bande enherbée 3,0 | voie 4,0 → | bande enherbée 3,0"
+  - id: vc_ouest_entree                             # osm:8015854 (lanes=1), azimut 223°
+    nom: chemin du Vieux Chêne ouest (entrée)
+    de: [-16.59, -17.52]
+    vers: [-57.51, -61.4]
+    profil: "trottoir | voie 4,0 ← | bande enherbée 3,0"
+  - id: vc_ouest_sortie                             # osm:8015875 (lanes=1), azimut 266°
+    nom: chemin du Vieux Chêne ouest (sortie)
+    de: [-24.0, -1.97]
+    vers: [-83.86, -6.15]
+    profil:
+      - bande enherbée 3,0
+      - voie 4,8 →                                  # coupe:br_w_out (gam 1,67 → pcrs 6,50)
+      - bande enherbée 0,6                          # coupe:br_w_out (6,50 → 7,06)
+      - piste cyclable 3,2 bidirectionnelle         # coupe:br_w_out (7,06 → 10,31) ; piste mixte osm:385035108, photo:7b6c1e1a
+giratoires:
+  - id: DIDCOT
+    nom: rond-point de Didcot
+    centre: [-0.56, -0.33]                          # centroïde de l'anneau osm:624258028
+    diametre: 47                                    # bordure extérieure GAM r 23,0-24,4 (radial:315/80/200/135) ; dossier 13 : 47 ± 2
+    anneau: 8.9                                     # 23,5 − 14,6 (bordure de l'îlot GAM)
+    couronne: 2.0                                   # pavés rouges + 2 rangs de galets, photo:25cbe3d8 (l-0102.9) ; dossier 13 : 1,8
+    ilot_central: herbe haute                       # butte plantée (arbustes, graminées, arbres), photo:25cbe3d8
+    branches:
+      - troncon: chamechaude
+        passage: oui                                # osm:311840635 (zébra, crossing:island=yes)
+      - troncon: vc_est_entree
+      - troncon: vc_est_sortie
+      - troncon: helice_entree
+      - troncon: helice_sortie
+      - troncon: vc_ouest_entree
+      - troncon: vc_ouest_sortie
+ecarts_admis:
+  RF-OSM-LAR-010: "voies de 4,7 m relevées sur l'avenue de Chamechaude (coupe br_n : chaussée de 11,49 m bordure à bordure, lignes du levé GAM)"
+  RF-OSM-LAR-011: "bras à sens unique d'une voie de 4,0 à 4,8 m (coupe br_w_out, levé GAM ; photos 7b6c1e1a, 0f41f230)"
+  RF-OSM-LAR-012: "entrée de la bretelle en deux voies de 4,1 m (coupe br_s_in, lignes du levé GAM ; OSM lanes=2)"
+  RF-GV-GIR-010: "entrées relevées : Chamechaude en une voie de 4,7 m (coupe br_n) et bretelle en deux voies (coupe br_s_in, OSM lanes=2) ; les bras de sortie seule (Vieux Chêne est et ouest, bretelle) n'ont pas d'entrée : l'entrée est le bras voisin, séparé par un grand îlot (OSM 1268386834 / 1413619617, 8015852 / 8015846, 8015854 / 8015875)"
+  RF-GV-GIR-012: "bras d'entrée seule (Vieux Chêne est et ouest, bretelle) : la sortie est le bras voisin, séparé par un grand îlot (OSM)"

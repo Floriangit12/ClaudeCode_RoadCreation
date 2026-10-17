@@ -1,0 +1,110 @@
+# Rond-point du Lycée (Meylan) — avenue de Verdun × avenue des 7 Laux (RD1090) × avenue du Taillefer × chemin de
+# l'Ancienne Mairie. État décrit : 28/07/2026 (photos 360° IGN 3d7dd376, a23479c9, f4a9aa12, ea409889, 770c2fc8 ;
+# Licence Ouverte ; jamais versionnées). Cotes : bordures du levé GAM recoupées sur l'ortho IGN 2024 (mesures.json :
+# « giratoire » et « coupes ») ; branches : OSM local du 09/10/2026.
+# Provenance en fin de ligne : coupe:<nom>, radial:<az>, photo:<id>, osm:<way>, DEF-/RF- (règle complétée si non dit).
+# Simplifications : branches droites et radiales issues du centre de l'anneau ; entrée et sortie de Verdun (42° d'écart)
+# réunies en une branche avec un îlot de 4,3 m ; murets, massif boisé surélevé et passages inférieurs non décrits
+# (pas de mot dans le format, ../BESOINS_FORMAT.md).
+scene: meylan_rp_lycee
+nom: rond_point_du_lycee
+titre: Rond-point du Lycée (Meylan) — giratoire de 66 m à 5 branches, îlot boisé, état du 28/07/2026
+date: 2026-07-28
+confiance: faible
+origine: [918174.96, 6461050.78, 252.47]           # point du site M02 (dossier 13) ; z RGE ALTI
+description: >
+  Grand giratoire urbain d'environ 66 m de diamètre, anneau de 8 m sans voies marquées, îlot central boisé surélevé
+  (couronne franchissable béton de 1,5 m, muret, massif d'arbres). Cinq branches : avenue de Verdun à l'ouest (2 voies
+  d'entrée, îlot de 4 m, une sortie), avenue des 7 Laux au nord-est (2 voies d'entrée, muret séparateur, une sortie,
+  piste cyclable), avenue du Taillefer au sud, chemin de l'Ancienne Mairie au nord, accès de service à l'est. Cédez-le-
+  passage à chaque entrée, passages piétons au nord seulement.
+contexte:
+  agglomeration: oui
+  vitesse: 50                                       # osm:620133380 maxspeed=50
+materiaux:
+  chaussee: enrobé usé                              # photo:a23479c9, photo:770c2fc8 (fissures, faïençage)
+  bordures: béton                                   # photo:770c2fc8
+marquages:
+  usure: moyenne                                    # photo:f4a9aa12
+troncons:
+  # Avenue de Verdun ouest (entrée osm:1412130617 lanes=2, sortie osm:168646541 lanes=1) ; azimut moyen 263°
+  # de gauche (sud, entrée) à droite (nord, sortie) en regardant vers l'extérieur :
+  - id: verdun_o
+    nom: avenue de Verdun ouest
+    de: [-30.18, -3.01]                             # sur le bord extérieur de l'anneau (rayon 33,0 m)
+    vers: [-99.66, -11.54]
+    profil:
+      - trottoir                                    # largeur non mesurée : DEF-004
+      - voie 4,0 ←                                  # coupe:verdun_o_45 : entrée de 8,04 m (gam 9,10 → 17,14), 2 voies
+      - voie 4,0 ←
+      - terre-plein 4,3 enrobé                      # coupe:verdun_o_45 (gam 17,39 → 21,71) ; îlot revêtu, B1, photo:770c2fc8
+      - voie 4,5 →                                  # coupe:verdun_o_45 : sortie de 6,29 m (une voie OSM) ; surplus non décrit
+      - trottoir
+  # Chemin de l'Ancienne Mairie (entrée osm:191111233, sortie osm:191111231) ; azimut moyen 336° ; gauche = ouest (entrée)
+  - id: mairie
+    nom: chemin de l'Ancienne Mairie
+    de: [-10.85, 31.16]
+    vers: [-39.32, 95.11]
+    profil:
+      - trottoir
+      - voie 3,6 ←                                  # coupe:mairie_42 (gam 12,74 → 16,31)
+      - séparateur 0,6                              # coupe:mairie_42 (gam 16,33 → 16,88), séparateur bordé
+      - voie 4,3 →                                  # coupe:mairie_42 (gam 16,88 → 21,23)
+      - trottoir
+  # Avenue des 7 Laux / RD1090 (entrée osm:7838790, sortie osm:1377219194) ; azimut moyen 43° ; gauche = nord-ouest (entrée)
+  - id: sept_laux
+    nom: avenue des 7 Laux (RD1090)
+    de: [25.08, 25.14]
+    vers: [72.82, 76.34]
+    profil:
+      - piste cyclable 3,1 bidirectionnelle         # coupe:sept_laux_45 (gam 0,50 → 3,63) ; osm:1305799234
+      - bande enherbée 1,9                          # coupe:sept_laux_45 (gam 3,63 → 5,52)
+      - trottoir 3,9                                # coupe:sept_laux_45 (gam 5,52 → 9,42) (contre-allée revêtue)
+      - voie 4,0 ←                                  # coupe:sept_laux_45 : entrée 8,08 m, ligne gam 13,76
+      - voie 4,0 ←
+      - séparateur 1,5                              # coupe:sept_laux_45 (gam 17,75 → 19,30) ; muret bas, photo:f4a9aa12
+      - voie 4,8 →                                  # coupe:sept_laux_45 (gam 19,30 → 24,15)
+      - trottoir
+  # Accès de service est, entrée seule (osm:154686060 service oneway) ; azimut 97°
+  - id: acces_est
+    nom: accès de service est
+    de: [35.32, -3.01]
+    vers: [104.8, -11.54]
+    profil:
+      - trottoir
+      - voie 4,0 ←                                  # coupe:est_42 (gam 6,85 → 10,88)
+      - bande enherbée 4,0                          # coupe:est_42 : espace vert au nord (gam 10,98 → 22,26)
+  # Avenue du Taillefer (entrée osm:759539710, sortie osm:759539709) ; azimut moyen 177° ; gauche = est (entrée)
+  - id: taillefer
+    nom: avenue du Taillefer
+    de: [4.3, -31.94]
+    vers: [7.96, -101.85]
+    profil:
+      - trottoir
+      - voie 4,0 ←                                  # coupe:taillefer_42 : entrée de 7,00 m (gam 24,09 → 31,09), une voie OSM
+      - zone hachurée 3,0                           # surplus de l'entrée décrit en zone neutralisée (hypothèse, confiance faible)
+      - terre-plein 4,6 enrobé                      # coupe:taillefer_42 (gam 19,47 → 24,07)
+      - voie 4,5 →                                  # coupe:taillefer_42 (gam 14,96 → 19,47)
+      - trottoir
+giratoires:
+  - id: LYCEE
+    nom: rond-point du Lycée
+    centre: [2.57, 1.01]                            # centroïde de l'anneau osm:620133380 (rayon d'axe 29,53 m)
+    diametre: 66                                    # bordure extérieure GAM, rayons 32,2-33,7 m (radial:70/130/200/300) ; dossier 13 : 65 ± 1,5
+    anneau: 8.0                                     # bordure à bordure, 7,97-8,05 m sur 4 coupes radiales (GAM)
+    couronne: 1.5                                   # béton balayé + rang de pavés, photo:3d7dd376 (l-0051.4) ; dossier 13
+    ilot_central: herbe haute                       # massif boisé surélevé derrière un muret de ≈ 0,6 m, photo:a23479c9 (l-0051.4)
+    branches:
+      - troncon: verdun_o
+      - troncon: mairie
+        passage: oui                                # osm crossing ×4 au nord ; photo:ea409889
+      - troncon: sept_laux
+      - troncon: acces_est
+      - troncon: taillefer
+ecarts_admis:
+  RF-OSM-LAR-012: "voies d'entrée de 4,0 m mesurées (coupes verdun_o_45 et sept_laux_45 : entrées de 8,0 et 8,1 m en deux voies, levé GAM)"
+  RF-OSM-LAR-010: "voies de 3,6 à 4,8 m mesurées bordure à bordure (coupes mairie_42, sept_laux_45, taillefer_42, est_42, verdun_o_45, levé GAM)"
+  RF-OSM-LAR-011: "accès est à sens unique d'une voie de 4,0 m mesurée (coupe est_42, levé GAM ; osm 154686060)"
+  RF-OSM-LAR-033: "séparateurs relevés plus larges que la bordure séparatrice : 0,55 m sur l'Ancienne Mairie (coupe mairie_42) et muret de 1,55 m sur les 7 Laux (coupe sept_laux_45, photo f4a9aa12)"
+  RF-GV-GIR-010: "entrées de Verdun et des 7 Laux en deux voies (OSM lanes=2 ; ligne entre voies du levé GAM, coupe sept_laux_45)"
+  RF-GV-GIR-012: "accès est en entrée seule (OSM 154686060 oneway) : pas de sortie sur cette branche"

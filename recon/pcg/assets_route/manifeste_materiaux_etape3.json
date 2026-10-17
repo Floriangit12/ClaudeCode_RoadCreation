@@ -1,0 +1,2086 @@
+{
+ "version": 1,
+ "date": "2026-10-17",
+ "description": "Matériaux PBR CC0 de l'étape 3 de la bibliothèque route_fr. Script : recon/pcg/assets_route/telecharger_materiaux_etape3.py ; traitement commun : assets/telecharger_cc0.py.",
+ "licence_sources": "CC0 1.0 (ambientCG https://docs.ambientcg.com/license/ ; Poly Haven https://polyhaven.com/license)",
+ "materiaux": [
+  {
+   "nom": "enrobe_bbtm",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "enrobe",
+   "libelle": "Béton bitumineux très mince (BBTM 0/6-0/10) : enrobé sombre à macrotexture ouverte, granulats serrés",
+   "choix": "recadrage natif : grain grossier régulier, sombre et ouvert, sans fissure ni marquage ; Asphalt010 (bleuté, fin) et ph asphalt_01 (brun) rejetés",
+   "priorite": 1,
+   "source": "ambientCG",
+   "id": "Asphalt027A",
+   "resolution_cible": "4K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 2.0,
+   "tile_m_source": "estimé : granulats de 3 à 6 px sur l'albédo 1K pour un BBTM 0/6-0/10, soit ≈ 2 mm/px",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://ambientcg.com/a/Asphalt027A",
+   "auteur": "Lennart Demes (ambientCG)",
+   "type_source": "Material",
+   "methode": "Height field photogrammetry",
+   "telechargements": {
+    "1K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt027A_1K-JPG.zip",
+     "taille_o": 8802258,
+     "fichier": "Asphalt027A_1K-JPG.zip"
+    },
+    "2K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt027A_2K-JPG.zip",
+     "taille_o": 30581997,
+     "fichier": "Asphalt027A_2K-JPG.zip"
+    },
+    "4K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt027A_4K-JPG.zip",
+     "taille_o": 109781057,
+     "fichier": "Asphalt027A_4K-JPG.zip"
+    }
+   },
+   "cartes_zip": {
+    "albedo": "*_Color.jpg",
+    "normale": "*_NormalGL.jpg",
+    "rugosite": "*_Roughness.jpg",
+    "ao": "*_AmbientOcclusion.jpg",
+    "hauteur": "*_Displacement.jpg",
+    "opacite": "*_Opacity.jpg",
+    "metal": "*_Metalness.jpg"
+   }
+  },
+  {
+   "nom": "enrobe_esu_gravillonne",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "enrobe",
+   "libelle": "Enduit superficiel d'usure (ESU, gravillonnage) : liant noir et gravillons clairs épars (routes secondaires, accotements revêtus)",
+   "choix": "seul candidat montrant des gravillons clairs isolés sur liant noir (aspect d'un enduit bicouche usé)",
+   "priorite": 1,
+   "source": "Poly Haven",
+   "id": "tarred_gravel",
+   "resolution_cible": "4K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 2.2,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://polyhaven.com/a/tarred_gravel",
+   "auteur": "Dimitrios Savva (Poly Haven)",
+   "type_source": "texture",
+   "categorie_source": "Asphalt & Bitumen/Tracks/Tarred Gravel",
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/tarred_gravel/tarred_gravel_diff_1k.jpg",
+       "taille_o": 729189,
+       "md5": "d7b12ce931d0d7b7ecafffbf0a2d0574"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/tarred_gravel/tarred_gravel_nor_gl_1k.jpg",
+       "taille_o": 991812,
+       "md5": "4c2c48978cef51d2fd336f15391d1ead"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/tarred_gravel/tarred_gravel_rough_1k.jpg",
+       "taille_o": 780847,
+       "md5": "7767bd0874cf291f3e00364897287e82"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/tarred_gravel/tarred_gravel_ao_1k.jpg",
+       "taille_o": 889421,
+       "md5": "2be2a8b0844f6c0370d5fe37896dc6e0"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/tarred_gravel/tarred_gravel_disp_1k.png",
+       "taille_o": 1704272,
+       "md5": "de373edac22175d6f685e7b9583f3e5d"
+      }
+     },
+     "taille_o": 5095541
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/tarred_gravel/tarred_gravel_diff_2k.jpg",
+       "taille_o": 2979831,
+       "md5": "ced39cf20e4f53032f60c64c53a0b3b9"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/tarred_gravel/tarred_gravel_nor_gl_2k.jpg",
+       "taille_o": 4028743,
+       "md5": "6e8e442e9335585b8637e597d5984b91"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/tarred_gravel/tarred_gravel_rough_2k.jpg",
+       "taille_o": 3171985,
+       "md5": "d04cfffb9eff813a2d036fa2b56f25c1"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/tarred_gravel/tarred_gravel_ao_2k.jpg",
+       "taille_o": 3349751,
+       "md5": "34f22ca4052e9cdda0c4598f2030dea7"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/tarred_gravel/tarred_gravel_disp_2k.png",
+       "taille_o": 6541655,
+       "md5": "5ef0a946879521fe7dc7a8eb1ed61263"
+      }
+     },
+     "taille_o": 20071965
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/tarred_gravel/tarred_gravel_diff_4k.jpg",
+       "taille_o": 11849436,
+       "md5": "e72f5e47e37ea3a86200718cca3fc53a"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/tarred_gravel/tarred_gravel_nor_gl_4k.jpg",
+       "taille_o": 15492057,
+       "md5": "88301017c13ed71cf9841362f54c9d7d"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/tarred_gravel/tarred_gravel_rough_4k.jpg",
+       "taille_o": 12552880,
+       "md5": "3f0e953556d7e96fd62b1f4b9b48c87f"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/tarred_gravel/tarred_gravel_ao_4k.jpg",
+       "taille_o": 11995585,
+       "md5": "55edf5327e4a3af53c22da0792905673"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/tarred_gravel/tarred_gravel_disp_4k.png",
+       "taille_o": 24849932,
+       "md5": "44dcc00e14c2fb058969d13410356810"
+      }
+     },
+     "taille_o": 76739890
+    }
+   }
+  },
+  {
+   "nom": "enrobe_pelade_rapiece",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "enrobe",
+   "libelle": "Enrobé ancien sombre avec plage de pelade (arrachement de la couche de roulement, granulats clairs à nu) : chaussée rapiécée ou dégradée",
+   "choix": "recadrage natif : enrobé noir lisse et une plage arrachée claire à bord franc ; les « Road0xx » rapiécés portent des marquages américains",
+   "priorite": 1,
+   "source": "ambientCG",
+   "id": "Asphalt019",
+   "resolution_cible": "4K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 2.0,
+   "tile_m_source": "estimé (aucune dimension publiée par la source) : 2,0 m",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://ambientcg.com/a/Asphalt019",
+   "auteur": "Lennart Demes (ambientCG)",
+   "type_source": "Material",
+   "methode": "Height field photogrammetry",
+   "telechargements": {
+    "1K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt019_1K-JPG.zip",
+     "taille_o": 7885868,
+     "fichier": "Asphalt019_1K-JPG.zip"
+    },
+    "2K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt019_2K-JPG.zip",
+     "taille_o": 30320179,
+     "fichier": "Asphalt019_2K-JPG.zip"
+    },
+    "4K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt019_4K-JPG.zip",
+     "taille_o": 115716857,
+     "fichier": "Asphalt019_4K-JPG.zip"
+    }
+   },
+   "cartes_zip": {
+    "albedo": "*_Color.jpg",
+    "normale": "*_NormalGL.jpg",
+    "rugosite": "*_Roughness.jpg",
+    "ao": "*_AmbientOcclusion.jpg",
+    "hauteur": "*_Displacement.jpg",
+    "opacite": "*_Opacity.jpg",
+    "metal": "*_Metalness.jpg"
+   }
+  },
+  {
+   "nom": "enrobe_granulats_clairs",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "enrobe",
+   "libelle": "BBSG à granulats clairs (gris moyen, gravillons blancs épars) : enrobé récent à granulats calcaires",
+   "choix": "recadrage natif : gris neutre, gravillons clairs nets de 2-8 mm ; complète enrobe_clair_granulats (site, 2K, source pebble_cemented_floor recolorée)",
+   "priorite": 1,
+   "source": "ambientCG",
+   "id": "Asphalt023S",
+   "resolution_cible": "4K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 1.25,
+   "tile_m_source": "API ambientCG dimensionX (cm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://ambientcg.com/a/Asphalt023S",
+   "auteur": "Lennart Demes (ambientCG)",
+   "type_source": "Material",
+   "methode": "Height field photogrammetry",
+   "telechargements": {
+    "1K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt023S_1K-JPG.zip",
+     "taille_o": 9459001,
+     "fichier": "Asphalt023S_1K-JPG.zip"
+    },
+    "2K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt023S_2K-JPG.zip",
+     "taille_o": 34033317,
+     "fichier": "Asphalt023S_2K-JPG.zip"
+    },
+    "4K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt023S_4K-JPG.zip",
+     "taille_o": 125542273,
+     "fichier": "Asphalt023S_4K-JPG.zip"
+    }
+   },
+   "cartes_zip": {
+    "albedo": "*_Color.jpg",
+    "normale": "*_NormalGL.jpg",
+    "rugosite": "*_Roughness.jpg",
+    "ao": "*_AmbientOcclusion.jpg",
+    "hauteur": "*_Displacement.jpg",
+    "opacite": "*_Opacity.jpg",
+    "metal": "*_Metalness.jpg"
+   }
+  },
+  {
+   "nom": "enrobe_colore_rouge",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "enrobe",
+   "libelle": "Enrobé coloré rouge (liant pigmenté oxyde de fer) : couloirs bus, pistes cyclables, plateaux",
+   "choix": "seul enrobé rouge homogène de la source (Asphalt029A sert déjà à resine_rouge) ; rouge vif de la source ramené vers un rouge brique",
+   "priorite": 1,
+   "source": "ambientCG",
+   "id": "Asphalt029B",
+   "resolution_cible": "4K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 2.0,
+   "tile_m_source": "estimé (aucune dimension publiée par la source) : 2,0 m",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://ambientcg.com/a/Asphalt029B",
+   "auteur": "Lennart Demes (ambientCG)",
+   "type_source": "Material",
+   "methode": "Height field photogrammetry",
+   "telechargements": {
+    "1K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt029B_1K-JPG.zip",
+     "taille_o": 9221155,
+     "fichier": "Asphalt029B_1K-JPG.zip"
+    },
+    "2K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt029B_2K-JPG.zip",
+     "taille_o": 34771166,
+     "fichier": "Asphalt029B_2K-JPG.zip"
+    },
+    "4K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt029B_4K-JPG.zip",
+     "taille_o": 138413216,
+     "fichier": "Asphalt029B_4K-JPG.zip"
+    }
+   },
+   "cartes_zip": {
+    "albedo": "*_Color.jpg",
+    "normale": "*_NormalGL.jpg",
+    "rugosite": "*_Roughness.jpg",
+    "ao": "*_AmbientOcclusion.jpg",
+    "hauteur": "*_Displacement.jpg",
+    "opacite": "*_Opacity.jpg",
+    "metal": "*_Metalness.jpg"
+   },
+   "correction_teinte": {
+    "espace": "CIE L*a*b* (D65)",
+    "gain_L": 1.0,
+    "decalage_L": 0.0,
+    "gain_ab": 1.0,
+    "decalage_a": 0.0,
+    "decalage_b": 0.0,
+    "lab_cible": [
+     44.0,
+     28.0,
+     20.0
+    ],
+    "note": "estimation (aucune mesure sur site) : rouge brique d'un enrobé coloré vieilli, sRGB ≈ (150, 84, 70)"
+   },
+   "cible": {
+    "lab": [
+     44.0,
+     28.0,
+     20.0
+    ],
+    "note": "estimation (aucune mesure sur site) : rouge brique d'un enrobé coloré vieilli, sRGB ≈ (150, 84, 70)"
+   }
+  },
+  {
+   "nom": "enrobe_colore_ocre",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "enrobe",
+   "libelle": "Enrobé ou résine ocre (îlots, trottoirs, plateaux) à grain fin",
+   "choix": "enrobé gris fin à gravillons épars ramené sur la teinte ocre MESURÉE au site (îlots de la Revirée) ; version 4K du matériau du site (2K)",
+   "priorite": 1,
+   "source": "ambientCG",
+   "id": "Asphalt020S",
+   "resolution_cible": "4K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 1.85,
+   "tile_m_source": "API ambientCG dimensionX (cm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://ambientcg.com/a/Asphalt020S",
+   "auteur": "Lennart Demes (ambientCG)",
+   "type_source": "Material",
+   "methode": "Height field photogrammetry",
+   "telechargements": {
+    "1K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt020S_1K-JPG.zip",
+     "taille_o": 10155188,
+     "fichier": "Asphalt020S_1K-JPG.zip"
+    },
+    "2K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt020S_2K-JPG.zip",
+     "taille_o": 35081117,
+     "fichier": "Asphalt020S_2K-JPG.zip"
+    },
+    "4K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Asphalt020S_4K-JPG.zip",
+     "taille_o": 122681683,
+     "fichier": "Asphalt020S_4K-JPG.zip"
+    }
+   },
+   "cartes_zip": {
+    "albedo": "*_Color.jpg",
+    "normale": "*_NormalGL.jpg",
+    "rugosite": "*_Roughness.jpg",
+    "ao": "*_AmbientOcclusion.jpg",
+    "hauteur": "*_Displacement.jpg",
+    "opacite": "*_Opacity.jpg",
+    "metal": "*_Metalness.jpg"
+   },
+   "correction_teinte": {
+    "espace": "CIE L*a*b* (D65)",
+    "gain_L": 1.0,
+    "decalage_L": 0.0,
+    "gain_ab": 1.0,
+    "decalage_a": 0.0,
+    "decalage_b": 0.0,
+    "lab_cible": [
+     61.1,
+     3.34,
+     10.14
+    ],
+    "note": "assets/manifeste_cc0.json, enrobe_colore_ocre.cible : ortho 2022, îlots ocre de la Revirée"
+   },
+   "cible": {
+    "lab": [
+     61.1,
+     3.34,
+     10.14
+    ],
+    "note": "assets/manifeste_cc0.json, enrobe_colore_ocre.cible : ortho 2022, îlots ocre de la Revirée"
+   }
+  },
+  {
+   "nom": "beton_desactive_gros",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "beton",
+   "libelle": "Béton désactivé à gros granulats roulés (6/14) affleurants, teinte brun-gris",
+   "choix": "recadrage natif : granulats roulés de 5-15 mm serrés (béton désactivé grossier) ; distinct de beton_desactive (granulats fins) et de beton_bordure",
+   "priorite": 1,
+   "source": "Poly Haven",
+   "id": "gravel_concrete_02",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 2.1,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://polyhaven.com/a/gravel_concrete_02",
+   "auteur": "Dario Barresi, Charlotte Baglioni (Poly Haven)",
+   "type_source": "texture",
+   "categorie_source": "Concrete/Cast Walls & Floors/Exposed Aggregate",
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_concrete_02/gravel_concrete_02_diff_1k.jpg",
+       "taille_o": 998590,
+       "md5": "e3584f1bb6ee4f2f560097726f8a238e"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_concrete_02/gravel_concrete_02_nor_gl_1k.jpg",
+       "taille_o": 1337650,
+       "md5": "c68842be589e8fbcb13790af33c271ad"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_concrete_02/gravel_concrete_02_rough_1k.jpg",
+       "taille_o": 388620,
+       "md5": "b632ecda441854f6abb4474a34b225e7"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_concrete_02/gravel_concrete_02_ao_1k.jpg",
+       "taille_o": 972603,
+       "md5": "055d1196ca527a10d61284f1e63b6392"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/gravel_concrete_02/gravel_concrete_02_disp_1k.png",
+       "taille_o": 1866648,
+       "md5": "ac04d100d15288c0ef2e6c13cce60fb4"
+      }
+     },
+     "taille_o": 5564111
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gravel_concrete_02/gravel_concrete_02_diff_2k.jpg",
+       "taille_o": 3926577,
+       "md5": "ee4ea02959195ffbc55fd01d39d5bf56"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gravel_concrete_02/gravel_concrete_02_nor_gl_2k.jpg",
+       "taille_o": 4903553,
+       "md5": "4aa19f691956c21929e3d87895a09e2c"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gravel_concrete_02/gravel_concrete_02_rough_2k.jpg",
+       "taille_o": 1714283,
+       "md5": "3fa933f32896ca5546965fbdc6f13a02"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gravel_concrete_02/gravel_concrete_02_ao_2k.jpg",
+       "taille_o": 3445136,
+       "md5": "7ebc5196663977ba70aac8a11a159284"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/gravel_concrete_02/gravel_concrete_02_disp_2k.png",
+       "taille_o": 7077801,
+       "md5": "3a1acbe8f91941d3800600fb35dcab81"
+      }
+     },
+     "taille_o": 21067350
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/gravel_concrete_02/gravel_concrete_02_diff_4k.jpg",
+       "taille_o": 15587702,
+       "md5": "4123e3dedb187f5c44317fef56576327"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/gravel_concrete_02/gravel_concrete_02_nor_gl_4k.jpg",
+       "taille_o": 16564993,
+       "md5": "671aaec54e908d7f40d11a8f6b2f526e"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/gravel_concrete_02/gravel_concrete_02_rough_4k.jpg",
+       "taille_o": 7050239,
+       "md5": "01faa239ea3f5de3df78b5b1bc2857a1"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/gravel_concrete_02/gravel_concrete_02_ao_4k.jpg",
+       "taille_o": 12117426,
+       "md5": "a5a76a32cbaf91cfcb8f88496b66e180"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/gravel_concrete_02/gravel_concrete_02_disp_4k.png",
+       "taille_o": 26488184,
+       "md5": "4cef5af5656abcc20ef4a95981f1efe7"
+      }
+     },
+     "taille_o": 77808544
+    }
+   }
+  },
+  {
+   "nom": "beton_desactive_moyen",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "beton",
+   "libelle": "Béton désactivé gris à granulats moyens (4/10), trottoirs et parvis",
+   "choix": "recadrage natif : granulats gris serrés, matrice grise ; intermédiaire entre beton_desactive et beton_desactive_gros",
+   "priorite": 1,
+   "source": "Poly Haven",
+   "id": "gravel_embedded_concrete",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 2.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://polyhaven.com/a/gravel_embedded_concrete",
+   "auteur": "Charlotte Baglioni (Poly Haven)",
+   "type_source": "texture",
+   "categorie_source": "Concrete/Cast Walls & Floors/Exposed Aggregate",
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_embedded_concrete/gravel_embedded_concrete_diff_1k.jpg",
+       "taille_o": 1137553,
+       "md5": "d26c9bb1064422c3d9ab609582183c86"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_embedded_concrete/gravel_embedded_concrete_nor_gl_1k.jpg",
+       "taille_o": 1471218,
+       "md5": "4014cd99672a5b87a9196c9bbc05cb94"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_embedded_concrete/gravel_embedded_concrete_rough_1k.jpg",
+       "taille_o": 548655,
+       "md5": "0d8db4f8f057a05eb7a17f031d4c9d94"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_embedded_concrete/gravel_embedded_concrete_ao_1k.jpg",
+       "taille_o": 1009378,
+       "md5": "3339a698a6e9653d66a6a255e0758a24"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/gravel_embedded_concrete/gravel_embedded_concrete_disp_1k.png",
+       "taille_o": 1940655,
+       "md5": "6952cf54393e972bf0da51ac9518ef65"
+      }
+     },
+     "taille_o": 6107459
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gravel_embedded_concrete/gravel_embedded_concrete_diff_2k.jpg",
+       "taille_o": 4494107,
+       "md5": "cae2defce1c9848592bfd7824f87cfb0"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gravel_embedded_concrete/gravel_embedded_concrete_nor_gl_2k.jpg",
+       "taille_o": 5845760,
+       "md5": "b53b6fd21cfcbde560bb4835d261a6c7"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gravel_embedded_concrete/gravel_embedded_concrete_rough_2k.jpg",
+       "taille_o": 2359640,
+       "md5": "6a8fceaf050093ecb413dfd50a287379"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gravel_embedded_concrete/gravel_embedded_concrete_ao_2k.jpg",
+       "taille_o": 3901710,
+       "md5": "aaf76210bddf91cc47ccb0a17b426441"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/gravel_embedded_concrete/gravel_embedded_concrete_disp_2k.png",
+       "taille_o": 7455918,
+       "md5": "642f98333f382a1b4e226dace5d391d6"
+      }
+     },
+     "taille_o": 24057135
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/gravel_embedded_concrete/gravel_embedded_concrete_diff_4k.jpg",
+       "taille_o": 16986907,
+       "md5": "ad845d60f606922699297c25b755a6af"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/gravel_embedded_concrete/gravel_embedded_concrete_nor_gl_4k.jpg",
+       "taille_o": 21172136,
+       "md5": "f05b88ec3c62ae0dc8be52e5693a2e17"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/gravel_embedded_concrete/gravel_embedded_concrete_rough_4k.jpg",
+       "taille_o": 9388430,
+       "md5": "f0a534ea168c38b65314d8b8ef50fa20"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/gravel_embedded_concrete/gravel_embedded_concrete_ao_4k.jpg",
+       "taille_o": 13710158,
+       "md5": "2181eddc20ea923ac7a570e5d3a5f0cf"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/gravel_embedded_concrete/gravel_embedded_concrete_disp_4k.png",
+       "taille_o": 28185935,
+       "md5": "cd405f28167ab07650cdf6bcae45d2e5"
+      }
+     },
+     "taille_o": 89443566
+    }
+   }
+  },
+  {
+   "nom": "galets_scelles",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "mineral",
+   "libelle": "Galets roulés 5-8 cm scellés au mortier (pavage en galets, couronnes et nez d'îlots, caniveaux pavés)",
+   "choix": "recadrage natif : galets ovales jointifs dans un mortier gris (« calade ») ; seul candidat à galets scellés",
+   "priorite": 1,
+   "source": "Poly Haven",
+   "id": "rock_embedded_concrete",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 2.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://polyhaven.com/a/rock_embedded_concrete",
+   "auteur": "Dimitrios Savva (Poly Haven)",
+   "type_source": "texture",
+   "categorie_source": "Concrete/Cast Walls & Floors/Exposed Aggregate",
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rock_embedded_concrete/rock_embedded_concrete_diff_1k.jpg",
+       "taille_o": 804526,
+       "md5": "2aca0debac45df3a9b8edeea08833ae7"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rock_embedded_concrete/rock_embedded_concrete_nor_gl_1k.jpg",
+       "taille_o": 950027,
+       "md5": "4dd4a8b6855d04c10430e550fd5d599b"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rock_embedded_concrete/rock_embedded_concrete_rough_1k.jpg",
+       "taille_o": 523780,
+       "md5": "8f837e846dfb43179275e0426d7c3564"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rock_embedded_concrete/rock_embedded_concrete_ao_1k.jpg",
+       "taille_o": 621188,
+       "md5": "344a41bb1da8e7bbc54003c00d2fa4b6"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/rock_embedded_concrete/rock_embedded_concrete_disp_1k.png",
+       "taille_o": 1665880,
+       "md5": "b4a7dd1996c24d7fc000aada7c712d66"
+      }
+     },
+     "taille_o": 4565401
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rock_embedded_concrete/rock_embedded_concrete_diff_2k.jpg",
+       "taille_o": 3060966,
+       "md5": "ce7505e8b61277b0338a2b0ad7cca4ce"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rock_embedded_concrete/rock_embedded_concrete_nor_gl_2k.jpg",
+       "taille_o": 3667106,
+       "md5": "98c5148c30a78b215d5147d5ea28eb8b"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rock_embedded_concrete/rock_embedded_concrete_rough_2k.jpg",
+       "taille_o": 1908762,
+       "md5": "3f0d18e3f609feacd263d394d4f0a4c9"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rock_embedded_concrete/rock_embedded_concrete_ao_2k.jpg",
+       "taille_o": 2371190,
+       "md5": "0941db26f6dd8c2c94a703f77ead9922"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/rock_embedded_concrete/rock_embedded_concrete_disp_2k.png",
+       "taille_o": 6307596,
+       "md5": "f33cb55220438d3cd16237d48ff4f619"
+      }
+     },
+     "taille_o": 17315620
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/rock_embedded_concrete/rock_embedded_concrete_diff_4k.jpg",
+       "taille_o": 11327438,
+       "md5": "0f000554408e10e259f8e0e28a7ad1e7"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/rock_embedded_concrete/rock_embedded_concrete_nor_gl_4k.jpg",
+       "taille_o": 14588351,
+       "md5": "b427402d0b3d335791e36ee409ef9fe3"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/rock_embedded_concrete/rock_embedded_concrete_rough_4k.jpg",
+       "taille_o": 6812559,
+       "md5": "ac5f40c112bcaf7c409a90a7cd10dc6d"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/rock_embedded_concrete/rock_embedded_concrete_ao_4k.jpg",
+       "taille_o": 9038116,
+       "md5": "024e3733e60a275edd01fb0f0b49d498"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/rock_embedded_concrete/rock_embedded_concrete_disp_4k.png",
+       "taille_o": 24099321,
+       "md5": "25b244271c2e3523d2e18afd26884596"
+      }
+     },
+     "taille_o": 65865785
+    }
+   }
+  },
+  {
+   "nom": "resine_gravillonnee_beige",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "resine",
+   "libelle": "Gravillons liés à la résine (sol drainant beige), trottoirs, pieds d'arbres, îlots",
+   "choix": "petits gravillons jointifs liés (aspect d'un sol en gravillons-résine) ; même source que enrobe_clair_granulats du site mais recolorée en beige",
+   "priorite": 1,
+   "source": "Poly Haven",
+   "id": "pebble_cemented_floor",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 1.56,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://polyhaven.com/a/pebble_cemented_floor",
+   "auteur": "Dario Barresi, Dimitrios Savva (Poly Haven)",
+   "type_source": "texture",
+   "categorie_source": "Concrete/Cast Walls & Floors/Exposed Aggregate",
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/pebble_cemented_floor/pebble_cemented_floor_diff_1k.jpg",
+       "taille_o": 1306511,
+       "md5": "ab36b87c59737c47512a480c38b6ff55"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/pebble_cemented_floor/pebble_cemented_floor_nor_gl_1k.jpg",
+       "taille_o": 1364491,
+       "md5": "262141a276a860a175c3610e892a7e8c"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/pebble_cemented_floor/pebble_cemented_floor_rough_1k.jpg",
+       "taille_o": 698628,
+       "md5": "8617191dbfed04c9003c481d099c629b"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/pebble_cemented_floor/pebble_cemented_floor_ao_1k.jpg",
+       "taille_o": 986924,
+       "md5": "debd197a802c1714226c6d1345d40d99"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/pebble_cemented_floor/pebble_cemented_floor_disp_1k.png",
+       "taille_o": 1891727,
+       "md5": "f548a286fb52b2d7a485f93e0113b85c"
+      }
+     },
+     "taille_o": 6248281
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/pebble_cemented_floor/pebble_cemented_floor_diff_2k.jpg",
+       "taille_o": 4738737,
+       "md5": "23e427959f217c7ef07495c1ad12861b"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/pebble_cemented_floor/pebble_cemented_floor_nor_gl_2k.jpg",
+       "taille_o": 5208633,
+       "md5": "797586bb85055f4b56c370af272038b9"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/pebble_cemented_floor/pebble_cemented_floor_rough_2k.jpg",
+       "taille_o": 2694064,
+       "md5": "67f596bd8fb2fd29e54641b909eed36a"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/pebble_cemented_floor/pebble_cemented_floor_ao_2k.jpg",
+       "taille_o": 3619586,
+       "md5": "9ee668b412f3c9655c117b6c9f641c1d"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/pebble_cemented_floor/pebble_cemented_floor_disp_2k.png",
+       "taille_o": 7208439,
+       "md5": "75a729af74485c385a549573167ee0e3"
+      }
+     },
+     "taille_o": 23469459
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/pebble_cemented_floor/pebble_cemented_floor_diff_4k.jpg",
+       "taille_o": 16966814,
+       "md5": "8690630c4a7d4ab7f2eb066d55fe1be0"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/pebble_cemented_floor/pebble_cemented_floor_nor_gl_4k.jpg",
+       "taille_o": 18538744,
+       "md5": "70d63f8cc750c0a0d38f84deb3351327"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/pebble_cemented_floor/pebble_cemented_floor_rough_4k.jpg",
+       "taille_o": 9846342,
+       "md5": "488b34978a5e88be592fa7cceaed4711"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/pebble_cemented_floor/pebble_cemented_floor_ao_4k.jpg",
+       "taille_o": 12545712,
+       "md5": "4a09d241896e55e2ede3a390abf7324a"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/pebble_cemented_floor/pebble_cemented_floor_disp_4k.png",
+       "taille_o": 27139275,
+       "md5": "c9807f1fd089b895b4fdd39e333bd693"
+      }
+     },
+     "taille_o": 85036887
+    }
+   },
+   "correction_teinte": {
+    "espace": "CIE L*a*b* (D65)",
+    "gain_L": 1.0,
+    "decalage_L": 0.0,
+    "gain_ab": 1.0,
+    "decalage_a": 0.0,
+    "decalage_b": 0.0,
+    "lab_cible": [
+     66.0,
+     3.0,
+     14.0
+    ],
+    "note": "estimation : beige clair d'un gravillon-résine (sRGB ≈ 175, 160, 140)"
+   },
+   "cible": {
+    "lab": [
+     66.0,
+     3.0,
+     14.0
+    ],
+    "note": "estimation : beige clair d'un gravillon-résine (sRGB ≈ 175, 160, 140)"
+   }
+  },
+  {
+   "nom": "gravillons_stabilises",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "mineral",
+   "libelle": "Gravillons roulés sur sable stabilisé (allées, accotements, pieds d'arbres)",
+   "choix": "recadrage natif : gravillons roulés épars sur matrice sableuse",
+   "priorite": 1,
+   "source": "Poly Haven",
+   "id": "floor_pebbles_01",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 3.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://polyhaven.com/a/floor_pebbles_01",
+   "auteur": "Rob Tuytel (Poly Haven)",
+   "type_source": "texture",
+   "categorie_source": "Ground & Terrain/Gravel & Pebbles/River Pebbles",
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/floor_pebbles_01/floor_pebbles_01_diff_1k.jpg",
+       "taille_o": 649770,
+       "md5": "6c23665c61d6249d0dd2fac557bc0202"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/floor_pebbles_01/floor_pebbles_01_nor_gl_1k.jpg",
+       "taille_o": 1229861,
+       "md5": "776dd1c753f7b59ff43893cc96396234"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/floor_pebbles_01/floor_pebbles_01_rough_1k.jpg",
+       "taille_o": 447347,
+       "md5": "3d90e3405ed8a05b4b51a94a7aeebd47"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/floor_pebbles_01/floor_pebbles_01_ao_1k.jpg",
+       "taille_o": 444754,
+       "md5": "e8f790b405a173e547b9ec4b45edef50"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/floor_pebbles_01/floor_pebbles_01_disp_1k.png",
+       "taille_o": 2065663,
+       "md5": "eb0b5fa74c177a01c66af57b34726ac5"
+      }
+     },
+     "taille_o": 4837395
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/floor_pebbles_01/floor_pebbles_01_diff_2k.jpg",
+       "taille_o": 2227964,
+       "md5": "7d32794753c983b1eba7ca9c04f73d33"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/floor_pebbles_01/floor_pebbles_01_nor_gl_2k.jpg",
+       "taille_o": 3397270,
+       "md5": "efdacfbf5daa766450a4678a0de3b6d9"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/floor_pebbles_01/floor_pebbles_01_rough_2k.jpg",
+       "taille_o": 1516642,
+       "md5": "5d4e99e61199e203fa80cd3c136f22c6"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/floor_pebbles_01/floor_pebbles_01_ao_2k.jpg",
+       "taille_o": 1413208,
+       "md5": "69c9afae4a813f3592b30816b3fed12e"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/floor_pebbles_01/floor_pebbles_01_disp_2k.png",
+       "taille_o": 7613855,
+       "md5": "c6f44c68650633953e4a381c753a897c"
+      }
+     },
+     "taille_o": 16168939
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/floor_pebbles_01/floor_pebbles_01_diff_4k.jpg",
+       "taille_o": 7222987,
+       "md5": "9473bd6b2d2929a5cc2f22f429ebdaa6"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/floor_pebbles_01/floor_pebbles_01_nor_gl_4k.jpg",
+       "taille_o": 10667836,
+       "md5": "151d125d94087d4e310fddf1a86bbc43"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/floor_pebbles_01/floor_pebbles_01_rough_4k.jpg",
+       "taille_o": 5006228,
+       "md5": "efc3e54a074bf36f1ed1b6fe16006c17"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/floor_pebbles_01/floor_pebbles_01_ao_4k.jpg",
+       "taille_o": 5522078,
+       "md5": "4aacb9e57f5bb1548ed68865ea9c7bd3"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/floor_pebbles_01/floor_pebbles_01_disp_4k.png",
+       "taille_o": 28355630,
+       "md5": "a2e2bfadeec63cb1b11b1f06f96ddd1a"
+      }
+     },
+     "taille_o": 56774759
+    }
+   }
+  },
+  {
+   "nom": "gravillons_roules_gris",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "mineral",
+   "libelle": "Gravillons roulés gris-vert 8/16 en couche (îlots minéraux, noues)",
+   "choix": "recadrage natif : gravillons roulés jointifs gris-vert (alluvions alpines) ; complète gravillons_ilot du site",
+   "priorite": 1,
+   "source": "ambientCG",
+   "id": "Gravel041",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 0.6,
+   "tile_m_source": "estimé : gravillons 8/16 (≈ 12 mm) de 15 à 30 px sur l'albédo 1K, soit ≈ 0,6 mm/px",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://ambientcg.com/a/Gravel041",
+   "auteur": "Lennart Demes (ambientCG)",
+   "type_source": "Material",
+   "methode": "Height field photogrammetry",
+   "telechargements": {
+    "1K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Gravel041_1K-JPG.zip",
+     "taille_o": 10157025,
+     "fichier": "Gravel041_1K-JPG.zip"
+    },
+    "2K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Gravel041_2K-JPG.zip",
+     "taille_o": 32000842,
+     "fichier": "Gravel041_2K-JPG.zip"
+    },
+    "4K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Gravel041_4K-JPG.zip",
+     "taille_o": 108668322,
+     "fichier": "Gravel041_4K-JPG.zip"
+    }
+   },
+   "cartes_zip": {
+    "albedo": "*_Color.jpg",
+    "normale": "*_NormalGL.jpg",
+    "rugosite": "*_Roughness.jpg",
+    "ao": "*_AmbientOcclusion.jpg",
+    "hauteur": "*_Displacement.jpg",
+    "opacite": "*_Opacity.jpg",
+    "metal": "*_Metalness.jpg"
+   }
+  },
+  {
+   "nom": "paves_granit_carres",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "paves",
+   "libelle": "Pavés de granit gris carrés (≈ 9 cm : 90 px sur l'albédo 1K d'une tuile de 1,0 m) clivés, joints sablés et moussus",
+   "choix": "recadrage natif : pavés gris clivés à arêtes émoussées, joints larges (anneaux et couronnes de giratoire)",
+   "priorite": 1,
+   "source": "Poly Haven",
+   "id": "cobblestone_square",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 1.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://polyhaven.com/a/cobblestone_square",
+   "auteur": "Rob Tuytel (Poly Haven)",
+   "type_source": "texture",
+   "categorie_source": "Stone/Cobblestone & Paving/Cut Setts & Pavers",
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cobblestone_square/cobblestone_square_diff_1k.jpg",
+       "taille_o": 646791,
+       "md5": "bd5280e594d51f1275d45da8856c8b59"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cobblestone_square/cobblestone_square_nor_gl_1k.jpg",
+       "taille_o": 548630,
+       "md5": "e4a24c42ee1b96b730525ab60b0c3595"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cobblestone_square/cobblestone_square_rough_1k.jpg",
+       "taille_o": 532803,
+       "md5": "44e4d45c1911b9441b22f879e0e6f62d"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cobblestone_square/cobblestone_square_ao_1k.jpg",
+       "taille_o": 235794,
+       "md5": "39bcd15d6471a248c9a9800c22da3f95"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/cobblestone_square/cobblestone_square_disp_1k.png",
+       "taille_o": 1921843,
+       "md5": "794ec5aea803b1e1c9586a814aa5c8ff"
+      }
+     },
+     "taille_o": 3885861
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/cobblestone_square/cobblestone_square_diff_2k.jpg",
+       "taille_o": 2585506,
+       "md5": "1aaa1ed345fa084aea5f64a5b0d7b41f"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/cobblestone_square/cobblestone_square_nor_gl_2k.jpg",
+       "taille_o": 1770896,
+       "md5": "99ad6e0ad2103e2ff0e3b0538d0425fb"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/cobblestone_square/cobblestone_square_rough_2k.jpg",
+       "taille_o": 2130237,
+       "md5": "6c0c82fbe166d8aad781530f62d6720b"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/cobblestone_square/cobblestone_square_ao_2k.jpg",
+       "taille_o": 837999,
+       "md5": "d15a801bb102909e74016213ecc62d4d"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/cobblestone_square/cobblestone_square_disp_2k.png",
+       "taille_o": 7206592,
+       "md5": "c0d0aec22689acd8e194d9634bcc5f4c"
+      }
+     },
+     "taille_o": 14531230
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/cobblestone_square/cobblestone_square_diff_4k.jpg",
+       "taille_o": 9651372,
+       "md5": "2afbfbb423dda69a46155be9adc1b343"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/cobblestone_square/cobblestone_square_nor_gl_4k.jpg",
+       "taille_o": 5176033,
+       "md5": "2baf66387f3a914fd562ec9ac144e727"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/cobblestone_square/cobblestone_square_rough_4k.jpg",
+       "taille_o": 7943018,
+       "md5": "484a15587028bee60860f7bf6d978dc0"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/cobblestone_square/cobblestone_square_ao_4k.jpg",
+       "taille_o": 3888148,
+       "md5": "be574ff94f2518574a66aa33a8ca64a3"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/cobblestone_square/cobblestone_square_disp_4k.png",
+       "taille_o": 26328421,
+       "md5": "46a90fa591fa1c5abf560953a67634f6"
+      }
+     },
+     "taille_o": 52986992
+    }
+   }
+  },
+  {
+   "nom": "paves_beton_chevrons",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "paves",
+   "libelle": "Pavés béton gris foncé 20 × 10 en chevrons (voies piétonnes, plateaux)",
+   "choix": "recadrage natif : pavés rectangulaires gris anthracite à joints fins, appareillage en chevrons",
+   "priorite": 1,
+   "source": "Poly Haven",
+   "id": "herringbone_pavement_03",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 2.4,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://polyhaven.com/a/herringbone_pavement_03",
+   "auteur": "Rob Tuytel (Poly Haven)",
+   "type_source": "texture",
+   "categorie_source": "Brick & Block/Clay Brick/Herringbone",
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/herringbone_pavement_03/herringbone_pavement_03_diff_1k.jpg",
+       "taille_o": 793936,
+       "md5": "6390392c954cef1bdb85c513fe29df9a"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/herringbone_pavement_03/herringbone_pavement_03_nor_gl_1k.jpg",
+       "taille_o": 991655,
+       "md5": "bb606e596c14aa2cdc8b867e12bf1d4f"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/herringbone_pavement_03/herringbone_pavement_03_rough_1k.jpg",
+       "taille_o": 603783,
+       "md5": "b5c3d64d129a472f4b17d2ddd7b3bdd7"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/herringbone_pavement_03/herringbone_pavement_03_ao_1k.jpg",
+       "taille_o": 859770,
+       "md5": "8b0eb603006eed9d0762141f68484e8e"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/herringbone_pavement_03/herringbone_pavement_03_disp_1k.png",
+       "taille_o": 1681416,
+       "md5": "7561d7f4e86831d1e6fb3e4f0636c7c7"
+      }
+     },
+     "taille_o": 4930560
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/herringbone_pavement_03/herringbone_pavement_03_diff_2k.jpg",
+       "taille_o": 3461842,
+       "md5": "88043df8923633fcbd472cc511c81094"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/herringbone_pavement_03/herringbone_pavement_03_nor_gl_2k.jpg",
+       "taille_o": 4442021,
+       "md5": "0b9f49b8d9cceb081f49b7dbd477bd09"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/herringbone_pavement_03/herringbone_pavement_03_rough_2k.jpg",
+       "taille_o": 2613927,
+       "md5": "b2412a55c0c22e7057630a194f08c4a2"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/herringbone_pavement_03/herringbone_pavement_03_ao_2k.jpg",
+       "taille_o": 3534104,
+       "md5": "7300f4ed16de286255e79518f3ab11b5"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/herringbone_pavement_03/herringbone_pavement_03_disp_2k.png",
+       "taille_o": 6594258,
+       "md5": "5f62d90f188b3641f31c625758d36de2"
+      }
+     },
+     "taille_o": 20646152
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/herringbone_pavement_03/herringbone_pavement_03_diff_4k.jpg",
+       "taille_o": 14284933,
+       "md5": "01e1e9326aa3f2907591fec0f5ac81b2"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/herringbone_pavement_03/herringbone_pavement_03_nor_gl_4k.jpg",
+       "taille_o": 17120708,
+       "md5": "adfce8ec2d2824cb7183ef813c69c36c"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/herringbone_pavement_03/herringbone_pavement_03_rough_4k.jpg",
+       "taille_o": 10756407,
+       "md5": "5db83804ee132ee809b6877bea830c41"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/herringbone_pavement_03/herringbone_pavement_03_ao_4k.jpg",
+       "taille_o": 13201060,
+       "md5": "694667b8906c3bc96e4c955df439fed3"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/herringbone_pavement_03/herringbone_pavement_03_disp_4k.png",
+       "taille_o": 25002890,
+       "md5": "b056f44d003372b1cd207c41e976e3d4"
+      }
+     },
+     "taille_o": 80365998
+    }
+   }
+  },
+  {
+   "nom": "dalles_beton_gazon",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "dalles",
+   "libelle": "Dalles béton-gazon (alvéoles engazonnées) : stationnements, accotements stabilisés",
+   "choix": "recadrage natif : plots béton carrés réguliers et herbe sèche dans les alvéoles",
+   "priorite": 1,
+   "source": "Poly Haven",
+   "id": "grass_concrete_pavement",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 1.97,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://polyhaven.com/a/grass_concrete_pavement",
+   "auteur": "Charlotte Baglioni (Poly Haven)",
+   "type_source": "texture",
+   "categorie_source": "Brick & Block/Concrete Block & Paver/Interlocking Pavers",
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_concrete_pavement/grass_concrete_pavement_diff_1k.jpg",
+       "taille_o": 1061418,
+       "md5": "946e79a9df8c6f379bdee2bbd5c8f60f"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_concrete_pavement/grass_concrete_pavement_nor_gl_1k.jpg",
+       "taille_o": 1339885,
+       "md5": "d13fe6369e599a2afed87b445cb9a84d"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_concrete_pavement/grass_concrete_pavement_rough_1k.jpg",
+       "taille_o": 514880,
+       "md5": "3835380590c2be58eba254a11a01d072"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_concrete_pavement/grass_concrete_pavement_ao_1k.jpg",
+       "taille_o": 974691,
+       "md5": "75e909b198e84bdd9f9bae84f00bd1bf"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/grass_concrete_pavement/grass_concrete_pavement_disp_1k.png",
+       "taille_o": 1866071,
+       "md5": "967cb5c804e7ae4d0e310181cf26268a"
+      }
+     },
+     "taille_o": 5756945
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grass_concrete_pavement/grass_concrete_pavement_diff_2k.jpg",
+       "taille_o": 4489508,
+       "md5": "a93ecbf3307b29f5f7634faf6b998635"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grass_concrete_pavement/grass_concrete_pavement_nor_gl_2k.jpg",
+       "taille_o": 5850568,
+       "md5": "684a701835f8f15c9fb7f9a89383c563"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grass_concrete_pavement/grass_concrete_pavement_rough_2k.jpg",
+       "taille_o": 2394188,
+       "md5": "a8fbc43abdbfd9a6c5cd0cdd874ba0eb"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grass_concrete_pavement/grass_concrete_pavement_ao_2k.jpg",
+       "taille_o": 4035727,
+       "md5": "d93c105c0a2898c98c740f9ba87774d3"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/grass_concrete_pavement/grass_concrete_pavement_disp_2k.png",
+       "taille_o": 7271959,
+       "md5": "62dc95d5cda2b689f4ee021c2bb098fc"
+      }
+     },
+     "taille_o": 24041950
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/grass_concrete_pavement/grass_concrete_pavement_diff_4k.jpg",
+       "taille_o": 17786371,
+       "md5": "d235fbaed40d8f89772349117616c6b2"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/grass_concrete_pavement/grass_concrete_pavement_nor_gl_4k.jpg",
+       "taille_o": 22913107,
+       "md5": "7f28f7c966391532e3bf740ad68de9bd"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/grass_concrete_pavement/grass_concrete_pavement_rough_4k.jpg",
+       "taille_o": 9908084,
+       "md5": "7387d1d789d4d0962d62b6b1cf9b2996"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/grass_concrete_pavement/grass_concrete_pavement_ao_4k.jpg",
+       "taille_o": 15244700,
+       "md5": "fdadfde240976681e3812f6cc4ef2cdf"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/grass_concrete_pavement/grass_concrete_pavement_disp_4k.png",
+       "taille_o": 27840120,
+       "md5": "3df6651930b8af0a2f7515556d951772"
+      }
+     },
+     "taille_o": 93692382
+    }
+   }
+  },
+  {
+   "nom": "dalles_beton_ocre",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "dalles",
+   "libelle": "Dalles béton rectangulaires ocre-brun à joints larges",
+   "choix": "recadrage natif : dalles rectangulaires teintées, joints marqués",
+   "priorite": 1,
+   "source": "Poly Haven",
+   "id": "concrete_pavers_02",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 2.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://polyhaven.com/a/concrete_pavers_02",
+   "auteur": "Amal Kumar (Poly Haven)",
+   "type_source": "texture",
+   "categorie_source": "Brick & Block/Concrete Block & Paver/Interlocking Pavers",
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_pavers_02/concrete_pavers_02_diff_1k.jpg",
+       "taille_o": 699805,
+       "md5": "a0669d6bb1ef8db865b7c05795761c5b"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_pavers_02/concrete_pavers_02_nor_gl_1k.jpg",
+       "taille_o": 704346,
+       "md5": "4af20fb7e056987a7441d365d9d3fc80"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_pavers_02/concrete_pavers_02_rough_1k.jpg",
+       "taille_o": 332936,
+       "md5": "8534baafe6b4c0697a21ef2020be347a"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_pavers_02/concrete_pavers_02_ao_1k.jpg",
+       "taille_o": 416372,
+       "md5": "814328e2de84f5b1c25d36e59c037415"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/concrete_pavers_02/concrete_pavers_02_disp_1k.png",
+       "taille_o": 1610671,
+       "md5": "d2098135e5d21e7d91e1f1683b33d4f9"
+      }
+     },
+     "taille_o": 3764130
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/concrete_pavers_02/concrete_pavers_02_diff_2k.jpg",
+       "taille_o": 3187581,
+       "md5": "6d09ccc09effb4ca561bb37324c49b15"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/concrete_pavers_02/concrete_pavers_02_nor_gl_2k.jpg",
+       "taille_o": 3353779,
+       "md5": "a6f2eb3ed2b606481a643e2c8f3bfb0c"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/concrete_pavers_02/concrete_pavers_02_rough_2k.jpg",
+       "taille_o": 1639441,
+       "md5": "b6e06cf8e86192d189c2b320b234640e"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/concrete_pavers_02/concrete_pavers_02_ao_2k.jpg",
+       "taille_o": 1696865,
+       "md5": "c13fe8a76d12c3f9f8e8954f45060e48"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/concrete_pavers_02/concrete_pavers_02_disp_2k.png",
+       "taille_o": 6379643,
+       "md5": "216b58213fc669f439e312f45b8c7344"
+      }
+     },
+     "taille_o": 16257309
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/concrete_pavers_02/concrete_pavers_02_diff_4k.jpg",
+       "taille_o": 12813565,
+       "md5": "84d8e73ac0d51cd159e69f2ec5fe41a2"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/concrete_pavers_02/concrete_pavers_02_nor_gl_4k.jpg",
+       "taille_o": 13358441,
+       "md5": "a083a0c15b94a0a09ffa43fe228e77b9"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/concrete_pavers_02/concrete_pavers_02_rough_4k.jpg",
+       "taille_o": 7004542,
+       "md5": "211695ba56691f426a88bca9ecf6224b"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/concrete_pavers_02/concrete_pavers_02_ao_4k.jpg",
+       "taille_o": 6785756,
+       "md5": "c20d3348376a87fdd457550a5976b162"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/concrete_pavers_02/concrete_pavers_02_disp_4k.png",
+       "taille_o": 24330857,
+       "md5": "df194922b4004d34112ea4b71313d6be"
+      }
+     },
+     "taille_o": 64293161
+    }
+   }
+  },
+  {
+   "nom": "brf_copeaux_frais",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "sol",
+   "libelle": "Bois raméal fragmenté frais / copeaux clairs (paillage de massifs et de pieds d'arbres)",
+   "choix": "vignettes : copeaux clairs fins ; WoodChips002 (vu en recadrage natif, plus grossier) écarté car son albédo n'est pas carré (2048 × 1024) ; complète brf_bois_concasse et brf_bois_gris du site (vieillis)",
+   "priorite": 1,
+   "source": "ambientCG",
+   "id": "WoodChips003",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 1.6,
+   "tile_m_source": "API ambientCG dimensionX (cm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://ambientcg.com/a/WoodChips003",
+   "auteur": "Lennart Demes (ambientCG)",
+   "type_source": "Material",
+   "methode": "Height field photogrammetry",
+   "telechargements": {
+    "1K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=WoodChips003_1K-JPG.zip",
+     "taille_o": 10396262,
+     "fichier": "WoodChips003_1K-JPG.zip"
+    },
+    "2K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=WoodChips003_2K-JPG.zip",
+     "taille_o": 35459194,
+     "fichier": "WoodChips003_2K-JPG.zip"
+    },
+    "4K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=WoodChips003_4K-JPG.zip",
+     "taille_o": 126660748,
+     "fichier": "WoodChips003_4K-JPG.zip"
+    }
+   },
+   "cartes_zip": {
+    "albedo": "*_Color.jpg",
+    "normale": "*_NormalGL.jpg",
+    "rugosite": "*_Roughness.jpg",
+    "ao": "*_AmbientOcclusion.jpg",
+    "hauteur": "*_Displacement.jpg",
+    "opacite": "*_Opacity.jpg",
+    "metal": "*_Metalness.jpg"
+   }
+  },
+  {
+   "nom": "terre_vegetale",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "sol",
+   "libelle": "Terre végétale sombre humifère (massifs, fosses d'arbres, chantier)",
+   "choix": "recadrage natif : terre brun foncé à débris organiques",
+   "priorite": 1,
+   "source": "ambientCG",
+   "id": "Ground048",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 1.4,
+   "tile_m_source": "API ambientCG dimensionX (cm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://ambientcg.com/a/Ground048",
+   "auteur": "Lennart Demes (ambientCG)",
+   "type_source": "Material",
+   "methode": "Height field photogrammetry",
+   "telechargements": {
+    "1K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Ground048_1K-JPG.zip",
+     "taille_o": 10655049,
+     "fichier": "Ground048_1K-JPG.zip"
+    },
+    "2K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Ground048_2K-JPG.zip",
+     "taille_o": 38873290,
+     "fichier": "Ground048_2K-JPG.zip"
+    },
+    "4K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Ground048_4K-JPG.zip",
+     "taille_o": 145976695,
+     "fichier": "Ground048_4K-JPG.zip"
+    }
+   },
+   "cartes_zip": {
+    "albedo": "*_Color.jpg",
+    "normale": "*_NormalGL.jpg",
+    "rugosite": "*_Roughness.jpg",
+    "ao": "*_AmbientOcclusion.jpg",
+    "hauteur": "*_Displacement.jpg",
+    "opacite": "*_Opacity.jpg",
+    "metal": "*_Metalness.jpg"
+   }
+  },
+  {
+   "nom": "terre_battue",
+   "categorie": "materiaux",
+   "type": "sol_tuilable",
+   "famille": "sol",
+   "libelle": "Terre battue compactée brun clair (chemins, accotements non revêtus)",
+   "choix": "recadrage natif : terre sèche compactée, débris fins",
+   "priorite": 1,
+   "source": "Poly Haven",
+   "id": "dirt_floor",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 2.07,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://polyhaven.com/a/dirt_floor",
+   "auteur": "eye-candy.xyz (Poly Haven)",
+   "type_source": "texture",
+   "categorie_source": "Ground & Terrain/Forest Floor/Forest Soil",
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dirt_floor/dirt_floor_diff_1k.jpg",
+       "taille_o": 903417,
+       "md5": "8cc8bfdfb74fd7761c6d518d13dc4e45"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dirt_floor/dirt_floor_nor_gl_1k.jpg",
+       "taille_o": 1167485,
+       "md5": "c0af23552b3c47498bec6ee9ff9fe194"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dirt_floor/dirt_floor_rough_1k.jpg",
+       "taille_o": 389725,
+       "md5": "b227b1c9150be1e4303d6a45f757a990"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dirt_floor/dirt_floor_ao_1k.jpg",
+       "taille_o": 702617,
+       "md5": "39f6dc6424457395f501bdd217555922"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/dirt_floor/dirt_floor_disp_1k.png",
+       "taille_o": 2404795,
+       "md5": "53ca8eac661673980476af2e436ffc80"
+      }
+     },
+     "taille_o": 5568039
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/dirt_floor/dirt_floor_diff_2k.jpg",
+       "taille_o": 3944426,
+       "md5": "dace6e0d469e7b99f0794b941f06bab8"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/dirt_floor/dirt_floor_nor_gl_2k.jpg",
+       "taille_o": 4977831,
+       "md5": "f47bd35ce5a09771aba4ce85e22d5e36"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/dirt_floor/dirt_floor_rough_2k.jpg",
+       "taille_o": 1808214,
+       "md5": "c987eada3ef1492be2843f974e2d9a84"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/dirt_floor/dirt_floor_ao_2k.jpg",
+       "taille_o": 2781172,
+       "md5": "27bdc648d1528d18cd29394859ef67ad"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/dirt_floor/dirt_floor_disp_2k.png",
+       "taille_o": 9345075,
+       "md5": "33bafd3095b4f8c7b1234d492d9a32d0"
+      }
+     },
+     "taille_o": 22856718
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/dirt_floor/dirt_floor_diff_4k.jpg",
+       "taille_o": 17460480,
+       "md5": "e50e230c2466a71fae6ade8c9461ef87"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/dirt_floor/dirt_floor_nor_gl_4k.jpg",
+       "taille_o": 18656702,
+       "md5": "3469592c34acdb6cf3ea4ed84eb48eca"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/dirt_floor/dirt_floor_rough_4k.jpg",
+       "taille_o": 7990111,
+       "md5": "c17b53832b74bd747e546eb5c71049fa"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/dirt_floor/dirt_floor_ao_4k.jpg",
+       "taille_o": 10499932,
+       "md5": "8c9a9662408607235f57763c85cfbe10"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/dirt_floor/dirt_floor_disp_4k.png",
+       "taille_o": 35251269,
+       "md5": "b8a739601128526aef26f8046cd07af7"
+      }
+     },
+     "taille_o": 89858494
+    }
+   }
+  },
+  {
+   "nom": "bois_brut_grise",
+   "categorie": "materiaux",
+   "type": "surface_tuilable",
+   "famille": "bois",
+   "libelle": "Bois brut grisé (mélèze, chêne vieilli) : bornes bois, lames de bancs, rondins",
+   "choix": "vignettes : seul bois d'extérieur grisé sans joints de lames (convient aux éléments unitaires)",
+   "priorite": 1,
+   "source": "Poly Haven",
+   "id": "rough_wood",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 0.5,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://polyhaven.com/a/rough_wood",
+   "auteur": "Rob Tuytel (Poly Haven)",
+   "type_source": "texture",
+   "categorie_source": "Wood/Boards & Planks/Weathered Planks",
+   "telechargements": {
+    "1K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_wood/rough_wood_diff_1k.jpg",
+       "taille_o": 567074,
+       "md5": "92d4b3dd46bab95248f5a7680b7882e7"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_wood/rough_wood_nor_gl_1k.jpg",
+       "taille_o": 790334,
+       "md5": "1c9829c9023f74c74eaeba28e56e5144"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_wood/rough_wood_rough_1k.jpg",
+       "taille_o": 195056,
+       "md5": "ef62954e4ea0e9cd78757ce79e6eeb58"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_wood/rough_wood_ao_1k.jpg",
+       "taille_o": 392089,
+       "md5": "fdb7dcb187ae535d6a5331fb91b9342f"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/rough_wood/rough_wood_disp_1k.png",
+       "taille_o": 1962712,
+       "md5": "7f7cce46cd6460e7f6ab3f544b821d62"
+      }
+     },
+     "taille_o": 3907265
+    },
+    "2K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rough_wood/rough_wood_diff_2k.jpg",
+       "taille_o": 2223327,
+       "md5": "f5f9c55696f047ceaa49dc97c5aa5526"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rough_wood/rough_wood_nor_gl_2k.jpg",
+       "taille_o": 2520021,
+       "md5": "62594f2d00eb246581b9d4fde30209f1"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rough_wood/rough_wood_rough_2k.jpg",
+       "taille_o": 810338,
+       "md5": "832d6d549a8e76c16b9af2586f429d6c"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rough_wood/rough_wood_ao_2k.jpg",
+       "taille_o": 1542203,
+       "md5": "e75813ed06185a5f1cecd4b6e2c082f0"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/rough_wood/rough_wood_disp_2k.png",
+       "taille_o": 7791679,
+       "md5": "b4587bb26240fa66c26ee52572f05149"
+      }
+     },
+     "taille_o": 14887568
+    },
+    "4K": {
+     "format": "fichiers",
+     "fichiers": {
+      "albedo": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/rough_wood/rough_wood_diff_4k.jpg",
+       "taille_o": 8069907,
+       "md5": "3c6d37c559b9dd8ab9bf2d192f0ae629"
+      },
+      "normale": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/rough_wood/rough_wood_nor_gl_4k.jpg",
+       "taille_o": 7089554,
+       "md5": "c5b3e30e8f00b38c93404f2b70c51729"
+      },
+      "rugosite": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/rough_wood/rough_wood_rough_4k.jpg",
+       "taille_o": 3269262,
+       "md5": "34360ea1a3a04aa12e90453c4909ed54"
+      },
+      "ao": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/rough_wood/rough_wood_ao_4k.jpg",
+       "taille_o": 7692228,
+       "md5": "d79633308602238f5dc40de732de25e5"
+      },
+      "hauteur": {
+       "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/4k/rough_wood/rough_wood_disp_4k.png",
+       "taille_o": 30754622,
+       "md5": "524f46c63f121f39450c1ba6404b525c"
+      }
+     },
+     "taille_o": 56875573
+    }
+   }
+  },
+  {
+   "nom": "acier_thermolaque_7024",
+   "categorie": "materiaux",
+   "type": "surface_tuilable",
+   "famille": "metal",
+   "libelle": "Acier thermolaqué gris graphite RAL 7024 (gamme de Grenoble-Alpes Métropole : potelets, barrières, arceaux)",
+   "choix": "même source que acier_thermolaque_7016, moyenne ramenée sur RAL 7024 (GAM fiche n° 16 p. 4 : potelets, barrières, arceaux en RAL 7024)",
+   "priorite": 1,
+   "source": "ambientCG",
+   "id": "Metal027",
+   "resolution_cible": "2K",
+   "licence": {
+    "nom": "CC0 1.0 Universal (transfert dans le domaine public)",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attribution_requise": false
+   },
+   "tile_m": 1.0,
+   "tile_m_source": "estimé (grain de poudre fin)",
+   "uv": {
+    "primvar": "st1",
+    "repere": "UV en mètres (st1) ; UsdTransform2d scale = 1/tile_m"
+   },
+   "etape": "route_fr étape 3",
+   "page": "https://ambientcg.com/a/Metal027",
+   "auteur": "Lennart Demes (ambientCG)",
+   "type_source": "Material",
+   "methode": "Height field photogrammetry",
+   "telechargements": {
+    "1K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Metal027_1K-JPG.zip",
+     "taille_o": 6311401,
+     "fichier": "Metal027_1K-JPG.zip"
+    },
+    "2K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Metal027_2K-JPG.zip",
+     "taille_o": 24858268,
+     "fichier": "Metal027_2K-JPG.zip"
+    },
+    "4K": {
+     "format": "zip",
+     "url": "https://ambientcg.com/get?file=Metal027_4K-JPG.zip",
+     "taille_o": 100427445,
+     "fichier": "Metal027_4K-JPG.zip"
+    }
+   },
+   "cartes_zip": {
+    "albedo": "*_Color.jpg",
+    "normale": "*_NormalGL.jpg",
+    "rugosite": "*_Roughness.jpg",
+    "ao": "*_AmbientOcclusion.jpg",
+    "hauteur": "*_Displacement.jpg",
+    "opacite": "*_Opacity.jpg",
+    "metal": "*_Metalness.jpg"
+   },
+   "correction_teinte": {
+    "espace": "CIE L*a*b* (D65)",
+    "gain_L": 1.0,
+    "decalage_L": 0.0,
+    "gain_ab": 1.0,
+    "decalage_a": 0.0,
+    "decalage_b": 0.0,
+    "lab_cible": [
+     31.42,
+     0.41,
+     -4.57
+    ],
+    "note": "RAL 7024 gris graphite ≈ sRGB #474A51 (valeur RAL usuelle, approximation écran)"
+   },
+   "cible": {
+    "lab": [
+     31.42,
+     0.41,
+     -4.57
+    ],
+    "note": "RAL 7024 gris graphite ≈ sRGB #474A51 (valeur RAL usuelle, approximation écran)"
+   },
+   "metal_force": null
+  }
+ ]
+}

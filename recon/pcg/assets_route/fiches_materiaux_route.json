@@ -1,0 +1,3847 @@
+{
+ "schema": "route_fr/fiches_materiaux/1.0",
+ "date": "2026-10-17",
+ "script": "recon/pcg/assets_route/telecharger_materiaux_etape3.py --fiches",
+ "note": "mesures sur les textures livrées (assets/lib/route_fr/materiaux et assets/lib/materiaux) ; les matériaux du site ne sont pas modifiés",
+ "materiaux": [
+  {
+   "nom": "acier_galvanise",
+   "libelle": "Acier galvanisé à chaud vieilli (poteaux, platines, garde-corps de pont)",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Metal014",
+   "page": "https://ambientcg.com/a/Metal014",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.0,
+   "tile_m_source": "estimé (plages de zinc de 5-30 cm)",
+   "correction_teinte": null,
+   "usd": "acier_galvanise/acier_galvanise.usda",
+   "albedo_moyen_lineaire": [
+    0.5659,
+    0.619,
+    0.7024
+   ],
+   "albedo_moyen_srgb8": [
+    198,
+    206,
+    218
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.6137,
+    "ecart_type": 0.12,
+    "p05": 0.4064,
+    "p95": 0.7749
+   },
+   "lab_moyen": [
+    82.13,
+    -0.45,
+    -7.08
+   ],
+   "rugosite": {
+    "moyenne": 0.456,
+    "ecart_type": 0.076,
+    "source": "carte acier_galvanise_rugosite.jpg"
+   },
+   "metal": {
+    "moyenne": 1.0,
+    "ecart_type": 0.0,
+    "source": "carte acier_galvanise_metal.jpg"
+   },
+   "occlusion": null,
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "acier_thermolaque_7016",
+   "libelle": "Acier thermolaqué gris anthracite (≈ RAL 7016) finition sablé-givré : potelets, barrières, mâts",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Metal027",
+   "page": "https://ambientcg.com/a/Metal027",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.0,
+   "tile_m_source": "estimé (grain de poudre fin)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": 7.032,
+    "gain_ab": 1.0,
+    "decalage_a": -3.978,
+    "decalage_b": 1.529
+   },
+   "usd": "acier_thermolaque_7016/acier_thermolaque_7016.usda",
+   "albedo_moyen_lineaire": [
+    0.0409,
+    0.0481,
+    0.0546
+   ],
+   "albedo_moyen_srgb8": [
+    57,
+    62,
+    66
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.047,
+    "ecart_type": 0.0082,
+    "p05": 0.0346,
+    "p95": 0.0616
+   },
+   "lab_moyen": [
+    25.73,
+    -1.08,
+    -3.26
+   ],
+   "rugosite": {
+    "moyenne": 0.649,
+    "ecart_type": 0.033,
+    "source": "carte acier_thermolaque_7016_rugosite.jpg"
+   },
+   "metal": {
+    "moyenne": 1.0,
+    "ecart_type": 0.0,
+    "source": "carte acier_thermolaque_7016_metal.jpg"
+   },
+   "occlusion": null,
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "acier_thermolaque_7024",
+   "libelle": "Acier thermolaqué gris graphite RAL 7024 (gamme de Grenoble-Alpes Métropole : potelets, barrières, arceaux)",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Metal027",
+   "page": "https://ambientcg.com/a/Metal027",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.0,
+   "tile_m_source": "estimé (grain de poudre fin)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": 12.652,
+    "gain_ab": 1.0,
+    "decalage_a": -2.058,
+    "decalage_b": 0.259
+   },
+   "usd": "acier_thermolaque_7024/acier_thermolaque_7024.usda",
+   "albedo_moyen_lineaire": [
+    0.0637,
+    0.0692,
+    0.0834
+   ],
+   "albedo_moyen_srgb8": [
+    71,
+    74,
+    82
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.069,
+    "ecart_type": 0.0109,
+    "p05": 0.0514,
+    "p95": 0.0881
+   },
+   "lab_moyen": [
+    31.45,
+    0.46,
+    -4.69
+   ],
+   "rugosite": {
+    "moyenne": 0.649,
+    "ecart_type": 0.033,
+    "source": "carte acier_thermolaque_7024_rugosite.jpg"
+   },
+   "metal": {
+    "moyenne": 1.0,
+    "ecart_type": 0.0,
+    "source": "carte acier_thermolaque_7024_metal.jpg"
+   },
+   "occlusion": null,
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "beton_balaye",
+   "libelle": "Béton balayé (stries transversales de balai) avec joints de retrait sciés",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "brushed_concrete_04",
+   "page": "https://polyhaven.com/a/brushed_concrete_04",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.001,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "beton_balaye/beton_balaye.usda",
+   "albedo_moyen_lineaire": [
+    0.1414,
+    0.1135,
+    0.0889
+   ],
+   "albedo_moyen_srgb8": [
+    105,
+    95,
+    84
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1176,
+    "ecart_type": 0.0294,
+    "p05": 0.0639,
+    "p95": 0.1617
+   },
+   "lab_moyen": [
+    40.39,
+    2.26,
+    7.51
+   ],
+   "rugosite": {
+    "moyenne": 0.972,
+    "ecart_type": 0.022,
+    "source": "carte beton_balaye_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.83,
+    "ecart_type": 0.142,
+    "source": "carte beton_balaye_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "beton_desactive",
+   "libelle": "Béton désactivé fin (granulats 4/10 affleurants), trottoirs et îlots",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "granular_concrete",
+   "page": "https://polyhaven.com/a/granular_concrete",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.4,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "beton_desactive/beton_desactive.usda",
+   "albedo_moyen_lineaire": [
+    0.1567,
+    0.1363,
+    0.103
+   ],
+   "albedo_moyen_srgb8": [
+    110,
+    103,
+    90
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1383,
+    "ecart_type": 0.0315,
+    "p05": 0.0841,
+    "p95": 0.1875
+   },
+   "lab_moyen": [
+    43.61,
+    0.39,
+    8.39
+   ],
+   "rugosite": {
+    "moyenne": 0.754,
+    "ecart_type": 0.009,
+    "source": "carte beton_desactive_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.563,
+    "ecart_type": 0.128,
+    "source": "carte beton_desactive_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "beton_desactive_gros",
+   "libelle": "Béton désactivé à gros granulats roulés (6/14) affleurants, teinte brun-gris",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "gravel_concrete_02",
+   "page": "https://polyhaven.com/a/gravel_concrete_02",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.1,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "beton_desactive_gros/beton_desactive_gros.usda",
+   "albedo_moyen_lineaire": [
+    0.2621,
+    0.2023,
+    0.1416
+   ],
+   "albedo_moyen_srgb8": [
+    140,
+    124,
+    105
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2107,
+    "ecart_type": 0.0669,
+    "p05": 0.1266,
+    "p95": 0.3418
+   },
+   "lab_moyen": [
+    52.31,
+    2.91,
+    12.72
+   ],
+   "rugosite": {
+    "moyenne": 0.769,
+    "ecart_type": 0.009,
+    "source": "carte beton_desactive_gros_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.717,
+    "ecart_type": 0.116,
+    "source": "carte beton_desactive_gros_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "beton_desactive_moyen",
+   "libelle": "Béton désactivé gris à granulats moyens (4/10), trottoirs et parvis",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "gravel_embedded_concrete",
+   "page": "https://polyhaven.com/a/gravel_embedded_concrete",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "beton_desactive_moyen/beton_desactive_moyen.usda",
+   "albedo_moyen_lineaire": [
+    0.3129,
+    0.286,
+    0.2425
+   ],
+   "albedo_moyen_srgb8": [
+    152,
+    146,
+    135
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2886,
+    "ecart_type": 0.1169,
+    "p05": 0.127,
+    "p95": 0.5109
+   },
+   "lab_moyen": [
+    59.26,
+    0.35,
+    6.55
+   ],
+   "rugosite": {
+    "moyenne": 0.732,
+    "ecart_type": 0.022,
+    "source": "carte beton_desactive_moyen_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.798,
+    "ecart_type": 0.11,
+    "source": "carte beton_desactive_moyen_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "beton_prefa_lisse",
+   "libelle": "Béton préfabriqué vibré gris, peau de ciment lisse à bullage fin (bordures et caniveaux neufs ou récents)",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Concrete006",
+   "page": "https://ambientcg.com/a/Concrete006",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.0,
+   "tile_m_source": "estimé : bullage de 1 à 4 mm (2 à 8 px sur l'albédo 2K)",
+   "correction_teinte": null,
+   "usd": "beton_prefa_lisse/beton_prefa_lisse.usda",
+   "albedo_moyen_lineaire": [
+    0.2424,
+    0.2424,
+    0.2424
+   ],
+   "albedo_moyen_srgb8": [
+    135,
+    135,
+    135
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2424,
+    "ecart_type": 0.0222,
+    "p05": 0.2051,
+    "p95": 0.2747
+   },
+   "lab_moyen": [
+    56.25,
+    -0.0,
+    0.0
+   ],
+   "rugosite": {
+    "moyenne": 0.487,
+    "ecart_type": 0.049,
+    "source": "carte beton_prefa_lisse_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.983,
+    "ecart_type": 0.025,
+    "source": "carte beton_prefa_lisse_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "bois_brut_grise",
+   "libelle": "Bois brut grisé (mélèze, chêne vieilli) : bornes bois, lames de bancs, rondins",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "rough_wood",
+   "page": "https://polyhaven.com/a/rough_wood",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 0.5,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "bois_brut_grise/bois_brut_grise.usda",
+   "albedo_moyen_lineaire": [
+    0.1541,
+    0.1298,
+    0.1017
+   ],
+   "albedo_moyen_srgb8": [
+    109,
+    101,
+    90
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1329,
+    "ecart_type": 0.0603,
+    "p05": 0.0482,
+    "p95": 0.2385
+   },
+   "lab_moyen": [
+    41.78,
+    1.47,
+    7.32
+   ],
+   "rugosite": {
+    "moyenne": 0.509,
+    "ecart_type": 0.027,
+    "source": "carte bois_brut_grise_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.781,
+    "ecart_type": 0.093,
+    "source": "carte bois_brut_grise_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "brf_copeaux_frais",
+   "libelle": "Bois raméal fragmenté frais / copeaux clairs (paillage de massifs et de pieds d'arbres)",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "WoodChips003",
+   "page": "https://ambientcg.com/a/WoodChips003",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.6,
+   "tile_m_source": "API ambientCG dimensionX (cm)",
+   "correction_teinte": null,
+   "usd": "brf_copeaux_frais/brf_copeaux_frais.usda",
+   "albedo_moyen_lineaire": [
+    0.3915,
+    0.2553,
+    0.1404
+   ],
+   "albedo_moyen_srgb8": [
+    168,
+    138,
+    105
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.276,
+    "ecart_type": 0.1307,
+    "p05": 0.0669,
+    "p95": 0.495
+   },
+   "lab_moyen": [
+    57.18,
+    7.26,
+    23.18
+   ],
+   "rugosite": {
+    "moyenne": 0.594,
+    "ecart_type": 0.081,
+    "source": "carte brf_copeaux_frais_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.876,
+    "ecart_type": 0.12,
+    "source": "carte brf_copeaux_frais_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "dalles_beton_40",
+   "libelle": "Dalles béton carrées 40 × 40 cm beige-gris, joints moussus",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "PavingStones136",
+   "page": "https://ambientcg.com/a/PavingStones136",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.6,
+   "tile_m_source": "estimé : dalle de 40 × 40 cm ≈ 256 px sur l'albédo 1K",
+   "correction_teinte": null,
+   "usd": "dalles_beton_40/dalles_beton_40.usda",
+   "albedo_moyen_lineaire": [
+    0.3636,
+    0.3127,
+    0.175
+   ],
+   "albedo_moyen_srgb8": [
+    162,
+    152,
+    116
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.3136,
+    "ecart_type": 0.0564,
+    "p05": 0.2174,
+    "p95": 0.3952
+   },
+   "lab_moyen": [
+    62.48,
+    -1.82,
+    20.49
+   ],
+   "rugosite": {
+    "moyenne": 0.502,
+    "ecart_type": 0.064,
+    "source": "carte dalles_beton_40_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.957,
+    "ecart_type": 0.057,
+    "source": "carte dalles_beton_40_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "dalles_beton_gazon",
+   "libelle": "Dalles béton-gazon (alvéoles engazonnées) : stationnements, accotements stabilisés",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "grass_concrete_pavement",
+   "page": "https://polyhaven.com/a/grass_concrete_pavement",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.97,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "dalles_beton_gazon/dalles_beton_gazon.usda",
+   "albedo_moyen_lineaire": [
+    0.3898,
+    0.313,
+    0.2268
+   ],
+   "albedo_moyen_srgb8": [
+    168,
+    152,
+    131
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.3231,
+    "ecart_type": 0.111,
+    "p05": 0.1466,
+    "p95": 0.5142
+   },
+   "lab_moyen": [
+    62.47,
+    2.32,
+    13.24
+   ],
+   "rugosite": {
+    "moyenne": 0.73,
+    "ecart_type": 0.022,
+    "source": "carte dalles_beton_gazon_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.767,
+    "ecart_type": 0.144,
+    "source": "carte dalles_beton_gazon_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "dalles_beton_grises",
+   "libelle": "Dalles béton grises rectangulaires jointives (trottoir), joints fins",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "concrete_tiles_02",
+   "page": "https://polyhaven.com/a/concrete_tiles_02",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.825,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "dalles_beton_grises/dalles_beton_grises.usda",
+   "albedo_moyen_lineaire": [
+    0.1386,
+    0.1257,
+    0.1097
+   ],
+   "albedo_moyen_srgb8": [
+    104,
+    99,
+    93
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1273,
+    "ecart_type": 0.0255,
+    "p05": 0.0664,
+    "p95": 0.1567
+   },
+   "lab_moyen": [
+    41.98,
+    0.63,
+    4.25
+   ],
+   "rugosite": {
+    "moyenne": 0.939,
+    "ecart_type": 0.003,
+    "source": "carte dalles_beton_grises_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.937,
+    "ecart_type": 0.088,
+    "source": "carte dalles_beton_grises_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "dalles_beton_joint_gravier",
+   "libelle": "Grandes dalles béton grises à joints ouverts garnis de gravillons et mousse",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "large_square_pattern_01",
+   "page": "https://polyhaven.com/a/large_square_pattern_01",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 3.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "dalles_beton_joint_gravier/dalles_beton_joint_gravier.usda",
+   "albedo_moyen_lineaire": [
+    0.2103,
+    0.1957,
+    0.1615
+   ],
+   "albedo_moyen_srgb8": [
+    126,
+    122,
+    112
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1963,
+    "ecart_type": 0.0706,
+    "p05": 0.07,
+    "p95": 0.303
+   },
+   "lab_moyen": [
+    50.31,
+    -0.4,
+    6.97
+   ],
+   "rugosite": {
+    "moyenne": 0.879,
+    "ecart_type": 0.036,
+    "source": "carte dalles_beton_joint_gravier_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.766,
+    "ecart_type": 0.131,
+    "source": "carte dalles_beton_joint_gravier_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "dalles_beton_ocre",
+   "libelle": "Dalles béton rectangulaires ocre-brun à joints larges",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "concrete_pavers_02",
+   "page": "https://polyhaven.com/a/concrete_pavers_02",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "dalles_beton_ocre/dalles_beton_ocre.usda",
+   "albedo_moyen_lineaire": [
+    0.1714,
+    0.1195,
+    0.0822
+   ],
+   "albedo_moyen_srgb8": [
+    115,
+    97,
+    81
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1278,
+    "ecart_type": 0.033,
+    "p05": 0.0674,
+    "p95": 0.1769
+   },
+   "lab_moyen": [
+    41.93,
+    4.65,
+    11.92
+   ],
+   "rugosite": {
+    "moyenne": 0.874,
+    "ecart_type": 0.014,
+    "source": "carte dalles_beton_ocre_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.951,
+    "ecart_type": 0.107,
+    "source": "carte dalles_beton_ocre_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "enrobe_bbsg_ancien",
+   "libelle": "BBSG ancien gris clair oxydé, texture fermée (réseau de fissures pontées dans la version d'origine)",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Asphalt031",
+   "page": "https://ambientcg.com/a/Asphalt031",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 2.0,
+   "tile_m_source": "manifeste assets/manifeste_cc0.json (estimé d'après la taille des granulats)",
+   "correction_teinte": {
+    "gain_L": 1.15,
+    "decalage_L": 0.763,
+    "gain_ab": 1.0,
+    "decalage_a": -1.832,
+    "decalage_b": 2.566
+   },
+   "usd": "enrobe_bbsg_ancien/enrobe_bbsg_ancien.usda",
+   "albedo_moyen_lineaire": [
+    0.2843,
+    0.2926,
+    0.2718
+   ],
+   "albedo_moyen_srgb8": [
+    145,
+    147,
+    142
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2894,
+    "ecart_type": 0.1502,
+    "p05": 0.115,
+    "p95": 0.579
+   },
+   "lab_moyen": [
+    58.54,
+    -1.72,
+    2.43
+   ],
+   "rugosite": {
+    "moyenne": 0.524,
+    "ecart_type": 0.088,
+    "source": "carte enrobe_bbsg_ancien_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.91,
+    "ecart_type": 0.071,
+    "source": "carte enrobe_bbsg_ancien_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_bbsg_use",
+   "libelle": "BBSG usé gris moyen, liant érodé, granulats 0/10 apparents (5 à 10 ans de trafic)",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Asphalt015",
+   "page": "https://ambientcg.com/a/Asphalt015",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 1.6,
+   "tile_m_source": "estimé : gros granulats de 8-12 px sur l'albédo 1K, soit ≈ 1,6 mm/px pour un BBSG 0/10 (D ≈ 10-14 mm)",
+   "correction_teinte": null,
+   "usd": "enrobe_bbsg_use/enrobe_bbsg_use.usda",
+   "albedo_moyen_lineaire": [
+    0.1823,
+    0.1841,
+    0.1886
+   ],
+   "albedo_moyen_srgb8": [
+    118,
+    119,
+    120
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1841,
+    "ecart_type": 0.1049,
+    "p05": 0.0595,
+    "p95": 0.3813
+   },
+   "lab_moyen": [
+    47.88,
+    0.11,
+    -0.85
+   ],
+   "rugosite": {
+    "moyenne": 0.528,
+    "ecart_type": 0.067,
+    "source": "carte enrobe_bbsg_use_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": null,
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_bbtm",
+   "libelle": "Béton bitumineux très mince (BBTM 0/6-0/10) : enrobé sombre à macrotexture ouverte, granulats serrés",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Asphalt027A",
+   "page": "https://ambientcg.com/a/Asphalt027A",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 2.0,
+   "tile_m_source": "estimé : granulats de 3 à 6 px sur l'albédo 1K pour un BBTM 0/6-0/10, soit ≈ 2 mm/px",
+   "correction_teinte": null,
+   "usd": "enrobe_bbtm/enrobe_bbtm.usda",
+   "albedo_moyen_lineaire": [
+    0.0702,
+    0.0682,
+    0.0605
+   ],
+   "albedo_moyen_srgb8": [
+    75,
+    74,
+    70
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.0681,
+    "ecart_type": 0.0224,
+    "p05": 0.0381,
+    "p95": 0.1101
+   },
+   "lab_moyen": [
+    30.83,
+    -0.51,
+    2.7
+   ],
+   "rugosite": {
+    "moyenne": 0.663,
+    "ecart_type": 0.048,
+    "source": "carte enrobe_bbtm_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.944,
+    "ecart_type": 0.052,
+    "source": "carte enrobe_bbtm_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "enrobe_colore_ocre",
+   "libelle": "Enrobé ou résine ocre (îlots, trottoirs, plateaux) à grain fin",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Asphalt020S",
+   "page": "https://ambientcg.com/a/Asphalt020S",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 1.85,
+   "tile_m_source": "API ambientCG dimensionX (cm)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": 16.31,
+    "gain_ab": 1.0,
+    "decalage_a": 4.578,
+    "decalage_b": 7.771
+   },
+   "usd": "enrobe_colore_ocre/enrobe_colore_ocre.usda",
+   "albedo_moyen_lineaire": [
+    0.3642,
+    0.2919,
+    0.2309
+   ],
+   "albedo_moyen_srgb8": [
+    163,
+    147,
+    132
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.3029,
+    "ecart_type": 0.0963,
+    "p05": 0.1852,
+    "p95": 0.4795
+   },
+   "lab_moyen": [
+    61.13,
+    3.32,
+    10.15
+   ],
+   "rugosite": {
+    "moyenne": 0.644,
+    "ecart_type": 0.081,
+    "source": "carte enrobe_colore_ocre_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.746,
+    "ecart_type": 0.151,
+    "source": "carte enrobe_colore_ocre_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "enrobe_colore_rouge",
+   "libelle": "Enrobé coloré rouge (liant pigmenté oxyde de fer) : couloirs bus, pistes cyclables, plateaux",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Asphalt029B",
+   "page": "https://ambientcg.com/a/Asphalt029B",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 2.0,
+   "tile_m_source": "estimé (aucune dimension publiée par la source) : 2,0 m",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": -0.414,
+    "gain_ab": 1.0,
+    "decalage_a": -17.966,
+    "decalage_b": -6.149
+   },
+   "usd": "enrobe_colore_rouge/enrobe_colore_rouge.usda",
+   "albedo_moyen_lineaire": [
+    0.3299,
+    0.0899,
+    0.0664
+   ],
+   "albedo_moyen_srgb8": [
+    155,
+    85,
+    73
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1393,
+    "ecart_type": 0.0206,
+    "p05": 0.1068,
+    "p95": 0.1739
+   },
+   "lab_moyen": [
+    43.98,
+    27.94,
+    19.99
+   ],
+   "rugosite": {
+    "moyenne": 0.653,
+    "ecart_type": 0.041,
+    "source": "carte enrobe_colore_rouge_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.904,
+    "ecart_type": 0.066,
+    "source": "carte enrobe_colore_rouge_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "enrobe_esu_gravillonne",
+   "libelle": "Enduit superficiel d'usure (ESU, gravillonnage) : liant noir et gravillons clairs épars (routes secondaires, accotements revêtus)",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "tarred_gravel",
+   "page": "https://polyhaven.com/a/tarred_gravel",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 2.2,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "enrobe_esu_gravillonne/enrobe_esu_gravillonne.usda",
+   "albedo_moyen_lineaire": [
+    0.0533,
+    0.0468,
+    0.0385
+   ],
+   "albedo_moyen_srgb8": [
+    65,
+    61,
+    55
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.0476,
+    "ecart_type": 0.0248,
+    "p05": 0.0288,
+    "p95": 0.0787
+   },
+   "lab_moyen": [
+    25.33,
+    0.62,
+    4.11
+   ],
+   "rugosite": {
+    "moyenne": 0.86,
+    "ecart_type": 0.083,
+    "source": "carte enrobe_esu_gravillonne_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.881,
+    "ecart_type": 0.108,
+    "source": "carte enrobe_esu_gravillonne_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "enrobe_faience",
+   "libelle": "Enrobé faïencé (fissuration en mailles, « peau de crocodile ») à joints de bitume sombres",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Asphalt021",
+   "page": "https://ambientcg.com/a/Asphalt021",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 1.85,
+   "tile_m_source": "API ambientCG dimensionX (cm)",
+   "correction_teinte": null,
+   "usd": "enrobe_faience/enrobe_faience.usda",
+   "albedo_moyen_lineaire": [
+    0.1216,
+    0.1221,
+    0.1116
+   ],
+   "albedo_moyen_srgb8": [
+    98,
+    98,
+    94
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1212,
+    "ecart_type": 0.0456,
+    "p05": 0.0564,
+    "p95": 0.1993
+   },
+   "lab_moyen": [
+    40.52,
+    -0.83,
+    2.38
+   ],
+   "rugosite": {
+    "moyenne": 0.689,
+    "ecart_type": 0.057,
+    "source": "carte enrobe_faience_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.878,
+    "ecart_type": 0.125,
+    "source": "carte enrobe_faience_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_fissure",
+   "libelle": "Enrobé gris usé avec fissure longitudinale ouverte et granulats apparents",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "asphalt_02",
+   "page": "https://polyhaven.com/a/asphalt_02",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 3.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "enrobe_fissure/enrobe_fissure.usda",
+   "albedo_moyen_lineaire": [
+    0.1194,
+    0.1172,
+    0.1047
+   ],
+   "albedo_moyen_srgb8": [
+    97,
+    96,
+    91
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1168,
+    "ecart_type": 0.0883,
+    "p05": 0.0283,
+    "p95": 0.3066
+   },
+   "lab_moyen": [
+    37.71,
+    -0.75,
+    3.15
+   ],
+   "rugosite": {
+    "moyenne": 0.77,
+    "ecart_type": 0.103,
+    "source": "carte enrobe_fissure_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.721,
+    "ecart_type": 0.105,
+    "source": "carte enrobe_fissure_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_granulats_clairs",
+   "libelle": "BBSG à granulats clairs (gris moyen, gravillons blancs épars) : enrobé récent à granulats calcaires",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Asphalt023S",
+   "page": "https://ambientcg.com/a/Asphalt023S",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 1.25,
+   "tile_m_source": "API ambientCG dimensionX (cm)",
+   "correction_teinte": null,
+   "usd": "enrobe_granulats_clairs/enrobe_granulats_clairs.usda",
+   "albedo_moyen_lineaire": [
+    0.2079,
+    0.2048,
+    0.1764
+   ],
+   "albedo_moyen_srgb8": [
+    126,
+    125,
+    117
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2034,
+    "ecart_type": 0.097,
+    "p05": 0.085,
+    "p95": 0.3937
+   },
+   "lab_moyen": [
+    50.63,
+    -1.29,
+    4.78
+   ],
+   "rugosite": {
+    "moyenne": 0.69,
+    "ecart_type": 0.042,
+    "source": "carte enrobe_granulats_clairs_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.974,
+    "ecart_type": 0.019,
+    "source": "carte enrobe_granulats_clairs_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "enrobe_grenaille",
+   "libelle": "Enrobé grenaillé clair : liant décapé, granulats clairs apparents (traitement de surface)",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Asphalt030",
+   "page": "https://ambientcg.com/a/Asphalt030",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 2.2,
+   "tile_m_source": "API ambientCG dimensionX (cm)",
+   "correction_teinte": null,
+   "usd": "enrobe_grenaille/enrobe_grenaille.usda",
+   "albedo_moyen_lineaire": [
+    0.3916,
+    0.3533,
+    0.2736
+   ],
+   "albedo_moyen_srgb8": [
+    168,
+    160,
+    143
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.3557,
+    "ecart_type": 0.1535,
+    "p05": 0.2026,
+    "p95": 0.6967
+   },
+   "lab_moyen": [
+    64.79,
+    -0.37,
+    10.05
+   ],
+   "rugosite": {
+    "moyenne": 0.612,
+    "ecart_type": 0.048,
+    "source": "carte enrobe_grenaille_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.881,
+    "ecart_type": 0.11,
+    "source": "carte enrobe_grenaille_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_neuf",
+   "libelle": "Enrobé neuf gris foncé à grain fin (BBSG 0/10 de quelques mois), teinte homogène",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "clean_asphalt",
+   "page": "https://polyhaven.com/a/clean_asphalt",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 2.1,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "enrobe_neuf/enrobe_neuf.usda",
+   "albedo_moyen_lineaire": [
+    0.0613,
+    0.0633,
+    0.0638
+   ],
+   "albedo_moyen_srgb8": [
+    70,
+    71,
+    71
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.0629,
+    "ecart_type": 0.0231,
+    "p05": 0.033,
+    "p95": 0.1034
+   },
+   "lab_moyen": [
+    29.49,
+    -0.42,
+    -0.37
+   ],
+   "rugosite": {
+    "moyenne": 0.66,
+    "ecart_type": 0.042,
+    "source": "carte enrobe_neuf_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.891,
+    "ecart_type": 0.063,
+    "source": "carte enrobe_neuf_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_neuf_frais",
+   "libelle": "Enrobé tout juste mis en œuvre (< 1 mois) : liant noir, granulats peu visibles",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "asphalt_track",
+   "page": "https://polyhaven.com/a/asphalt_track",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 2.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "enrobe_neuf_frais/enrobe_neuf_frais.usda",
+   "albedo_moyen_lineaire": [
+    0.0191,
+    0.0148,
+    0.0136
+   ],
+   "albedo_moyen_srgb8": [
+    38,
+    32,
+    31
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.0156,
+    "ecart_type": 0.0127,
+    "p05": 0.0043,
+    "p95": 0.0413
+   },
+   "lab_moyen": [
+    11.57,
+    1.8,
+    1.56
+   ],
+   "rugosite": {
+    "moyenne": 0.831,
+    "ecart_type": 0.02,
+    "source": "carte enrobe_neuf_frais_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.931,
+    "ecart_type": 0.033,
+    "source": "carte enrobe_neuf_frais_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_pelade_rapiece",
+   "libelle": "Enrobé ancien sombre avec plage de pelade (arrachement de la couche de roulement, granulats clairs à nu) : chaussée rapiécée ou dégradée",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Asphalt019",
+   "page": "https://ambientcg.com/a/Asphalt019",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 2.0,
+   "tile_m_source": "estimé (aucune dimension publiée par la source) : 2,0 m",
+   "correction_teinte": null,
+   "usd": "enrobe_pelade_rapiece/enrobe_pelade_rapiece.usda",
+   "albedo_moyen_lineaire": [
+    0.0487,
+    0.048,
+    0.0466
+   ],
+   "albedo_moyen_srgb8": [
+    62,
+    62,
+    61
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.0481,
+    "ecart_type": 0.0299,
+    "p05": 0.0129,
+    "p95": 0.1043
+   },
+   "lab_moyen": [
+    24.53,
+    -0.12,
+    0.75
+   ],
+   "rugosite": {
+    "moyenne": 0.756,
+    "ecart_type": 0.082,
+    "source": "carte enrobe_pelade_rapiece_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": null,
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "enrobe_reprise",
+   "libelle": "Enrobé de reprise (rapiéçage, tranchée) plus sombre et plus lisse que l'enrobé voisin",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "asphalt_pit_lane",
+   "page": "https://polyhaven.com/a/asphalt_pit_lane",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "4K",
+   "tile_m": 2.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "enrobe_reprise/enrobe_reprise.usda",
+   "albedo_moyen_lineaire": [
+    0.0605,
+    0.0486,
+    0.0387
+   ],
+   "albedo_moyen_srgb8": [
+    70,
+    62,
+    55
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.0504,
+    "ecart_type": 0.0304,
+    "p05": 0.0185,
+    "p95": 0.1136
+   },
+   "lab_moyen": [
+    25.35,
+    1.6,
+    4.84
+   ],
+   "rugosite": {
+    "moyenne": 0.832,
+    "ecart_type": 0.016,
+    "source": "carte enrobe_reprise_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.903,
+    "ecart_type": 0.052,
+    "source": "carte enrobe_reprise_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "galets_roules",
+   "libelle": "Galets roulés 3-12 cm (beige et noirs) en paillage décoratif d'îlot",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "dry_river_pebbles",
+   "page": "https://polyhaven.com/a/dry_river_pebbles",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.001,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "galets_roules/galets_roules.usda",
+   "albedo_moyen_lineaire": [
+    0.2311,
+    0.1632,
+    0.0986
+   ],
+   "albedo_moyen_srgb8": [
+    132,
+    112,
+    88
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.173,
+    "ecart_type": 0.1195,
+    "p05": 0.0356,
+    "p95": 0.3958
+   },
+   "lab_moyen": [
+    44.91,
+    3.86,
+    15.71
+   ],
+   "rugosite": {
+    "moyenne": 0.812,
+    "ecart_type": 0.053,
+    "source": "carte galets_roules_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.683,
+    "ecart_type": 0.259,
+    "source": "carte galets_roules_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "galets_scelles",
+   "libelle": "Galets roulés 5-8 cm scellés au mortier (pavage en galets, couronnes et nez d'îlots, caniveaux pavés)",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "rock_embedded_concrete",
+   "page": "https://polyhaven.com/a/rock_embedded_concrete",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "galets_scelles/galets_scelles.usda",
+   "albedo_moyen_lineaire": [
+    0.1742,
+    0.1357,
+    0.0851
+   ],
+   "albedo_moyen_srgb8": [
+    116,
+    103,
+    82
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1402,
+    "ecart_type": 0.0425,
+    "p05": 0.0794,
+    "p95": 0.2161
+   },
+   "lab_moyen": [
+    43.65,
+    1.59,
+    13.66
+   ],
+   "rugosite": {
+    "moyenne": 0.893,
+    "ecart_type": 0.072,
+    "source": "carte galets_scelles_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.897,
+    "ecart_type": 0.055,
+    "source": "carte galets_scelles_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "granit_gris_flamme",
+   "libelle": "Granit gris clair à grain moyen pour bordures et dalles flammées ou bouchardées",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Granite002A",
+   "page": "https://ambientcg.com/a/Granite002A",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.0,
+   "tile_m_source": "estimé : cristaux de 4-12 mm (granit gris à grain moyen)",
+   "correction_teinte": null,
+   "usd": "granit_gris_flamme/granit_gris_flamme.usda",
+   "albedo_moyen_lineaire": [
+    0.4924,
+    0.4709,
+    0.4459
+   ],
+   "albedo_moyen_srgb8": [
+    186,
+    183,
+    178
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.4737,
+    "ecart_type": 0.2045,
+    "p05": 0.1223,
+    "p95": 0.8121
+   },
+   "lab_moyen": [
+    72.04,
+    0.5,
+    2.61
+   ],
+   "rugosite": {
+    "moyenne": 0.607,
+    "ecart_type": 0.008,
+    "source": "carte granit_gris_flamme_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": null,
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "gravillons_roules_gris",
+   "libelle": "Gravillons roulés gris-vert 8/16 en couche (îlots minéraux, noues)",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Gravel041",
+   "page": "https://ambientcg.com/a/Gravel041",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 0.6,
+   "tile_m_source": "estimé : gravillons 8/16 (≈ 12 mm) de 15 à 30 px sur l'albédo 1K, soit ≈ 0,6 mm/px",
+   "correction_teinte": null,
+   "usd": "gravillons_roules_gris/gravillons_roules_gris.usda",
+   "albedo_moyen_lineaire": [
+    0.2847,
+    0.2743,
+    0.1945
+   ],
+   "albedo_moyen_srgb8": [
+    145,
+    143,
+    122
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2708,
+    "ecart_type": 0.1195,
+    "p05": 0.0962,
+    "p95": 0.4843
+   },
+   "lab_moyen": [
+    57.29,
+    -2.81,
+    11.73
+   ],
+   "rugosite": {
+    "moyenne": 0.475,
+    "ecart_type": 0.082,
+    "source": "carte gravillons_roules_gris_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.901,
+    "ecart_type": 0.11,
+    "source": "carte gravillons_roules_gris_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "gravillons_stabilises",
+   "libelle": "Gravillons roulés sur sable stabilisé (allées, accotements, pieds d'arbres)",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "floor_pebbles_01",
+   "page": "https://polyhaven.com/a/floor_pebbles_01",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 3.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "gravillons_stabilises/gravillons_stabilises.usda",
+   "albedo_moyen_lineaire": [
+    0.316,
+    0.256,
+    0.1651
+   ],
+   "albedo_moyen_srgb8": [
+    152,
+    138,
+    113
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2622,
+    "ecart_type": 0.117,
+    "p05": 0.095,
+    "p95": 0.489
+   },
+   "lab_moyen": [
+    56.53,
+    1.23,
+    15.55
+   ],
+   "rugosite": {
+    "moyenne": 0.897,
+    "ecart_type": 0.103,
+    "source": "carte gravillons_stabilises_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.789,
+    "ecart_type": 0.118,
+    "source": "carte gravillons_stabilises_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "inox_brosse",
+   "libelle": "Inox brossé (têtes de potelets, mains courantes inox)",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Metal009",
+   "page": "https://ambientcg.com/a/Metal009",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 0.5,
+   "tile_m_source": "estimé (stries de brossage)",
+   "correction_teinte": null,
+   "usd": "inox_brosse/inox_brosse.usda",
+   "albedo_moyen_lineaire": [
+    0.2925,
+    0.2972,
+    0.3149
+   ],
+   "albedo_moyen_srgb8": [
+    147,
+    148,
+    152
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2975,
+    "ecart_type": 0.0269,
+    "p05": 0.2545,
+    "p95": 0.3423
+   },
+   "lab_moyen": [
+    61.36,
+    0.4,
+    -2.23
+   ],
+   "rugosite": {
+    "moyenne": 0.47,
+    "ecart_type": 0.051,
+    "source": "carte inox_brosse_rugosite.jpg"
+   },
+   "metal": {
+    "moyenne": 1.0,
+    "ecart_type": 0.0,
+    "source": "carte inox_brosse_metal.jpg"
+   },
+   "occlusion": null,
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "paves_beton_autobloquant",
+   "libelle": "Pavés béton autobloquants gris (double T), joints sablés",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "PavingStones099",
+   "page": "https://ambientcg.com/a/PavingStones099",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "API ambientCG dimensionX (cm)",
+   "correction_teinte": null,
+   "usd": "paves_beton_autobloquant/paves_beton_autobloquant.usda",
+   "albedo_moyen_lineaire": [
+    0.2535,
+    0.2542,
+    0.2313
+   ],
+   "albedo_moyen_srgb8": [
+    138,
+    138,
+    132
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2524,
+    "ecart_type": 0.052,
+    "p05": 0.1536,
+    "p95": 0.3177
+   },
+   "lab_moyen": [
+    56.79,
+    -1.29,
+    3.43
+   ],
+   "rugosite": {
+    "moyenne": 0.529,
+    "ecart_type": 0.031,
+    "source": "carte paves_beton_autobloquant_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": null,
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "paves_beton_chevrons",
+   "libelle": "Pavés béton gris foncé 20 × 10 en chevrons (voies piétonnes, plateaux)",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "herringbone_pavement_03",
+   "page": "https://polyhaven.com/a/herringbone_pavement_03",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.4,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "paves_beton_chevrons/paves_beton_chevrons.usda",
+   "albedo_moyen_lineaire": [
+    0.0579,
+    0.0454,
+    0.0326
+   ],
+   "albedo_moyen_srgb8": [
+    68,
+    60,
+    51
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.0471,
+    "ecart_type": 0.018,
+    "p05": 0.0239,
+    "p95": 0.08
+   },
+   "lab_moyen": [
+    25.28,
+    1.61,
+    7.4
+   ],
+   "rugosite": {
+    "moyenne": 0.867,
+    "ecart_type": 0.033,
+    "source": "carte paves_beton_chevrons_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.788,
+    "ecart_type": 0.115,
+    "source": "carte paves_beton_chevrons_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "paves_beton_rect",
+   "libelle": "Pavés béton rectangulaires gris 20 × 10 cm chanfreinés, pose en panneresse croisée",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "PavingStones081",
+   "page": "https://ambientcg.com/a/PavingStones081",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 0.82,
+   "tile_m_source": "estimé : pavé de 20 × 10 cm ≈ 250 px sur l'albédo 1K",
+   "correction_teinte": null,
+   "usd": "paves_beton_rect/paves_beton_rect.usda",
+   "albedo_moyen_lineaire": [
+    0.2155,
+    0.2324,
+    0.2175
+   ],
+   "albedo_moyen_srgb8": [
+    128,
+    132,
+    128
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2278,
+    "ecart_type": 0.0854,
+    "p05": 0.1111,
+    "p95": 0.3786
+   },
+   "lab_moyen": [
+    53.68,
+    -2.43,
+    1.76
+   ],
+   "rugosite": {
+    "moyenne": 0.7,
+    "ecart_type": 0.065,
+    "source": "carte paves_beton_rect_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.94,
+    "ecart_type": 0.078,
+    "source": "carte paves_beton_rect_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "paves_granit_anciens",
+   "libelle": "Pavés de granit anciens éclatés (≈ 14 × 14 cm), joints enherbés",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "PavingStones070",
+   "page": "https://ambientcg.com/a/PavingStones070",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.15,
+   "tile_m_source": "API ambientCG dimensionX (cm)",
+   "correction_teinte": null,
+   "usd": "paves_granit_anciens/paves_granit_anciens.usda",
+   "albedo_moyen_lineaire": [
+    0.2808,
+    0.2732,
+    0.2473
+   ],
+   "albedo_moyen_srgb8": [
+    144,
+    143,
+    136
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.273,
+    "ecart_type": 0.1262,
+    "p05": 0.0643,
+    "p95": 0.4866
+   },
+   "lab_moyen": [
+    57.06,
+    -0.6,
+    4.52
+   ],
+   "rugosite": {
+    "moyenne": 0.517,
+    "ecart_type": 0.05,
+    "source": "carte paves_granit_anciens_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.949,
+    "ecart_type": 0.132,
+    "source": "carte paves_granit_anciens_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "paves_granit_carres",
+   "libelle": "Pavés de granit gris carrés (≈ 9 cm : 90 px sur l'albédo 1K d'une tuile de 1,0 m) clivés, joints sablés et moussus",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "cobblestone_square",
+   "page": "https://polyhaven.com/a/cobblestone_square",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.0,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "paves_granit_carres/paves_granit_carres.usda",
+   "albedo_moyen_lineaire": [
+    0.2379,
+    0.207,
+    0.149
+   ],
+   "albedo_moyen_srgb8": [
+    134,
+    126,
+    108
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2094,
+    "ecart_type": 0.0945,
+    "p05": 0.0531,
+    "p95": 0.3678
+   },
+   "lab_moyen": [
+    51.0,
+    -0.01,
+    11.5
+   ],
+   "rugosite": {
+    "moyenne": 0.827,
+    "ecart_type": 0.153,
+    "source": "carte paves_granit_carres_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.93,
+    "ecart_type": 0.07,
+    "source": "carte paves_granit_carres_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "paves_mosaique",
+   "libelle": "Pavés mosaïque ≈ 10 × 10 cm sombres (granit ou basalte) en grille, joints terreux",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "cobblestone_04",
+   "page": "https://polyhaven.com/a/cobblestone_04",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.02,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "paves_mosaique/paves_mosaique.usda",
+   "albedo_moyen_lineaire": [
+    0.1274,
+    0.105,
+    0.08
+   ],
+   "albedo_moyen_srgb8": [
+    100,
+    91,
+    80
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1079,
+    "ecart_type": 0.0358,
+    "p05": 0.0561,
+    "p95": 0.1732
+   },
+   "lab_moyen": [
+    38.56,
+    1.52,
+    7.9
+   ],
+   "rugosite": {
+    "moyenne": 0.957,
+    "ecart_type": 0.009,
+    "source": "carte paves_mosaique_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.743,
+    "ecart_type": 0.098,
+    "source": "carte paves_mosaique_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "paves_pierre_scies",
+   "libelle": "Pavés de pierre sciés rectangulaires (teintes variées), joints mortier",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "cobblestone_pavement",
+   "page": "https://polyhaven.com/a/cobblestone_pavement",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.5,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "paves_pierre_scies/paves_pierre_scies.usda",
+   "albedo_moyen_lineaire": [
+    0.1519,
+    0.1269,
+    0.0998
+   ],
+   "albedo_moyen_srgb8": [
+    109,
+    100,
+    89
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1302,
+    "ecart_type": 0.0366,
+    "p05": 0.0787,
+    "p95": 0.1979
+   },
+   "lab_moyen": [
+    42.29,
+    1.51,
+    7.48
+   ],
+   "rugosite": {
+    "moyenne": 0.944,
+    "ecart_type": 0.008,
+    "source": "carte paves_pierre_scies_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.955,
+    "ecart_type": 0.075,
+    "source": "carte paves_pierre_scies_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "peinture_routiere",
+   "libelle": null,
+   "bibliotheque": "route_fr",
+   "source": "maison (procédural, specs/peinture.json)",
+   "source_id": null,
+   "page": null,
+   "licence": "maison (même licence que le dépôt)",
+   "resolution": null,
+   "tile_m": 4.0,
+   "tile_m_source": null,
+   "correction_teinte": null,
+   "usd": "peinture_routiere/peinture_routiere.usda",
+   "albedo_moyen_lineaire": null,
+   "rugosite": {
+    "moyenne": null,
+    "note": "pas de carte : valeur constante de l'USD"
+   },
+   "metal": null,
+   "occlusion": null,
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "plastique_noir_feux",
+   "libelle": "Polycarbonate / poudre noir mat des boîtiers, visières et pattes de feux",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Metal027",
+   "page": "https://ambientcg.com/a/Metal027",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.0,
+   "tile_m_source": "estimé (grain fin)",
+   "correction_teinte": null,
+   "usd": "plastique_noir_feux/plastique_noir_feux.usda",
+   "albedo_moyen_lineaire": [
+    0.0277,
+    0.0265,
+    0.0356
+   ],
+   "albedo_moyen_srgb8": [
+    46,
+    45,
+    53
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.0274,
+    "ecart_type": 0.0059,
+    "p05": 0.0184,
+    "p95": 0.0378
+   },
+   "lab_moyen": [
+    18.79,
+    2.43,
+    -4.82
+   ],
+   "rugosite": {
+    "moyenne": 0.649,
+    "ecart_type": 0.033,
+    "source": "carte plastique_noir_feux_rugosite.jpg"
+   },
+   "metal": {
+    "moyenne": 1.0,
+    "ecart_type": 0.0,
+    "source": "carte plastique_noir_feux_metal.jpg"
+   },
+   "occlusion": null,
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "resine_gravillonnee_beige",
+   "libelle": "Gravillons liés à la résine (sol drainant beige), trottoirs, pieds d'arbres, îlots",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "pebble_cemented_floor",
+   "page": "https://polyhaven.com/a/pebble_cemented_floor",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.56,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": 9.441,
+    "gain_ab": 1.0,
+    "decalage_a": 1.425,
+    "decalage_b": 3.54
+   },
+   "usd": "resine_gravillonnee_beige/resine_gravillonnee_beige.usda",
+   "albedo_moyen_lineaire": [
+    0.4765,
+    0.3868,
+    0.2905
+   ],
+   "albedo_moyen_srgb8": [
+    184,
+    167,
+    147
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.3989,
+    "ecart_type": 0.2431,
+    "p05": 0.1403,
+    "p95": 0.8594
+   },
+   "lab_moyen": [
+    65.96,
+    2.85,
+    14.05
+   ],
+   "rugosite": {
+    "moyenne": 0.725,
+    "ecart_type": 0.045,
+    "source": "carte resine_gravillonnee_beige_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.779,
+    "ecart_type": 0.112,
+    "source": "carte resine_gravillonnee_beige_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "resine_rouge",
+   "libelle": "Revêtement coloré rouge (résine gravillonnée ou enrobé coloré) des pistes et bandes cyclables",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Asphalt029A",
+   "page": "https://ambientcg.com/a/Asphalt029A",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "estimé (texture homogène sans élément d'échelle)",
+   "correction_teinte": null,
+   "usd": "resine_rouge/resine_rouge.usda",
+   "albedo_moyen_lineaire": [
+    0.5053,
+    0.0612,
+    0.0578
+   ],
+   "albedo_moyen_srgb8": [
+    188,
+    70,
+    68
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1554,
+    "ecart_type": 0.0183,
+    "p05": 0.1258,
+    "p95": 0.1858
+   },
+   "lab_moyen": [
+    46.27,
+    47.49,
+    26.82
+   ],
+   "rugosite": {
+    "moyenne": 0.691,
+    "ecart_type": 0.045,
+    "source": "carte resine_rouge_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.884,
+    "ecart_type": 0.052,
+    "source": "carte resine_rouge_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "terre_battue",
+   "libelle": "Terre battue compactée brun clair (chemins, accotements non revêtus)",
+   "bibliotheque": "route_fr",
+   "source": "Poly Haven",
+   "source_id": "dirt_floor",
+   "page": "https://polyhaven.com/a/dirt_floor",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.07,
+   "tile_m_source": "API Poly Haven « dimensions » (mm)",
+   "correction_teinte": null,
+   "usd": "terre_battue/terre_battue.usda",
+   "albedo_moyen_lineaire": [
+    0.4755,
+    0.2652,
+    0.1306
+   ],
+   "albedo_moyen_srgb8": [
+    183,
+    141,
+    101
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.3002,
+    "ecart_type": 0.0698,
+    "p05": 0.1958,
+    "p95": 0.4175
+   },
+   "lab_moyen": [
+    61.18,
+    11.19,
+    27.54
+   ],
+   "rugosite": {
+    "moyenne": 0.92,
+    "ecart_type": 0.012,
+    "source": "carte terre_battue_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.901,
+    "ecart_type": 0.057,
+    "source": "carte terre_battue_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "terre_vegetale",
+   "libelle": "Terre végétale sombre humifère (massifs, fosses d'arbres, chantier)",
+   "bibliotheque": "route_fr",
+   "source": "ambientCG",
+   "source_id": "Ground048",
+   "page": "https://ambientcg.com/a/Ground048",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.4,
+   "tile_m_source": "API ambientCG dimensionX (cm)",
+   "correction_teinte": null,
+   "usd": "terre_vegetale/terre_vegetale.usda",
+   "albedo_moyen_lineaire": [
+    0.1139,
+    0.0616,
+    0.0424
+   ],
+   "albedo_moyen_srgb8": [
+    95,
+    70,
+    58
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.0714,
+    "ecart_type": 0.064,
+    "p05": 0.0069,
+    "p95": 0.2027
+   },
+   "lab_moyen": [
+    28.02,
+    7.68,
+    10.36
+   ],
+   "rugosite": {
+    "moyenne": 0.669,
+    "ecart_type": 0.048,
+    "source": "carte terre_vegetale_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.815,
+    "ecart_type": 0.128,
+    "source": "carte terre_vegetale_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": true
+  },
+  {
+   "nom": "beton_bordure",
+   "libelle": "Béton gris clair des bordures, caniveaux et dalles (vieilli, épaufrures, mousses)",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "Concrete037",
+   "page": "https://ambientcg.com/a/Concrete037",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "estimé d'après la taille des granulats / éléments (API sans dimension)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": 5.048,
+    "gain_ab": 0.8,
+    "decalage_a": -2.445,
+    "decalage_b": -2.001
+   },
+   "usd": "beton_bordure/beton_bordure.usda",
+   "albedo_moyen_lineaire": [
+    0.3676,
+    0.3829,
+    0.35
+   ],
+   "albedo_moyen_srgb8": [
+    163,
+    166,
+    160
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.3773,
+    "ecart_type": 0.1278,
+    "p05": 0.1999,
+    "p95": 0.6217
+   },
+   "lab_moyen": [
+    66.77,
+    -2.32,
+    3.1
+   ],
+   "rugosite": {
+    "moyenne": 0.608,
+    "ecart_type": 0.097,
+    "source": "carte beton_bordure_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.885,
+    "ecart_type": 0.079,
+    "source": "carte beton_bordure_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "beton_galets",
+   "libelle": "Galets sertis dans le béton (îlots du raccordement SE de Verdun)",
+   "bibliotheque": "site",
+   "source": "Poly Haven",
+   "source_id": "rock_embedded_concrete",
+   "page": "https://polyhaven.com/a/rock_embedded_concrete",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "API (2.00 m)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": 8.205,
+    "gain_ab": 0.7,
+    "decalage_a": -2.788,
+    "decalage_b": -6.112
+   },
+   "usd": "beton_galets/beton_galets.usda",
+   "albedo_moyen_lineaire": [
+    0.2039,
+    0.2074,
+    0.1847
+   ],
+   "albedo_moyen_srgb8": [
+    125,
+    126,
+    119
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.205,
+    "ecart_type": 0.0547,
+    "p05": 0.1258,
+    "p95": 0.302
+   },
+   "lab_moyen": [
+    51.86,
+    -1.67,
+    3.42
+   ],
+   "rugosite": {
+    "moyenne": 0.893,
+    "ecart_type": 0.072,
+    "source": "carte beton_galets_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.897,
+    "ecart_type": 0.053,
+    "source": "carte beton_galets_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "bev_podotactile",
+   "libelle": "Dalles podotactiles à plots (40 × 40 cm), gris clair ou blanches, en tête des traversées",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "TactilePaving006",
+   "page": "https://ambientcg.com/a/TactilePaving006",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.2,
+   "tile_m_source": "API 0.90 m, choisi 1.2 m (taille des éléments sur photo)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": -6.238,
+    "gain_ab": 0.7,
+    "decalage_a": -1.007,
+    "decalage_b": -4.635
+   },
+   "usd": "bev_podotactile/bev_podotactile.usda",
+   "albedo_moyen_lineaire": [
+    0.4158,
+    0.4303,
+    0.3903
+   ],
+   "albedo_moyen_srgb8": [
+    173,
+    175,
+    168
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.4243,
+    "ecart_type": 0.2072,
+    "p05": 0.0995,
+    "p95": 0.7801
+   },
+   "lab_moyen": [
+    68.33,
+    -2.52,
+    4.2
+   ],
+   "rugosite": {
+    "moyenne": 0.514,
+    "ecart_type": 0.052,
+    "source": "carte bev_podotactile_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.908,
+    "ecart_type": 0.056,
+    "source": "carte bev_podotactile_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "brf_bois_concasse",
+   "libelle": "BRF / bois concassé brun (plaquettes et broyat de 2-5 cm) en couche de 7-10 cm, 3-5 cm sous le dessus des bordures",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "WoodChips003",
+   "page": "https://ambientcg.com/a/WoodChips003",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.6,
+   "tile_m_source": "API (1.60 m)",
+   "correction_teinte": {
+    "gain_L": 0.9,
+    "decalage_L": -24.857,
+    "gain_ab": 0.6,
+    "decalage_a": -1.608,
+    "decalage_b": -8.512
+   },
+   "usd": "brf_bois_concasse/brf_bois_concasse.usda",
+   "albedo_moyen_lineaire": [
+    0.0727,
+    0.0588,
+    0.0484
+   ],
+   "albedo_moyen_srgb8": [
+    76,
+    69,
+    62
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.061,
+    "ecart_type": 0.0405,
+    "p05": 0.0036,
+    "p95": 0.1336
+   },
+   "lab_moyen": [
+    26.8,
+    2.66,
+    5.44
+   ],
+   "rugosite": {
+    "moyenne": 0.594,
+    "ecart_type": 0.076,
+    "source": "carte brf_bois_concasse_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.876,
+    "ecart_type": 0.108,
+    "source": "carte brf_bois_concasse_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "brf_bois_gris",
+   "libelle": "BRF / plaquettes de bois vieillies, grisées (gris argent après environ 1 an)",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "WoodChips001",
+   "page": "https://ambientcg.com/a/WoodChips001",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.8,
+   "tile_m_source": "estimé d'après la taille des copeaux (3-5 cm, comme WoodChips002 à 1,80 m) ; API sans dimension",
+   "correction_teinte": null,
+   "usd": "brf_bois_gris/brf_bois_gris.usda",
+   "albedo_moyen_lineaire": [
+    0.2614,
+    0.2351,
+    0.2045
+   ],
+   "albedo_moyen_srgb8": [
+    140,
+    133,
+    125
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2385,
+    "ecart_type": 0.0955,
+    "p05": 0.0783,
+    "p95": 0.3935
+   },
+   "lab_moyen": [
+    54.37,
+    1.09,
+    5.57
+   ],
+   "rugosite": {
+    "moyenne": 0.586,
+    "ecart_type": 0.113,
+    "source": "carte brf_bois_gris_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.934,
+    "ecart_type": 0.12,
+    "source": "carte brf_bois_gris_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "calcaire_bordure",
+   "libelle": "Pierre calcaire claire (bordures et pavés calcaire sciés), beige pâle à fins lits",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "Travertine009",
+   "page": "https://ambientcg.com/a/Travertine009",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.2,
+   "tile_m_source": "API (1.20 m)",
+   "correction_teinte": {
+    "gain_L": 0.6,
+    "decalage_L": 22.049,
+    "gain_ab": 0.6,
+    "decalage_a": -1.714,
+    "decalage_b": -3.286
+   },
+   "usd": "calcaire_bordure/calcaire_bordure.usda",
+   "albedo_moyen_lineaire": [
+    0.4622,
+    0.431,
+    0.3617
+   ],
+   "albedo_moyen_srgb8": [
+    181,
+    175,
+    162
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.4326,
+    "ecart_type": 0.0289,
+    "p05": 0.3882,
+    "p95": 0.4821
+   },
+   "lab_moyen": [
+    71.69,
+    -0.36,
+    7.56
+   ],
+   "rugosite": {
+    "moyenne": 0.696,
+    "ecart_type": 0.012,
+    "source": "carte calcaire_bordure_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.996,
+    "ecart_type": 0.001,
+    "source": "carte calcaire_bordure_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "decal_grille_avaloir",
+   "libelle": "Grille d'avaloir (décalque)",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "Grate001",
+   "page": "https://ambientcg.com/a/Grate001",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 0.65,
+   "tile_m_source": "API (0.65 m)",
+   "correction_teinte": null,
+   "usd": "decal_grille_avaloir/decal_grille_avaloir.usda",
+   "albedo_moyen_lineaire": [
+    0.2275,
+    0.2254,
+    0.2196
+   ],
+   "albedo_moyen_srgb8": [
+    131,
+    131,
+    129
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2254,
+    "ecart_type": 0.2207,
+    "p05": 0.0,
+    "p95": 0.6043
+   },
+   "lab_moyen": [
+    39.67,
+    -0.03,
+    0.46
+   ],
+   "rugosite": {
+    "moyenne": 0.576,
+    "ecart_type": 0.077,
+    "source": "carte decal_grille_avaloir_rugosite.jpg"
+   },
+   "metal": {
+    "moyenne": 0.141,
+    "ecart_type": 0.337,
+    "source": "carte decal_grille_avaloir_metal.jpg"
+   },
+   "occlusion": {
+    "moyenne": 0.806,
+    "ecart_type": 0.25,
+    "source": "carte decal_grille_avaloir_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "decal_tampon_fonte",
+   "libelle": "Tampons de regards en fonte (ronds Ø 0,6-0,8 m, carrés) et grilles d’avaloirs",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "ManholeCover005",
+   "page": "https://ambientcg.com/a/ManholeCover005",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 0.8,
+   "tile_m_source": "API (0.80 m)",
+   "correction_teinte": null,
+   "usd": "decal_tampon_fonte/decal_tampon_fonte.usda",
+   "albedo_moyen_lineaire": [
+    0.1667,
+    0.1322,
+    0.1246
+   ],
+   "albedo_moyen_srgb8": [
+    114,
+    102,
+    99
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.139,
+    "ecart_type": 0.1255,
+    "p05": 0.0,
+    "p95": 0.3957
+   },
+   "lab_moyen": [
+    35.13,
+    3.63,
+    3.58
+   ],
+   "rugosite": {
+    "moyenne": 0.514,
+    "ecart_type": 0.031,
+    "source": "carte decal_tampon_fonte_rugosite.jpg"
+   },
+   "metal": {
+    "moyenne": 0.178,
+    "ecart_type": 0.37,
+    "source": "carte decal_tampon_fonte_metal.jpg"
+   },
+   "occlusion": {
+    "moyenne": 0.827,
+    "ecart_type": 0.241,
+    "source": "carte decal_tampon_fonte_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "decal_tampon_fonte_carre",
+   "libelle": "Tampons de regards en fonte (ronds Ø 0,6-0,8 m, carrés) et grilles d’avaloirs",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "ManholeCover002",
+   "page": "https://ambientcg.com/a/ManholeCover002",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 0.8,
+   "tile_m_source": "estimé d'après la taille des granulats / éléments (API sans dimension)",
+   "correction_teinte": null,
+   "usd": "decal_tampon_fonte_carre/decal_tampon_fonte_carre.usda",
+   "albedo_moyen_lineaire": [
+    0.1771,
+    0.167,
+    0.2033
+   ],
+   "albedo_moyen_srgb8": [
+    117,
+    114,
+    124
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1718,
+    "ecart_type": 0.0684,
+    "p05": 0.0,
+    "p95": 0.2645
+   },
+   "lab_moyen": [
+    46.1,
+    3.41,
+    -4.25
+   ],
+   "rugosite": {
+    "moyenne": 0.524,
+    "ecart_type": 0.051,
+    "source": "carte decal_tampon_fonte_carre_rugosite.jpg"
+   },
+   "metal": {
+    "moyenne": 0.993,
+    "ecart_type": 0.082,
+    "source": "carte decal_tampon_fonte_carre_metal.jpg"
+   },
+   "occlusion": {
+    "moyenne": 0.895,
+    "ecart_type": 0.223,
+    "source": "carte decal_tampon_fonte_carre_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_bbsg_ancien",
+   "libelle": "Enrobé BBSG ancien gris clair oxydé, texture fermée, fissures pontées au bitume (réseau dense)",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "Asphalt031",
+   "page": "https://ambientcg.com/a/Asphalt031",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "estimé d'après la taille des granulats / éléments (API sans dimension)",
+   "correction_teinte": {
+    "gain_L": 1.15,
+    "decalage_L": 0.718,
+    "gain_ab": 1.0,
+    "decalage_a": -1.831,
+    "decalage_b": 2.566
+   },
+   "usd": "enrobe_bbsg_ancien/enrobe_bbsg_ancien.usda",
+   "albedo_moyen_lineaire": [
+    0.2786,
+    0.287,
+    0.2663
+   ],
+   "albedo_moyen_srgb8": [
+    144,
+    146,
+    141
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2837,
+    "ecart_type": 0.1304,
+    "p05": 0.1308,
+    "p95": 0.5409
+   },
+   "lab_moyen": [
+    58.54,
+    -1.72,
+    2.43
+   ],
+   "rugosite": {
+    "moyenne": 0.524,
+    "ecart_type": 0.078,
+    "source": "carte enrobe_bbsg_ancien_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.91,
+    "ecart_type": 0.056,
+    "source": "carte enrobe_bbsg_ancien_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_bbsg_neuf",
+   "libelle": "Enrobé neuf 2025 (réfection travaux C1 : centre du carrefour, avenue du Vercors probable), sombre et homogène",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "Asphalt033",
+   "page": "https://ambientcg.com/a/Asphalt033",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.5,
+   "tile_m_source": "API (2.50 m)",
+   "correction_teinte": {
+    "gain_L": 1.8,
+    "decalage_L": -18.844,
+    "gain_ab": 1.0,
+    "decalage_a": -0.839,
+    "decalage_b": -5.64
+   },
+   "usd": "enrobe_bbsg_neuf/enrobe_bbsg_neuf.usda",
+   "albedo_moyen_lineaire": [
+    0.1383,
+    0.1431,
+    0.1372
+   ],
+   "albedo_moyen_srgb8": [
+    104,
+    106,
+    104
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1416,
+    "ecart_type": 0.04,
+    "p05": 0.0889,
+    "p95": 0.2024
+   },
+   "lab_moyen": [
+    44.0,
+    -1.1,
+    1.02
+   ],
+   "rugosite": {
+    "moyenne": 0.745,
+    "ecart_type": 0.043,
+    "source": "carte enrobe_bbsg_neuf_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.805,
+    "ecart_type": 0.124,
+    "source": "carte enrobe_bbsg_neuf_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_clair_granulats",
+   "libelle": "Surface centrale / refuges : enrobé clair grenaillé ou béton désactivé à granulats apparents",
+   "bibliotheque": "site",
+   "source": "Poly Haven",
+   "source_id": "pebble_cemented_floor",
+   "page": "https://polyhaven.com/a/pebble_cemented_floor",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.56,
+   "tile_m_source": "API (1.56 m)",
+   "correction_teinte": {
+    "gain_L": 1.4,
+    "decalage_L": -11.523,
+    "gain_ab": 0.6,
+    "decalage_a": -1.395,
+    "decalage_b": 0.534
+   },
+   "usd": "enrobe_clair_granulats/enrobe_clair_granulats.usda",
+   "albedo_moyen_lineaire": [
+    0.4622,
+    0.4437,
+    0.3859
+   ],
+   "albedo_moyen_srgb8": [
+    181,
+    178,
+    167
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.4435,
+    "ecart_type": 0.3278,
+    "p05": 0.0966,
+    "p95": 0.9937
+   },
+   "lab_moyen": [
+    66.76,
+    -0.69,
+    6.84
+   ],
+   "rugosite": {
+    "moyenne": 0.725,
+    "ecart_type": 0.042,
+    "source": "carte enrobe_clair_granulats_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.779,
+    "ecart_type": 0.104,
+    "source": "carte enrobe_clair_granulats_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_colore_ocre",
+   "libelle": "Enrobé ou résine coloré ocre-orangé délavé (îlots à niveau de la Revirée)",
+   "bibliotheque": "site",
+   "source": "Poly Haven",
+   "source_id": "asphalt_04",
+   "page": "https://polyhaven.com/a/asphalt_04",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 4.04,
+   "tile_m_source": "API (4.04 m)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": 6.767,
+    "gain_ab": 1.0,
+    "decalage_a": 2.486,
+    "decalage_b": 7.782
+   },
+   "usd": "enrobe_colore_ocre/enrobe_colore_ocre.usda",
+   "albedo_moyen_lineaire": [
+    0.3644,
+    0.2901,
+    0.2298
+   ],
+   "albedo_moyen_srgb8": [
+    163,
+    147,
+    132
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.3015,
+    "ecart_type": 0.0922,
+    "p05": 0.1908,
+    "p95": 0.474
+   },
+   "lab_moyen": [
+    61.08,
+    3.47,
+    10.16
+   ],
+   "rugosite": {
+    "moyenne": 0.853,
+    "ecart_type": 0.011,
+    "source": "carte enrobe_colore_ocre_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.966,
+    "ecart_type": 0.016,
+    "source": "carte enrobe_colore_ocre_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_piste_cyclable",
+   "libelle": "Enrobé de la piste bidirectionnelle (Chronovélo), plus récent et plus sombre, plumage par endroits",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "Asphalt015",
+   "page": "https://ambientcg.com/a/Asphalt015",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "estimé d'après la taille des granulats / éléments (API sans dimension)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": 2.408,
+    "gain_ab": 1.0,
+    "decalage_a": -2.876,
+    "decalage_b": 4.681
+   },
+   "usd": "enrobe_piste_cyclable/enrobe_piste_cyclable.usda",
+   "albedo_moyen_lineaire": [
+    0.1968,
+    0.2079,
+    0.1825
+   ],
+   "albedo_moyen_srgb8": [
+    123,
+    126,
+    118
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2037,
+    "ecart_type": 0.1101,
+    "p05": 0.0716,
+    "p95": 0.4104
+   },
+   "lab_moyen": [
+    50.3,
+    -2.74,
+    3.78
+   ],
+   "rugosite": {
+    "moyenne": 0.527,
+    "ecart_type": 0.052,
+    "source": "carte enrobe_piste_cyclable_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": null,
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_reprise_tranchee",
+   "libelle": "Reprise d’enrobé (tranchées, rapiéçages) plus sombre et plus lisse, joints nets",
+   "bibliotheque": "site",
+   "source": "Poly Haven",
+   "source_id": "asphalt_pit_lane",
+   "page": "https://polyhaven.com/a/asphalt_pit_lane",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "API (2.00 m)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": 24.821,
+    "gain_ab": 0.6,
+    "decalage_a": -2.565,
+    "decalage_b": -0.622
+   },
+   "usd": "enrobe_reprise_tranchee/enrobe_reprise_tranchee.usda",
+   "albedo_moyen_lineaire": [
+    0.1898,
+    0.1948,
+    0.1785
+   ],
+   "albedo_moyen_srgb8": [
+    121,
+    122,
+    117
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1925,
+    "ecart_type": 0.0655,
+    "p05": 0.1141,
+    "p95": 0.3242
+   },
+   "lab_moyen": [
+    50.2,
+    -1.57,
+    2.32
+   ],
+   "rugosite": {
+    "moyenne": 0.781,
+    "ecart_type": 0.009,
+    "source": "carte enrobe_reprise_tranchee_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.903,
+    "ecart_type": 0.043,
+    "source": "carte enrobe_reprise_tranchee_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "enrobe_trottoir",
+   "libelle": "Enrobé de trottoir, plus sombre et rugueux",
+   "bibliotheque": "site",
+   "source": "Poly Haven",
+   "source_id": "tarred_gravel",
+   "page": "https://polyhaven.com/a/tarred_gravel",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.2,
+   "tile_m_source": "API (2.20 m)",
+   "correction_teinte": {
+    "gain_L": 1.2,
+    "decalage_L": 22.262,
+    "gain_ab": 0.6,
+    "decalage_a": -2.228,
+    "decalage_b": 1.564
+   },
+   "usd": "enrobe_trottoir/enrobe_trottoir.usda",
+   "albedo_moyen_lineaire": [
+    0.2113,
+    0.2147,
+    0.1892
+   ],
+   "albedo_moyen_srgb8": [
+    127,
+    128,
+    120
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2121,
+    "ecart_type": 0.0671,
+    "p05": 0.157,
+    "p95": 0.2977
+   },
+   "lab_moyen": [
+    52.68,
+    -1.76,
+    3.77
+   ],
+   "rugosite": {
+    "moyenne": 0.861,
+    "ecart_type": 0.068,
+    "source": "carte enrobe_trottoir_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.881,
+    "ecart_type": 0.098,
+    "source": "carte enrobe_trottoir_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "gazon_sec",
+   "libelle": "Gazon grillé d’été (juillet 2026) avec feuilles mortes",
+   "bibliotheque": "site",
+   "source": "Poly Haven",
+   "source_id": "withered_grass",
+   "page": "https://polyhaven.com/a/withered_grass",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "API (2.00 m)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": -7.268,
+    "gain_ab": 1.0,
+    "decalage_a": -3.481,
+    "decalage_b": 0.609
+   },
+   "usd": "gazon_sec/gazon_sec.usda",
+   "albedo_moyen_lineaire": [
+    0.3064,
+    0.2392,
+    0.144
+   ],
+   "albedo_moyen_srgb8": [
+    150,
+    134,
+    106
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2466,
+    "ecart_type": 0.1033,
+    "p05": 0.0895,
+    "p95": 0.4253
+   },
+   "lab_moyen": [
+    55.17,
+    1.78,
+    17.95
+   ],
+   "rugosite": {
+    "moyenne": 0.808,
+    "ecart_type": 0.052,
+    "source": "carte gazon_sec_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.802,
+    "ecart_type": 0.091,
+    "source": "carte gazon_sec_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "gazon_tondu",
+   "libelle": "Gazon tondu (îlots engazonnés, accotements)",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "Grass004",
+   "page": "https://ambientcg.com/a/Grass004",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.4,
+   "tile_m_source": "API (1.40 m)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": -12.091,
+    "gain_ab": 1.0,
+    "decalage_a": -6.186,
+    "decalage_b": -7.678
+   },
+   "usd": "gazon_tondu/gazon_tondu.usda",
+   "albedo_moyen_lineaire": [
+    0.0427,
+    0.0941,
+    0.0211
+   ],
+   "albedo_moyen_srgb8": [
+    58,
+    86,
+    40
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.0779,
+    "ecart_type": 0.0434,
+    "p05": 0.0148,
+    "p95": 0.1529
+   },
+   "lab_moyen": [
+    31.44,
+    -20.09,
+    23.46
+   ],
+   "rugosite": {
+    "moyenne": 0.263,
+    "ecart_type": 0.088,
+    "source": "carte gazon_tondu_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.807,
+    "ecart_type": 0.109,
+    "source": "carte gazon_tondu_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "gravier_concasse_6_10",
+   "libelle": "Gravier concassé anguleux 6/10-10/14 gris (îlots et pieds de mâts gravillonnés), 5-10 cm sur géotextile",
+   "bibliotheque": "site",
+   "source": "Poly Haven",
+   "source_id": "gravel_floor_02",
+   "page": "https://polyhaven.com/a/gravel_floor_02",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "API (2.00 m)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": -5.552,
+    "gain_ab": 0.8,
+    "decalage_a": -0.394,
+    "decalage_b": -2.722
+   },
+   "usd": "gravier_concasse_6_10/gravier_concasse_6_10.usda",
+   "albedo_moyen_lineaire": [
+    0.3372,
+    0.3378,
+    0.317
+   ],
+   "albedo_moyen_srgb8": [
+    157,
+    157,
+    153
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.3362,
+    "ecart_type": 0.1586,
+    "p05": 0.1102,
+    "p95": 0.6204
+   },
+   "lab_moyen": [
+    62.5,
+    -0.86,
+    2.3
+   ],
+   "rugosite": {
+    "moyenne": 0.473,
+    "ecart_type": 0.033,
+    "source": "carte gravier_concasse_6_10_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.672,
+    "ecart_type": 0.175,
+    "source": "carte gravier_concasse_6_10_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "gravillons_ilot",
+   "libelle": "Gravillons clairs des îlots du Vercors",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "Gravel035",
+   "page": "https://ambientcg.com/a/Gravel035",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.9,
+   "tile_m_source": "API (1.90 m)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": 9.472,
+    "gain_ab": 1.0,
+    "decalage_a": 0.782,
+    "decalage_b": -1.538
+   },
+   "usd": "gravillons_ilot/gravillons_ilot.usda",
+   "albedo_moyen_lineaire": [
+    0.3317,
+    0.3336,
+    0.3146
+   ],
+   "albedo_moyen_srgb8": [
+    156,
+    156,
+    152
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.3318,
+    "ecart_type": 0.149,
+    "p05": 0.123,
+    "p95": 0.5996
+   },
+   "lab_moyen": [
+    62.44,
+    -0.87,
+    2.29
+   ],
+   "rugosite": {
+    "moyenne": 0.453,
+    "ecart_type": 0.059,
+    "source": "carte gravillons_ilot_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.857,
+    "ecart_type": 0.122,
+    "source": "carte gravillons_ilot_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "herbe_haute",
+   "libelle": "Herbe haute non tondue (accotements NE, bande piste/chaussée)",
+   "bibliotheque": "site",
+   "source": "Poly Haven",
+   "source_id": "forrest_ground_01",
+   "page": "https://polyhaven.com/a/forrest_ground_01",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "API (2.00 m)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": -7.438,
+    "gain_ab": 1.0,
+    "decalage_a": -15.771,
+    "decalage_b": 4.865
+   },
+   "usd": "herbe_haute/herbe_haute.usda",
+   "albedo_moyen_lineaire": [
+    0.1396,
+    0.2081,
+    0.0651
+   ],
+   "albedo_moyen_srgb8": [
+    104,
+    126,
+    72
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1832,
+    "ecart_type": 0.072,
+    "p05": 0.0853,
+    "p95": 0.3176
+   },
+   "lab_moyen": [
+    48.78,
+    -18.37,
+    28.45
+   ],
+   "rugosite": {
+    "moyenne": 0.936,
+    "ecart_type": 0.03,
+    "source": "carte herbe_haute_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.477,
+    "ecart_type": 0.177,
+    "source": "carte herbe_haute_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "noue_plantee",
+   "libelle": "Noue / bande plantée de gestion des eaux pluviales (terre, prairie, jeunes arbres)",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "Ground003",
+   "page": "https://ambientcg.com/a/Ground003",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "estimé d'après la taille des granulats / éléments (API sans dimension)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": -16.734,
+    "gain_ab": 1.0,
+    "decalage_a": -4.859,
+    "decalage_b": -14.421
+   },
+   "usd": "noue_plantee/noue_plantee.usda",
+   "albedo_moyen_lineaire": [
+    0.0771,
+    0.1086,
+    0.055
+   ],
+   "albedo_moyen_srgb8": [
+    78,
+    93,
+    66
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.098,
+    "ecart_type": 0.0628,
+    "p05": 0.0211,
+    "p95": 0.2149
+   },
+   "lab_moyen": [
+    35.06,
+    -9.91,
+    13.22
+   ],
+   "rugosite": {
+    "moyenne": 0.684,
+    "ecart_type": 0.091,
+    "source": "carte noue_plantee_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": null,
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "overlay_feuilles_mortes",
+   "libelle": "Feuilles mortes (couche de mélange)",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "ScatteredLeaves009",
+   "page": "https://ambientcg.com/a/ScatteredLeaves009",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.7,
+   "tile_m_source": "API (1.70 m)",
+   "correction_teinte": null,
+   "usd": "overlay_feuilles_mortes/overlay_feuilles_mortes.usda",
+   "albedo_moyen_lineaire": [
+    0.2989,
+    0.1629,
+    0.049
+   ],
+   "albedo_moyen_srgb8": [
+    149,
+    112,
+    63
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1836,
+    "ecart_type": 0.0758,
+    "p05": 0.0715,
+    "p95": 0.3157
+   },
+   "lab_moyen": [
+    48.59,
+    8.06,
+    33.62
+   ],
+   "rugosite": {
+    "moyenne": 0.68,
+    "ecart_type": 0.096,
+    "source": "carte overlay_feuilles_mortes_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.73,
+    "ecart_type": 0.173,
+    "source": "carte overlay_feuilles_mortes_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "paillage_mineral",
+   "libelle": "Paillage minéral (galets/gravier) au pied des jeunes arbres",
+   "bibliotheque": "site",
+   "source": "Poly Haven",
+   "source_id": "clean_pebbles",
+   "page": "https://polyhaven.com/a/clean_pebbles",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.0,
+   "tile_m_source": "API (2.00 m)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": -12.68,
+    "gain_ab": 0.8,
+    "decalage_a": -6.599,
+    "decalage_b": 1.232
+   },
+   "usd": "paillage_mineral/paillage_mineral.usda",
+   "albedo_moyen_lineaire": [
+    0.1387,
+    0.1508,
+    0.1138
+   ],
+   "albedo_moyen_srgb8": [
+    104,
+    108,
+    95
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1456,
+    "ecart_type": 0.0342,
+    "p05": 0.0888,
+    "p95": 0.2006
+   },
+   "lab_moyen": [
+    44.62,
+    -4.4,
+    6.96
+   ],
+   "rugosite": {
+    "moyenne": 0.768,
+    "ecart_type": 0.035,
+    "source": "carte paillage_mineral_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.716,
+    "ecart_type": 0.181,
+    "source": "carte paillage_mineral_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "paves_granit",
+   "libelle": "Pavés de granit gris clair (anneaux d’îlots, rangée de pavés affleurants de l’allée sud)",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "PavingStones119",
+   "page": "https://ambientcg.com/a/PavingStones119",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.15,
+   "tile_m_source": "API (1.15 m)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": 19.08,
+    "gain_ab": 0.8,
+    "decalage_a": 0.158,
+    "decalage_b": -1.212
+   },
+   "usd": "paves_granit/paves_granit.usda",
+   "albedo_moyen_lineaire": [
+    0.4485,
+    0.4404,
+    0.3818
+   ],
+   "albedo_moyen_srgb8": [
+    179,
+    177,
+    166
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.4379,
+    "ecart_type": 0.1439,
+    "p05": 0.1615,
+    "p95": 0.6515
+   },
+   "lab_moyen": [
+    70.78,
+    -1.47,
+    6.25
+   ],
+   "rugosite": {
+    "moyenne": 0.546,
+    "ecart_type": 0.104,
+    "source": "carte paves_granit_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.915,
+    "ecart_type": 0.087,
+    "source": "carte paves_granit_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "resine_cyan",
+   "libelle": "Résine/peinture cyan pâle (rectangles de la traversée de piste NO, tirets turquoise d’axe)",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "Asphalt023L",
+   "page": "https://ambientcg.com/a/Asphalt023L",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.5,
+   "tile_m_source": "API (2.50 m)",
+   "correction_teinte": {
+    "gain_L": 0.9,
+    "decalage_L": 18.786,
+    "gain_ab": 1.0,
+    "decalage_a": -1.977,
+    "decalage_b": -4.011
+   },
+   "usd": "resine_cyan/resine_cyan.usda",
+   "albedo_moyen_lineaire": [
+    0.3124,
+    0.347,
+    0.332
+   ],
+   "albedo_moyen_srgb8": [
+    152,
+    159,
+    156
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.3386,
+    "ecart_type": 0.0906,
+    "p05": 0.2207,
+    "p95": 0.4973
+   },
+   "lab_moyen": [
+    64.26,
+    -3.29,
+    0.71
+   ],
+   "rugosite": {
+    "moyenne": 0.594,
+    "ecart_type": 0.03,
+    "source": "carte resine_cyan_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.961,
+    "ecart_type": 0.018,
+    "source": "carte resine_cyan_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "resine_verte",
+   "libelle": "Résine verte délavée des traversées cyclables de la Revirée",
+   "bibliotheque": "site",
+   "source": "ambientCG",
+   "source_id": "Asphalt023L",
+   "page": "https://ambientcg.com/a/Asphalt023L",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.5,
+   "tile_m_source": "API (2.50 m)",
+   "correction_teinte": {
+    "gain_L": 0.9,
+    "decalage_L": 15.376,
+    "gain_ab": 1.0,
+    "decalage_a": -5.437,
+    "decalage_b": -0.701
+   },
+   "usd": "resine_verte/resine_verte.usda",
+   "albedo_moyen_lineaire": [
+    0.2588,
+    0.3135,
+    0.267
+   ],
+   "albedo_moyen_srgb8": [
+    139,
+    152,
+    141
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2985,
+    "ecart_type": 0.0831,
+    "p05": 0.1907,
+    "p95": 0.4435
+   },
+   "lab_moyen": [
+    60.91,
+    -6.75,
+    4.11
+   ],
+   "rugosite": {
+    "moyenne": 0.594,
+    "ecart_type": 0.03,
+    "source": "carte resine_verte_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.961,
+    "ecart_type": 0.018,
+    "source": "carte resine_verte_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "stabilise_beige",
+   "libelle": "Sable stabilisé / grave fine beige (cheminements, abords est)",
+   "bibliotheque": "site",
+   "source": "Poly Haven",
+   "source_id": "sandy_gravel",
+   "page": "https://polyhaven.com/a/sandy_gravel",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 2.1,
+   "tile_m_source": "API (2.10 m)",
+   "correction_teinte": {
+    "gain_L": 1.3,
+    "decalage_L": -32.516,
+    "gain_ab": 1.0,
+    "decalage_a": -2.037,
+    "decalage_b": 0.13
+   },
+   "usd": "stabilise_beige/stabilise_beige.usda",
+   "albedo_moyen_lineaire": [
+    0.2564,
+    0.2342,
+    0.1832
+   ],
+   "albedo_moyen_srgb8": [
+    139,
+    133,
+    119
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.2352,
+    "ecart_type": 0.0538,
+    "p05": 0.1567,
+    "p95": 0.3293
+   },
+   "lab_moyen": [
+    55.2,
+    -0.48,
+    8.52
+   ],
+   "rugosite": {
+    "moyenne": 0.871,
+    "ecart_type": 0.007,
+    "source": "carte stabilise_beige_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.811,
+    "ecart_type": 0.064,
+    "source": "carte stabilise_beige_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  },
+  {
+   "nom": "terre_nue",
+   "libelle": "Terre nue remaniée (bandes en attente de plantation)",
+   "bibliotheque": "site",
+   "source": "Poly Haven",
+   "source_id": "brown_mud_dry",
+   "page": "https://polyhaven.com/a/brown_mud_dry",
+   "licence": "CC0 1.0 Universal (transfert dans le domaine public)",
+   "resolution": "2K",
+   "tile_m": 1.3,
+   "tile_m_source": "API (1.30 m)",
+   "correction_teinte": {
+    "gain_L": 1.0,
+    "decalage_L": -3.012,
+    "gain_ab": 0.9,
+    "decalage_a": -6.217,
+    "decalage_b": -9.914
+   },
+   "usd": "terre_nue/terre_nue.usda",
+   "albedo_moyen_lineaire": [
+    0.1296,
+    0.117,
+    0.0826
+   ],
+   "albedo_moyen_srgb8": [
+    101,
+    96,
+    81
+   ],
+   "luminance_albedo": {
+    "moyenne": 0.1172,
+    "ecart_type": 0.0978,
+    "p05": 0.0161,
+    "p95": 0.3119
+   },
+   "lab_moyen": [
+    36.83,
+    -0.83,
+    8.5
+   ],
+   "rugosite": {
+    "moyenne": 0.527,
+    "ecart_type": 0.049,
+    "source": "carte terre_nue_rugosite.jpg"
+   },
+   "metal": null,
+   "occlusion": {
+    "moyenne": 0.586,
+    "ecart_type": 0.144,
+    "source": "carte terre_nue_ao.jpg"
+   },
+   "mesure": "moyennes sur l'albédo et les cartes livrées, sous-échantillonnées au pas 4 ; albédo linéaire = sRGB décodé (IEC 61966-2-1) ; luminance Rec. 709",
+   "etape3": false
+  }
+ ]
+}

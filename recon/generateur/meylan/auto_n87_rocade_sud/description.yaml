@@ -1,0 +1,81 @@
+# N87 Rocade Sud à Meylan — section courante entre le pont sur l'Isère (limite communale) et le nœud A41 / N87.
+# Voie rapide urbaine à chaussées séparées (trunk, 90 km/h), terre-plein central en GBA. État 2024 (photos
+# Panoramax 23/06/2024 ; ortho IGN 09/08/2024). Provenances : [O] ortho (coupes n87, mesures.json), [P] photo
+# (photos.json), [OSM], [R] règle, [G] choix faute de mesure. Le tronçon se raccorde au nord à auto_noeud_a41_n87.
+scene: auto_n87_rocade_sud
+nom: N87 Rocade Sud (Meylan)
+titre: N87 Rocade Sud à Meylan — 2 × 2 voies, GBA centrale, aire de service, du pont de l'Isère au nœud A41
+date: 2024-06-23
+confiance: moyenne
+origine: [918427.3, 6458607.9]          # [OSM] médiane des chaussées (25612322 / 4015293) au nord du pont de l'Isère, L93
+description: >
+  Voie rapide à 2 × 2 voies et 90 km/h, sans éclairage, qui monte en remblai du pont de l'Isère vers l'échangeur de
+  l'A41 en décrivant une large courbe. Les deux chaussées sont collées l'une à l'autre de part et d'autre d'une GBA en
+  béton (terre-plein revêtu de 2 m entre les lignes continues). Chaque sens a deux voies de 3,5 à 3,8 m ; à droite,
+  vers le nord une BAU de 2,5 m et une glissière, vers le sud une BAU étroite (1,7 m) contre un muret en béton. Une
+  aire de service (station-service) s'ouvre côté sud-ouest avec ses voies de sortie et d'entrée ; portiques de
+  signalisation. Enrobé ancien fissuré, marquages un peu usés, bois et talus enherbés, ligne HT, falaise du
+  Saint-Eynard en fond.
+contexte:
+  agglomeration: non                    # [P] 8357ddf1 : pas d'EB10 ; voie rapide
+  categorie: voie express               # [OSM] highway=trunk, ref=N 87, chaussées séparées (oneway par sens)
+  vitesse: 90                           # [OSM] maxspeed=90 (25612322, 4015293)
+  u: 7,5 cm                             # [R] RF-MQ-U-01 (routes à chaussées séparées)
+troncon:
+  polyligne: [[0.0, 0.0], [-0.3, 25.0], [-0.7, 50.0], [-1.1, 75.0], [-1.7, 100.0], [-2.5, 125.0], [-3.4, 150.0], [-4.6, 174.9], [-6.0, 199.9], [-7.8, 224.8], [-10.0, 249.7], [-12.8, 274.6], [-16.2, 299.3], [-20.1, 324.0], [-24.7, 348.6], [-29.8, 373.1], [-35.6, 397.4], [-42.0, 421.6], [-48.9, 445.6], [-56.3, 469.5], [-64.1, 493.2], [-72.2, 516.9], [-80.5, 540.4], [-89.0, 564.0], [-97.5, 587.4], [-106.0, 611.0], [-114.2, 634.6], [-121.9, 658.4], [-128.5, 682.5], [-134.0, 706.9], [-138.0, 731.5], [-140.5, 756.4], [-141.4, 781.4], [-140.8, 806.4], [-138.6, 831.3], [-134.9, 856.0], [-129.7, 880.4], [-123.2, 904.6], [-115.8, 928.4], [-107.8, 952.1], [-100.5, 973.3]]   # [OSM] médiane 25612322+344514536 / 4015293 rééchantillonnée tous les 25 m et lissée (moyenne sur 3 points) : 997 m, courbe à gauche puis à droite, cassures ≤ 3,7°
+profil:
+  - berme 1,5 herbe haute               # [P] 2e993fc0 : talus boisé derrière le muret
+  - muret                               # [P] 2e993fc0 : muret béton (GBA simple) au bord droit du sens sud
+  - BAU 1,7                             # [O] s0130-s0230 : ligne +7,5 → bord +9,2
+  - ligne T4 3u                         # [R] RF-OSM-MRQ-022 (chaussées séparées)
+  - voie 3,8 ←                          # [O] +7,45 / +3,65 / +0,15 (s0180)
+  - voie 3,5 ←
+  - ligne continue 3u
+  - BDG 0,5                             # [O] +0,15 → GBA
+  - terre-plein 0,4 béton niveau chaussée   # [P] 8357ddf1, 589161f4, 2e993fc0 : GBA béton double ; [O] bande claire ≈ 0,8 m vers t = −0,8
+  - GBA
+  - terre-plein 0,4 béton niveau chaussée
+  - BDG 0,6
+  - ligne continue 3u
+  - voie 3,5 →                          # [O] −1,8 / −5,3 / −8,9 (s0130-s0230)
+  - voie 3,6 →
+  - ligne T4 3u
+  - BAU 2,5                             # [O] −8,9 → bord −11,3 ; [P] 8357ddf1 : BAU ≈ 2,5 m, glissière
+  - glissière
+  - berme 1,5 herbe haute
+materiaux:
+  chaussee: enrobé usé                  # [P] 2e993fc0 : enrobé ancien fissuré (fissures longitudinales)
+marquages:
+  usure: moyenne                        # [P] 2e993fc0, 8357ddf1
+evenements:
+  # aire de service côté sud-ouest (sens sud = ←) : voie supplémentaire entre s ≈ 430 et s ≈ 630 ([O] coupes s0430-s0630 : 3 lignes +10,55 / +7,15 / +3,35 / −0,25)
+  - profil: {a: 430, nouveau: "berme 1,5 herbe haute | muret | accotement 0,5 | ligne T2 5u | voie de décélération 3,4 ← | ligne T2 5u | voie 3,8 ← | voie 3,6 ← | ligne continue 3u | BDG 0,5 | terre-plein 0,4 béton niveau chaussée | GBA | terre-plein 0,4 béton niveau chaussée | BDG 0,6 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 2,5 | glissière | berme 1,5 herbe haute"}   # [P] 8357ddf1 : station-service et portique côté sud-ouest ; type de la voie (sortie / entrée de l'aire) [G]
+  - profil: {a: 630, nouveau: "berme 1,5 herbe haute | muret | BAU 1,7 | ligne T4 3u | voie 3,8 ← | voie 3,5 ← | ligne continue 3u | BDG 0,5 | terre-plein 0,4 béton niveau chaussée | GBA | terre-plein 0,4 béton niveau chaussée | BDG 0,6 | ligne continue 3u | voie 3,5 → | voie 3,6 → | ligne T4 3u | BAU 2,5 | glissière | berme 1,5 herbe haute"}
+abords:
+  gauche: {type: forêt, largeur: 15}    # [P] 2e993fc0 : bois sur talus
+  droite: {type: herbe haute, largeur: 10}   # [P] 8357ddf1, 589161f4 : talus enherbé, clôture, arbres
+
+extensions_auto:
+  chaussees_separees: {entraxe_m: 9.4, separation: "GBA béton double face", prov: "OSM entraxe des deux lignes 9,2-9,6 m ; O"}   # B1
+  dispositifs_retenue:                                                                   # B3
+    - {limite: TPC, type: GBA_double_face, hauteur_m: 0.8, de: 0, a: 997, prov: "P 8357ddf1, 589161f4, 2e993fc0 ; RF-OBS-TPC-01 (DBA béton ≈ 2,6 m, Rocade Sud)"}
+    - {limite: "bord gauche (sens sud)", type: GBA_simple_ou_muret, hauteur_m: 0.8, de: 650, a: 997, prov: "P 2e993fc0 (s ≈ 777) ; étendue non relevée au sud"}
+    - {limite: "bord droit (sens nord)", type: glissiere_simple, de: 0, a: 997, prov: "P 8357ddf1, 589161f4"}
+  aire_de_service:                                                                       # B4
+    - {cote: gauche, sens: ←, de: 430, a: 630, nature: "station-service (auvent rouge), portique de signalisation", prov: "P 8357ddf1, 2e993fc0 ; O coupes s0430-s0630 (3e voie) ; plan de l'aire non relevé"}
+  signalisation:                                                                         # B9
+    - {code: portique, a: 520, cote: au-dessus, sens: ←, prov: "P 8357ddf1 (dos du portique de l'aire)"}
+    - {code: portique, a: 960, cote: au-dessus, sens: →, prov: "P 589161f4 (portique bleu au loin, présignalisation du nœud A41)"}
+    - {code: PMV_portique, a: 700, sens: ←, prov: "P 2e993fc0 (portique noir au loin)"}
+  equipements: [{type: eclairage, valeur: aucun, prov: "OSM lit=no ; P"}, {type: ligne_haute_tension, a: 800, prov: "P 2e993fc0"}]
+  limites_du_site: {sud: "pont de la Rocade Sud sur l'Isère (OSM 25612323 / 25899195, bridge=yes), commencé à s < 0, hors du catalogue Panoramax", nord: "auto_noeud_a41_n87 (s = 997)"}
+  etapes:                                                                                # B12
+    - "1 plate-forme en remblai depuis la culée nord du pont de l'Isère, talus enherbés et boisés"
+    - "2 chaussées : 2 + 2 voies en enrobé, BAU 1,7 (sud) et 2,5 (nord) ; voie supplémentaire de l'aire de service"
+    - "3 GBA béton au TPC ; muret béton à droite du sens sud ; glissière à droite du sens nord"
+    - "4 marquages : rives continues 3u, T4 3u, T1 2u entre voies, T2 5u de la voie de l'aire"
+    - "5 signalisation : portiques (aire, présignalisation du nœud), PMV"
+    - "6 aire de service (station) côté sud-ouest, abords boisés"
+  provenance:
+    profil: "O coupes n87 s0130-s0230 (± 0,15 ; bords à ± 0,3)"
+    evenements[0]: "O coupes s0430-s0630 ; P 8357ddf1"

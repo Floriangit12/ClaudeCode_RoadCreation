@@ -1,0 +1,22 @@
+= Route Assemblage de pièces cotées =
+
+"""Mobilier, assainissement, éclairage, retenue, feux, potences : pièces cotées décrites en texte."""
+
+@parameters
+
+Pièces (une par ligne ou séparées par « ; »):
+    #id: pieces
+    B cx cy cz sx sy sz rz mat | T n nc caps mat (x y z r)×n | Q n k caps mat upx upy upz (x y z)×n (u v)×k | E cx cy cz rx ry rz ns mat | F cx cy cz nx ny nz ux uy uz w h mat | G cx cy cz nx ny nz r ns mat. Repère USD (Z haut, m). caps : 0 aucun, 1 deux bouts, 2 début, 3 fin.
+
+Angle de coupure des normales (°):
+    #id: cusp
+    Arêtes plus vives que cet angle : normales dures ; en dessous (congés), normales lissées.
+
+LOD : polygones conservés (%):
+    #id: lod_pourcentage
+    100 = LOD0 (aucune réduction) ; LOD1 ≈ 50 %, LOD2 ≈ 20 % (PolyReduce 2.0).
+
+Matériau:
+    #id: materiau
+    Nom du matériau (bibliothèque route_fr ou assets/lib/materiaux) posé dans l'attribut de primitive « materiau ».
+

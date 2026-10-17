@@ -1,0 +1,48 @@
+# Avenue des 7 Laux (RD1090, Meylan) — avenue à chaussées séparées par un séparateur central, piste cyclable et
+# contre-allée. État décrit : 28/07/2026 (photos IGN 360° c531e1b2, ce125bd7 ; Licence Ouverte ; jamais versionnées).
+# Cotes : coupes sur le levé GAM et le PCRS (mesures.json « coupes ») ; OSM local.
+# Provenance en fin de ligne : coupe:<nom>, photo:<id>, osm:<way>, DEF-/RF- (règle complétée si non dit).
+# Tronçon droit de 90 m, du sud-ouest (≈ 60 m du rond-point du Lycée) vers le nord-est (azimut 45°) ; profil au point
+# du site (coupe t0), puis élargissement de la chaussée sud-est au sud-ouest (coupe t_sw) décrit par un changement de
+# profil. Simplifications : muret béton de l'approche du rond-point non décrit (le séparateur est décrit en bordures) ;
+# barrières bordeaux, contre-allée et parkings au sud-est réduits à des bandes.
+scene: meylan_avenue_7_laux
+nom: avenue_des_7_laux
+titre: Avenue des 7 Laux (RD1090, Meylan) — chaussées séparées, piste et contre-allée, état du 28/07/2026
+date: 2026-07-28
+confiance: faible
+origine: [918262.22, 6461157.98, 258.07]           # point du site (45,21515 N ; 5,78110 E) ; z RGE ALTI
+description: >
+  Avenue à deux chaussées à sens unique d'environ 4 à 6 m, séparées par un séparateur bordé d'environ 1,5 m. Côté
+  nord-ouest : bande béton avec barrière bordeaux, piste cyclable de 3 m, bande plantée, contre-allée de 3,5 m vers les
+  maisons (murs blancs, haies). Côté sud-est : pelouse. Enrobé très fissuré avec pontages.
+contexte:
+  agglomeration: oui
+  vitesse: 50                                       # osm:1377219194 maxspeed=50
+materiaux:
+  chaussee: enrobé usé                              # photo:c531e1b2 (l+0000.0), photo:ce125bd7 : pontages en réseau
+  pistes: enrobé
+marquages:
+  usure: usée
+troncon:
+  de: [-31.82, -31.82]                              # profil de gauche (nord-ouest) à droite (sud-est) en regardant vers le nord-est
+  vers: [31.82, 31.82]
+profil:
+  # au départ (≈ 28 m au sud-ouest du point du site) : coupe:t_sw
+  - voie 4,1 ←                                      # contre-allée à sens unique vers le sud-ouest, coupe:t_sw (gam 31,49 → 35,61) ; osm:184096832
+  - bande plantée 4,2                               # coupe:t_sw (gam 27,33 → 31,49)
+  - piste cyclable 3,0 bidirectionnelle             # coupe:t_sw (gam 24,33 → 27,33) ; osm:1305799234 ; figurine, photo:c531e1b2 (l+0102.9)
+  - trottoir 2,1                                    # bande béton avec barrière bordeaux (coupe:t_sw, gam 22,24 → 24,33) ; photo:c531e1b2
+  - voie 6,0 ←                                      # chaussée nord-ouest, sens sud-ouest (coupe:t_sw, gam 15,94 → 21,99) ; osm:7838790
+  - terre-plein 1,5 béton                           # séparateur (coupe:t_sw, gam 14,41 → 15,94) ; caniveau pavé + bordures, photo:c531e1b2 (l+0000.0)
+  - voie 6,5 →                                      # chaussée sud-est, sens nord-est (coupe:t_sw, gam 7,95 → 14,41) ; osm:1377219194
+  - bande enherbée 6,0                              # pelouse au sud-est (trottoir de 2,7 m simplifié) ; ortho IGN 2024
+evenements:
+  # au point du site (s = 45) : coupe:t0 ; transition linéaire de s = 20 à 35
+  - profil: {a: 20, transition: 15, nouveau: "voie 3,5 ← | bande plantée 1,6 | piste cyclable 3,0 bidirectionnelle | trottoir 1,4 | voie 5,2 ← | terre-plein 1,5 béton | voie 4,0 → | bande enherbée 6,0"}
+abords:
+  gauche: haie 3                                    # murs blancs et haies taillées des maisons, photo:c531e1b2 (l+0102.9)
+  droite: pelouse 10                                # ortho IGN 2024
+ecarts_admis:
+  RF-OSM-LAR-010: "chaussées séparées à une voie par sens de 4,0 à 6,5 m mesurées bordure à bordure (coupes t0 et t_sw, levé GAM ; photo c531e1b2)"
+  RF-OSM-LAR-012: "voies de même sens (contre-allée et chaussée nord-ouest, toutes deux vers le sud-ouest) de 3,5 à 6,0 m mesurées bordure à bordure (coupes t0 et t_sw, levé GAM)"

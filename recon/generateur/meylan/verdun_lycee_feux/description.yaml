@@ -1,0 +1,117 @@
+# Carrefour à feux avenue de Verdun (RD1090) × avenue de Chamrousse (D590) × chemin de Chaumetière, près du rond-point
+# du Lycée (site M08). État décrit : 28/07/2026 (photos IGN planes 921c90d1, 5922e7b4, ef8cd80b ; jamais versionnées).
+# Cotes : coupes sur le levé GAM et le PCRS (mesures.json « coupes ») ; voies et régimes : OSM local.
+# Provenance en fin de ligne : coupe:<nom>, photo:<id>, osm:<way|node>, DEF-/RF- (règle complétée si non dit).
+# Simplifications : le carrefour (chaussées séparées qui se croisent : 4 nœuds de feux OSM) est décrit comme un seul
+# carrefour à 4 branches centré au milieu des 4 nœuds ; l'allée du Château (zone 30, au sud-est) n'est pas décrite ;
+# les tirets observés dans le carrefour (dossier 13 M08 : « différent » de l'IISR7) ne sont pas décrits (ARB-08) ;
+# plan de feux = hypothèse.
+scene: meylan_verdun_chamrousse
+nom: verdun_chamrousse
+titre: Carrefour à feux Verdun × Chamrousse × Chaumetière (Meylan), état du 28/07/2026
+date: 2026-07-28
+confiance: faible
+origine: [917989.78, 6460971.81, 249.21]           # point du site M08 (dossier 13) ; z RGE ALTI
+description: >
+  Carrefour à feux en croix sur l'avenue de Verdun à chaussées séparées : au nord-est 3 voies d'entrée (gauche, tout
+  droit, tout droit et droite) et une sortie, séparées par un îlot de 3 m ; au sud-ouest 2 voies dans chaque sens
+  séparées par un îlot ; avenue de Chamrousse à l'ouest (une voie par sens, bande cyclable en sortie, îlot) ; chemin de
+  Chaumetière au sud (rue étroite à double sens). Îlots plantés en buttes basses, passages piétons sur chaque branche,
+  pistes et Chronovélo côté nord-ouest, enrobé fissuré avec pontages.
+contexte:
+  agglomeration: oui
+  vitesse: 50                                       # osm:1293831015 maxspeed=50
+materiaux:
+  chaussee: enrobé usé                              # photo:921c90d1 (pontages)
+  pistes: enrobé
+marquages:
+  usure: moyenne
+troncons:
+  # Avenue de Verdun nord-est (azimut 52°) ; gauche = nord-ouest (voies entrantes)
+  - id: verdun_ne
+    nom: avenue de Verdun nord-est
+    de: [0, 0]
+    vers: [55.16, 43.1]
+    profil:
+      - piste cyclable 3,2 bidirectionnelle         # coupe:ne_30 (gam 31,59 → 34,75) ; osm:190080271
+      - bande enherbée 8,0                          # coupe:ne_30 (gam 23,46 → 31,52) ; plantée
+      - voie 3,6 ←                                  # coupe:ne_30 (19,78 → 23,40) : tout droit + droite
+      - voie 3,6 ←                                  # coupe:ne_30 (16,10 → 19,68) : tout droit
+      - tourne-à-gauche 3,6 ←                       # coupe:ne_30 (12,42 → 16,00) ; osm:1293831015 left|through|through;right
+      - terre-plein 3,3 gazon                       # coupe:ne_30 (gam 9,09 → 12,42)
+      - voie 4,4 →                                  # coupe:ne_30 (gam 4,68 → 9,09) ; osm:39990137 lanes=1
+      - trottoir 2,0                                # largeur non mesurée (DEF-004)
+    evenements:
+      # liaison revêtue à travers la bande plantée au droit du passage (photo:5922e7b4 : cheminement vers la piste)
+      - profil: {a: 13, nouveau: "piste cyclable 3,2 bidirectionnelle | trottoir 8,0 | voie 3,6 ← | voie 3,6 ← | tourne-à-gauche 3,6 ← | terre-plein 3,3 gazon | voie 4,4 → | trottoir 2,0"}
+      - profil: {a: 18.5, nouveau: "piste cyclable 3,2 bidirectionnelle | bande enherbée 8,0 | voie 3,6 ← | voie 3,6 ← | tourne-à-gauche 3,6 ← | terre-plein 3,3 gazon | voie 4,4 → | trottoir 2,0"}
+  # Avenue de Chamrousse (D590, azimut 283°) ; gauche = sud (voie entrante)
+  - id: chamrousse
+    nom: avenue de Chamrousse
+    de: [0, 0]
+    vers: [-58.47, 13.5]
+    profil:
+      - trottoir 2,8                                # coupe:chamrousse_30 (gam 0,57 → 3,38)
+      - bande enherbée 3,4                          # îlot planté bas, coupe:chamrousse_30 (gam 5,82 → 9,26) ; photo:ef8cd80b
+      - voie 4,5 ←                                  # coupe:chamrousse_30 (gam 9,26 → 13,73) ; osm:7838799
+      - voie 3,9 →                                  # coupe:chamrousse_30 (14,12 → 18,0) ; osm:1271547679
+      - bande cyclable 1,5                          # osm:1271547679 cycleway:right=lane ; coupe:chamrousse_30 (→ gam 19,51)
+      - trottoir 2,0
+    evenements:
+      # traversée revêtue de l'îlot au droit du passage (coupe:chamrousse_30 : traversée gam 3,38 → 5,82)
+      - profil: {a: 21, nouveau: "trottoir 2,8 | trottoir 3,4 | voie 4,5 ← | voie 3,9 → | bande cyclable 1,5 | trottoir 2,0"}
+      - profil: {a: 26.3, nouveau: "trottoir 2,8 | bande enherbée 3,4 | voie 4,5 ← | voie 3,9 → | bande cyclable 1,5 | trottoir 2,0"}
+  # Avenue de Verdun sud-ouest (azimut 232°) ; gauche = sud-est (voies entrantes)
+  - id: verdun_so
+    nom: avenue de Verdun sud-ouest
+    de: [0, 0]
+    vers: [-55.16, -43.1]
+    profil:
+      - trottoir 3,5                                # coupe:so_30 (gam 14,09 → 17,62)
+      - voie 3,7 ←                                  # coupe:so_30 : entrée 7,39 m (gam 17,62 → 25,01) ; tout droit
+      - tourne-à-gauche 3,7 ←                       # osm:63600574 left|through
+      - terre-plein 2,8 gazon                       # coupe:so_30 (gam 25,01 → ligne 27,82) ; pointe d'îlot
+      - voie 3,5 →                                  # coupe:so_30 : sortie 7,1 m (27,82 → gam 34,92) ; osm:1412130619 lanes=2
+      - voie 3,5 →
+      - bande enherbée 1,3                          # coupe:so_30 (gam 34,92 → 36,18)
+      - piste cyclable 3,0 bidirectionnelle         # Chronovélo osm:398052219 (width 4)
+    evenements:
+      # liaison revêtue vers la Chronovélo au droit du passage
+      - profil: {a: 14, nouveau: "trottoir 3,5 | voie 3,7 ← | tourne-à-gauche 3,7 ← | terre-plein 2,8 gazon | voie 3,5 → | voie 3,5 → | trottoir 1,3 | piste cyclable 3,0 bidirectionnelle"}
+      - profil: {a: 19.2, nouveau: "trottoir 3,5 | voie 3,7 ← | tourne-à-gauche 3,7 ← | terre-plein 2,8 gazon | voie 3,5 → | voie 3,5 → | bande enherbée 1,3 | piste cyclable 3,0 bidirectionnelle"}
+  # Chemin de Chaumetière (azimut 170°) ; gauche = est
+  - id: chaumetiere
+    nom: chemin de Chaumetière
+    de: [0, 0]
+    vers: [11.98, -67.94]
+    profil: "trottoir 1,5 | voie 3,1 ← | voie 3,1 → | trottoir 1,5"   # coupe:chaumetiere_25 (gam 12,75 → 18,92 : 6,17 m)
+carrefours:
+  - id: VCH
+    nom: Verdun × Chamrousse × Chaumetière
+    centre: [0, 0]                                  # milieu des 4 nœuds de feux osm (137649, 57599588, 1689337428, 1689337431)
+    regime: feux
+    branches:
+      - troncon: verdun_ne
+        passage: {largeur: 4.0}                     # osm:3051569381 (bouton d'appel) ; photo:5922e7b4
+      - troncon: chamrousse
+        passage: {largeur: 4.0}                     # osm:7095218412 ; photo:921c90d1
+      - troncon: verdun_so
+        passage: {largeur: 4.0}                     # osm:3051569319 ; photo:5922e7b4
+      - troncon: chaumetiere
+        passage: {largeur: 4.0}                     # osm:3051569320 (marqué)
+    feux:
+      # HYPOTHÈSE (plan de feux non observable) : 2 phases, cycle ≈ 70 s (DEF-028)
+      note: plan de feux supposé, à remplacer par le plan réel de la Métropole
+      phases:
+        - nom: P1 avenue de Verdun
+          mouvements: [verdun_ne TD, verdun_ne TAD, verdun_ne TAG, verdun_so TD, verdun_so TAD, verdun_so TAG]
+          vert: 35
+        - nom: P2 Chamrousse et Chaumetière
+          mouvements: [chamrousse TAD, chamrousse TAG, chaumetiere TAD, chaumetiere TAG]   # branches non alignées (113°) : pas de « tout droit » au sens du solveur
+          vert: 20
+ecarts_admis:
+  RF-OSM-LAR-012: "voies entrantes de 3,6 à 3,7 m relevées entre les lignes du levé GAM (coupes ne_30 et so_30)"
+  RF-OSM-LAR-010: "voies de 3,5 à 4,5 m relevées bordure à bordure (coupes ne_30, so_30, chamrousse_30, levé GAM)"
+  RF-MA-REF-003: "vues des bordures des îlots de Verdun non mesurables sur les photos 921c90d1 et 5922e7b4 ; 0,11 m (DEF-005, îlot) retenu"
+  RF-MA-TRO-001: "liaison revêtue de 1,26 m entre la chaussée et la Chronovélo au droit du passage sud-ouest (coupe so_30 : bande gam 34,92 → 36,18)"
+  RF-GV-CAR-008: "îlots de Verdun réduits par le solveur à leur nez près du carrefour (3,8 à 3,9 m²) ; les îlots réels se prolongent sur plus de 20 m (levé GAM, plan annoté du site)"

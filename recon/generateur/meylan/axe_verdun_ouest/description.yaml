@@ -1,0 +1,101 @@
+# Avenue de Verdun (D1090) côté La Tronche — boulevard urbain à chaussées séparées entre le bout de l'A41 (carrefour
+# M14) et le carrefour des Aiguinards (M13). État 2024-2025 (photos Panoramax 24/08/2024 et 18/05/2025, toutes prises
+# vers le sud-ouest ; ortho IGN 09/08/2024). Les carrefours à feux M14 (k ≈ 0), M15 Plaine Fleurie (k ≈ 250) et M13
+# Aiguinards (k ≈ 649) ne sont pas décrits ici (lot A) : deux tronçons de section courante entre eux.
+# k = abscisse le long de la médiane OSM des deux chaussées depuis le carrefour M14 (mesures.json).
+# Provenances : [O] ortho (coupes verdun_o), [P] photo, [OSM], [R], [G].
+scene: axe_verdun_ouest
+nom: Avenue de Verdun, côté La Tronche
+titre: Avenue de Verdun (D1090) — 2 × 3 voies avec couloirs bus puis 2 × 2 voies, terre-plein étroit enherbé puis haie taillée
+date: 2025-05-18
+confiance: moyenne
+origine: [916617.5, 6459575.7]          # [OSM] médiane à k = 30, L93
+description: >
+  Grande avenue d'entrée de ville à chaussées séparées, 50 km/h, éclairée. Près de l'autoroute, 3 voies de chaque côté
+  dont la voie de droite réservée aux bus (tirets larges), séparées par un terre-plein étroit d'herbe sèche entre deux
+  bordures basses ; côté sud-est un alignement de très grands arbres derrière une glissière. Après le carrefour à feux
+  de la Plaine Fleurie, 2 voies par sens (plus étroites, 2,6 à 3,2 m) de part et d'autre d'un terre-plein de 3 m
+  bordé, planté d'une haie taillée continue d'environ 1,2 m avec des candélabres ; rives peintes, larges accotements
+  d'herbe haute avec arbustes, puis de chaque côté, à 15-20 m, une piste cyclable et un trottoir en enrobé ; une
+  traversée cyclable peinte en damier jaune (Chronovélo) ; un arrêt de bus avec quai, abri et zigzag jaune avant le
+  carrefour des Aiguinards. Enrobé ancien rapiécé et fissuré.
+contexte:
+  agglomeration: oui                    # [OSM] source:maxspeed=FR:urban
+  categorie: boulevard                  # [OSM] primary, D 1090, chaussées séparées (oneway par sens)
+  vitesse: 50                           # [OSM] maxspeed=50 (70 sur 4247767 au droit de l'A41, hors tronçons)
+troncons:
+  - nom: Verdun ouest, M14 → M15 (k 30-225)
+    polyligne: [[0.0, 0.0], [26.3, 30.2], [52.5, 60.3], [78.8, 90.6], [105.0, 120.8], [128.0, 147.1]]   # [OSM] médiane 196539282+196539272 / 63600540+1192457701
+    profil:
+      - bande enherbée 3,0 herbe haute   # [O] s0140 : bande de terre / herbe de +12 à +15 puis voie parallèle ; [P] bb66244a l+0
+      - bordure T2                      # [P] bb66244a : bordure au bord droit (sens ouest)
+      - voie bus 3,5 ←                  # [OSM] 196539282 bus:lanes=yes|yes|designated ; [O] ligne de bord +11,75 ; 10,5 m mesurés pour 3 voies (± 0,3) : 10,0 retenus + fils d'eau non distingués à 20 cm/px
+      - ligne T3 5u                     # [P] bb66244a : tirets larges ; [R] RF-OSM-MRQ-031
+      - voie 3,25 ←                     # [O] +8,05 / (+4,6) / +1,25 : 3 voies sur 10,5 m ; [R] RF-OSM-LAR-012 (≤ 3,25) dans l'incertitude
+      - voie 3,25 ←
+      - bordure A2                      # [P] bb66244a l−51 : bordure basse
+      - terre-plein 2,8 herbe haute     # [O] bords des chaussées +1,25 / −1,85 (3,1 m bordures comprises) ; [P] herbe sèche
+      - bordure A2
+      - voie 3,0 →                      # [O] −1,85 / −8,15 / −11,05 : 3 voies sur 9,2 m
+      - voie 3,0 →
+      - ligne T3 5u
+      - voie bus 3,2 →                  # [OSM] 1192457701 bus:lanes=yes|yes|designated, busway:right=lane
+      - glissière                       # [P] bb66244a l−51 : glissière au bord de la chaussée sud-est
+      - berme 5,0 herbe haute           # [O] s0140 : bande verte de −12 à −16 ; grands arbres
+    abords:
+      gauche: {type: parking, largeur: 8}    # [O] s0140 : voie et stationnement parallèles au nord-ouest (+16 à +22)
+      droite: {type: bois, largeur: 6}        # [P] bb66244a : alignement de très grands arbres (platanes ou peupliers) et bâtiment
+  - nom: Verdun ouest, M15 → M13 (k 280-625)
+    polyligne: [[164.2, 188.5], [191.0, 218.3], [218.1, 247.7], [245.2, 277.0], [272.7, 306.1], [300.2, 335.2], [328.0, 363.9], [356.2, 392.3], [384.4, 420.6], [401.5, 438.9]]   # [OSM] médiane 1192457700 / 348324979+457903739
+    profil:
+      - berme 8,0 herbe haute           # [P] 9f1498db : herbe haute sèche, arbustes, grands arbres ; [OSM] piste (largeur 3) à t ≈ +19,6
+      - accotement 0,5                  # [P] 9f1498db : bande revêtue étroite derrière la rive
+      - ligne continue 3u               # [P] 9f1498db : rive continue
+      - voie 3,0 ←                      # [O] s0490 : chaussée de +1,85 à +7,45 (5,6 m), tirets vers +4,2
+      - voie 2,6 ←
+      - bordure T2                      # [P] 9f1498db : bordure de la haie
+      - terre-plein 1,3 BRF             # [O] bords +1,85 / −1,15 (3,0 m) ; [P] 9f1498db : haie taillée continue ≈ 1,2 m, candélabres
+      - haie
+      - terre-plein 1,3 BRF
+      - bordure T2
+      - voie 3,1 →                      # [O] −1,15 / −4,25 / −7,45
+      - voie 3,2 →
+      - ligne continue 3u
+      - accotement 0,5
+      - berme 6,0 herbe haute           # [O] s0490 : herbe et arbres de −8 à −14 ; [OSM] trottoir à −13
+materiaux:
+  chaussee: enrobé rapiécé              # [P] 9f1498db, f86cca91 : enrobé ancien fissuré, reprises
+marquages:
+  usure: moyenne
+# ecarts_admis : aucun (largeurs retenues dans les plages des règles, à l'incertitude de mesure près : mesures.json)
+
+extensions_auto:
+  chaussees_separees: {entraxe_m: [11.6, 13.1], prov: "OSM entraxe des lignes par sens (k 0-325)"}   # B1
+  equipements:                                                                           # B6
+    - {type: eclairage, troncon: 0, implantation: "accotements", crosse: double, hauteur_m: 12, prov: "P bb66244a (candélabres hauts à double crosse côté nord-ouest) ; hauteur estimée"}
+    - {type: eclairage, troncon: 1, implantation: "dans la haie du TPC", crosse: double, hauteur_m: 10, pas_m: 30, prov: "P 9f1498db, a880f2d0 ; pas estimé"}
+  vegetation:                                                                            # B7
+    - {troncon: 1, bande: "terre-plein", type: haie_taillee, hauteur_m: 1.2, continue: oui, prov: "P 9f1498db"}
+    - {troncon: 0, cote: droite, type: alignement, essence: "platane ou peuplier (non identifiée)", hauteur_m: 20, prov: "P bb66244a"}
+    - {troncon: 1, cotes: [gauche, droite], type: arbres_epars_et_arbustes, prov: "P 9f1498db, f86cca91"}
+  pistes_laterales:                                                                      # B4 : voies parallèles hors du profil
+    - {troncon: 1, cote: gauche, type: piste_bidirectionnelle, largeur_m: 3.0, t_m: 19.6, revetement: enrobé, chronovelo: "bordures de ligne jaunes (à confirmer)", prov: "OSM cycleway width=3 ; P a880f2d0"}
+    - {troncon: 1, cote: gauche, type: trottoir, t_m: 22.0, prov: "OSM footway=sidewalk"}
+    - {troncon: 1, cote: droite, type: trottoir, t_m: -13.0, prov: "OSM footway"}
+  traversees:                                                                            # B8 : pratiques locales relevées
+    - {troncon: 1, k: 406, type: traversee_cyclable, motif: "damier jaune (pratique locale Chronovélo, non IISR : photo, provenance photo:)", chaussee: "sens ouest", prov: "P a880f2d0 ; RF-OBS-CYC (dossier 13)"}
+  arrets_bus:                                                                            # B4
+    - {troncon: 1, k: 608, sens: ←, quai: oui, abri: oui, zigzag: jaune, longueur_zigzag_m: 30, prov: "P e68edc7f (quai béton bordé, abri, zigzag jaune) ; format : arret_bus exige un trottoir contigu"}
+  carrefours_limites: [{k: 0, id: M14, nature: "feux, bout de l'A41"}, {k: 250, id: M15, nature: "feux, avenue de la Plaine Fleurie"}, {k: 649, id: M13, nature: "feux, rue des Aiguinards"}]
+  etapes:                                                                                # B12
+    - "1 plate-forme : deux chaussées et terre-plein central, accotements larges"
+    - "2 bordures : bordures basses du TPC (tronçon 1), T2 autour de la haie (tronçon 2), bordure droite du sens ouest (tronçon 1)"
+    - "3 chaussées en enrobé (rapiécé), couloirs bus"
+    - "4 TPC : herbe sèche (1) ; terre + BRF et haie taillée (2) ; candélabres dans la haie"
+    - "5 accotements et bermes enherbés, glissière côté sud-est (1)"
+    - "6 marquages : T3 5u des couloirs bus, T1/T'1 entre voies, rives continues 3u (2), damier jaune Chronovélo (relevé), zigzag d'arrêt de bus"
+    - "7 signalisation : feux et panneaux des carrefours (lot A), panneaux de direction (portique / mâts) près de l'A41"
+    - "8 pistes et trottoirs latéraux, arbres et arbustes, bâtiments d'activité"
+  provenance:
+    troncons[0].profil: "O verdun_o s0140 ; P bb66244a ; OSM bus:lanes"
+    troncons[1].profil: "O verdun_o s0490 ; P 9f1498db, f86cca91, e68edc7f"

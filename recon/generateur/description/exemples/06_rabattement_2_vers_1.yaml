@@ -1,0 +1,17 @@
+# Avenue 1 + 2 voies dont la voie de gauche du sens → se rabat : 2 voies → 1 voie à 150 m, biseau de 60 m
+# (dit ; sinon 37 × d, RF-GV-PT-014), 3 flèches de rabattement RAB_D aux distances du tableau IISR (RF-MQ-RAB-05 :
+# L = 39 m à 50 km/h, i1 = 26, i2 = 13), comptées depuis le milieu du biseau (RF-MQ-RAB-07).
+scene: ex06_rabattement_2_vers_1
+description: Avenue à 50 km/h, une voie vers la gauche et deux vers la droite ; la voie de gauche du sens → disparaît par un biseau de 60 m qui finit à 150 m.
+contexte:
+  agglomeration: oui
+  vitesse: 50
+troncon:
+  de: [0, 0]
+  vers: [220, 0]
+profil: "trottoir 2,0 | voie 3,0 ← | voie 3,0 → | voie 3,0 → | trottoir 2,0"
+evenements:
+  - rabattement: {a: 150, sens: →, voie: gauche, biseau: 60}
+abords:
+  gauche: pelouse 5
+  droite: pelouse 5

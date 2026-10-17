@@ -1,0 +1,15 @@
+# Changement de profil le long du tronçon : à 80 m, le trottoir de droite passe de 2,00 à 3,00 m et la voie de
+# gauche de 3,00 à 2,80 m, avec une transition linéaire de 15 m (mêmes bandes : lois de largeur) ; à 140 m une bande
+# cyclable apparaît à droite (bandes différentes : changement instantané, signalé).
+scene: ex10_changement_de_profil
+description: Rue 1 + 1 dont le trottoir droit s'élargit à 80 m, puis qui reçoit une bande cyclable à droite à 140 m.
+contexte:
+  agglomeration: oui
+  vitesse: 50
+troncon:
+  de: [0, 0]
+  vers: [200, 0]
+profil: "trottoir 2,0 | voie 3,0 ← | voie 3,0 → | trottoir 2,0"
+evenements:
+  - profil: {a: 80, nouveau: "trottoir 2,0 | voie 2,8 ← | voie 3,0 → | trottoir 3,0", transition: 15}
+  - profil: {a: 140, nouveau: "trottoir 2,0 | voie 2,8 ← | voie 3,0 → | bande cyclable 1,5 | trottoir 1,5"}

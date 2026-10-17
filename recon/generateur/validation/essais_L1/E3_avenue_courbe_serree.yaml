@@ -1,0 +1,16 @@
+# Essai du lot L1 : profil large (2 x 2 voies, terre-plein planté, stationnement, trottoirs : 27 m d'emprise) sur un
+# arc de 25 m de rayon : les limites intérieures passent à moins de 12 m du centre de courbure (décalage proche
+# du rayon, pas d'échantillonnage réglé sur la limite extérieure).
+scene: E3_avenue_courbe_serree
+description: Avenue 2 x 2 voies à terre-plein planté de 3 m, stationnement et trottoirs, dans un virage à droite de 25 m de rayon.
+contexte:
+  agglomeration: oui
+  vitesse: 30
+troncon:
+  depart: [0, 0]
+  cap: 90
+  trace:
+    - droite: 20
+    - arc: {rayon: 25, angle: 90, sens: droite}
+    - droite: 20
+profil: "trottoir 2 | stationnement | voie ← | voie ← | terre-plein planté 3 | voie → | voie → | stationnement | trottoir 2"

@@ -1,0 +1,40 @@
+# S05 — Rue 1 + 1 avec piste cyclable unidirectionnelle sur trottoir, séparée (des deux côtés).
+format: description_simple/0.1
+scene: S05
+nom: rue_pistes_sur_trottoir
+titre: Rue 1 + 1, pistes cyclables unidirectionnelles au niveau du trottoir, séparées
+description: "Rue à 50 km/h ; 2 voies de 3,00 m ; de chaque côté, au niveau du trottoir : bande de séparation pavée de 0,50 m contre la bordure T2, piste unidirectionnelle de 2,00 m en enrobé sombre, bande pavée de 0,30 m, trottoir de 2,00 m en dalles claires."
+contexte:
+  agglomeration: true
+  vitesse_kmh: 50
+  categorie: rue
+  u_m: 0.05                # DEF-001
+marquages: {usure: légère}
+trace:
+  - droite: 100
+profil:
+  - {bande: trottoir, id: tr1, largeur: 2.00, materiau: dalles_beton}     # ≥ 1,80 à côté d'une piste (RF-MA-SEP-006, RF-MA-TRO-010)
+  - {ligne: aucune}  
+  - {bande: separateur, id: sep1, largeur: 0.30, dz: 0.14, materiau: paves_granit}  # séparation du cheminement par contraste de revêtement (RF-OSM-NIV-013, RF-MA-SEP-004)
+  - {ligne: aucune}  
+  - {bande: piste_cyclable, id: pc1, sens: arriere, largeur: 2.00, niveau: trottoir, materiau: enrobe_piste_cyclable}   # DEF-008, RF-MA-PIS-001 ; au niveau du trottoir : enrobé de couleur différente (RF-MA-PIS-009)
+  - {ligne: aucune}  
+  - {bande: separateur, id: sep2, largeur: 0.50, dz: 0.14, materiau: paves_granit}  # ne jouxte pas la voie (RF-MA-PIS-006) ; ≥ 0,30 (RF-MA-SEP-006, RF-OSM-LAR-033) ; tampon 0,50 (RF-MA-SEP-003)
+  - {bordure: T2, vue: 0.14, caniveau: CS2}                               # DEF-005, RF-OSM-NIV-010
+  - {bande: voie, id: v1, sens: arriere, largeur: 3.00, materiau: enrobe_bbsg_ancien}   # DEF-002
+  - {ligne: T'1, largeur_u: 2}                                            # RF-OSM-MRQ-010
+  - {bande: voie, id: v2, sens: avant, largeur: 3.00}
+  - {bordure: T2, vue: 0.14, caniveau: CS2}
+  - {bande: separateur, id: sep3, largeur: 0.50, dz: 0.14}
+  - {ligne: aucune}  
+  - {bande: piste_cyclable, id: pc2, sens: avant, largeur: 2.00, niveau: trottoir}
+  - {ligne: aucune}  
+  - {bande: separateur, id: sep4, largeur: 0.30, dz: 0.14}
+  - {ligne: aucune}  
+  - {bande: trottoir, id: tr2, largeur: 2.00}
+objets:
+  # figurines vélo dans l'axe de chaque piste, tous les 50 m (DEF-018, RF-MA-CYC-012) ; pas de ligne de rive : niveaux
+  # et revêtements séparent déjà (« si nécessaire », RF-MQ-CYC-02)
+  - figurines: {gabarit: VELO, bandes: [pc1, pc2], a: [25, 75]}
+abords: {gauche: pelouse 6, droite: pelouse 6}
+attendus: {longueur: 100, largeur_emprise: 15.6, largeur_chaussee: 6.0, voies: {arriere: 1, avant: 1}, traits: {T'1 2u: 16}, bordures_m: {T2: 200}, figurines: 4}

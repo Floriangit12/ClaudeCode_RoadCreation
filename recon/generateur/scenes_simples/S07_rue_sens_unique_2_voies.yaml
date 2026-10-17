@@ -1,0 +1,29 @@
+# S07 — Rue à sens unique, 2 voies, flèches directionnelles de confirmation du sens.
+format: description_simple/0.1
+scene: S07
+nom: rue_sens_unique_2_voies
+titre: Rue à sens unique 2 voies, flèches directionnelles « tout droit »
+description: "Rue à sens unique à 50 km/h ; 2 voies de 3,00 m séparées par T'1 ; 3 flèches « tout droit » par voie, dans un même profil, tous les 20 m, pour confirmer le sens ; bordures T2, trottoirs de 2,00 m."
+contexte:
+  agglomeration: true
+  vitesse_kmh: 50
+  categorie: rue
+  u_m: 0.05                # DEF-001
+marquages: {usure: légère}
+trace:
+  - droite: 100
+profil:
+  - {bande: trottoir, id: tr1, largeur: 2.00, materiau: enrobe_trottoir}  # DEF-004
+  - {bordure: T2, vue: 0.14, caniveau: CS2}                               # DEF-005
+  - {bande: voie, id: v1, sens: avant, largeur: 3.00, materiau: enrobe_bbsg_ancien}   # RF-OSM-LAR-012 meme_sens_defaut ; CF : 2 files d'un même sens (RF-GV-PT-005)
+  - {ligne: T'1, largeur_u: 2}                                            # RF-OSM-MRQ-011 (sans flèches d'affectation : T'1 ou T3 2u)
+  - {bande: voie, id: v2, sens: avant, largeur: 3.00}
+  - {bordure: T2, vue: 0.14, caniveau: CS2}
+  - {bande: trottoir, id: tr2, largeur: 2.00}
+evenements:
+  # flèches TD (gabarit exact B.2, 4,00 m, RF-MQ-DIR-09) au milieu de chaque voie, dans un même profil en travers
+  # (RF-MQ-DIR-03), 3 par voie (RF-MQ-DIR-04, DEF-017), interdistance 20 m (DEF-017) ; emploi sur sens unique pour
+  # confirmer le sens (RF-MQ-DIR-08) ; pas d'affectation, donc pas de C24 exigé (RF-MQ-DIR-01 ne s'applique pas)
+  - fleches: {type: TD, voies: toutes, a: 20, nombre: 3, interdistance: 20}
+abords: {gauche: pelouse 6, droite: pelouse 6}
+attendus: {longueur: 100, largeur_emprise: 10.0, largeur_chaussee: 6.0, voies: {avant: 2}, traits: {T'1 2u: 16}, bordures_m: {T2: 200}, fleches: {TD: 6}, fleches_s: [20, 40, 60, 20, 40, 60]}

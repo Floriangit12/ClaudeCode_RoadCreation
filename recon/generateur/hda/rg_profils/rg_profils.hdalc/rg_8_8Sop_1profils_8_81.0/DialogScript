@@ -1,0 +1,38 @@
+# Dialog script for rg::profils::1.0 automatically generated
+
+{
+    name	rg::profils::1.0
+    inputlabel	1	"Références échantillonnées"
+    inputlabel	2	"Profils"
+    inputlabel	3	"Ponctuels"
+    outputlabel	1	"Limites"
+    outputlabel	2	"Bandes (rubans)"
+    outputlabel	3	"Profils d'extrémité"
+    outputlabel	4	"Profil en long"
+    script	rg::profils::1.0
+    label	"RG Profils (limites, bandes, transitions)"
+
+    help {
+    }
+
+    inputlabel	1	"Références échantillonnées"
+    inputlabel	2	Profils
+    inputlabel	3	Ponctuels
+
+    parm {
+        name    "tolerance_continuite"
+        label   "Tolérance de continuité (m)"
+        type    float
+        default { "0.001" }
+        help    "Écart maximal des bords d'une même bande de part et d'autre d'une jonction de sections (critère du lot L1 : 1 mm). Les jonctions déclarées « instantanee » par le modèle sont comptées à part."
+        range   { 0 0.1 }
+    }
+    parm {
+        name    "rampe_plateau_pct"
+        label   "Rampe des plateaux (%) si rg::graphe ne la donne pas"
+        type    float
+        default { "7" }
+        help    "DEF-034 ; d'ordinaire lue sur le détail rg_rampe_plateau_pct de l'entrée 1."
+        range   { 1 20 }
+    }
+}

@@ -1,0 +1,37 @@
+= RG Graphe (échantillonnage des lignes de référence) =
+
+"""Graphe du générateur : lignes de référence échantillonnées à flèche ≤ 0,5 mm sur toutes les limites décalées (droites, arcs, clothoïdes ; polylignes en onglet), sommets obligatoires aux raccords, sections, lois de largeur, évènements et ralentisseurs ; branches des nœuds triées par azimut."""
+
+== Entrées ==
+
+1. Routes, 2. Profils, 3. Ponctuels, 4. Nœuds (sorties 1, 5, 4, 2 de rg::lire_modele).
+
+== Sorties ==
+
+1. Références : une polyligne par route (attributs de la route recopiés) ; points s, cap_rad, courbure, T, gauche, obligatoire ; primitives n_echantillons, pas_min_m, fleche_majorant_m.
+2. Nœuds : branches (ids triés dans le sens trigonométrique), extremites, azimuts_deg, valence.
+
+VEX 64 bits ; clothoïde par Gauss-Legendre composite (8 nœuds, panneaux de 0,5 m).
+
+@parameters
+
+Flèche maximale (m):
+    #id: fleche_max
+    Écart maximal entre une corde et la courbe (PLAN_GENERATEUR § 2.3, critère du lot L1 : 0,5 mm), sur la ligne de référence et sur toutes les limites décalées.
+
+Marge de calcul:
+    #id: marge_fleche
+    Le pas vise flèche × marge (0,45 mm) : les sommets sont stockés en flottants 32 bits (± 1,5e-5 m à 200 m), la mesure indépendante doit rester sous 0,5 mm.
+
+Pas maximal (m):
+    #id: pas_max
+    Pas en ligne droite à largeurs constantes (aucune règle : choix de fabrication, repris dans le manifeste).
+
+Rampe des plateaux (%):
+    #id: rampe_plateau_pct
+    DEF-034 (rampe_pct = 7 %) : le schéma 0.1 ne porte que la longueur totale et la hauteur d'un plateau ; la rampe vient de cette règle.
+
+Sommets aux évènements des limites:
+    #id: sommets_evenements
+    Abaissés, intervalles et interruptions de marquage deviennent des sommets obligatoires (abscisses exactes pour les lots L2 et L4).
+

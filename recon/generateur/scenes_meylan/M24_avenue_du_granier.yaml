@@ -1,0 +1,62 @@
+# Avenue du Granier (Meylan, Inovallée), au passage piéton à refuge du site M24 — décrite en regardant les tuiles des
+# photos Panoramax 9badc00e et f877235a (dossier 13, 12/01/2025, CC-BY-SA icluf ; jamais versionnées ni diffusées) :
+#   - vise_f877235a_centre_t-12 et vise_9badc00e_centre_t-12 : chaussée 2 × 1 voies d'environ 3,25 m, passage piéton en
+#     deux temps (bandes de 0,50 m, longues d'environ 4 m), îlot refuge central étroit (≈ 1,80 m, observation M24 :
+#     1,8 ± 0,4) à bordures basses arrondies (vue ≈ 0,10 ± 0,04), coupé à niveau au droit du passage, nez avec une
+#     balise ; au-delà du nez, une ligne continue qui s'écarte : zone peinte d'approche ;
+#   - côté du photographe : bordure abaissée au passage, trottoir en béton balayé à joints (≈ 3 m), dalles podotactiles
+#     jointées gris clair au droit du passage, piste cyclable bidirectionnelle en enrobé gris (figurines vélo) au niveau
+#     du trottoir, séparée par le changement de matériau, puis massif d'arbustes (lavandes) ;
+#   - en face : trottoir béton (≈ 2 m) puis large bande enherbée avec des arbres isolés, devant les immeubles ;
+#   - enrobé gris un peu usé, tampons de regard, marquages grisés (usure moyenne) ; hiver : arbres nus.
+# Simplifications déclarées : tronçon droit de 90 m ; la zone peinte d'approche est décrite comme une zone hachurée de
+# la largeur de l'îlot sur tout le tronçon (pas de biseau : une bande qui naît en cours de tronçon décroche les rives) ;
+# l'îlot bordé fait 12 m (longueur non mesurable sur la photo) ; les cotes « ≈ » sont des estimations sur photo.
+scene: S_M24
+nom: avenue_du_granier
+titre: Avenue du Granier (Meylan) — passage piéton à refuge, piste bidirectionnelle (photo M24)
+date: 2025-01-12
+confiance: faible
+description: >
+  Avenue du Granier, 2 × 1 voies de 3,25 m séparées par une zone hachurée de 1,80 m qui devient, au passage piéton,
+  un îlot refuge bordé (bordures basses vue 0,10) ; côté droit trottoir béton balayé de 3 m, piste cyclable
+  bidirectionnelle de 2,50 m en enrobé au niveau du trottoir, massif d'arbustes ; côté gauche trottoir béton de 2 m
+  et bande enherbée de 4 m avec des arbres ; enrobé usé, marquages moyennement usés, passage piéton avec abaissés et
+  dalles podotactiles des deux côtés.
+contexte:
+  agglomeration: oui
+  vitesse: 50
+troncon:
+  de: [0, 0]
+  vers: [90, 0]
+profil:
+  - bande plantée 4,0
+  - trottoir 2,0 béton balayé
+  - bordure T2 béton
+  - voie 3,25 ←
+  - zone hachurée 1,80
+  - voie 3,25 →
+  - bordure T2 béton
+  - trottoir 3,0 béton balayé
+  - piste cyclable 2,5 bidirectionnelle niveau trottoir
+  - bande plantée 2,0
+materiaux:
+  chaussee: enrobé usé
+  pistes: enrobé
+marquages:
+  usure: moyenne
+evenements:
+  # îlot refuge bordé de 12 m au droit du passage : même largeur que la zone hachurée (aucun décrochement des voies)
+  - profil: {a: 34, nouveau: "bande plantée 4,0 | trottoir 2,0 béton balayé | bordure T2 béton | voie 3,25 ← | bordure basse vue 0,10 | terre-plein 1,80 enrobé | bordure basse vue 0,10 | voie 3,25 → | bordure T2 béton | trottoir 3,0 béton balayé | piste cyclable 2,5 bidirectionnelle niveau trottoir | bande plantée 2,0"}
+  - profil: {a: 46, nouveau: "bande plantée 4,0 | trottoir 2,0 béton balayé | bordure T2 béton | voie 3,25 ← | zone hachurée 1,80 | voie 3,25 → | bordure T2 béton | trottoir 3,0 béton balayé | piste cyclable 2,5 bidirectionnelle niveau trottoir | bande plantée 2,0"}
+  - passage_pieton: {a: 40, largeur: 4.0, abaisses: oui, bev: oui}
+objets:
+  - arbres: {bande: bande plantée gauche, pas: 14, de: 7, a: 84, hauteur: 9, houppier_rayon: 3.0}
+abords:
+  gauche: pelouse 6
+  droite: pelouse 6
+# refuge relevé sur la photo, non conforme aux valeurs de conception : cas réel admis explicitement
+ecarts_admis:
+  DEF-022: "refuge de 1,80 m ± 0,40 relevé sur les photos M24 (9badc00e, f877235a), < 2,00 m"
+  RF-MA-REF-003: "bordures du refuge vues à 0,10 m ± 0,04 sur les photos M24, < 0,12 m"
+  RF-OSM-LAR-050: "îlot central bordé de 1,80 m ± 0,40 (photos M24), sous la largeur d'un terre-plein planté (2 m)"

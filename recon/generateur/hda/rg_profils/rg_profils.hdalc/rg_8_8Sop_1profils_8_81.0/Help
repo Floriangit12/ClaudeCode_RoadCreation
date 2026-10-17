@@ -1,0 +1,27 @@
+= RG Profils (limites, bandes, transitions) =
+
+"""Profils en travers déroulés le long des références : une polyligne par limite et par section (décalage t(s) = cumul des lois de largeur), rubans de bandes, profils d'extrémité et profil en long de la chaussée (plateaux, dos-d'âne) ; contrôles de largeur, de repli et de continuité aux jonctions."""
+
+== Entrées ==
+
+1. Références échantillonnées (rg::graphe, sortie 1), 2. Profils, 3. Ponctuels (rg::lire_modele, sorties 5 et 4).
+
+== Sorties ==
+
+1. Limites : polylignes ; primitives route, section, profil, limite, cle (bande gauche|droite), nature, bordure, vue_m, cote_haut, caniveau, marquages (JSON), separateur, limite_json, est_reference, transition_entree ; points s, t, dz_chaussee.
+2. Bandes : quadrilatères (normale +Y) ; bande, type, sens, materiau_id, niv_*, largeur_min_m, largeur_max_m, bande_json.
+3. Profils d'extrémité : coupes en s = 0 et s = L (route, extremite, noeud).
+4. Profil en long : polyligne (x, dz, −y) de la chaussée.
+
+Détail : rg_largeur_min_m, rg_largeurs_negatives, rg_largeurs_nulles_hors_biseau, rg_extremites_de_biseau, rg_replis, rg_sections_non_contigues, rg_jonction_* (écarts aux jonctions, jonctions instantanées déclarées).
+
+@parameters
+
+Tolérance de continuité (m):
+    #id: tolerance_continuite
+    Écart maximal des bords d'une même bande de part et d'autre d'une jonction de sections (critère du lot L1 : 1 mm). Les jonctions déclarées « instantanee » par le modèle sont comptées à part.
+
+Rampe des plateaux (%) si rg::graphe ne la donne pas:
+    #id: rampe_plateau_pct
+    DEF-034 ; d'ordinaire lue sur le détail rg_rampe_plateau_pct de l'entrée 1.
+

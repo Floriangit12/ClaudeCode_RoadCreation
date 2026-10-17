@@ -1,0 +1,37 @@
+# S01 — Route bidirectionnelle 1 + 1 hors agglomération, sans bordures.
+# Accotements enherbés, rives T2 3u, axe T1 2u qui passe en continue (zone de dépassement interdit) après sa ligne
+# d'annonce T3 2u et ses 3 flèches de rabattement à cheval sur l'annonce.
+format: description_simple/0.1
+scene: S01
+nom: route_1x1_hors_agglomeration
+titre: Route 1 + 1 hors agglomération, sans bordures, axe T1 passant en continue
+description: "Route départementale à 70 km/h ; 2 voies de 3,00 m ; surlargeur revêtue de 0,25 m puis accotement enherbé de 1,75 m ; rives T2 3u ; axe T1 2u, annonce T3 2u et continue à partir de s = 88 m."
+contexte:
+  agglomeration: false
+  vitesse_kmh: 70
+  V15_kmh: 70              # V15 supposée égale à la vitesse limite (plafond 100 km/h en double sens, RF-MQ-PS-02) → L = 78 m (RF-MQ-PS-03)
+  categorie: departementale
+  u_m: 0.05                # route ni autoroute ni route à grande circulation (DEF-001, RF-MQ-U-03)
+marquages: {usure: moyenne}
+trace:
+  - droite: 120
+profil:
+  - {bande: bdd, id: bd1, largeur: 1.75, materiau: herbe_haute}           # BDD 2,00 m au total (RF-GV-PT-009 BDD_normale), partie enherbée ; dévers 4 % (RF-GV-DEV-001)
+  - {ligne: aucune}  
+  - {bande: surlargeur, id: acc1, largeur: 0.25, materiau: enrobe_bbsg_ancien}   # partie revêtue de la BDD (< 0,50 m : pas de marquage de surlargeur, RF-MQ-SC-12)
+  - {ligne: T2, largeur_u: 3}                                             # rive T2 3u : RF-MQ-SC-10, RF-MQ-LAR-B1a, RF-OSM-MRQ-021
+  - {bande: voie, id: v1, sens: arriere, largeur: 3.00, materiau: enrobe_bbsg_ancien}   # fonctions modérées : RF-GV-PT-009
+  - {ligne: T1, largeur_u: 2}                                             # axe T1 2u en rase campagne : RF-MQ-SC-01, RF-MQ-LAR-A2a, RF-MQ-MOD-T1
+  - {bande: voie, id: v2, sens: avant, largeur: 3.00}                     # RF-GV-PT-009
+  - {ligne: T2, largeur_u: 3}                                             # RF-MQ-SC-10
+  - {bande: surlargeur, id: acc2, largeur: 0.25}
+  - {ligne: aucune}  
+  - {bande: bdd, id: bd2, largeur: 1.75}
+evenements:
+  # continue axiale à partir de s = 88 (sens avant) précédée d'une ligne d'annonce T3 2u de longueur L = 78 m
+  # (RF-MQ-PS-04, RF-MQ-LAR-A3a) et de 3 flèches de rabattement RAB_D à cheval sur l'annonce (RF-MQ-RAB-01,
+  # RF-MQ-RAB-02, RF-MQ-RAB-03) aux interdistances 39 / 26 m, la 3e à 13 m de la continue (RF-MQ-RAB-05, L = 78)
+  - zone_depassement_interdit: {a: 88, sens: avant}
+abords: {gauche: prairie 6, droite: prairie 6}
+# rives T2 (3,00 / 3,50) : 19 traits par rive sur 120 m ; axe : 1 trait T1 (0-3), 18 traits T3 de 10 à 88, continue 88-120
+attendus: {longueur: 120, largeur_emprise: 10.0, largeur_chaussee: 6.5, voies: {arriere: 1, avant: 1}, traits: {T1 2u: 1, T2 3u: 38, T3 2u: 18}, continues_m: {continue 2u: 32}, fleches: {RAB_D: 3}, annonce: {L: 78, s0: 10, s1: 88}, fleches_s: [10, 49, 75]}

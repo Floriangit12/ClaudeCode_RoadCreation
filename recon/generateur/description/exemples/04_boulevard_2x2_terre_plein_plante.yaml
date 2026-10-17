@@ -1,0 +1,33 @@
+# Boulevard urbain 2 × 2 voies à chaussées séparées par un terre-plein central planté (gazon et arbres), bordures
+# granit (y compris autour du terre-plein, qui sert de refuge au passage piéton), trottoirs en béton désactivé.
+# La ligne du tronçon est le milieu du terre-plein.
+scene: ex04_boulevard_2x2_terre_plein_plante
+description: Boulevard 2 × 2 voies à 50 km/h, terre-plein central planté de 4 m avec arbres, bordures T2 en granit, trottoirs de 3 m en béton désactivé.
+contexte:
+  agglomeration: oui
+  categorie: boulevard
+  vitesse: 50
+troncon:
+  de: [0, 0]
+  vers: [160, 0]
+profil:
+  - trottoir 3,0 béton désactivé
+  - bordure T2 granit
+  - voie 3,0 ←
+  - voie 3,0 ←
+  - bordure T2 granit vue 0,14        # le passage traverse le terre-plein : refuge, bordure ≥ 0,12 (RF-MA-REF-003)
+  - terre-plein 4,0 planté arbres
+  - bordure T2 granit vue 0,14
+  - voie 3,0 →
+  - voie 3,0 →
+  - bordure T2 granit
+  - trottoir 3,0 béton désactivé
+materiaux:
+  chaussee: enrobé neuf
+marquages:
+  usure: légère
+evenements:
+  - passage_pieton: {a: 80, largeur: 5}
+abords:
+  gauche: pelouse 5
+  droite: pelouse 5

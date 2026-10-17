@@ -1,0 +1,16 @@
+# Rue à sens unique avec stationnement des deux côtés, entrées charretières et abaissés. La ligne du tronçon est le
+# milieu de la chaussée (sens unique) ; la voie de 3,50 m est à la borne haute de RF-OSM-LAR-011.
+scene: ex08_sens_unique_stationnement_charretieres
+description: Rue à sens unique, voie de 3,50 m, stationnement de 2 m des deux côtés, trottoirs de 1,50 m ; deux entrées charretières, un abaissé isolé, un passage piéton.
+contexte:
+  agglomeration: oui
+  vitesse: 30
+troncon:
+  de: [0, 0]
+  vers: [120, 0]
+profil: "trottoir 1,5 | stationnement 2,0 | voie 3,5 → | stationnement 2,0 places marquées | trottoir 1,5"
+evenements:
+  - entree_charretiere: {a: 25, cote: gauche, largeur: 3}
+  - entree_charretiere: {a: 55, cote: droite, largeur: 4}
+  - abaisse: {a: 75, cote: droite}
+  - passage_pieton: {a: 100}

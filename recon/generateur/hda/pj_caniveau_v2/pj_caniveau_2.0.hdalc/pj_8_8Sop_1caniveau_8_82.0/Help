@@ -1,0 +1,185 @@
+= PJ Caniveaux (éléments préfabriqués) v2 =
+
+"""Caniveaux préfabriqués (CS1-CS3) devant la face vue des bordures : joints alignés sur ceux de la bordure (même disposition que pj::bordure), coupes, pièces courbes sur mesure, fil d'eau du modèle de nivellement (TQ-SOL-013 (3)). Version 2.0 : intervalles du caniveau (props) correctement lus (groupes non capturants dans re_findall)."""
+
+== Entrées ==
+
+1. Bordures : courbes de l'arête avant (sens : trottoir à gauche, face vue à droite) avec id, intervalles (dict[] :
+   s0, s1, profil, vue_m, vue_m_fin, role), geometrie_reguliere (dict : primitives droite/arc), niv_s, niv_z_pied,
+   materiau_id, aspect, joint_mm, coupe_zone. Seuls id et intervalles sont indispensables (repli : polyligne, Z du
+   volume).
+2. Nivellement (HeightField de pj::lire_description) : mode « volume » de l'altitude du pied.
+3. Contexte (facultatif, inutilisé).
+
+== Sorties ==
+
+1. Maillages Y haut (materiau_id, pj_couche, pj_entite = bordure, N, uv en mètres).
+2. Points d'instances de la bibliothèque : asset, unreal_instance (/Game/PJ/Lib/Bordures/SM_<asset>), orient, scale,
+   graine, cd = [usure, salissure, mousse, herbe, teinte], x (traçabilité).
+3. Prototypes (pivot : milieu de l'élément, face vue, dessous du bloc ; X = s, Y = v, Z = −u).
+
+Règles : TQ-BOR-002, bordures_elements.json (regle_pas_rayon, pose, jitter, epaufrures, aretes), GA-CHR-002,
+GA-ABA-004, GA-BOR-005, TQ-SOL-013. Conventions : recon/pcg/houdini/hda/README_HDA.md.
+
+@parameters
+
+== Pose ==
+
+Altitude du pied:
+    #id: altitude
+    Pied de face = fil d'eau du modèle unique ; le dessous du bloc est à pied + vue − H.
+
+Joint par défaut (mm):
+    #id: joint_mm
+    Utilisé si la bordure n'a pas de joint_mm (bordures_elements.json element.joint_mm).
+
+Largeur de joint variable:
+    #id: joints_aleatoires
+    5,5-7 mm (neuve) ou log-normale 5-8 mm (ancienne), coins bornés à 3,5-9,5 mm.
+
+Flèche de corde max (mm):
+    #id: fleche_max_mm
+    Élément droit admis si sa flèche reste sous ce seuil (regle_pas_rayon).
+
+Coin de joint max (mm):
+    #id: coin_max_mm
+    Base x déviation des tangentes : au-delà, élément plus court ou pièce courbe.
+
+Coin vertical max (mm):
+    #id: coin_v_max_mm
+    H x changement de pente du fil d'eau sur l'élément.
+
+Pas des murets (m):
+    #id: pas_muret
+    Profil MURET_TALUS : pièces coulées de cette longueur au plus.
+
+Corde des courbes (mm):
+    #id: corde_mm
+    Flèche de corde max de l'échantillonnage des pièces sur mesure (courbes régularisées).
+
+Profil par défaut:
+    #id: profil_defaut
+    Profil quand la bordure n'a pas d'attribut caniveau (CS1, CS2, CS3).
+
+Courbes sans attribut caniveau:
+    #id: sans_attribut
+    Une courbe sans attribut caniveau (tracée dans Unreal) reçoit un caniveau sur toute sa longueur.
+
+== Aspect ==
+
+Jitter de pose:
+    #id: jitter
+    Graine = hachage de l'identifiant de l'élément.
+
+Jitter de hauteur (mm):
+    #id: jit_hauteur_mm
+    
+
+Jitter de lacet (°):
+    #id: jit_lacet_deg
+    
+
+Jitter latéral (mm):
+    #id: jit_lateral_mm
+    
+
+Jitter de roulis (°):
+    #id: jit_roulis_deg
+    
+
+Chanfrein d'about (mm):
+    #id: chanfrein_mm
+    Arêtes d'about de la tête et de la face vue (PolyBevel) ; 0 : arêtes vives.
+
+Épaufrures (v1-v3):
+    #id: eclats
+    Variantes d'éclats d'arête (Boolean) selon l'âge (bordures_elements.json epaufrures).
+
+Retrait du mortier sombre (mm):
+    #id: joint_retrait_mm
+    
+
+== Sorties ==
+
+Sortie 1:
+    #id: sortie
+    Les points d'instances (sortie 2) sont toujours produits (unreal_instance).
+
+Couche USD:
+    #id: couche
+    
+
+Format du fichier USD:
+    #id: format_usd
+    Lu par fabriquer_hda.py (bordures du site : plus de 600 000 faces, en binaire).
+
+Couche USD des prototypes:
+    #id: couche_bibliotheque
+    Sortie 3 -> prototypes/<branche>.usda (import UE dans /Game/PJ/Lib/Bordures).
+
+Pivot des prototypes:
+    #id: pivot_prototypes
+    Recopié dans le champ pivot de points/<branche>.json (pj_points/0.1).
+
+Sens de cd:
+    #id: sens_cd
+    Recopié dans le champ cd de points/<branche>.json.
+
+Dossier des specs (vide : table figée):
+    #id: dossier_specs
+    assets/specs (bordures.json, bordures_elements.json) ; vide : table figée dans l'HDA.
+
+== Courbe tracée (Unreal) ==
+
+Identifiant:
+    #id: ue_id
+    id des courbes qui n'en ont pas (plusieurs courbes : <id>-<n>) ; graine du jitter.
+
+Profil courant:
+    #id: ue_profil
+    Profil NF P98-340 (bordures.json).
+
+Vue courante (m):
+    #id: ue_vue
+    
+
+Matériau:
+    #id: ue_materiau
+    materiau_id (materiaux_sol.json).
+
+Abaissé de traversée:
+    #id: ue_abaisse
+    Partie abaissée en vue réduite (GA-ABA-001) et deux rampants (chartières, GA-ABA-004).
+
+Début de la partie abaissée (m):
+    #id: ue_abaisse_debut
+    Abscisse le long de la courbe (depuis son premier point).
+
+Fin de la partie abaissée (m):
+    #id: ue_abaisse_fin
+    GA-ABA-001 : au moins 1,20 m de partie abaissée.
+
+Profil abaissé:
+    #id: ue_profil_abaisse
+    
+
+Vue abaissée (m):
+    #id: ue_vue_abaisse
+    GA-ABA-001 : 0,02 ± 0,005 m.
+
+Longueur des rampants (m, −1 : règle):
+    #id: ue_rampant
+    −1 : GA-ABA-004, L = min(2,00 ; Δh / 0,05), au moins Δh / 0,08 (Δh = vue courante − vue abaissée).
+
+Décalage du pied (m):
+    #id: ue_decalage_pied
+    Pied de face (fil d'eau) = Z de la courbe + décalage ; niv_s / niv_z_pied sont tirés de la courbe.
+
+Usure (épaufrures, salissure):
+    #id: ue_usure
+    aspect.epaufrures et aspect.salissure ; < 0,2 : bordure neuve (joints 5,5-7 mm, jitter normal).
+
+Sorties 2 et 3 vides (Houdini Engine):
+    #id: sorties_unreal
+    Houdini Engine convertit toutes les sorties : vides, seuls les maillages ou instances de la sortie 1 sont créés dans Unreal (pas de prototypes à l'origine, pas d'instances de /Game/PJ/Lib absentes).
+

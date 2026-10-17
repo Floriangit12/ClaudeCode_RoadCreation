@@ -1,0 +1,32 @@
+# S04 — Rue 1 + 1 avec bandes cyclables des deux côtés.
+format: description_simple/0.1
+scene: S04
+nom: rue_bandes_cyclables
+titre: Rue 1 + 1 avec bandes cyclables des deux côtés
+description: "Rue à 50 km/h ; 2 voies de 3,00 m ; bandes cyclables de 2,00 m (entre l'axe de la ligne T3 5u et la bordure, soit 1,875 m hors marquage dont 0,25 m de caniveau) ; figurines vélo tous les 50 m ; trottoirs de 2,00 m."
+contexte:
+  agglomeration: true
+  vitesse_kmh: 50
+  categorie: rue
+  u_m: 0.05                # DEF-001 : la bande prend le u de la route (MARQUAGES_IISR7 § 2)
+marquages: {usure: légère}
+trace:
+  - droite: 100
+profil:
+  - {bande: trottoir, id: tr1, largeur: 2.00, materiau: enrobe_trottoir}  # DEF-004
+  - {bordure: T2, vue: 0.14, caniveau: CS2}                               # DEF-005
+  - {bande: bande_cyclable, id: bc1, sens: arriere, largeur: 2.00, materiau: enrobe_bbsg_ancien}   # ≥ 1,50 hors marquage et caniveau (RF-MA-BAN-001, DEF-007), ≤ 2,00 hors marquage (RF-MA-BAN-002) ; revêtement de la chaussée (RF-MA-BAN-009)
+  - {ligne: T3, largeur_u: 5}                                             # RF-MQ-SC-07, RF-MQ-LAR-B2c, RF-MA-BAN-005, RF-OSM-CYC-001
+  - {bande: voie, id: v1, sens: arriere, largeur: 3.00, materiau: enrobe_bbsg_ancien}   # DEF-002
+  - {ligne: T'1, largeur_u: 2}                                            # RF-OSM-MRQ-010
+  - {bande: voie, id: v2, sens: avant, largeur: 3.00}
+  - {ligne: T3, largeur_u: 5}                                             # RF-MQ-SC-07
+  - {bande: bande_cyclable, id: bc2, sens: avant, largeur: 2.00}
+  - {bordure: T2, vue: 0.14, caniveau: CS2}
+  - {bande: trottoir, id: tr2, largeur: 2.00}
+objets:
+  # figurine vélo (annexe D.1, gabarit VELO) dans l'axe de chaque bande, tous les 50 m (DEF-018, RF-MA-CYC-012, RF-MQ-CYC-03)
+  - figurines: {gabarit: VELO, bandes: [bc1, bc2], a: [25, 75]}
+abords: {gauche: pelouse 6, droite: pelouse 6}
+# T3 (3,00 / 1,333) sur 100 m : 23 traits par ligne (le 24e, tronqué à 0,33 m, n'est pas peint) ; axe T'1 : 16
+attendus: {longueur: 100, largeur_emprise: 14.0, largeur_chaussee: 10.0, voies: {arriere: 1, avant: 1}, traits: {T'1 2u: 16, T3 5u: 46}, bordures_m: {T2: 200}, figurines: 4}

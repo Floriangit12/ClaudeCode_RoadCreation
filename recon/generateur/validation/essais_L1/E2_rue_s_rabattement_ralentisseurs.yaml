@@ -1,0 +1,22 @@
+# Essai du lot L1 : courbe en S (arc gauche R 80, clothoïde de courbure +1/80 à -1/80, arc droite R 80) ; un
+# rabattement 2 -> 1 voie dans la clothoïde (lois de largeur sur une courbe à courbure variable), un plateau avec
+# passage piéton et un dos-d'âne (lois verticales de la chaussée).
+scene: E2_rue_s_rabattement_ralentisseurs
+description: Rue en zone 30, une voie vers la gauche et deux vers la droite dont la voie de gauche se rabat par un biseau de 40 m dans le S ; plateau avec passage piéton à 25 m, dos-d'âne à 150 m.
+contexte:
+  agglomeration: oui
+  vitesse: 30
+troncon:
+  depart: [0, 0]
+  cap: 0
+  trace:
+    - droite: 15
+    - arc: {rayon: 80, angle: 25, sens: gauche}
+    - clothoide: {longueur: 40, rayon_fin: 80, sens: droite}
+    - arc: {rayon: 80, angle: 25, sens: droite}
+    - droite: 40
+profil: "trottoir 2 | voie 3 ← | voie 3 → | voie 3 → | trottoir 2"
+evenements:
+  - plateau: {a: 25, passage_pieton: oui}
+  - rabattement: {a: 110, sens: →, voie: gauche, biseau: 40}
+  - dos_d_ane: {a: 150}

@@ -1,0 +1,80 @@
+# Avenue de Chamechaude (Meylan), section droite au nord du giratoire du site M20 — décrite en regardant les tuiles de
+# la photo Panoramax 30b80a7b (dossier 13, 28/07/2026, etalab-2.0 ign / ceremadtermed-ti ; jamais versionnée ni
+# diffusée) :
+#   - vise_30b80a7b_centre_t-12 : rue 1 + 1 d'environ 6 m sans ligne axiale visible, entre bordures basses ; grands
+#     arbres (chênes) qui couvrent la chaussée à droite, bouleaux et immeuble à gauche ; passage piéton à quelques
+#     dizaines de mètres, signalé par un C20a sur poteau en rive droite (observation M20 : bord inférieur ≈ 2,2 m) ;
+#   - tuile l+51 : à droite, bordure basse, accotement enherbé sec d'environ 2,5 m, chemin piéton en enrobé d'environ
+#     1,8 m, puis sous-bois ; tuile l-51 : à gauche, accotement enherbé large (2-4 m, observation M20) ;
+#   - enrobé gris clair en bon état, ombres des arbres sur la chaussée (été).
+#   - au droit du passage (tuile vise, correction après le second contrôle) : à gauche, le passage débouche sur une
+#     surface revêtue qui part vers l'immeuble ; à droite, vers le chemin piéton derrière l'accotement (au pied du C20a).
+# Simplifications déclarées : tronçon droit de 100 m (la rue tourne légèrement plus loin) ; le passage est placé à 30 m
+# du début du tronçon ; cotes « ≈ » estimées sur photo ; vue des bordures basses estimée à 0,06 (A2 : 0,04-0,10, RF-AS-profil_A2) ;
+# traversées revêtues au droit du passage (28 à 32) : à gauche un chemin en enrobé à travers la bande plantée (vers
+# l'immeuble, hors de l'image), à droite une liaison en enrobé à travers l'accotement jusqu'au chemin piéton, au niveau
+# des bandes hautes (abaissés et BEV contre la chaussée).
+scene: S_M20
+nom: avenue_de_chamechaude
+titre: Avenue de Chamechaude (Meylan) — rue 1 + 1 à accotements enherbés et grands arbres (photo M20)
+date: 2026-07-28
+confiance: faible
+description: >
+  Avenue de Chamechaude, rue 1 + 1 de 6,00 m sans ligne axiale entre bordures basses ; accotements enherbés de 6 m à
+  gauche et 2,5 m à droite ; chemin piéton en enrobé de 1,8 m à droite derrière l'accotement ; grands chênes à droite
+  au-dessus de la chaussée, bouleaux à gauche ; passage piéton à 30 m avec abaissés, dalles podotactiles et C20a,
+  relié de chaque côté par une traversée revêtue (chemin vers l'immeuble à gauche, liaison jusqu'au chemin piéton à droite).
+contexte:
+  agglomeration: oui
+  vitesse: 50
+troncon:
+  de: [0, 0]
+  vers: [100, 0]
+profil:
+  # forme structurée (catalogue) : la vue 0,06 de la bordure basse vaut pour toutes les bandes hautes (accotements,
+  # chemin, bande plantée au même niveau, sans marche entre elles)
+  - {bande: bande plantée, id: bp_g, largeur: 6.0, vue: 0.06}
+  - {bordure: basse, vue: 0.06}
+  - {bande: voie, id: v1, sens: arriere, largeur: 3.0}
+  - {bande: voie, id: v2, sens: avant, largeur: 3.0}
+  - {bordure: basse, vue: 0.06}
+  - {bande: bande enherbée, id: be_d, largeur: 2.5, vue: 0.06}
+  - {bande: chemin, id: ch_d, largeur: 1.8, materiau: enrobé, vue: 0.06}
+  - {bande: bande plantée, id: bp_d, largeur: 5.0, vue: 0.06}
+materiaux:
+  chaussee: enrobé usé
+marquages:
+  axe: aucune
+  usure: légère
+evenements:
+  # traversées revêtues au droit du passage (28 à 32), au niveau des bandes hautes : chemin à travers la bande plantée
+  # gauche, liaison à travers l'accotement droit jusqu'au chemin piéton
+  - profil:
+      a: 28
+      nouveau:
+        - {bande: chemin, id: ch_g, largeur: 6.0, materiau: enrobé, vue: 0.06}
+        - {bordure: basse, vue: 0.06}
+        - {bande: voie, id: v1, sens: arriere, largeur: 3.0}
+        - {bande: voie, id: v2, sens: avant, largeur: 3.0}
+        - {bordure: basse, vue: 0.06}
+        - {bande: chemin, id: li_d, largeur: 2.5, materiau: enrobé, vue: 0.06}
+        - {bande: chemin, id: ch_d, largeur: 1.8, materiau: enrobé, vue: 0.06}
+        - {bande: bande plantée, id: bp_d, largeur: 5.0, vue: 0.06}
+  - profil:
+      a: 32
+      nouveau:
+        - {bande: bande plantée, id: bp_g, largeur: 6.0, vue: 0.06}
+        - {bordure: basse, vue: 0.06}
+        - {bande: voie, id: v1, sens: arriere, largeur: 3.0}
+        - {bande: voie, id: v2, sens: avant, largeur: 3.0}
+        - {bordure: basse, vue: 0.06}
+        - {bande: bande enherbée, id: be_d, largeur: 2.5, vue: 0.06}
+        - {bande: chemin, id: ch_d, largeur: 1.8, materiau: enrobé, vue: 0.06}
+        - {bande: bande plantée, id: bp_d, largeur: 5.0, vue: 0.06}
+  - passage_pieton: {a: 30, largeur: 4.0, abaisses: oui, bev: oui, panneau: oui}
+objets:
+  - arbres: {bande: bp_g, pas: 10, de: 8, a: 92, essence: bouleau}
+  - arbres: {bande: bp_d, pas: 11, de: 4, a: 96, essence: chêne grand}
+abords:
+  gauche: pelouse 6
+  droite: pelouse 6

@@ -1,0 +1,37 @@
+# S09 — Rabattement 2 → 1 voie : flèches de rabattement, ligne oblique continue, zébra, rétrécissement physique.
+format: description_simple/0.1
+scene: S09
+nom: reduction_2_vers_1_voie
+titre: Rue à sens unique, réduction de 2 à 1 voie avec flèches de rabattement
+description: "Rue à sens unique à 50 km/h, 2 voies de 3,00 m ; la voie de gauche est supprimée : oblique continue 3u de L = 39 m (s = 45 → 84), zébra entre l'oblique et la bordure, trottoir de gauche élargi de 2,00 à 5,00 m sur Lp = 19,50 m (PCI 64,5 → PCF 84) ; 2 flèches de rabattement RAB_D dans l'axe de la voie supprimée."
+contexte:
+  agglomeration: true
+  vitesse_kmh: 50          # V15 = 50 en agglomération (RF-MQ-PS-02) → L = 39 m (RF-MQ-PS-03)
+  categorie: rue
+  u_m: 0.05                # DEF-001
+marquages: {usure: légère}
+trace:
+  - droite: 100
+profil:
+  - {bande: trottoir, id: tr1, largeur: 2.00, materiau: enrobe_trottoir}  # DEF-004 (élargi par la réduction)
+  - {bordure: T2, vue: 0.14, caniveau: CS2}                               # DEF-005 ; suit le rétrécissement physique
+  - {bande: voie, id: v1, sens: avant, largeur: 3.00, materiau: enrobe_bbsg_ancien}   # voie supprimée (la plus à gauche, RF-MQ-RAB-02)
+  - {ligne: T'1, largeur_u: 2}                                            # RF-OSM-MRQ-011 ; laissée discontinue jusqu'au PCF pour permettre le rabattement
+  - {bande: voie, id: v2, sens: avant, largeur: 3.00}                     # RF-OSM-LAR-012
+  - {bordure: T2, vue: 0.14, caniveau: CS2}
+  - {bande: trottoir, id: tr2, largeur: 2.00}
+evenements:
+  # Rétrécissement physique Lp = 19,5 < L : oblique de longueur L à l'amont du point de fin (RF-MQ-OBL-02,
+  # RF-MQ-RET-01), continue 3u (RF-MQ-LAR-A1c). 1re flèche à L/2 en amont du début de l'oblique, interdistance 26 m
+  # (RF-MQ-RAB-04, RF-MQ-RAB-05, RF-MQ-RAB-07). Pour L = 39 la « distance à la ligne continue » est vide dans l'IISR
+  # (p. 22) : la 3e flèche tomberait au milieu de l'oblique, sur la ligne → 2 flèches (exception d'agglomération,
+  # RF-MQ-RAB-03). Zébra : hachures 0,50 / 1,35 à 26,565°, 2u non peints, aplat sous 0,30 m (DEF-020, RF-MQ-HACH-01,
+  # RF-MQ-HACH-03, RF-MQ-MUS-01). La règle ARP de déport 37 × d (RF-GV-PT-014) vaut hors agglomération : non appliquée.
+  - rabattement: {a: 84, sens: avant, voie: gauche, biseau: 19.5, fleches: oui, nombre_fleches: 2, zebra: oui, elargit: tr1}
+abords: {gauche: pelouse 6, droite: pelouse 6}
+# oblique : bord extérieur au nez de bordure en s = 45 et au nez de la bordure rabattue au PCF (axe à 0,075 m) ; la
+# ligne T'1 s'arrête où l'oblique arrive à 2u bord à bord (axe de l'oblique à 0,05 + 0,10 + 0,075 = 0,225 m de l'axe
+# de la ligne) : s = 45 + (2,775 − 0,075) × 39 / 3 = 80,1 → 13 traits (0 … 78) ; flèche 2 à 0,26 m du bord de
+# l'oblique, 3e flèche (milieu de l'oblique) dans le zébra → non posée ; zébra : 4 hachures + 2 aplats de pointe ;
+# bordure gauche : 64,5 + √(19,5² + 3²) + 16 = 100,229 m
+attendus: {longueur: 100, largeur_emprise: 10.0, largeur_chaussee: 6.0, voies: {avant: 2}, traits: {T'1 2u: 13}, bordures_m: {T2: 200.23}, fleches: {RAB_D: 2}, fleches_s: [25.5, 51.5], oblique: {L: 39, s0: 45, s1: 84, PCI: 64.5, Lp: 19.5}, hachures: 4, aplats: 2}

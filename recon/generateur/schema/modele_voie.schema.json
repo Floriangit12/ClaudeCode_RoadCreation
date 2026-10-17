@@ -1,0 +1,3680 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "modele_voie.schema.json",
+ "title": "modele_voie/0.1 — modèle de données du générateur procédural de routes (Houdini 22 → UE 5.8, OpenDRIVE, graphe de voies)",
+ "description": "Graphe nœuds / routes / carrefours ; route = ligne de référence + sections de profil en travers ; profil = liste ordonnée de bandes (gauche → droite) et de limites. Coordonnées en Lambert-93 (EPSG:2154), mètres ; abscisse s le long de la ligne de référence, décalage t positif à gauche (convention ASAM OpenDRIVE 1.8.1, § 8.3). Voir MODELE_VOIE_ROUTE_CARREFOUR.md.",
+ "type": "object",
+ "required": [
+  "schema",
+  "repere",
+  "routes",
+  "noeuds"
+ ],
+ "additionalProperties": false,
+ "properties": {
+  "schema": {
+   "const": "modele_voie/0.1"
+  },
+  "meta": {
+   "type": "object",
+   "properties": {
+    "date": {
+     "type": "string"
+    },
+    "auteur": {
+     "type": "string"
+    },
+    "zone": {
+     "type": "string"
+    },
+    "description": {
+     "type": "string"
+    },
+    "sources": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   },
+   "additionalProperties": true
+  },
+  "repere": {
+   "type": "object",
+   "properties": {
+    "crs": {
+     "const": "EPSG:2154"
+    },
+    "origine_l93": {
+     "type": "array",
+     "items": {
+      "type": "number"
+     },
+     "minItems": 3,
+     "maxItems": 3
+    },
+    "z_ref": {
+     "const": "NGF-IGN69"
+    },
+    "convention_t": {
+     "const": "positif_a_gauche"
+    }
+   },
+   "required": [
+    "crs",
+    "origine_l93"
+   ],
+   "additionalProperties": false
+  },
+  "contexte": {
+   "type": "object",
+   "properties": {
+    "pays": {
+     "const": "FR"
+    },
+    "sens_circulation": {
+     "const": "droite"
+    },
+    "agglomerations": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "nom": {
+        "type": "string"
+       },
+       "polygone": {
+        "$ref": "#/$defs/polygone"
+       }
+      },
+      "required": [
+       "id",
+       "polygone"
+      ],
+      "additionalProperties": false
+     }
+    },
+    "zones_vitesse": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "vitesse_kmh": {
+        "type": "number",
+        "minimum": 0
+       },
+       "type": {
+        "enum": [
+         "zone30",
+         "zone_rencontre",
+         "aire_pietonne",
+         "autre"
+        ]
+       },
+       "polygone": {
+        "$ref": "#/$defs/polygone"
+       }
+      },
+      "required": [
+       "id",
+       "vitesse_kmh",
+       "polygone"
+      ],
+      "additionalProperties": false
+     }
+    },
+    "u_itineraires": {
+     "type": "object",
+     "additionalProperties": {
+      "enum": [
+       0.05,
+       0.06,
+       0.075
+      ]
+     }
+    }
+   },
+   "additionalProperties": false
+  },
+  "profils": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/profil"
+   }
+  },
+  "noeuds": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/noeud"
+   }
+  },
+  "routes": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/route"
+   }
+  },
+  "carrefours": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/carrefour"
+   }
+  },
+  "ilots": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/ilot"
+   }
+  },
+  "ouvrages": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/ouvrage"
+   }
+  },
+  "signaux": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/signal"
+   }
+  },
+  "controleurs": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/controleur"
+   }
+  },
+  "objets": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/objet"
+   }
+  },
+  "marquages": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/marquage"
+   }
+  },
+  "zones": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/zone_surfacique"
+   }
+  },
+  "graphe_voies": {
+   "$ref": "#/$defs/graphe_voies"
+  }
+ },
+ "$defs": {
+  "id": {
+   "type": "string",
+   "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+  },
+  "conf": {
+   "enum": [
+    "haute",
+    "moyenne",
+    "faible"
+   ],
+   "description": "confiance (même échelle que description_scene_v2)"
+  },
+  "prov_entree": {
+   "type": "object",
+   "properties": {
+    "src": {
+     "type": "string",
+     "description": "origine de la valeur : osm:way/<id>, osm:node/<id>, osm:tag/<clé>, bdtopo:<couche>/<id>, pcrs, lidar2021, ortho2022, panoramax:<id>, terrain, manuel, defaut:<id règle>, inference:<id règle>, regle:<fichier>.<id>, solveur:<étape>"
+    },
+    "regle": {
+     "type": "string",
+     "description": "identifiant de la règle appliquée (inference_osm_profil.json ou assets/specs/*.json)"
+    },
+    "conf": {
+     "$ref": "#/$defs/conf"
+    },
+    "date": {
+     "type": "string"
+    },
+    "note": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "src",
+    "conf"
+   ],
+   "additionalProperties": false
+  },
+  "prov": {
+   "type": "object",
+   "description": "provenance par attribut : clé = chemin de l'attribut (ex. 'largeur', 'bandes[2].largeur', '*' pour l'entité entière)",
+   "additionalProperties": {
+    "$ref": "#/$defs/prov_entree"
+   }
+  },
+  "xy": {
+   "type": "array",
+   "items": {
+    "type": "number"
+   },
+   "minItems": 2,
+   "maxItems": 3,
+   "description": "coordonnées Lambert-93 (EPSG:2154) en m, z NGF-IGN69 facultatif"
+  },
+  "polyligne": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/xy"
+   },
+   "minItems": 2
+  },
+  "anneau": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/xy"
+   },
+   "minItems": 4,
+   "description": "anneau fermé (premier point = dernier point)"
+  },
+  "polygone": {
+   "type": "object",
+   "properties": {
+    "exterieur": {
+     "$ref": "#/$defs/anneau"
+    },
+    "trous": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/anneau"
+     }
+    }
+   },
+   "required": [
+    "exterieur"
+   ],
+   "additionalProperties": false
+  },
+  "primitive_geom": {
+   "type": "object",
+   "properties": {
+    "type": {
+     "enum": [
+      "droite",
+      "arc",
+      "clothoide",
+      "parampoly3"
+     ]
+    },
+    "s0": {
+     "type": "number",
+     "minimum": 0
+    },
+    "longueur": {
+     "type": "number",
+     "minimum": 0
+    },
+    "x0": {
+     "type": "number"
+    },
+    "y0": {
+     "type": "number"
+    },
+    "cap_deg": {
+     "type": "number"
+    },
+    "courbure0": {
+     "type": "number"
+    },
+    "courbure1": {
+     "type": "number"
+    },
+    "coefficients": {
+     "type": "array",
+     "items": {
+      "type": "number"
+     },
+     "description": "parampoly3 : aU bU cU dU aV bV cV dV (OpenDRIVE <paramPoly3>, pRange=arcLength)"
+    }
+   },
+   "required": [
+    "type",
+    "s0",
+    "longueur",
+    "x0",
+    "y0",
+    "cap_deg"
+   ],
+   "description": "primitive de géométrie régularisée (OpenDRIVE <geometry> : line, arc, spiral, paramPoly3)",
+   "additionalProperties": false
+  },
+  "loi_s": {
+   "description": "valeur variable le long de l'abscisse s (m) : nombre constant, ou loi par morceaux. Équivalent OpenDRIVE <width sOffset a b c d>",
+   "oneOf": [
+    {
+     "type": "number"
+    },
+    {
+     "type": "object",
+     "properties": {
+      "type": {
+       "const": "points"
+      },
+      "interpolation": {
+       "enum": [
+        "lineaire",
+        "palier",
+        "cubique_lisse"
+       ]
+      },
+      "points": {
+       "type": "array",
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "minItems": 2,
+        "maxItems": 2
+       },
+       "minItems": 1,
+       "description": "[[s, valeur], ...] s croissant"
+      }
+     },
+     "required": [
+      "type",
+      "points"
+     ],
+     "additionalProperties": false
+    },
+    {
+     "type": "object",
+     "properties": {
+      "type": {
+       "const": "poly3"
+      },
+      "morceaux": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "s0": {
+          "type": "number",
+          "minimum": 0
+         },
+         "a": {
+          "type": "number"
+         },
+         "b": {
+          "type": "number"
+         },
+         "c": {
+          "type": "number"
+         },
+         "d": {
+          "type": "number"
+         }
+        },
+        "required": [
+         "s0",
+         "a"
+        ],
+        "additionalProperties": false
+       },
+       "minItems": 1
+      }
+     },
+     "required": [
+      "type",
+      "morceaux"
+     ],
+     "additionalProperties": false
+    }
+   ]
+  },
+  "intervalle_s": {
+   "type": "object",
+   "properties": {
+    "s0": {
+     "type": "number",
+     "minimum": 0
+    },
+    "s1": {
+     "type": "number",
+     "minimum": 0
+    }
+   },
+   "required": [
+    "s0",
+    "s1"
+   ],
+   "description": "intervalle d'abscisse curviligne (m), s1 > s0",
+   "additionalProperties": false
+  },
+  "modulation": {
+   "enum": [
+    "continue",
+    "T1",
+    "T'1",
+    "T2",
+    "T'2",
+    "T3",
+    "T'3",
+    "T4",
+    "mixte",
+    "double_continue",
+    "aucune"
+   ],
+   "description": "modulations IISR 7e partie art. 113-1 B (p. 6-7) ; 'mixte' = continue doublée d'une discontinue (art. 113-2 A.4, p. 8)"
+  },
+  "marque_ligne": {
+   "type": "object",
+   "properties": {
+    "modulation": {
+     "$ref": "#/$defs/modulation"
+    },
+    "discontinue_de_la_mixte": {
+     "enum": [
+      "T1",
+      "T3",
+      "T'2"
+     ],
+     "description": "pour 'mixte' : modulation de la ligne discontinue"
+    },
+    "cote_continue": {
+     "enum": [
+      "gauche",
+      "droite"
+     ],
+     "description": "pour 'mixte' : côté (sens de la ligne de référence) où se trouve la continue"
+    },
+    "largeur_u": {
+     "type": "number",
+     "minimum": 0,
+     "description": "largeur en multiples de u (2, 3, 5) — prioritaire si largeur_m absent"
+    },
+    "largeur_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "u_m": {
+     "enum": [
+      0.03,
+      0.05,
+      0.06,
+      0.075
+     ],
+     "description": "IISR 7 art. 113-1 C (p. 7)"
+    },
+    "espacement_u": {
+     "type": "number",
+     "description": "doubles lignes et mixtes : espacement entre les deux traits (2u, art. 113-2 note 3, p. 8)"
+    },
+    "couleur": {
+     "enum": [
+      "blanc",
+      "jaune",
+      "bleu",
+      "rouge",
+      "vert"
+     ]
+    },
+    "phase_m": {
+     "type": "number",
+     "description": "décalage du premier trait à partir de s0 (non normatif ; mesuré ou ancré à l'aval)"
+    },
+    "decalage_m": {
+     "type": "number",
+     "description": "décalage latéral de l'axe du trait par rapport à la limite (+ à gauche, convention OpenDRIVE t)"
+    },
+    "intervalle": {
+     "$ref": "#/$defs/intervalle_s"
+    },
+    "interruptions": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "s0": {
+        "type": "number",
+        "minimum": 0
+       },
+       "s1": {
+        "type": "number",
+        "minimum": 0
+       },
+       "motif": {
+        "enum": [
+         "passage_pieton",
+         "carrefour",
+         "acces_riverain",
+         "arret_bus",
+         "autre"
+        ]
+       }
+      },
+      "required": [
+       "s0",
+       "s1"
+      ],
+      "additionalProperties": false
+     }
+    },
+    "usure": {
+     "type": "number",
+     "minimum": 0,
+     "maximum": 1
+    },
+    "regle": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "modulation"
+   ],
+   "description": "marque longitudinale portée par une limite entre bandes",
+   "additionalProperties": false
+  },
+  "abaisse": {
+   "type": "object",
+   "properties": {
+    "s0": {
+     "type": "number",
+     "minimum": 0
+    },
+    "s1": {
+     "type": "number",
+     "minimum": 0
+    },
+    "type": {
+     "enum": [
+      "traversee",
+      "charretiere",
+      "quai",
+      "piste"
+     ]
+    },
+    "vue_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "rampant_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "bev": {
+     "type": "boolean"
+    },
+    "regle": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "s0",
+    "s1",
+    "type"
+   ],
+   "additionalProperties": false
+  },
+  "bordure": {
+   "type": "object",
+   "properties": {
+    "profil": {
+     "enum": [
+      "T1",
+      "T2",
+      "T3",
+      "T2_bateau",
+      "A1",
+      "A2",
+      "P1",
+      "P2",
+      "P3",
+      "CS1",
+      "CS2",
+      "CC1",
+      "CC2",
+      "I1",
+      "I2",
+      "IL",
+      "QUAI_BUS",
+      "PAVES_GRANIT",
+      "autre"
+     ],
+     "description": "profils de assets/specs/bordures.json (autre équipe, lecture seule)"
+    },
+    "vue_m": {
+     "$ref": "#/$defs/loi_s"
+    },
+    "cote_haut": {
+     "enum": [
+      "gauche",
+      "droite"
+     ],
+     "description": "côté (sens de la ligne de référence) où se trouve la surface haute"
+    },
+    "caniveau": {
+     "type": "object",
+     "properties": {
+      "profil": {
+       "enum": [
+        "CS1",
+        "CS2",
+        "CS3",
+        "CC1",
+        "CC2",
+        "aucun"
+       ]
+      },
+      "cote": {
+       "enum": [
+        "gauche",
+        "droite"
+       ]
+      }
+     },
+     "required": [
+      "profil"
+     ],
+     "additionalProperties": false
+    },
+    "materiau_id": {
+     "type": "string"
+    },
+    "peinte": {
+     "type": "boolean"
+    },
+    "abaisses": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/abaisse"
+     }
+    },
+    "regle": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "profil"
+   ],
+   "description": "bordure posée sur une limite ; la fabrication passe par pj::bordure / pj::caniveau",
+   "additionalProperties": false
+  },
+  "separateur": {
+   "type": "object",
+   "properties": {
+    "type": {
+     "enum": [
+      "potelets",
+      "balises_J11",
+      "plots",
+      "glissiere",
+      "GBA",
+      "muret",
+      "jardinieres",
+      "bordure_separatrice",
+      "garde_corps",
+      "haie"
+     ]
+    },
+    "pas_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "hauteur_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "largeur_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "asset_id": {
+     "type": "string"
+    },
+    "regle": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "type"
+   ],
+   "description": "séparation physique ponctuelle ou continue posée sur une limite (osm2lanes Separator, cycleway:separation)",
+   "additionalProperties": false
+  },
+  "limite": {
+   "type": "object",
+   "properties": {
+    "nature": {
+     "type": "array",
+     "items": {
+      "enum": [
+       "marquage",
+       "bordure",
+       "separateur",
+       "changement_revetement",
+       "virtuelle"
+      ]
+     },
+     "minItems": 1,
+     "uniqueItems": true
+    },
+    "marquages": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/marque_ligne"
+     }
+    },
+    "bordure": {
+     "$ref": "#/$defs/bordure"
+    },
+    "separateur": {
+     "$ref": "#/$defs/separateur"
+    },
+    "franchissable": {
+     "type": "object",
+     "properties": {
+      "vl": {
+       "type": "boolean"
+      },
+      "pl": {
+       "type": "boolean"
+      },
+      "velo": {
+       "type": "boolean"
+      },
+      "pieton": {
+       "type": "boolean"
+      }
+     },
+     "additionalProperties": false
+    },
+    "x-opendrive": {
+     "type": "object",
+     "properties": {
+      "roadmark_type": {
+       "type": "string"
+      },
+      "weight": {
+       "enum": [
+        "standard",
+        "bold"
+       ]
+      },
+      "lane_change": {
+       "enum": [
+        "none",
+        "increase",
+        "decrease",
+        "both"
+       ]
+      }
+     },
+     "additionalProperties": true
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "nature"
+   ],
+   "description": "limite entre deux bandes adjacentes (ou rive extérieure du profil)",
+   "additionalProperties": false
+  },
+  "exclusion": {
+   "type": "object",
+   "properties": {
+    "type": {
+     "enum": [
+      "passage_pieton",
+      "traversee_cyclable",
+      "entree_charretiere",
+      "carrefour",
+      "triangle_visibilite",
+      "arret_bus",
+      "abaisse",
+      "cheminement_pmr",
+      "objet",
+      "ouvrage",
+      "zone"
+     ]
+    },
+    "distance_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "regle": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "type"
+   ],
+   "additionalProperties": false
+  },
+  "objet_le_long": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "famille": {
+     "enum": [
+      "objet_3d",
+      "symbole_sol",
+      "vegetation"
+     ]
+    },
+    "type": {
+     "type": "string",
+     "description": "entrée du catalogue (candelabre, arbre_alignement, potelet, borne, barriere_ville, glissiere, balise_J6, balise_J11, arceau_velo, banc, corbeille, haie ; symbole_sol : figurine_velo, fleche, zone30, losange...)"
+    },
+    "asset_id": {
+     "type": "string"
+    },
+    "gabarit": {
+     "type": "string",
+     "description": "symbole_sol : clé de assets/specs/marquages_geometrie.json (gabarits)"
+    },
+    "mode": {
+     "enum": [
+      "pas",
+      "points",
+      "continu",
+      "entre_cles"
+     ],
+     "description": "pas = répétition régulière ; continu = OpenDRIVE <repeat distance=0> (glissière, haie) ; points = abscisses listées"
+    },
+    "pas_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "phase_m": {
+     "type": "number"
+    },
+    "s_points": {
+     "type": "array",
+     "items": {
+      "type": "number",
+      "minimum": 0
+     }
+    },
+    "intervalle": {
+     "$ref": "#/$defs/intervalle_s"
+    },
+    "ancrage": {
+     "type": "object",
+     "properties": {
+      "reference": {
+       "enum": [
+        "rive_gauche",
+        "centre",
+        "rive_droite"
+       ]
+      },
+      "decalage_m": {
+       "type": "number"
+      }
+     },
+     "required": [
+      "reference"
+     ],
+     "additionalProperties": false
+    },
+    "orientation": {
+     "type": "object",
+     "properties": {
+      "mode": {
+       "enum": [
+        "face_chaussee",
+        "tangent",
+        "perpendiculaire",
+        "face_usagers",
+        "aleatoire"
+       ]
+      },
+      "lacet_deg": {
+       "type": "number"
+      }
+     },
+     "additionalProperties": false
+    },
+    "hauteur_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "houppier_rayon_m": {
+     "type": "number",
+     "minimum": 0,
+     "description": "végétation : rayon du houppier (m) ; ajout recon/generateur 17/10/2026 (correction après contrôle)"
+    },
+    "fut_m": {
+     "type": "number",
+     "minimum": 0,
+     "description": "végétation : hauteur des premières branches (m), gabarit RF-OSM-VEG-001 ; ajout recon/generateur 17/10/2026"
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    },
+    "alea": {
+     "type": "object",
+     "properties": {
+      "s_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "t_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "lacet_deg": {
+       "type": "number",
+       "minimum": 0
+      },
+      "echelle": {
+       "type": "number",
+       "minimum": 0
+      },
+      "sel": {
+       "type": "integer"
+      }
+     },
+     "description": "variations déterministes (graine = hash(id) + sel)",
+     "additionalProperties": false
+    },
+    "exclusions": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/exclusion"
+     }
+    },
+    "regles": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "x-opendrive": {
+     "type": "object",
+     "properties": {
+      "object_type": {
+       "type": "string"
+      },
+      "repeat": {
+       "type": "boolean"
+      }
+     },
+     "additionalProperties": true
+    }
+   },
+   "required": [
+    "famille",
+    "type",
+    "mode"
+   ],
+   "description": "objets répétés le long d'une bande (MetaRoad Component Template ; OpenDRIVE <object><repeat>)",
+   "additionalProperties": false
+  },
+  "remplissage": {
+   "type": "object",
+   "properties": {
+    "type": {
+     "enum": [
+      "plante",
+      "gazon",
+      "brf",
+      "gravier",
+      "galets",
+      "paillage_mineral",
+      "stabilise",
+      "enrobe",
+      "beton",
+      "paves",
+      "resine",
+      "hachures_peintes",
+      "aplat_peint",
+      "terre"
+     ]
+    },
+    "materiau_id": {
+     "type": "string",
+     "description": "identifiant de assets/specs/materiaux_sol.json"
+    },
+    "epaisseur_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "retrait_sous_bordure_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "bombement_m": {
+     "type": "number",
+     "minimum": 0
+    }
+   },
+   "required": [
+    "type"
+   ],
+   "additionalProperties": false
+  },
+  "plantation": {
+   "type": "object",
+   "properties": {
+    "strates": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "enum": [
+         "arbre",
+         "arbuste",
+         "vivace",
+         "graminee",
+         "couvre_sol",
+         "gazon"
+        ]
+       },
+       "asset_ids": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       "densite_m2": {
+        "type": "number",
+        "minimum": 0
+       },
+       "pas_m": {
+        "type": "number",
+        "minimum": 0
+       },
+       "hauteur_max_m": {
+        "type": "number",
+        "minimum": 0
+       }
+      },
+      "required": [
+       "type"
+      ],
+      "additionalProperties": false
+     }
+    },
+    "hauteur_max_visibilite_m": {
+     "type": "number",
+     "description": "plafond dans les triangles de visibilité (regles_implantation VEG-05 : 0,60 m)"
+    }
+   },
+   "additionalProperties": false
+  },
+  "terre_plein": {
+   "type": "object",
+   "properties": {
+    "franchissable": {
+     "enum": [
+      "non",
+      "vl_pl",
+      "pl_seulement",
+      "peint"
+     ],
+     "description": "IISR 7 art. 117-2 B (p. 37-38) ; mini-giratoire : T'2 3u (p. 38)"
+    },
+    "surelevation_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "ceinture": {
+     "$ref": "#/$defs/bordure"
+    },
+    "remplissage": {
+     "$ref": "#/$defs/remplissage"
+    },
+    "plantation": {
+     "$ref": "#/$defs/plantation"
+    },
+    "marquage_contour": {
+     "type": "object",
+     "properties": {
+      "modulation": {
+       "enum": [
+        "continue",
+        "T'2",
+        "aucune"
+       ]
+      },
+      "largeur_u": {
+       "type": "number",
+       "minimum": 0
+      },
+      "retrait_u": {
+       "type": "number",
+       "minimum": 0
+      }
+     },
+     "description": "contour 3u et espace non peint de 2u (IISR 7 art. 117-2 A-B, p. 37-38)",
+     "additionalProperties": false
+    },
+    "hachures": {
+     "type": "object",
+     "properties": {
+      "angle_deg": {
+       "type": "number"
+      },
+      "bande_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "espacement_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "aplat_sous_m": {
+       "type": "number",
+       "minimum": 0
+      }
+     },
+     "description": "IISR 7 art. 117-2 A (p. 37) : 0,50 m, espacement 1,35 m, pente 2 pour 1, aplat sous 0,30 m",
+     "additionalProperties": false
+    },
+    "objets_portes": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   },
+   "description": "propriétés communes aux terre-pleins et îlots (bande de type terre_plein ou entité Ilot)",
+   "additionalProperties": false
+  },
+  "bande": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "type": {
+     "enum": [
+      "voie_circulation",
+      "voie_bus",
+      "voie_tram",
+      "voie_tourne_gauche",
+      "voie_tourne_droite",
+      "voie_stockage",
+      "voie_insertion",
+      "voie_deceleration",
+      "voie_centrale_banalisee",
+      "chaussee_partagee",
+      "bande_cyclable",
+      "piste_cyclable",
+      "voie_verte",
+      "rive_cyclable_cvcb",
+      "stationnement",
+      "livraison",
+      "trottoir",
+      "quai_bus",
+      "chemin_pieton",
+      "terre_plein",
+      "zone_neutralisee",
+      "separateur",
+      "bande_plantee",
+      "accotement_revetu",
+      "bande_derasee",
+      "bande_arret_urgence",
+      "berme",
+      "fosse",
+      "noue",
+      "talus",
+      "autre"
+     ]
+    },
+    "sous_type": {
+     "type": "string"
+    },
+    "sens": {
+     "enum": [
+      "avant",
+      "arriere",
+      "double",
+      "aucun"
+     ],
+     "description": "par rapport au sens de la ligne de référence (osm2lanes Direction ; ZoneGraph EZoneLaneDirection)"
+    },
+    "usagers": {
+     "type": "array",
+     "items": {
+      "enum": [
+       "vl",
+       "pl",
+       "bus",
+       "taxi",
+       "car",
+       "velo",
+       "edpm",
+       "pieton",
+       "tram",
+       "urgence",
+       "riverains"
+      ]
+     },
+     "uniqueItems": true
+    },
+    "largeur": {
+     "$ref": "#/$defs/loi_s"
+    },
+    "largeur_min_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "materiau_id": {
+     "type": "string"
+    },
+    "niveau": {
+     "type": "object",
+     "properties": {
+      "reference": {
+       "enum": [
+        "chaussee",
+        "trottoir",
+        "propre"
+       ]
+      },
+      "dz_m": {
+       "type": "number",
+       "description": "dénivelé du bord intérieur par rapport au fil d'eau de la chaussée adjacente (trottoir : + vue de bordure)"
+      },
+      "devers_pct": {
+       "type": "number",
+       "description": "pente transversale, + = descend vers la droite (sens de la référence)"
+      },
+      "forme": {
+       "enum": [
+        "plan",
+        "toit",
+        "bombe"
+       ]
+      }
+     },
+     "additionalProperties": false
+    },
+    "vitesse_kmh": {
+     "type": "number",
+     "minimum": 0
+    },
+    "stationnement": {
+     "type": "object",
+     "properties": {
+      "orientation": {
+       "enum": [
+        "longitudinal",
+        "epi",
+        "bataille"
+       ]
+      },
+      "angle_deg": {
+       "type": "number"
+      },
+      "longueur_place_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "position": {
+       "enum": [
+        "chaussee",
+        "trottoir",
+        "mi_trottoir",
+        "encoche"
+       ]
+      },
+      "marquage_places": {
+       "type": "boolean"
+      }
+     },
+     "additionalProperties": false
+    },
+    "cyclable": {
+     "type": "object",
+     "properties": {
+      "double_sens": {
+       "type": "boolean"
+      },
+      "separation": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "tampon_m": {
+       "type": "number",
+       "minimum": 0
+      }
+     },
+     "additionalProperties": false
+    },
+    "terre_plein": {
+     "$ref": "#/$defs/terre_plein"
+    },
+    "objets_le_long": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/objet_le_long"
+     }
+    },
+    "tags_graphe": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "tags ZoneGraph : 32 au plus (FZoneGraphTagMask stocke un uint32 Mask, API Epic publique FZoneGraphTagMask ; la limite de 32 est une déduction)"
+    },
+    "x-opendrive": {
+     "type": "object",
+     "properties": {
+      "lane_type": {
+       "type": "string"
+      },
+      "level": {
+       "type": "boolean"
+      }
+     },
+     "additionalProperties": true
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "id",
+    "type",
+    "sens",
+    "largeur"
+   ],
+   "description": "bande du profil en travers : voie, piste, trottoir, terre-plein…",
+   "additionalProperties": false
+  },
+  "profil": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "nom": {
+     "type": "string"
+    },
+    "description": {
+     "type": "string"
+    },
+    "bandes": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/bande"
+     },
+     "minItems": 1,
+     "description": "ordre : de la gauche vers la droite dans le sens de la ligne de référence (osm2streets lane_specs_ltr)"
+    },
+    "limites": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/limite"
+     },
+     "minItems": 2,
+     "description": "n+1 limites pour n bandes : limites[i] = rive gauche de bandes[i], limites[i+1] = rive droite"
+    },
+    "reference": {
+     "type": "object",
+     "properties": {
+      "limite": {
+       "type": "integer",
+       "minimum": 0,
+       "description": "indice de la limite confondue avec la ligne de référence (OpenDRIVE centre lane)"
+      },
+      "decalage_m": {
+       "type": "number",
+       "description": "si la référence n'est pas sur une limite : décalage (+ gauche) depuis limites[limite]"
+      }
+     },
+     "required": [
+      "limite"
+     ],
+     "additionalProperties": false
+    },
+    "u_m": {
+     "enum": [
+      0.03,
+      0.05,
+      0.06,
+      0.075
+     ]
+    },
+    "agglomeration": {
+     "type": "boolean"
+    },
+    "regles": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "id",
+    "bandes",
+    "limites",
+    "reference"
+   ],
+   "description": "profil en travers type (MetaRoad Road Profile, CityEngine street configuration)",
+   "additionalProperties": false
+  },
+  "section_profil": {
+   "type": "object",
+   "properties": {
+    "s0": {
+     "type": "number",
+     "minimum": 0
+    },
+    "s1": {
+     "type": "number",
+     "minimum": 0
+    },
+    "profil": {
+     "oneOf": [
+      {
+       "type": "string",
+       "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+      },
+      {
+       "$ref": "#/$defs/profil"
+      }
+     ],
+     "description": "identifiant d'un profil du catalogue, ou profil en ligne"
+    },
+    "surcharges": {
+     "type": "object",
+     "description": "remplacements ponctuels : {'bandes[3].largeur': 1.8, ...}"
+    },
+    "transition_entree": {
+     "type": "object",
+     "properties": {
+      "type": {
+       "enum": [
+        "instantanee",
+        "lineaire",
+        "biseau_iisr",
+        "clothoide"
+       ]
+      },
+      "longueur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "regle": {
+       "type": "string"
+      }
+     },
+     "additionalProperties": false
+    }
+   },
+   "required": [
+    "s0",
+    "s1",
+    "profil"
+   ],
+   "description": "tronçon de route à nombre de bandes constant (OpenDRIVE <laneSection>)",
+   "additionalProperties": false
+  },
+  "route": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "osm": {
+     "type": "object",
+     "properties": {
+      "ways": {
+       "type": "array",
+       "items": {
+        "type": "integer"
+       }
+      },
+      "tags": {
+       "type": "object",
+       "additionalProperties": {
+        "type": "string"
+       }
+      }
+     },
+     "additionalProperties": false
+    },
+    "noeud_debut": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "noeud_fin": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "nom": {
+     "type": "string"
+    },
+    "ref": {
+     "type": "string"
+    },
+    "classe_osm": {
+     "type": "string"
+    },
+    "categorie": {
+     "enum": [
+      "autoroute",
+      "voie_express",
+      "route_nationale",
+      "route_departementale",
+      "route_communale",
+      "rue",
+      "desserte",
+      "voie_service",
+      "zone_rencontre",
+      "aire_pietonne",
+      "piste_cyclable_independante",
+      "voie_verte",
+      "chemin",
+      "bretelle",
+      "anneau_giratoire"
+     ]
+    },
+    "agglomeration": {
+     "type": "boolean"
+    },
+    "vitesse_kmh": {
+     "type": "number",
+     "minimum": 0
+    },
+    "sens_unique": {
+     "enum": [
+      "non",
+      "oui",
+      "inverse"
+     ]
+    },
+    "prioritaire": {
+     "type": "boolean"
+    },
+    "layer": {
+     "type": "integer"
+    },
+    "ligne_reference": {
+     "type": "object",
+     "properties": {
+      "geometrie": {
+       "$ref": "#/$defs/polyligne"
+      },
+      "geometrie_reguliere": {
+       "type": "array",
+       "items": {
+        "$ref": "#/$defs/primitive_geom"
+       }
+      },
+      "placement": {
+       "type": "object",
+       "properties": {
+        "type": {
+         "enum": [
+          "centre_chaussee",
+          "separation",
+          "bord_gauche_voie",
+          "milieu_voie",
+          "bord_droit_voie",
+          "transition"
+         ]
+        },
+        "voie": {
+         "type": "integer"
+        },
+        "fin": {
+         "type": "string"
+        }
+       },
+       "description": "interprétation de la polyligne OSM (clé placement=*, Proposal:Placement)",
+       "additionalProperties": false
+      },
+      "longueur_m": {
+       "type": "number",
+       "minimum": 0
+      }
+     },
+     "required": [
+      "geometrie"
+     ],
+     "additionalProperties": false
+    },
+    "sections": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/section_profil"
+     },
+     "minItems": 1
+    },
+    "profil_long": {
+     "type": "object",
+     "properties": {
+      "source": {
+       "enum": [
+        "mnt",
+        "lidar",
+        "bdtopo",
+        "ouvrage",
+        "plat",
+        "mesure"
+       ]
+      },
+      "z": {
+       "type": "array",
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "minItems": 2,
+        "maxItems": 2
+       },
+       "description": "[[s, z NGF], ...]"
+      },
+      "pente_max_pct": {
+       "type": "number"
+      }
+     },
+     "additionalProperties": false
+    },
+    "devers": {
+     "$ref": "#/$defs/loi_s"
+    },
+    "carrefour_debut": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "carrefour_fin": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "ouvrages": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+     }
+    },
+    "signaux": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+     }
+    },
+    "objets": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+     }
+    },
+    "marquages": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+     }
+    },
+    "x-opendrive": {
+     "type": "object",
+     "properties": {
+      "road_id": {
+       "type": "string"
+      },
+      "junction": {
+       "type": "string"
+      },
+      "type": {
+       "type": "string"
+      }
+     },
+     "additionalProperties": true
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "id",
+    "noeud_debut",
+    "noeud_fin",
+    "categorie",
+    "ligne_reference",
+    "sections"
+   ],
+   "description": "tronçon entre deux nœuds du graphe (osm2streets Road, OpenDRIVE <road>)",
+   "additionalProperties": false
+  },
+  "noeud": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "osm_node": {
+     "type": "integer"
+    },
+    "position": {
+     "$ref": "#/$defs/xy"
+    },
+    "type": {
+     "enum": [
+      "carrefour",
+      "extremite",
+      "impasse",
+      "limite_carte",
+      "changement_attribut",
+      "connexion",
+      "passage_pieton_isole",
+      "fourche"
+     ],
+     "description": "osm2streets IntersectionKind (MapEdge, Terminus, Connection, Fork, Intersection)"
+    },
+    "carrefour": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "routes": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+     }
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "id",
+    "position",
+    "type"
+   ],
+   "additionalProperties": false
+  },
+  "ligne_arret": {
+   "type": "object",
+   "properties": {
+    "type": {
+     "enum": [
+      "STOP",
+      "CEDEZ",
+      "EFFET_FEUX",
+      "EFFET_PASSAGE",
+      "CEDEZ_CYCLISTE",
+      "STOP_CYCLISTE",
+      "virtuelle"
+     ]
+    },
+    "distance_m": {
+     "type": "number",
+     "description": "distance (m) entre la ligne et la frontière du carrefour, mesurée sur l'axe de la branche"
+    },
+    "bandes": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "bandes couvertes (voies entrantes concernées)"
+    },
+    "largeur_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "modulation": {
+     "$ref": "#/$defs/modulation"
+    },
+    "regle": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "type"
+   ],
+   "additionalProperties": false
+  },
+  "fleche_branche": {
+   "type": "object",
+   "properties": {
+    "bande": {
+     "type": "string"
+    },
+    "types": {
+     "type": "array",
+     "items": {
+      "enum": [
+       "TD",
+       "TAG",
+       "TAD",
+       "TD_TAG",
+       "TD_TAD",
+       "TAG_TAD",
+       "TOUTES",
+       "RABATTEMENT_G",
+       "RABATTEMENT_D"
+      ]
+     }
+    },
+    "nombre": {
+     "type": "integer"
+    },
+    "intervalle_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "recul_derniere_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "regle": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "bande",
+    "types"
+   ],
+   "additionalProperties": false
+  },
+  "branche": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "route": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "extremite": {
+     "enum": [
+      "debut",
+      "fin"
+     ]
+    },
+    "azimut_deg": {
+     "type": "number"
+    },
+    "bandes_entrantes": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "bandes_sortantes": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "regime": {
+     "enum": [
+      "priorite_droite",
+      "prioritaire",
+      "stop",
+      "stop_a_verifier",
+      "cedez",
+      "feux",
+      "entree_giratoire",
+      "sortie_seule"
+     ]
+    },
+    "ligne_arret": {
+     "$ref": "#/$defs/ligne_arret"
+    },
+    "ligne_axiale_approche": {
+     "type": "object",
+     "properties": {
+      "modulation": {
+       "$ref": "#/$defs/modulation"
+      },
+      "largeur_u": {
+       "type": "number",
+       "minimum": 0
+      },
+      "longueur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "regle": {
+       "type": "string"
+      }
+     },
+     "description": "IISR 7 art. 117-4 A-B (p. 41-42) : continue 2u sur 10 à 20 m",
+     "additionalProperties": false
+    },
+    "passage_pieton": {
+     "type": "string"
+    },
+    "traversee_cyclable": {
+     "type": "string"
+    },
+    "sas_velo": {
+     "type": "object",
+     "properties": {
+      "profondeur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "bande_acces": {
+       "type": "string"
+      },
+      "regle": {
+       "type": "string"
+      }
+     },
+     "additionalProperties": false
+    },
+    "ilot_separateur": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "coin_droit": {
+     "type": "object",
+     "properties": {
+      "rayon_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "forme": {
+       "enum": [
+        "arc",
+        "trois_centres",
+        "clothoide_arc",
+        "pan_coupe",
+        "vif"
+       ]
+      },
+      "bordure": {
+       "$ref": "#/$defs/bordure"
+      },
+      "regle": {
+       "type": "string"
+      }
+     },
+     "description": "raccord de bordure entre cette branche et la branche suivante dans le sens trigonométrique (RoadRunner Corner, CityEngine curb radius)",
+     "additionalProperties": false
+    },
+    "fleches": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/fleche_branche"
+     }
+    },
+    "turn_lanes_osm": {
+     "type": "string"
+    },
+    "signaux": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+     }
+    }
+   },
+   "required": [
+    "id",
+    "route",
+    "extremite",
+    "regime"
+   ],
+   "additionalProperties": false
+  },
+  "trajectoire": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "de": {
+     "type": "object",
+     "properties": {
+      "branche": {
+       "type": "string"
+      },
+      "bande": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "branche",
+      "bande"
+     ],
+     "additionalProperties": false
+    },
+    "vers": {
+     "type": "object",
+     "properties": {
+      "branche": {
+       "type": "string"
+      },
+      "bande": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "branche",
+      "bande"
+     ],
+     "additionalProperties": false
+    },
+    "mouvement": {
+     "enum": [
+      "TD",
+      "TAG",
+      "TAD",
+      "demi_tour",
+      "anneau",
+      "insertion",
+      "sortie",
+      "traversee_pieton",
+      "traversee_velo"
+     ]
+    },
+    "geometrie": {
+     "$ref": "#/$defs/polyligne"
+    },
+    "geometrie_reguliere": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/primitive_geom"
+     }
+    },
+    "largeur_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "rayon_min_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "guidage": {
+     "type": "object",
+     "properties": {
+      "materialise": {
+       "type": "boolean"
+      },
+      "modulation": {
+       "enum": [
+        "T'2",
+        "mixte_T'2_continue",
+        "aucune"
+       ]
+      },
+      "largeur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "cotes": {
+       "enum": [
+        "gauche",
+        "droite",
+        "deux"
+       ]
+      },
+      "regle": {
+       "type": "string"
+      }
+     },
+     "description": "lignes de guidage en intersection : T'2 0,10 m (TAG à l'indonésienne, baïonnette) ; mixte T'2 0,15 + continue 0,15 à 2u (carrefours complexes TC) — IISR 7 art. 117-1 (p. 36)",
+     "additionalProperties": false
+    },
+    "usagers": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "priorite": {
+     "type": "integer"
+    },
+    "conflits": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "tags_graphe": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "x-opendrive": {
+     "type": "object",
+     "properties": {
+      "connecting_road": {
+       "type": "string"
+      },
+      "lane_link": {
+       "type": "string"
+      }
+     },
+     "additionalProperties": true
+    }
+   },
+   "required": [
+    "id",
+    "de",
+    "vers",
+    "mouvement"
+   ],
+   "description": "trajectoire voie à voie à travers le carrefour (OpenDRIVE connecting road ; ZoneGraph lane d'une forme polygone)",
+   "additionalProperties": false
+  },
+  "conflit": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "trajectoires": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "minItems": 2,
+     "maxItems": 2
+    },
+    "type": {
+     "enum": [
+      "croisement",
+      "convergence",
+      "divergence",
+      "pieton",
+      "velo"
+     ]
+    },
+    "point": {
+     "$ref": "#/$defs/xy"
+    },
+    "prioritaire": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "id",
+    "trajectoires",
+    "type"
+   ],
+   "additionalProperties": false
+  },
+  "passage_pieton": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "route": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "s": {
+     "type": "number",
+     "minimum": 0
+    },
+    "axe": {
+     "$ref": "#/$defs/polyligne"
+    },
+    "largeur_m": {
+     "type": "number",
+     "description": "longueur des bandes, parallèle à l'axe de la chaussée (≥ 2,50 m en ville, 4 à 6 m en rase campagne — IISR 7 art. 118, p. 44)"
+    },
+    "bandes": {
+     "type": "object",
+     "properties": {
+      "largeur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "intervalle_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "nombre": {
+       "type": "integer"
+      }
+     },
+     "additionalProperties": false
+    },
+    "regime": {
+     "enum": [
+      "feux",
+      "non_gere",
+      "surélevé"
+     ]
+    },
+    "refuge": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "abaisses": {
+     "type": "boolean"
+    },
+    "bev": {
+     "type": "boolean"
+    },
+    "ligne_effet": {
+     "type": "object",
+     "properties": {
+      "distance_m": {
+       "type": "number",
+       "minimum": 0
+      }
+     },
+     "additionalProperties": false
+    },
+    "osm": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "additionalProperties": false
+  },
+  "anneau_giratoire": {
+   "type": "object",
+   "properties": {
+    "rayon_exterieur_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "largeur_anneau_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "rayon_ilot_central_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "bande_franchissable_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "nb_voies": {
+     "type": "integer"
+    },
+    "ilot_central": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "sens": {
+     "const": "trigonometrique"
+    },
+    "construction": {
+     "type": "object",
+     "description": "paramètres de construction (ex. note Cerema 2018 : Rc, Rg, RAB, RB'C, RDE)"
+    }
+   },
+   "additionalProperties": false
+  },
+  "frontiere_segment": {
+   "type": "object",
+   "properties": {
+    "type": {
+     "enum": [
+      "voie",
+      "joint"
+     ]
+    },
+    "route": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "bande": {
+     "type": "string"
+    },
+    "s0": {
+     "type": "number"
+    },
+    "s1": {
+     "type": "number"
+    },
+    "extremite": {
+     "enum": [
+      "debut",
+      "fin"
+     ]
+    }
+   },
+   "required": [
+    "type",
+    "route"
+   ],
+   "description": "segment de frontière de carrefour (OpenDRIVE 1.8 <boundary><segment type=lane|joint>)",
+   "additionalProperties": false
+  },
+  "carrefour": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "type": {
+     "enum": [
+      "plan_simple",
+      "plan_ilots",
+      "plan_feux",
+      "giratoire",
+      "mini_giratoire",
+      "giratoire_franchissable",
+      "rond_point_priorite_droite",
+      "denivele",
+      "bifurcation",
+      "acces_riverain",
+      "sortie_parking",
+      "passage_niveau",
+      "traversee_isolee",
+      "retournement"
+     ]
+    },
+    "regime": {
+     "enum": [
+      "priorite_droite",
+      "priorite_axe",
+      "stop",
+      "cedez",
+      "feux",
+      "giratoire",
+      "mixte",
+      "sans_conflit"
+     ]
+    },
+    "noeuds": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+     }
+    },
+    "centre": {
+     "$ref": "#/$defs/xy"
+    },
+    "branches": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/branche"
+     },
+     "minItems": 1
+    },
+    "zone_conflit": {
+     "$ref": "#/$defs/polygone"
+    },
+    "frontiere": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/frontiere_segment"
+     }
+    },
+    "ilots": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+     }
+    },
+    "anneau": {
+     "$ref": "#/$defs/anneau_giratoire"
+    },
+    "trajectoires": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/trajectoire"
+     }
+    },
+    "conflits": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/conflit"
+     }
+    },
+    "passages_pieton": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/passage_pieton"
+     }
+    },
+    "traversees_cyclables": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/passage_pieton"
+     }
+    },
+    "controleur": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "elevation": {
+     "type": "object",
+     "properties": {
+      "type": {
+       "enum": [
+        "plan",
+        "grille",
+        "mnt"
+       ]
+      },
+      "pas_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "z": {
+       "type": "array",
+       "items": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       }
+      }
+     },
+     "description": "OpenDRIVE 1.8 <elevationGrid>",
+     "additionalProperties": false
+    },
+    "x-opendrive": {
+     "type": "object",
+     "properties": {
+      "junction_id": {
+       "type": "string"
+      },
+      "type": {
+       "enum": [
+        "default",
+        "direct",
+        "virtual",
+        "crossing"
+       ]
+      }
+     },
+     "additionalProperties": true
+    },
+    "x-zonegraph": {
+     "type": "object",
+     "properties": {
+      "forme": {
+       "const": "polygone"
+      },
+      "routage": {
+       "enum": [
+        "Bezier",
+        "Arcs"
+       ]
+      },
+      "tags": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      }
+     },
+     "additionalProperties": true
+    },
+    "regles": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "id",
+    "type",
+    "regime",
+    "branches"
+   ],
+   "description": "carrefour : branches, zone de conflit, îlots, trajectoires (osm2streets Intersection, OpenDRIVE <junction>)",
+   "additionalProperties": false
+  },
+  "ilot": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "type": {
+     "enum": [
+      "separateur",
+      "directionnel",
+      "refuge",
+      "central_giratoire",
+      "goutte_eau",
+      "terre_plein_central",
+      "ilot_peint",
+      "avancee_trottoir",
+      "ilot_tourne_droite",
+      "musoir"
+     ]
+    },
+    "polygone": {
+     "$ref": "#/$defs/polygone"
+    },
+    "carrefour": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "terre_plein": {
+     "$ref": "#/$defs/terre_plein"
+    },
+    "nez": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "position": {
+        "$ref": "#/$defs/xy"
+       },
+       "rayon_m": {
+        "type": "number",
+        "minimum": 0
+       },
+       "balise": {
+        "enum": [
+         "J5",
+         "J4",
+         "aucune"
+        ]
+       }
+      },
+      "additionalProperties": false
+     }
+    },
+    "refuge": {
+     "type": "object",
+     "properties": {
+      "largeur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "traversee": {
+       "type": "string"
+      },
+      "abaisses": {
+       "type": "boolean"
+      },
+      "bev": {
+       "type": "boolean"
+      }
+     },
+     "additionalProperties": false
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "id",
+    "type",
+    "polygone",
+    "terre_plein"
+   ],
+   "description": "îlot de carrefour ou de section (IISR 7 art. 117-2 B, p. 37-38)",
+   "additionalProperties": false
+  },
+  "ouvrage": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "type": {
+     "enum": [
+      "pont_route",
+      "pont_rail",
+      "passerelle",
+      "viaduc",
+      "passage_inferieur",
+      "tunnel",
+      "tranchee_couverte",
+      "mur_soutenement",
+      "dalot",
+      "buse"
+     ]
+    },
+    "routes_portees": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "route": {
+        "type": "string",
+        "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+       },
+       "s0": {
+        "type": "number",
+        "minimum": 0
+       },
+       "s1": {
+        "type": "number",
+        "minimum": 0
+       }
+      },
+      "required": [
+       "route"
+      ],
+      "additionalProperties": false
+     }
+    },
+    "franchit": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "enum": [
+         "route",
+         "voie_ferree",
+         "cours_eau",
+         "talweg"
+        ]
+       },
+       "ref": {
+        "type": "string"
+       }
+      },
+      "additionalProperties": false
+     }
+    },
+    "layer": {
+     "type": "integer"
+    },
+    "gabarit_vertical_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "tablier": {
+     "type": "object",
+     "properties": {
+      "epaisseur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "largeur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "materiau": {
+       "type": "string"
+      },
+      "structure": {
+       "enum": [
+        "poutre",
+        "arc",
+        "treillis",
+        "suspendu",
+        "haubane",
+        "dalle",
+        "voute",
+        "autre"
+       ]
+      },
+      "corniche": {
+       "type": "boolean"
+      }
+     },
+     "additionalProperties": false
+    },
+    "dispositifs_retenue": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "cote": {
+        "enum": [
+         "gauche",
+         "droite"
+        ]
+       },
+       "type": {
+        "enum": [
+         "garde_corps",
+         "BN4",
+         "GBA",
+         "glissiere",
+         "muret"
+        ]
+       },
+       "hauteur_m": {
+        "type": "number",
+        "minimum": 0
+       }
+      },
+      "additionalProperties": false
+     }
+    },
+    "appuis": {
+     "type": "object",
+     "properties": {
+      "culees": {
+       "type": "boolean"
+      },
+      "piles_pas_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "piles_largeur_m": {
+       "type": "number",
+       "minimum": 0
+      }
+     },
+     "additionalProperties": false
+    },
+    "joints_chaussee_s": {
+     "type": "array",
+     "items": {
+      "type": "number",
+      "minimum": 0
+     }
+    },
+    "raccords": {
+     "type": "object",
+     "properties": {
+      "remblai_longueur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "pente_pct": {
+       "type": "number"
+      }
+     },
+     "additionalProperties": false
+    },
+    "osm": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "x-opendrive": {
+     "type": "object",
+     "properties": {
+      "object_type": {
+       "enum": [
+        "bridge",
+        "tunnel"
+       ]
+      },
+      "type": {
+       "type": "string"
+      }
+     },
+     "additionalProperties": true
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "id",
+    "type"
+   ],
+   "description": "ouvrage d'art (OSM bridge=*/layer=* ; OpenDRIVE <bridge>/<tunnel>)",
+   "additionalProperties": false
+  },
+  "signal": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "famille": {
+     "enum": [
+      "panneau",
+      "feu",
+      "balise",
+      "pmv",
+      "borne"
+     ]
+    },
+    "code": {
+     "type": "string",
+     "description": "code IISR (AB4, AB3a, B14, C20a, R11v, R12, J5…)"
+    },
+    "valeur": {
+     "type": "string"
+    },
+    "panonceaux": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "code": {
+        "type": "string"
+       },
+       "valeur": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "code"
+      ],
+      "additionalProperties": false
+     }
+    },
+    "gamme": {
+     "enum": [
+      "miniature",
+      "petite",
+      "normale",
+      "grande",
+      "tres_grande",
+      "superieure",
+      "exceptionnelle"
+     ]
+    },
+    "dimension_mm": {
+     "type": "number",
+     "minimum": 0
+    },
+    "support": {
+     "type": "object",
+     "properties": {
+      "type": {
+       "enum": [
+        "poteau",
+        "support_feux",
+        "potence",
+        "portique",
+        "candelabre",
+        "facade",
+        "ilot"
+       ]
+      },
+      "groupe": {
+       "type": "string"
+      },
+      "hauteur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "diametre_mm": {
+       "type": "number",
+       "minimum": 0
+      }
+     },
+     "additionalProperties": false
+    },
+    "position": {
+     "type": "object",
+     "properties": {
+      "route": {
+       "type": "string",
+       "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+      },
+      "s": {
+       "type": "number",
+       "minimum": 0
+      },
+      "t": {
+       "type": "number"
+      },
+      "xyz": {
+       "$ref": "#/$defs/xy"
+      },
+      "cote": {
+       "enum": [
+        "droite",
+        "gauche",
+        "ilot",
+        "dessus"
+       ]
+      }
+     },
+     "additionalProperties": false
+    },
+    "orientation": {
+     "type": "object",
+     "properties": {
+      "azimut_deg": {
+       "type": "number"
+      },
+      "vise": {
+       "type": "object",
+       "properties": {
+        "route": {
+         "type": "string",
+         "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+        },
+        "bande": {
+         "type": "string"
+        },
+        "sens": {
+         "enum": [
+          "avant",
+          "arriere"
+         ]
+        }
+       },
+       "additionalProperties": false
+      },
+      "rotation_exterieure_deg": {
+       "type": "number"
+      }
+     },
+     "additionalProperties": false
+    },
+    "hauteur_bas_m": {
+     "type": "number",
+     "minimum": 0
+    },
+    "applicabilite": {
+     "type": "object",
+     "properties": {
+      "route": {
+       "type": "string",
+       "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+      },
+      "bandes": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "sens": {
+       "enum": [
+        "avant",
+        "arriere",
+        "deux"
+       ]
+      },
+      "s0": {
+       "type": "number",
+       "minimum": 0
+      },
+      "s1": {
+       "type": "number",
+       "minimum": 0
+      },
+      "carrefour": {
+       "type": "string",
+       "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+      },
+      "branche": {
+       "type": "string"
+      }
+     },
+     "additionalProperties": false
+    },
+    "feux": {
+     "type": "object",
+     "properties": {
+      "type": {
+       "type": "string"
+      },
+      "tetes": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "type": {
+          "type": "string"
+         },
+         "diametre_mm": {
+          "enum": [
+           90,
+           200,
+           300
+          ]
+         },
+         "repetiteur": {
+          "type": "boolean"
+         }
+        },
+        "additionalProperties": false
+       }
+      },
+      "controleur": {
+       "type": "string",
+       "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+      },
+      "groupe": {
+       "type": "string"
+      }
+     },
+     "additionalProperties": false
+    },
+    "regles": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "x-opendrive": {
+     "type": "object",
+     "properties": {
+      "country": {
+       "const": "FR"
+      },
+      "type": {
+       "type": "string"
+      },
+      "subtype": {
+       "type": "string"
+      },
+      "value": {
+       "type": "number"
+      },
+      "unit": {
+       "type": "string"
+      },
+      "dynamic": {
+       "enum": [
+        "yes",
+        "no"
+       ]
+      },
+      "orientation": {
+       "enum": [
+        "+",
+        "-",
+        "none"
+       ]
+      }
+     },
+     "additionalProperties": true
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "id",
+    "famille",
+    "code",
+    "position"
+   ],
+   "description": "signal vertical ou lumineux (OpenDRIVE <signal>)",
+   "additionalProperties": false
+  },
+  "controleur": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "carrefour": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "signaux": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+     }
+    },
+    "cycle_s": {
+     "type": "number",
+     "minimum": 0
+    },
+    "decalage_s": {
+     "type": "number"
+    },
+    "phases": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "nom": {
+        "type": "string"
+       },
+       "duree_s": {
+        "type": "number",
+        "minimum": 0
+       },
+       "etats": {
+        "type": "object",
+        "additionalProperties": {
+         "enum": [
+          "rouge",
+          "jaune",
+          "vert",
+          "eteint",
+          "clignotant"
+         ]
+        }
+       }
+      },
+      "required": [
+       "nom",
+       "duree_s"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   "required": [
+    "id",
+    "signaux"
+   ],
+   "description": "contrôleur de feux (OpenDRIVE <controller>, MetaRoad Traffic Controller)",
+   "additionalProperties": false
+  },
+  "objet": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "famille": {
+     "enum": [
+      "mobilier",
+      "eclairage",
+      "vegetation",
+      "reseau",
+      "securite",
+      "transport",
+      "autre"
+     ]
+    },
+    "type": {
+     "type": "string"
+    },
+    "asset_id": {
+     "type": "string"
+    },
+    "position": {
+     "$ref": "#/$defs/xy"
+    },
+    "orientation_deg": {
+     "type": "number"
+    },
+    "dimensions": {
+     "type": "object",
+     "properties": {
+      "hauteur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "largeur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "longueur_m": {
+       "type": "number",
+       "minimum": 0
+      },
+      "rayon_m": {
+       "type": "number",
+       "minimum": 0
+      }
+     },
+     "additionalProperties": false
+    },
+    "rattachement": {
+     "type": "object",
+     "properties": {
+      "route": {
+       "type": "string",
+       "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+      },
+      "s": {
+       "type": "number",
+       "minimum": 0
+      },
+      "t": {
+       "type": "number"
+      },
+      "ilot": {
+       "type": "string",
+       "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+      },
+      "carrefour": {
+       "type": "string",
+       "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+      },
+      "bande": {
+       "type": "string"
+      }
+     },
+     "additionalProperties": false
+    },
+    "regles": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "x-opendrive": {
+     "type": "object",
+     "properties": {
+      "object_type": {
+       "type": "string"
+      },
+      "subtype": {
+       "type": "string"
+      }
+     },
+     "additionalProperties": true
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "id",
+    "famille",
+    "type",
+    "position"
+   ],
+   "additionalProperties": false
+  },
+  "marquage": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "type": {
+     "enum": [
+      "ligne_transversale",
+      "fleche",
+      "symbole",
+      "passage_pieton",
+      "traversee_cyclable",
+      "zone_hachuree",
+      "chevrons",
+      "damier",
+      "zigzag",
+      "inscription",
+      "triangle_cedez",
+      "figurine_velo",
+      "sas_velo",
+      "ligne_guidage"
+     ]
+    },
+    "gabarit": {
+     "type": "string",
+     "description": "clé de assets/specs/marquages_geometrie.json"
+    },
+    "ancrage": {
+     "type": "object",
+     "properties": {
+      "route": {
+       "type": "string",
+       "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+      },
+      "bande": {
+       "type": "string"
+      },
+      "s": {
+       "type": "number",
+       "minimum": 0
+      },
+      "t": {
+       "type": "number"
+      },
+      "cap_deg": {
+       "type": "number"
+      },
+      "carrefour": {
+       "type": "string",
+       "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+      },
+      "branche": {
+       "type": "string"
+      }
+     },
+     "additionalProperties": false
+    },
+    "geometrie": {
+     "oneOf": [
+      {
+       "$ref": "#/$defs/polygone"
+      },
+      {
+       "$ref": "#/$defs/polyligne"
+      }
+     ]
+    },
+    "couleur": {
+     "enum": [
+      "blanc",
+      "jaune",
+      "bleu",
+      "rouge",
+      "vert"
+     ]
+    },
+    "regles": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "x-opendrive": {
+     "type": "object",
+     "properties": {
+      "object_type": {
+       "enum": [
+        "roadMark",
+        "crosswalk"
+       ]
+      }
+     },
+     "additionalProperties": true
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "id",
+    "type"
+   ],
+   "description": "marque non linéaire (transversales, flèches, symboles, zébras, hachures) — fabriquée par pj::marquage_*",
+   "additionalProperties": false
+  },
+  "graphe_voies": {
+   "type": "object",
+   "properties": {
+    "tags": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "nom": {
+        "type": "string"
+       },
+       "bit": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 31
+       }
+      },
+      "required": [
+       "nom",
+       "bit"
+      ],
+      "additionalProperties": false
+     },
+     "maxItems": 32
+    },
+    "zones": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "forme": {
+        "enum": [
+         "spline",
+         "polygone"
+        ]
+       },
+       "route": {
+        "type": "string",
+        "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+       },
+       "section": {
+        "type": "integer"
+       },
+       "carrefour": {
+        "type": "string",
+        "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+       },
+       "tags": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       "profil_voies": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "id",
+       "forme"
+      ],
+      "additionalProperties": false
+     }
+    },
+    "profils_voies": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "voies": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "largeur_cm": {
+           "type": "number",
+           "minimum": 0
+          },
+          "direction": {
+           "enum": [
+            "Forward",
+            "Backward",
+            "None"
+           ]
+          },
+          "tags": {
+           "type": "array",
+           "items": {
+            "type": "string"
+           }
+          }
+         },
+         "required": [
+          "largeur_cm",
+          "direction"
+         ],
+         "additionalProperties": false
+        }
+       }
+      },
+      "required": [
+       "id",
+       "voies"
+      ],
+      "additionalProperties": false
+     },
+     "description": "FZoneLaneProfile / FZoneLaneDesc (API Epic publique, ZoneGraphTypes.h : Width float en cm d'Unreal, Direction EZoneLaneDirection, Tags FZoneGraphTagMask)"
+    },
+    "voies": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "zone": {
+        "type": "string"
+       },
+       "bande": {
+        "type": "string"
+       },
+       "trajectoire": {
+        "type": "string"
+       },
+       "largeur_m": {
+        "type": "number",
+        "minimum": 0
+       },
+       "sens": {
+        "enum": [
+         "avant",
+         "arriere",
+         "aucun"
+        ]
+       },
+       "tags": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       "polyligne": {
+        "$ref": "#/$defs/polyligne"
+       },
+       "vitesse_kmh": {
+        "type": "number",
+        "minimum": 0
+       }
+      },
+      "required": [
+       "id",
+       "zone",
+       "polyligne"
+      ],
+      "additionalProperties": false
+     }
+    },
+    "liens": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "de": {
+        "type": "string"
+       },
+       "vers": {
+        "type": "string"
+       },
+       "type": {
+        "enum": [
+         "sortant",
+         "entrant",
+         "adjacent"
+        ]
+       },
+       "drapeaux": {
+        "type": "array",
+        "items": {
+         "enum": [
+          "gauche",
+          "droite",
+          "divergence",
+          "convergence",
+          "sens_oppose"
+         ]
+        }
+       }
+      },
+      "required": [
+       "de",
+       "vers",
+       "type"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   "description": "graphe de voies dirigé (ZoneGraph : zones, voies, liens Outgoing/Incoming/Adjacent)",
+   "additionalProperties": false
+  },
+  "zone_surfacique": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+    },
+    "type": {
+     "enum": [
+      "bati",
+      "ilot_bati",
+      "lot",
+      "espace_vert",
+      "parc",
+      "parking",
+      "foret",
+      "eau",
+      "massif",
+      "alignement_arbres",
+      "haie",
+      "champ",
+      "friche"
+     ]
+    },
+    "polygone": {
+     "$ref": "#/$defs/polygone"
+    },
+    "attributs": {
+     "type": "object"
+    },
+    "generation": {
+     "type": "object",
+     "properties": {
+      "densite": {
+       "type": "number",
+       "minimum": 0
+      },
+      "palette": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "graine_sel": {
+       "type": "integer"
+      },
+      "regles": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      }
+     },
+     "additionalProperties": true
+    },
+    "prov": {
+     "$ref": "#/$defs/prov"
+    }
+   },
+   "required": [
+    "id",
+    "type",
+    "polygone"
+   ],
+   "additionalProperties": false
+  }
+ }
+}

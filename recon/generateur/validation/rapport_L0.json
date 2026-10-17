@@ -1,0 +1,327 @@
+{
+ "lot": "L0",
+ "plan": "recon/generateur/PLAN_GENERATEUR.md § 3",
+ "base_regles": {
+  "fichier": "D:/ClaudeCode_RoadCreation/assets/specs/route/regles_route_fr.json",
+  "schema": "regles_route_fr/1.0",
+  "date": "2026-10-17",
+  "sha256": "d4d63edeabf0820a0ab34e207a1d9e88a32fb58131216b6b515cb8bcb298bd4b",
+  "regles": 857,
+  "parametres": 34,
+  "arbitrages": 20,
+  "alias": 945
+ },
+ "etapes": {
+  "migration": {
+   "code": 0,
+   "identiques_apres_relance": true,
+   "sha256": {
+    "exemple_rue_carrefour.json": "2811f2c23132c6ad1c8c6a300baa46981bd2ca223ac6d49f495ebd98d5a2b740",
+    "exemple_rue_residentielle.json": "f86a430b005ba50e01f9c1c7c6696963db7d8a2a4a8cdeb4ad228ea31b9001b1"
+   },
+   "sans_equivalent": {
+    "exemple_rue_carrefour.json": [
+     "ECL-01",
+     "ECL-04",
+     "ECL-05"
+    ],
+    "exemple_rue_residentielle.json": []
+   },
+   "citations_migrees": {
+    "exemple_rue_carrefour.json": 65,
+    "exemple_rue_residentielle.json": 32
+   }
+  },
+  "tests_inference": {
+   "code": 0,
+   "cas": 56,
+   "reussis": 56,
+   "cas_tags": 36,
+   "cas_reseaux": 15,
+   "cas_validateur": 5,
+   "echecs": []
+  },
+  "tests_description": {
+   "code": 0,
+   "descriptions": 27,
+   "compilent_valides": 27,
+   "deterministes": 27,
+   "exemples": 12,
+   "catalogue_voisin": 12,
+   "meylan": 3,
+   "catalogue_attendus_ok": 12,
+   "faits": 25,
+   "faits_ok": 25,
+   "erreurs_attendues": 26,
+   "erreurs_ok": 26,
+   "echecs": []
+  },
+  "inference_osm_site": {
+   "entrees": [
+    "data/sites/paquet_jardin/vector/osm_roads.geojson",
+    "data/sites/paquet_jardin/vector/osm_crossings.geojson"
+   ],
+   "routes": 69,
+   "profils": 21,
+   "carrefours": 28,
+   "carrefours_a_verifier": 10,
+   "erreurs_validation": 0,
+   "prov_genres": {
+    "osm": 143,
+    "regle": 645,
+    "table_volet12": 81
+   },
+   "deterministe": true,
+   "sha256": "fe43c3d9db99e1038ce642e2a7aa3ee4c82d3e206d504ac4993aeaef84185d1a",
+   "avertissements": 18
+  },
+  "compilation_sorties": [
+   {
+    "description": "description/exemples/01_route_2x1_sans_bordure.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/ex01_route_2x1_sans_bordure"
+   },
+   {
+    "description": "description/exemples/02_rue_1x1_trottoirs.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/ex02_rue_1x1_trottoirs"
+   },
+   {
+    "description": "description/exemples/03_avenue_bandes_cyclables_stationnement.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/ex03_avenue_bandes_cyclables_stationnement"
+   },
+   {
+    "description": "description/exemples/04_boulevard_2x2_terre_plein_plante.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/ex04_boulevard_2x2_terre_plein_plante"
+   },
+   {
+    "description": "description/exemples/05_rue_piste_bande_plantee_arret_bus.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/ex05_rue_piste_bande_plantee_arret_bus"
+   },
+   {
+    "description": "description/exemples/06_rabattement_2_vers_1.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/ex06_rabattement_2_vers_1"
+   },
+   {
+    "description": "description/exemples/07_zone30_ralentisseurs_passage.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/ex07_zone30_ralentisseurs_passage"
+   },
+   {
+    "description": "description/exemples/08_sens_unique_stationnement_charretieres.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/ex08_sens_unique_stationnement_charretieres"
+   },
+   {
+    "description": "description/exemples/09_elargissement_tourne_a_gauche.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/ex09_elargissement_tourne_a_gauche"
+   },
+   {
+    "description": "description/exemples/10_changement_de_profil.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/ex10_changement_de_profil"
+   },
+   {
+    "description": "description/exemples/11_description_rapide_depuis_photo.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/ex11_description_rapide_depuis_photo"
+   },
+   {
+    "description": "description/exemples/12_piste_bidirectionnelle_separateur.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/ex12_piste_bidirectionnelle_separateur"
+   },
+   {
+    "description": "scenes_simples/S01_route_1x1_hors_agglomeration.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S01"
+   },
+   {
+    "description": "scenes_simples/S02_rue_1x1_bordures_trottoirs.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S02"
+   },
+   {
+    "description": "scenes_simples/S03_rue_stationnement_arbres.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S03"
+   },
+   {
+    "description": "scenes_simples/S04_rue_bandes_cyclables.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S04"
+   },
+   {
+    "description": "scenes_simples/S05_rue_pistes_sur_trottoir.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S05"
+   },
+   {
+    "description": "scenes_simples/S06_avenue_2x2_terre_plein_plante.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S06"
+   },
+   {
+    "description": "scenes_simples/S07_rue_sens_unique_2_voies.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S07"
+   },
+   {
+    "description": "scenes_simples/S08_rue_dos_d_ane_passage.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S08"
+   },
+   {
+    "description": "scenes_simples/S09_reduction_2_vers_1_voie.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S09"
+   },
+   {
+    "description": "scenes_simples/S10_rue_plateau_passage.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S10"
+   },
+   {
+    "description": "scenes_simples/S11_rue_courbe_R60.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S11"
+   },
+   {
+    "description": "scenes_simples/S12_couloir_bus.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S12"
+   },
+   {
+    "description": "scenes_meylan/M20_avenue_de_chamechaude.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S_M20"
+   },
+   {
+    "description": "scenes_meylan/M24_avenue_du_granier.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S_M24"
+   },
+   {
+    "description": "scenes_meylan/M27_avenue_de_verdun.yaml",
+    "code": 0,
+    "sortie": "D:/ClaudeCode_RoadCreation/recon/out/generateur/S_M27"
+   }
+  ]
+ },
+ "criteres": [
+  {
+   "id": "L0-1 cas de test de tags",
+   "valeur": "36 cas",
+   "seuil": "≥ 32",
+   "atteint": true
+  },
+  {
+   "id": "L0-2 cas de test donnant le profil attendu",
+   "valeur": "56 / 56 (tags, réseaux, validateur)",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L0-3 highway=stop seul → stop_a_verifier, ni AB4 ni ligne ; + FR:AB4 → stop (ARB-19)",
+   "valeur": "R03 et R14 : stop_a_verifier sans ligne ni AB4 ; R04 : stop, ligne STOP, AB4",
+   "seuil": "conforme",
+   "atteint": true
+  },
+  {
+   "id": "L0-4 valider_modele : 0 erreur sur les 2 exemples migrés",
+   "valeur": "0 erreur",
+   "seuil": "0 erreur",
+   "atteint": true
+  },
+  {
+   "id": "L0-5 valider_modele (provenance exigée, C01-C13) : 0 erreur sur les sorties",
+   "valeur": "inférence : 15 réseaux de test + extrait réel (0 erreur) ; description : 27 / 27 sans erreur",
+   "seuil": "0 erreur",
+   "atteint": true
+  },
+  {
+   "id": "L0-6 C11 rejette un identifiant inconnu (RF-OSM-LAR-999)",
+   "valeur": "rejeté",
+   "seuil": "rejeté",
+   "atteint": true
+  },
+  {
+   "id": "L0-7 déterminisme (deux exécutions identiques à l'octet)",
+   "valeur": "descriptions 27 / 27 ; réseaux de test 15 ; extrait OSM réel : identique ; migration : identique",
+   "seuil": "100 % identiques",
+   "atteint": true
+  },
+  {
+   "id": "L0-8 exemples de description compilant en modèle valide",
+   "valeur": "27 / 27 (12 exemples + 12 scènes du catalogue voisin)",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L0-9 scènes du catalogue voisin écrites dans le format (attendus vérifiables au niveau du modèle)",
+   "valeur": "12 / 12",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L0-10 faits attendus sur les exemples (règles appliquées)",
+   "valeur": "25 / 25",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L0-11 refus attendus (valeur sans règle, interdits réglementaires, clés inconnues)",
+   "valeur": "26 / 26",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L0-12 sorties écrites dans recon/out/generateur/<scene>/",
+   "valeur": "27 / 27",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L0-13 dévers des accotements hors agglomération (RF-GV-DEV-001 : bande dérasée 4 %, berme 8 %, provenance de chaque dévers) ; S01 sortait à 2,5 % (RF-OSM-NIV-010)",
+   "valeur": "test F4 conforme ; [['berme', -8, 'RF-GV-DEV-001'], ['bande_derasee', -4, 'RF-GV-DEV-001'], ['accotement_revetu', -2.5, 'DEF-006'], ['voie_circulation', -2.5, 'DEF-006'], ['voie_circulation', 2.5, 'DEF-006'], ['accotement_revetu', 2.5, 'DEF-006'], ['bande_derasee', 4, 'RF-GV-DEV-001'], ['berme', 8, 'RF-GV-DEV-001']]",
+   "seuil": "4 % et 8 %, règle citée",
+   "atteint": true
+  },
+  {
+   "id": "L0-14 chevauchements refusés (deux passages, plateau + dos-d'âne) et interdits réglementaires bloquants (dos-d'âne ou plateau hors agglomération ou à plus de 30 km/h), sauf écart admis explicite (motif)",
+   "valeur": "E10 True, E11 True, E12 True, E13 True, E14 True, E15 True, F3 True",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L0-15 fabrication refusée sur un contrôle non conforme ou hors plage non admis (fabriquer_generateur.preparer_entree lit compilation.json, plus seulement « 0 erreur(s) »)",
+   "valeur": "test F5 conforme",
+   "seuil": "refus",
+   "atteint": true
+  },
+  {
+   "id": "L0-16 arbres : dimensions portées dans le modèle (essence, hauteur, houppier, fût au gabarit RF-OSM-VEG-001)",
+   "valeur": "tests F6, E16 : conformes",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L0-17 lecteur YAML minimal contrôlé par PyYAML (Python du système)",
+   "valeur": "yaml_simple = PyYAML 6.0.3 sur 30 descriptions (au saut de ligne final des blocs et aux dates nues près)",
+   "seuil": "identique (saut de ligne final, dates nues)",
+   "atteint": true
+  },
+  {
+   "id": "L0-18 rues réelles de Meylan décrites d'après photo (scenes_meylan) : compilent, 0 non-conformité non admise",
+   "valeur": "3 / 3",
+   "seuil": "3 / 3",
+   "atteint": true
+  }
+ ],
+ "statut": "ok"
+}

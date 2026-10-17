@@ -1,0 +1,71 @@
+# Avenue de Verdun (Meylan, centre), au passage piéton à refuge du site M27 — décrite en regardant les tuiles des
+# photos Panoramax 176f9ab0 et 7ab5b751 (dossier 13, 18/05/2025, CC-BY-SA Eric S ; jamais versionnées ni diffusées) :
+#   - vise_176f9ab0_centre_t-12 et vise_7ab5b751_centre_t-12 : avenue 2 × 1 voies larges (≈ 3,25 m ; l'observation M27 suppose 3,2 m), îlot peint
+#     hachuré dans l'axe (contour continu, hachures obliques) qui devient au passage un îlot refuge bordé court
+#     (≈ 10 m, largeur 2,8 ± 0,6 m, bordure basse arrondie vue 0,11 ± 0,04, surface en enrobé gris, balise sur le nez) ;
+#     passage piéton à bandes larges des deux côtés de l'îlot ; plus loin, axe en tirets et flèche « tout droit » ;
+#   - rives : ligne de rive en tirets sur l'accotement enherbé à niveau (pas de bordure visible) ;
+#   - côté droit (176f9ab0, l+51) : accotement enherbé d'environ 2 m fleuri, puis piste cyclable en enrobé (figurines
+#     vélo) d'environ 2,5 m, puis haie et arbres ; côté gauche : accotement enherbé, trottoir en enrobé ≈ 2 m, haies ;
+#   - enrobé ancien très fissuré (fissures pontées), marquages usés ; grands arbres feuillus (mai) des deux côtés.
+#   - au passage (zooms des tuiles 176f9ab0 et 7ab5b751, correction après le second contrôle) : les accotements enherbés
+#     sont coupés au droit du passage par une liaison revêtue au niveau de la chaussée, sur laquelle les bandes du
+#     passage se prolongent jusqu'au trottoir (gauche) et à travers la piste (droite) ; aucune BEV visible au
+#     débouché de plain-pied du trottoir ; au-delà de la piste, le cheminement continue hors de l'image.
+# Simplifications déclarées : tronçon droit de 100 m ; îlot peint de la largeur de l'îlot bordé sur tout le tronçon ;
+# la piste cyclable est décrite unidirectionnelle (sens non lisible) ; cotes « ≈ » estimées sur photo ; le
+# cheminement au-delà de la piste (hors de l'image) est décrit comme un chemin piéton qui traverse la bande plantée
+# au droit du passage, au niveau de la chaussée comme la liaison (débouché de plain-pied, sans BEV : écart admis).
+scene: S_M27
+nom: avenue_de_verdun
+titre: Avenue de Verdun (Meylan) — îlot peint et refuge bordé au passage piéton (photo M27)
+date: 2025-05-18
+confiance: faible
+description: >
+  Avenue de Verdun, 2 × 1 voies de 3,25 m séparées par un îlot peint hachuré de 2,80 m qui devient au passage piéton
+  un îlot refuge bordé de 10 m (bordures basses vue 0,11, enrobé) ; rives en tirets ; accotements enherbés de 2 m,
+  coupés au droit du passage par une liaison en enrobé au niveau de la chaussée ;
+  à droite piste cyclable de 2,50 m en enrobé puis bande enherbée plantée ; à gauche trottoir en enrobé de 2 m puis
+  bande enherbée plantée ; enrobé ancien fissuré, marquages usés ; flèche « tout droit » à 85 m.
+contexte:
+  agglomeration: oui
+  vitesse: 50
+troncon:
+  de: [0, 0]
+  vers: [100, 0]
+profil:
+  - bande plantée 4,0
+  - trottoir 2,0 enrobé niveau chaussée
+  - accotement herbe 2,0
+  - voie 3,25 ←
+  - zone hachurée 2,80
+  - voie 3,25 →
+  - accotement herbe 2,0
+  - piste cyclable 2,5 niveau chaussée
+  - bande plantée 4,0
+materiaux:
+  chaussee: enrobé usé
+  pistes: enrobé
+marquages:
+  usure: usée
+evenements:
+  - profil: {a: 40, nouveau: "bande plantée 4,0 | trottoir 2,0 enrobé niveau chaussée | accotement herbe 2,0 | voie 3,25 ← | bordure basse vue 0,11 | terre-plein 2,80 enrobé | bordure basse vue 0,11 | voie 3,25 → | accotement herbe 2,0 | piste cyclable 2,5 niveau chaussée | bande plantée 4,0"}
+  # traversée revêtue au droit du passage (42,5 à 47,5 : bandes de 4 m et 0,50 m de part et d'autre) : accotements
+  # enherbés coupés par une liaison en enrobé au niveau de la chaussée (bandes du passage prolongées dessus, comme sur
+  # les photos), à plat comme l'accotement qu'elle coupe, le trottoir gardant son dévers (dévers dits : raccord sans
+  # marche aux jonctions) ; à droite, chemin piéton au niveau de la chaussée à travers la bande plantée (cheminement
+  # hors de l'image), la bande plantée gardant sa bordure qui en fait le tour
+  - profil: {a: 42.5, nouveau: "bande plantée 4,0 | trottoir 2,0 enrobé niveau chaussée dévers 2,5 | accotement 2,0 enrobé dévers 0 | voie 3,25 ← | bordure basse vue 0,11 | terre-plein 2,80 enrobé | bordure basse vue 0,11 | voie 3,25 → | accotement 2,0 enrobé dévers 0 | piste cyclable 2,5 niveau chaussée | chemin 4,0 enrobé niveau chaussée dévers 0"}
+  - profil: {a: 47.5, nouveau: "bande plantée 4,0 | trottoir 2,0 enrobé niveau chaussée | accotement herbe 2,0 | voie 3,25 ← | bordure basse vue 0,11 | terre-plein 2,80 enrobé | bordure basse vue 0,11 | voie 3,25 → | accotement herbe 2,0 | piste cyclable 2,5 niveau chaussée | bande plantée 4,0"}
+  - profil: {a: 50, nouveau: "bande plantée 4,0 | trottoir 2,0 enrobé niveau chaussée | accotement herbe 2,0 | voie 3,25 ← | zone hachurée 2,80 | voie 3,25 → | accotement herbe 2,0 | piste cyclable 2,5 niveau chaussée | bande plantée 4,0"}
+  - passage_pieton: {a: 45, largeur: 4.0, abaisses: oui, bev: oui}
+  - fleches: {a: 85, type: TD, voies: [v2], nombre: 1}
+objets:
+  - arbres: {bande: bande plantée gauche, pas: 12, de: 6, a: 94, hauteur: 16, houppier_rayon: 4.5}
+  - arbres: {bande: bande plantée droite, pas: 12, de: 12, a: 96, hauteur: 16, houppier_rayon: 4.5}
+abords:
+  gauche: pelouse 6
+  droite: pelouse 6
+ecarts_admis:
+  RF-MA-REF-003: "bordures du refuge vues à 0,11 m ± 0,04 sur la photo M27 (176f9ab0), < 0,12 m"
+  RF-MA-BEV-001: "débouchés de plain-pied (trottoir gauche, chemin droit et liaisons au niveau de la chaussée, sans bordure) : aucune BEV visible au débouché du passage sur les photos M27 (176f9ab0, 7ab5b751)"

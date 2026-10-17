@@ -1,0 +1,72 @@
+{
+ "schema": "rg_regles_demandees/0.1",
+ "lot": "correction (après le contrôle adverse de l'étape 1)",
+ "destinataire": "propriétaire de assets/specs/route/regles_route_fr.json (non modifié par ce lot)",
+ "note": "Règles manquantes ou à préciser relevées pendant la correction. Le générateur n'invente pas de règle : il cite la source lue, applique un moyen déclaré « [G] » quand aucune règle constructive n'existe, et le signale ici.",
+ "demandes": [
+  {
+   "id": "D-CORR-1",
+   "sujet": "écoulement des eaux au droit d'un ralentisseur (dos-d'âne, plateau)",
+   "source_lue": "décret n° 94-447, annexe art. 4 (copie locale D:/DocRoute/16_Corrections_Relecture/tmp/decret_94-447.txt) : « L'implantation des ralentisseurs ne doit pas nuire à l'écoulement des eaux. A proximité des trottoirs ou accotements, les ralentisseurs doivent être conçus de telle sorte qu'ils ne présentent aucun danger tant pour les piétons que pour les véhicules à deux roues. »",
+   "regle_proche": "RF-MA-RAL-001 (source : décret 94-447 annexe art. 1-5) : l'article 4 n'est pas repris dans ses valeurs",
+   "demande": "ajouter l'exigence (valeur « ecoulement_eaux ») et une règle constructive : ralentisseur arrêté au caniveau, caniveau à grille, dalot ou buse sous le ralentisseur ; NF P98-300 (payante, non lue) en donne probablement les dispositions",
+   "choix_du_generateur": "[G] caniveau à grille dans l'emprise du caniveau sur toute la longueur relevée (rg::vers_entites, rg::sol : grille_caniveau), radier = fil d'eau du caniveau courant (continu)"
+  },
+  {
+   "id": "D-CORR-2",
+   "sujet": "avaloirs aux plateaux",
+   "source_lue": "Certu, Coussins et plateaux, 2010 (source CP de la base), p. 46 § 2.1.3 « Le recueil des eaux pluviales » : « il est recommandé d'implanter des avaloirs à proximité d'une des rampes d'accès, afin d'éviter la stagnation de fortes quantités d'eau aux abords des rampes d'accès »",
+   "demande": "règle (recommandation) : position (pied de la rampe amont selon le profil en long), nombre, dimension de grille",
+   "choix_du_generateur": "[G] une grille d'avaloir au pied de chaque rampe de plateau, dans le caniveau, de chaque côté (profil en long plat : pas de rampe amont), longueur 0,65 m = asset decal_grille_avaloir de catalogue_assets_route.json"
+  },
+  {
+   "id": "D-CORR-3",
+   "sujet": "dévers des accotements en agglomération",
+   "source_lue": "RF-GV-DEV-001 (ARP p. 46) : chaussée interurbaine, BDD stabilisée 4 %, berme 8 %",
+   "demande": "règle pour les accotements enherbés et bandes dérasées en agglomération",
+   "choix_du_generateur": "RF-GV-DEV-001 appliquée hors agglomération seulement ; en agglomération, dévers de la chaussée (bande dérasée) ou plan (berme), comme avant la correction"
+  },
+  {
+   "id": "D-CORR-4",
+   "sujet": "crête du toit sur une bande de séparation des sens (zone hachurée, îlot peint)",
+   "source_lue": "RF-OSM-NIV-011 : « forme_bidirectionnelle : toit, crête sur la séparation des sens »",
+   "demande": "préciser la forme quand la séparation est une bande (à plat, ou toit au milieu de la bande)",
+   "choix_du_generateur": "[G] bande de séparation au niveau de la chaussée à plat (crête) : les voies partent de ses rives au même niveau qu'au droit d'un îlot bordé de même largeur (sinon marche de 2 cm aux bouts de l'îlot de S_M24)"
+  },
+  {
+   "id": "D-CORR-5",
+   "sujet": "gabarit des branches au-dessus de la chaussée et du trottoir en valeurs numériques",
+   "source_lue": "RF-OSM-VEG-001 valeurs.gabarit_branches = « ≥ 3,80 au-dessus de la chaussée, ≥ 2,20 (cible 2,50) au-dessus d'un trottoir » (texte)",
+   "demande": "valeurs numériques (chaussee_m 3,80 ; trottoir_min_m 2,20 ; trottoir_cible_m 2,50)",
+   "choix_du_generateur": "nombres lus dans le texte de la règle (3,80 ; 2,50 cible)"
+  },
+  {
+   "id": "D-CORR-6",
+   "sujet": "dimensions d'un arbre d'alignement d'essence non dite",
+   "source_lue": "DEF-030 (entraxe, recul) ; aucune règle de hauteur ni de houppier",
+   "demande": "règle par défaut (ou classe de taille par catégorie de voie)",
+   "choix_du_generateur": "fiche « arbre_feuillu_generique_moyen » de assets/specs/vegetation.json (10 m, fût 2,5 m, couronne 6 m), provenance catalogue, confiance faible"
+  },
+  {
+   "id": "D-CORR-7",
+   "sujet": "étendue de la BEV en valeur numérique",
+   "source_lue": "RF-MA-BEV-002 : « au droit de toute bordure de vue < 0,05 m, jamais au-delà du marquage » (texte) ; RF-MA-TRO-015 min_detectable 0,05",
+   "demande": "valeur numérique dans RF-MA-BEV-002 (vue_max_m 0,05) et précision « vue visible » (relevée par un ralentisseur)",
+   "choix_du_generateur": "seuil 0,05 lu dans RF-MA-TRO-015, appliqué à la vue visible (tête − chaussée au droit de la face)"
+  },
+  {
+   "id": "D-CORR-8",
+   "sujet": "plateau à 50 km/h en agglomération",
+   "source_lue": "décret 94-447 annexe art. 2 (zone 30 ou section limitée à 30 km/h, pour tout ralentisseur dos-d'âne ou trapézoïdal) ; RF-GV-RAL-002 (condition : agglomération)",
+   "demande": "confirmer qu'un plateau de 2,50 à 4,00 m (ralentisseur trapézoïdal) est interdit hors zone 30, et préciser le statut d'un plateau plus long (surélévation, Certu 2010)",
+   "choix_du_generateur": "plateau de 2,50-4,00 m refusé hors agglomération ou à plus de 30 km/h (RF-MA-RAL-001) ; plateau plus long refusé hors agglomération seulement (RF-GV-RAL-002) ; ex11 passé à 30 km/h"
+  },
+  {
+   "id": "D-CORR-9",
+   "sujet": "exutoire d'une file de caniveau fermée par un retour de bordure (poches de stationnement entre avancées plantées, îlots)",
+   "source_lue": "décret 94-447 annexe art. 4 (ralentisseurs seulement) ; Certu, Coussins et plateaux, 2010, p. 46 § 2.1.3 (« éviter la stagnation », plateaux seulement) ; aucune règle de regles_route_fr.json sur les avancées (RF-GV-TPC-010 : fosse d'arbre)",
+   "demande": "règle de drainage des avancées de trottoir : caniveau contournant l'avancée, avancée décollée de la bordure (fil d'eau continu), ou avaloir par poche (position, espacement)",
+   "choix_du_generateur": "[G] une grille d'avaloir de 0,65 m au bout aval (abscisses croissantes, profil en long plat) de toute file de caniveau qui s'arrête contre un retour de bordure, hors bout de la voie et hors caniveau à grille (rg::vers_entites, paramètre avaloir_fin_de_file) ; S03 : 13 poches"
+  }
+ ]
+}

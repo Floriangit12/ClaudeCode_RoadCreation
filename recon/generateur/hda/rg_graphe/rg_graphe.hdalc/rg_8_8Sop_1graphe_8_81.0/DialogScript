@@ -1,0 +1,61 @@
+# Dialog script for rg::graphe::1.0 automatically generated
+
+{
+    name	rg::graphe::1.0
+    inputlabel	1	"Routes"
+    inputlabel	2	"Profils"
+    inputlabel	3	"Ponctuels"
+    inputlabel	4	"Nœuds"
+    outputlabel	1	"Références échantillonnées"
+    outputlabel	2	"Nœuds (branches triées)"
+    script	rg::graphe::1.0
+    label	"RG Graphe (échantillonnage des lignes de référence)"
+
+    help {
+    }
+
+    inputlabel	1	Routes
+    inputlabel	2	Profils
+    inputlabel	3	Ponctuels
+    inputlabel	4	Nœuds
+
+    parm {
+        name    "fleche_max"
+        label   "Flèche maximale (m)"
+        type    float
+        default { "0.0005" }
+        help    "Écart maximal entre une corde et la courbe (PLAN_GENERATEUR § 2.3, critère du lot L1 : 0,5 mm), sur la ligne de référence et sur toutes les limites décalées."
+        range   { 1e-05 0.01 }
+    }
+    parm {
+        name    "marge_fleche"
+        label   "Marge de calcul"
+        type    float
+        default { "0.9" }
+        help    "Le pas vise flèche × marge (0,45 mm) : les sommets sont stockés en flottants 32 bits (± 1,5e-5 m à 200 m), la mesure indépendante doit rester sous 0,5 mm."
+        range   { 0.1 1 }
+    }
+    parm {
+        name    "pas_max"
+        label   "Pas maximal (m)"
+        type    float
+        default { "1" }
+        help    "Pas en ligne droite à largeurs constantes (aucune règle : choix de fabrication, repris dans le manifeste)."
+        range   { 0.05 20 }
+    }
+    parm {
+        name    "rampe_plateau_pct"
+        label   "Rampe des plateaux (%)"
+        type    float
+        default { "7" }
+        help    "DEF-034 (rampe_pct = 7 %) : le schéma 0.1 ne porte que la longueur totale et la hauteur d'un plateau ; la rampe vient de cette règle."
+        range   { 1 20 }
+    }
+    parm {
+        name    "sommets_evenements"
+        label   "Sommets aux évènements des limites"
+        type    toggle
+        default { "1" }
+        help    "Abaissés, intervalles et interruptions de marquage deviennent des sommets obligatoires (abscisses exactes pour les lots L2 et L4)."
+    }
+}

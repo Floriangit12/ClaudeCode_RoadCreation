@@ -1,0 +1,24 @@
+# Dialog script for rg::lire_modele::1.0 automatically generated
+
+{
+    name	rg::lire_modele::1.0
+    outputlabel	1	"Routes (lignes de référence)"
+    outputlabel	2	"Nœuds"
+    outputlabel	3	"Zones et îlots"
+    outputlabel	4	"Ponctuels (objets, signaux, marquages)"
+    outputlabel	5	"Profils"
+    script	rg::lire_modele::1.0
+    label	"RG Lire le modèle de voies"
+
+    help {
+    }
+
+
+    parm {
+        name    "fichier"
+        label   "Modèle (modele_voie.json)"
+        type    file
+        default { "" }
+        help    "Fichier modele_voie/0.1 : sortie de description_vers_modele.py (description simple) ou de osm_vers_modele.py (inférence OSM). Coordonnées Lambert-93, converties une seule fois : local = L93 − repere.origine_l93, puis Houdini (x, z, −y)."
+    }
+}

@@ -1,0 +1,1986 @@
+{
+ "lot": "correction",
+ "titre": "corrections après le contrôle adverse de l'étape 1 (L0, catalogue, L1, L2, L2b) ; étape 1 : la route seule (décision de l'utilisateur)",
+ "decision_utilisateur": "« il ne doit pas générer la montagne : il doit générer les routes, la chaussée, etc. dans un premier temps ; la végétation, c'est dans un deuxième temps » (utilisateur, 17/10/2026)",
+ "criteres": [
+  {
+   "id": "C-1 dévers des bandes dérasées de S01 (RF-GV-DEV-001, cité par la description)",
+   "valeur": "[('bd1', -4, 'RF-GV-DEV-001'), ('bd2', 4, 'RF-GV-DEV-001')] (avant : ±2,5 %, RF-OSM-NIV-010)",
+   "seuil": "±4 %, RF-GV-DEV-001",
+   "atteint": true
+  },
+  {
+   "id": "C-2 cas piégés de la relecture adverse (tmp/verif/adv, relus sans modification, recompilés) : refus, blocage de la fabrication ou acceptation attendus",
+   "valeur": "12 / 12 : A10 refus, A11 refus, A12 refus, A1 refus, A2 refus, A3 refus, A4 refus, A5 bloque, A6 refus, A7 refus, A8 accepte, A9 bloque",
+   "seuil": "12 / 12 (avant : 9 / 12)",
+   "atteint": true
+  },
+  {
+   "id": "C-3 le pilote refuse de fabriquer une description non conforme non admise (A9 : trottoir de 1 m)",
+   "valeur": "refusée (code 1)",
+   "seuil": "refus",
+   "atteint": true
+  },
+  {
+   "id": "C-4 déterminisme : un processus par scène, second processus comparé à l'octet (l1/, l2/, l2b/, manifestes compris : avertissements de Houdini sans la liste d'attributs propre au processus)",
+   "valeur": "15 / 15 identiques",
+   "seuil": "15 / 15",
+   "atteint": true
+  },
+  {
+   "id": "C-5 manifest_rendus.json porte l'empreinte sha256 de route_l2.usda et route_l2b.usda rendus (égale au fichier actuel)",
+   "valeur": "15 / 15",
+   "seuil": "15 / 15",
+   "atteint": true
+  },
+  {
+   "id": "C-6 elements.json complet (pièces sur mesure des coudes et des angles)",
+   "valeur": "trous :  ; pièces sur mesure listées : 106 (81.64 m) ; avant : S03 13.48 m, S09 2.0 m",
+   "seuil": "0 trou > 2 cm",
+   "atteint": true
+  },
+  {
+   "id": "C-7 fil d'eau continu au droit des ralentisseurs (caniveau à grille, avaloirs)",
+   "valeur": "S02 : 0.0 m sans élément, 0 grille(s), 0 avaloir(s), S03 : 0.0 m sans élément, 0 grille(s), 13 avaloir(s), 78.072 m de retours drainés, S04 : 0.0 m sans élément, 0 grille(s), 0 avaloir(s), S05 : 0.0 m sans élément, 0 grille(s), 0 avaloir(s), S06 : 0.0 m sans élément, 0 grille(s), 0 avaloir(s), S07 : 0.0 m sans élément, 0 grille(s), 0 avaloir(s), S08 : 0.0 m sans élément, 2 grille(s), 0 avaloir(s), S09 : 0.0 m sans élément, 0 grille(s), 0 avaloir(s), S10 : 0.0 m sans élément, 2 grille(s), 4 avaloir(s), S11 : 0.0 m sans élément, 0 grille(s), 0 avaloir(s), S12 : 0.0 m sans élément, 0 grille(s), 0 avaloir(s) ; avant : S03 81.975 m, S08 8.0 m, S09 2.012 m, S10 13.716 m, S11 106.904 m",
+   "seuil": "0 m (S08, S10 et partout)",
+   "atteint": true
+  },
+  {
+   "id": "C-8 lisibilité de la vue de dessus (critère ajouté L2b-16)",
+   "valeur": "trottoir − enrobé : S02 0.3488, S03 0.3558, S04 0.3527, S05 0.3233, S06 0.3519, S07 0.3519, S08 0.3519, S09 0.344, S10 0.3516, S11 0.3519, S12 0.3451 (11 / 11) ; peinture − enrobé : S01 0.4516, S02 0.5065, S03 0.5104, S04 0.5219, S05 0.5261, S06 0.5144, S07 0.5298, S08 0.4477, S09 0.5222, S10 0.4398, S11 0.5222, S12 0.5261 (12 / 12) ; enrobé : S01 0.3173, S02 0.3173, S03 0.3134, S04 0.3134, S05 0.3134, S06 0.3173, S07 0.3173, S08 0.3173, S09 0.3249, S10 0.3173, S11 0.3173, S12 0.3212",
+   "seuil": "≥ 0,318 et ≥ 0,406 sur chaque scène",
+   "atteint": true
+  },
+  {
+   "id": "C-9 arbres aux dimensions du modèle (L2b-17)",
+   "valeur": "aucun arbre rendu à l'étape 1 (décision de l'utilisateur) ; dimensions portées dans le modèle (L0-16) et code de rendu gardé, désactivé",
+   "seuil": "100 %",
+   "atteint": null,
+   "reporte": "étape 2 (végétation)"
+  },
+  {
+   "id": "C-10 enrobé de chaussée en vue de dessus : luminance médiane ≤ 0,40 (référence 0,334 ; avant 0,48-0,55) et gris chaud (teinte 15-45°, photos 25-29°)",
+   "valeur": "S01 0.3173 (18.5°), S02 0.3173 (18.5°), S03 0.3134 (18.4°), S04 0.3134 (18.5°), S05 0.3134 (18.5°), S06 0.3173 (18.5°), S07 0.3173 (18.9°), S08 0.3173 (18.5°), S09 0.3249 (19.0°), S10 0.3173 (18.4°), S11 0.3173 (18.5°), S12 0.3212 (19.0°), S_M24 0.3134 (18.5°), S_M27 0.3165 (18.5°), S_M20 0.3162 (18.5°)",
+   "seuil": "≤ 0,40 ; 15-45°",
+   "atteint": true
+  },
+  {
+   "id": "C-11 herbe en vue de dessus : teinte 75-80° et écart-type de luminance ≥ 0,10 (réalisme de la végétation, relecture)",
+   "valeur": "étape 1 : accotements de S01 et terre-plein de S06 rendus comme des surfaces de la route, aspect sobre (sans cartes de touffes ni de plaques) : S01 79.5° σ 0.0142, S06 82.6° σ 0.0131, S_M24 82.6° σ 0.0131, S_M27 81.6° σ 0.0498, S_M20 82.6° σ 0.05",
+   "seuil": "75-80° ; σ ≥ 0,10",
+   "atteint": null,
+   "reporte": "étape 2 (végétation : la sobriété est demandée à l'étape 1)"
+  },
+  {
+   "id": "C-12 boucle photo → description → fabrication sur 3 rues réelles de Meylan sans carrefour (M24, M27, M20) : description d'après les tuiles, compilation sans erreur ni non-conformité non admise, fabrication L1-L2b, rendus dont vues au champ et au tangage de la photo, planches rendu | photo",
+   "valeur": "S_M24 : 0 erreur, 0 non-conformité, écarts admis ['DEF-022', 'RF-MA-REF-003', 'RF-OSM-LAR-050'], rendus 6, planches 4; S_M27 : 0 erreur, 0 non-conformité, écarts admis ['RF-MA-REF-003'], rendus 5, planches 2; S_M20 : 0 erreur, 0 non-conformité, écarts admis [], rendus 5, planches 2",
+   "seuil": "3 rues, 0 erreur, ≥ 2 planches chacune",
+   "atteint": true
+  },
+  {
+   "id": "C-13 revue visuelle : toutes les tuiles natives des rendus refaits regardées (relecture : 12 sur 108)",
+   "valeur": "145 / 145 (constats_visuels_etape1.json)",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "C-14 tests : sortie --json par défaut dans tmp/ (validation/ écrit seulement par faire_rapport_L0.py)",
+   "valeur": "{'description/tests/tester_descriptions.py': 1, 'inference/tests/tester_inference.py': 1}",
+   "seuil": "défaut dans tmp/ pour les deux",
+   "atteint": true
+  },
+  {
+   "id": "C-15 route seule (décision de l'utilisateur) : aucune géométrie hors de l'emprise de la route dans les scènes rendues (ni arbres, ni relief, ni prairie de décor, ni prolongements), ciel sans nuage, abords du modèle non rendus, socle et sol plat neutres",
+   "valeur": "15 / 15 scènes",
+   "seuil": "15 / 15",
+   "atteint": true
+  },
+  {
+   "id": "C-16 angles et avancées avec pièces d'angle (pj::bordure::2.0 : deux éléments sur mesure en onglet) : aucun trou > 2 cm dans les files de bordure (S03 : 1,58 m avant, 26 angles en about droit)",
+   "valeur": "S01 0.0 m, S02 0.0 m, S03 0.0 m, S04 0.0 m, S05 0.0 m, S06 0.0 m, S07 0.0 m, S08 0.0 m, S09 0.0 m, S10 0.0 m, S11 0.0 m, S12 0.0 m, S_M20 0.0 m, S_M24 0.0 m, S_M27 0.0 m ; pièces sur mesure S03 104, S09 2, S_M24 6, S_M27 6",
+   "seuil": "0 m partout",
+   "atteint": true
+  },
+  {
+   "id": "C-17 piste cyclable au niveau du trottoir distincte de la chaussée (RF-MA-PIS-009 : enrobé de couleur différente) : écart de couleur des médianes en vue de dessus, ΔE76 CIELAB ≥ 10 (2,3 : seuil de perception ; 10 : différence évidente, choix déclaré) et piste plus claire que la chaussée",
+   "valeur": "S05 : ΔY 0.1323, ΔE 14.7, S_M24 : ΔY 0.1323, ΔE 14.7, S_M27 : ΔY 0.1331, ΔE 14.66",
+   "seuil": "ΔE ≥ 10 et ΔY > 0 sur chaque scène à piste",
+   "atteint": true
+  },
+  {
+   "id": "C-18 bordures en béton gris de la valeur du trottoir (pas de face blanche) : albédo moyen de la bordure / albédo du trottoir (tables du rendu, matériaux de la bibliothèque)",
+   "valeur": "bordure 0.349 ; trottoirs enrobe_trottoir 0.350, beton_balaye 0.350, dalles_beton 0.320 ; rapport 1.00 à 1.09 ; caniveau 0.267 ; soleil à 42.0°",
+   "seuil": "rapport 0,90-1,10 (et soleil ≥ 40°, relecture)",
+   "atteint": true
+  }
+ ],
+ "statut": "ok",
+ "criteres_reportes": [
+  "C-9",
+  "C-11"
+ ],
+ "mesures": {
+  "avant": {
+   "S01": {
+    "lisibilite": {
+     "m_par_px": 0.0256,
+     "enrobe": {
+      "pixels": 234375,
+      "Y_median": 0.5378,
+      "Y_sigma": 0.0269,
+      "teinte_deg": 265.0,
+      "saturation_hls": 0.006
+     },
+     "trottoir": null,
+     "herbe": {
+      "pixels": 648545,
+      "Y_median": 0.4476,
+      "Y_sigma": 0.0386,
+      "teinte_deg": 85.1,
+      "saturation_hls": 0.306
+     },
+     "marquage": {
+      "pixels": 7090,
+      "Y_median": 0.9454,
+      "Y_sigma": 0.0622,
+      "teinte_deg": 39.0,
+      "saturation_hls": 0.068
+     },
+     "ecart_marquage_enrobe": 0.4076,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0
+   },
+   "S02": {
+    "lisibilite": {
+     "m_par_px": 0.0256,
+     "enrobe": {
+      "pixels": 226720,
+      "Y_median": 0.5345,
+      "Y_sigma": 0.0267,
+      "teinte_deg": 275.8,
+      "saturation_hls": 0.005
+     },
+     "trottoir": {
+      "pixels": 145811,
+      "Y_median": 0.5815,
+      "Y_sigma": 0.0246,
+      "teinte_deg": 57.9,
+      "saturation_hls": 0.048
+     },
+     "herbe": {
+      "pixels": 498378,
+      "Y_median": 0.3328,
+      "Y_sigma": 0.0533,
+      "teinte_deg": 98.5,
+      "saturation_hls": 0.321
+     },
+     "marquage": {
+      "pixels": 456,
+      "Y_median": 0.9532,
+      "Y_sigma": 0.0072,
+      "teinte_deg": 40.6,
+      "saturation_hls": 0.117
+     },
+     "ecart_trottoir_enrobe": 0.047,
+     "ecart_trottoir_enrobe_atteint": false,
+     "ecart_marquage_enrobe": 0.4187,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0
+   },
+   "S03": {
+    "lisibilite": {
+     "m_par_px": 0.0275,
+     "enrobe": {
+      "pixels": 218423,
+      "Y_median": 0.4826,
+      "Y_sigma": 0.2017,
+      "teinte_deg": 99.1,
+      "saturation_hls": 0.031
+     },
+     "trottoir": {
+      "pixels": 137158,
+      "Y_median": 0.5389,
+      "Y_sigma": 0.2079,
+      "teinte_deg": 80.7,
+      "saturation_hls": 0.077
+     },
+     "herbe": {
+      "pixels": 463496,
+      "Y_median": 0.3073,
+      "Y_sigma": 0.1149,
+      "teinte_deg": 98.8,
+      "saturation_hls": 0.32
+     },
+     "marquage": {
+      "pixels": 1427,
+      "Y_median": 0.3336,
+      "Y_sigma": 0.4008,
+      "teinte_deg": 93.5,
+      "saturation_hls": 0.037
+     },
+     "ecart_trottoir_enrobe": 0.0563,
+     "ecart_trottoir_enrobe_atteint": false,
+     "ecart_marquage_enrobe": -0.149,
+     "ecart_marquage_enrobe_atteint": false
+    },
+    "fil_eau_interrompu_m": 81.975,
+    "bordures_trous_m": 13.48
+   },
+   "S04": {
+    "lisibilite": {
+     "m_par_px": 0.0293,
+     "enrobe": {
+      "pixels": 206824,
+      "Y_median": 0.5347,
+      "Y_sigma": 0.0261,
+      "teinte_deg": 274.0,
+      "saturation_hls": 0.005
+     },
+     "trottoir": {
+      "pixels": 124953,
+      "Y_median": 0.5815,
+      "Y_sigma": 0.0233,
+      "teinte_deg": 57.7,
+      "saturation_hls": 0.048
+     },
+     "herbe": {
+      "pixels": 435073,
+      "Y_median": 0.3323,
+      "Y_sigma": 0.0592,
+      "teinte_deg": 98.3,
+      "saturation_hls": 0.321
+     },
+     "marquage": {
+      "pixels": 11868,
+      "Y_median": 0.9493,
+      "Y_sigma": 0.0181,
+      "teinte_deg": 40.0,
+      "saturation_hls": 0.11
+     },
+     "ecart_trottoir_enrobe": 0.0468,
+     "ecart_trottoir_enrobe_atteint": false,
+     "ecart_marquage_enrobe": 0.4146,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0
+   },
+   "S05": {
+    "lisibilite": {
+     "m_par_px": 0.0308,
+     "enrobe": {
+      "pixels": 187238,
+      "Y_median": 0.5347,
+      "Y_sigma": 0.0254,
+      "teinte_deg": 273.7,
+      "saturation_hls": 0.005
+     },
+     "trottoir": {
+      "pixels": 127722,
+      "Y_median": 0.6967,
+      "Y_sigma": 0.0318,
+      "teinte_deg": 45.9,
+      "saturation_hls": 0.319
+     },
+     "herbe": {
+      "pixels": 413186,
+      "Y_median": 0.3325,
+      "Y_sigma": 0.0597,
+      "teinte_deg": 98.4,
+      "saturation_hls": 0.321
+     },
+     "marquage": {
+      "pixels": 1014,
+      "Y_median": 0.9532,
+      "Y_sigma": 0.0147,
+      "teinte_deg": 40.4,
+      "saturation_hls": 0.115
+     },
+     "ecart_trottoir_enrobe": 0.162,
+     "ecart_trottoir_enrobe_atteint": false,
+     "ecart_marquage_enrobe": 0.4185,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0
+   },
+   "S06": {
+    "lisibilite": {
+     "m_par_px": 0.0357,
+     "enrobe": {
+      "pixels": 327180,
+      "Y_median": 0.5031,
+      "Y_sigma": 0.1862,
+      "teinte_deg": 94.1,
+      "saturation_hls": 0.029
+     },
+     "trottoir": {
+      "pixels": 101986,
+      "Y_median": 0.5666,
+      "Y_sigma": 0.1354,
+      "teinte_deg": 59.3,
+      "saturation_hls": 0.035
+     },
+     "herbe": {
+      "pixels": 463405,
+      "Y_median": 0.3112,
+      "Y_sigma": 0.1197,
+      "teinte_deg": 99.5,
+      "saturation_hls": 0.317
+     },
+     "marquage": {
+      "pixels": 9720,
+      "Y_median": 0.2734,
+      "Y_sigma": 0.3616,
+      "teinte_deg": 93.3,
+      "saturation_hls": 0.084
+     },
+     "ecart_trottoir_enrobe": 0.0635,
+     "ecart_trottoir_enrobe_atteint": false,
+     "ecart_marquage_enrobe": -0.2297,
+     "ecart_marquage_enrobe_atteint": false
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0
+   },
+   "S07": {
+    "lisibilite": {
+     "m_par_px": 0.0256,
+     "enrobe": {
+      "pixels": 220508,
+      "Y_median": 0.5459,
+      "Y_sigma": 0.0936,
+      "teinte_deg": 261.4,
+      "saturation_hls": 0.006
+     },
+     "trottoir": {
+      "pixels": 145886,
+      "Y_median": 0.5776,
+      "Y_sigma": 0.1118,
+      "teinte_deg": 60.0,
+      "saturation_hls": 0.038
+     },
+     "herbe": {
+      "pixels": 498321,
+      "Y_median": 0.3303,
+      "Y_sigma": 0.0687,
+      "teinte_deg": 98.6,
+      "saturation_hls": 0.321
+     },
+     "marquage": {
+      "pixels": 3152,
+      "Y_median": 0.9611,
+      "Y_sigma": 0.0495,
+      "teinte_deg": 40.8,
+      "saturation_hls": 0.104
+     },
+     "ecart_trottoir_enrobe": 0.0317,
+     "ecart_trottoir_enrobe_atteint": false,
+     "ecart_marquage_enrobe": 0.4152,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0
+   },
+   "S08": {
+    "lisibilite": {
+     "m_par_px": 0.0256,
+     "enrobe": {
+      "pixels": 191684,
+      "Y_median": 0.5345,
+      "Y_sigma": 0.0269,
+      "teinte_deg": 275.5,
+      "saturation_hls": 0.005
+     },
+     "trottoir": {
+      "pixels": 145693,
+      "Y_median": 0.582,
+      "Y_sigma": 0.0521,
+      "teinte_deg": 58.3,
+      "saturation_hls": 0.048
+     },
+     "herbe": {
+      "pixels": 498500,
+      "Y_median": 0.3328,
+      "Y_sigma": 0.0534,
+      "teinte_deg": 98.5,
+      "saturation_hls": 0.321
+     },
+     "marquage": {
+      "pixels": 20949,
+      "Y_median": 0.949,
+      "Y_sigma": 0.039,
+      "teinte_deg": 39.8,
+      "saturation_hls": 0.098
+     },
+     "ecart_trottoir_enrobe": 0.0475,
+     "ecart_trottoir_enrobe_atteint": false,
+     "ecart_marquage_enrobe": 0.4145,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 8.0,
+    "bordures_trous_m": 0.0
+   },
+   "S09": {
+    "lisibilite": {
+     "m_par_px": 0.0256,
+     "enrobe": {
+      "pixels": 173106,
+      "Y_median": 0.5501,
+      "Y_sigma": 0.029,
+      "teinte_deg": 288.4,
+      "saturation_hls": 0.004
+     },
+     "trottoir": {
+      "pixels": 160801,
+      "Y_median": 0.5815,
+      "Y_sigma": 0.0381,
+      "teinte_deg": 57.8,
+      "saturation_hls": 0.047
+     },
+     "herbe": {
+      "pixels": 498538,
+      "Y_median": 0.3314,
+      "Y_sigma": 0.0426,
+      "teinte_deg": 98.7,
+      "saturation_hls": 0.321
+     },
+     "marquage": {
+      "pixels": 11929,
+      "Y_median": 0.9611,
+      "Y_sigma": 0.014,
+      "teinte_deg": 40.4,
+      "saturation_hls": 0.126
+     },
+     "ecart_trottoir_enrobe": 0.0314,
+     "ecart_trottoir_enrobe_atteint": false,
+     "ecart_marquage_enrobe": 0.411,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 2.012,
+    "bordures_trous_m": 2.0
+   },
+   "S10": {
+    "lisibilite": {
+     "m_par_px": 0.0256,
+     "enrobe": {
+      "pixels": 200056,
+      "Y_median": 0.5345,
+      "Y_sigma": 0.0275,
+      "teinte_deg": 275.3,
+      "saturation_hls": 0.005
+     },
+     "trottoir": {
+      "pixels": 145684,
+      "Y_median": 0.5823,
+      "Y_sigma": 0.0563,
+      "teinte_deg": 58.4,
+      "saturation_hls": 0.049
+     },
+     "herbe": {
+      "pixels": 498558,
+      "Y_median": 0.3328,
+      "Y_sigma": 0.0533,
+      "teinte_deg": 98.5,
+      "saturation_hls": 0.321
+     },
+     "marquage": {
+      "pixels": 18304,
+      "Y_median": 0.9493,
+      "Y_sigma": 0.0184,
+      "teinte_deg": 40.0,
+      "saturation_hls": 0.109
+     },
+     "ecart_trottoir_enrobe": 0.0478,
+     "ecart_trottoir_enrobe_atteint": false,
+     "ecart_marquage_enrobe": 0.4148,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 13.716,
+    "bordures_trous_m": 0.0
+   },
+   "S11": {
+    "lisibilite": {
+     "m_par_px": 0.0256,
+     "enrobe": {
+      "pixels": 263156,
+      "Y_median": 0.5345,
+      "Y_sigma": 0.024,
+      "teinte_deg": 279.4,
+      "saturation_hls": 0.005
+     },
+     "trottoir": {
+      "pixels": 157188,
+      "Y_median": 0.5812,
+      "Y_sigma": 0.0237,
+      "teinte_deg": 57.6,
+      "saturation_hls": 0.048
+     },
+     "herbe": {
+      "pixels": 455140,
+      "Y_median": 0.3323,
+      "Y_sigma": 0.0621,
+      "teinte_deg": 98.4,
+      "saturation_hls": 0.321
+     },
+     "marquage": {
+      "pixels": 423,
+      "Y_median": 0.9501,
+      "Y_sigma": 0.0132,
+      "teinte_deg": 40.1,
+      "saturation_hls": 0.115
+     },
+     "ecart_trottoir_enrobe": 0.0467,
+     "ecart_trottoir_enrobe_atteint": false,
+     "ecart_marquage_enrobe": 0.4156,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 106.904,
+    "bordures_trous_m": 0.0
+   },
+   "S12": {
+    "lisibilite": {
+     "m_par_px": 0.0259,
+     "enrobe": {
+      "pixels": 216108,
+      "Y_median": 0.5501,
+      "Y_sigma": 0.0222,
+      "teinte_deg": 291.7,
+      "saturation_hls": 0.004
+     },
+     "trottoir": {
+      "pixels": 144663,
+      "Y_median": 0.5815,
+      "Y_sigma": 0.0247,
+      "teinte_deg": 57.8,
+      "saturation_hls": 0.048
+     },
+     "herbe": {
+      "pixels": 494119,
+      "Y_median": 0.3328,
+      "Y_sigma": 0.053,
+      "teinte_deg": 98.5,
+      "saturation_hls": 0.321
+     },
+     "marquage": {
+      "pixels": 10062,
+      "Y_median": 0.9611,
+      "Y_sigma": 0.0088,
+      "teinte_deg": 40.3,
+      "saturation_hls": 0.126
+     },
+     "ecart_trottoir_enrobe": 0.0314,
+     "ecart_trottoir_enrobe_atteint": false,
+     "ecart_marquage_enrobe": 0.411,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0
+   }
+  },
+  "apres": {
+   "S01": {
+    "lisibilite": {
+     "m_par_px": 0.0238,
+     "enrobe": {
+      "pixels": 251159,
+      "Y_median": 0.3173,
+      "Y_sigma": 0.0167,
+      "teinte_deg": 18.5,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       34.43,
+       1.64,
+       1.91
+      ]
+     },
+     "trottoir": null,
+     "piste": null,
+     "herbe": {
+      "pixels": 146848,
+      "Y_median": 0.2876,
+      "Y_sigma": 0.0142,
+      "teinte_deg": 79.5,
+      "saturation_hls": 0.213,
+      "lab_median": [
+       31.27,
+       -9.04,
+       14.86
+      ]
+     },
+     "marquage": {
+      "pixels": 11102,
+      "Y_median": 0.7689,
+      "Y_sigma": 0.0598,
+      "teinte_deg": 255.6,
+      "saturation_hls": 0.006,
+      "lab_median": [
+       79.18,
+       0.19,
+       -0.51
+      ]
+     },
+     "ecart_marquage_enrobe": 0.4516,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 78636,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S02": {
+    "lisibilite": {
+     "m_par_px": 0.0238,
+     "enrobe": {
+      "pixels": 243480,
+      "Y_median": 0.3173,
+      "Y_sigma": 0.0166,
+      "teinte_deg": 18.5,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       34.43,
+       1.64,
+       1.91
+      ]
+     },
+     "trottoir": {
+      "pixels": 158954,
+      "Y_median": 0.6661,
+      "Y_sigma": 0.0155,
+      "teinte_deg": 24.4,
+      "saturation_hls": 0.044,
+      "lab_median": [
+       69.56,
+       1.24,
+       2.17
+      ]
+     },
+     "piste": null,
+     "herbe": null,
+     "marquage": {
+      "pixels": 976,
+      "Y_median": 0.8238,
+      "Y_sigma": 0.0271,
+      "teinte_deg": 244.4,
+      "saturation_hls": 0.009,
+      "lab_median": [
+       84.22,
+       0.19,
+       -0.5
+      ]
+     },
+     "ecart_trottoir_enrobe": 0.3488,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.5065,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 65696,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S03": {
+    "lisibilite": {
+     "m_par_px": 0.0238,
+     "enrobe": {
+      "pixels": 253242,
+      "Y_median": 0.3134,
+      "Y_sigma": 0.0201,
+      "teinte_deg": 18.4,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       34.01,
+       1.65,
+       1.91
+      ]
+     },
+     "trottoir": {
+      "pixels": 160001,
+      "Y_median": 0.6692,
+      "Y_sigma": 0.0156,
+      "teinte_deg": 24.4,
+      "saturation_hls": 0.044,
+      "lab_median": [
+       69.85,
+       0.88,
+       2.04
+      ]
+     },
+     "piste": null,
+     "herbe": null,
+     "marquage": {
+      "pixels": 2428,
+      "Y_median": 0.8238,
+      "Y_sigma": 0.0459,
+      "teinte_deg": 249.3,
+      "saturation_hls": 0.008,
+      "lab_median": [
+       84.22,
+       0.19,
+       -0.5
+      ]
+     },
+     "ecart_trottoir_enrobe": 0.3558,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.5104,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 66186,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S04": {
+    "lisibilite": {
+     "m_par_px": 0.0238,
+     "enrobe": {
+      "pixels": 255599,
+      "Y_median": 0.3134,
+      "Y_sigma": 0.0169,
+      "teinte_deg": 18.5,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       34.01,
+       1.65,
+       1.91
+      ]
+     },
+     "trottoir": {
+      "pixels": 158937,
+      "Y_median": 0.6661,
+      "Y_sigma": 0.0152,
+      "teinte_deg": 24.4,
+      "saturation_hls": 0.044,
+      "lab_median": [
+       69.56,
+       1.24,
+       2.17
+      ]
+     },
+     "piste": null,
+     "herbe": null,
+     "marquage": {
+      "pixels": 16972,
+      "Y_median": 0.8353,
+      "Y_sigma": 0.0275,
+      "teinte_deg": 242.1,
+      "saturation_hls": 0.009,
+      "lab_median": [
+       85.27,
+       0.0,
+       -0.01
+      ]
+     },
+     "ecart_trottoir_enrobe": 0.3527,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.5219,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 65621,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S05": {
+    "lisibilite": {
+     "m_par_px": 0.0238,
+     "enrobe": {
+      "pixels": 243480,
+      "Y_median": 0.3134,
+      "Y_sigma": 0.0168,
+      "teinte_deg": 18.5,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       34.01,
+       1.65,
+       1.91
+      ]
+     },
+     "trottoir": {
+      "pixels": 169454,
+      "Y_median": 0.6367,
+      "Y_sigma": 0.0351,
+      "teinte_deg": 28.4,
+      "saturation_hls": 0.014,
+      "lab_median": [
+       66.75,
+       0.53,
+       0.76
+      ]
+     },
+     "piste": {
+      "pixels": 166173,
+      "Y_median": 0.4457,
+      "Y_sigma": 0.0214,
+      "teinte_deg": 92.8,
+      "saturation_hls": 0.033,
+      "lab_median": [
+       47.91,
+       -2.93,
+       3.34
+      ]
+     },
+     "herbe": null,
+     "marquage": {
+      "pixels": 1988,
+      "Y_median": 0.8395,
+      "Y_sigma": 0.0224,
+      "teinte_deg": 239.5,
+      "saturation_hls": 0.009,
+      "lab_median": [
+       85.65,
+       0.19,
+       -0.5
+      ]
+     },
+     "ecart_piste_enrobe": 0.1323,
+     "delta_e_piste_enrobe": 14.7,
+     "ecart_trottoir_enrobe": 0.3233,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.5261,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 65457,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S06": {
+    "lisibilite": {
+     "m_par_px": 0.0247,
+     "enrobe": {
+      "pixels": 481092,
+      "Y_median": 0.3173,
+      "Y_sigma": 0.0165,
+      "teinte_deg": 18.5,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       34.43,
+       1.64,
+       1.91
+      ]
+     },
+     "trottoir": {
+      "pixels": 151254,
+      "Y_median": 0.6692,
+      "Y_sigma": 0.015,
+      "teinte_deg": 24.3,
+      "saturation_hls": 0.044,
+      "lab_median": [
+       69.85,
+       0.88,
+       2.04
+      ]
+     },
+     "piste": null,
+     "herbe": {
+      "pixels": 159432,
+      "Y_median": 0.2871,
+      "Y_sigma": 0.0131,
+      "teinte_deg": 82.6,
+      "saturation_hls": 0.206,
+      "lab_median": [
+       31.21,
+       -9.31,
+       14.14
+      ]
+     },
+     "marquage": {
+      "pixels": 12348,
+      "Y_median": 0.8317,
+      "Y_sigma": 0.0484,
+      "teinte_deg": 247.8,
+      "saturation_hls": 0.008,
+      "lab_median": [
+       84.94,
+       0.19,
+       -0.5
+      ]
+     },
+     "ecart_trottoir_enrobe": 0.3519,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.5144,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 65925,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S07": {
+    "lisibilite": {
+     "m_par_px": 0.0238,
+     "enrobe": {
+      "pixels": 237132,
+      "Y_median": 0.3173,
+      "Y_sigma": 0.0162,
+      "teinte_deg": 18.9,
+      "saturation_hls": 0.043,
+      "lab_median": [
+       34.43,
+       1.64,
+       1.91
+      ]
+     },
+     "trottoir": {
+      "pixels": 159039,
+      "Y_median": 0.6692,
+      "Y_sigma": 0.0154,
+      "teinte_deg": 24.4,
+      "saturation_hls": 0.044,
+      "lab_median": [
+       69.85,
+       0.88,
+       2.04
+      ]
+     },
+     "piste": null,
+     "herbe": null,
+     "marquage": {
+      "pixels": 4100,
+      "Y_median": 0.8471,
+      "Y_sigma": 0.022,
+      "teinte_deg": 251.0,
+      "saturation_hls": 0.008,
+      "lab_median": [
+       86.34,
+       0.0,
+       -0.01
+      ]
+     },
+     "ecart_trottoir_enrobe": 0.3519,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.5298,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 65696,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S08": {
+    "lisibilite": {
+     "m_par_px": 0.0238,
+     "enrobe": {
+      "pixels": 204360,
+      "Y_median": 0.3173,
+      "Y_sigma": 0.0166,
+      "teinte_deg": 18.5,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       34.43,
+       1.64,
+       1.91
+      ]
+     },
+     "trottoir": {
+      "pixels": 158836,
+      "Y_median": 0.6692,
+      "Y_sigma": 0.0192,
+      "teinte_deg": 24.6,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       69.85,
+       0.88,
+       2.04
+      ]
+     },
+     "piste": null,
+     "herbe": null,
+     "marquage": {
+      "pixels": 24796,
+      "Y_median": 0.765,
+      "Y_sigma": 0.0525,
+      "teinte_deg": 239.7,
+      "saturation_hls": 0.008,
+      "lab_median": [
+       78.82,
+       0.19,
+       -0.51
+      ]
+     },
+     "ecart_trottoir_enrobe": 0.3519,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.4477,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 65810,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S09": {
+    "lisibilite": {
+     "m_par_px": 0.0238,
+     "enrobe": {
+      "pixels": 185980,
+      "Y_median": 0.3249,
+      "Y_sigma": 0.0163,
+      "teinte_deg": 19.0,
+      "saturation_hls": 0.043,
+      "lab_median": [
+       35.28,
+       1.64,
+       1.9
+      ]
+     },
+     "trottoir": {
+      "pixels": 173209,
+      "Y_median": 0.6689,
+      "Y_sigma": 0.0151,
+      "teinte_deg": 24.4,
+      "saturation_hls": 0.044,
+      "lab_median": [
+       69.85,
+       0.88,
+       2.04
+      ]
+     },
+     "piste": null,
+     "herbe": null,
+     "marquage": {
+      "pixels": 14158,
+      "Y_median": 0.8471,
+      "Y_sigma": 0.0517,
+      "teinte_deg": 259.8,
+      "saturation_hls": 0.006,
+      "lab_median": [
+       86.34,
+       0.0,
+       -0.01
+      ]
+     },
+     "ecart_trottoir_enrobe": 0.344,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.5222,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 65677,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S10": {
+    "lisibilite": {
+     "m_par_px": 0.0238,
+     "enrobe": {
+      "pixels": 213672,
+      "Y_median": 0.3173,
+      "Y_sigma": 0.0167,
+      "teinte_deg": 18.4,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       34.43,
+       1.64,
+       1.91
+      ]
+     },
+     "trottoir": {
+      "pixels": 158824,
+      "Y_median": 0.6689,
+      "Y_sigma": 0.0191,
+      "teinte_deg": 24.7,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       69.85,
+       0.88,
+       2.04
+      ]
+     },
+     "piste": null,
+     "herbe": null,
+     "marquage": {
+      "pixels": 21360,
+      "Y_median": 0.7571,
+      "Y_sigma": 0.0252,
+      "teinte_deg": 237.4,
+      "saturation_hls": 0.009,
+      "lab_median": [
+       78.09,
+       0.19,
+       -0.51
+      ]
+     },
+     "ecart_trottoir_enrobe": 0.3516,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.4398,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 65874,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S11": {
+    "lisibilite": {
+     "m_par_px": 0.0238,
+     "enrobe": {
+      "pixels": 283015,
+      "Y_median": 0.3173,
+      "Y_sigma": 0.016,
+      "teinte_deg": 18.5,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       34.43,
+       1.64,
+       1.91
+      ]
+     },
+     "trottoir": {
+      "pixels": 169548,
+      "Y_median": 0.6692,
+      "Y_sigma": 0.0149,
+      "teinte_deg": 24.4,
+      "saturation_hls": 0.044,
+      "lab_median": [
+       69.85,
+       0.88,
+       2.04
+      ]
+     },
+     "piste": null,
+     "herbe": null,
+     "marquage": {
+      "pixels": 574,
+      "Y_median": 0.8395,
+      "Y_sigma": 0.0519,
+      "teinte_deg": 245.8,
+      "saturation_hls": 0.009,
+      "lab_median": [
+       85.65,
+       0.19,
+       -0.5
+      ]
+     },
+     "ecart_trottoir_enrobe": 0.3519,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.5222,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 67562,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S12": {
+    "lisibilite": {
+     "m_par_px": 0.0238,
+     "enrobe": {
+      "pixels": 236328,
+      "Y_median": 0.3212,
+      "Y_sigma": 0.0166,
+      "teinte_deg": 19.0,
+      "saturation_hls": 0.043,
+      "lab_median": [
+       34.86,
+       1.64,
+       1.9
+      ]
+     },
+     "trottoir": {
+      "pixels": 157808,
+      "Y_median": 0.6663,
+      "Y_sigma": 0.0158,
+      "teinte_deg": 24.4,
+      "saturation_hls": 0.044,
+      "lab_median": [
+       69.56,
+       1.24,
+       2.17
+      ]
+     },
+     "piste": null,
+     "herbe": null,
+     "marquage": {
+      "pixels": 11371,
+      "Y_median": 0.8473,
+      "Y_sigma": 0.0134,
+      "teinte_deg": 245.7,
+      "saturation_hls": 0.008,
+      "lab_median": [
+       86.37,
+       0.19,
+       -0.5
+      ]
+     },
+     "ecart_trottoir_enrobe": 0.3451,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.5261,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 65889,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S_M24": {
+    "lisibilite": {
+     "m_par_px": 0.0255,
+     "enrobe": {
+      "pixels": 246388,
+      "Y_median": 0.3134,
+      "Y_sigma": 0.021,
+      "teinte_deg": 18.5,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       34.01,
+       1.65,
+       1.91
+      ]
+     },
+     "trottoir": {
+      "pixels": 191713,
+      "Y_median": 0.6667,
+      "Y_sigma": 0.0253,
+      "teinte_deg": 41.7,
+      "saturation_hls": 0.027,
+      "lab_median": [
+       69.61,
+       -0.2,
+       1.66
+      ]
+     },
+     "piste": {
+      "pixels": 97560,
+      "Y_median": 0.4457,
+      "Y_sigma": 0.0215,
+      "teinte_deg": 92.8,
+      "saturation_hls": 0.033,
+      "lab_median": [
+       47.91,
+       -2.93,
+       3.34
+      ]
+     },
+     "herbe": {
+      "pixels": 243429,
+      "Y_median": 0.2879,
+      "Y_sigma": 0.0131,
+      "teinte_deg": 82.6,
+      "saturation_hls": 0.206,
+      "lab_median": [
+       31.29,
+       -8.87,
+       14.27
+      ]
+     },
+     "marquage": {
+      "pixels": 26026,
+      "Y_median": 0.7219,
+      "Y_sigma": 0.0779,
+      "teinte_deg": 252.2,
+      "saturation_hls": 0.006,
+      "lab_median": [
+       74.81,
+       0.19,
+       -0.51
+      ]
+     },
+     "ecart_piste_enrobe": 0.1323,
+     "delta_e_piste_enrobe": 14.7,
+     "ecart_trottoir_enrobe": 0.3533,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.4085,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 59071,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S_M27": {
+    "lisibilite": {
+     "m_par_px": 0.0291,
+     "enrobe": {
+      "pixels": 209180,
+      "Y_median": 0.3165,
+      "Y_sigma": 0.0157,
+      "teinte_deg": 18.5,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       34.34,
+       1.23,
+       1.76
+      ]
+     },
+     "trottoir": {
+      "pixels": 65567,
+      "Y_median": 0.6809,
+      "Y_sigma": 0.0141,
+      "teinte_deg": 25.1,
+      "saturation_hls": 0.048,
+      "lab_median": [
+       70.96,
+       0.88,
+       2.03
+      ]
+     },
+     "piste": {
+      "pixels": 80668,
+      "Y_median": 0.4496,
+      "Y_sigma": 0.0299,
+      "teinte_deg": 91.7,
+      "saturation_hls": 0.033,
+      "lab_median": [
+       48.31,
+       -2.93,
+       3.33
+      ]
+     },
+     "herbe": {
+      "pixels": 407836,
+      "Y_median": 0.2882,
+      "Y_sigma": 0.0498,
+      "teinte_deg": 81.6,
+      "saturation_hls": 0.201,
+      "lab_median": [
+       31.29,
+       -8.87,
+       14.27
+      ]
+     },
+     "marquage": {
+      "pixels": 40322,
+      "Y_median": 0.7375,
+      "Y_sigma": 0.0579,
+      "teinte_deg": 244.9,
+      "saturation_hls": 0.006,
+      "lab_median": [
+       76.27,
+       0.19,
+       -0.51
+      ]
+     },
+     "ecart_piste_enrobe": 0.1331,
+     "delta_e_piste_enrobe": 14.66,
+     "ecart_trottoir_enrobe": 0.3644,
+     "ecart_trottoir_enrobe_atteint": true,
+     "ecart_marquage_enrobe": 0.421,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 66019,
+     "socle": true,
+     "conforme": true
+    }
+   },
+   "S_M20": {
+    "lisibilite": {
+     "m_par_px": 0.025,
+     "enrobe": {
+      "pixels": 233284,
+      "Y_median": 0.3162,
+      "Y_sigma": 0.0164,
+      "teinte_deg": 18.5,
+      "saturation_hls": 0.042,
+      "lab_median": [
+       34.31,
+       1.03,
+       2.35
+      ]
+     },
+     "trottoir": null,
+     "piste": null,
+     "herbe": {
+      "pixels": 556946,
+      "Y_median": 0.2879,
+      "Y_sigma": 0.05,
+      "teinte_deg": 82.6,
+      "saturation_hls": 0.198,
+      "lab_median": [
+       31.29,
+       -8.87,
+       14.27
+      ]
+     },
+     "marquage": {
+      "pixels": 14852,
+      "Y_median": 0.7922,
+      "Y_sigma": 0.0179,
+      "teinte_deg": 236.3,
+      "saturation_hls": 0.01,
+      "lab_median": [
+       81.35,
+       0.19,
+       -0.51
+      ]
+     },
+     "ecart_marquage_enrobe": 0.476,
+     "ecart_marquage_enrobe_atteint": true
+    },
+    "fil_eau_interrompu_m": 0.0,
+    "bordures_trous_m": 0.0,
+    "route_seule": {
+     "etape": 1,
+     "mode": "route seule (étape 1, décision de l'utilisateur du 17/10/2026)",
+     "objets_hors_emprise": [],
+     "nuages": "Preetham 1999 (ciel clair), sans nuage",
+     "abords_modele": true,
+     "faces_abords_non_rendues": 65941,
+     "socle": true,
+     "conforme": true
+    }
+   }
+  }
+ },
+ "cas_pieges": [
+  {
+   "cas": "A10_cle_racine_inconnue",
+   "compile": false,
+   "attendu": "refus",
+   "obtenu": "refus",
+   "ok": true
+  },
+  {
+   "cas": "A11_deux_passages_superposes",
+   "compile": false,
+   "attendu": "refus",
+   "obtenu": "refus",
+   "ok": true
+  },
+  {
+   "cas": "A12_plateau_et_dos_ane_superposes",
+   "compile": false,
+   "attendu": "refus",
+   "obtenu": "refus",
+   "ok": true
+  },
+  {
+   "cas": "A1_cle_inconnue_evt",
+   "compile": false,
+   "attendu": "refus",
+   "obtenu": "refus",
+   "ok": true
+  },
+  {
+   "cas": "A2_mot_inconnu_profil",
+   "compile": false,
+   "attendu": "refus",
+   "obtenu": "refus",
+   "ok": true
+  },
+  {
+   "cas": "A3_materiau_inconnu",
+   "compile": false,
+   "attendu": "refus",
+   "obtenu": "refus",
+   "ok": true
+  },
+  {
+   "cas": "A4_evt_hors_troncon",
+   "compile": false,
+   "attendu": "refus",
+   "obtenu": "refus",
+   "ok": true
+  },
+  {
+   "cas": "A5_voie_2m",
+   "compile": true,
+   "non_conformites_bloquantes": 2,
+   "attendu": "bloque",
+   "obtenu": "bloque",
+   "ok": true
+  },
+  {
+   "cas": "A6_dos_ane_hors_agglo",
+   "compile": false,
+   "attendu": "refus",
+   "obtenu": "refus",
+   "ok": true
+  },
+  {
+   "cas": "A7_passage_sur_dos_ane",
+   "compile": false,
+   "attendu": "refus",
+   "obtenu": "refus",
+   "ok": true
+  },
+  {
+   "cas": "A8_sens_unique_1_voie",
+   "compile": true,
+   "non_conformites_bloquantes": 0,
+   "attendu": "accepte",
+   "obtenu": "accepte",
+   "ok": true
+  },
+  {
+   "cas": "A9_trottoir_1m",
+   "compile": true,
+   "non_conformites_bloquantes": 1,
+   "attendu": "bloque",
+   "obtenu": "bloque",
+   "ok": true
+  }
+ ],
+ "determinisme": {
+  "S01_route_1x1_hors_agglomeration": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "S02_rue_1x1_bordures_trottoirs": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "S03_rue_stationnement_arbres": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "S04_rue_bandes_cyclables": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "S05_rue_pistes_sur_trottoir": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "S06_avenue_2x2_terre_plein_plante": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "S07_rue_sens_unique_2_voies": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "S08_rue_dos_d_ane_passage": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "S09_reduction_2_vers_1_voie": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "S10_rue_plateau_passage": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "S11_rue_courbe_R60": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "S12_couloir_bus": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "M20_avenue_de_chamechaude": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "M24_avenue_du_granier": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+  "M27_avenue_de_verdun": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)"
+ },
+ "meylan": {
+  "S_M24": {
+   "description": "recon/generateur/scenes_meylan/M24_avenue_du_granier.yaml",
+   "erreurs": 0,
+   "non_conformites": 0,
+   "ecarts_admis": {
+    "DEF-022": "refuge de 1,80 m ± 0,40 relevé sur les photos M24 (9badc00e, f877235a), < 2,00 m",
+    "RF-MA-REF-003": "bordures du refuge vues à 0,10 m ± 0,04 sur les photos M24, < 0,12 m",
+    "RF-OSM-LAR-050": "îlot central bordé de 1,80 m ± 0,40 (photos M24), sous la largeur d'un terre-plein planté (2 m)"
+   },
+   "fabrique": true,
+   "rendus": [
+    "conducteur",
+    "dessus",
+    "oblique",
+    "photo_9badc00e",
+    "photo_f877235a",
+    "pieton"
+   ],
+   "planches": [
+    "S_M24/photos_non_versionnees/planches/planche_S_M24_photo_9badc00e_droite.png",
+    "S_M24/photos_non_versionnees/planches/planche_S_M24_photo_9badc00e_gauche.png",
+    "S_M24/photos_non_versionnees/planches/planche_S_M24_photo_f877235a_droite.png",
+    "S_M24/photos_non_versionnees/planches/planche_S_M24_photo_f877235a_gauche.png"
+   ],
+   "deterministe": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)"
+  },
+  "S_M27": {
+   "description": "recon/generateur/scenes_meylan/M27_avenue_de_verdun.yaml",
+   "erreurs": 0,
+   "non_conformites": 0,
+   "ecarts_admis": {
+    "RF-MA-REF-003": "bordures du refuge vues à 0,11 m ± 0,04 sur la photo M27 (176f9ab0), < 0,12 m"
+   },
+   "fabrique": true,
+   "rendus": [
+    "conducteur",
+    "dessus",
+    "oblique",
+    "photo_176f9ab0",
+    "pieton"
+   ],
+   "planches": [
+    "S_M27/photos_non_versionnees/planches/planche_S_M27_photo_176f9ab0_droite.png",
+    "S_M27/photos_non_versionnees/planches/planche_S_M27_photo_176f9ab0_gauche.png"
+   ],
+   "deterministe": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)"
+  },
+  "S_M20": {
+   "description": "recon/generateur/scenes_meylan/M20_avenue_de_chamechaude.yaml",
+   "erreurs": 0,
+   "non_conformites": 0,
+   "ecarts_admis": {},
+   "fabrique": true,
+   "rendus": [
+    "conducteur",
+    "dessus",
+    "oblique",
+    "photo_30b80a7b",
+    "pieton"
+   ],
+   "planches": [
+    "S_M20/photos_non_versionnees/planches/planche_S_M20_photo_30b80a7b_droite.png",
+    "S_M20/photos_non_versionnees/planches/planche_S_M20_photo_30b80a7b_gauche.png"
+   ],
+   "deterministe": "identique (28 fichiers ; .usda : chemins relatifs des matériaux normalisés)"
+  }
+ },
+ "planches": [
+  "S01/photos_non_versionnees/planches/planche_S01_M27.png",
+  "S02/photos_non_versionnees/planches/planche_S02_M20.png",
+  "S03/photos_non_versionnees/planches/planche_S03_M34.png",
+  "S05/photos_non_versionnees/planches/planche_S05_M30.png",
+  "S06/photos_non_versionnees/planches/planche_S06_I11.png",
+  "S08/photos_non_versionnees/planches/planche_S08_M24.png",
+  "S10/photos_non_versionnees/planches/planche_S10_I10.png",
+  "S_M20/photos_non_versionnees/planches/planche_S_M20_photo_30b80a7b_droite.png",
+  "S_M20/photos_non_versionnees/planches/planche_S_M20_photo_30b80a7b_gauche.png",
+  "S_M24/photos_non_versionnees/planches/planche_S_M24_photo_9badc00e_droite.png",
+  "S_M24/photos_non_versionnees/planches/planche_S_M24_photo_9badc00e_gauche.png",
+  "S_M24/photos_non_versionnees/planches/planche_S_M24_photo_f877235a_droite.png",
+  "S_M24/photos_non_versionnees/planches/planche_S_M24_photo_f877235a_gauche.png",
+  "S_M27/photos_non_versionnees/planches/planche_S_M27_photo_176f9ab0_droite.png",
+  "S_M27/photos_non_versionnees/planches/planche_S_M27_photo_176f9ab0_gauche.png"
+ ],
+ "planches_catalogue": [
+  "catalogue_rendus/catalogue_dessus_oblique_1.png",
+  "catalogue_rendus/catalogue_dessus_oblique_2.png",
+  "catalogue_rendus/catalogue_dessus_oblique_3.png",
+  "catalogue_rendus/catalogue_dessus_oblique_4.png"
+ ],
+ "valeurs_rendu": {
+  "bordure": 0.3491,
+  "caniveau": 0.2666,
+  "trottoirs": {
+   "enrobe_trottoir": 0.3499,
+   "beton_balaye": 0.35,
+   "dalles_beton": 0.32
+  },
+  "rapports": [
+   0.9974,
+   0.9974,
+   1.0907
+  ],
+  "enrobe": 0.1155,
+  "piste": 0.1869,
+  "sol_neutre": 0.4853,
+  "soleil_deg": 42.0,
+  "gris_passage": 0.78,
+  "bibliotheque_bordure": "route:beton_prefa_lisse",
+  "bibliotheque_caniveau": "route:beton_prefa_lisse"
+ },
+ "tuiles": {
+  "produites": 145,
+  "regardees": 145,
+  "constats": "constats_visuels_etape1.json"
+ },
+ "lots": {
+  "L0": {
+   "statut": "ok",
+   "criteres": [
+    [
+     "L0-1",
+     true
+    ],
+    [
+     "L0-2",
+     true
+    ],
+    [
+     "L0-3",
+     true
+    ],
+    [
+     "L0-4",
+     true
+    ],
+    [
+     "L0-5",
+     true
+    ],
+    [
+     "L0-6",
+     true
+    ],
+    [
+     "L0-7",
+     true
+    ],
+    [
+     "L0-8",
+     true
+    ],
+    [
+     "L0-9",
+     true
+    ],
+    [
+     "L0-10",
+     true
+    ],
+    [
+     "L0-11",
+     true
+    ],
+    [
+     "L0-12",
+     true
+    ],
+    [
+     "L0-13",
+     true
+    ],
+    [
+     "L0-14",
+     true
+    ],
+    [
+     "L0-15",
+     true
+    ],
+    [
+     "L0-16",
+     true
+    ],
+    [
+     "L0-17",
+     true
+    ],
+    [
+     "L0-18",
+     true
+    ]
+   ]
+  },
+  "L2": {
+   "statut": "ok",
+   "criteres": [
+    [
+     "L2-1",
+     true
+    ],
+    [
+     "L2-2",
+     true
+    ],
+    [
+     "L2-3",
+     true
+    ],
+    [
+     "L2-4",
+     true
+    ],
+    [
+     "L2-5",
+     true
+    ],
+    [
+     "L2-6",
+     true
+    ],
+    [
+     "L2-7",
+     true
+    ],
+    [
+     "L2-8",
+     true
+    ],
+    [
+     "L2-9",
+     true
+    ],
+    [
+     "L2-10",
+     true
+    ],
+    [
+     "L2-11",
+     true
+    ],
+    [
+     "L2-12",
+     true
+    ],
+    [
+     "L2-13",
+     true
+    ],
+    [
+     "L2-14",
+     true
+    ],
+    [
+     "L2-15",
+     true
+    ],
+    [
+     "L2-16",
+     true
+    ]
+   ]
+  },
+  "L2b": {
+   "statut": "partiel",
+   "criteres": [
+    [
+     "L2b-1",
+     true
+    ],
+    [
+     "L2b-2",
+     true
+    ],
+    [
+     "L2b-3",
+     1.0
+    ],
+    [
+     "L2b-4",
+     true
+    ],
+    [
+     "L2b-5",
+     true
+    ],
+    [
+     "L2b-6",
+     1.0
+    ],
+    [
+     "L2b-7",
+     1.0
+    ],
+    [
+     "L2b-8",
+     1.0
+    ],
+    [
+     "L2b-9",
+     true
+    ],
+    [
+     "L2b-10",
+     true
+    ],
+    [
+     "L2b-11",
+     false
+    ],
+    [
+     "L2b-12",
+     true
+    ],
+    [
+     "L2b-13",
+     false
+    ],
+    [
+     "L2b-14",
+     true
+    ],
+    [
+     "L2b-15",
+     true
+    ],
+    [
+     "L2b-16",
+     true
+    ],
+    [
+     "L2b-17",
+     null
+    ]
+   ]
+  }
+ },
+ "regles_demandees": "recon/generateur/validation/regles_demandees_correction.json"
+}

@@ -1,0 +1,26 @@
+# S02 — Rue 1 + 1 urbaine, bordures T2 et trottoirs de 2 m des deux côtés.
+# Description simple (format : FORMAT_PROPOSE.md). Les cotes sont dites ici ; chaque valeur cite sa règle.
+format: description_simple/0.1
+scene: S02
+nom: rue_1x1_bordures_trottoirs
+titre: Rue 1 + 1 urbaine, bordures T2, trottoirs de 2 m
+description: "Rue de quartier à double sens à 50 km/h ; 2 voies de 3,00 m, axe T'1 ; bordures T2 + caniveau CS2 ; trottoirs en enrobé de 2,00 m ; enrobé ancien, marquage peu usé."
+contexte:
+  agglomeration: true
+  vitesse_kmh: 50          # V15 = vitesse réglementaire en agglomération (RF-MQ-PS-02)
+  categorie: rue
+  u_m: 0.05                # toutes les autres routes (DEF-001, RF-MQ-U-03)
+marquages: {usure: légère}
+trace:
+  - droite: 100
+profil:                    # de gauche à droite en regardant vers s croissant ; largeurs entre axes des limites
+  - {bande: trottoir, largeur: 2.00, materiau: enrobe_trottoir}           # DEF-004, RF-OSM-LAR-020
+  - {bordure: T2, vue: 0.14, caniveau: CS2}                               # DEF-005, RF-OSM-NIV-010, RF-AS-profil_T2, RF-AS-profil_CS2
+  - {bande: voie, sens: arriere, largeur: 3.00, materiau: enrobe_bbsg_ancien}   # DEF-002, RF-OSM-LAR-010
+  - {ligne: T'1, largeur_u: 2}                                            # axe en agglomération : RF-OSM-MRQ-010, RF-MQ-SC-15, RF-MQ-MOD-T'1
+  - {bande: voie, sens: avant, largeur: 3.00}                             # DEF-002
+  - {bordure: T2, vue: 0.14, caniveau: CS2}                               # DEF-005
+  - {bande: trottoir, largeur: 2.00}                                      # DEF-004
+abords: {gauche: pelouse 6, droite: pelouse 6}
+# axe T'1 (1,50 / 5,00) sur 100 m depuis s = 0 : traits en 0, 6,5 … 97,5 → 16 traits
+attendus: {longueur: 100, largeur_emprise: 10.0, largeur_chaussee: 6.0, voies: {arriere: 1, avant: 1}, traits: {T'1 2u: 16}, bordures_m: {T2: 200}}

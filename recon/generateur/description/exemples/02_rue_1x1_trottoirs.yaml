@@ -1,0 +1,21 @@
+# Rue résidentielle 1 + 1 voies, trottoirs bordés de T2, stationnement longitudinal à droite.
+# C'est l'exemple § 7.1 d'INFERENCE_OSM_VERS_PROFIL.md (dossier 12) écrit comme le ferait quelqu'un devant une photo.
+scene: ex02_rue_1x1_trottoirs
+description: Rue 1 + 1 à 30 km/h, trottoirs de 2 m en enrobé, stationnement à droite, marquages selon les règles.
+contexte:
+  agglomeration: oui
+  vitesse: 30
+troncon:
+  de: [0, 0]
+  vers: [120, 0]
+profil: "trottoir 2,0 | bordure T2 | voie 3,0 ← | voie 3,0 → | stationnement 2,0 | bordure T2 | trottoir 2,0"
+marquages: auto
+materiaux:
+  chaussee: enrobé usé
+  trottoirs: enrobé
+  bordures: béton
+evenements:
+  - passage_pieton: {a: 40}
+abords:
+  gauche: pelouse 8
+  droite: pelouse 8

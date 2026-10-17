@@ -1,0 +1,36 @@
+= RG Nivellement (modèle de Z unique) =
+
+"""Modèle de nivellement analytique unique (TQ-SOL-013) : tables par section (bandes hautes et basses, bordures réelles et virtuelles, caniveaux, abaissés, ralentisseurs, abords) et files de bordures chaînées en (s, t) avec pied, tête, vue et chaussée au droit de la face."""
+
+== Entrées ==
+
+1. Références échantillonnées (rg::graphe), 2. Profils, 3. Ponctuels, 4. Zones (rg::lire_modele, sorties 5, 4 et 3).
+
+== Sortie ==
+
+Groupe sections (un point par section : b_*, l_*, a_*, r_*, abords) et groupe bordures (polylignes en coordonnées Houdini au pied, côté haut à gauche ; points s_ref, t_ref, pied, tete, vue, zbf, zemp, can, grille, k_bas, b_bas, kind).
+
+Sortie 2 : HeightField au pas de 0,10 m rangé comme celui de pj::lire_description (height, r0, z1, r1, z2, r2 ; détail niv_x0, niv_y0, niv_pas, niv_ni, niv_nj) : région = 100 x rang de la route + nappe (nappe 0 à gauche, frontière au milieu du corps de bordure) ; Z lu par pj_niv_z.
+
+Retours de bordure : aux jonctions de sections (différence des intervalles hauts) et, aux bouts de la route, pour un élément répété coupé par le bout (avancée en [0 ; 2,5] de S03 : retour contre le profil de la section voisine, supposé continuer au-delà du bout).
+
+Règles : TQ-SOL-013, TQ-BOR-007, DEF-005, DEF-006, DEF-031, DEF-034, RF-MA-ABA-004, RF-GV-RAL-002.
+
+@parameters
+
+Rampe des plateaux (%) si rg::graphe ne la donne pas:
+    #id: rampe_plateau_pct
+    DEF-034 ; d'ordinaire lue sur le détail rg_rampe_plateau_pct de l'entrée 1.
+
+Pas des retours de bordure (m):
+    #id: pas_transversal
+    Échantillonnage des retours de bordure (pied, tête) le long de t.
+
+Pas du HeightField (m):
+    #id: pas_heightfield
+    README_HDA § 2 : HeightField de nivellement au pas de 0,10 m.
+
+Marge du HeightField (m):
+    #id: marge_heightfield
+    Marge autour des profils et des abords.
+

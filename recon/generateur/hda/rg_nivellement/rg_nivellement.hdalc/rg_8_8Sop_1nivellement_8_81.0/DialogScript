@@ -1,0 +1,54 @@
+# Dialog script for rg::nivellement::1.0 automatically generated
+
+{
+    name	rg::nivellement::1.0
+    inputlabel	1	"Références échantillonnées"
+    inputlabel	2	"Profils"
+    inputlabel	3	"Ponctuels"
+    inputlabel	4	"Zones"
+    outputlabel	1	"Niveaux (sections, bordures)"
+    outputlabel	2	"HeightField de nivellement"
+    script	rg::nivellement::1.0
+    label	"RG Nivellement (modèle de Z unique)"
+
+    help {
+    }
+
+    inputlabel	1	"Références échantillonnées"
+    inputlabel	2	Profils
+    inputlabel	3	Ponctuels
+    inputlabel	4	Zones
+
+    parm {
+        name    "rampe_plateau_pct"
+        label   "Rampe des plateaux (%) si rg::graphe ne la donne pas"
+        type    float
+        default { "7" }
+        help    "DEF-034 ; d'ordinaire lue sur le détail rg_rampe_plateau_pct de l'entrée 1."
+        range   { 1 20 }
+    }
+    parm {
+        name    "pas_transversal"
+        label   "Pas des retours de bordure (m)"
+        type    float
+        default { "0.25" }
+        help    "Échantillonnage des retours de bordure (pied, tête) le long de t."
+        range   { 0.05 2 }
+    }
+    parm {
+        name    "pas_heightfield"
+        label   "Pas du HeightField (m)"
+        type    float
+        default { "0.1" }
+        help    "README_HDA § 2 : HeightField de nivellement au pas de 0,10 m."
+        range   { 0.02 1 }
+    }
+    parm {
+        name    "marge_heightfield"
+        label   "Marge du HeightField (m)"
+        type    float
+        default { "1" }
+        help    "Marge autour des profils et des abords."
+        range   { 0 20 }
+    }
+}

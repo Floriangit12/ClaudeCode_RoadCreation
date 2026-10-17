@@ -1,0 +1,27 @@
+# S11 — Rue 1 + 1 en courbe de rayon 60 m, bordures et trottoirs (seule scène du catalogue avec une courbe).
+format: description_simple/0.1
+scene: S11
+nom: rue_courbe_R60
+titre: Rue 1 + 1 en courbe à gauche de rayon 60 m, bordures T2 et trottoirs
+description: "Profil de S02 ; tracé droite 20 m + arc à gauche R = 60 m sur 60° (62,83 m) + droite 20 m ; pas de surlargeur (aucune valeur urbaine chiffrée) ; épure de giration bus à faire au lot L3a (R < 125 m)."
+contexte:
+  agglomeration: true
+  vitesse_kmh: 50
+  categorie: rue
+  u_m: 0.05                # DEF-001
+marquages: {usure: légère}
+trace:                     # ligne de référence = axe ; échantillonnage du générateur à flèche ≤ 0,5 mm (PLAN_GENERATEUR § 2.3)
+  - droite: 20
+  - arc: {rayon: 60, angle: 60, sens: gauche}
+  - droite: 20
+profil:
+  - {bande: trottoir, id: tr1, largeur: 2.00, materiau: enrobe_trottoir}  # DEF-004
+  - {bordure: T2, vue: 0.14, caniveau: CS2}                               # DEF-005 ; éléments droits de 1 m (corde 2 mm pour R = 57 m)
+  - {bande: voie, id: v1, sens: arriere, largeur: 3.00, materiau: enrobe_bbsg_ancien}   # RF-OSM-LAR-010 ; surlargeur 50/R des routes non appliquée en ville (RF-GV-RAY-012)
+  - {ligne: T'1, largeur_u: 2}                                            # RF-OSM-MRQ-010
+  - {bande: voie, id: v2, sens: avant, largeur: 3.00}
+  - {bordure: T2, vue: 0.14, caniveau: CS2}
+  - {bande: trottoir, id: tr2, largeur: 2.00}
+abords: {gauche: pelouse 6, droite: pelouse 6}
+# longueur 40 + 60 π/3 = 102,832 ; bordures : intérieure R 57 → 40 + 59,690 ; extérieure R 63 → 40 + 65,973 ; total 205,66
+attendus: {longueur: 102.832, largeur_emprise: 10.0, largeur_chaussee: 6.0, voies: {arriere: 1, avant: 1}, rayons: [60.0], traits: {T'1 2u: 16}, bordures_m: {T2: 205.66}}

@@ -1,0 +1,31 @@
+# S10 — Rue avec plateau surélevé (ralentisseur trapézoïdal) portant un passage piéton, abaissés et BEV.
+format: description_simple/0.1
+scene: S10
+nom: rue_plateau_passage
+titre: Rue 1 + 1 à 30 km/h, passage piéton sur plateau trapézoïdal
+description: "Rue de desserte à 30 km/h ; trottoirs de 2,00 m à vue 0,12 ; plateau de 4,00 m à 0,10 m centré à s = 50, rampants à 7 % (1,43 m) ; passage dont les bandes débordent de 0,50 m sur les rampants (5,00 m) ; vue résiduelle 0,02 au droit du plateau (abaissé) et BEV des deux côtés ; pas de triangles."
+contexte:
+  agglomeration: true
+  vitesse_kmh: 30          # ralentisseur trapézoïdal : zone 30 ou section à 30 km/h, < 3 000 véh/j, hors ligne TC (RF-MA-RAL-001)
+  categorie: rue
+  u_m: 0.05                # DEF-001
+marquages: {usure: légère}
+trace:
+  - droite: 100
+profil:
+  - {bande: trottoir, id: tr1, largeur: 2.00, materiau: enrobe_trottoir}  # DEF-004
+  - {bordure: T2, vue: 0.12, caniveau: CS2}                               # vue 0,12 : plateau = trottoir − 2 cm (RF-GV-RAL-002) avec h = 0,10 (DEF-034) ; dans la plage de RF-MA-TRO-015
+  - {bande: voie, id: v1, sens: arriere, largeur: 3.00, materiau: enrobe_bbsg_ancien}   # RF-OSM-LAR-010
+  - {ligne: T'1, largeur_u: 2}                                            # RF-OSM-MRQ-010
+  - {bande: voie, id: v2, sens: avant, largeur: 3.00}
+  - {bordure: T2, vue: 0.12, caniveau: CS2}
+  - {bande: trottoir, id: tr2, largeur: 2.00}
+evenements:
+  # trapézoïdal : h 0,10, plateau 2,50-4,00, rampants 7-10 % (RF-MA-RAL-001) ; rampe 7 % (RF-MA-RAL-004, DEF-034) ;
+  # passage obligatoire dessus ; bandes prolongées de 0,50 m de part et d'autre du plateau, pas de triangles
+  # (RF-MQ-PP-04) ; n = 5, e = 0,583 (DEF-011, RF-MQ-PP-02, RF-MQ-PP-05) ; lignes interrompues à 0,50 m (RF-MQ-PP-03) ;
+  # abaissé = vue résiduelle 0,12 − 0,10 = 0,02 sur le plateau (RF-MA-ABA-001, DEF-031) ; BEV (RF-MA-BEV-001, RF-MA-BEV-002)
+  - plateau: {a: 50, longueur: 4.0, hauteur: 0.10, rampe_pct: 7, passage_pieton: oui, bev: oui}
+abords: {gauche: pelouse 6, droite: pelouse 6}
+# axe T'1 coupé de 47,0 à 53,0 : 8 + 8 traits
+attendus: {longueur: 100, largeur_emprise: 10.0, largeur_chaussee: 6.0, voies: {arriere: 1, avant: 1}, traits: {T'1 2u: 16}, bordures_m: {T2: 200}, passages: [{s: 50, W: 6.0, bandes: 5, e: 0.583, longueur_bandes: 5.0}], abaisses: 2, bev: 2}

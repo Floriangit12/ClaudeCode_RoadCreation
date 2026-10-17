@@ -1,0 +1,34 @@
+# S03 — S02 + stationnement longitudinal d'un côté + alignement d'arbres en fosses (avancées plantées entre places).
+format: description_simple/0.1
+scene: S03
+nom: rue_stationnement_arbres
+titre: Rue 1 + 1, stationnement longitudinal à droite, arbres en fosses entre les places
+description: "S02 + file de stationnement longitudinal de 2,00 m à droite, coupée tous les 7,50 m par une avancée de trottoir plantée (2,50 m, bordure T2, paillage minéral) qui porte un arbre ; places de 5,00 m."
+contexte:
+  agglomeration: true
+  vitesse_kmh: 50
+  categorie: rue
+  u_m: 0.05                # DEF-001, RF-MQ-U-03
+marquages: {usure: légère}
+trace:
+  - droite: 100
+profil:
+  - {bande: trottoir, id: tr1, largeur: 2.00, materiau: enrobe_trottoir}  # DEF-004
+  - {bordure: T2, vue: 0.14, caniveau: CS2}                               # DEF-005, RF-OSM-NIV-010
+  - {bande: voie, id: v1, sens: arriere, largeur: 3.00, materiau: enrobe_bbsg_ancien}   # DEF-002
+  - {ligne: T'1, largeur_u: 2}                                            # RF-OSM-MRQ-010, RF-MQ-SC-15
+  - {bande: voie, id: v2, sens: avant, largeur: 3.00}                     # DEF-002
+  - {ligne: T'2, largeur_u: 2}                                            # délimitation du stationnement : RF-MQ-STA-09, RF-MQ-LAR-E1, RF-OSM-MRQ-060
+  - {bande: stationnement, id: st1, sens: avant, largeur: 2.00, materiau: enrobe_bbsg_ancien}   # DEF-009, RF-MA-STA-001, RF-OSM-LAR-040
+  - {bordure: T2, vue: 0.14, caniveau: CS2}                               # DEF-005
+  - {bande: trottoir, id: tr2, largeur: 2.00}                             # DEF-004
+objets:
+  # arbres « dans la file de stationnement (entre places) », entraxe 7,50 m, axe à 1,50 m du bord de la voie (DEF-030,
+  # RF-OSM-VEG-001) ; avancée de 2,50 m + place de 5,00 m = 7,50 m (DEF-009 longueur_place) ; fosse sous l'avancée
+  # (≈ 9-12 m³, RF-GV-TPC-010) ; la ligne T'2 est interrompue au droit des avancées
+  - avancees_plantees: {bande: st1, de: 1.25, a: 98.75, pas: 7.5, longueur: 2.5, bordure: T2, sol: paillage_mineral, arbre: {t_depuis_voie: 1.5, houppier_rayon: 2.5}}
+abords: {gauche: pelouse 6, droite: pelouse 6}
+# 14 avancées (1,25 → 98,75), 13 places de 5,00 m ; T'2 : 5 traits de 0,50 par place → 65 ; axe T'1 : 16 traits ;
+# bordure principale de droite interrompue au droit des avancées : 100 + (100 − 14 × 2,50) = 165 m ; bordures des
+# avancées : 14 × (2,50 + 2 × 2,00) = 91 m (caniveau interrompu lui aussi : avaloir à prévoir en amont de chaque avancée)
+attendus: {longueur: 100, largeur_emprise: 12.0, largeur_chaussee: 8.0, voies: {arriere: 1, avant: 1}, traits: {T'1 2u: 16, T'2 2u: 65}, bordures_m: {T2: 165}, bordures_avancees_m: {T2: 91}, arbres: 14, avancees: 14, places: 13}

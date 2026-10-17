@@ -1,0 +1,15 @@
+# Rue 1 + 1 qui s'élargit pour une voie de tourne-à-gauche (2,75 m, RF-OSM-LAR-012 « présélection ») avant un
+# carrefour hors tronçon : la voie apparaît à gauche des usagers → par un biseau de 30 m qui finit à 140 m.
+scene: ex09_elargissement_tourne_a_gauche
+description: Rue 1 + 1 à 50 km/h, trottoirs de 2 m ; une voie de tourne-à-gauche s'ouvre dans le sens → entre 110 et 140 m.
+contexte:
+  agglomeration: oui
+troncon:
+  de: [0, 0]
+  vers: [180, 0]
+profil: "trottoir 2,0 | voie 3,0 ← | voie 3,0 → | trottoir 2,0"
+evenements:
+  - elargissement: {a: 140, sens: →, voie: gauche, type_voie: tourne-à-gauche, biseau: 30}
+abords:
+  gauche: pelouse 5
+  droite: pelouse 5

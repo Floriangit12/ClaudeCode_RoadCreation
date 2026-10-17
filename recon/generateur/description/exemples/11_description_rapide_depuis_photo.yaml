@@ -1,0 +1,34 @@
+# Ce que l'on écrit en regardant une photo, le plus simplement possible (exemple fictif, aucun lieu réel) :
+# une ligne de profil, des évènements en phrases courtes « à S : … », des matériaux en mots courants.
+# Tout ce qui n'est pas dit vient des règles (largeurs des voies, vue de bordure, marquages, abaissés, BEV…).
+scene: ex11_description_rapide_depuis_photo
+description: >
+  Avenue 2 × 1 voies, trottoirs en béton balayé avec bordures en granit, enrobé usé, marquages un peu usés ;
+  passage piéton, plateau avec passage piéton, arrêt de bus à droite, entrée charretière à gauche, arbres côté gauche,
+  courbe douce vers la droite.
+contexte:
+  agglomeration: oui
+  vitesse: 30          # section à 30 km/h : un plateau de 2,50-4,00 m est un ralentisseur trapézoïdal (décret 94-447,
+                       # RF-MA-RAL-001 ; refusé à 50 km/h depuis la correction après contrôle du 17/10/2026)
+troncon:
+  depart: [0, 0]
+  cap: 90
+  trace:
+    - droite: 70
+    - arc: {rayon: 250, angle: 20, sens: droite}
+    - droite: 80
+profil: "trottoir 3,0 béton balayé | bordure granit | voie ← | voie → | bordure granit | trottoir 2 béton balayé"
+materiaux:
+  chaussee: enrobé usé
+marquages:
+  usure: légère
+evenements:
+  - "à 30 : passage piéton"
+  - "à 95 : plateau avec passage piéton"
+  - "à 150 : arrêt de bus droite"
+  - "à 175 : entrée charretière gauche largeur 3"
+vegetation:
+  - arbres: trottoir gauche
+abords:
+  gauche: pelouse 6
+  droite: pelouse 6

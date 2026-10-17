@@ -1,0 +1,67 @@
+# Dialog script for rg::vers_entites::1.0 automatically generated
+
+{
+    name	rg::vers_entites::1.0
+    inputlabel	1	"Niveaux"
+    inputlabel	2	"Profils"
+    inputlabel	3	"Références échantillonnées"
+    outputlabel	1	"Entités (bordures)"
+    outputlabel	2	"Végétation"
+    outputlabel	3	"Grilles d'avaloir"
+    script	rg::vers_entites::1.0
+    label	"RG Vers entités (contrat pj::*)"
+
+    help {
+    }
+
+    inputlabel	1	Niveaux
+    inputlabel	2	Profils
+    inputlabel	3	"Références échantillonnées"
+
+    parm {
+        name    "materiau_defaut"
+        label   "Matériau des bordures (si le modèle n'en dit pas)"
+        type    string
+        default { "beton_bordure_gris" }
+        help    "materiau_id par défaut de pj::bordure (béton gris)."
+    }
+    parm {
+        name    "epaufrures"
+        label   "Aspect : épaufrures"
+        type    float
+        default { "0.1" }
+        help    "Choix de rendu (aucune règle) : bordure récente (< 0,2 : joints 5,5-7 mm, pj::bordure)."
+        range   { 0 1 }
+    }
+    parm {
+        name    "salissure"
+        label   "Aspect : salissure"
+        type    float
+        default { "0.2" }
+        help    "Choix de rendu."
+        range   { 0 1 }
+    }
+    parm {
+        name    "mousse_joints"
+        label   "Aspect : mousse des joints"
+        type    float
+        default { "0.05" }
+        help    "Choix de rendu."
+        range   { 0 1 }
+    }
+    parm {
+        name    "avaloir_longueur"
+        label   "Longueur d'une grille d'avaloir (m)"
+        type    float
+        default { "0.65" }
+        help    "Grille d'avaloir posée au pied de chaque rampe de plateau, dans le caniveau (Certu, Coussins et plateaux, 2010, p. 46 § 2.1.3) ; 0,65 m = asset decal_grille_avaloir de assets/specs/route/catalogue_assets_route.json (tile_m). Aucune règle de regles_route_fr.json ne la cote : règle demandée au propriétaire de la base."
+        range   { 0.2 2 }
+    }
+    parm {
+        name    "avaloir_fin_de_file"
+        label   "Avaloir au bout d'une file de caniveau fermée"
+        type    toggle
+        default { "1" }
+        help    "Grille d'avaloir au bout aval (abscisses croissantes) de toute file de caniveau qui s'arrête contre un retour de bordure (avancée, îlot), hors bout de la voie et hors caniveau à grille : sans exutoire, l'eau stagne. Moyen [G] (aucune règle de regles_route_fr.json ; demande D-CORR-9 de validation/regles_demandees_correction.json)."
+    }
+}

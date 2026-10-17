@@ -1,0 +1,4654 @@
+{
+ "schema": "rapport_lot/0.1",
+ "lot": "catalogue",
+ "date": "2026-10-17",
+ "objet": "catalogue de routes simples en description simple (YAML) + plans cotés SVG + attendus",
+ "format_description": "description_simple/0.1",
+ "format_doc": "recon/generateur/scenes_simples/FORMAT_PROPOSE.md",
+ "regles": {
+  "fichier": "D:/ClaudeCode_RoadCreation/assets/specs/route/regles_route_fr.json",
+  "schema": "regles_route_fr/1.0",
+  "date": "2026-10-17",
+  "sha256": "d4d63edeabf0820a0ab34e207a1d9e88a32fb58131216b6b515cb8bcb298bd4b",
+  "regles": 857,
+  "parametres": 34,
+  "arbitrages": 20,
+  "alias": 945
+ },
+ "criteres": [
+  {
+   "id": "C1_scenes",
+   "valeur": "12/12 (S01, S02, S03, S04, S05, S06, S07, S08, S09, S10, S11, S12)",
+   "seuil": "12 descriptions S01-S12",
+   "atteint": true
+  },
+  {
+   "id": "C2_lecture",
+   "valeur": "12/12 lues sans erreur (description_simple/0.1)",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "C3_longueurs",
+   "valeur": "12/12 dans [80 ; 120] m",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "C4_une_courbe",
+   "valeur": "1 scène(s) avec courbe",
+   "seuil": "exactement 1",
+   "atteint": true
+  },
+  {
+   "id": "C5_regles_citees",
+   "valeur": "12/12 scènes dont toutes les règles citées existent",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "C6_attendus",
+   "valeur": "12/12 lignes « attendus » = mesures calculées",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "C7_conformite",
+   "valeur": "232/233 contrôles atteints ; 0 échec(s) bloquant(s) ; 1 avertissement(s)",
+   "seuil": "0 échec bloquant",
+   "atteint": true,
+   "note": "S11 courbe_epure (60.0 / >= 125)"
+  },
+  {
+   "id": "C8_plans_svg",
+   "valeur": "12/12 plans SVG",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "C9_tuiles_regardees",
+   "valeur": "12/12 scènes dont les tuiles ont été regardées",
+   "seuil": "100 %",
+   "atteint": true,
+   "note": "constats_visuels.json (lecture humaine des tuiles)"
+  },
+  {
+   "id": "C10_determinisme",
+   "valeur": "13/13 fichiers identiques à l'octet entre deux exécutions",
+   "seuil": "100 %",
+   "atteint": true
+  }
+ ],
+ "statut": "ok",
+ "scenes": [
+  {
+   "scene": "S01",
+   "nom": "route_1x1_hors_agglomeration",
+   "titre": "Route 1 + 1 hors agglomération, sans bordures, axe T1 passant en continue",
+   "fichier": "S01_route_1x1_hors_agglomeration.yaml",
+   "longueur_m": 120.0,
+   "agglomeration": false,
+   "vitesse_kmh": 70.0,
+   "V15_kmh": 70.0,
+   "u_m": 0.05,
+   "profil": [
+    {
+     "id": "bd1",
+     "type": "bande_derasee",
+     "sens": "aucun",
+     "largeur": 1.75,
+     "materiau": "herbe_haute",
+     "dz": 0.0
+    },
+    {
+     "id": "acc1",
+     "type": "accotement_revetu",
+     "sens": "aucun",
+     "largeur": 0.25,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v1",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v2",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "acc2",
+     "type": "accotement_revetu",
+     "sens": "aucun",
+     "largeur": 0.25,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "bd2",
+     "type": "bande_derasee",
+     "sens": "aucun",
+     "largeur": 1.75,
+     "materiau": "herbe_haute",
+     "dz": 0.0
+    }
+   ],
+   "limites": [
+    {
+     "nature": "bord",
+     "id": "||bd1"
+    },
+    {
+     "nature": "rien",
+     "id": "bd1|acc1"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T2",
+     "k": 3.0,
+     "id": "acc1|v1"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T1",
+     "k": 2.0,
+     "id": "v1|v2"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T2",
+     "k": 3.0,
+     "id": "v2|acc2"
+    },
+    {
+     "nature": "rien",
+     "id": "acc2|bd2"
+    },
+    {
+     "nature": "bord",
+     "id": "bd2||"
+    }
+   ],
+   "regles_citees": [
+    "DEF-001",
+    "RF-GV-DEV-001",
+    "RF-GV-PT-009",
+    "RF-MQ-LAR-A2a",
+    "RF-MQ-LAR-A3a",
+    "RF-MQ-LAR-B1a",
+    "RF-MQ-MOD-T1",
+    "RF-MQ-PS-02",
+    "RF-MQ-PS-03",
+    "RF-MQ-PS-04",
+    "RF-MQ-RAB-01",
+    "RF-MQ-RAB-02",
+    "RF-MQ-RAB-03",
+    "RF-MQ-RAB-05",
+    "RF-MQ-SC-01",
+    "RF-MQ-SC-10",
+    "RF-MQ-SC-12",
+    "RF-MQ-U-03",
+    "RF-OSM-MRQ-021"
+   ],
+   "regles_appliquees": [
+    "RF-MQ-LAR-A3a",
+    "RF-MQ-MOD-T1",
+    "RF-MQ-MOD-T2",
+    "RF-MQ-PS-02",
+    "RF-MQ-PS-03",
+    "RF-MQ-PS-04",
+    "RF-MQ-RAB-01",
+    "RF-MQ-RAB-02",
+    "RF-MQ-RAB-03",
+    "RF-MQ-RAB-05",
+    "RF-MQ-SC-01",
+    "RF-OSM-PRF-010"
+   ],
+   "mesures": {
+    "longueur": 120.0,
+    "largeur_emprise": 10.0,
+    "largeur_chaussee": 6.5,
+    "voies": {
+     "arriere": 1,
+     "avant": 1
+    },
+    "traits": {
+     "T1 2u": 1,
+     "T2 3u": 38,
+     "T3 2u": 18
+    },
+    "continues_m": {
+     "continue 2u": 32.0
+    },
+    "fleches": {
+     "RAB_D": 3
+    },
+    "annonce": {
+     "L": 78.0,
+     "s0": 10.0,
+     "s1": 88.0
+    },
+    "fleches_s": [
+     10.0,
+     49.0,
+     75.0
+    ]
+   },
+   "avertissements": [],
+   "plan": {
+    "svg": "recon/generateur/scenes_simples/plans/S01_route_1x1_hors_agglomeration.svg",
+    "largeur_px": 2760,
+    "hauteur_px": 750,
+    "echelle_px_m": 20.0,
+    "sha256": "627952937e4b40b46248985e494a865a069092e00c955a7f5c8c25d7aeea4310"
+   },
+   "rendus": [
+    {
+     "png": "recon/out/generateur/catalogue/plans_png/S01.png",
+     "px": [
+      2760,
+      750
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S01_detail_0.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      8.0,
+      25.0
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S01_detail_1.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      47.0,
+      64.0
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S01_detail_2.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      73.0,
+      90.0
+     ]
+    }
+   ],
+   "tuiles": [
+    "recon/out/generateur/catalogue/tuiles/S01/plan/S01_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S01/plan/S01_t001.png",
+    "recon/out/generateur/catalogue/tuiles/S01/plan/S01_t002.png",
+    "recon/out/generateur/catalogue/tuiles/S01/detail_0/S01_detail_0_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S01/detail_1/S01_detail_1_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S01/detail_2/S01_detail_2_t000.png"
+   ],
+   "controles": [
+    {
+     "id": "longueur",
+     "sujet": "longueur du tronçon (m)",
+     "valeur": 120.0,
+     "seuil": "[80.0 ; 120.0]",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_citees",
+     "sujet": "règles citées dans la description présentes dans regles_route_fr.json",
+     "valeur": "19/19",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_appliquees",
+     "sujet": "règles appliquées par le calcul présentes dans la base",
+     "valeur": "12/12",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux",
+     "sujet": "matériaux présents dans assets/specs/materiaux_sol.json",
+     "valeur": "2/2",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux_bandes",
+     "sujet": "bandes avec un matériau",
+     "valeur": "6/6",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v1",
+     "sujet": "voie v1 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[3.0 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-009",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v2",
+     "sujet": "voie v2 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[3.0 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-009",
+     "bloquant": true
+    },
+    {
+     "id": "annonce_longueur",
+     "sujet": "ligne d'annonce T3 2u : longueur = L (m)",
+     "valeur": 78.0,
+     "seuil": 78.0,
+     "atteint": true,
+     "regle": "RF-MQ-PS-04",
+     "bloquant": true
+    },
+    {
+     "id": "annonce_fleches",
+     "sujet": "flèches de rabattement sur la ligne d'annonce",
+     "valeur": 3,
+     "seuil": 3,
+     "atteint": true,
+     "regle": "RF-MQ-RAB-03",
+     "bloquant": true
+    },
+    {
+     "id": "annonce_positions",
+     "sujet": "distances des flèches au début de la continue (m)",
+     "valeur": [
+      78.0,
+      39.0,
+      13.0
+     ],
+     "seuil": [
+      78,
+      39,
+      13
+     ],
+     "atteint": true,
+     "regle": "RF-MQ-RAB-05",
+     "bloquant": true
+    },
+    {
+     "id": "attendus",
+     "sujet": "attendus de la description = mesures calculées",
+     "valeur": "9/9",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    }
+   ]
+  },
+  {
+   "scene": "S02",
+   "nom": "rue_1x1_bordures_trottoirs",
+   "titre": "Rue 1 + 1 urbaine, bordures T2, trottoirs de 2 m",
+   "fichier": "S02_rue_1x1_bordures_trottoirs.yaml",
+   "longueur_m": 100.0,
+   "agglomeration": true,
+   "vitesse_kmh": 50.0,
+   "V15_kmh": 50.0,
+   "u_m": 0.05,
+   "profil": [
+    {
+     "id": "tr1",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    },
+    {
+     "id": "v1",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v2",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "tr2",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    }
+   ],
+   "limites": [
+    {
+     "nature": "bord",
+     "id": "||tr1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "tr1|v1",
+     "haut": "gauche"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T'1",
+     "k": 2.0,
+     "id": "v1|v2"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "v2|tr2",
+     "haut": "droite"
+    },
+    {
+     "nature": "bord",
+     "id": "tr2||"
+    }
+   ],
+   "regles_citees": [
+    "DEF-001",
+    "DEF-002",
+    "DEF-004",
+    "DEF-005",
+    "RF-AS-profil_CS2",
+    "RF-AS-profil_T2",
+    "RF-MQ-MOD-T'1",
+    "RF-MQ-PS-02",
+    "RF-MQ-SC-15",
+    "RF-MQ-U-03",
+    "RF-OSM-LAR-010",
+    "RF-OSM-LAR-020",
+    "RF-OSM-MRQ-010",
+    "RF-OSM-NIV-010"
+   ],
+   "regles_appliquees": [
+    "RF-MQ-MOD-T'1",
+    "RF-OSM-PRF-010"
+   ],
+   "mesures": {
+    "longueur": 100.0,
+    "largeur_emprise": 10.0,
+    "largeur_chaussee": 6.0,
+    "voies": {
+     "arriere": 1,
+     "avant": 1
+    },
+    "traits": {
+     "T'1 2u": 16
+    },
+    "bordures_m": {
+     "T2": 200.0
+    }
+   },
+   "avertissements": [],
+   "plan": {
+    "svg": "recon/generateur/scenes_simples/plans/S02_rue_1x1_bordures_trottoirs.svg",
+    "largeur_px": 2360,
+    "hauteur_px": 750,
+    "echelle_px_m": 20.0,
+    "sha256": "26b053704be404be1038bfd27f4bfc62502f1d123fedbc499ab7b46255ae5aa2"
+   },
+   "rendus": [
+    {
+     "png": "recon/out/generateur/catalogue/plans_png/S02.png",
+     "px": [
+      2360,
+      750
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S02_detail_0.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      0.0,
+      17.0
+     ]
+    }
+   ],
+   "tuiles": [
+    "recon/out/generateur/catalogue/tuiles/S02/plan/S02_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S02/plan/S02_t001.png",
+    "recon/out/generateur/catalogue/tuiles/S02/plan/S02_t002.png",
+    "recon/out/generateur/catalogue/tuiles/S02/detail_0/S02_detail_0_t000.png"
+   ],
+   "controles": [
+    {
+     "id": "longueur",
+     "sujet": "longueur du tronçon (m)",
+     "valeur": 100.0,
+     "seuil": "[80.0 ; 120.0]",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_citees",
+     "sujet": "règles citées dans la description présentes dans regles_route_fr.json",
+     "valeur": "14/14",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_appliquees",
+     "sujet": "règles appliquées par le calcul présentes dans la base",
+     "valeur": "2/2",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux",
+     "sujet": "matériaux présents dans assets/specs/materiaux_sol.json",
+     "valeur": "3/3",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux_bandes",
+     "sujet": "bandes avec un matériau",
+     "valeur": "4/4",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr1",
+     "sujet": "trottoir tr1 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr1",
+     "sujet": "trottoir tr1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "largeur_v1",
+     "sujet": "voie v1 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v2",
+     "sujet": "voie v2 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr2",
+     "sujet": "trottoir tr2 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr2",
+     "sujet": "trottoir tr2 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "vue_tr1|v1",
+     "sujet": "bordure T2 (tr1|v1) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_v2|tr2",
+     "sujet": "bordure T2 (v2|tr2) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "attendus",
+     "sujet": "attendus de la description = mesures calculées",
+     "valeur": "6/6",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    }
+   ]
+  },
+  {
+   "scene": "S03",
+   "nom": "rue_stationnement_arbres",
+   "titre": "Rue 1 + 1, stationnement longitudinal à droite, arbres en fosses entre les places",
+   "fichier": "S03_rue_stationnement_arbres.yaml",
+   "longueur_m": 100.0,
+   "agglomeration": true,
+   "vitesse_kmh": 50.0,
+   "V15_kmh": 50.0,
+   "u_m": 0.05,
+   "profil": [
+    {
+     "id": "tr1",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    },
+    {
+     "id": "v1",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v2",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "st1",
+     "type": "stationnement",
+     "sens": "avant",
+     "largeur": 2.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "tr2",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    }
+   ],
+   "limites": [
+    {
+     "nature": "bord",
+     "id": "||tr1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "tr1|v1",
+     "haut": "gauche"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T'1",
+     "k": 2.0,
+     "id": "v1|v2"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T'2",
+     "k": 2.0,
+     "id": "v2|st1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "st1|tr2",
+     "haut": "droite"
+    },
+    {
+     "nature": "bord",
+     "id": "tr2||"
+    }
+   ],
+   "regles_citees": [
+    "DEF-001",
+    "DEF-002",
+    "DEF-004",
+    "DEF-005",
+    "DEF-009",
+    "DEF-030",
+    "RF-GV-TPC-010",
+    "RF-MA-STA-001",
+    "RF-MQ-LAR-E1",
+    "RF-MQ-SC-15",
+    "RF-MQ-STA-09",
+    "RF-MQ-U-03",
+    "RF-OSM-LAR-040",
+    "RF-OSM-MRQ-010",
+    "RF-OSM-MRQ-060",
+    "RF-OSM-NIV-010",
+    "RF-OSM-VEG-001"
+   ],
+   "regles_appliquees": [
+    "DEF-009",
+    "DEF-030",
+    "RF-MA-STA-001",
+    "RF-MQ-MOD-T'1",
+    "RF-MQ-MOD-T'2",
+    "RF-OSM-PRF-010",
+    "RF-OSM-VEG-001"
+   ],
+   "mesures": {
+    "longueur": 100.0,
+    "largeur_emprise": 12.0,
+    "largeur_chaussee": 8.0,
+    "voies": {
+     "arriere": 1,
+     "avant": 1
+    },
+    "traits": {
+     "T'1 2u": 16,
+     "T'2 2u": 65
+    },
+    "bordures_m": {
+     "T2": 165.0
+    },
+    "bordures_avancees_m": {
+     "T2": 91.0
+    },
+    "arbres": 14,
+    "avancees": 14,
+    "places": 13
+   },
+   "avertissements": [],
+   "plan": {
+    "svg": "recon/generateur/scenes_simples/plans/S03_rue_stationnement_arbres.svg",
+    "largeur_px": 2360,
+    "hauteur_px": 790,
+    "echelle_px_m": 20.0,
+    "sha256": "8721a7d933ca3515e5a390a8aa50a0b99c7c15fb9a5a3c4a4c544dec83fc7f13"
+   },
+   "rendus": [
+    {
+     "png": "recon/out/generateur/catalogue/plans_png/S03.png",
+     "px": [
+      2360,
+      790
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S03_detail_0.png",
+     "px": [
+      1020,
+      840
+     ],
+     "fenetre_s": [
+      0.0,
+      17.0
+     ]
+    }
+   ],
+   "tuiles": [
+    "recon/out/generateur/catalogue/tuiles/S03/plan/S03_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S03/plan/S03_t001.png",
+    "recon/out/generateur/catalogue/tuiles/S03/plan/S03_t002.png",
+    "recon/out/generateur/catalogue/tuiles/S03/detail_0/S03_detail_0_t000.png"
+   ],
+   "controles": [
+    {
+     "id": "longueur",
+     "sujet": "longueur du tronçon (m)",
+     "valeur": 100.0,
+     "seuil": "[80.0 ; 120.0]",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_citees",
+     "sujet": "règles citées dans la description présentes dans regles_route_fr.json",
+     "valeur": "17/17",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_appliquees",
+     "sujet": "règles appliquées par le calcul présentes dans la base",
+     "valeur": "7/7",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux",
+     "sujet": "matériaux présents dans assets/specs/materiaux_sol.json",
+     "valeur": "4/4",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux_bandes",
+     "sujet": "bandes avec un matériau",
+     "valeur": "5/5",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr1",
+     "sujet": "trottoir tr1 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr1",
+     "sujet": "trottoir tr1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "largeur_v1",
+     "sujet": "voie v1 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v2",
+     "sujet": "voie v2 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_st1",
+     "sujet": "stationnement st1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": "[1.8 ; 2.2]",
+     "atteint": true,
+     "regle": "RF-MA-STA-001",
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr2",
+     "sujet": "trottoir tr2 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr2",
+     "sujet": "trottoir tr2 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "vue_tr1|v1",
+     "sujet": "bordure T2 (tr1|v1) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_st1|tr2",
+     "sujet": "bordure T2 (st1|tr2) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "arbres_recul",
+     "sujet": "arbres : distance de l'axe au bord de la voie circulée (m)",
+     "valeur": 1.5,
+     "seuil": ">= 1.5",
+     "atteint": true,
+     "regle": "DEF-030",
+     "bloquant": true
+    },
+    {
+     "id": "arbres_entraxe",
+     "sujet": "arbres : entraxe (m)",
+     "valeur": [
+      7.5
+     ],
+     "seuil": 7.5,
+     "atteint": true,
+     "regle": "DEF-030",
+     "bloquant": true
+    },
+    {
+     "id": "arbres_hors_cheminement",
+     "sujet": "arbres dans un trottoir (cheminement)",
+     "valeur": 0,
+     "seuil": 0,
+     "atteint": true,
+     "regle": "DEF-030",
+     "bloquant": true
+    },
+    {
+     "id": "places_longueur",
+     "sujet": "places longitudinales : longueur (m)",
+     "valeur": [
+      5.0
+     ],
+     "seuil": 5.0,
+     "atteint": true,
+     "regle": "DEF-009",
+     "bloquant": true
+    },
+    {
+     "id": "attendus",
+     "sujet": "attendus de la description = mesures calculées",
+     "valeur": "10/10",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    }
+   ]
+  },
+  {
+   "scene": "S04",
+   "nom": "rue_bandes_cyclables",
+   "titre": "Rue 1 + 1 avec bandes cyclables des deux côtés",
+   "fichier": "S04_rue_bandes_cyclables.yaml",
+   "longueur_m": 100.0,
+   "agglomeration": true,
+   "vitesse_kmh": 50.0,
+   "V15_kmh": 50.0,
+   "u_m": 0.05,
+   "profil": [
+    {
+     "id": "tr1",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    },
+    {
+     "id": "bc1",
+     "type": "bande_cyclable",
+     "sens": "arriere",
+     "largeur": 2.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v1",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v2",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "bc2",
+     "type": "bande_cyclable",
+     "sens": "avant",
+     "largeur": 2.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "tr2",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    }
+   ],
+   "limites": [
+    {
+     "nature": "bord",
+     "id": "||tr1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "tr1|bc1",
+     "haut": "gauche"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T3",
+     "k": 5.0,
+     "id": "bc1|v1"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T'1",
+     "k": 2.0,
+     "id": "v1|v2"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T3",
+     "k": 5.0,
+     "id": "v2|bc2"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "bc2|tr2",
+     "haut": "droite"
+    },
+    {
+     "nature": "bord",
+     "id": "tr2||"
+    }
+   ],
+   "regles_citees": [
+    "DEF-001",
+    "DEF-002",
+    "DEF-004",
+    "DEF-005",
+    "DEF-007",
+    "DEF-018",
+    "RF-MA-BAN-001",
+    "RF-MA-BAN-002",
+    "RF-MA-BAN-005",
+    "RF-MA-BAN-009",
+    "RF-MA-CYC-012",
+    "RF-MQ-CYC-03",
+    "RF-MQ-LAR-B2c",
+    "RF-MQ-SC-07",
+    "RF-OSM-CYC-001",
+    "RF-OSM-MRQ-010"
+   ],
+   "regles_appliquees": [
+    "DEF-018",
+    "RF-MA-CYC-012",
+    "RF-MQ-CYC-03",
+    "RF-MQ-MOD-T'1",
+    "RF-MQ-MOD-T3",
+    "RF-OSM-PRF-010"
+   ],
+   "mesures": {
+    "longueur": 100.0,
+    "largeur_emprise": 14.0,
+    "largeur_chaussee": 10.0,
+    "voies": {
+     "arriere": 1,
+     "avant": 1
+    },
+    "traits": {
+     "T'1 2u": 16,
+     "T3 5u": 46
+    },
+    "bordures_m": {
+     "T2": 200.0
+    },
+    "figurines": 4
+   },
+   "avertissements": [],
+   "plan": {
+    "svg": "recon/generateur/scenes_simples/plans/S04_rue_bandes_cyclables.svg",
+    "largeur_px": 2360,
+    "hauteur_px": 830,
+    "echelle_px_m": 20.0,
+    "sha256": "1643820be83b1bd07fcc8b6d1f6de20f33e1262cf07f6c864660200aba870607"
+   },
+   "rendus": [
+    {
+     "png": "recon/out/generateur/catalogue/plans_png/S04.png",
+     "px": [
+      2360,
+      830
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S04_detail_0.png",
+     "px": [
+      1020,
+      960
+     ],
+     "fenetre_s": [
+      23.0,
+      40.0
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S04_detail_1.png",
+     "px": [
+      1020,
+      960
+     ],
+     "fenetre_s": [
+      73.0,
+      90.0
+     ]
+    }
+   ],
+   "tuiles": [
+    "recon/out/generateur/catalogue/tuiles/S04/plan/S04_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S04/plan/S04_t001.png",
+    "recon/out/generateur/catalogue/tuiles/S04/plan/S04_t002.png",
+    "recon/out/generateur/catalogue/tuiles/S04/detail_0/S04_detail_0_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S04/detail_1/S04_detail_1_t000.png"
+   ],
+   "controles": [
+    {
+     "id": "longueur",
+     "sujet": "longueur du tronçon (m)",
+     "valeur": 100.0,
+     "seuil": "[80.0 ; 120.0]",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_citees",
+     "sujet": "règles citées dans la description présentes dans regles_route_fr.json",
+     "valeur": "16/16",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_appliquees",
+     "sujet": "règles appliquées par le calcul présentes dans la base",
+     "valeur": "6/6",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux",
+     "sujet": "matériaux présents dans assets/specs/materiaux_sol.json",
+     "valeur": "3/3",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux_bandes",
+     "sujet": "bandes avec un matériau",
+     "valeur": "6/6",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr1",
+     "sujet": "trottoir tr1 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr1",
+     "sujet": "trottoir tr1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "largeur_bc1_min",
+     "sujet": "bande cyclable bc1 : largeur hors marquage et caniveau (m)",
+     "valeur": 1.625,
+     "seuil": ">= 1.5",
+     "atteint": true,
+     "regle": "RF-MA-BAN-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_bc1_max",
+     "sujet": "bande cyclable bc1 : largeur hors marquage (m)",
+     "valeur": 1.875,
+     "seuil": "<= 2.0",
+     "atteint": true,
+     "regle": "RF-MA-BAN-002",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v1",
+     "sujet": "voie v1 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v2",
+     "sujet": "voie v2 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_bc2_min",
+     "sujet": "bande cyclable bc2 : largeur hors marquage et caniveau (m)",
+     "valeur": 1.625,
+     "seuil": ">= 1.5",
+     "atteint": true,
+     "regle": "RF-MA-BAN-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_bc2_max",
+     "sujet": "bande cyclable bc2 : largeur hors marquage (m)",
+     "valeur": 1.875,
+     "seuil": "<= 2.0",
+     "atteint": true,
+     "regle": "RF-MA-BAN-002",
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr2",
+     "sujet": "trottoir tr2 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr2",
+     "sujet": "trottoir tr2 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "vue_tr1|bc1",
+     "sujet": "bordure T2 (tr1|bc1) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_bc2|tr2",
+     "sujet": "bordure T2 (bc2|tr2) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "figurines_pas",
+     "sujet": "figurines vélo : pas (m)",
+     "valeur": [
+      50.0
+     ],
+     "seuil": 50.0,
+     "atteint": true,
+     "regle": "DEF-018",
+     "bloquant": true
+    },
+    {
+     "id": "attendus",
+     "sujet": "attendus de la description = mesures calculées",
+     "valeur": "7/7",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    }
+   ]
+  },
+  {
+   "scene": "S05",
+   "nom": "rue_pistes_sur_trottoir",
+   "titre": "Rue 1 + 1, pistes cyclables unidirectionnelles au niveau du trottoir, séparées",
+   "fichier": "S05_rue_pistes_sur_trottoir.yaml",
+   "longueur_m": 100.0,
+   "agglomeration": true,
+   "vitesse_kmh": 50.0,
+   "V15_kmh": 50.0,
+   "u_m": 0.05,
+   "profil": [
+    {
+     "id": "tr1",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "dalles_beton",
+     "dz": 0.14
+    },
+    {
+     "id": "sep1",
+     "type": "separateur",
+     "sens": "aucun",
+     "largeur": 0.3,
+     "materiau": "paves_granit",
+     "dz": 0.14
+    },
+    {
+     "id": "pc1",
+     "type": "piste_cyclable",
+     "sens": "arriere",
+     "largeur": 2.0,
+     "materiau": "enrobe_piste_cyclable",
+     "dz": 0.14
+    },
+    {
+     "id": "sep2",
+     "type": "separateur",
+     "sens": "aucun",
+     "largeur": 0.5,
+     "materiau": "paves_granit",
+     "dz": 0.14
+    },
+    {
+     "id": "v1",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v2",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "sep3",
+     "type": "separateur",
+     "sens": "aucun",
+     "largeur": 0.5,
+     "materiau": "paves_granit",
+     "dz": 0.14
+    },
+    {
+     "id": "pc2",
+     "type": "piste_cyclable",
+     "sens": "avant",
+     "largeur": 2.0,
+     "materiau": "enrobe_piste_cyclable",
+     "dz": 0.14
+    },
+    {
+     "id": "sep4",
+     "type": "separateur",
+     "sens": "aucun",
+     "largeur": 0.3,
+     "materiau": "paves_granit",
+     "dz": 0.14
+    },
+    {
+     "id": "tr2",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "dalles_beton",
+     "dz": 0.14
+    }
+   ],
+   "limites": [
+    {
+     "nature": "bord",
+     "id": "||tr1"
+    },
+    {
+     "nature": "rien",
+     "id": "tr1|sep1"
+    },
+    {
+     "nature": "rien",
+     "id": "sep1|pc1"
+    },
+    {
+     "nature": "rien",
+     "id": "pc1|sep2"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "sep2|v1",
+     "haut": "gauche"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T'1",
+     "k": 2.0,
+     "id": "v1|v2"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "v2|sep3",
+     "haut": "droite"
+    },
+    {
+     "nature": "rien",
+     "id": "sep3|pc2"
+    },
+    {
+     "nature": "rien",
+     "id": "pc2|sep4"
+    },
+    {
+     "nature": "rien",
+     "id": "sep4|tr2"
+    },
+    {
+     "nature": "bord",
+     "id": "tr2||"
+    }
+   ],
+   "regles_citees": [
+    "DEF-001",
+    "DEF-002",
+    "DEF-005",
+    "DEF-008",
+    "DEF-018",
+    "RF-MA-CYC-012",
+    "RF-MA-PIS-001",
+    "RF-MA-PIS-006",
+    "RF-MA-PIS-009",
+    "RF-MA-SEP-003",
+    "RF-MA-SEP-004",
+    "RF-MA-SEP-006",
+    "RF-MA-TRO-010",
+    "RF-MQ-CYC-02",
+    "RF-OSM-LAR-033",
+    "RF-OSM-MRQ-010",
+    "RF-OSM-NIV-010",
+    "RF-OSM-NIV-013"
+   ],
+   "regles_appliquees": [
+    "DEF-018",
+    "RF-MA-CYC-012",
+    "RF-MQ-CYC-03",
+    "RF-MQ-MOD-T'1",
+    "RF-OSM-PRF-010"
+   ],
+   "mesures": {
+    "longueur": 100.0,
+    "largeur_emprise": 15.6,
+    "largeur_chaussee": 6.0,
+    "voies": {
+     "arriere": 1,
+     "avant": 1
+    },
+    "traits": {
+     "T'1 2u": 16
+    },
+    "bordures_m": {
+     "T2": 200.0
+    },
+    "figurines": 4
+   },
+   "avertissements": [],
+   "plan": {
+    "svg": "recon/generateur/scenes_simples/plans/S05_rue_pistes_sur_trottoir.svg",
+    "largeur_px": 2360,
+    "hauteur_px": 862,
+    "echelle_px_m": 20.0,
+    "sha256": "cadbfeb837af15af01b2f0356bed82ca4f7794bfe7d83dab5bc6be251073bbf2"
+   },
+   "rendus": [
+    {
+     "png": "recon/out/generateur/catalogue/plans_png/S05.png",
+     "px": [
+      2360,
+      862
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S05_detail_0.png",
+     "px": [
+      1020,
+      1056
+     ],
+     "fenetre_s": [
+      23.0,
+      40.0
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S05_detail_1.png",
+     "px": [
+      1020,
+      1056
+     ],
+     "fenetre_s": [
+      73.0,
+      90.0
+     ]
+    }
+   ],
+   "tuiles": [
+    "recon/out/generateur/catalogue/tuiles/S05/plan/S05_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S05/plan/S05_t001.png",
+    "recon/out/generateur/catalogue/tuiles/S05/plan/S05_t002.png",
+    "recon/out/generateur/catalogue/tuiles/S05/detail_0/S05_detail_0_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S05/detail_1/S05_detail_1_t000.png"
+   ],
+   "controles": [
+    {
+     "id": "longueur",
+     "sujet": "longueur du tronçon (m)",
+     "valeur": 100.0,
+     "seuil": "[80.0 ; 120.0]",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_citees",
+     "sujet": "règles citées dans la description présentes dans regles_route_fr.json",
+     "valeur": "18/18",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_appliquees",
+     "sujet": "règles appliquées par le calcul présentes dans la base",
+     "valeur": "5/5",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux",
+     "sujet": "matériaux présents dans assets/specs/materiaux_sol.json",
+     "valeur": "5/5",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux_bandes",
+     "sujet": "bandes avec un matériau",
+     "valeur": "10/10",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr1",
+     "sujet": "trottoir tr1 : largeur libre hors bordure (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr1",
+     "sujet": "trottoir tr1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "largeur_pc1",
+     "sujet": "piste unidirectionnelle pc1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 2.0",
+     "atteint": true,
+     "regle": "RF-MA-PIS-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v1",
+     "sujet": "voie v1 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v2",
+     "sujet": "voie v2 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_pc2",
+     "sujet": "piste unidirectionnelle pc2 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 2.0",
+     "atteint": true,
+     "regle": "RF-MA-PIS-001",
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr2",
+     "sujet": "trottoir tr2 : largeur libre hors bordure (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr2",
+     "sujet": "trottoir tr2 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "vue_sep2|v1",
+     "sujet": "bordure T2 (sep2|v1) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_v2|sep3",
+     "sujet": "bordure T2 (v2|sep3) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "figurines_pas",
+     "sujet": "figurines vélo : pas (m)",
+     "valeur": [
+      50.0
+     ],
+     "seuil": 50.0,
+     "atteint": true,
+     "regle": "DEF-018",
+     "bloquant": true
+    },
+    {
+     "id": "attendus",
+     "sujet": "attendus de la description = mesures calculées",
+     "valeur": "7/7",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    }
+   ]
+  },
+  {
+   "scene": "S06",
+   "nom": "avenue_2x2_terre_plein_plante",
+   "titre": "Avenue 2 × 2 voies, terre-plein central planté bordé de T2",
+   "fichier": "S06_avenue_2x2_terre_plein_plante.yaml",
+   "longueur_m": 100.0,
+   "agglomeration": true,
+   "vitesse_kmh": 50.0,
+   "V15_kmh": 50.0,
+   "u_m": 0.05,
+   "profil": [
+    {
+     "id": "tr1",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    },
+    {
+     "id": "v1",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v2",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "bdg1",
+     "type": "bande_derasee",
+     "sens": "aucun",
+     "largeur": 0.5,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "tp1",
+     "type": "terre_plein",
+     "sens": "aucun",
+     "largeur": 4.0,
+     "materiau": "gazon_tondu",
+     "dz": 0.14
+    },
+    {
+     "id": "bdg2",
+     "type": "bande_derasee",
+     "sens": "aucun",
+     "largeur": 0.5,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v3",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v4",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "tr2",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    }
+   ],
+   "limites": [
+    {
+     "nature": "bord",
+     "id": "||tr1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "tr1|v1",
+     "haut": "gauche"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T'1",
+     "k": 2.0,
+     "id": "v1|v2"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "continue",
+     "k": 3.0,
+     "id": "v2|bdg1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": null,
+     "id": "bdg1|tp1",
+     "haut": "droite"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": null,
+     "id": "tp1|bdg2",
+     "haut": "gauche"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "continue",
+     "k": 3.0,
+     "id": "bdg2|v3"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T'1",
+     "k": 2.0,
+     "id": "v3|v4"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "v4|tr2",
+     "haut": "droite"
+    },
+    {
+     "nature": "bord",
+     "id": "tr2||"
+    }
+   ],
+   "regles_citees": [
+    "DEF-001",
+    "DEF-004",
+    "DEF-005",
+    "DEF-030",
+    "RF-GV-PT-002",
+    "RF-GV-TPC-001",
+    "RF-GV-TPC-002",
+    "RF-GV-TPC-005",
+    "RF-GV-TPC-010",
+    "RF-GV-TPC-011",
+    "RF-MQ-LAR-D1",
+    "RF-MQ-SC-15",
+    "RF-OSM-LAR-012",
+    "RF-OSM-MRQ-011",
+    "RF-OSM-NIV-011"
+   ],
+   "regles_appliquees": [
+    "DEF-030",
+    "RF-GV-TPC-010",
+    "RF-MQ-LAR-A1a",
+    "RF-MQ-MOD-T'1",
+    "RF-OSM-PRF-010"
+   ],
+   "mesures": {
+    "longueur": 100.0,
+    "largeur_emprise": 21.0,
+    "largeur_chaussee": 6.5,
+    "voies": {
+     "arriere": 2,
+     "avant": 2
+    },
+    "traits": {
+     "T'1 2u": 32
+    },
+    "continues_m": {
+     "continue 3u": 200.0
+    },
+    "bordures_m": {
+     "T2": 400.0
+    },
+    "arbres": 13
+   },
+   "avertissements": [],
+   "plan": {
+    "svg": "recon/generateur/scenes_simples/plans/S06_avenue_2x2_terre_plein_plante.svg",
+    "largeur_px": 2360,
+    "hauteur_px": 970,
+    "echelle_px_m": 20.0,
+    "sha256": "9b508cd5dec3173256d244b306244ea7e9da8f1d3b5325c127d4b749c073675d"
+   },
+   "rendus": [
+    {
+     "png": "recon/out/generateur/catalogue/plans_png/S06.png",
+     "px": [
+      2360,
+      970
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S06_detail_0.png",
+     "px": [
+      1020,
+      1380
+     ],
+     "fenetre_s": [
+      3.0,
+      20.0
+     ]
+    }
+   ],
+   "tuiles": [
+    "recon/out/generateur/catalogue/tuiles/S06/plan/S06_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S06/plan/S06_t001.png",
+    "recon/out/generateur/catalogue/tuiles/S06/plan/S06_t002.png",
+    "recon/out/generateur/catalogue/tuiles/S06/detail_0/S06_detail_0_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S06/detail_0/S06_detail_0_t001.png"
+   ],
+   "controles": [
+    {
+     "id": "longueur",
+     "sujet": "longueur du tronçon (m)",
+     "valeur": 100.0,
+     "seuil": "[80.0 ; 120.0]",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_citees",
+     "sujet": "règles citées dans la description présentes dans regles_route_fr.json",
+     "valeur": "15/15",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_appliquees",
+     "sujet": "règles appliquées par le calcul présentes dans la base",
+     "valeur": "5/5",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux",
+     "sujet": "matériaux présents dans assets/specs/materiaux_sol.json",
+     "valeur": "3/3",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux_bandes",
+     "sujet": "bandes avec un matériau",
+     "valeur": "9/9",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr1",
+     "sujet": "trottoir tr1 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr1",
+     "sujet": "trottoir tr1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "largeur_v1",
+     "sujet": "voie v1 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v2",
+     "sujet": "voie v2 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_bdg1",
+     "sujet": "BDG bdg1 : largeur (m)",
+     "valeur": 0.5,
+     "seuil": ">= 0.3",
+     "atteint": true,
+     "regle": "RF-GV-TPC-005",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tp1",
+     "sujet": "terre-plein planté tp1 : largeur (fosse 3.0 × 3.0)",
+     "valeur": 4.0,
+     "seuil": ">= 3.0",
+     "atteint": true,
+     "regle": "RF-GV-TPC-010",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_bdg2",
+     "sujet": "BDG bdg2 : largeur (m)",
+     "valeur": 0.5,
+     "seuil": ">= 0.3",
+     "atteint": true,
+     "regle": "RF-GV-TPC-005",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v3",
+     "sujet": "voie v3 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v4",
+     "sujet": "voie v4 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr2",
+     "sujet": "trottoir tr2 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr2",
+     "sujet": "trottoir tr2 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "vue_tr1|v1",
+     "sujet": "bordure T2 (tr1|v1) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_bdg1|tp1",
+     "sujet": "bordure T2 (bdg1|tp1) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_tp1|bdg2",
+     "sujet": "bordure T2 (tp1|bdg2) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_v4|tr2",
+     "sujet": "bordure T2 (v4|tr2) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "arbres_recul",
+     "sujet": "arbres : distance de l'axe au bord de la voie circulée (m)",
+     "valeur": 2.5,
+     "seuil": ">= 1.5",
+     "atteint": true,
+     "regle": "DEF-030",
+     "bloquant": true
+    },
+    {
+     "id": "arbres_entraxe",
+     "sujet": "arbres : entraxe (m)",
+     "valeur": [
+      7.5
+     ],
+     "seuil": 7.5,
+     "atteint": true,
+     "regle": "DEF-030",
+     "bloquant": true
+    },
+    {
+     "id": "arbres_hors_cheminement",
+     "sujet": "arbres dans un trottoir (cheminement)",
+     "valeur": 0,
+     "seuil": 0,
+     "atteint": true,
+     "regle": "DEF-030",
+     "bloquant": true
+    },
+    {
+     "id": "attendus",
+     "sujet": "attendus de la description = mesures calculées",
+     "valeur": "8/8",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    }
+   ]
+  },
+  {
+   "scene": "S07",
+   "nom": "rue_sens_unique_2_voies",
+   "titre": "Rue à sens unique 2 voies, flèches directionnelles « tout droit »",
+   "fichier": "S07_rue_sens_unique_2_voies.yaml",
+   "longueur_m": 100.0,
+   "agglomeration": true,
+   "vitesse_kmh": 50.0,
+   "V15_kmh": 50.0,
+   "u_m": 0.05,
+   "profil": [
+    {
+     "id": "tr1",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    },
+    {
+     "id": "v1",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v2",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "tr2",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    }
+   ],
+   "limites": [
+    {
+     "nature": "bord",
+     "id": "||tr1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "tr1|v1",
+     "haut": "gauche"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T'1",
+     "k": 2.0,
+     "id": "v1|v2"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "v2|tr2",
+     "haut": "droite"
+    },
+    {
+     "nature": "bord",
+     "id": "tr2||"
+    }
+   ],
+   "regles_citees": [
+    "DEF-001",
+    "DEF-004",
+    "DEF-005",
+    "DEF-017",
+    "RF-GV-PT-005",
+    "RF-MQ-DIR-01",
+    "RF-MQ-DIR-03",
+    "RF-MQ-DIR-04",
+    "RF-MQ-DIR-08",
+    "RF-MQ-DIR-09",
+    "RF-OSM-LAR-012",
+    "RF-OSM-MRQ-011"
+   ],
+   "regles_appliquees": [
+    "DEF-017",
+    "RF-MQ-DIR-02",
+    "RF-MQ-DIR-03",
+    "RF-MQ-DIR-04",
+    "RF-MQ-DIR-08",
+    "RF-MQ-DIR-09",
+    "RF-MQ-MOD-T'1",
+    "RF-OSM-PRF-010"
+   ],
+   "mesures": {
+    "longueur": 100.0,
+    "largeur_emprise": 10.0,
+    "largeur_chaussee": 6.0,
+    "voies": {
+     "avant": 2
+    },
+    "traits": {
+     "T'1 2u": 16
+    },
+    "bordures_m": {
+     "T2": 200.0
+    },
+    "fleches": {
+     "TD": 6
+    },
+    "fleches_s": [
+     20.0,
+     40.0,
+     60.0,
+     20.0,
+     40.0,
+     60.0
+    ]
+   },
+   "avertissements": [],
+   "plan": {
+    "svg": "recon/generateur/scenes_simples/plans/S07_rue_sens_unique_2_voies.svg",
+    "largeur_px": 2360,
+    "hauteur_px": 750,
+    "echelle_px_m": 20.0,
+    "sha256": "fef1210a8c538f181f979e524e6d7b0e4df42bcdd6ad726d907dfb097154c4f3"
+   },
+   "rendus": [
+    {
+     "png": "recon/out/generateur/catalogue/plans_png/S07.png",
+     "px": [
+      2360,
+      750
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S07_detail_0.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      18.0,
+      35.0
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S07_detail_1.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      38.0,
+      55.0
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S07_detail_2.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      58.0,
+      75.0
+     ]
+    }
+   ],
+   "tuiles": [
+    "recon/out/generateur/catalogue/tuiles/S07/plan/S07_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S07/plan/S07_t001.png",
+    "recon/out/generateur/catalogue/tuiles/S07/plan/S07_t002.png",
+    "recon/out/generateur/catalogue/tuiles/S07/detail_0/S07_detail_0_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S07/detail_1/S07_detail_1_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S07/detail_2/S07_detail_2_t000.png"
+   ],
+   "controles": [
+    {
+     "id": "longueur",
+     "sujet": "longueur du tronçon (m)",
+     "valeur": 100.0,
+     "seuil": "[80.0 ; 120.0]",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_citees",
+     "sujet": "règles citées dans la description présentes dans regles_route_fr.json",
+     "valeur": "12/12",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_appliquees",
+     "sujet": "règles appliquées par le calcul présentes dans la base",
+     "valeur": "8/8",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux",
+     "sujet": "matériaux présents dans assets/specs/materiaux_sol.json",
+     "valeur": "3/3",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux_bandes",
+     "sujet": "bandes avec un matériau",
+     "valeur": "4/4",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr1",
+     "sujet": "trottoir tr1 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr1",
+     "sujet": "trottoir tr1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "largeur_v1",
+     "sujet": "voie v1 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v2",
+     "sujet": "voie v2 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr2",
+     "sujet": "trottoir tr2 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr2",
+     "sujet": "trottoir tr2 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "vue_tr1|v1",
+     "sujet": "bordure T2 (tr1|v1) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_v2|tr2",
+     "sujet": "bordure T2 (v2|tr2) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "fleches_v1_nombre",
+     "sujet": "flèches directionnelles voie v1",
+     "valeur": 3,
+     "seuil": 3,
+     "atteint": true,
+     "regle": "RF-MQ-DIR-04",
+     "bloquant": true
+    },
+    {
+     "id": "fleches_v1_interdistance",
+     "sujet": "flèches voie v1 : interdistance (m)",
+     "valeur": [
+      20.0
+     ],
+     "seuil": 20.0,
+     "atteint": true,
+     "regle": "DEF-017",
+     "bloquant": true
+    },
+    {
+     "id": "fleches_v2_nombre",
+     "sujet": "flèches directionnelles voie v2",
+     "valeur": 3,
+     "seuil": 3,
+     "atteint": true,
+     "regle": "RF-MQ-DIR-04",
+     "bloquant": true
+    },
+    {
+     "id": "fleches_v2_interdistance",
+     "sujet": "flèches voie v2 : interdistance (m)",
+     "valeur": [
+      20.0
+     ],
+     "seuil": 20.0,
+     "atteint": true,
+     "regle": "DEF-017",
+     "bloquant": true
+    },
+    {
+     "id": "fleches_meme_profil",
+     "sujet": "flèches de toutes les voies dans un même profil en travers",
+     "valeur": [
+      2,
+      2,
+      2
+     ],
+     "seuil": "2 par profil",
+     "atteint": true,
+     "regle": "RF-MQ-DIR-03",
+     "bloquant": true
+    },
+    {
+     "id": "attendus",
+     "sujet": "attendus de la description = mesures calculées",
+     "valeur": "8/8",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    }
+   ]
+  },
+  {
+   "scene": "S08",
+   "nom": "rue_dos_d_ane_passage",
+   "titre": "Rue 1 + 1 à 30 km/h, passage piéton puis dos-d'âne",
+   "fichier": "S08_rue_dos_d_ane_passage.yaml",
+   "longueur_m": 100.0,
+   "agglomeration": true,
+   "vitesse_kmh": 30.0,
+   "V15_kmh": 30.0,
+   "u_m": 0.05,
+   "profil": [
+    {
+     "id": "tr1",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    },
+    {
+     "id": "v1",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v2",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "tr2",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    }
+   ],
+   "limites": [
+    {
+     "nature": "bord",
+     "id": "||tr1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "tr1|v1",
+     "haut": "gauche"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T'1",
+     "k": 2.0,
+     "id": "v1|v2"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "v2|tr2",
+     "haut": "droite"
+    },
+    {
+     "nature": "bord",
+     "id": "tr2||"
+    }
+   ],
+   "regles_citees": [
+    "DEF-001",
+    "DEF-004",
+    "DEF-005",
+    "DEF-011",
+    "DEF-031",
+    "RF-MA-ABA-001",
+    "RF-MA-ABA-004",
+    "RF-MA-ABA-005",
+    "RF-MA-BEV-002",
+    "RF-MA-RAL-001",
+    "RF-MA-RAL-003",
+    "RF-MA-TRO-003",
+    "RF-MQ-PP-01",
+    "RF-MQ-PP-02",
+    "RF-MQ-PP-03",
+    "RF-MQ-PP-05",
+    "RF-MQ-RAL-01",
+    "RF-OSM-LAR-010",
+    "RF-OSM-MRQ-010"
+   ],
+   "regles_appliquees": [
+    "DEF-011",
+    "DEF-031",
+    "RF-MA-ABA-001",
+    "RF-MA-ABA-004",
+    "RF-MA-ABA-005",
+    "RF-MA-BEV-001",
+    "RF-MA-BEV-002",
+    "RF-MA-RAL-001",
+    "RF-MA-RAL-003",
+    "RF-MQ-MOD-T'1",
+    "RF-MQ-MOD-T3",
+    "RF-MQ-PP-01",
+    "RF-MQ-PP-02",
+    "RF-MQ-PP-03",
+    "RF-MQ-PP-05",
+    "RF-MQ-RAL-01",
+    "RF-OSM-PRF-010"
+   ],
+   "mesures": {
+    "longueur": 100.0,
+    "largeur_emprise": 10.0,
+    "largeur_chaussee": 6.0,
+    "voies": {
+     "arriere": 1,
+     "avant": 1
+    },
+    "traits": {
+     "T'1 2u": 12,
+     "T3 2u": 5
+    },
+    "bordures_m": {
+     "T2": 200.0
+    },
+    "passages": [
+     {
+      "s": 48.0,
+      "W": 6.0,
+      "bandes": 5,
+      "e": 0.583,
+      "longueur_bandes": 4.0
+     }
+    ],
+    "triangles": 6,
+    "abaisses": 2,
+    "bev": 2,
+    "ralentisseurs": [
+     {
+      "type": "dos_d_ane",
+      "s": 54.0,
+      "longueur": 4.0,
+      "hauteur": 0.1,
+      "s_debut": 54.0,
+      "s_fin": 58.0
+     }
+    ]
+   },
+   "avertissements": [],
+   "plan": {
+    "svg": "recon/generateur/scenes_simples/plans/S08_rue_dos_d_ane_passage.svg",
+    "largeur_px": 2360,
+    "hauteur_px": 750,
+    "echelle_px_m": 20.0,
+    "sha256": "1be6d9c897d2552342f211e727c66db171349efcca9199d7de6346f72fb8eacf"
+   },
+   "rendus": [
+    {
+     "png": "recon/out/generateur/catalogue/plans_png/S08.png",
+     "px": [
+      2360,
+      750
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S08_detail_0.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      41.6,
+      58.6
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S08_detail_1.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      56.0,
+      73.0
+     ]
+    }
+   ],
+   "tuiles": [
+    "recon/out/generateur/catalogue/tuiles/S08/plan/S08_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S08/plan/S08_t001.png",
+    "recon/out/generateur/catalogue/tuiles/S08/plan/S08_t002.png",
+    "recon/out/generateur/catalogue/tuiles/S08/detail_0/S08_detail_0_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S08/detail_1/S08_detail_1_t000.png"
+   ],
+   "controles": [
+    {
+     "id": "longueur",
+     "sujet": "longueur du tronçon (m)",
+     "valeur": 100.0,
+     "seuil": "[80.0 ; 120.0]",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_citees",
+     "sujet": "règles citées dans la description présentes dans regles_route_fr.json",
+     "valeur": "19/19",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_appliquees",
+     "sujet": "règles appliquées par le calcul présentes dans la base",
+     "valeur": "17/17",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux",
+     "sujet": "matériaux présents dans assets/specs/materiaux_sol.json",
+     "valeur": "3/3",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux_bandes",
+     "sujet": "bandes avec un matériau",
+     "valeur": "4/4",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr1",
+     "sujet": "trottoir tr1 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr1",
+     "sujet": "trottoir tr1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "largeur_v1",
+     "sujet": "voie v1 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v2",
+     "sujet": "voie v2 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr2",
+     "sujet": "trottoir tr2 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr2",
+     "sujet": "trottoir tr2 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "vue_tr1|v1",
+     "sujet": "bordure T2 (tr1|v1) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_v2|tr2",
+     "sujet": "bordure T2 (v2|tr2) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "pp0_bandes",
+     "sujet": "passage 1 : nombre de bandes pour W = 6.00 m",
+     "valeur": 5,
+     "seuil": "[3 ; 5] ou [5 ; 7]",
+     "atteint": true,
+     "regle": "RF-MQ-PP-02",
+     "bloquant": true
+    },
+    {
+     "id": "pp0_e",
+     "sujet": "passage 1 : interdistance et marges e (m)",
+     "valeur": 0.5833,
+     "seuil": "[0.5 ; 0.8]",
+     "atteint": true,
+     "regle": "RF-MQ-PP-05",
+     "bloquant": true
+    },
+    {
+     "id": "pp0_longueur",
+     "sujet": "passage 1 : longueur des bandes (m)",
+     "valeur": 4.0,
+     "seuil": ">= 2.5",
+     "atteint": true,
+     "regle": "RF-MQ-PP-01",
+     "bloquant": true
+    },
+    {
+     "id": "pp0_interruption_2",
+     "sujet": "passage 1 : interruption de la ligne v1|v2 (m)",
+     "valeur": 0.5,
+     "seuil": "0.50",
+     "atteint": true,
+     "regle": "RF-MQ-PP-03",
+     "bloquant": true
+    },
+    {
+     "id": "abaisse0_vue",
+     "sujet": "abaissé 1 (gauche) : vue (m)",
+     "valeur": 0.02,
+     "seuil": "<= 0.02",
+     "atteint": true,
+     "regle": "RF-MA-ABA-001",
+     "bloquant": true
+    },
+    {
+     "id": "abaisse0_largeur",
+     "sujet": "abaissé 1 : largeur (m)",
+     "valeur": 4.0,
+     "seuil": ">= 1.2",
+     "atteint": true,
+     "regle": "RF-MA-ABA-001",
+     "bloquant": true
+    },
+    {
+     "id": "abaisse0_rampant",
+     "sujet": "abaissé 1 : rampant 2.40 m à 5 %",
+     "valeur": 5.0,
+     "seuil": "<= 5 % (8 % sur <= 2 m)",
+     "atteint": true,
+     "regle": "RF-MA-TRO-003",
+     "bloquant": true
+    },
+    {
+     "id": "abaisse1_vue",
+     "sujet": "abaissé 2 (droite) : vue (m)",
+     "valeur": 0.02,
+     "seuil": "<= 0.02",
+     "atteint": true,
+     "regle": "RF-MA-ABA-001",
+     "bloquant": true
+    },
+    {
+     "id": "abaisse1_largeur",
+     "sujet": "abaissé 2 : largeur (m)",
+     "valeur": 4.0,
+     "seuil": ">= 1.2",
+     "atteint": true,
+     "regle": "RF-MA-ABA-001",
+     "bloquant": true
+    },
+    {
+     "id": "abaisse1_rampant",
+     "sujet": "abaissé 2 : rampant 2.40 m à 5 %",
+     "valeur": 5.0,
+     "seuil": "<= 5 % (8 % sur <= 2 m)",
+     "atteint": true,
+     "regle": "RF-MA-TRO-003",
+     "bloquant": true
+    },
+    {
+     "id": "bev0_etendue",
+     "sujet": "BEV 1 : étendue <= marquage (m)",
+     "valeur": 4.0,
+     "seuil": "<= 4.0",
+     "atteint": true,
+     "regle": "RF-MA-ABA-005",
+     "bloquant": true
+    },
+    {
+     "id": "bev1_etendue",
+     "sujet": "BEV 2 : étendue <= marquage (m)",
+     "valeur": 4.0,
+     "seuil": "<= 4.0",
+     "atteint": true,
+     "regle": "RF-MA-ABA-005",
+     "bloquant": true
+    },
+    {
+     "id": "dos_d_ane_dims",
+     "sujet": "dos-d'âne : longueur / hauteur (m)",
+     "valeur": "4.0 / 0.1",
+     "seuil": "4.0 / 0.1",
+     "atteint": true,
+     "regle": "RF-MA-RAL-001",
+     "bloquant": true
+    },
+    {
+     "id": "dos_d_ane_vitesse",
+     "sujet": "dos-d'âne : vitesse de la section (km/h)",
+     "valeur": 30.0,
+     "seuil": "<= 30",
+     "atteint": true,
+     "regle": "RF-MA-RAL-001",
+     "bloquant": true
+    },
+    {
+     "id": "dos_d_ane_triangles",
+     "sujet": "dos-d'âne : 3 triangles par voie",
+     "valeur": 6,
+     "seuil": 6,
+     "atteint": true,
+     "regle": "RF-MQ-RAL-01",
+     "bloquant": true
+    },
+    {
+     "id": "dos_d_ane_sans_passage",
+     "sujet": "dos-d'âne : aucun passage piéton dessus",
+     "valeur": 0,
+     "seuil": 0,
+     "atteint": true,
+     "regle": "RF-MA-RAL-001",
+     "bloquant": true
+    },
+    {
+     "id": "attendus",
+     "sujet": "attendus de la description = mesures calculées",
+     "valeur": "10/10",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    }
+   ]
+  },
+  {
+   "scene": "S09",
+   "nom": "reduction_2_vers_1_voie",
+   "titre": "Rue à sens unique, réduction de 2 à 1 voie avec flèches de rabattement",
+   "fichier": "S09_reduction_2_vers_1_voie.yaml",
+   "longueur_m": 100.0,
+   "agglomeration": true,
+   "vitesse_kmh": 50.0,
+   "V15_kmh": 50.0,
+   "u_m": 0.05,
+   "profil": [
+    {
+     "id": "tr1",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": [
+      [
+       0.0,
+       2.0
+      ],
+      [
+       64.5,
+       2.0
+      ],
+      [
+       84.0,
+       5.0
+      ]
+     ],
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    },
+    {
+     "id": "v1",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": [
+      [
+       0.0,
+       3.0
+      ],
+      [
+       64.5,
+       3.0
+      ],
+      [
+       84.0,
+       0.0
+      ]
+     ],
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v2",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "tr2",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    }
+   ],
+   "limites": [
+    {
+     "nature": "bord",
+     "id": "||tr1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "tr1|v1",
+     "haut": "gauche"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T'1",
+     "k": 2.0,
+     "id": "v1|v2"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "v2|tr2",
+     "haut": "droite"
+    },
+    {
+     "nature": "bord",
+     "id": "tr2||"
+    }
+   ],
+   "regles_citees": [
+    "DEF-001",
+    "DEF-004",
+    "DEF-005",
+    "DEF-020",
+    "RF-GV-PT-014",
+    "RF-MQ-HACH-01",
+    "RF-MQ-HACH-03",
+    "RF-MQ-LAR-A1c",
+    "RF-MQ-MUS-01",
+    "RF-MQ-OBL-02",
+    "RF-MQ-PS-02",
+    "RF-MQ-PS-03",
+    "RF-MQ-RAB-02",
+    "RF-MQ-RAB-03",
+    "RF-MQ-RAB-04",
+    "RF-MQ-RAB-05",
+    "RF-MQ-RAB-07",
+    "RF-MQ-RET-01",
+    "RF-OSM-LAR-012",
+    "RF-OSM-MRQ-011"
+   ],
+   "regles_appliquees": [
+    "DEF-020",
+    "RF-MQ-HACH-01",
+    "RF-MQ-HACH-03",
+    "RF-MQ-LAR-A1c",
+    "RF-MQ-MOD-T'1",
+    "RF-MQ-MUS-01",
+    "RF-MQ-OBL-02",
+    "RF-MQ-PS-03",
+    "RF-MQ-RAB-01",
+    "RF-MQ-RAB-02",
+    "RF-MQ-RAB-03",
+    "RF-MQ-RAB-04",
+    "RF-MQ-RAB-05",
+    "RF-MQ-RAB-07",
+    "RF-MQ-RET-01",
+    "RF-OSM-PRF-010"
+   ],
+   "mesures": {
+    "longueur": 100.0,
+    "largeur_emprise": 10.0,
+    "largeur_chaussee": 6.0,
+    "voies": {
+     "avant": 2
+    },
+    "traits": {
+     "T'1 2u": 13
+    },
+    "bordures_m": {
+     "T2": 200.23
+    },
+    "fleches": {
+     "RAB_D": 2
+    },
+    "hachures": 4,
+    "aplats": 2,
+    "oblique": {
+     "L": 39.0,
+     "s0": 45.0,
+     "s1": 84.0,
+     "PCI": 64.5,
+     "Lp": 19.5
+    },
+    "fleches_s": [
+     25.5,
+     51.5
+    ]
+   },
+   "avertissements": [],
+   "plan": {
+    "svg": "recon/generateur/scenes_simples/plans/S09_reduction_2_vers_1_voie.svg",
+    "largeur_px": 2360,
+    "hauteur_px": 750,
+    "echelle_px_m": 20.0,
+    "sha256": "7b88c01f880bcd5186f0ffdefc4f40e42c2b29d4dca11fec3da47051896781a9"
+   },
+   "rendus": [
+    {
+     "png": "recon/out/generateur/catalogue/plans_png/S09.png",
+     "px": [
+      2360,
+      750
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S09_detail_0.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      23.5,
+      40.5
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S09_detail_1.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      43.0,
+      60.0
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S09_detail_2.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      62.5,
+      79.5
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S09_detail_3.png",
+     "px": [
+      1020,
+      720
+     ],
+     "fenetre_s": [
+      78.1,
+      95.1
+     ]
+    }
+   ],
+   "tuiles": [
+    "recon/out/generateur/catalogue/tuiles/S09/plan/S09_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S09/plan/S09_t001.png",
+    "recon/out/generateur/catalogue/tuiles/S09/plan/S09_t002.png",
+    "recon/out/generateur/catalogue/tuiles/S09/detail_0/S09_detail_0_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S09/detail_1/S09_detail_1_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S09/detail_2/S09_detail_2_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S09/detail_3/S09_detail_3_t000.png"
+   ],
+   "controles": [
+    {
+     "id": "longueur",
+     "sujet": "longueur du tronçon (m)",
+     "valeur": 100.0,
+     "seuil": "[80.0 ; 120.0]",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_citees",
+     "sujet": "règles citées dans la description présentes dans regles_route_fr.json",
+     "valeur": "20/20",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_appliquees",
+     "sujet": "règles appliquées par le calcul présentes dans la base",
+     "valeur": "16/16",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux",
+     "sujet": "matériaux présents dans assets/specs/materiaux_sol.json",
+     "valeur": "3/3",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux_bandes",
+     "sujet": "bandes avec un matériau",
+     "valeur": "4/4",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr1",
+     "sujet": "trottoir tr1 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr1",
+     "sujet": "trottoir tr1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "largeur_v1",
+     "sujet": "voie v1 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v2",
+     "sujet": "voie v2 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr2",
+     "sujet": "trottoir tr2 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr2",
+     "sujet": "trottoir tr2 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "vue_tr1|v1",
+     "sujet": "bordure T2 (tr1|v1) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_v2|tr2",
+     "sujet": "bordure T2 (v2|tr2) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "oblique_longueur",
+     "sujet": "oblique : longueur (Lp < L → L) (m)",
+     "valeur": 39.0,
+     "seuil": 39.0,
+     "atteint": true,
+     "regle": "RF-MQ-OBL-02",
+     "bloquant": true
+    },
+    {
+     "id": "rabattement_premiere",
+     "sujet": "1re flèche : L/2 en amont du début de l'oblique (m)",
+     "valeur": 19.5,
+     "seuil": 19.5,
+     "atteint": true,
+     "regle": "RF-MQ-RAB-04",
+     "bloquant": true
+    },
+    {
+     "id": "rabattement_fleche1_marge",
+     "sujet": "flèche 1 (à 39 m du milieu de l'oblique) : marge au bord de l'oblique côté voie ouverte (m)",
+     "valeur": 13.621,
+     "seuil": ">= 0.10 [G]",
+     "atteint": true,
+     "regle": "RF-MQ-RAB-02",
+     "bloquant": true
+    },
+    {
+     "id": "rabattement_fleche2_marge",
+     "sujet": "flèche 2 (à 13 m du milieu de l'oblique) : marge au bord de l'oblique côté voie ouverte (m)",
+     "valeur": 0.264,
+     "seuil": ">= 0.10 [G]",
+     "atteint": true,
+     "regle": "RF-MQ-RAB-02",
+     "bloquant": true
+    },
+    {
+     "id": "rabattement_fleche3_marge",
+     "sujet": "flèche 3 (à 0 m du milieu de l'oblique) : marge au bord de l'oblique côté voie ouverte (m) — non posée",
+     "valeur": -0.736,
+     "seuil": ">= 0.10 [G]",
+     "atteint": true,
+     "regle": "RF-MQ-RAB-02",
+     "bloquant": false
+    },
+    {
+     "id": "rabattement_nombre",
+     "sujet": "nombre de flèches de rabattement (3 ; 2 en agglomération faute de place)",
+     "valeur": 2,
+     "seuil": "3 ou 2 (agglomération)",
+     "atteint": true,
+     "regle": "RF-MQ-RAB-03",
+     "bloquant": true
+    },
+    {
+     "id": "zebra_angle",
+     "sujet": "hachures : angle à la rive (°)",
+     "valeur": 26.565,
+     "seuil": 26.565,
+     "atteint": true,
+     "regle": "RF-MQ-HACH-01",
+     "bloquant": true
+    },
+    {
+     "id": "attendus",
+     "sujet": "attendus de la description = mesures calculées",
+     "valeur": "11/11",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    }
+   ]
+  },
+  {
+   "scene": "S10",
+   "nom": "rue_plateau_passage",
+   "titre": "Rue 1 + 1 à 30 km/h, passage piéton sur plateau trapézoïdal",
+   "fichier": "S10_rue_plateau_passage.yaml",
+   "longueur_m": 100.0,
+   "agglomeration": true,
+   "vitesse_kmh": 30.0,
+   "V15_kmh": 30.0,
+   "u_m": 0.05,
+   "profil": [
+    {
+     "id": "tr1",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.12
+    },
+    {
+     "id": "v1",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v2",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "tr2",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.12
+    }
+   ],
+   "limites": [
+    {
+     "nature": "bord",
+     "id": "||tr1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.12,
+     "caniveau": "CS2",
+     "id": "tr1|v1",
+     "haut": "gauche"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T'1",
+     "k": 2.0,
+     "id": "v1|v2"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.12,
+     "caniveau": "CS2",
+     "id": "v2|tr2",
+     "haut": "droite"
+    },
+    {
+     "nature": "bord",
+     "id": "tr2||"
+    }
+   ],
+   "regles_citees": [
+    "DEF-001",
+    "DEF-004",
+    "DEF-011",
+    "DEF-031",
+    "DEF-034",
+    "RF-GV-RAL-002",
+    "RF-MA-ABA-001",
+    "RF-MA-BEV-001",
+    "RF-MA-BEV-002",
+    "RF-MA-RAL-001",
+    "RF-MA-RAL-004",
+    "RF-MA-TRO-015",
+    "RF-MQ-PP-02",
+    "RF-MQ-PP-03",
+    "RF-MQ-PP-04",
+    "RF-MQ-PP-05",
+    "RF-OSM-LAR-010",
+    "RF-OSM-MRQ-010"
+   ],
+   "regles_appliquees": [
+    "DEF-011",
+    "DEF-031",
+    "RF-GV-RAL-002",
+    "RF-MA-ABA-001",
+    "RF-MA-ABA-005",
+    "RF-MA-BEV-001",
+    "RF-MA-BEV-002",
+    "RF-MA-RAL-001",
+    "RF-MA-RAL-004",
+    "RF-MQ-MOD-T'1",
+    "RF-MQ-PP-01",
+    "RF-MQ-PP-02",
+    "RF-MQ-PP-03",
+    "RF-MQ-PP-04",
+    "RF-MQ-PP-05",
+    "RF-OSM-PRF-010"
+   ],
+   "mesures": {
+    "longueur": 100.0,
+    "largeur_emprise": 10.0,
+    "largeur_chaussee": 6.0,
+    "voies": {
+     "arriere": 1,
+     "avant": 1
+    },
+    "traits": {
+     "T'1 2u": 16
+    },
+    "bordures_m": {
+     "T2": 200.0
+    },
+    "passages": [
+     {
+      "s": 50.0,
+      "W": 6.0,
+      "bandes": 5,
+      "e": 0.583,
+      "longueur_bandes": 5.0
+     }
+    ],
+    "abaisses": 2,
+    "bev": 2,
+    "ralentisseurs": [
+     {
+      "type": "trapezoidal",
+      "s": 50.0,
+      "plateau": 4.0,
+      "hauteur": 0.1,
+      "rampe_pct": 7.0,
+      "rampant": 1.4286,
+      "s_debut": 46.5714,
+      "s_fin": 53.4286
+     }
+    ]
+   },
+   "avertissements": [],
+   "plan": {
+    "svg": "recon/generateur/scenes_simples/plans/S10_rue_plateau_passage.svg",
+    "largeur_px": 2360,
+    "hauteur_px": 750,
+    "echelle_px_m": 20.0,
+    "sha256": "b414fbddabed54aff87a6b7a021ca1188adafe634f7fa3fdf578afb8945ba3a2"
+   },
+   "rendus": [
+    {
+     "png": "recon/out/generateur/catalogue/plans_png/S10.png",
+     "px": [
+      2360,
+      750
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S10_detail_0.png",
+     "px": [
+      1021,
+      720
+     ],
+     "fenetre_s": [
+      44.571,
+      61.571
+     ]
+    }
+   ],
+   "tuiles": [
+    "recon/out/generateur/catalogue/tuiles/S10/plan/S10_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S10/plan/S10_t001.png",
+    "recon/out/generateur/catalogue/tuiles/S10/plan/S10_t002.png",
+    "recon/out/generateur/catalogue/tuiles/S10/detail_0/S10_detail_0_t000.png"
+   ],
+   "controles": [
+    {
+     "id": "longueur",
+     "sujet": "longueur du tronçon (m)",
+     "valeur": 100.0,
+     "seuil": "[80.0 ; 120.0]",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_citees",
+     "sujet": "règles citées dans la description présentes dans regles_route_fr.json",
+     "valeur": "18/18",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_appliquees",
+     "sujet": "règles appliquées par le calcul présentes dans la base",
+     "valeur": "16/16",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux",
+     "sujet": "matériaux présents dans assets/specs/materiaux_sol.json",
+     "valeur": "3/3",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux_bandes",
+     "sujet": "bandes avec un matériau",
+     "valeur": "4/4",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr1",
+     "sujet": "trottoir tr1 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr1",
+     "sujet": "trottoir tr1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "largeur_v1",
+     "sujet": "voie v1 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v2",
+     "sujet": "voie v2 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr2",
+     "sujet": "trottoir tr2 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr2",
+     "sujet": "trottoir tr2 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "vue_tr1|v1",
+     "sujet": "bordure T2 (tr1|v1) : vue (m)",
+     "valeur": 0.12,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_v2|tr2",
+     "sujet": "bordure T2 (v2|tr2) : vue (m)",
+     "valeur": 0.12,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "pp0_bandes",
+     "sujet": "passage 1 : nombre de bandes pour W = 6.00 m",
+     "valeur": 5,
+     "seuil": "[3 ; 5] ou [5 ; 7]",
+     "atteint": true,
+     "regle": "RF-MQ-PP-02",
+     "bloquant": true
+    },
+    {
+     "id": "pp0_e",
+     "sujet": "passage 1 : interdistance et marges e (m)",
+     "valeur": 0.5833,
+     "seuil": "[0.5 ; 0.8]",
+     "atteint": true,
+     "regle": "RF-MQ-PP-05",
+     "bloquant": true
+    },
+    {
+     "id": "pp0_longueur",
+     "sujet": "passage 1 : longueur des bandes (m)",
+     "valeur": 5.0,
+     "seuil": ">= 2.5",
+     "atteint": true,
+     "regle": "RF-MQ-PP-01",
+     "bloquant": true
+    },
+    {
+     "id": "pp0_interruption_2",
+     "sujet": "passage 1 : interruption de la ligne v1|v2 (m)",
+     "valeur": 0.5,
+     "seuil": "0.50",
+     "atteint": true,
+     "regle": "RF-MQ-PP-03",
+     "bloquant": true
+    },
+    {
+     "id": "abaisse0_vue",
+     "sujet": "abaissé 1 (gauche) : vue (m)",
+     "valeur": 0.02,
+     "seuil": "<= 0.02",
+     "atteint": true,
+     "regle": "RF-MA-ABA-001",
+     "bloquant": true
+    },
+    {
+     "id": "abaisse0_largeur",
+     "sujet": "abaissé 1 : largeur (m)",
+     "valeur": 4.0,
+     "seuil": ">= 1.2",
+     "atteint": true,
+     "regle": "RF-MA-ABA-001",
+     "bloquant": true
+    },
+    {
+     "id": "abaisse1_vue",
+     "sujet": "abaissé 2 (droite) : vue (m)",
+     "valeur": 0.02,
+     "seuil": "<= 0.02",
+     "atteint": true,
+     "regle": "RF-MA-ABA-001",
+     "bloquant": true
+    },
+    {
+     "id": "abaisse1_largeur",
+     "sujet": "abaissé 2 : largeur (m)",
+     "valeur": 4.0,
+     "seuil": ">= 1.2",
+     "atteint": true,
+     "regle": "RF-MA-ABA-001",
+     "bloquant": true
+    },
+    {
+     "id": "bev0_etendue",
+     "sujet": "BEV 1 : étendue <= marquage (m)",
+     "valeur": 4.0,
+     "seuil": "<= 5.0",
+     "atteint": true,
+     "regle": "RF-MA-ABA-005",
+     "bloquant": true
+    },
+    {
+     "id": "bev1_etendue",
+     "sujet": "BEV 2 : étendue <= marquage (m)",
+     "valeur": 4.0,
+     "seuil": "<= 5.0",
+     "atteint": true,
+     "regle": "RF-MA-ABA-005",
+     "bloquant": true
+    },
+    {
+     "id": "trapezoidal_dims",
+     "sujet": "ralentisseur trapézoïdal : plateau / hauteur / rampe",
+     "valeur": "4.0 m / 0.1 m / 7.0 %",
+     "seuil": "[2.5 ; 4.0] / 0.1 / [7 ; 10] %",
+     "atteint": true,
+     "regle": "RF-MA-RAL-001",
+     "bloquant": true
+    },
+    {
+     "id": "trapezoidal_vitesse",
+     "sujet": "ralentisseur : vitesse de la section (km/h)",
+     "valeur": 30.0,
+     "seuil": "<= 30",
+     "atteint": true,
+     "regle": "RF-MA-RAL-001",
+     "bloquant": true
+    },
+    {
+     "id": "trapezoidal_triangles",
+     "sujet": "passage surélevé : aucun triangle",
+     "valeur": 0,
+     "seuil": 0,
+     "atteint": true,
+     "regle": "RF-MQ-PP-04",
+     "bloquant": true
+    },
+    {
+     "id": "trapezoidal_bandes",
+     "sujet": "passage sur plateau : longueur des bandes = plateau + 2 × 0,50",
+     "valeur": 5.0,
+     "seuil": 5.0,
+     "atteint": true,
+     "regle": "RF-MQ-PP-04",
+     "bloquant": true
+    },
+    {
+     "id": "attendus",
+     "sujet": "attendus de la description = mesures calculées",
+     "valeur": "9/9",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    }
+   ]
+  },
+  {
+   "scene": "S11",
+   "nom": "rue_courbe_R60",
+   "titre": "Rue 1 + 1 en courbe à gauche de rayon 60 m, bordures T2 et trottoirs",
+   "fichier": "S11_rue_courbe_R60.yaml",
+   "longueur_m": 102.832,
+   "agglomeration": true,
+   "vitesse_kmh": 50.0,
+   "V15_kmh": 50.0,
+   "u_m": 0.05,
+   "profil": [
+    {
+     "id": "tr1",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    },
+    {
+     "id": "v1",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "v2",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "tr2",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    }
+   ],
+   "limites": [
+    {
+     "nature": "bord",
+     "id": "||tr1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "tr1|v1",
+     "haut": "gauche"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "T'1",
+     "k": 2.0,
+     "id": "v1|v2"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "v2|tr2",
+     "haut": "droite"
+    },
+    {
+     "nature": "bord",
+     "id": "tr2||"
+    }
+   ],
+   "regles_citees": [
+    "DEF-001",
+    "DEF-004",
+    "DEF-005",
+    "RF-GV-RAY-012",
+    "RF-OSM-LAR-010",
+    "RF-OSM-MRQ-010"
+   ],
+   "regles_appliquees": [
+    "RF-MQ-MOD-T'1",
+    "RF-OSM-PRF-010"
+   ],
+   "mesures": {
+    "longueur": 102.832,
+    "largeur_emprise": 10.0,
+    "largeur_chaussee": 6.0,
+    "voies": {
+     "arriere": 1,
+     "avant": 1
+    },
+    "rayons": [
+     60.0
+    ],
+    "traits": {
+     "T'1 2u": 16
+    },
+    "bordures_m": {
+     "T2": 205.66
+    }
+   },
+   "avertissements": [],
+   "plan": {
+    "svg": "recon/generateur/scenes_simples/plans/S11_rue_courbe_R60.svg",
+    "largeur_px": 2234,
+    "hauteur_px": 1537,
+    "echelle_px_m": 20.0,
+    "sha256": "0ed14f6570673a168d8cae286867f3f03013d7ee138f85a7ad765b29dd127be6"
+   },
+   "rendus": [
+    {
+     "png": "recon/out/generateur/catalogue/plans_png/S11.png",
+     "px": [
+      2234,
+      1537
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S11_detail_0.png",
+     "px": [
+      1020,
+      721
+     ],
+     "fenetre_s": [
+      0.0,
+      17.0
+     ]
+    }
+   ],
+   "tuiles": [
+    "recon/out/generateur/catalogue/tuiles/S11/plan/S11_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S11/plan/S11_t001.png",
+    "recon/out/generateur/catalogue/tuiles/S11/plan/S11_t002.png",
+    "recon/out/generateur/catalogue/tuiles/S11/plan/S11_t003.png",
+    "recon/out/generateur/catalogue/tuiles/S11/plan/S11_t004.png",
+    "recon/out/generateur/catalogue/tuiles/S11/plan/S11_t005.png",
+    "recon/out/generateur/catalogue/tuiles/S11/detail_0/S11_detail_0_t000.png"
+   ],
+   "controles": [
+    {
+     "id": "longueur",
+     "sujet": "longueur du tronçon (m)",
+     "valeur": 102.832,
+     "seuil": "[80.0 ; 120.0]",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_citees",
+     "sujet": "règles citées dans la description présentes dans regles_route_fr.json",
+     "valeur": "6/6",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_appliquees",
+     "sujet": "règles appliquées par le calcul présentes dans la base",
+     "valeur": "2/2",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux",
+     "sujet": "matériaux présents dans assets/specs/materiaux_sol.json",
+     "valeur": "3/3",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux_bandes",
+     "sujet": "bandes avec un matériau",
+     "valeur": "4/4",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr1",
+     "sujet": "trottoir tr1 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr1",
+     "sujet": "trottoir tr1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "largeur_v1",
+     "sujet": "voie v1 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_v2",
+     "sujet": "voie v2 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr2",
+     "sujet": "trottoir tr2 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr2",
+     "sujet": "trottoir tr2 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "vue_tr1|v1",
+     "sujet": "bordure T2 (tr1|v1) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_v2|tr2",
+     "sujet": "bordure T2 (v2|tr2) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "courbe_epure",
+     "sujet": "courbe : rayon < 125 m → épure de giration bus à faire (lot L3a)",
+     "valeur": 60.0,
+     "seuil": ">= 125",
+     "atteint": false,
+     "regle": "RF-GV-RAY-012",
+     "bloquant": false
+    },
+    {
+     "id": "attendus",
+     "sujet": "attendus de la description = mesures calculées",
+     "valeur": "7/7",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    }
+   ]
+  },
+  {
+   "scene": "S12",
+   "nom": "couloir_bus",
+   "titre": "Rue à sens unique, voie générale + couloir bus à droite, BUS au sol",
+   "fichier": "S12_couloir_bus.yaml",
+   "longueur_m": 100.0,
+   "agglomeration": true,
+   "vitesse_kmh": 50.0,
+   "V15_kmh": 50.0,
+   "u_m": 0.05,
+   "profil": [
+    {
+     "id": "tr1",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    },
+    {
+     "id": "v1",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "bus1",
+     "type": "voie_bus",
+     "sens": "avant",
+     "largeur": 3.3,
+     "materiau": "enrobe_bbsg_ancien",
+     "dz": 0.0
+    },
+    {
+     "id": "tr2",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 2.0,
+     "materiau": "enrobe_trottoir",
+     "dz": 0.14
+    }
+   ],
+   "limites": [
+    {
+     "nature": "bord",
+     "id": "||tr1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "tr1|v1",
+     "haut": "gauche"
+    },
+    {
+     "nature": "ligne",
+     "modulation": "continue",
+     "k": 5.0,
+     "id": "v1|bus1"
+    },
+    {
+     "nature": "bordure",
+     "profil": "T2",
+     "vue": 0.14,
+     "caniveau": "CS2",
+     "id": "bus1|tr2",
+     "haut": "droite"
+    },
+    {
+     "nature": "bord",
+     "id": "tr2||"
+    }
+   ],
+   "regles_citees": [
+    "DEF-001",
+    "DEF-004",
+    "DEF-005",
+    "RF-MA-CTC-002",
+    "RF-MQ-LAR-D3",
+    "RF-MQ-SC-08",
+    "RF-MQ-TC-03",
+    "RF-OSM-LAR-012",
+    "RF-OSM-LAR-013"
+   ],
+   "regles_appliquees": [
+    "RF-MA-CTC-002",
+    "RF-MQ-LAR-A1a",
+    "RF-MQ-TC-03",
+    "RF-OSM-PRF-010"
+   ],
+   "mesures": {
+    "longueur": 100.0,
+    "largeur_emprise": 10.3,
+    "largeur_chaussee": 6.3,
+    "voies": {
+     "avant": 2
+    },
+    "traits": {},
+    "continues_m": {
+     "continue 5u": 100.0
+    },
+    "bordures_m": {
+     "T2": 200.0
+    },
+    "inscriptions": {
+     "BUS": 1
+    }
+   },
+   "avertissements": [],
+   "plan": {
+    "svg": "recon/generateur/scenes_simples/plans/S12_couloir_bus.svg",
+    "largeur_px": 2360,
+    "hauteur_px": 756,
+    "echelle_px_m": 20.0,
+    "sha256": "32048b6c5f9b1799f55c195bc12a50ab298c8514e2abf3a73feaebf97ac86c29"
+   },
+   "rendus": [
+    {
+     "png": "recon/out/generateur/catalogue/plans_png/S12.png",
+     "px": [
+      2360,
+      756
+     ]
+    },
+    {
+     "png": "recon/out/generateur/catalogue/details/S12_detail_0.png",
+     "px": [
+      1020,
+      738
+     ],
+     "fenetre_s": [
+      48.0,
+      65.0
+     ]
+    }
+   ],
+   "tuiles": [
+    "recon/out/generateur/catalogue/tuiles/S12/plan/S12_t000.png",
+    "recon/out/generateur/catalogue/tuiles/S12/plan/S12_t001.png",
+    "recon/out/generateur/catalogue/tuiles/S12/plan/S12_t002.png",
+    "recon/out/generateur/catalogue/tuiles/S12/detail_0/S12_detail_0_t000.png"
+   ],
+   "controles": [
+    {
+     "id": "longueur",
+     "sujet": "longueur du tronçon (m)",
+     "valeur": 100.0,
+     "seuil": "[80.0 ; 120.0]",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_citees",
+     "sujet": "règles citées dans la description présentes dans regles_route_fr.json",
+     "valeur": "9/9",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "regles_appliquees",
+     "sujet": "règles appliquées par le calcul présentes dans la base",
+     "valeur": "4/4",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux",
+     "sujet": "matériaux présents dans assets/specs/materiaux_sol.json",
+     "valeur": "3/3",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "materiaux_bandes",
+     "sujet": "bandes avec un matériau",
+     "valeur": "4/4",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr1",
+     "sujet": "trottoir tr1 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr1",
+     "sujet": "trottoir tr1 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "largeur_v1",
+     "sujet": "voie v1 : largeur (m)",
+     "valeur": 3.0,
+     "seuil": "[2.5 ; 3.5]",
+     "atteint": true,
+     "regle": "RF-GV-PT-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_bus1",
+     "sujet": "voie bus bus1 : largeur hors marquage (m)",
+     "valeur": 3.175,
+     "seuil": ">= 3.05 (Grenoble)",
+     "atteint": true,
+     "regle": "RF-MA-CTC-002",
+     "bloquant": true
+    },
+    {
+     "id": "cheminement_tr2",
+     "sujet": "trottoir tr2 : largeur libre hors bordure (m)",
+     "valeur": 1.85,
+     "seuil": ">= 1.4",
+     "atteint": true,
+     "regle": "RF-MA-TRO-001",
+     "bloquant": true
+    },
+    {
+     "id": "largeur_tr2",
+     "sujet": "trottoir tr2 : largeur (m)",
+     "valeur": 2.0,
+     "seuil": ">= 1.8",
+     "atteint": true,
+     "regle": "RF-MA-TRO-010",
+     "bloquant": false
+    },
+    {
+     "id": "vue_tr1|v1",
+     "sujet": "bordure T2 (tr1|v1) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "vue_bus1|tr2",
+     "sujet": "bordure T2 (bus1|tr2) : vue (m)",
+     "valeur": 0.14,
+     "seuil": "[0.12 ; 0.16]",
+     "atteint": true,
+     "regle": "RF-AS-profil_T2",
+     "bloquant": true
+    },
+    {
+     "id": "inscription_hauteur",
+     "sujet": "inscription BUS : hauteur des caractères (m)",
+     "valeur": 1.5,
+     "seuil": ">= 1.50 (V <= 50)",
+     "atteint": true,
+     "regle": "RF-MA-CTC-002",
+     "bloquant": true
+    },
+    {
+     "id": "inscription_largeur",
+     "sujet": "inscription BUS : tient dans la voie (m)",
+     "valeur": 1.842,
+     "seuil": "< 3.30",
+     "atteint": true,
+     "regle": "RF-MQ-TC-03",
+     "bloquant": true
+    },
+    {
+     "id": "attendus",
+     "sujet": "attendus de la description = mesures calculées",
+     "valeur": "7/7",
+     "seuil": "100 %",
+     "atteint": true,
+     "regle": null,
+     "bloquant": true
+    }
+   ]
+  }
+ ],
+ "constats_visuels": {
+  "date": "2026-10-17",
+  "methode": "plans PNG (20 px/m) et vues de détail ×3 (60 px/m) découpés par recon/pcg/vision/decoupe.py image (tuiles ≤ 1092 px, recouvrement 20 %), regardés tuile par tuile ; aucune conclusion sur une image réduite ; dernière passe sur le rendu final (après les corrections) : S01, S02, S03, S04, S05, S06, S07, S08, S09, S10, S11, S12",
+  "tuiles_regardees": {
+   "S01": [
+    "tuiles/S01/plan/S01_t000.png",
+    "tuiles/S01/plan/S01_t001.png",
+    "tuiles/S01/plan/S01_t002.png",
+    "tuiles/S01/detail_0/S01_detail_0_t000.png"
+   ],
+   "S02": [
+    "tuiles/S02/plan/S02_t000.png",
+    "tuiles/S02/plan/S02_t001.png",
+    "tuiles/S02/plan/S02_t002.png"
+   ],
+   "S03": [
+    "tuiles/S03/plan/S03_t000.png",
+    "tuiles/S03/detail_0/S03_detail_0_t000.png",
+    "tuiles/S03/plan/S03_t002.png"
+   ],
+   "S04": [
+    "tuiles/S04/detail_0/S04_detail_0_t000.png",
+    "tuiles/S04/plan/S04_t001.png"
+   ],
+   "S05": [
+    "tuiles/S05/plan/S05_t000.png",
+    "tuiles/S05/detail_0/S05_detail_0_t000.png"
+   ],
+   "S06": [
+    "tuiles/S06/plan/S06_t000.png",
+    "tuiles/S06/detail_0/S06_detail_0_t000.png",
+    "tuiles/S06/plan/S06_t001.png"
+   ],
+   "S07": [
+    "tuiles/S07/plan/S07_t000.png",
+    "tuiles/S07/detail_0/S07_detail_0_t000.png"
+   ],
+   "S08": [
+    "tuiles/S08/plan/S08_t001.png",
+    "tuiles/S08/detail_0/S08_detail_0_t000.png",
+    "tuiles/S08/detail_1/S08_detail_1_t000.png"
+   ],
+   "S09": [
+    "tuiles/S09/plan/S09_t001.png",
+    "tuiles/S09/detail_1/S09_detail_1_t000.png",
+    "tuiles/S09/detail_2/S09_detail_2_t000.png",
+    "tuiles/S09/detail_3/S09_detail_3_t000.png"
+   ],
+   "S10": [
+    "tuiles/S10/plan/S10_t001.png",
+    "tuiles/S10/detail_0/S10_detail_0_t000.png"
+   ],
+   "S11": [
+    "tuiles/S11/plan/S11_t001.png",
+    "tuiles/S11/plan/S11_t004.png",
+    "tuiles/S11/detail_0/S11_detail_0_t000.png"
+   ],
+   "S12": [
+    "tuiles/S12/plan/S12_t001.png",
+    "tuiles/S12/detail_0/S12_detail_0_t000.png"
+   ]
+  },
+  "scenes": {
+   "S01": "Annonce T3 de 10 à 88 m avec 3 flèches RAB_D à cheval sur l'axe (pied à gauche, pointe à droite du sens avant), un trait T1 de 0 à 3 m, continue à partir de 88 m après un vide de 1,33 m ; rives T2 au bord de la chaussée, surlargeur revêtue visible ; accotements enherbés distincts des abords (abords éclaircis après la 1re lecture, où ils se confondaient).",
+   "S02": "Profil lisible : trottoirs, bordure + caniveau, axe T'1 de 1,50 m tous les 6,50 m ; chaînes de cotes 2,00 / 3,00 / 3,00 / 2,00, emprise 10,00.",
+   "S03": "14 avancées plantées tous les 7,50 m, bordure sur trois côtés, arbre à 1,50 m du bord de la voie ; ligne T'2 de 5 traits par place, interrompue au droit des avancées. Défaut vu et corrigé : à la 1re lecture la bordure principale et le caniveau traversaient les avancées ; ils sont maintenant interrompus.",
+   "S04": "Lignes T3 5u (3,00 / 1,33, 0,25 de large) des deux bandes, figurines vélo dans l'axe des bandes, roues vers le cycliste qui arrive (figurine D.1 à roues pleines, conforme à la planche D.1 regardée).",
+   "S05": "Pistes en enrobé sombre au niveau du trottoir, bande pavée de 0,50 m contre la bordure T2, bande pavée de 0,30 m côté trottoir en dalles claires ; contraste net ; figurines orientées dans le sens de chaque piste.",
+   "S06": "Deux chaussées de 2 voies (T'1), continues 3u le long des BDG de 0,50 m, TPC engazonné de 4,00 m bordé de T2, 13 arbres dans l'axe du TPC.",
+   "S07": "Flèches TD (tige 0,15, tête 0,70 × 2,00) au milieu de chaque voie, dans le même profil, à 20 / 40 / 60 m.",
+   "S08": "Passage de 5 bandes de 0,50 × 4,00 ; abaissé (bordure en ocre) de 4,00 m et rampants latéraux de 2,40 m de chaque côté ; BEV à plots à 0,50 m du nez ; axe coupé à 0,50 m des bandes ; dos-d'âne 54-58 avec 3 triangles par voie sur la moitié montante, pointes dans le sens de circulation de chaque voie ; axe T3 sur le ralentisseur jusqu'à 68 m puis T'1.",
+   "S09": "Oblique continue 3u de 45 à 84 m raccordée au nez de bordure aux deux bouts, bordure rabattue de 64,5 à 84 m, zébra : 4 hachures inclinées vers la voie ouverte et 2 aplats de pointe ; flèche 1 à 25,5 m, flèche 2 à 51,5 m (0,26 m du bord de l'oblique) ; la ligne T'1 s'arrête à 80,1 m. Défauts vus et corrigés : flèche 2 à 1,4 cm de l'oblique et oblique finissant sur le caniveau dans une version précédente ; petite hachure tronquée à la sortie de l'aplat.",
+   "S10": "Plateau de 4,00 m entre deux rampants de 1,43 m, bandes de 5,00 m débordant de 0,50 m sur les rampants, aucun triangle, abaissé (vue 0,02) et BEV au droit du plateau, axe coupé de 47 à 53 m.",
+   "S11": "Courbe à gauche R = 60 m sur 60°, trottoirs, bordures et tirets suivent l'arc ; chaînage le long de l'arc. Défaut vu et corrigé : joint d'anticrénelage visible entre les deux voies (liseré de même couleur ajouté).",
+   "S12": "Couloir bus séparé par une continue 5u ; mot BUS (série V ≤ 70, 1,50 m) dans l'axe du couloir, pied côté conducteur, lu de gauche à droite par le conducteur."
+  },
+  "regles_a_signaler": [
+   "RF-MQ-RAL-01 et gabarit TRIANGLE_DOS_ANE (dossier 08) : la correction du 17/10 dit la longueur de 2,00 m « non cotée par l'IISR » ; or la figure de l'IISR 7e partie p. 55, placée dans le § 118-9 A (dos-d'âne), porte une cote verticale « 2 m » et trois cotes « 0,70 m » (tuile t_iisr7_p55 regardée). À revoir par le propriétaire des règles (confiance remontable à haute) — aucune modification faite ici.",
+   "RF-MQ-SC-11 (rive « rabattement : T'3 3u à partir de la 1re flèche ») : l'IISR p. 14 dit que la rive « peut » être remplacée par une T'3 3u « dans les intersections où il y a rabattement » ; la valeur fusionnée perd la condition d'intersection et le caractère facultatif (RF-OSM-MRQ-021 la garde : « approche_carrefour_avec_rabattement »). S01 garde donc la rive T2 3u.",
+   "RF-MQ-RAB-05 : pour L = 39 m, la « distance à la ligne continue » est une case vide de l'IISR (p. 22) ; la base en déduit 0. Dans une réduction de voies (S09) la 3e flèche tombe alors au milieu de l'oblique, dans le zébra (marge mesurée −0,74 m) : la case vide signifie vraisemblablement « pas de 3e flèche » (2 flèches, exception d'agglomération de RF-MQ-RAB-03).",
+   "DEF-034 (plateau h = 0,10) et DEF-005 (vue de trottoir 0,14) sont incompatibles avec RF-GV-RAL-002 (plateau = trottoir − 2 cm) : avec les deux défauts, la vue au droit d'un passage sur plateau vaut 0,04 m, au-dessus des 0,02 m d'un abaissé (RF-MA-ABA-001). S10 décrit une vue de 0,12 m pour rester conforme ; un défaut cohérent manque.",
+   "RF-MA-ABA-005 (« partie abaissée = largeur du marquage ») contre RF-MQ-PP-04 (bandes prolongées de 0,50 m de part et d'autre du plateau) : sur un ralentisseur trapézoïdal l'abaissé (dessus du plateau, 4,00 m) est plus court que le marquage (5,00 m). Arbitrage à prendre.",
+   "Aucune règle urbaine pour la longueur du rétrécissement physique d'une réduction de voies : RF-GV-PT-014 (déport 37 × d, ARP) est interurbaine (111 m pour 3 m) ; S09 dit Lp = 19,5 m.",
+   "Aucune règle pour l'espace minimal entre deux marques distinctes (flèche / oblique, ligne / oblique) ni pour la phase des tirets et le traitement d'un trait tronqué : choix [G] du catalogue (2u par analogie avec RF-MQ-MUS-01 ; trait gardé s'il fait au moins la moitié d'un trait).",
+   "DEF-030 « axe_depuis_bord_chaussee_min : 1,50 » : le bord de référence est ambigu (bord de voie circulée, ou bordure comme dans la scène E du PLAN_GENERATEUR) ; S03 le mesure depuis le bord de la voie.",
+   "Avancées plantées entre places (S03) : aucune règle sur l'écoulement du caniveau interrompu (avaloir en amont, caniveau-grille) ; à fixer avant le lot L2.",
+   "Courbe urbaine R = 60 m (S11) : aucune surlargeur urbaine chiffrée (RF-GV-RAY-012 est interurbaine) ; épure de giration bus à faire au lot L3a (avertissement non bloquant)."
+  ],
+  "coordination_L0": [
+   "Compilateur L0 (description/description_vers_modele.py, état du 17/10 vers 01 h 50) essayé sur les 12 descriptions, sorties dans recon/generateur/tmp/catalogue/l0/ : 8 compilent avec 0 erreur de validation (S02, S03, S04, S06, S08, S09, S10, S11).",
+   "Refus à lever côté L0 : évènements zone_depassement_interdit (S01), fleches (S07), inscription (S12) ; bande separateur au niveau du trottoir (dz 0,14) suivie d une bordure T2 (S05, « deux bandes au même niveau ») ; nombre_fleches entier pour rabattement ; objets (avancees_plantees, arbres, figurines).",
+   "Écart de règle relevé dans la sortie L0 de S09 : flèches de rabattement à 35,25 / 61,25 / 74,25 m comptées depuis le milieu du biseau physique (Lp = 19,5) ; IISR 115-4 A et RF-MQ-OBL-02, RF-MQ-RAB-04, RF-MQ-RAB-07 : oblique marquée de longueur L = 39 finissant au PCF (45 → 84), distances depuis son milieu (64,5) → 25,5 et 51,5 m ; 3e flèche (d = 0) dans le zébra → 2 flèches.",
+   "Plateau + passage chez L0 : bandes de la longueur du plateau ; RF-MQ-PP-04 demande le plateau + 2 × 0,50 m.",
+   "Biseau par défaut L0 = 37 × d (RF-GV-PT-014, ARP, interurbain) : pas une règle d agglomération."
+  ]
+ },
+ "determinisme": {
+  "fichiers": 13,
+  "identiques": 13,
+  "empreintes": {
+   "plans/S01_route_1x1_hors_agglomeration.svg": "627952937e4b40b46248985e494a865a069092e00c955a7f5c8c25d7aeea4310",
+   "plans/S02_rue_1x1_bordures_trottoirs.svg": "26b053704be404be1038bfd27f4bfc62502f1d123fedbc499ab7b46255ae5aa2",
+   "plans/S03_rue_stationnement_arbres.svg": "8721a7d933ca3515e5a390a8aa50a0b99c7c15fb9a5a3c4a4c544dec83fc7f13",
+   "plans/S04_rue_bandes_cyclables.svg": "1643820be83b1bd07fcc8b6d1f6de20f33e1262cf07f6c864660200aba870607",
+   "plans/S05_rue_pistes_sur_trottoir.svg": "cadbfeb837af15af01b2f0356bed82ca4f7794bfe7d83dab5bc6be251073bbf2",
+   "plans/S06_avenue_2x2_terre_plein_plante.svg": "9b508cd5dec3173256d244b306244ea7e9da8f1d3b5325c127d4b749c073675d",
+   "plans/S07_rue_sens_unique_2_voies.svg": "fef1210a8c538f181f979e524e6d7b0e4df42bcdd6ad726d907dfb097154c4f3",
+   "plans/S08_rue_dos_d_ane_passage.svg": "1be6d9c897d2552342f211e727c66db171349efcca9199d7de6346f72fb8eacf",
+   "plans/S09_reduction_2_vers_1_voie.svg": "7b88c01f880bcd5186f0ffdefc4f40e42c2b29d4dca11fec3da47051896781a9",
+   "plans/S10_rue_plateau_passage.svg": "b414fbddabed54aff87a6b7a021ca1188adafe634f7fa3fdf578afb8945ba3a2",
+   "plans/S11_rue_courbe_R60.svg": "0ed14f6570673a168d8cae286867f3f03013d7ee138f85a7ad765b29dd127be6",
+   "plans/S12_couloir_bus.svg": "32048b6c5f9b1799f55c195bc12a50ab298c8514e2abf3a73feaebf97ac86c29",
+   "scenes.json": "657b947df9d611be914ec2eeee526a52636b56fde80522b31655e73382fd9fe4"
+  }
+ }
+}

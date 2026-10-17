@@ -1,0 +1,23 @@
+= RG Lire le modèle de voies =
+
+"""Lecteur unique du générateur : modèle modele_voie/0.1 (JSON, Lambert-93) converti en géométrie Houdini (Y haut, (x, z, −y) locaux) avec attributs ; aucune opération géométrique (échantillonnage et profils : rg::graphe, rg::profils)."""
+
+== Sorties ==
+
+1. Routes : polyligne ligne_reference.geometrie ; primitives id, categorie, agglomeration, vitesse_kmh, sens_unique, noeud_debut, noeud_fin, longueur_m ; géométrie régulière geo_type (0 droite, 1 arc, 2 clothoïde), geo_s0, geo_longueur, geo_x0, geo_y0 (locaux), geo_cap (rad), geo_k0, geo_k1 ; sections sec_s0, sec_s1, sec_profil, sec_transition ; props (JSON).
+2. Nœuds : points id, type, carrefour, routes.
+3. Zones et îlots : polygones id, famille_modele, type, materiau_id, anneau (groupe trou).
+4. Ponctuels : objets, signaux, marquages (id, famille_modele, type, route, bande, s, t, longueur_m, largeur_m, hauteur_m, regles, a_position, props).
+5. Profils : un point par profil effectif (profil, ref_limite, ref_decalage, bandes et lois de largeur aplaties larg_type / larg_s0 / larg_v0 / larg_n / larg_s / larg_v, niveaux, limites lim_*, evts_s).
+
+Détail rg_modele sur chaque sortie : fichier, sha256, origine, comptes, familles non lues.
+Erreurs (jamais de silence) : primitive parampoly3, interpolation cubique_lisse, transition d'entrée autre qu'instantanée, surcharge non reconnue, profil inconnu.
+
+Conventions : recon/generateur/hda/README_RG.md.
+
+@parameters
+
+Modèle (modele_voie.json):
+    #id: fichier
+    Fichier modele_voie/0.1 : sortie de description_vers_modele.py (description simple) ou de osm_vers_modele.py (inférence OSM). Coordonnées Lambert-93, converties une seule fois : local = L93 − repere.origine_l93, puis Houdini (x, z, −y).
+

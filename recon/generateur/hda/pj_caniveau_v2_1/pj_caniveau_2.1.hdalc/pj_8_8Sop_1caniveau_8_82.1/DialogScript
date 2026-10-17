@@ -1,0 +1,334 @@
+# Dialog script for pj::caniveau::2.1 automatically generated
+
+{
+    name	pj::caniveau::2.1
+    inputlabel	1	"Bordures à caniveau (courbes)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Contexte (facultatif)"
+    outputlabel	1	"Maillages"
+    outputlabel	2	"Points d'instances"
+    outputlabel	3	"Prototypes"
+    script	pj::caniveau::2.1
+    label	"PJ Caniveaux (éléments préfabriqués) v2.1"
+
+    help {
+    }
+
+    inputlabel	1	"Bordures à caniveau (courbes)"
+    inputlabel	2	"Nivellement (HeightField)"
+    inputlabel	3	"Contexte (facultatif)"
+
+    group {
+        name    "f_pose"
+        label   "Pose"
+
+        parm {
+            name    "altitude"
+            label   "Altitude du pied"
+            type    ordinal
+            default { "0" }
+            help    "Pied de face = fil d'eau du modèle unique ; le dessous du bloc est à pied + vue − H."
+            menu {
+                "profil"    "Profil en long du nivellement (niv_z_pied, TQ-SOL-013)"
+                "volume"    "Volume de nivellement (pj_niv_z devant la face)"
+            }
+        }
+        parm {
+            name    "joint_mm"
+            label   "Joint par défaut (mm)"
+            type    float
+            default { "6" }
+            help    "Utilisé si la bordure n'a pas de joint_mm (bordures_elements.json element.joint_mm)."
+            range   { 3 8 }
+        }
+        parm {
+            name    "joints_aleatoires"
+            label   "Largeur de joint variable"
+            type    toggle
+            default { "1" }
+            help    "5,5-7 mm (neuve) ou log-normale 5-8 mm (ancienne), coins bornés à 3,5-9,5 mm."
+        }
+        parm {
+            name    "fleche_max_mm"
+            label   "Flèche de corde max (mm)"
+            type    float
+            default { "10.5" }
+            help    "Élément droit admis si sa flèche reste sous ce seuil (regle_pas_rayon)."
+            range   { 1 20 }
+        }
+        parm {
+            name    "coin_max_mm"
+            label   "Coin de joint max (mm)"
+            type    float
+            default { "6" }
+            help    "Base x déviation des tangentes : au-delà, élément plus court ou pièce courbe."
+            range   { 1 20 }
+        }
+        parm {
+            name    "coin_v_max_mm"
+            label   "Coin vertical max (mm)"
+            type    float
+            default { "4" }
+            help    "H x changement de pente du fil d'eau sur l'élément."
+            range   { 1 20 }
+        }
+        parm {
+            name    "pas_muret"
+            label   "Pas des murets (m)"
+            type    float
+            default { "4" }
+            help    "Profil MURET_TALUS : pièces coulées de cette longueur au plus."
+            range   { 1 10 }
+        }
+        parm {
+            name    "corde_mm"
+            label   "Corde des courbes (mm)"
+            type    float
+            default { "2" }
+            help    "Flèche de corde max de l'échantillonnage des pièces sur mesure (courbes régularisées)."
+            range   { 0.5 10 }
+        }
+        parm {
+            name    "profil_defaut"
+            label   "Profil par défaut"
+            type    string
+            default { "CS2" }
+            help    "Profil quand la bordure n'a pas d'attribut caniveau (CS1, CS2, CS3)."
+        }
+        parm {
+            name    "sans_attribut"
+            label   "Courbes sans attribut caniveau"
+            type    toggle
+            default { "0" }
+            help    "Une courbe sans attribut caniveau (tracée dans Unreal) reçoit un caniveau sur toute sa longueur."
+        }
+    }
+
+    group {
+        name    "f_aspect"
+        label   "Aspect"
+
+        parm {
+            name    "jitter"
+            label   "Jitter de pose"
+            type    toggle
+            default { "1" }
+            help    "Graine = hachage de l'identifiant de l'élément."
+        }
+        parm {
+            name    "jit_hauteur_mm"
+            label   "Jitter de hauteur (mm)"
+            type    float
+            default { "2" }
+            range   { 0 10 }
+        }
+        parm {
+            name    "jit_lacet_deg"
+            label   "Jitter de lacet (°)"
+            type    float
+            default { "0.3" }
+            range   { 0 3 }
+        }
+        parm {
+            name    "jit_lateral_mm"
+            label   "Jitter latéral (mm)"
+            type    float
+            default { "1" }
+            range   { 0 10 }
+        }
+        parm {
+            name    "jit_roulis_deg"
+            label   "Jitter de roulis (°)"
+            type    float
+            default { "0.15" }
+            range   { 0 3 }
+        }
+        parm {
+            name    "chanfrein_mm"
+            label   "Chanfrein d'about (mm)"
+            type    float
+            default { "3" }
+            help    "Arêtes d'about de la tête et de la face vue (PolyBevel) ; 0 : arêtes vives."
+            range   { 0 10 }
+        }
+        parm {
+            name    "eclats"
+            label   "Épaufrures (v1-v3)"
+            type    toggle
+            default { "1" }
+            help    "Variantes d'éclats d'arête (Boolean) selon l'âge (bordures_elements.json epaufrures)."
+        }
+        parm {
+            name    "joint_retrait_mm"
+            label   "Retrait du mortier sombre (mm)"
+            type    float
+            default { "4" }
+            range   { 0 10 }
+        }
+    }
+
+    group {
+        name    "f_sorties"
+        label   "Sorties"
+
+        parm {
+            name    "sortie"
+            label   "Sortie 1"
+            type    ordinal
+            default { "0" }
+            help    "Les points d'instances (sortie 2) sont toujours produits (unreal_instance)."
+            menu {
+                "maillages" "Maillages dépaquetés (export USD)"
+                "instances" "Instances empaquetées"
+            }
+        }
+        parm {
+            name    "couche"
+            label   "Couche USD"
+            type    string
+            default { "PJ_Caniveaux" }
+        }
+        parm {
+            name    "format_usd"
+            label   "Format du fichier USD"
+            type    ordinal
+            default { "1" }
+            help    "Lu par fabriquer_hda.py (bordures du site : plus de 600 000 faces, en binaire)."
+            menu {
+                "usdc"  "Binaire (.usdc)"
+                "usda"  "Texte (.usda)"
+            }
+        }
+        parm {
+            name    "couche_bibliotheque"
+            label   "Couche USD des prototypes"
+            type    string
+            default { "PJ_Lib_Caniveaux" }
+            help    "Sortie 3 -> prototypes/<branche>.usda (import UE dans /Game/PJ/Lib/Bordures)."
+        }
+        parm {
+            name    "pivot_prototypes"
+            label   "Pivot des prototypes"
+            type    string
+            default { "milieu de l'élément, face vue, dessous du bloc ; X = s (le long de la bordure), Y = u (vers l'arrière), Z = v (haut), mètres (bordures_elements.json repere.pivot_prototype)" }
+            help    "Recopié dans le champ pivot de points/<branche>.json (pj_points/0.1)."
+        }
+        parm {
+            name    "sens_cd"
+            label   "Sens de cd"
+            type    string
+            default { "éléments : [usure (épaufrures), salissure, mousse_joints, herbe_joints, teinte] ; joints : idem (x.mortier : sombre en retrait | clair à fleur ; s[0] = (largeur + 4 mm) / 10 mm)" }
+            help    "Recopié dans le champ cd de points/<branche>.json."
+        }
+        parm {
+            name    "dossier_specs"
+            label   "Dossier des specs (vide : table figée)"
+            type    directory
+            default { "" }
+            help    "assets/specs (bordures.json, bordures_elements.json) ; vide : table figée dans l'HDA."
+        }
+    }
+
+    group {
+        name    "f_unreal"
+        label   "Courbe tracée (Unreal)"
+
+        parm {
+            name    "ue_id"
+            label   "Identifiant"
+            type    string
+            default { "K-UE" }
+            help    "id des courbes qui n'en ont pas (plusieurs courbes : <id>-<n>) ; graine du jitter."
+        }
+        parm {
+            name    "ue_profil"
+            label   "Profil courant"
+            type    string
+            default { "T2" }
+            help    "Profil NF P98-340 (bordures.json)."
+        }
+        parm {
+            name    "ue_vue"
+            label   "Vue courante (m)"
+            type    float
+            default { "0.14" }
+            range   { 0 0.3 }
+        }
+        parm {
+            name    "ue_materiau"
+            label   "Matériau"
+            type    string
+            default { "beton_bordure_gris" }
+            help    "materiau_id (materiaux_sol.json)."
+        }
+        parm {
+            name    "ue_abaisse"
+            label   "Abaissé de traversée"
+            type    toggle
+            default { "0" }
+            help    "Partie abaissée en vue réduite (GA-ABA-001) et deux rampants (chartières, GA-ABA-004)."
+        }
+        parm {
+            name    "ue_abaisse_debut"
+            label   "Début de la partie abaissée (m)"
+            type    float
+            default { "5" }
+            help    "Abscisse le long de la courbe (depuis son premier point)."
+            range   { 0 50 }
+        }
+        parm {
+            name    "ue_abaisse_fin"
+            label   "Fin de la partie abaissée (m)"
+            type    float
+            default { "7" }
+            help    "GA-ABA-001 : au moins 1,20 m de partie abaissée."
+            range   { 0 50 }
+        }
+        parm {
+            name    "ue_profil_abaisse"
+            label   "Profil abaissé"
+            type    string
+            default { "T2_bateau" }
+        }
+        parm {
+            name    "ue_vue_abaisse"
+            label   "Vue abaissée (m)"
+            type    float
+            default { "0.02" }
+            help    "GA-ABA-001 : 0,02 ± 0,005 m."
+            range   { 0 0.1 }
+        }
+        parm {
+            name    "ue_rampant"
+            label   "Longueur des rampants (m, −1 : règle)"
+            type    float
+            default { "-1" }
+            help    "−1 : GA-ABA-004, L = min(2,00 ; Δh / 0,05), au moins Δh / 0,08 (Δh = vue courante − vue abaissée)."
+            range   { -1 3 }
+        }
+        parm {
+            name    "ue_decalage_pied"
+            label   "Décalage du pied (m)"
+            type    float
+            default { "0" }
+            help    "Pied de face (fil d'eau) = Z de la courbe + décalage ; niv_s / niv_z_pied sont tirés de la courbe."
+            range   { -1 1 }
+        }
+        parm {
+            name    "ue_usure"
+            label   "Usure (épaufrures, salissure)"
+            type    float
+            default { "0.1" }
+            help    "aspect.epaufrures et aspect.salissure ; < 0,2 : bordure neuve (joints 5,5-7 mm, jitter normal)."
+            range   { 0 1 }
+        }
+        parm {
+            name    "sorties_unreal"
+            label   "Sorties 2 et 3 vides (Houdini Engine)"
+            type    toggle
+            default { "0" }
+            help    "Houdini Engine convertit toutes les sorties : vides, seuls les maillages ou instances de la sortie 1 sont créés dans Unreal (pas de prototypes à l'origine, pas d'instances de /Game/PJ/Lib absentes)."
+        }
+    }
+
+}

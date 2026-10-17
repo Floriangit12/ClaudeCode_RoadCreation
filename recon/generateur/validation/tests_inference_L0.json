@@ -1,0 +1,682 @@
+{
+ "tags": [
+  {
+   "id": "T01",
+   "titre": "rue résidentielle sans autre tag (agglomération)",
+   "regles": [
+    "RF-OSM-VOI-002",
+    "RF-OSM-LAR-010",
+    "RF-OSM-TRO-002",
+    "DEF-004",
+    "RF-OSM-NIV-010",
+    "RF-OSM-MRQ-010",
+    "RF-OSM-VIT-002"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T02",
+   "titre": "exemple § 7.1 du volet 12 : width=8 bordure à bordure, stationnement à droite",
+   "regles": [
+    "RF-OSM-LAR-001",
+    "RF-OSM-LAR-040",
+    "RF-OSM-STA-001",
+    "RF-OSM-MRQ-060",
+    "RF-OSM-VIT-001"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T03",
+   "titre": "rue à sens unique sans lanes",
+   "regles": [
+    "RF-OSM-VOI-002",
+    "RF-OSM-LAR-011",
+    "RF-OSM-PRF-010"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T04",
+   "titre": "artère 2 × 2 voies sans terre-plein (lanes=4)",
+   "regles": [
+    "RF-OSM-VOI-001",
+    "RF-OSM-LAR-012",
+    "RF-OSM-MRQ-011",
+    "RF-MQ-LAR-A1b"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T05",
+   "titre": "lanes=3 dont 2 en avant",
+   "regles": [
+    "RF-OSM-VOI-001",
+    "RF-OSM-LAR-010",
+    "RF-OSM-LAR-012",
+    "RF-OSM-MRQ-010",
+    "RF-OSM-MRQ-011"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T06",
+   "titre": "bandes cyclables des deux côtés",
+   "regles": [
+    "RF-OSM-CYC-001",
+    "RF-OSM-LAR-030",
+    "RF-OSM-MRQ-030"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T07",
+   "titre": "piste portée par le way à droite (cycleway:right=track)",
+   "regles": [
+    "RF-OSM-CYC-002",
+    "RF-OSM-LAR-031",
+    "RF-OSM-LAR-033",
+    "RF-OSM-NIV-013"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T08",
+   "titre": "piste cartographiée à part (cycleway:right=separate) : pas de bande créée",
+   "regles": [
+    "RF-OSM-CYC-003"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T09",
+   "titre": "double-sens cyclable avec bande à contresens (schéma actuel)",
+   "regles": [
+    "RF-OSM-CYC-004",
+    "RF-OSM-LAR-011"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T10",
+   "titre": "double-sens cyclable, ancien schéma cycleway=opposite_lane",
+   "regles": [
+    "RF-OSM-CYC-004"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T11",
+   "titre": "exemple § 7.2 : bandes cyclables et stationnement des deux côtés, tampons",
+   "regles": [
+    "RF-OSM-LAR-032",
+    "RF-OSM-MRQ-060",
+    "RF-OSM-MRQ-030"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T12",
+   "titre": "stationnement à mi-trottoir à gauche",
+   "regles": [
+    "RF-OSM-STA-001",
+    "RF-OSM-NIV-010"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T13",
+   "titre": "ancien schéma parking:lane:right=parallel traduit",
+   "regles": [
+    "RF-OSM-STA-001"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T14",
+   "titre": "sidewalk=no",
+   "regles": [
+    "RF-OSM-TRO-001"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T15",
+   "titre": "sidewalk=left",
+   "regles": [
+    "RF-OSM-TRO-001"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T16",
+   "titre": "largeur de trottoir taguée (sidewalk:right:width)",
+   "regles": [
+    "RF-OSM-LAR-001"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T17",
+   "titre": "width:lanes sur un sens unique à 2 voies",
+   "regles": [
+    "RF-OSM-LAR-001",
+    "RF-OSM-MRQ-011"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T18",
+   "titre": "couloir bus à droite compris dans lanes",
+   "regles": [
+    "RF-OSM-VOI-003",
+    "RF-OSM-LAR-013",
+    "RF-OSM-MRQ-031"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T19",
+   "titre": "turn:lanes:forward=left|through : voie de tourne-à-gauche",
+   "regles": [
+    "RF-OSM-VOI-004",
+    "RF-OSM-LAR-012",
+    "RF-OSM-MRQ-011"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T20",
+   "titre": "voie non classée sans lanes ni largeur : chaussée partagée",
+   "regles": [
+    "RF-OSM-VOI-002",
+    "RF-GV-PT-004"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T21",
+   "titre": "voie non classée de 6 m (width ≥ 5,20) : 1 + 1 sans axe",
+   "regles": [
+    "RF-OSM-VOI-002",
+    "RF-OSM-LAR-001"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T22",
+   "titre": "zone de rencontre",
+   "regles": [
+    "RF-OSM-VIT-004",
+    "RF-OSM-VOI-002",
+    "RF-OSM-TRO-002"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T23",
+   "titre": "maxspeed=30",
+   "regles": [
+    "RF-OSM-VIT-001"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T24",
+   "titre": "zone:maxspeed=FR:30",
+   "regles": [
+    "RF-OSM-VIT-004"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T25",
+   "titre": "route tertiaire hors agglomération sans tag",
+   "regles": [
+    "RF-OSM-LAR-014",
+    "RF-OSM-MRQ-021",
+    "RF-OSM-MRQ-010",
+    "RF-OSM-VIT-003",
+    "RF-OSM-TRO-002"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T26",
+   "titre": "route départementale hors agglomération (ref D…)",
+   "regles": [
+    "RF-OSM-LAR-014"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T27",
+   "titre": "route nationale hors agglomération (ref N…)",
+   "regles": [
+    "RF-OSM-LAR-014"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T28",
+   "titre": "surface=sett → pavés de granit (table surface_vers_materiau)",
+   "regles": [
+    "RF-OSM-PRF-001"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T29",
+   "titre": "bande cyclable séparée par des balises (cycleway:right:separation=flex_post)",
+   "regles": [
+    "RF-OSM-CYC-006"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T30",
+   "titre": "piste cyclable indépendante bidirectionnelle",
+   "regles": [
+    "RF-OSM-LAR-031",
+    "RF-OSM-CYC-002",
+    "DEF-001"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T31",
+   "titre": "piste cyclable indépendante à sens unique de 2 m",
+   "regles": [
+    "RF-OSM-LAR-001"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T32",
+   "titre": "autoroute à 2 voies (sens unique implicite) avec BAU",
+   "regles": [
+    "RF-OSM-LAR-014",
+    "RF-OSM-MRQ-011",
+    "RF-OSM-MRQ-022",
+    "RF-OSM-VIT-003",
+    "DEF-001"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T33",
+   "titre": "oneway=-1 : way retourné",
+   "regles": [
+    "RF-OSM-VOI-002",
+    "RF-OSM-LAR-011"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T34",
+   "titre": "stationnement en épi à droite",
+   "regles": [
+    "RF-OSM-LAR-041",
+    "RF-OSM-STA-001"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T35",
+   "titre": "sidewalk=separate : trottoirs cartographiés à part",
+   "regles": [
+    "RF-OSM-TRO-001",
+    "RF-OSM-CYC-003"
+   ],
+   "ok": true,
+   "ecarts": []
+  },
+  {
+   "id": "T36",
+   "titre": "width trop étroite : voies hors plage signalées, jamais forcées",
+   "regles": [
+    "RF-OSM-LAR-001",
+    "RF-OSM-LAR-010"
+   ],
+   "ok": true,
+   "ecarts": []
+  }
+ ],
+ "reseaux": [
+  {
+   "id": "R01",
+   "titre": "T entre deux rues résidentielles, aucun tag : priorité à droite",
+   "regles": [
+    "RF-OSM-CAR-001",
+    "RF-OSM-CAR-012"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "07b0c826af9ad6c029c7f7a8968ccccc0fd0af3e4d786ade05e1f82d88107498",
+   "carrefours": [
+    [
+     "C-1",
+     "priorite_droite"
+    ]
+   ]
+  },
+  {
+   "id": "R02",
+   "titre": "secondary × residential sans tag : priorité à droite, carrefour « à vérifier »",
+   "regles": [
+    "RF-OSM-CAR-012"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "18b1b2c345fc4697be5799ced10ebe7038bc502de9dc030093249239049cb533",
+   "carrefours": [
+    [
+     "C-1",
+     "priorite_droite"
+    ]
+   ]
+  },
+  {
+   "id": "R03",
+   "titre": "highway=stop seul sur la branche secondaire : stop_a_verifier, ni AB4 ni ligne ni continue d'approche (ARB-19)",
+   "regles": [
+    "ARB-19",
+    "RF-OSM-CAR-011"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "e25e616db09d06f2d48e522fb7af3250e3589bcbfdac9b9c24dad648fdd99ee7",
+   "carrefours": [
+    [
+     "C-1",
+     "mixte"
+    ]
+   ]
+  },
+  {
+   "id": "R04",
+   "titre": "highway=stop + traffic_sign=FR:AB4 : STOP confirmé, ligne STOP, continue d'approche, AB4",
+   "regles": [
+    "ARB-19",
+    "RF-OSM-CAR-011",
+    "RF-OSM-CAR-020",
+    "DEF-013",
+    "RF-OSM-PAN-001"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "1e41f2fac594c7cc8cda213ed1a3cbbc431e8147a3645ee8dc64ee454439ab7e",
+   "carrefours": [
+    [
+     "C-1",
+     "stop"
+    ]
+   ]
+  },
+  {
+   "id": "R05",
+   "titre": "highway=give_way : cédez-le-passage et ligne T'2 50 cm à la limite de la chaussée prioritaire",
+   "regles": [
+    "RF-OSM-CAR-011",
+    "RF-OSM-CAR-020",
+    "DEF-012"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "07b489402c32f2f11ef3feae765ce44c048a53a2cdee87224ff6a1b1e514effb",
+   "carrefours": [
+    [
+     "C-1",
+     "cedez"
+    ]
+   ]
+  },
+  {
+   "id": "R06",
+   "titre": "feux sur le nœud du carrefour : toutes les branches à feux, aucune ligne STOP ni cédez (C09)",
+   "regles": [
+    "RF-OSM-CAR-010",
+    "RF-MQ-CED-03"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "13980ee74af34a8870a63b6490aa2462f7473c64eb5b3564ec19d6c06edbe435",
+   "carrefours": [
+    [
+     "C-1",
+     "feux"
+    ]
+   ]
+  },
+  {
+   "id": "R07",
+   "titre": "giratoire : un carrefour, entrées en cédez avec ligne T'2",
+   "regles": [
+    "RF-OSM-CAR-002"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "4b47e5bbe1a6f22cf1e3900eec99a66f218f91bb0389023d7481830d1acaacdd",
+   "carrefours": [
+    [
+     "C-G1",
+     "giratoire"
+    ]
+   ]
+  },
+  {
+   "id": "R08",
+   "titre": "passage piéton isolé (crossing=uncontrolled, zébra) au milieu d'une rue",
+   "regles": [
+    "RF-OSM-CAR-040"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "6d8a077a8a05329a446ff7ed253d92398fb748c9dc450b5f9ab040211bd41b11",
+   "carrefours": []
+  },
+  {
+   "id": "R09",
+   "titre": "passage piéton à 6 m d'un carrefour : rattaché au carrefour",
+   "regles": [
+    "RF-OSM-CAR-040",
+    "RF-OSM-CAR-001"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "0a8bd88dffec68246503a6811e1b8d13935745a7bd8b20da02d3dc21fe9e2910",
+   "carrefours": [
+    [
+     "C-1",
+     "priorite_droite"
+    ]
+   ]
+  },
+  {
+   "id": "R10",
+   "titre": "dos-d'âne (traffic_calming=hump) : objet 4,00 × 0,10",
+   "regles": [
+    "RF-OSM-TC-001",
+    "RF-MA-RAL-001"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "3a495877b437914736cc66d382c5a05f5b29b0dfef3eb312eb9901836759def4",
+   "carrefours": []
+  },
+  {
+   "id": "R11",
+   "titre": "route à caractère prioritaire (priority_road=designated) : la branche secondaire cède (à vérifier)",
+   "regles": [
+    "RF-OSM-CAR-012"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "d0eda756ff1e380aa1840d98b3cb19e041fe7854febe0a0d3269799e2a8af6d5",
+   "carrefours": [
+    [
+     "C-1",
+     "cedez"
+    ]
+   ]
+  },
+  {
+   "id": "R12",
+   "titre": "pont (bridge=yes, layer=1) : ouvrage pont_route",
+   "regles": [
+    "RF-OSM-OUV-001"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "da86e547acccaf21d1d62518ab03a83caa7eda62953af9cb618216cc3a270b8b",
+   "carrefours": []
+  },
+  {
+   "id": "R13",
+   "titre": "turn:lanes:forward=left|through à l'approche : flèches TAG et TD sur la branche",
+   "regles": [
+    "RF-OSM-VOI-004",
+    "RF-OSM-MRQ-050",
+    "DEF-017"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "5312b183f422ebaedc7bef6cbf9758c4ce6072306dafbb8c14997e57fc6ac7aa",
+   "carrefours": [
+    [
+     "C-1",
+     "priorite_droite"
+    ]
+   ]
+  },
+  {
+   "id": "R14",
+   "titre": "highway=stop posé sur le nœud du carrefour : branche de rang inférieur en stop_a_verifier",
+   "regles": [
+    "RF-OSM-CAR-011",
+    "ARB-19"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "a5dbb51748f60b79cabc86bfaf569b6e34842e1c1ca5472b3b9b65863b17d034",
+   "carrefours": [
+    [
+     "C-1",
+     "mixte"
+    ]
+   ]
+  },
+  {
+   "id": "R15",
+   "titre": "stop avec direction=forward : ne s'applique qu'à l'extrémité de fin du way",
+   "regles": [
+    "RF-OSM-CAR-011"
+   ],
+   "ok": true,
+   "ecarts": [],
+   "sha256": "7ec5ca900924361adf2db2c6161ae5e756f8f1dbfc336bbbb873ef071ae069d9",
+   "carrefours": [
+    [
+     "C-1",
+     "stop"
+    ]
+   ]
+  }
+ ],
+ "validateur": [
+  {
+   "id": "V-exemple_rue_carrefour.json",
+   "titre": "exemple migré exemple_rue_carrefour.json : 0 erreur",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "id": "V-exemple_rue_residentielle.json",
+   "titre": "exemple migré exemple_rue_residentielle.json : 0 erreur",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "id": "V-C11",
+   "titre": "C11 rejette l'identifiant inconnu RF-OSM-LAR-999",
+   "ok": true,
+   "detail": [
+    [
+     "C11",
+     "/profils/0/bandes/0/prov/largeur/regle",
+     "règle inconnue de regles_route_fr.json : RF-OSM-LAR-999"
+    ]
+   ]
+  },
+  {
+   "id": "V-C11-ancien",
+   "titre": "C11 refuse un ancien identifiant et donne sa cible (OSM-LAR-020 → RF-OSM-LAR-020)",
+   "ok": true,
+   "detail": [
+    [
+     "C11",
+     "/profils/0/bandes/0/prov/largeur/src",
+     "ancien identifiant OSM-LAR-020 : citer RF-OSM-LAR-020 (index_alias)"
+    ]
+   ]
+  },
+  {
+   "id": "V-C13",
+   "titre": "C13 rejette un AB4 sur une branche stop_a_verifier (ARB-19)",
+   "ok": true,
+   "detail": [
+    [
+     "C13",
+     "carrefours/C-1/B3",
+     "AB4 SG-TEST sur une branche stop_a_verifier (ARB-19)"
+    ],
+    [
+     "C13",
+     "signaux/SG-TEST",
+     "AB4 appliqué à la branche stop_a_verifier B3 (ARB-19)"
+    ]
+   ]
+  }
+ ],
+ "bilan": {
+  "cas": 56,
+  "reussis": 56,
+  "cas_tags": 36,
+  "cas_reseaux": 15,
+  "cas_validateur": 5
+ }
+}

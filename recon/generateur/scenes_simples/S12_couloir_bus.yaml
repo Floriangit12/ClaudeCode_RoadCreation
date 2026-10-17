@@ -1,0 +1,28 @@
+# S12 — Voie bus + voie générale + trottoir, inscription BUS au sol.
+format: description_simple/0.1
+scene: S12
+nom: couloir_bus
+titre: Rue à sens unique, voie générale + couloir bus à droite, BUS au sol
+description: "Rue à sens unique à 50 km/h ; voie générale de 3,00 m à gauche ; couloir bus réservé en permanence de 3,30 m à droite (3,175 m hors marquage), séparé par une continue 5u ; inscription BUS de 1,50 m en répétition à s = 50 ; bordures T2, trottoirs de 2,00 m."
+contexte:
+  agglomeration: true
+  vitesse_kmh: 50
+  categorie: rue
+  u_m: 0.05                # DEF-001
+marquages: {usure: légère}
+trace:
+  - droite: 100
+profil:
+  - {bande: trottoir, id: tr1, largeur: 2.00, materiau: enrobe_trottoir}  # DEF-004
+  - {bordure: T2, vue: 0.14, caniveau: CS2}                               # DEF-005
+  - {bande: voie, id: v1, sens: avant, largeur: 3.00, materiau: enrobe_bbsg_ancien}   # RF-OSM-LAR-012
+  - {ligne: continue, largeur_u: 5}                                       # couloir permanent, dépassement interdit : continue 5u (RF-MQ-SC-08, RF-MQ-LAR-D3)
+  - {bande: voie_bus, id: bus1, sens: avant, largeur: 3.30, materiau: enrobe_bbsg_ancien}   # RF-OSM-LAR-013 (3,00-3,50) ; ≥ 3,05 hors marquage à Grenoble (RF-MA-CTC-002)
+  - {bordure: T2, vue: 0.14, caniveau: CS2}
+  - {bande: trottoir, id: tr2, largeur: 2.00}
+evenements:
+  # mot BUS (lettres de l'art. 118-7, série V ≤ 70, hauteur 1,50 m ≥ 1,50 pour V ≤ 50, espacement 0,15) en répétition
+  # dans le couloir (RF-MQ-TC-03, RF-MA-CTC-002 : ≈ tous les 100 m à Paris) ; base des lettres côté conducteur
+  - inscription: {a: 50, texte: BUS, voie: bus1, hauteur: 1.5}
+abords: {gauche: pelouse 6, droite: pelouse 6}
+attendus: {longueur: 100, largeur_emprise: 10.3, largeur_chaussee: 6.3, voies: {avant: 2}, continues_m: {continue 5u: 100}, bordures_m: {T2: 200}, inscriptions: {BUS: 1}}

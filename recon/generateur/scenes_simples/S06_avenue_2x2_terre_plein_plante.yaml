@@ -1,0 +1,38 @@
+# S06 — Avenue 2 × 2 voies avec terre-plein central planté et bordé.
+format: description_simple/0.1
+scene: S06
+nom: avenue_2x2_terre_plein_plante
+titre: Avenue 2 × 2 voies, terre-plein central planté bordé de T2
+description: "Avenue à 50 km/h ; 2 × 2 voies de 3,00 m séparées par T'1 ; continue 3u et bande dérasée de gauche de 0,50 m le long d'un terre-plein central engazonné de 4,00 m bordé de T2, arbres d'alignement tous les 7,50 m ; trottoirs de 2,00 m."
+contexte:
+  agglomeration: true
+  vitesse_kmh: 50
+  categorie: avenue
+  u_m: 0.05                # DEF-001 (ni route à grande circulation ni chaussées séparées à carrefours dénivelés)
+marquages: {usure: légère}
+trace:
+  - droite: 100
+profil:
+  - {bande: trottoir, id: tr1, largeur: 2.00, materiau: enrobe_trottoir}  # DEF-004
+  - {bordure: T2, vue: 0.14, caniveau: CS2}                               # DEF-005 ; chaque chaussée est en pente unique vers sa rive droite (RF-OSM-NIV-011)
+  - {bande: voie, id: v1, sens: arriere, largeur: 3.00, materiau: enrobe_bbsg_ancien}   # RF-OSM-LAR-012 (même sens), RF-GV-PT-002
+  - {ligne: T'1, largeur_u: 2}                                            # voies de même sens : RF-OSM-MRQ-011, RF-MQ-SC-15
+  - {bande: voie, id: v2, sens: arriere, largeur: 3.00}
+  - {ligne: continue, largeur_u: 3}                                       # TPC physique : continue 3u (RF-MQ-SC-15, RF-MQ-LAR-D1)
+  - {bande: bdg, id: bdg1, largeur: 0.50, materiau: enrobe_bbsg_ancien}   # BDG 0,50 (RF-GV-TPC-002), ≥ 0,30 (RF-GV-TPC-005)
+  - {bordure: T2, vue: 0.14}                                              # genre « planté » : bordure T2 (PLAN_GENERATEUR § 3, L5) ; DEF-005
+  - {bande: terre_plein, id: tp1, largeur: 4.00, materiau: gazon_tondu}   # TPC paysager ≤ 10 m (RF-GV-TPC-001) ; fosse 3 × 3 m (RF-GV-TPC-010)
+  - {bordure: T2, vue: 0.14}
+  - {bande: bdg, id: bdg2, largeur: 0.50}
+  - {ligne: continue, largeur_u: 3}
+  - {bande: voie, id: v3, sens: avant, largeur: 3.00}
+  - {ligne: T'1, largeur_u: 2}
+  - {bande: voie, id: v4, sens: avant, largeur: 3.00}
+  - {bordure: T2, vue: 0.14, caniveau: CS2}
+  - {bande: trottoir, id: tr2, largeur: 2.00}
+objets:
+  # alignement dans l'axe du TPC, entraxe 7,50 m (DEF-030) ; axe à 2,50 m du bord des voies (≥ 1,50, DEF-030 ;
+  # végétaux à plus de 2 m du bord de chaussée, RF-GV-TPC-011)
+  - arbres: {bande: tp1, de: 5, a: 95, pas: 7.5, houppier_rayon: 3.0}
+abords: {gauche: pelouse 6, droite: pelouse 6}
+attendus: {longueur: 100, largeur_emprise: 21.0, largeur_chaussee: 6.5, voies: {arriere: 2, avant: 2}, traits: {T'1 2u: 32}, continues_m: {continue 3u: 200}, bordures_m: {T2: 400}, arbres: 13}

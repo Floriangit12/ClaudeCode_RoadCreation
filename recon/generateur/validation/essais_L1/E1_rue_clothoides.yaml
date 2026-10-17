@@ -1,0 +1,17 @@
+# Essai du lot L1 (courbes de contrôle) : aucune scène S01-S12 n'a de clothoïde ; celle-ci éprouve l'échantillonnage
+# et le décalage des limites sur droite -> clothoïde -> arc -> clothoïde -> droite (courbure linéaire en s).
+scene: E1_rue_clothoides
+description: Rue 1 + 1 à 50 km/h, trottoirs de 2 m et bordures ; virage à gauche de 60 m de rayon raccordé par deux clothoïdes de 30 m.
+contexte:
+  agglomeration: oui
+  vitesse: 50
+troncon:
+  depart: [0, 0]
+  cap: 0
+  trace:
+    - droite: 25
+    - clothoide: {longueur: 30, rayon_fin: 60, sens: gauche}
+    - arc: {rayon: 60, angle: 40, sens: gauche}
+    - clothoide: {longueur: 30, rayon_fin: infini, sens: gauche}
+    - droite: 25
+profil: "trottoir 2 | voie ← | voie → | trottoir 2"

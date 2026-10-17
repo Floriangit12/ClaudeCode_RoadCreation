@@ -1,0 +1,399 @@
+{
+ "schema": "modele_voie/0.1",
+ "meta": {
+  "date": "2026-10-16",
+  "auteur": "agent modèle de données (dossier 12)",
+  "zone": "exemple synthétique : rue résidentielle à double sens, stationnement à droite (INFERENCE_OSM_VERS_PROFIL.md § 7.1)",
+  "description": "Tags : highway=residential, oneway=no, maxspeed=30, sidewalk=both, parking:right=lane, parking:right:orientation=parallel, width=8.0, surface=asphalt. Géométrie fictive.",
+  "sources": [
+   "assets/specs/route/regles_route_fr.json"
+  ],
+  "migration": "identifiants de règles migrés vers regles_route_fr.json par recon/generateur/schema/migrer_exemples.py (lot L0) ; valeurs inchangées ; relevé : recon/generateur/validation/migration_exemples_L0.json"
+ },
+ "repere": {
+  "crs": "EPSG:2154",
+  "origine_l93": [
+   917279.43,
+   6460289.98,
+   216.3
+  ],
+  "z_ref": "NGF-IGN69",
+  "convention_t": "positif_a_gauche"
+ },
+ "contexte": {
+  "pays": "FR",
+  "sens_circulation": "droite",
+  "u_itineraires": {
+   "R-10": 0.05
+  }
+ },
+ "profils": [
+  {
+   "id": "P-RES-1-1-ST",
+   "nom": "Rue résidentielle 1 + 1, stationnement longitudinal à droite",
+   "agglomeration": true,
+   "u_m": 0.05,
+   "reference": {
+    "limite": 2
+   },
+   "bandes": [
+    {
+     "id": "trottoir_g",
+     "type": "trottoir",
+     "sens": "double",
+     "usagers": [
+      "pieton"
+     ],
+     "largeur": 2.0,
+     "materiau_id": "enrobe_trottoir",
+     "niveau": {
+      "reference": "trottoir",
+      "dz_m": 0.14,
+      "devers_pct": 1.5
+     },
+     "tags_graphe": [
+      "pieton"
+     ],
+     "x-opendrive": {
+      "lane_type": "sidewalk"
+     },
+     "prov": {
+      "largeur": {
+       "src": "defaut:RF-OSM-LAR-020",
+       "regle": "RF-OSM-LAR-020",
+       "conf": "moyenne"
+      },
+      "niveau.dz_m": {
+       "src": "defaut:RF-OSM-NIV-010",
+       "regle": "RF-OSM-NIV-010",
+       "conf": "moyenne"
+      }
+     }
+    },
+    {
+     "id": "voie_g",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "usagers": [
+      "vl",
+      "pl",
+      "velo"
+     ],
+     "largeur": 3.0,
+     "materiau_id": "enrobe_bbsg_ancien",
+     "niveau": {
+      "reference": "chaussee",
+      "dz_m": 0.0,
+      "devers_pct": -2.5,
+      "forme": "toit"
+     },
+     "vitesse_kmh": 30,
+     "tags_graphe": [
+      "vehicule"
+     ],
+     "x-opendrive": {
+      "lane_type": "driving"
+     },
+     "prov": {
+      "largeur": {
+       "src": "inference:RF-OSM-LAR-001",
+       "regle": "RF-OSM-LAR-010",
+       "conf": "moyenne"
+      },
+      "niveau.devers_pct": {
+       "src": "defaut:RF-OSM-NIV-011",
+       "regle": "RF-OSM-NIV-011",
+       "conf": "moyenne"
+      }
+     }
+    },
+    {
+     "id": "voie_d",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "usagers": [
+      "vl",
+      "pl",
+      "velo"
+     ],
+     "largeur": 3.0,
+     "materiau_id": "enrobe_bbsg_ancien",
+     "niveau": {
+      "reference": "chaussee",
+      "dz_m": 0.0,
+      "devers_pct": 2.5,
+      "forme": "toit"
+     },
+     "vitesse_kmh": 30,
+     "tags_graphe": [
+      "vehicule"
+     ],
+     "x-opendrive": {
+      "lane_type": "driving"
+     },
+     "prov": {
+      "largeur": {
+       "src": "inference:RF-OSM-LAR-001",
+       "regle": "RF-OSM-LAR-010",
+       "conf": "moyenne"
+      }
+     }
+    },
+    {
+     "id": "st_d",
+     "type": "stationnement",
+     "sens": "avant",
+     "usagers": [
+      "vl"
+     ],
+     "largeur": 2.0,
+     "materiau_id": "enrobe_bbsg_ancien",
+     "niveau": {
+      "reference": "chaussee",
+      "dz_m": 0.0,
+      "devers_pct": 2.5
+     },
+     "stationnement": {
+      "orientation": "longitudinal",
+      "longueur_place_m": 5.0,
+      "position": "chaussee",
+      "marquage_places": true
+     },
+     "tags_graphe": [
+      "stationnement"
+     ],
+     "x-opendrive": {
+      "lane_type": "parking"
+     },
+     "prov": {
+      "largeur": {
+       "src": "defaut:RF-OSM-LAR-040",
+       "regle": "RF-OSM-LAR-040",
+       "conf": "haute"
+      },
+      "stationnement": {
+       "src": "osm:tag/parking:right",
+       "regle": "RF-OSM-STA-001",
+       "conf": "haute"
+      }
+     }
+    },
+    {
+     "id": "trottoir_d",
+     "type": "trottoir",
+     "sens": "double",
+     "usagers": [
+      "pieton"
+     ],
+     "largeur": 2.0,
+     "materiau_id": "enrobe_trottoir",
+     "niveau": {
+      "reference": "trottoir",
+      "dz_m": 0.14,
+      "devers_pct": -1.5
+     },
+     "tags_graphe": [
+      "pieton"
+     ],
+     "x-opendrive": {
+      "lane_type": "sidewalk"
+     },
+     "prov": {
+      "largeur": {
+       "src": "defaut:RF-OSM-LAR-020",
+       "regle": "RF-OSM-LAR-020",
+       "conf": "moyenne"
+      }
+     }
+    }
+   ],
+   "limites": [
+    {
+     "nature": [
+      "virtuelle"
+     ]
+    },
+    {
+     "nature": [
+      "bordure"
+     ],
+     "bordure": {
+      "profil": "T2",
+      "vue_m": 0.14,
+      "cote_haut": "gauche",
+      "caniveau": {
+       "profil": "CS2",
+       "cote": "droite"
+      },
+      "regle": "RF-OSM-NIV-010"
+     },
+     "prov": {
+      "*": {
+       "src": "inference:RF-OSM-MRQ-020",
+       "regle": "RF-OSM-MRQ-020",
+       "conf": "haute"
+      }
+     }
+    },
+    {
+     "nature": [
+      "marquage"
+     ],
+     "marquages": [
+      {
+       "modulation": "T'1",
+       "largeur_u": 2,
+       "u_m": 0.05,
+       "couleur": "blanc",
+       "regle": "RF-OSM-MRQ-010"
+      }
+     ],
+     "franchissable": {
+      "vl": true,
+      "pl": true,
+      "velo": true,
+      "pieton": true
+     },
+     "x-opendrive": {
+      "roadmark_type": "broken",
+      "lane_change": "both"
+     },
+     "prov": {
+      "marquages": {
+       "src": "inference:RF-OSM-MRQ-010",
+       "regle": "RF-OSM-MRQ-010",
+       "conf": "moyenne"
+      }
+     }
+    },
+    {
+     "nature": [
+      "marquage"
+     ],
+     "marquages": [
+      {
+       "modulation": "T'2",
+       "largeur_u": 2,
+       "u_m": 0.05,
+       "couleur": "blanc",
+       "regle": "RF-OSM-MRQ-060"
+      }
+     ],
+     "prov": {
+      "marquages": {
+       "src": "inference:RF-OSM-MRQ-060",
+       "regle": "RF-OSM-MRQ-060",
+       "conf": "haute"
+      }
+     }
+    },
+    {
+     "nature": [
+      "bordure"
+     ],
+     "bordure": {
+      "profil": "T2",
+      "vue_m": 0.14,
+      "cote_haut": "droite",
+      "caniveau": {
+       "profil": "CS2",
+       "cote": "gauche"
+      },
+      "regle": "RF-OSM-NIV-010"
+     }
+    },
+    {
+     "nature": [
+      "virtuelle"
+     ]
+    }
+   ],
+   "regles": [
+    "RF-OSM-PRF-001",
+    "RF-OSM-PRF-002",
+    "RF-OSM-LAR-001",
+    "RF-OSM-MRQ-010"
+   ]
+  }
+ ],
+ "noeuds": [
+  {
+   "id": "N-10",
+   "position": [
+    917200.0,
+    6460400.0
+   ],
+   "type": "limite_carte"
+  },
+  {
+   "id": "N-11",
+   "position": [
+    917320.0,
+    6460400.0
+   ],
+   "type": "limite_carte"
+  }
+ ],
+ "routes": [
+  {
+   "id": "R-10",
+   "osm": {
+    "ways": [
+     2010
+    ],
+    "tags": {
+     "highway": "residential",
+     "oneway": "no",
+     "maxspeed": "30",
+     "sidewalk": "both",
+     "parking:right": "lane",
+     "parking:right:orientation": "parallel",
+     "width": "8.0",
+     "surface": "asphalt"
+    }
+   },
+   "noeud_debut": "N-10",
+   "noeud_fin": "N-11",
+   "categorie": "rue",
+   "classe_osm": "residential",
+   "agglomeration": true,
+   "vitesse_kmh": 30,
+   "sens_unique": "non",
+   "ligne_reference": {
+    "geometrie": [
+     [
+      917200.0,
+      6460400.0
+     ],
+     [
+      917320.0,
+      6460400.0
+     ]
+    ],
+    "placement": {
+     "type": "centre_chaussee"
+    },
+    "longueur_m": 120.0
+   },
+   "sections": [
+    {
+     "s0": 0.0,
+     "s1": 120.0,
+     "profil": "P-RES-1-1-ST"
+    }
+   ],
+   "prov": {
+    "vitesse_kmh": {
+     "src": "osm:tag/maxspeed",
+     "regle": "RF-OSM-VIT-001",
+     "conf": "haute"
+    },
+    "categorie": {
+     "src": "inference:RF-OSM-PRF-001",
+     "regle": "RF-OSM-PRF-001",
+     "conf": "moyenne"
+    }
+   }
+  }
+ ]
+}

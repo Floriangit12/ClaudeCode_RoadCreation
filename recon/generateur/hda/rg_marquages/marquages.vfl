@@ -1,0 +1,661 @@
+// marquages (dÃ©tail ; entrÃ©e 0 profils, 1 rÃ©fÃ©rences, 2 niveaux, 3 ponctuels + gabarits). Corps du wrangle de
+// rg::marquages::1.0 (lot L2b), aprÃ¨s rg_geometrie.h, rg_niveau.h et rg_marquage.h. Empreintes dans le plan (s, t) de
+// chaque route, dÃ©coupÃ©es en cellules (rg_m_cellules), posÃ©es en (x, 0, âˆ’y) ; une primitive par morceau.
+// Modulations RF-MQ-MOD-* (IISR7 art. 113-1 B, tableau p. 6), recopiÃ©es de regles_route_fr.json Ã  la construction :
+//@@MODULATIONS@@
+float FRAC = chf("../fraction_trait");            // [G] trait tronquÃ© gardÃ© s'il fait >= FRAC x trait (catalogue)
+float DEG_U = chf("../degagement_u");             // RF-MQ-MUS-01 : espace non peint 2u
+float BANDE_PP = chf("../pp_bande");              // DEF-011 : bande 0,50
+float EMIN_PP = chf("../pp_marge_min");           // RF-MQ-PP-05 : e dans [0,50 ; 0,80], n maximal (DEF-011)
+float H_BANDE = chf("../hach_bande");             // DEF-020 / RF-MQ-HACH-01 : 0,50
+float H_ESP = chf("../hach_espacement");          // 1,35 entre parallÃ¨les
+float H_ANG = chf("../hach_angle");               // 26,565Â° (2 parallÃ¨lement Ã  la rive pour 1 perpendiculairement)
+float H_APLAT = chf("../hach_aplat");             // aplat sous 0,30 (DEF-020, RF-MQ-HACH-03)
+float ESP_CAR = chf("../espacement_caracteres");  // 0,15 entre caractÃ¨res (IISR7 annexe D.2)
+float PAS_FIN = chf("../pas_fin");                // pas en long sur un dos-d'Ã¢ne (drapÃ©)
+float PAS_SYMB = chf("../pas_symboles");          // arÃªtes des symboles (drapÃ©)
+float TOL_CORDE = chf("../corde");                // flÃ¨che des arÃªtes en courbe
+float U_DEF = chf("../u_defaut");                 // DEF-001 : autres routes 0,05
+float AMIN = 1e-7;                                // morceau minimal (mÂ²)
+float rampe = detail(2, "rg_rampe_plateau_pct");
+dict modele = detail(3, "rg_modele");
+float O[] = modele["origine_l93"];
+
+addprimattrib(0, "pj_entite", ""); addprimattrib(0, "id", ""); addprimattrib(0, "classe", "");
+addprimattrib(0, "type", ""); addprimattrib(0, "materiau_id", ""); addprimattrib(0, "couleur", "");
+addprimattrib(0, "usure", 0.0); addprimattrib(0, "couverture", 1.0); addprimattrib(0, "graine", 0);
+addprimattrib(0, "partie", 0); addprimattrib(0, "anneau", 0); addprimattrib(0, "pj_surface", 0);
+addprimattrib(0, "pj_region", -1); addprimattrib(0, "rg_ligne", 0); addprimattrib(0, "route", "");
+addprimattrib(0, "cle", ""); addprimattrib(0, "modulation", ""); addprimattrib(0, "largeur_m", 0.0);
+addprimattrib(0, "s0", 0.0); addprimattrib(0, "s1", 0.0); addprimattrib(0, "rang", 0); addprimattrib(0, "bande_sol", 0);
+addprimattrib(0, "gabarit", "");
+addpointattrib(0, "m_classe", ""); addpointattrib(0, "m_id", ""); addpointattrib(0, "m_route", "");
+addpointattrib(0, "m_cle", ""); addpointattrib(0, "m_modulation", ""); addpointattrib(0, "m_gabarit", "");
+addpointattrib(0, "m_largeur", 0.0); addpointattrib(0, "m_s0", 0.0); addpointattrib(0, "m_s1", 0.0);
+addpointattrib(0, "m_t", 0.0); addpointattrib(0, "m_cap_deg", 0.0); addpointattrib(0, "m_n", 0);
+addpointattrib(0, "m_e", 0.0); addpointattrib(0, "m_W", 0.0); addpointattrib(0, "m_texte", "");
+addpointattrib(0, "m_regles", "");
+
+int n_sur_bordure = 0, n_traverse = 0, n_hors_bande = 0, n_sans_gabarit = 0, n_coupes = 0;
+string avert[];
+dict PARTIES = {};
+
+int ref_prims[];
+for (int pr = 0; pr < nprimitives(1); pr++) if (inprimgroup(1, "echantillonnees", pr)) push(ref_prims, pr);
+
+foreach (int pr; ref_prims) {
+    string rid = prim(1, "id", pr);
+    float L = prim(1, "longueur_m", pr);
+    float SEC0[] = prim(1, "sec_s0", pr);
+    float SEC1[] = prim(1, "sec_s1", pr);
+    string SPR[] = prim(1, "sec_profil", pr);
+    float RUP[] = rg_m_ruptures(1, pr, 2, rampe);
+    float FIN[] = rg_m_zones_fines(2, rid);
+    float kmax = 0.0;
+    int rpts[] = primpoints(1, pr);
+    foreach (int p; rpts) kmax = max(kmax, abs(float(point(1, "courbure", p))));
+    float DS = kmax > 1e-9 ? 0.9 * sqrt(8.0 * TOL_CORDE / kmax) : 1e9;
+    float us_route = -1.0;
+    string rid_n = re_replace("[^A-Za-z0-9]", "_", rid);
+
+    // =========================================================== (1) lignes longitudinales
+    // morceaux : une entrÃ©e de marquage d'une limite dans une section, intervalle moins interruptions
+    string PG[], PK[], PMOD[], PCOUL[];
+    float PA[], PB[], PW[], PU[], PUS[];
+    for (int k = 0; k < len(SEC0); k++) {
+        int sp = rg_point_section(2, rid, k);
+        int pp = rg_point_profil(0, SPR[k]);
+        if (sp < 0 || pp < 0) continue;
+        string LM[] = point(0, "lim_marquages", pp);
+        int lb[] = point(2, "l_bord", sp);
+        string bid[] = point(2, "b_id", sp);
+        int nb = len(bid);
+        for (int l = 0; l <= nb && l < len(LM); l++) {
+            if (LM[l] == "") continue;
+            if (lb[l] == 1) { n_sur_bordure++; continue; }        // MQ-DET-010 : jamais de peinture sur une bordure
+            string cle = (l > 0 ? bid[l - 1] : "^") + "|" + (l < nb ? bid[l] : "$");
+            dict D = json_loads("{\"m\":" + LM[l] + "}", 0);
+            dict E[] = D["m"];
+            foreach (dict e; E) {
+                string mod = e["modulation"];
+                float ku = float(e["largeur_u"]);
+                float u = isvalidindex(e, "u_m") ? float(e["u_m"]) : U_DEF;
+                string coul = isvalidindex(e, "couleur") ? string(e["couleur"]) : "blanc";
+                float us = isvalidindex(e, "usure") ? float(e["usure"]) : 0.0;
+                if (us_route < 0) us_route = us;
+                float a = SEC0[k];
+                float b = SEC1[k];
+                if (isvalidindex(e, "intervalle")) {
+                    dict iv = e["intervalle"];
+                    a = max(a, float(iv["s0"]));
+                    b = min(b, float(iv["s1"]));
+                }
+                if (b - a <= 1e-6) continue;
+                float ivs[] = array(a, b);
+                if (isvalidindex(e, "interruptions")) {
+                    dict IT[] = e["interruptions"];
+                    foreach (dict it; IT) ivs = rg_m_soustraire(ivs, float(it["s0"]), float(it["s1"]));
+                }
+                for (int q = 0; q + 1 < len(ivs); q += 2) {
+                    push(PG, sprintf("%s#%s#%.4f#%s", cle, mod, ku * u, coul));
+                    push(PK, cle); push(PMOD, mod); push(PW, ku * u); push(PU, u); push(PCOUL, coul); push(PUS, us);
+                    push(PA, ivs[q]); push(PB, ivs[q + 1]);
+                }
+            }
+        }
+    }
+    if (us_route < 0) us_route = 0.0;
+    // tronÃ§ons : morceaux contigus de mÃªme clÃ© de limite, modulation, largeur et couleur (d'une section Ã  l'autre)
+    string tri[];
+    foreach (int i; string g; PG) push(tri, sprintf("%s#%012.5f", g, PA[i] + 1000.0));
+    int ord[] = argsort(tri);
+    string RK[], RMOD[], RCOUL[], RGRP[];
+    float RA[], RB[], RW[], RU[], RUS[];
+    foreach (int i; ord) {
+        int nr = len(RA);
+        if (nr > 0 && RGRP[nr - 1] == PG[i] && PA[i] <= RB[nr - 1] + 1e-6) { RB[nr - 1] = max(RB[nr - 1], PB[i]); continue; }
+        push(RGRP, PG[i]); push(RK, PK[i]); push(RMOD, PMOD[i]); push(RCOUL, PCOUL[i]);
+        push(RA, PA[i]); push(RB, PB[i]); push(RW, PW[i]); push(RU, PU[i]); push(RUS, PUS[i]);
+    }
+    // lignes qui convergent : dÃ©gagement bord Ã  bord >= DEG_U Â· u ; la discontinue cÃ¨de Ã  la continue ; entre lignes de
+    // mÃªme nature, la plus Ã©troite (les deux Ã  Ã©galitÃ©) â€” [G], RF-MQ-MUS-01 par analogie (catalogue S09)
+    float CUT0[], CUT1[];
+    int CUTR[];
+    for (int i = 0; i < len(RA); i++) {
+        string ki[] = split(RK[i], "|");
+        for (int j = 0; j < len(RA); j++) {
+            if (j == i) continue;
+            float a = max(RA[i], RA[j]);
+            float b = min(RB[i], RB[j]);
+            if (b - a <= 1e-6) continue;
+            string kj[] = split(RK[j], "|");
+            string bande = "";
+            if (kj[0] == ki[1]) bande = ki[1];
+            else if (kj[1] == ki[0]) bande = ki[0];
+            if (bande == "" || bande == "^" || bande == "$") continue;
+            int ci = RMOD[i] == "continue";
+            int cj = RMOD[j] == "continue";
+            int cede = (!ci && cj) || (ci == cj && RW[i] <= RW[j] + 1e-9);
+            if (!cede) continue;
+            float marge = 0.5 * RW[i] + 0.5 * RW[j] + DEG_U * RU[i];
+            int m = max(1, int(ceil((b - a) / 0.05)));
+            float xp = a;
+            float cp = 0.0;
+            int dedans = 0;
+            float debut = a;
+            for (int q = 0; q <= m; q++) {
+                float x = a + (b - a) * q / m;
+                int sp = rg_point_section(2, rid, rg_indice_section(SEC0, x));
+                float w = rg_m_largeur_bande(2, sp, bande, x);
+                float c = (w < 0) ? 1e9 : w - marge;
+                if (q == 0) { if (c < 0) { dedans = 1; debut = a; } }
+                else if ((c < 0) != (cp < 0)) {
+                    float lo = xp, hi = x;
+                    for (int it = 0; it < 50; it++) {
+                        float md = 0.5 * (lo + hi);
+                        int spm = rg_point_section(2, rid, rg_indice_section(SEC0, md));
+                        float wm = rg_m_largeur_bande(2, spm, bande, md);
+                        float cm = (wm < 0) ? 1e9 : wm - marge;
+                        if ((cm < 0) == (cp < 0)) lo = md; else hi = md;
+                    }
+                    float xc = 0.5 * (lo + hi);
+                    if (c < 0) { dedans = 1; debut = xc; }
+                    else { push(CUT0, debut); push(CUT1, xc); push(CUTR, i); dedans = 0; }
+                }
+                xp = x;
+                cp = c;
+            }
+            if (dedans) { push(CUT0, debut); push(CUT1, b); push(CUTR, i); }
+        }
+    }
+    n_coupes += len(CUTR);
+    // tirets de chaque tronÃ§on (moins les dÃ©gagements) et empreintes
+    for (int r = 0; r < len(RA); r++) {
+        float ivs[] = array(RA[r], RB[r]);
+        for (int c = 0; c < len(CUTR); c++) if (CUTR[c] == r) ivs = rg_m_soustraire(ivs, CUT0[c], CUT1[c]);
+        int cont = RMOD[r] == "continue";
+        float tr = 0.0;
+        float vi = 0.0;
+        if (!cont) {
+            int mi = find(MODS, RMOD[r]);
+            if (mi < 0) { push(avert, sprintf("route %s : modulation inconnue %s", rid, RMOD[r])); continue; }
+            tr = TRAITS[mi];
+            vi = VIDES[mi];
+        }
+        string base = sprintf("ML_%s_%s_%s_%d", rid_n, re_replace("[^A-Za-z0-9]", "_", RK[r]),
+                              re_replace("[^A-Za-z0-9]", "", RMOD[r]), r);
+        string mat = rg_m_materiau(RCOUL[r], RUS[r]);
+        int rang = 0;
+        for (int q = 0; q + 1 < len(ivs); q += 2) {
+            float D0[], D1[];
+            if (cont) { push(D0, ivs[q]); push(D1, ivs[q + 1]); }
+            else {
+                float x = ivs[q];
+                while (x < ivs[q + 1] - 1e-9) {
+                    float fin = min(x + tr, ivs[q + 1]);
+                    if (fin - x >= FRAC * tr - 1e-6) { push(D0, x); push(D1, fin); }
+                    x += tr + vi;
+                }
+            }
+            foreach (int d; float x0; D0) {
+                float x1 = D1[d];
+                string idt = sprintf("%s_t%03d", base, rang);
+                string ent = idt;
+                // demi-empreintes de part et d'autre de la limite (ligne de rupture : couronne, changement de dÃ©vers),
+                // une par intervalle de ruptures, arÃªtes en long Ã©chantillonnÃ©es (courbe, dos-d'Ã¢ne)
+                for (int h = 0; h < 2; h++) {
+                    for (int j = 0; j + 1 < len(RUP); j++) {
+                        float a = max(RUP[j], x0);
+                        float b = min(RUP[j + 1], x1);
+                        if (b - a <= 1e-7) continue;
+                        float dsc = rg_m_dans_zones(FIN, a, b) ? min(PAS_FIN, DS) : DS;
+                        int m = max(1, int(ceil((b - a) / dsc - 1e-9)));
+                        int sp = rg_point_section(2, rid, rg_indice_section(SEC0, 0.5 * (a + b)));
+                        int l = rg_m_limite_cle(2, sp, RK[r]);
+                        if (l < 0) { n_hors_bande++; continue; }
+                        vector2 bas[], haut[];
+                        for (int qq = 0; qq <= m; qq++) {
+                            float x = a + (b - a) * qq / m;
+                            float T[] = rg_t_limites(2, sp, x);
+                            push(bas, set(x, T[l]));
+                            push(haut, set(x, (h == 0) ? T[l] + 0.5 * RW[r] : T[l] - 0.5 * RW[r]));
+                        }
+                        vector2 P[] = bas;
+                        for (int qq = len(haut) - 1; qq >= 0; qq--) push(P, haut[qq]);
+                        vector2 OUT[];
+                        int DEB[], NB[], BAND[];
+                        rg_m_cellules(P, 2, rid, SEC0, RUP, AMIN, OUT, DEB, NB, BAND);
+                        for (int z = 0; z < len(DEB); z++) {
+                            vector2 Q[];
+                            for (int v = 0; v < NB[z]; v++) { vector2 st = OUT[DEB[z] + v]; push(Q, rg_local_st(1, pr, st.x, st.y)); }
+                            int np = rg_m_poly(0, Q);
+                            int pa = isvalidindex(PARTIES, ent) ? int(PARTIES[ent]) : 0;
+                            PARTIES[ent] = pa + 1;
+                            rg_m_attributs(np, ent, idt, "ligne", cont ? "continue" : "tiret", "", mat, RCOUL[r], RUS[r],
+                                           pa, 0, rid, RK[r], RMOD[r], RW[r], x0, x1, rang, BAND[z], 1);
+                        }
+                    }
+                }
+                int sp0 = rg_point_section(2, rid, rg_indice_section(SEC0, x0));
+                int l0 = rg_m_limite_cle(2, sp0, RK[r]);
+                float T0[] = rg_t_limites(2, sp0, x0);
+                float t0 = l0 >= 0 ? T0[l0] : 0.0;
+                int tp = rg_m_table(rg_local_st(1, pr, x0, t0), "ligne", idt, rid);
+                setpointattrib(0, "m_cle", tp, RK[r]); setpointattrib(0, "m_modulation", tp, RMOD[r]);
+                setpointattrib(0, "m_largeur", tp, RW[r]); setpointattrib(0, "m_s0", tp, x0); setpointattrib(0, "m_s1", tp, x1);
+                setpointattrib(0, "m_t", tp, t0);
+                setpointattrib(0, "m_regles", tp, cont ? "RF-MQ-LAR-A1a" : "RF-MQ-MOD-" + RMOD[r]);
+                rang++;
+            }
+        }
+    }
+
+    // =========================================================== (2) ponctuels : passages, flÃ¨ches, symboles, inscriptions
+    int pts3[] = findattribval(3, "point", "route", rid);
+    foreach (int q3; pts3) {
+        if (point(3, "famille_modele", q3) != "marquage") continue;
+        string ty = point(3, "type", q3);
+        string idm = point(3, "id", q3);
+        string props = point(3, "props", q3);
+        dict P = json_loads(props, 0);
+        string coul = isvalidindex(P, "couleur") ? string(P["couleur"]) : "blanc";
+        string mat = rg_m_materiau(coul, us_route);
+        string ent = "MQ_" + re_replace("[^A-Za-z0-9]", "_", idm);
+        string rgl = "";
+        if (isvalidindex(P, "regles")) { string rr[] = P["regles"]; rgl = join(rr, " "); }
+        if (ty == "passage_pieton") {
+            // zone du modÃ¨le (geometrie.exterieur, Lambert-93) -> (s, t) ; n maximal (DEF-011), e = (W âˆ’ 0,5 n)/(n + 1)
+            float nbs[] = rg_m_nombres_apres(props, "exterieur");
+            float smin = 1e18, smax = -1e18, tmin = 1e18, tmax = -1e18;
+            for (int v = 0; v + 1 < len(nbs); v += 2) {
+                float s, t;
+                rg_st_local(1, pr, nbs[v] - O[0], nbs[v + 1] - O[1], s, t);
+                smin = min(smin, s); smax = max(smax, s); tmin = min(tmin, t); tmax = max(tmax, t);
+            }
+            if (smax <= smin) { push(avert, sprintf("%s : passage sans zone", idm)); continue; }
+            float W = tmax - tmin;
+            int n = int(floor((W - EMIN_PP) / (BANDE_PP + EMIN_PP) + 1e-9));
+            float e = (W - BANDE_PP * n) / (n + 1);
+            for (int b = 0; b < n; b++) {
+                float th = tmax - e - b * (BANDE_PP + e);
+                vector2 R0[] = array(set(smin, th - BANDE_PP), set(smax, th - BANDE_PP), set(smax, th), set(smin, th));
+                R0 = rg_m_densifier_st(R0, DS, PAS_FIN, FIN);
+                vector2 OUT[];
+                int DEB[], NB[], BAND[];
+                rg_m_cellules(R0, 2, rid, SEC0, RUP, AMIN, OUT, DEB, NB, BAND);
+                for (int z = 0; z < len(DEB); z++) {
+                    vector2 Q[];
+                    for (int v = 0; v < NB[z]; v++) { vector2 st = OUT[DEB[z] + v]; push(Q, rg_local_st(1, pr, st.x, st.y)); }
+                    int np = rg_m_poly(0, Q);
+                    string entb = sprintf("%s_b%02d", ent, b);
+                    int pa = isvalidindex(PARTIES, entb) ? int(PARTIES[entb]) : 0;
+                    PARTIES[entb] = pa + 1;
+                    rg_m_attributs(np, entb, sprintf("%s_b%02d", idm, b), "passage", "bande", "", mat, coul, us_route, pa, 0,
+                                   rid, "", "", BANDE_PP, smin, smax, b, BAND[z], 0);
+                }
+            }
+            int tp = rg_m_table(rg_local_st(1, pr, 0.5 * (smin + smax), 0.5 * (tmin + tmax)), "passage", idm, rid);
+            setpointattrib(0, "m_s0", tp, smin); setpointattrib(0, "m_s1", tp, smax); setpointattrib(0, "m_t", tp, tmax);
+            setpointattrib(0, "m_n", tp, n); setpointattrib(0, "m_e", tp, e); setpointattrib(0, "m_W", tp, W);
+            setpointattrib(0, "m_largeur", tp, BANDE_PP); setpointattrib(0, "m_regles", tp, rgl + " DEF-011 RF-MQ-PP-05");
+            continue;
+        }
+        if (ty != "fleche" && ty != "symbole" && ty != "inscription") continue;
+        dict an = P["ancrage"];
+        float s = float(an["s"]);
+        float t = float(an["t"]);
+        float cap = float(an["cap_deg"]);
+        string gab = isvalidindex(P, "gabarit") ? string(P["gabarit"]) : "";
+        vector2 o = rg_local_st(1, pr, s, t);
+        vector2 ey = set(cos(radians(cap)), sin(radians(cap)));
+        vector2 ex = set(ey.y, -ey.x);
+        // gabarits posÃ©s : un seul (flÃ¨che, symbole) ou les glyphes d'une inscription (x dÃ©calÃ©, centrÃ©s)
+        string GN[];
+        float GX[];
+        string texte = "";
+        if (ty == "inscription") {
+            float hl = 1.5;
+            if (isvalidindex(P, "x-opendrive")) {
+                dict xo = P["x-opendrive"];
+                if (isvalidindex(xo, "texte")) texte = xo["texte"];
+                if (isvalidindex(xo, "hauteur_lettres_m")) hl = float(xo["hauteur_lettres_m"]);
+            }
+            if (texte == "") texte = re_replace("^TEXTE_", "", gab);
+            string serie = hl <= 1.5 + 1e-9 ? "V70" : "V70P";
+            float tot = 0.0;
+            float LW[];
+            for (int c = 0; c < len(texte); c++) {
+                string gn = sprintf("GLYPHE_%s_%s", serie, texte[c]);
+                int g0 = findattribval(3, "prim", "gabarit", gn);
+                float lw = g0 >= 0 ? float(prim(3, "largeur_m", g0)) : 0.0;
+                if (g0 < 0) { n_sans_gabarit++; push(avert, sprintf("%s : glyphe %s absent", idm, gn)); }
+                push(LW, lw);
+                tot += lw + (c > 0 ? ESP_CAR : 0.0);
+            }
+            float xg = -0.5 * tot;
+            for (int c = 0; c < len(texte); c++) {
+                push(GN, sprintf("GLYPHE_%s_%s", serie, texte[c]));
+                push(GX, xg);
+                xg += LW[c] + ESP_CAR;
+            }
+        } else {
+            push(GN, gab);
+            push(GX, 0.0);
+        }
+        string classe = (ty == "fleche") ? "fleche" : (ty == "inscription" ? "inscription" : "symbole");
+        int trouve = 0;
+        foreach (int gi; string gn; GN) {
+            int gp[] = findattribval(3, "prim", "gabarit", gn);
+            if (len(gp) == 0) continue;
+            trouve = 1;
+            int parts[];
+            foreach (int g; gp) { int pa = prim(3, "partie", g); if (find(parts, pa) < 0) push(parts, pa); }
+            foreach (int pa; parts) {
+                int ext = -1;
+                int trous[];
+                foreach (int g; gp) if (prim(3, "partie", g) == pa) { if (prim(3, "anneau", g) == 0) ext = g; else push(trous, g); }
+                if (ext < 0) continue;
+                vector2 E0[];
+                int ep[] = primpoints(3, ext);
+                foreach (int p; ep) { vector Pg = point(3, "P", p); push(E0, o + (Pg.x + GX[gi]) * ex + (-Pg.z) * ey); }
+                if (len(trous) == 0) {
+                    // dÃ©coupe en cellules dans (s, t) ; arÃªtes densifiÃ©es en (x, y) (restent droites) pour le drapÃ©
+                    vector2 Ed[] = rg_m_densifier_xy(E0, PAS_SYMB);
+                    vector2 Est[];
+                    float sa0 = 1e18, sb0 = -1e18;
+                    foreach (vector2 qv; Ed) { float ss, tt; rg_st_local(1, pr, qv.x, qv.y, ss, tt); push(Est, set(ss, tt)); sa0 = min(sa0, ss); sb0 = max(sb0, ss); }
+                    if (rg_m_dans_zones(FIN, sa0, sb0)) {
+                        Ed = rg_m_densifier_xy(E0, PAS_FIN);
+                        resize(Est, 0);
+                        foreach (vector2 qv; Ed) { float ss, tt; rg_st_local(1, pr, qv.x, qv.y, ss, tt); push(Est, set(ss, tt)); }
+                    }
+                    vector2 OUT[];
+                    int DEB[], NB[], BAND[];
+                    rg_m_cellules(Est, 2, rid, SEC0, RUP, AMIN, OUT, DEB, NB, BAND);
+                    for (int z = 0; z < len(DEB); z++) {
+                        vector2 Q[];
+                        for (int v = 0; v < NB[z]; v++) { vector2 st = OUT[DEB[z] + v]; push(Q, rg_local_st(1, pr, st.x, st.y)); }
+                        int np = rg_m_poly(0, Q);
+                        int pp2 = isvalidindex(PARTIES, ent) ? int(PARTIES[ent]) : 0;
+                        PARTIES[ent] = pp2 + 1;
+                        rg_m_attributs(np, ent, idm, classe, gn, gab, mat, coul, us_route, pp2, 0, rid, "", "", 0.0, s, s,
+                                       gi, BAND[z], 0);
+                    }
+                } else {
+                    // anneau Ã  trous (lettres) : posÃ© tel quel ; une ligne de rupture qui le traverse est comptÃ©e
+                    int pp2 = isvalidindex(PARTIES, ent) ? int(PARTIES[ent]) : 0;
+                    PARTIES[ent] = pp2 + 1;
+                    int np = rg_m_poly(0, E0);
+                    rg_m_attributs(np, ent, idm, classe, gn, gab, mat, coul, us_route, pp2, 0, rid, "", "", 0.0, s, s, gi, -1, 0);
+                    float s_a = 1e18, s_b = -1e18, t_a = 1e18, t_b = -1e18;
+                    foreach (vector2 qv; E0) { float ss, tt; rg_st_local(1, pr, qv.x, qv.y, ss, tt); s_a = min(s_a, ss); s_b = max(s_b, ss); t_a = min(t_a, tt); t_b = max(t_b, tt); }
+                    int sp = rg_point_section(2, rid, rg_indice_section(SEC0, 0.5 * (s_a + s_b)));
+                    float T[] = rg_t_limites(2, sp, 0.5 * (s_a + s_b));
+                    int coupe = 0;
+                    foreach (float tl; T) if (tl > t_a + 1e-6 && tl < t_b - 1e-6) coupe = 1;
+                    foreach (float rr; RUP) if (rr > s_a + 1e-6 && rr < s_b - 1e-6) coupe = 1;
+                    n_traverse += coupe;
+                    foreach (int ah; int g; trous) {
+                        vector2 H[];
+                        int hp[] = primpoints(3, g);
+                        foreach (int p; hp) { vector Pg = point(3, "P", p); push(H, o + (Pg.x + GX[gi]) * ex + (-Pg.z) * ey); }
+                        int nh = rg_m_poly(0, H);
+                        rg_m_attributs(nh, ent, idm, classe, gn, gab, mat, coul, us_route, pp2, ah + 1, rid, "", "", 0.0, s, s, gi, -1, 0);
+                    }
+                }
+            }
+        }
+        if (!trouve) { n_sans_gabarit++; push(avert, sprintf("%s : gabarit %s absent", idm, gab)); continue; }
+        int tp = rg_m_table(o, classe, idm, rid);
+        setpointattrib(0, "m_gabarit", tp, gab); setpointattrib(0, "m_s0", tp, s); setpointattrib(0, "m_t", tp, t);
+        setpointattrib(0, "m_cap_deg", tp, cap); setpointattrib(0, "m_texte", tp, texte);
+        setpointattrib(0, "m_regles", tp, rgl);
+    }
+
+    // =========================================================== (3) figurines des bandes (objets le long, symbole_sol)
+    for (int k = 0; k < len(SEC0); k++) {
+        int sp = rg_point_section(2, rid, k);
+        int pp = rg_point_profil(0, SPR[k]);
+        if (sp < 0 || pp < 0) continue;
+        string bjs[] = point(0, "bande_json", pp);
+        string bsens[] = point(0, "bande_sens", pp);
+        for (int b = 0; b < len(bjs); b++) {
+            dict bj = json_loads(bjs[b], 0);
+            if (!isvalidindex(bj, "objets_le_long")) continue;
+            dict objs[] = bj["objets_le_long"];
+            foreach (dict ob; objs) {
+                string fam = isvalidindex(ob, "famille") ? string(ob["famille"]) : "";
+                if (fam != "symbole_sol") continue;
+                string gab = isvalidindex(ob, "gabarit") ? string(ob["gabarit"]) : "VELO";
+                string mode = ob["mode"];
+                float ss[];
+                if (mode == "points") { float xs[] = ob["s_points"]; ss = xs; }
+                else {
+                    float pas = float(ob["pas_m"]);
+                    float ph = isvalidindex(ob, "phase_m") ? float(ob["phase_m"]) : 0.0;
+                    for (int m = 0; m < 100000; m++) { float x = ph + m * pas; if (x > L + 1e-9) break; push(ss, x); }
+                }
+                float dec = 0.0;
+                if (isvalidindex(ob, "ancrage")) { dict a2 = ob["ancrage"]; if (isvalidindex(a2, "decalage_m")) dec = float(a2["decalage_m"]); }
+                string oid = isvalidindex(ob, "id") ? string(ob["id"]) : "fig";
+                int gp[] = findattribval(3, "prim", "gabarit", gab);
+                if (len(gp) == 0) { n_sans_gabarit++; push(avert, sprintf("%s : gabarit %s absent", oid, gab)); continue; }
+                float Lg = prim(3, "longueur_m", gp[0]);
+                int dernier = (k == len(SEC0) - 1);
+                foreach (int m; float x; ss) {
+                    if (x < SEC0[k] - 1e-9 || x > SEC1[k] + 1e-9 || (!dernier && x >= SEC1[k] - 1e-9)) continue;
+                    float T[] = rg_t_limites(2, sp, x);
+                    float t = 0.5 * (T[b] + T[b + 1]) + dec;
+                    float xr, yr, th, kk;
+                    rg_reference(1, pr, x, xr, yr, th, kk);
+                    float cap = degrees(th) + (bsens[b] == "arriere" ? 180.0 : 0.0);
+                    vector2 ey = set(cos(radians(cap)), sin(radians(cap)));
+                    vector2 ex = set(ey.y, -ey.x);
+                    vector2 o = rg_local_st(1, pr, x, t) - 0.5 * Lg * ey;          // ancrage = milieu de la figurine
+                    string ent = sprintf("MF_%s_%s_%03d", rid_n, re_replace("[^A-Za-z0-9]", "_", oid), m);
+                    string mat = rg_m_materiau("blanc", us_route);
+                    foreach (int g; gp) {
+                        if (prim(3, "anneau", g) != 0) continue;
+                        vector2 E0[];
+                        int ep[] = primpoints(3, g);
+                        foreach (int p; ep) { vector Pg = point(3, "P", p); push(E0, o + Pg.x * ex + (-Pg.z) * ey); }
+                        vector2 Ed[] = rg_m_densifier_xy(E0, PAS_SYMB);
+                        vector2 Est[];
+                        foreach (vector2 qv; Ed) { float s2, t2; rg_st_local(1, pr, qv.x, qv.y, s2, t2); push(Est, set(s2, t2)); }
+                        vector2 OUT[];
+                        int DEB[], NB[], BAND[];
+                        rg_m_cellules(Est, 2, rid, SEC0, RUP, AMIN, OUT, DEB, NB, BAND);
+                        for (int z = 0; z < len(DEB); z++) {
+                            vector2 Q[];
+                            for (int v = 0; v < NB[z]; v++) { vector2 st = OUT[DEB[z] + v]; push(Q, rg_local_st(1, pr, st.x, st.y)); }
+                            int np = rg_m_poly(0, Q);
+                            int pa = isvalidindex(PARTIES, ent) ? int(PARTIES[ent]) : 0;
+                            PARTIES[ent] = pa + 1;
+                            rg_m_attributs(np, ent, ent, "figurine", gab, gab, mat, "blanc", us_route, pa, 0, rid, string(bj["id"]), "",
+                                           0.0, x, x, m, BAND[z], 0);
+                        }
+                    }
+                    int tp = rg_m_table(rg_local_st(1, pr, x, t), "figurine", ent, rid);
+                    setpointattrib(0, "m_gabarit", tp, gab); setpointattrib(0, "m_s0", tp, x); setpointattrib(0, "m_t", tp, t);
+                    setpointattrib(0, "m_cap_deg", tp, cap); setpointattrib(0, "m_cle", tp, string(bj["id"]));
+                    setpointattrib(0, "m_regles", tp, "RF-MA-CYC-012 RF-MQ-CYC-03 DEF-018");
+                }
+            }
+        }
+    }
+
+    // =========================================================== (4) zÃ©bras : bandes Â« zone_neutralisee / hachures Â»
+    string ZB[];
+    for (int k = 0; k < len(SEC0); k++) {
+        int pp = rg_point_profil(0, SPR[k]);
+        if (pp < 0) continue;
+        string bty[] = point(0, "bande_type", pp);
+        string bst[] = point(0, "bande_sous_type", pp);
+        string bidp[] = point(0, "bande_id", pp);
+        foreach (int b; string bt; bty) if (bt == "zone_neutralisee" && bst[b] == "hachures" && find(ZB, bidp[b]) < 0) push(ZB, bidp[b]);
+    }
+    foreach (string zb; ZB) {
+        // abscisses : ruptures oÃ¹ la bande existe (d'un cÃ´tÃ© ou de l'autre)
+        float S[];
+        foreach (float x; RUP) {
+            int spd = rg_point_section(2, rid, rg_indice_section(SEC0, min(x + 1e-7, L)));
+            int spg = rg_point_section(2, rid, rg_indice_section(SEC0, max(x - 1e-7, 0.0)));
+            string b1[] = point(2, "b_id", spd);
+            string b2[] = point(2, "b_id", spg);
+            if (find(b1, zb) >= 0 || find(b2, zb) >= 0) push(S, x);
+        }
+        if (len(S) < 2) continue;
+        // suites d'abscisses où la bande existe sans interruption (correction après contrôle : une zone hachurée
+        // interrompue par une autre section, îlot bordé de S_M24, était jointe par-dessus l'interruption et lue avec un
+        // indice de bande absent : polygone hors de la chaussée) ; une entité par suite (nom d'origine pour la première)
+        float S_TOUT[] = S;
+        int RD[], RF_[];
+        int i_run = -1;
+        foreach (int ix; float x; S_TOUT) {
+            int spd = rg_point_section(2, rid, rg_indice_section(SEC0, min(x + 1e-7, L)));
+            string b1[] = point(2, "b_id", spd);
+            int ed = find(b1, zb) >= 0 && x < L - 1e-7;
+            if (i_run < 0 && ed) i_run = ix;
+            else if (i_run >= 0 && !ed) { push(RD, i_run); push(RF_, ix); i_run = -1; }
+        }
+        if (i_run >= 0 && i_run < len(S_TOUT) - 1) { push(RD, i_run); push(RF_, len(S_TOUT) - 1); }
+        for (int ru = 0; ru < len(RD); ru++) {
+        S = array();
+        for (int ix = RD[ru]; ix <= RF_[ru]; ix++) push(S, S_TOUT[ix]);
+        if (len(S) < 2) continue;
+        // bornes de la zone hachurable en t : bordure (caniveau, corps) + 2u ; ligne peinte (demi-largeur) + 2u, mesurÃ©s
+        // perpendiculairement Ã  la limite (RF-MQ-MUS-01) ; cÃ´tÃ© de la voie ouverte = cÃ´tÃ© de la ligne peinte
+        float HI[], LO[];
+        int cote_ligne = 0;
+        string sens_voie = "avant";
+        float u_z = U_DEF;
+        foreach (int ix; float x; S) {
+            float dx = (ix == len(S) - 1) ? -1e-4 : 1e-4;
+            float xs = x + dx;
+            int sp = rg_point_section(2, rid, rg_indice_section(SEC0, xs));
+            string bid[] = point(2, "b_id", sp);
+            int b = find(bid, zb);
+            float T[] = rg_t_limites(2, sp, x);
+            float Te[] = rg_t_limites(2, sp, xs);
+            int lb[] = point(2, "l_bord", sp);
+            int lh[] = point(2, "l_h", sp);
+            float lbase[] = point(2, "l_base", sp);
+            float lwc[] = point(2, "l_wc", sp);
+            float mg[] = array(0.0, 0.0);
+            for (int cote = 0; cote < 2; cote++) {
+                int l = (cote == 0) ? b : b + 1;
+                string cle = (l > 0 ? bid[l - 1] : "^") + "|" + (l < len(bid) ? bid[l] : "$");
+                float pente = (Te[l] - T[l]) / dx;
+                float k_perp = sqrt(1.0 + pente * pente);
+                if (lb[l] == 1) {
+                    float wc = rg_caniveau_present(2, sp, l, xs) ? lwc[l] : 0.0;
+                    int bas_vers_zone = (cote == 0) ? (lh[l] > 0) : (lh[l] < 0);
+                    mg[cote] = (bas_vers_zone ? wc : lbase[l]) + DEG_U * u_z;
+                } else {
+                    int ir = -1;
+                    for (int r = 0; r < len(RA); r++) if (RK[r] == cle && x >= RA[r] - 1e-6 && x <= RB[r] + 1e-6) ir = r;
+                    if (ir >= 0) {
+                        mg[cote] = (0.5 * RW[ir] + DEG_U * RU[ir]) * k_perp;
+                        cote_ligne = (cote == 0) ? 1 : -1;
+                        u_z = RU[ir];
+                        string bsens[] = point(0, "bande_sens", rg_point_profil(0, SPR[rg_indice_section(SEC0, xs)]));
+                        int bv = (cote == 0) ? b - 1 : b + 1;
+                        if (bv >= 0 && bv < len(bsens)) sens_voie = bsens[bv];
+                    }
+                }
+            }
+            push(HI, T[b] - mg[0]);
+            push(LO, T[b + 1] + mg[1]);
+        }
+        // zone : largeur(s) = HI âˆ’ LO, linÃ©aire par morceaux ; bornes oÃ¹ elle s'annule ; aplats sous H_APLAT
+        int n = len(S);
+        float z0 = -1.0, z1 = -1.0, sa = -1.0, sb = -1.0;
+        for (int i = 0; i < n; i++) {
+            float w = HI[i] - LO[i];
+            if (i == 0) { if (w >= 0) z0 = S[0]; if (w >= H_APLAT) sa = S[0]; continue; }
+            float w0 = HI[i - 1] - LO[i - 1];
+            if (w0 < 0 && w >= 0 && z0 < 0) z0 = S[i - 1] + (S[i] - S[i - 1]) * (0 - w0) / (w - w0);
+            if (w0 >= 0 && w < 0) z1 = S[i - 1] + (S[i] - S[i - 1]) * (0 - w0) / (w - w0);
+            if (w0 < H_APLAT && w >= H_APLAT && sa < 0) sa = S[i - 1] + (S[i] - S[i - 1]) * (H_APLAT - w0) / (w - w0);
+            if (w0 >= H_APLAT && w < H_APLAT) sb = S[i - 1] + (S[i] - S[i - 1]) * (H_APLAT - w0) / (w - w0);
+        }
+        if (z1 < 0 && HI[n - 1] - LO[n - 1] >= 0) z1 = S[n - 1];
+        if (sb < 0 && HI[n - 1] - LO[n - 1] >= H_APLAT) sb = S[n - 1];
+        if (z0 < 0 || z1 <= z0) { push(avert, sprintf("route %s : zÃ©bra %s sans largeur hachurable", rid, zb)); continue; }
+        vector2 Zp[];
+        push(Zp, set(z0, rg_m_interp(S, HI, z0)));
+        for (int i = 0; i < n; i++) if (S[i] > z0 + 1e-9 && S[i] < z1 - 1e-9) push(Zp, set(S[i], HI[i]));
+        push(Zp, set(z1, rg_m_interp(S, HI, z1)));
+        push(Zp, set(z1, rg_m_interp(S, LO, z1)));
+        for (int i = n - 1; i >= 0; i--) if (S[i] > z0 + 1e-9 && S[i] < z1 - 1e-9) push(Zp, set(S[i], LO[i]));
+        push(Zp, set(z0, rg_m_interp(S, LO, z0)));
+        Zp = rg_m_nettoyer(Zp, 1e-9);
+        if (rg_m_aire(Zp) < 0) { vector2 inv[]; for (int i = len(Zp) - 1; i >= 0; i--) push(inv, Zp[i]); Zp = inv; }
+        string ent = sprintf("MZ_%s_%s", rid_n, re_replace("[^A-Za-z0-9]", "_", zb));
+        if (ru > 0) ent = sprintf("%s_%d", ent, ru);
+        string mat = rg_m_materiau("blanc", us_route);
+        vector2 PIECES[];
+        int PDEB[], PNB[];
+        string PTYP[];
+        if (sa >= 0 && sb > sa) {          // sa = 0 : zone pleine dès le début du tronçon (sa > 0 la remplissait d'un aplat)
+            vector2 A1[] = rg_m_demi_plan(Zp, -1.0, 0.0, sa);
+            if (len(A1) >= 3 && abs(rg_m_aire(A1)) > 1e-5) { push(PDEB, len(PIECES)); push(PNB, len(A1)); push(PTYP, "aplat"); foreach (vector2 v; A1) push(PIECES, v); }
+            vector2 A2[] = rg_m_demi_plan(Zp, 1.0, 0.0, -sb);
+            if (len(A2) >= 3 && abs(rg_m_aire(A2)) > 1e-5) { push(PDEB, len(PIECES)); push(PNB, len(A2)); push(PTYP, "aplat"); foreach (vector2 v; A2) push(PIECES, v); }
+            vector2 U0[] = rg_m_demi_plan(rg_m_demi_plan(Zp, 1.0, 0.0, -sa), -1.0, 0.0, sb);
+            float sg_s = (sens_voie == "arriere") ? -1.0 : 1.0;
+            float sg_t = (cote_ligne > 0) ? 1.0 : -1.0;
+            vector2 dh = set(sg_s * cos(radians(H_ANG)), sg_t * sin(radians(H_ANG)));
+            vector2 nn = set(-dh.y, dh.x);
+            float c_ref = dot(nn, set(sa, rg_m_interp(S, HI, sa)));
+            float pmin = 1e18, pmax = -1e18;
+            foreach (vector2 v; U0) { pmin = min(pmin, dot(nn, v)); pmax = max(pmax, dot(nn, v)); }
+            float pas = H_BANDE + H_ESP;
+            int kmin = int(floor((pmin - c_ref) / pas)) - 1;
+            int kmx = int(ceil((pmax - c_ref) / pas)) + 1;
+            for (int kk = kmin; kk <= kmx; kk++) {
+                float c1 = c_ref + kk * pas;
+                float c0 = c1 + H_BANDE;
+                vector2 Hh[] = rg_m_demi_plan(U0, nn.x, nn.y, -c1);
+                Hh = rg_m_demi_plan(Hh, -nn.x, -nn.y, c0);
+                Hh = rg_m_nettoyer(Hh, 1e-9);
+                if (len(Hh) >= 3 && abs(rg_m_aire(Hh)) > 1e-4) { push(PDEB, len(PIECES)); push(PNB, len(Hh)); push(PTYP, "hachure"); foreach (vector2 v; Hh) push(PIECES, v); }
+            }
+        } else {
+            push(PDEB, len(PIECES)); push(PNB, len(Zp)); push(PTYP, "aplat"); foreach (vector2 v; Zp) push(PIECES, v);
+        }
+        for (int z = 0; z < len(PDEB); z++) {
+            vector2 R0[];
+            for (int v = 0; v < PNB[z]; v++) push(R0, PIECES[PDEB[z] + v]);
+            vector2 c0 = R0[0];
+            R0 = rg_m_densifier_st(R0, DS, PAS_FIN, FIN);
+            vector2 OUT[];
+            int DEB[], NB[], BAND[];
+            rg_m_cellules(R0, 2, rid, SEC0, RUP, AMIN, OUT, DEB, NB, BAND);
+            string idz = sprintf("%s_%s%02d", ent, PTYP[z], z);
+            for (int y = 0; y < len(DEB); y++) {
+                vector2 Q[];
+                for (int v = 0; v < NB[y]; v++) { vector2 st = OUT[DEB[y] + v]; push(Q, rg_local_st(1, pr, st.x, st.y)); }
+                int np = rg_m_poly(0, Q);
+                int pa = isvalidindex(PARTIES, idz) ? int(PARTIES[idz]) : 0;
+                PARTIES[idz] = pa + 1;
+                rg_m_attributs(np, idz, idz, PTYP[z], PTYP[z], "", mat, "blanc", us_route, pa, 0, rid, zb, "",
+                               PTYP[z] == "hachure" ? H_BANDE : 0.0, z0, z1, z, BAND[y], 0);
+            }
+            int tp = rg_m_table(rg_local_st(1, pr, c0.x, c0.y), PTYP[z], idz, rid);
+            setpointattrib(0, "m_cle", tp, zb); setpointattrib(0, "m_s0", tp, z0); setpointattrib(0, "m_s1", tp, z1);
+            setpointattrib(0, "m_cap_deg", tp, H_ANG);
+            setpointattrib(0, "m_regles", tp, "DEF-020 RF-MQ-HACH-01 RF-MQ-HACH-03 RF-MQ-MUS-01");
+        }
+        }
+    }
+}
+// profils d'entrÃ©e retirÃ©s (seules restent les empreintes et la table)
+for (int p = 0; p < npoints(0); p++) if (len(pointprims(0, p)) == 0 && !inpointgroup(0, "table", p)) removepoint(0, p);
+setdetailattrib(0, "rg_marquages_sur_bordure", n_sur_bordure);
+setdetailattrib(0, "rg_marquages_traversant_rupture", n_traverse);
+setdetailattrib(0, "rg_marquages_hors_bande", n_hors_bande);
+setdetailattrib(0, "rg_marquages_sans_gabarit", n_sans_gabarit);
+setdetailattrib(0, "rg_marquages_degagements", n_coupes);
+setdetailattrib(0, "rg_marquages_avertissements", avert);
+if (len(avert) > 0) warning("%s", join(avert, " ; "));

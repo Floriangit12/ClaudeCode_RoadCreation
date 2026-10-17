@@ -1,0 +1,19 @@
+# Piste cyclable bidirectionnelle de 3,00 m au niveau de la chaussée, séparée de la voie par un séparateur
+# franchissable de 0,50 m (RF-MA-SEP-001 : 0,15 m de haut côté chaussée), trottoir de 2,50 m derrière.
+# La piste est écrite en une bande ; le compilateur la coupe en deux demi-pistes de sens opposés, avec l'axe T'1 2u
+# en u = 3 cm entre elles (RF-OSM-CYC-002). Pas de style Chronovélo (jamais par défaut, DEF-008).
+scene: ex12_piste_bidirectionnelle_separateur
+description: Rue 1 + 1 à 50 km/h avec piste bidirectionnelle de 3 m à gauche, au niveau de la chaussée, séparée par un séparateur de 0,50 m.
+contexte:
+  agglomeration: oui
+troncon:
+  de: [0, 0]
+  vers: [120, 0]
+profil: "trottoir 2,5 | piste cyclable 3,0 bidirectionnelle niveau chaussée | séparateur 0,5 | voie 3,0 ← | voie 3,0 → | bordure T2 | trottoir 2,0"
+materiaux:
+  pistes: enrobé
+evenements:
+  - passage_pieton: {a: 60}
+abords:
+  gauche: pelouse 5
+  droite: pelouse 5

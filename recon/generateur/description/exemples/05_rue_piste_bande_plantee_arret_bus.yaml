@@ -1,0 +1,31 @@
+# Rue « scène E » du plan (sans le carrefour) : de la chaussée vers la façade, stationnement longitudinal de 2 m,
+# bande plantée de 3 m avec arbres d'alignement (fosses de 3 × 3 m), piste unidirectionnelle de 2 m à niveau
+# intermédiaire, trottoir de 2 m. Une traversée piétonne avec abaissés et BEV (bande plantée revêtue à son droit), un C20a, un arrêt de bus en avancée
+# (le quai interrompt le stationnement et la bande plantée ; la piste passe derrière).
+scene: ex05_rue_piste_bande_plantee_arret_bus
+description: Rue 1 + 1 à 50 km/h, stationnement, bande plantée avec arbres, piste cyclable unidirectionnelle à niveau intermédiaire et trottoir de chaque côté ; passage piéton, arrêt de bus à droite.
+contexte:
+  agglomeration: oui
+  vitesse: 50
+troncon:
+  de: [0, 0]
+  vers: [200, 0]
+profil: >-
+  trottoir 2,0 | piste cyclable 2,0 niveau intermédiaire | bande plantée 3,0 arbres | stationnement 2,0 |
+  voie 3,0 ← | voie 3,0 → | stationnement 2,0 | bande plantée 3,0 arbres | piste cyclable 2,0 niveau intermédiaire |
+  trottoir 2,0
+materiaux:
+  chaussee: enrobé usé
+  trottoirs: béton balayé
+  bordures: béton
+evenements:
+  # traversée revêtue de la bande plantée au droit du passage (58 à 62) : le passage aboutit sur un trottoir (abaissé et
+  # BEV contre la chaussée), la piste se traverse derrière (correction après le second contrôle de l'étape 1 : un
+  # passage qui aboutit dans une bande plantée est refusé)
+  - profil: {a: 58, nouveau: "trottoir 2,0 | piste cyclable 2,0 niveau intermédiaire | trottoir 3,0 | stationnement 2,0 | voie 3,0 ← | voie 3,0 → | stationnement 2,0 | trottoir 3,0 | piste cyclable 2,0 niveau intermédiaire | trottoir 2,0"}
+  - profil: {a: 62, nouveau: "trottoir 2,0 | piste cyclable 2,0 niveau intermédiaire | bande plantée 3,0 arbres | stationnement 2,0 | voie 3,0 ← | voie 3,0 → | stationnement 2,0 | bande plantée 3,0 arbres | piste cyclable 2,0 niveau intermédiaire | trottoir 2,0"}
+  - passage_pieton: {a: 60, panneau: oui}
+  - arret_bus: {a: 140, cote: droite, abri: oui, panneau: oui}
+abords:
+  gauche: pelouse 4
+  droite: pelouse 4

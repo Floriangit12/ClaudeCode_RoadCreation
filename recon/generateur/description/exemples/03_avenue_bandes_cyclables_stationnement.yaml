@@ -1,0 +1,24 @@
+# Avenue avec bandes cyclables des deux côtés, stationnement longitudinal à droite séparé de la bande par un tampon
+# de 0,50 m contre l'ouverture des portières : profil P-URB-2V-BC-ST de l'exemple du dossier 12 (§ 7.2), écrit en
+# une ligne. Alignement d'arbres dans le trottoir de droite (3 m), passage piéton à 70 m.
+scene: ex03_avenue_bandes_cyclables_stationnement
+description: Avenue 2 × 1 voies à 50 km/h, bandes cyclables de 1,50 m, stationnement à droite avec tampon, trottoirs de 2 et 3 m, arbres côté droit.
+contexte:
+  agglomeration: oui
+  categorie: avenue
+troncon:
+  de: [0, 0]
+  vers: [150, 0]
+profil: >-
+  trottoir 2,0 | bordure T2 | bande cyclable 1,5 | voie 3,0 ← | voie 3,0 → | bande cyclable 1,5 | tampon 0,5 |
+  stationnement 2,0 | bordure T2 | trottoir 3,0
+materiaux:
+  chaussee: enrobé
+  trottoirs: enrobé
+evenements:
+  - passage_pieton: {a: 70}
+vegetation:
+  - arbres: {bande: trottoir droite, pas: 8}
+abords:
+  gauche: pelouse 6
+  droite: pelouse 6

@@ -1,0 +1,23 @@
+# Route départementale hors agglomération, sans bordure : rives peintes, bandes dérasées, accotements enherbés,
+# un virage à gauche. Les largeurs des voies et des bandes dérasées ne sont pas dites : les règles les complètent
+# (RF-OSM-LAR-014 : voie 3,00 m et BDD 0,50 m pour une RD à une chaussée), la vitesse aussi (RF-OSM-VIT-003 : 80).
+scene: ex01_route_2x1_sans_bordure
+description: Route départementale 2 × 1 voies hors agglomération, rives T2, bandes dérasées revêtues, accotements en herbe haute, virage à gauche de 150 m de rayon.
+contexte:
+  agglomeration: non
+  categorie: route départementale
+troncon:
+  depart: [0, 0]
+  cap: 0
+  trace:
+    - droite: 60
+    - arc: {rayon: 150, angle: 25, sens: gauche}
+    - droite: 50
+profil: "accotement herbe 1,5 | bande dérasée | voie ← | voie → | bande dérasée | accotement herbe 1,5"
+materiaux:
+  chaussee: enrobé usé
+marquages:
+  usure: moyenne
+abords:
+  gauche: prairie 15
+  droite: champ 20

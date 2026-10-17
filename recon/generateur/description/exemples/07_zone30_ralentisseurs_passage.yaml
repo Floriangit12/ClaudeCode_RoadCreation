@@ -1,0 +1,23 @@
+# Rue de zone 30 : un dos-d'âne (4,00 × 0,10, triangles D.8 et axe T3 prolongé de 10 m), un plateau portant un
+# passage piéton (pas de triangles, RF-MQ-PP-04) et un coussin berlinois par voie. Un passage piéton sur le
+# dos-d'âne lui-même serait refusé (RF-MA-RAL-001).
+scene: ex07_zone30_ralentisseurs_passage
+description: Rue 1 + 1 en zone 30, trottoirs de 1,80 m ; dos-d'âne à 40 m, plateau avec passage piéton à 100 m, coussins à 160 m.
+contexte:
+  agglomeration: oui
+  vitesse: 30
+  categorie: rue
+troncon:
+  de: [0, 0]
+  vers: [200, 0]
+profil: "trottoir 1,8 | bordure T2 | voie 3,0 ← | voie 3,0 → | bordure T2 | trottoir 1,8"
+materiaux:
+  chaussee: enrobé usé
+  trottoirs: enrobé
+evenements:
+  - dos_d_ane: {a: 40}
+  - plateau: {a: 100, passage_pieton: oui}
+  - coussin: {a: 160}
+abords:
+  gauche: pelouse 5
+  droite: pelouse 5

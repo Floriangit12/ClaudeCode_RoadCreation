@@ -1,0 +1,1732 @@
+{
+ "schema": "modele_voie/0.1",
+ "meta": {
+  "date": "2026-10-16",
+  "auteur": "agent modèle de données (dossier 12)",
+  "zone": "exemple synthétique : carrefour en T, branche secondaire à îlot séparateur et cédez-le-passage",
+  "description": "Instance d'essai du schéma modele_voie/0.1. Géométrie et valeurs fictives mais conformes aux règles citées ; ce n'est PAS un relevé de Meylan.",
+  "sources": [
+   "assets/specs/route/regles_route_fr.json"
+  ],
+  "migration": "identifiants de règles migrés vers regles_route_fr.json par recon/generateur/schema/migrer_exemples.py (lot L0) ; valeurs inchangées ; relevé : recon/generateur/validation/migration_exemples_L0.json"
+ },
+ "repere": {
+  "crs": "EPSG:2154",
+  "origine_l93": [
+   917279.43,
+   6460289.98,
+   216.3
+  ],
+  "z_ref": "NGF-IGN69",
+  "convention_t": "positif_a_gauche"
+ },
+ "contexte": {
+  "pays": "FR",
+  "sens_circulation": "droite",
+  "agglomerations": [
+   {
+    "id": "AG-1",
+    "nom": "agglomération d'essai",
+    "polygone": {
+     "exterieur": [
+      [
+       917100,
+       6460100
+      ],
+      [
+       917500,
+       6460100
+      ],
+      [
+       917500,
+       6460500
+      ],
+      [
+       917100,
+       6460500
+      ],
+      [
+       917100,
+       6460100
+      ]
+     ]
+    }
+   }
+  ],
+  "u_itineraires": {
+   "R-1": 0.05,
+   "R-2": 0.05,
+   "R-3": 0.05
+  }
+ },
+ "profils": [
+  {
+   "id": "P-URB-2V-BC-ST",
+   "nom": "Avenue urbaine 2 × 1 voie, bandes cyclables, stationnement à droite, trottoirs",
+   "agglomeration": true,
+   "u_m": 0.05,
+   "reference": {
+    "limite": 3
+   },
+   "bandes": [
+    {
+     "id": "trottoir_g",
+     "type": "trottoir",
+     "sens": "double",
+     "usagers": [
+      "pieton"
+     ],
+     "largeur": 2.0,
+     "materiau_id": "enrobe_trottoir",
+     "niveau": {
+      "reference": "trottoir",
+      "dz_m": 0.14,
+      "devers_pct": 1.5
+     },
+     "tags_graphe": [
+      "pieton"
+     ],
+     "x-opendrive": {
+      "lane_type": "sidewalk"
+     },
+     "prov": {
+      "largeur": {
+       "src": "defaut:RF-OSM-LAR-020",
+       "regle": "RF-OSM-LAR-020",
+       "conf": "moyenne"
+      }
+     }
+    },
+    {
+     "id": "bc_g",
+     "type": "bande_cyclable",
+     "sens": "arriere",
+     "usagers": [
+      "velo",
+      "edpm"
+     ],
+     "largeur": 1.5,
+     "materiau_id": "enrobe_bbsg_ancien",
+     "niveau": {
+      "reference": "chaussee",
+      "dz_m": 0.0,
+      "devers_pct": -2.5
+     },
+     "tags_graphe": [
+      "velo"
+     ],
+     "x-opendrive": {
+      "lane_type": "biking"
+     },
+     "objets_le_long": [
+      {
+       "id": "fig_g",
+       "famille": "symbole_sol",
+       "type": "figurine_velo",
+       "gabarit": "VELO",
+       "mode": "pas",
+       "pas_m": 50,
+       "phase_m": 5,
+       "ancrage": {
+        "reference": "centre",
+        "decalage_m": 0
+       },
+       "orientation": {
+        "mode": "tangent"
+       },
+       "exclusions": [
+        {
+         "type": "carrefour",
+         "distance_m": 2
+        },
+        {
+         "type": "passage_pieton",
+         "distance_m": 1
+        }
+       ],
+       "regles": [
+        "DEF-018"
+       ]
+      }
+     ],
+     "prov": {
+      "largeur": {
+       "src": "defaut:RF-OSM-LAR-030",
+       "regle": "RF-OSM-LAR-030",
+       "conf": "haute"
+      }
+     }
+    },
+    {
+     "id": "voie_g",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "usagers": [
+      "vl",
+      "pl",
+      "bus",
+      "velo"
+     ],
+     "largeur": 3.0,
+     "materiau_id": "enrobe_bbsg_ancien",
+     "niveau": {
+      "reference": "chaussee",
+      "dz_m": 0.0,
+      "devers_pct": -2.5,
+      "forme": "toit"
+     },
+     "vitesse_kmh": 50,
+     "tags_graphe": [
+      "vehicule"
+     ],
+     "x-opendrive": {
+      "lane_type": "driving"
+     },
+     "prov": {
+      "largeur": {
+       "src": "defaut:RF-OSM-LAR-010",
+       "regle": "RF-OSM-LAR-010",
+       "conf": "moyenne"
+      }
+     }
+    },
+    {
+     "id": "voie_d",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "usagers": [
+      "vl",
+      "pl",
+      "bus",
+      "velo"
+     ],
+     "largeur": 3.0,
+     "materiau_id": "enrobe_bbsg_ancien",
+     "niveau": {
+      "reference": "chaussee",
+      "dz_m": 0.0,
+      "devers_pct": 2.5,
+      "forme": "toit"
+     },
+     "vitesse_kmh": 50,
+     "tags_graphe": [
+      "vehicule"
+     ],
+     "x-opendrive": {
+      "lane_type": "driving"
+     },
+     "prov": {
+      "largeur": {
+       "src": "defaut:RF-OSM-LAR-010",
+       "regle": "RF-OSM-LAR-010",
+       "conf": "moyenne"
+      }
+     }
+    },
+    {
+     "id": "bc_d",
+     "type": "bande_cyclable",
+     "sens": "avant",
+     "usagers": [
+      "velo",
+      "edpm"
+     ],
+     "largeur": 1.5,
+     "materiau_id": "enrobe_bbsg_ancien",
+     "niveau": {
+      "reference": "chaussee",
+      "dz_m": 0.0,
+      "devers_pct": 2.5
+     },
+     "tags_graphe": [
+      "velo"
+     ],
+     "x-opendrive": {
+      "lane_type": "biking"
+     },
+     "prov": {
+      "largeur": {
+       "src": "defaut:RF-OSM-LAR-030",
+       "regle": "RF-OSM-LAR-030",
+       "conf": "haute"
+      }
+     }
+    },
+    {
+     "id": "tampon_d",
+     "type": "zone_neutralisee",
+     "sous_type": "tampon_emportierage",
+     "sens": "aucun",
+     "largeur": 0.5,
+     "materiau_id": "enrobe_bbsg_ancien",
+     "niveau": {
+      "reference": "chaussee",
+      "dz_m": 0.0,
+      "devers_pct": 2.5
+     },
+     "x-opendrive": {
+      "lane_type": "restricted"
+     },
+     "prov": {
+      "largeur": {
+       "src": "defaut:RF-OSM-LAR-032",
+       "regle": "RF-OSM-LAR-032",
+       "conf": "haute"
+      }
+     }
+    },
+    {
+     "id": "st_d",
+     "type": "stationnement",
+     "sens": "avant",
+     "usagers": [
+      "vl"
+     ],
+     "largeur": 2.0,
+     "materiau_id": "enrobe_bbsg_ancien",
+     "niveau": {
+      "reference": "chaussee",
+      "dz_m": 0.0,
+      "devers_pct": 2.5
+     },
+     "stationnement": {
+      "orientation": "longitudinal",
+      "longueur_place_m": 5.0,
+      "position": "chaussee",
+      "marquage_places": false
+     },
+     "tags_graphe": [
+      "stationnement"
+     ],
+     "x-opendrive": {
+      "lane_type": "parking"
+     },
+     "prov": {
+      "largeur": {
+       "src": "defaut:RF-OSM-LAR-040",
+       "regle": "RF-OSM-LAR-040",
+       "conf": "moyenne"
+      }
+     }
+    },
+    {
+     "id": "trottoir_d",
+     "type": "trottoir",
+     "sens": "double",
+     "usagers": [
+      "pieton"
+     ],
+     "largeur": 3.0,
+     "materiau_id": "enrobe_trottoir",
+     "niveau": {
+      "reference": "trottoir",
+      "dz_m": 0.14,
+      "devers_pct": -1.5
+     },
+     "tags_graphe": [
+      "pieton"
+     ],
+     "x-opendrive": {
+      "lane_type": "sidewalk"
+     },
+     "objets_le_long": [
+      {
+       "id": "arbres",
+       "famille": "vegetation",
+       "type": "arbre_alignement",
+       "asset_id": "arbre_tilleul_moyen",
+       "mode": "pas",
+       "pas_m": 8,
+       "phase_m": 4,
+       "ancrage": {
+        "reference": "rive_gauche",
+        "decalage_m": -1.0
+       },
+       "orientation": {
+        "mode": "aleatoire"
+       },
+       "alea": {
+        "s_m": 0.3,
+        "t_m": 0.05,
+        "lacet_deg": 180,
+        "echelle": 0.1,
+        "sel": 11
+       },
+       "exclusions": [
+        {
+         "type": "passage_pieton",
+         "distance_m": 5
+        },
+        {
+         "type": "triangle_visibilite"
+        },
+        {
+         "type": "entree_charretiere",
+         "distance_m": 1.5
+        },
+        {
+         "type": "carrefour",
+         "distance_m": 10
+        }
+       ],
+       "regles": [
+        "RF-OSM-VEG-001",
+        "RF-GV-TPC-010",
+        "RF-GV-TPC-011",
+        "RF-GV-VIS-001"
+       ]
+      },
+      {
+       "id": "candelabres",
+       "famille": "objet_3d",
+       "type": "candelabre",
+       "asset_id": "candelabre_urbain_8m",
+       "mode": "pas",
+       "pas_m": 30,
+       "phase_m": 15,
+       "ancrage": {
+        "reference": "rive_gauche",
+        "decalage_m": -0.6
+       },
+       "orientation": {
+        "mode": "face_chaussee"
+       },
+       "hauteur_m": 8,
+       "exclusions": [
+        {
+         "type": "passage_pieton",
+         "distance_m": 2
+        },
+        {
+         "type": "objet",
+         "distance_m": 2
+        }
+       ],
+       "regles": []
+      }
+     ],
+     "prov": {
+      "largeur": {
+       "src": "defaut:RF-OSM-LAR-020",
+       "regle": "RF-OSM-LAR-020",
+       "conf": "faible",
+       "note": "largeur confort 2,50-3,00 m retenue pour loger les arbres"
+      }
+     }
+    }
+   ],
+   "limites": [
+    {
+     "nature": [
+      "virtuelle"
+     ]
+    },
+    {
+     "nature": [
+      "bordure"
+     ],
+     "bordure": {
+      "profil": "T2",
+      "vue_m": 0.14,
+      "cote_haut": "gauche",
+      "caniveau": {
+       "profil": "CS2",
+       "cote": "droite"
+      },
+      "materiau_id": "beton_bordure_gris"
+     },
+     "prov": {
+      "bordure.vue_m": {
+       "src": "defaut:RF-OSM-NIV-010",
+       "regle": "RF-OSM-NIV-010",
+       "conf": "moyenne"
+      }
+     }
+    },
+    {
+     "nature": [
+      "marquage"
+     ],
+     "marquages": [
+      {
+       "modulation": "T3",
+       "largeur_u": 5,
+       "u_m": 0.05,
+       "couleur": "blanc",
+       "regle": "RF-OSM-MRQ-030"
+      }
+     ],
+     "x-opendrive": {
+      "roadmark_type": "broken",
+      "weight": "bold",
+      "lane_change": "both"
+     }
+    },
+    {
+     "nature": [
+      "marquage"
+     ],
+     "marquages": [
+      {
+       "modulation": "T'1",
+       "largeur_u": 2,
+       "u_m": 0.05,
+       "couleur": "blanc",
+       "regle": "RF-OSM-MRQ-020"
+      }
+     ],
+     "x-opendrive": {
+      "roadmark_type": "broken",
+      "weight": "standard",
+      "lane_change": "both"
+     },
+     "prov": {
+      "marquages[0].modulation": {
+       "src": "inference:RF-OSM-MRQ-020",
+       "regle": "RF-OSM-MRQ-010",
+       "conf": "moyenne"
+      }
+     }
+    },
+    {
+     "nature": [
+      "marquage"
+     ],
+     "marquages": [
+      {
+       "modulation": "T3",
+       "largeur_u": 5,
+       "u_m": 0.05,
+       "couleur": "blanc",
+       "regle": "RF-OSM-MRQ-030"
+      }
+     ],
+     "x-opendrive": {
+      "roadmark_type": "broken",
+      "weight": "bold",
+      "lane_change": "both"
+     }
+    },
+    {
+     "nature": [
+      "virtuelle"
+     ]
+    },
+    {
+     "nature": [
+      "virtuelle"
+     ],
+     "prov": {
+      "*": {
+       "src": "inference:RF-OSM-LAR-032",
+       "conf": "moyenne",
+       "note": "tampon non peint entre bande et stationnement"
+      }
+     }
+    },
+    {
+     "nature": [
+      "bordure"
+     ],
+     "bordure": {
+      "profil": "T2",
+      "vue_m": 0.14,
+      "cote_haut": "droite",
+      "caniveau": {
+       "profil": "CS2",
+       "cote": "gauche"
+      },
+      "materiau_id": "beton_bordure_gris"
+     }
+    },
+    {
+     "nature": [
+      "virtuelle"
+     ]
+    }
+   ],
+   "regles": [
+    "RF-OSM-PRF-001",
+    "RF-OSM-PRF-010"
+   ]
+  },
+  {
+   "id": "P-URB-2V-SEC",
+   "nom": "Rue secondaire 2 voies sans marquage axial, trottoirs",
+   "agglomeration": true,
+   "u_m": 0.05,
+   "reference": {
+    "limite": 2
+   },
+   "bandes": [
+    {
+     "id": "trottoir_g",
+     "type": "trottoir",
+     "sens": "double",
+     "usagers": [
+      "pieton"
+     ],
+     "largeur": 1.8,
+     "materiau_id": "enrobe_trottoir",
+     "niveau": {
+      "reference": "trottoir",
+      "dz_m": 0.14,
+      "devers_pct": 1.5
+     },
+     "tags_graphe": [
+      "pieton"
+     ]
+    },
+    {
+     "id": "voie_g",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "usagers": [
+      "vl",
+      "pl",
+      "velo"
+     ],
+     "largeur": 2.75,
+     "materiau_id": "enrobe_bbsg_ancien",
+     "niveau": {
+      "reference": "chaussee",
+      "devers_pct": -2.5,
+      "forme": "toit"
+     },
+     "tags_graphe": [
+      "vehicule"
+     ]
+    },
+    {
+     "id": "voie_d",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "usagers": [
+      "vl",
+      "pl",
+      "velo"
+     ],
+     "largeur": 2.75,
+     "materiau_id": "enrobe_bbsg_ancien",
+     "niveau": {
+      "reference": "chaussee",
+      "devers_pct": 2.5,
+      "forme": "toit"
+     },
+     "tags_graphe": [
+      "vehicule"
+     ]
+    },
+    {
+     "id": "trottoir_d",
+     "type": "trottoir",
+     "sens": "double",
+     "usagers": [
+      "pieton"
+     ],
+     "largeur": 1.8,
+     "materiau_id": "enrobe_trottoir",
+     "niveau": {
+      "reference": "trottoir",
+      "dz_m": 0.14,
+      "devers_pct": -1.5
+     },
+     "tags_graphe": [
+      "pieton"
+     ]
+    }
+   ],
+   "limites": [
+    {
+     "nature": [
+      "virtuelle"
+     ]
+    },
+    {
+     "nature": [
+      "bordure"
+     ],
+     "bordure": {
+      "profil": "T2",
+      "vue_m": 0.14,
+      "cote_haut": "gauche",
+      "caniveau": {
+       "profil": "CS2",
+       "cote": "droite"
+      }
+     }
+    },
+    {
+     "nature": [
+      "virtuelle"
+     ],
+     "prov": {
+      "*": {
+       "src": "inference:RF-OSM-MRQ-021",
+       "regle": "RF-OSM-MRQ-010",
+       "conf": "moyenne",
+       "note": "axe facultatif en agglomération, non tracé par défaut"
+      }
+     }
+    },
+    {
+     "nature": [
+      "bordure"
+     ],
+     "bordure": {
+      "profil": "T2",
+      "vue_m": 0.14,
+      "cote_haut": "droite",
+      "caniveau": {
+       "profil": "CS2",
+       "cote": "gauche"
+      }
+     }
+    },
+    {
+     "nature": [
+      "virtuelle"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P-URB-2V-SEC-ILOT",
+   "nom": "Rue secondaire à l'approche du carrefour : îlot séparateur refuge de 2,00 m",
+   "agglomeration": true,
+   "u_m": 0.05,
+   "reference": {
+    "limite": 2,
+    "decalage_m": -1.0
+   },
+   "bandes": [
+    {
+     "id": "trottoir_g",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 1.8,
+     "materiau_id": "enrobe_trottoir",
+     "niveau": {
+      "reference": "trottoir",
+      "dz_m": 0.14
+     }
+    },
+    {
+     "id": "voie_g",
+     "type": "voie_circulation",
+     "sens": "arriere",
+     "largeur": 3.0,
+     "materiau_id": "enrobe_bbsg_ancien"
+    },
+    {
+     "id": "tpc",
+     "type": "terre_plein",
+     "sous_type": "ilot_separateur_refuge",
+     "sens": "aucun",
+     "largeur": 2.0,
+     "terre_plein": {
+      "franchissable": "non",
+      "surelevation_m": 0.14,
+      "ceinture": {
+       "profil": "T2",
+       "vue_m": 0.14
+      },
+      "remplissage": {
+       "type": "brf",
+       "materiau_id": "brf_bois_concasse",
+       "epaisseur_m": 0.08,
+       "retrait_sous_bordure_m": 0.04
+      },
+      "plantation": {
+       "strates": [
+        {
+         "type": "vivace",
+         "hauteur_max_m": 0.5
+        }
+       ],
+       "hauteur_max_visibilite_m": 0.6
+      }
+     },
+     "x-opendrive": {
+      "lane_type": "median"
+     }
+    },
+    {
+     "id": "voie_d",
+     "type": "voie_circulation",
+     "sens": "avant",
+     "largeur": 3.0,
+     "materiau_id": "enrobe_bbsg_ancien"
+    },
+    {
+     "id": "trottoir_d",
+     "type": "trottoir",
+     "sens": "double",
+     "largeur": 1.8,
+     "materiau_id": "enrobe_trottoir",
+     "niveau": {
+      "reference": "trottoir",
+      "dz_m": 0.14
+     }
+    }
+   ],
+   "limites": [
+    {
+     "nature": [
+      "virtuelle"
+     ]
+    },
+    {
+     "nature": [
+      "bordure"
+     ],
+     "bordure": {
+      "profil": "T2",
+      "vue_m": 0.14,
+      "cote_haut": "gauche"
+     }
+    },
+    {
+     "nature": [
+      "bordure"
+     ],
+     "bordure": {
+      "profil": "T2",
+      "vue_m": 0.14,
+      "cote_haut": "droite"
+     }
+    },
+    {
+     "nature": [
+      "bordure"
+     ],
+     "bordure": {
+      "profil": "T2",
+      "vue_m": 0.14,
+      "cote_haut": "gauche"
+     }
+    },
+    {
+     "nature": [
+      "bordure"
+     ],
+     "bordure": {
+      "profil": "T2",
+      "vue_m": 0.14,
+      "cote_haut": "droite"
+     }
+    },
+    {
+     "nature": [
+      "virtuelle"
+     ]
+    }
+   ]
+  }
+ ],
+ "noeuds": [
+  {
+   "id": "N-1",
+   "position": [
+    917200.0,
+    6460300.0
+   ],
+   "type": "limite_carte"
+  },
+  {
+   "id": "N-2",
+   "position": [
+    917300.0,
+    6460300.0
+   ],
+   "type": "carrefour",
+   "carrefour": "C-1",
+   "routes": [
+    "R-1",
+    "R-2",
+    "R-3"
+   ]
+  },
+  {
+   "id": "N-3",
+   "position": [
+    917400.0,
+    6460300.0
+   ],
+   "type": "limite_carte"
+  },
+  {
+   "id": "N-4",
+   "position": [
+    917300.0,
+    6460200.0
+   ],
+   "type": "limite_carte"
+  }
+ ],
+ "routes": [
+  {
+   "id": "R-1",
+   "osm": {
+    "ways": [
+     1001
+    ],
+    "tags": {
+     "highway": "secondary",
+     "lanes": "2",
+     "cycleway:both": "lane",
+     "parking:right": "lane",
+     "parking:right:orientation": "parallel",
+     "sidewalk": "both",
+     "maxspeed": "50"
+    }
+   },
+   "noeud_debut": "N-1",
+   "noeud_fin": "N-2",
+   "nom": "Avenue d'essai",
+   "classe_osm": "secondary",
+   "categorie": "rue",
+   "agglomeration": true,
+   "vitesse_kmh": 50,
+   "sens_unique": "non",
+   "prioritaire": true,
+   "ligne_reference": {
+    "geometrie": [
+     [
+      917200.0,
+      6460300.0
+     ],
+     [
+      917300.0,
+      6460300.0
+     ]
+    ],
+    "placement": {
+     "type": "centre_chaussee"
+    },
+    "longueur_m": 100.0
+   },
+   "sections": [
+    {
+     "s0": 0.0,
+     "s1": 100.0,
+     "profil": "P-URB-2V-BC-ST"
+    }
+   ],
+   "profil_long": {
+    "source": "plat"
+   },
+   "carrefour_fin": "C-1",
+   "prov": {
+    "vitesse_kmh": {
+     "src": "osm:tag/maxspeed",
+     "conf": "haute"
+    },
+    "sections": {
+     "src": "inference:RF-OSM-PRF-001",
+     "conf": "moyenne"
+    }
+   }
+  },
+  {
+   "id": "R-2",
+   "osm": {
+    "ways": [
+     1002
+    ],
+    "tags": {
+     "highway": "secondary",
+     "lanes": "2",
+     "cycleway:both": "lane",
+     "parking:right": "lane",
+     "sidewalk": "both",
+     "maxspeed": "50"
+    }
+   },
+   "noeud_debut": "N-2",
+   "noeud_fin": "N-3",
+   "categorie": "rue",
+   "agglomeration": true,
+   "vitesse_kmh": 50,
+   "sens_unique": "non",
+   "prioritaire": true,
+   "ligne_reference": {
+    "geometrie": [
+     [
+      917300.0,
+      6460300.0
+     ],
+     [
+      917400.0,
+      6460300.0
+     ]
+    ],
+    "placement": {
+     "type": "centre_chaussee"
+    },
+    "longueur_m": 100.0
+   },
+   "sections": [
+    {
+     "s0": 0.0,
+     "s1": 100.0,
+     "profil": "P-URB-2V-BC-ST"
+    }
+   ],
+   "carrefour_debut": "C-1"
+  },
+  {
+   "id": "R-3",
+   "osm": {
+    "ways": [
+     1003
+    ],
+    "tags": {
+     "highway": "residential",
+     "sidewalk": "both"
+    }
+   },
+   "noeud_debut": "N-4",
+   "noeud_fin": "N-2",
+   "categorie": "rue",
+   "agglomeration": true,
+   "vitesse_kmh": 50,
+   "sens_unique": "non",
+   "prioritaire": false,
+   "ligne_reference": {
+    "geometrie": [
+     [
+      917300.0,
+      6460200.0
+     ],
+     [
+      917300.0,
+      6460300.0
+     ]
+    ],
+    "placement": {
+     "type": "centre_chaussee"
+    },
+    "longueur_m": 100.0
+   },
+   "sections": [
+    {
+     "s0": 0.0,
+     "s1": 70.0,
+     "profil": "P-URB-2V-SEC"
+    },
+    {
+     "s0": 70.0,
+     "s1": 100.0,
+     "profil": "P-URB-2V-SEC-ILOT",
+     "transition_entree": {
+      "type": "lineaire",
+      "longueur_m": 15.0,
+      "regle": "RF-OSM-CAR-061"
+     },
+     "surcharges": {
+      "bandes[2].terre_plein.ceinture.abaisses": [
+       {
+        "s0": 88.0,
+        "s1": 91.0,
+        "type": "traversee",
+        "vue_m": 0.02,
+        "bev": true,
+        "regle": "RF-MA-REF-003"
+       }
+      ]
+     }
+    }
+   ],
+   "carrefour_fin": "C-1",
+   "signaux": [
+    "SG-1"
+   ],
+   "marquages": [
+    "M-1",
+    "M-2"
+   ],
+   "prov": {
+    "vitesse_kmh": {
+     "src": "defaut:RF-OSM-VIT-002",
+     "regle": "RF-OSM-VIT-002",
+     "conf": "moyenne",
+     "note": "50 km/h national ; à Meylan la règle locale LOC-VIT-001 donnerait 30 km/h"
+    }
+   }
+  }
+ ],
+ "carrefours": [
+  {
+   "id": "C-1",
+   "type": "plan_ilots",
+   "regime": "cedez",
+   "noeuds": [
+    "N-2"
+   ],
+   "centre": [
+    917300.0,
+    6460300.0
+   ],
+   "branches": [
+    {
+     "id": "B-O",
+     "route": "R-1",
+     "extremite": "fin",
+     "azimut_deg": 270,
+     "bandes_entrantes": [
+      "voie_d",
+      "bc_d"
+     ],
+     "bandes_sortantes": [
+      "voie_g",
+      "bc_g"
+     ],
+     "regime": "prioritaire",
+     "coin_droit": {
+      "rayon_m": 6.0,
+      "forme": "arc",
+      "regle": "RF-OSM-CAR-030"
+     }
+    },
+    {
+     "id": "B-E",
+     "route": "R-2",
+     "extremite": "debut",
+     "azimut_deg": 90,
+     "bandes_entrantes": [
+      "voie_g",
+      "bc_g"
+     ],
+     "bandes_sortantes": [
+      "voie_d",
+      "bc_d"
+     ],
+     "regime": "prioritaire",
+     "coin_droit": {
+      "rayon_m": 6.0,
+      "forme": "arc",
+      "regle": "RF-OSM-CAR-030"
+     }
+    },
+    {
+     "id": "B-S",
+     "route": "R-3",
+     "extremite": "fin",
+     "azimut_deg": 180,
+     "bandes_entrantes": [
+      "voie_d"
+     ],
+     "bandes_sortantes": [
+      "voie_g"
+     ],
+     "regime": "cedez",
+     "ligne_arret": {
+      "type": "CEDEZ",
+      "distance_m": 0.0,
+      "bandes": [
+       "voie_d"
+      ],
+      "largeur_m": 0.5,
+      "modulation": "T'2",
+      "regle": "RF-MQ-CED-01"
+     },
+     "passage_pieton": "PP-1",
+     "ilot_separateur": "I-1",
+     "coin_droit": {
+      "rayon_m": 6.0,
+      "forme": "arc",
+      "regle": "RF-OSM-CAR-030"
+     },
+     "signaux": [
+      "SG-1"
+     ]
+    }
+   ],
+   "zone_conflit": {
+    "exterieur": [
+     [
+      917293.0,
+      6460293.0
+     ],
+     [
+      917307.0,
+      6460293.0
+     ],
+     [
+      917307.0,
+      6460306.0
+     ],
+     [
+      917293.0,
+      6460306.0
+     ],
+     [
+      917293.0,
+      6460293.0
+     ]
+    ]
+   },
+   "frontiere": [
+    {
+     "type": "joint",
+     "route": "R-1",
+     "extremite": "fin"
+    },
+    {
+     "type": "joint",
+     "route": "R-3",
+     "extremite": "fin"
+    },
+    {
+     "type": "joint",
+     "route": "R-2",
+     "extremite": "debut"
+    }
+   ],
+   "ilots": [
+    "I-1"
+   ],
+   "trajectoires": [
+    {
+     "id": "T-1",
+     "de": {
+      "branche": "B-O",
+      "bande": "voie_d"
+     },
+     "vers": {
+      "branche": "B-E",
+      "bande": "voie_d"
+     },
+     "mouvement": "TD",
+     "geometrie": [
+      [
+       917293.0,
+       6460298.5
+      ],
+      [
+       917307.0,
+       6460298.5
+      ]
+     ],
+     "largeur_m": 3.0,
+     "tags_graphe": [
+      "vehicule"
+     ],
+     "priorite": 1
+    },
+    {
+     "id": "T-2",
+     "de": {
+      "branche": "B-O",
+      "bande": "voie_d"
+     },
+     "vers": {
+      "branche": "B-S",
+      "bande": "voie_g"
+     },
+     "mouvement": "TAD",
+     "geometrie": [
+      [
+       917293.0,
+       6460298.5
+      ],
+      [
+       917296.5,
+       6460297.0
+      ],
+      [
+       917298.5,
+       6460293.0
+      ]
+     ],
+     "rayon_min_m": 4.5,
+     "largeur_m": 3.0,
+     "priorite": 1
+    },
+    {
+     "id": "T-3",
+     "de": {
+      "branche": "B-S",
+      "bande": "voie_d"
+     },
+     "vers": {
+      "branche": "B-O",
+      "bande": "voie_g"
+     },
+     "mouvement": "TAG",
+     "geometrie": [
+      [
+       917301.5,
+       6460293.0
+      ],
+      [
+       917300.5,
+       6460299.0
+      ],
+      [
+       917293.0,
+       6460301.5
+      ]
+     ],
+     "rayon_min_m": 7.0,
+     "largeur_m": 3.0,
+     "priorite": 2,
+     "guidage": {
+      "materialise": false,
+      "modulation": "aucune",
+      "regle": "RF-OSM-MRQ-041"
+     },
+     "conflits": [
+      "K-1"
+     ]
+    },
+    {
+     "id": "T-4",
+     "de": {
+      "branche": "B-E",
+      "bande": "voie_g"
+     },
+     "vers": {
+      "branche": "B-O",
+      "bande": "voie_g"
+     },
+     "mouvement": "TD",
+     "geometrie": [
+      [
+       917307.0,
+       6460301.5
+      ],
+      [
+       917293.0,
+       6460301.5
+      ]
+     ],
+     "largeur_m": 3.0,
+     "priorite": 1
+    }
+   ],
+   "conflits": [
+    {
+     "id": "K-1",
+     "trajectoires": [
+      "T-3",
+      "T-4"
+     ],
+     "type": "convergence",
+     "point": [
+      917296.0,
+      6460301.5
+     ],
+     "prioritaire": "T-4"
+    }
+   ],
+   "passages_pieton": [
+    {
+     "id": "PP-1",
+     "route": "R-3",
+     "s": 89.0,
+     "axe": [
+      [
+       917296.0,
+       6460289.0
+      ],
+      [
+       917304.0,
+       6460289.0
+      ]
+     ],
+     "largeur_m": 2.5,
+     "bandes": {
+      "largeur_m": 0.5,
+      "intervalle_m": 0.6,
+      "nombre": 7
+     },
+     "regime": "non_gere",
+     "refuge": "I-1",
+     "abaisses": true,
+     "bev": true,
+     "osm": {
+      "highway": "crossing",
+      "crossing": "uncontrolled",
+      "crossing:markings": "zebra",
+      "crossing:island": "yes"
+     },
+     "prov": {
+      "s": {
+       "src": "inference:RF-OSM-CAR-040",
+       "regle": "DEF-012",
+       "conf": "moyenne"
+      }
+     }
+    }
+   ],
+   "elevation": {
+    "type": "plan"
+   },
+   "x-opendrive": {
+    "junction_id": "1",
+    "type": "default"
+   },
+   "x-zonegraph": {
+    "forme": "polygone",
+    "routage": "Arcs",
+    "tags": [
+     "vehicule"
+    ]
+   },
+   "regles": [
+    "RF-OSM-CAR-001",
+    "RF-OSM-CAR-020",
+    "RF-OSM-CAR-040",
+    "RF-OSM-MRQ-041",
+    "RF-MQ-CED-01",
+    "RF-MQ-STOP-03"
+   ]
+  }
+ ],
+ "ilots": [
+  {
+   "id": "I-1",
+   "type": "separateur",
+   "carrefour": "C-1",
+   "polygone": {
+    "exterieur": [
+     [
+      917299.0,
+      6460272.0
+     ],
+     [
+      917301.0,
+      6460272.0
+     ],
+     [
+      917301.0,
+      6460291.5
+     ],
+     [
+      917300.0,
+      6460292.5
+     ],
+     [
+      917299.0,
+      6460291.5
+     ],
+     [
+      917299.0,
+      6460272.0
+     ]
+    ]
+   },
+   "terre_plein": {
+    "franchissable": "non",
+    "surelevation_m": 0.14,
+    "ceinture": {
+     "profil": "T2",
+     "vue_m": 0.14
+    },
+    "remplissage": {
+     "type": "brf",
+     "materiau_id": "brf_bois_concasse"
+    },
+    "marquage_contour": {
+     "modulation": "aucune"
+    },
+    "objets_portes": [
+     "SG-2"
+    ]
+   },
+   "nez": [
+    {
+     "position": [
+      917300.0,
+      6460292.5
+     ],
+     "rayon_m": 0.5,
+     "balise": "J5"
+    }
+   ],
+   "refuge": {
+    "largeur_m": 2.0,
+    "traversee": "PP-1",
+    "abaisses": true,
+    "bev": true
+   },
+   "prov": {
+    "*": {
+     "src": "inference:RF-OSM-CAR-050",
+     "regle": "RF-OSM-LAR-051",
+     "conf": "moyenne"
+    }
+   }
+  }
+ ],
+ "signaux": [
+  {
+   "id": "SG-1",
+   "famille": "panneau",
+   "code": "AB3a",
+   "gamme": "normale",
+   "dimension_mm": 1000,
+   "support": {
+    "type": "poteau",
+    "groupe": "SUP-1",
+    "diametre_mm": 76
+   },
+   "position": {
+    "route": "R-3",
+    "s": 92.5,
+    "t": -5.05,
+    "cote": "droite"
+   },
+   "orientation": {
+    "vise": {
+     "route": "R-3",
+     "bande": "voie_d",
+     "sens": "avant"
+    },
+    "rotation_exterieure_deg": 3
+   },
+   "hauteur_bas_m": 2.3,
+   "applicabilite": {
+    "route": "R-3",
+    "bandes": [
+     "voie_d"
+    ],
+    "sens": "avant",
+    "carrefour": "C-1",
+    "branche": "B-S"
+   },
+   "regles": [
+    "RF-OSM-PAN-001",
+    "RF-SV-GEN.DISTANCE_RIVE",
+    "RF-SV-GEN.HAUTEUR.AGGLO",
+    "RF-SV-AB3A.POSITION",
+    "RF-SV-GEN.SUPPORT_EXCLUSIF_AB3A_AB4"
+   ],
+   "x-opendrive": {
+    "country": "FR",
+    "type": "AB3a",
+    "subtype": "-1",
+    "dynamic": "no",
+    "orientation": "+"
+   },
+   "prov": {
+    "position.t": {
+     "src": "solveur:signalisation",
+     "regle": "RF-OSM-PAN-010",
+     "conf": "moyenne",
+     "note": "bord du panneau à 0,70 m de la rive : axe du poteau à 0,70 + 0,50 m"
+    }
+   }
+  },
+  {
+   "id": "SG-2",
+   "famille": "panneau",
+   "code": "B21-1",
+   "gamme": "petite",
+   "position": {
+    "route": "R-3",
+    "s": 91.8,
+    "t": 0.0,
+    "cote": "ilot"
+   },
+   "hauteur_bas_m": 1.0,
+   "orientation": {
+    "vise": {
+     "route": "R-3",
+     "bande": "voie_d",
+     "sens": "avant"
+    }
+   },
+   "regles": [
+    "RF-SV-B21.EMPLOI",
+    "RF-OBS-SIG-01"
+   ]
+  }
+ ],
+ "marquages": [
+  {
+   "id": "M-1",
+   "type": "triangle_cedez",
+   "gabarit": "CEDEZ_V60",
+   "ancrage": {
+    "route": "R-3",
+    "bande": "voie_d",
+    "s": 84.0,
+    "t": -1.5,
+    "cap_deg": 0
+   },
+   "couleur": "blanc",
+   "regles": [
+    "RF-MQ-CED-01"
+   ]
+  },
+  {
+   "id": "M-2",
+   "type": "ligne_transversale",
+   "gabarit": "CEDEZ",
+   "ancrage": {
+    "route": "R-3",
+    "carrefour": "C-1",
+    "branche": "B-S"
+   },
+   "couleur": "blanc",
+   "regles": [
+    "RF-MQ-CED-01"
+   ]
+  }
+ ],
+ "objets": [],
+ "zones": [
+  {
+   "id": "Z-1",
+   "type": "bati",
+   "polygone": {
+    "exterieur": [
+     [
+      917210.0,
+      6460312.0
+     ],
+     [
+      917260.0,
+      6460312.0
+     ],
+     [
+      917260.0,
+      6460340.0
+     ],
+     [
+      917210.0,
+      6460340.0
+     ],
+     [
+      917210.0,
+      6460312.0
+     ]
+    ]
+   },
+   "attributs": {
+    "hauteur_m": 12.0,
+    "niveaux": 4
+   },
+   "prov": {
+    "*": {
+     "src": "osm:way/2001",
+     "conf": "haute"
+    }
+   }
+  }
+ ],
+ "graphe_voies": {
+  "tags": [
+   {
+    "nom": "vehicule",
+    "bit": 0
+   },
+   {
+    "nom": "velo",
+    "bit": 1
+   },
+   {
+    "nom": "pieton",
+    "bit": 2
+   },
+   {
+    "nom": "stationnement",
+    "bit": 3
+   }
+  ],
+  "profils_voies": [
+   {
+    "id": "ZLP-URB-2V",
+    "voies": [
+     {
+      "largeur_cm": 300,
+      "direction": "Backward",
+      "tags": [
+       "vehicule"
+      ]
+     },
+     {
+      "largeur_cm": 300,
+      "direction": "Forward",
+      "tags": [
+       "vehicule"
+      ]
+     }
+    ]
+   }
+  ],
+  "zones": [
+   {
+    "id": "Z-R1",
+    "forme": "spline",
+    "route": "R-1",
+    "section": 0,
+    "profil_voies": "ZLP-URB-2V",
+    "tags": [
+     "vehicule"
+    ]
+   },
+   {
+    "id": "Z-C1",
+    "forme": "polygone",
+    "carrefour": "C-1",
+    "tags": [
+     "vehicule"
+    ]
+   }
+  ],
+  "voies": [
+   {
+    "id": "V-R1-d",
+    "zone": "Z-R1",
+    "bande": "voie_d",
+    "largeur_m": 3.0,
+    "sens": "avant",
+    "tags": [
+     "vehicule"
+    ],
+    "polyligne": [
+     [
+      917200.0,
+      6460298.5
+     ],
+     [
+      917293.0,
+      6460298.5
+     ]
+    ],
+    "vitesse_kmh": 50
+   },
+   {
+    "id": "V-C1-T1",
+    "zone": "Z-C1",
+    "trajectoire": "T-1",
+    "largeur_m": 3.0,
+    "sens": "avant",
+    "tags": [
+     "vehicule"
+    ],
+    "polyligne": [
+     [
+      917293.0,
+      6460298.5
+     ],
+     [
+      917307.0,
+      6460298.5
+     ]
+    ]
+   }
+  ],
+  "liens": [
+   {
+    "de": "V-R1-d",
+    "vers": "V-C1-T1",
+    "type": "sortant"
+   }
+  ]
+ }
+}

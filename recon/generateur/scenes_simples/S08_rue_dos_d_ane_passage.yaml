@@ -1,0 +1,35 @@
+# S08 — Rue 1 + 1 avec dos-d'âne (marquage IISR) et passage piéton juste avant.
+format: description_simple/0.1
+scene: S08
+nom: rue_dos_d_ane_passage
+titre: Rue 1 + 1 à 30 km/h, passage piéton puis dos-d'âne
+description: "Rue de desserte limitée à 30 km/h (S02 en profil) ; passage piéton de 4,00 m centré à s = 48 avec abaissés à rampants latéraux à 5 % et BEV des deux côtés ; dos-d'âne circulaire de 4,00 m × 0,10 m centré à s = 56 (54 à 58), 3 triangles par voie, axe T3 2u sur le ralentisseur et 10 m de part et d'autre."
+contexte:
+  agglomeration: true
+  vitesse_kmh: 30          # dos-d'âne : agglomération, zone 30 ou section à 30 km/h ; trafic < 3 000 véh/j, hors ligne TC (RF-MA-RAL-001)
+  categorie: rue
+  u_m: 0.05                # DEF-001
+marquages: {usure: légère}
+trace:
+  - droite: 100
+profil:
+  - {bande: trottoir, id: tr1, largeur: 2.00, materiau: enrobe_trottoir}  # DEF-004
+  - {bordure: T2, vue: 0.14, caniveau: CS2}                               # DEF-005
+  - {bande: voie, id: v1, sens: arriere, largeur: 3.00, materiau: enrobe_bbsg_ancien}   # RF-OSM-LAR-010
+  - {ligne: T'1, largeur_u: 2}                                            # RF-OSM-MRQ-010
+  - {bande: voie, id: v2, sens: avant, largeur: 3.00}
+  - {bordure: T2, vue: 0.14, caniveau: CS2}
+  - {bande: trottoir, id: tr2, largeur: 2.00}
+evenements:
+  # passage : bandes de 0,50 parallèles à l'axe, longueur 4,00 (DEF-011, RF-MQ-PP-01) ; n = floor(W − 0,5) = 5 pour
+  # W = 6,00 et e = (W − 0,5 n)/(n + 1) = 0,583 (DEF-011, RF-MQ-PP-02, RF-MQ-PP-05) ; lignes interrompues à 0,50 m
+  # (RF-MQ-PP-03) ; abaissé de la largeur du marquage à vue 0,02 (RF-MA-ABA-001, RF-MA-ABA-005), rampants latéraux
+  # de 2,40 m à 5 % (DEF-031, RF-MA-ABA-004, RF-MA-TRO-003) ; BEV de 0,5875 m à 0,50 m du nez (DEF-031, RF-MA-BEV-002)
+  - passage_pieton: {a: 48, largeur: 4.0, abaisses: oui, pente_rampants_pct: 5, bev: oui}
+  # dos-d'âne 4,00 × 0,10 (RF-MA-RAL-001 ; passage interdit dessus) ; 3 triangles contigus 0,70 × 2,00 dans l'axe de
+  # chaque voie sur la moitié montante, pointes dans le sens de circulation (RF-MQ-RAL-01, RF-MA-RAL-003, gabarit
+  # TRIANGLE_DOS_ANE) ; chaussée bidirectionnelle ≥ 5 m : axe T3 2u sur le ralentisseur ± 10 m (RF-MQ-RAL-01)
+  - dos_d_ane: {a: 56, longueur: 4.0, hauteur: 0.10}
+abords: {gauche: pelouse 6, droite: pelouse 6}
+# axe : T'1 0-44 (7 traits), T3 44-45,5 (1 trait tronqué à 1,50), coupure 45,5-50,5, T3 50,5-68 (4), T'1 68-100 (5)
+attendus: {longueur: 100, largeur_emprise: 10.0, largeur_chaussee: 6.0, voies: {arriere: 1, avant: 1}, traits: {T'1 2u: 12, T3 2u: 5}, bordures_m: {T2: 200}, passages: [{s: 48, W: 6.0, bandes: 5, e: 0.583, longueur_bandes: 4.0}], triangles: 6, abaisses: 2, bev: 2}

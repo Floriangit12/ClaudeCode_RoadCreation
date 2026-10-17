@@ -1,0 +1,89 @@
+# Dialog script for rg::sol::1.0 automatically generated
+
+{
+    name	rg::sol::1.0
+    inputlabel	1	"Références échantillonnées"
+    inputlabel	2	"Niveaux"
+    outputlabel	1	"Sol"
+    outputlabel	2	"BEV"
+    outputlabel	3	"Zones (contrôle)"
+    script	rg::sol::1.0
+    label	"RG Sol (nappe étanche sur le modèle unique)"
+
+    help {
+    }
+
+    inputlabel	1	"Références échantillonnées"
+    inputlabel	2	Niveaux
+
+    parm {
+        name    "arete_cible"
+        label   "Arête cible (m)"
+        type    float
+        default { "0.25" }
+        help    "Triangulate 2D, taille cible des triangles (TQ-SOL-002 : 0,25 m sur trottoirs, rampes et îlots, 0,5 m sur chaussée ; une seule valeur pour tout le sol, la plus fine). Arête minimale du raffinement : 0,02 m (TQ-SOL-002 ; évite les aiguilles au croisement rasant de deux contraintes, TQ-SOL-009)."
+        range   { 0.05 2 }
+    }
+    parm {
+        name    "angle_min"
+        label   "Angle minimal (°)"
+        type    float
+        default { "25" }
+        help    "TQ-SOL-002 : 25°."
+        range   { 0 33 }
+    }
+    parm {
+        name    "recouvrement_tete"
+        label   "Trottoir sous la tête de bordure (m)"
+        type    float
+        default { "0.012" }
+        help    "Le trottoir commence sous la tête de la bordure, à l'arrière moins cette longueur (TQ-BOR-007 : 12 mm) ; la chaussée passe sous la bordure jusqu'à ce point (mur caché dans l'élément)."
+        range   { 0 0.1 }
+    }
+    parm {
+        name    "tolerance_marche"
+        label   "Tolérance de marche (m)"
+        type    float
+        default { "1e-05" }
+        help    "Écart de Z au-dessous duquel deux sommets d'un même point sont confondus (Split Points)."
+        range   { 0 0.01 }
+    }
+    parm {
+        name    "couche"
+        label   "Couche USD"
+        type    string
+        default { "PJ_Sol" }
+    }
+    parm {
+        name    "bev_recul"
+        label   "BEV : distance au nez (m)"
+        type    float
+        default { "0.5" }
+        help    "DEF-031 : 0,50 m (pas de freinage, RF-MA-BEV-002)."
+        range   { 0 1 }
+    }
+    parm {
+        name    "bev_pas"
+        label   "BEV : pas des plots (m)"
+        type    float
+        default { "0.075" }
+        help    "Plots en quinconce au pas de 75 mm (pj::sol, GA-BEV-004)."
+        range   { 0.02 0.2 }
+    }
+    parm {
+        name    "bev_dessus_mm"
+        label   "BEV : dessus au-dessus du sol (mm)"
+        type    float
+        default { "3" }
+        help    "E9 : dessus des dalles à moins de 5 mm du sol (pj::sol)."
+        range   { 0 5 }
+    }
+    parm {
+        name    "bev_vue_max"
+        label   "BEV : vue visible maximale de la bordure (m)"
+        type    float
+        default { "0.05" }
+        help    "RF-MA-BEV-002 : BEV au droit de toute bordure de vue < 0,05 m, jamais au-delà du marquage ; 0,05 = vue minimale détectable (RF-MA-TRO-015)."
+        range   { 0 0.2 }
+    }
+}

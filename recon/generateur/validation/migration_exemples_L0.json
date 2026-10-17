@@ -1,0 +1,1028 @@
+{
+ "date": "2026-10-17",
+ "base_regles": {
+  "fichier": "D:/ClaudeCode_RoadCreation/assets/specs/route/regles_route_fr.json",
+  "schema": "regles_route_fr/1.0",
+  "date": "2026-10-17",
+  "sha256": "d4d63edeabf0820a0ab34e207a1d9e88a32fb58131216b6b515cb8bcb298bd4b",
+  "regles": 857,
+  "parametres": 34,
+  "arbitrages": 20,
+  "alias": 945
+ },
+ "table_depot": {
+  "GA-RAY-001": {
+   "regles": [
+    "RF-OSM-CAR-030"
+   ],
+   "justification": "rayon des coins de bordure (Lyon p. 10) : RF-OSM-CAR-030 a GA-RAY-001 pour source ; 6,0 m est dans la classe « urbain dense VL » [5 ; 6]"
+  },
+  "GA-BOR-002": {
+   "regles": [
+    "RF-OSM-NIV-010"
+   ],
+   "justification": "vue de bordure de trottoir 0,14 m (Lyon p. 16) : source de RF-OSM-NIV-010 ; DEF-005 / ARB-18 retiennent la même valeur"
+  },
+  "GA-ILO-001": {
+   "regles": [
+    "RF-OSM-LAR-051"
+   ],
+   "justification": "largeur d'îlot refuge (BEV03 p. 6) : source de RF-OSM-LAR-051 (≥ 1,50 ; 2,00 recommandé)"
+  },
+  "GA-ILO-003": {
+   "regles": [
+    "RF-MA-REF-003"
+   ],
+   "justification": "refuge bordé (vue ≥ 0,12), ressaut 0,02 au droit de la traversée, BEV de chaque côté : même contenu que RF-MA-REF-003"
+  },
+  "MQ-LIG-008": {
+   "regles": [
+    "RF-OSM-MRQ-010"
+   ],
+   "justification": "axe 1 + 1 en agglomération et seuil de 5,20 m (Paris § II.1 p. 9) : repris par RF-OSM-MRQ-010"
+  },
+  "MQ-LIG-001": {
+   "regles": [
+    "RF-OSM-MRQ-041"
+   ],
+   "justification": "aucune ligne longitudinale dans un carrefour à feux ou à priorité à droite (IISR7 art. 117-1) : RF-OSM-MRQ-041"
+  },
+  "MQ-TRV-002": {
+   "regles": [
+    "RF-MQ-CED-01"
+   ],
+   "justification": "ligne cédez T'2 0,50 m à la limite de la chaussée prioritaire avec AB3a (IISR7 art. 117-4 B) : RF-MQ-CED-01"
+  },
+  "MQ-TRV-003": {
+   "regles": [
+    "RF-MQ-STOP-03"
+   ],
+   "justification": "continue axiale d'approche 2u sur 10-20 m, double sens sans îlot (IISR7 art. 117-4 A-B) : RF-MQ-STOP-03"
+  },
+  "MQ-PP-009": {
+   "regles": [
+    "DEF-012"
+   ],
+   "justification": "passage en retrait d'environ 2,00 m de la ligne cédez (audit P.2 p. 26) : DEF-012 (ARB-02), qui cite RF-OSM-CAR-040"
+  },
+  "MQ-CYC-003": {
+   "regles": [
+    "DEF-018"
+   ],
+   "justification": "figurines vélo répétées tous les 50 m environ : DEF-018 (ARB-12), règle RF-MA-CYC-012"
+  },
+  "VEG-02": {
+   "regles": [
+    "RF-OSM-VEG-001"
+   ],
+   "justification": "recul de l'arbre au bord de chaussée : RF-OSM-VEG-001 (axe ≥ 1,50 m) ; les reculs 0,75 / 1,00 m de VEG-02 (Montpellier) ne sont pas dans la base"
+  },
+  "VEG-03": {
+   "regles": [
+    "RF-GV-TPC-010"
+   ],
+   "justification": "distances arbre-façade et arbre-arbre : RF-GV-TPC-010 (distance façade 1/2 hauteur adulte, espacement ≥ hauteur adulte)"
+  },
+  "VEG-05": {
+   "regles": [
+    "RF-GV-TPC-011"
+   ],
+   "justification": "végétation basse ≤ 0,60 m et dégagement 0,60-2,30 m aux abords de carrefour : RF-GV-TPC-011"
+  },
+  "GEN-08": {
+   "regles": [
+    "RF-GV-VIS-001"
+   ],
+   "justification": "triangles de visibilité urbains sans masque 0,60-2,30 m : RF-GV-VIS-001 (DEF-029, ARB-10)"
+  },
+  "ECL-01": {
+   "regles": [],
+   "justification": "recul du fût de candélabre ≥ 0,50 m derrière l'arête de bordure : AUCUNE règle équivalente dans regles_route_fr.json"
+  },
+  "ECL-04": {
+   "regles": [],
+   "justification": "pas des candélabres = 3 à 5 fois la hauteur de feu : AUCUNE règle équivalente dans regles_route_fr.json"
+  },
+  "ECL-05": {
+   "regles": [],
+   "justification": "distance candélabre-arbre (2 m ; 5 / 8 / 10 m) : AUCUNE règle équivalente dans regles_route_fr.json"
+  },
+  "SIG-02": {
+   "regles": [
+    "RF-SV-GEN.DISTANCE_RIVE"
+   ],
+   "justification": "bord du panneau à ≥ 0,70 m de la rive (IISR1 art. 8 i) : RF-SV-GEN.DISTANCE_RIVE (ARB-20)"
+  },
+  "SIG-03": {
+   "regles": [
+    "RF-SV-GEN.HAUTEUR.AGGLO"
+   ],
+   "justification": "hauteur sous panneau (IISR1 art. 9 a-b) ; 2,30 m en agglomération éclairée : RF-SV-GEN.HAUTEUR.AGGLO"
+  },
+  "SIG-06": {
+   "regles": [
+    "RF-SV-AB3A.POSITION",
+    "RF-SV-GEN.SUPPORT_EXCLUSIF_AB3A_AB4"
+   ],
+   "justification": "AB3a / AB4 au droit de la ligne, support exclusif (IISR3 art. 42-2 C et E ; IISR1 art. 8) : deux règles de la base"
+  },
+  "SIG-11": {
+   "regles": [
+    "RF-SV-B21.EMPLOI"
+   ],
+   "justification": "panneaux de contournement d'îlot (IISR1 art. 8 b) : RF-SV-B21.EMPLOI"
+  },
+  "LOC-TRV-004": {
+   "regles": [
+    "RF-OBS-SIG-01"
+   ],
+   "justification": "tête d'îlot séparateur à Meylan (B21-1 au nez) : observation RF-OBS-SIG-01 (B21a1, B21-1 ou J5 au nez d'îlot)"
+  }
+ },
+ "exemples": {
+  "exemple_rue_carrefour.json": {
+   "source": "D:/DocRoute/12_Modele_Voie_OSM_Generateurs/exemples/exemple_rue_carrefour.json",
+   "sortie": "recon/generateur/schema/exemples/exemple_rue_carrefour.json",
+   "citations": 65,
+   "migrees": 65,
+   "par_origine": {
+    "index_alias": 36,
+    "table MIGRATION_DEPOT": 29
+   },
+   "anciens_identifiants": [
+    "ECL-01",
+    "ECL-04",
+    "ECL-05",
+    "GA-BOR-002",
+    "GA-ILO-001",
+    "GA-ILO-003",
+    "GA-RAY-001",
+    "GEN-08",
+    "LOC-TRV-004",
+    "MQ-CYC-003",
+    "MQ-LIG-001",
+    "MQ-LIG-008",
+    "MQ-PP-009",
+    "MQ-TRV-002",
+    "MQ-TRV-003",
+    "OSM-CAR-001",
+    "OSM-CAR-020",
+    "OSM-CAR-040",
+    "OSM-CAR-061",
+    "OSM-LAR-010",
+    "OSM-LAR-020",
+    "OSM-LAR-030",
+    "OSM-LAR-032",
+    "OSM-LAR-040",
+    "OSM-MRQ-020",
+    "OSM-MRQ-030",
+    "OSM-PAN-001",
+    "OSM-PAN-010",
+    "OSM-PRF-001",
+    "OSM-PRF-010",
+    "OSM-VIT-002",
+    "SIG-02",
+    "SIG-03",
+    "SIG-06",
+    "SIG-11",
+    "VEG-02",
+    "VEG-03",
+    "VEG-05",
+    "defaut:OSM-LAR-010",
+    "defaut:OSM-LAR-020",
+    "defaut:OSM-LAR-030",
+    "defaut:OSM-LAR-032",
+    "defaut:OSM-LAR-040",
+    "defaut:OSM-NIV-010",
+    "defaut:OSM-VIT-002",
+    "inference:OSM-CAR-040",
+    "inference:OSM-CAR-050",
+    "inference:OSM-LAR-032",
+    "inference:OSM-MRQ-020",
+    "inference:OSM-MRQ-021",
+    "inference:OSM-PRF-001"
+   ],
+   "manques": [
+    "ECL-01",
+    "ECL-04",
+    "ECL-05"
+   ],
+   "journal": [
+    {
+     "chemin": "/profils/0/bandes/0/prov/largeur/src",
+     "ancien": "defaut:OSM-LAR-020",
+     "nouveau": [
+      "defaut:RF-OSM-LAR-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/0/prov/largeur/regle",
+     "ancien": "OSM-LAR-020",
+     "nouveau": [
+      "RF-OSM-LAR-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/1/objets_le_long/0/regles",
+     "ancien": "MQ-CYC-003",
+     "nouveau": [
+      "DEF-018"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/profils/0/bandes/1/prov/largeur/src",
+     "ancien": "defaut:OSM-LAR-030",
+     "nouveau": [
+      "defaut:RF-OSM-LAR-030"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/1/prov/largeur/regle",
+     "ancien": "OSM-LAR-030",
+     "nouveau": [
+      "RF-OSM-LAR-030"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/2/prov/largeur/src",
+     "ancien": "defaut:OSM-LAR-010",
+     "nouveau": [
+      "defaut:RF-OSM-LAR-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/2/prov/largeur/regle",
+     "ancien": "OSM-LAR-010",
+     "nouveau": [
+      "RF-OSM-LAR-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/3/prov/largeur/src",
+     "ancien": "defaut:OSM-LAR-010",
+     "nouveau": [
+      "defaut:RF-OSM-LAR-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/3/prov/largeur/regle",
+     "ancien": "OSM-LAR-010",
+     "nouveau": [
+      "RF-OSM-LAR-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/4/prov/largeur/src",
+     "ancien": "defaut:OSM-LAR-030",
+     "nouveau": [
+      "defaut:RF-OSM-LAR-030"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/4/prov/largeur/regle",
+     "ancien": "OSM-LAR-030",
+     "nouveau": [
+      "RF-OSM-LAR-030"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/5/prov/largeur/src",
+     "ancien": "defaut:OSM-LAR-032",
+     "nouveau": [
+      "defaut:RF-OSM-LAR-032"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/5/prov/largeur/regle",
+     "ancien": "OSM-LAR-032",
+     "nouveau": [
+      "RF-OSM-LAR-032"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/6/prov/largeur/src",
+     "ancien": "defaut:OSM-LAR-040",
+     "nouveau": [
+      "defaut:RF-OSM-LAR-040"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/6/prov/largeur/regle",
+     "ancien": "OSM-LAR-040",
+     "nouveau": [
+      "RF-OSM-LAR-040"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/7/objets_le_long/0/regles",
+     "ancien": "VEG-02",
+     "nouveau": [
+      "RF-OSM-VEG-001"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/profils/0/bandes/7/objets_le_long/0/regles",
+     "ancien": "VEG-03",
+     "nouveau": [
+      "RF-GV-TPC-010"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/profils/0/bandes/7/objets_le_long/0/regles",
+     "ancien": "VEG-05",
+     "nouveau": [
+      "RF-GV-TPC-011"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/profils/0/bandes/7/objets_le_long/0/regles",
+     "ancien": "GEN-08",
+     "nouveau": [
+      "RF-GV-VIS-001"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/profils/0/bandes/7/objets_le_long/1/regles",
+     "ancien": "ECL-01",
+     "nouveau": [],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/profils/0/bandes/7/objets_le_long/1/regles",
+     "ancien": "ECL-04",
+     "nouveau": [],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/profils/0/bandes/7/objets_le_long/1/regles",
+     "ancien": "ECL-05",
+     "nouveau": [],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/profils/0/bandes/7/prov/largeur/src",
+     "ancien": "defaut:OSM-LAR-020",
+     "nouveau": [
+      "defaut:RF-OSM-LAR-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/7/prov/largeur/regle",
+     "ancien": "OSM-LAR-020",
+     "nouveau": [
+      "RF-OSM-LAR-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/1/prov/bordure.vue_m/src",
+     "ancien": "defaut:OSM-NIV-010",
+     "nouveau": [
+      "defaut:RF-OSM-NIV-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/1/prov/bordure.vue_m/regle",
+     "ancien": "GA-BOR-002",
+     "nouveau": [
+      "RF-OSM-NIV-010"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/profils/0/limites/2/marquages/0/regle",
+     "ancien": "OSM-MRQ-030",
+     "nouveau": [
+      "RF-OSM-MRQ-030"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/3/marquages/0/regle",
+     "ancien": "OSM-MRQ-020",
+     "nouveau": [
+      "RF-OSM-MRQ-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/3/prov/marquages[0].modulation/src",
+     "ancien": "inference:OSM-MRQ-020",
+     "nouveau": [
+      "inference:RF-OSM-MRQ-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/3/prov/marquages[0].modulation/regle",
+     "ancien": "MQ-LIG-008",
+     "nouveau": [
+      "RF-OSM-MRQ-010"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/profils/0/limites/4/marquages/0/regle",
+     "ancien": "OSM-MRQ-030",
+     "nouveau": [
+      "RF-OSM-MRQ-030"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/6/prov/*/src",
+     "ancien": "inference:OSM-LAR-032",
+     "nouveau": [
+      "inference:RF-OSM-LAR-032"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/regles",
+     "ancien": "OSM-PRF-001",
+     "nouveau": [
+      "RF-OSM-PRF-001"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/regles",
+     "ancien": "OSM-PRF-010",
+     "nouveau": [
+      "RF-OSM-PRF-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/1/limites/2/prov/*/src",
+     "ancien": "inference:OSM-MRQ-021",
+     "nouveau": [
+      "inference:RF-OSM-MRQ-021"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/1/limites/2/prov/*/regle",
+     "ancien": "MQ-LIG-008",
+     "nouveau": [
+      "RF-OSM-MRQ-010"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/routes/0/prov/sections/src",
+     "ancien": "inference:OSM-PRF-001",
+     "nouveau": [
+      "inference:RF-OSM-PRF-001"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/routes/2/sections/1/transition_entree/regle",
+     "ancien": "OSM-CAR-061",
+     "nouveau": [
+      "RF-OSM-CAR-061"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/routes/2/sections/1/surcharges/bandes[2].terre_plein.ceinture.abaisses/0/regle",
+     "ancien": "GA-ILO-003",
+     "nouveau": [
+      "RF-MA-REF-003"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/routes/2/prov/vitesse_kmh/src",
+     "ancien": "defaut:OSM-VIT-002",
+     "nouveau": [
+      "defaut:RF-OSM-VIT-002"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/routes/2/prov/vitesse_kmh/regle",
+     "ancien": "OSM-VIT-002",
+     "nouveau": [
+      "RF-OSM-VIT-002"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/carrefours/0/branches/0/coin_droit/regle",
+     "ancien": "GA-RAY-001",
+     "nouveau": [
+      "RF-OSM-CAR-030"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/carrefours/0/branches/1/coin_droit/regle",
+     "ancien": "GA-RAY-001",
+     "nouveau": [
+      "RF-OSM-CAR-030"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/carrefours/0/branches/2/ligne_arret/regle",
+     "ancien": "MQ-TRV-002",
+     "nouveau": [
+      "RF-MQ-CED-01"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/carrefours/0/branches/2/coin_droit/regle",
+     "ancien": "GA-RAY-001",
+     "nouveau": [
+      "RF-OSM-CAR-030"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/carrefours/0/trajectoires/2/guidage/regle",
+     "ancien": "MQ-LIG-001",
+     "nouveau": [
+      "RF-OSM-MRQ-041"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/carrefours/0/passages_pieton/0/prov/s/src",
+     "ancien": "inference:OSM-CAR-040",
+     "nouveau": [
+      "inference:RF-OSM-CAR-040"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/carrefours/0/passages_pieton/0/prov/s/regle",
+     "ancien": "MQ-PP-009",
+     "nouveau": [
+      "DEF-012"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/carrefours/0/regles",
+     "ancien": "OSM-CAR-001",
+     "nouveau": [
+      "RF-OSM-CAR-001"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/carrefours/0/regles",
+     "ancien": "OSM-CAR-020",
+     "nouveau": [
+      "RF-OSM-CAR-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/carrefours/0/regles",
+     "ancien": "OSM-CAR-040",
+     "nouveau": [
+      "RF-OSM-CAR-040"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/carrefours/0/regles",
+     "ancien": "MQ-LIG-001",
+     "nouveau": [
+      "RF-OSM-MRQ-041"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/carrefours/0/regles",
+     "ancien": "MQ-TRV-002",
+     "nouveau": [
+      "RF-MQ-CED-01"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/carrefours/0/regles",
+     "ancien": "MQ-TRV-003",
+     "nouveau": [
+      "RF-MQ-STOP-03"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/ilots/0/prov/*/src",
+     "ancien": "inference:OSM-CAR-050",
+     "nouveau": [
+      "inference:RF-OSM-CAR-050"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/ilots/0/prov/*/regle",
+     "ancien": "GA-ILO-001",
+     "nouveau": [
+      "RF-OSM-LAR-051"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/signaux/0/regles",
+     "ancien": "OSM-PAN-001",
+     "nouveau": [
+      "RF-OSM-PAN-001"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/signaux/0/regles",
+     "ancien": "SIG-02",
+     "nouveau": [
+      "RF-SV-GEN.DISTANCE_RIVE"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/signaux/0/regles",
+     "ancien": "SIG-03",
+     "nouveau": [
+      "RF-SV-GEN.HAUTEUR.AGGLO"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/signaux/0/regles",
+     "ancien": "SIG-06",
+     "nouveau": [
+      "RF-SV-AB3A.POSITION",
+      "RF-SV-GEN.SUPPORT_EXCLUSIF_AB3A_AB4"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/signaux/0/prov/position.t/regle",
+     "ancien": "OSM-PAN-010",
+     "nouveau": [
+      "RF-OSM-PAN-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/signaux/1/regles",
+     "ancien": "SIG-11",
+     "nouveau": [
+      "RF-SV-B21.EMPLOI"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/signaux/1/regles",
+     "ancien": "LOC-TRV-004",
+     "nouveau": [
+      "RF-OBS-SIG-01"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/marquages/0/regles",
+     "ancien": "MQ-TRV-002",
+     "nouveau": [
+      "RF-MQ-CED-01"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/marquages/1/regles",
+     "ancien": "MQ-TRV-002",
+     "nouveau": [
+      "RF-MQ-CED-01"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    }
+   ]
+  },
+  "exemple_rue_residentielle.json": {
+   "source": "D:/DocRoute/12_Modele_Voie_OSM_Generateurs/exemples/exemple_rue_residentielle.json",
+   "sortie": "recon/generateur/schema/exemples/exemple_rue_residentielle.json",
+   "citations": 32,
+   "migrees": 32,
+   "par_origine": {
+    "index_alias": 30,
+    "table MIGRATION_DEPOT": 2
+   },
+   "anciens_identifiants": [
+    "GA-BOR-002",
+    "OSM-LAR-001",
+    "OSM-LAR-010",
+    "OSM-LAR-020",
+    "OSM-LAR-040",
+    "OSM-MRQ-010",
+    "OSM-MRQ-020",
+    "OSM-MRQ-060",
+    "OSM-NIV-010",
+    "OSM-NIV-011",
+    "OSM-PRF-001",
+    "OSM-PRF-002",
+    "OSM-STA-001",
+    "OSM-VIT-001",
+    "defaut:OSM-LAR-020",
+    "defaut:OSM-LAR-040",
+    "defaut:OSM-NIV-010",
+    "defaut:OSM-NIV-011",
+    "inference:OSM-LAR-001",
+    "inference:OSM-MRQ-010",
+    "inference:OSM-MRQ-020",
+    "inference:OSM-MRQ-060",
+    "inference:OSM-PRF-001"
+   ],
+   "manques": [],
+   "journal": [
+    {
+     "chemin": "/profils/0/bandes/0/prov/largeur/src",
+     "ancien": "defaut:OSM-LAR-020",
+     "nouveau": [
+      "defaut:RF-OSM-LAR-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/0/prov/largeur/regle",
+     "ancien": "OSM-LAR-020",
+     "nouveau": [
+      "RF-OSM-LAR-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/0/prov/niveau.dz_m/src",
+     "ancien": "defaut:OSM-NIV-010",
+     "nouveau": [
+      "defaut:RF-OSM-NIV-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/0/prov/niveau.dz_m/regle",
+     "ancien": "OSM-NIV-010",
+     "nouveau": [
+      "RF-OSM-NIV-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/1/prov/largeur/src",
+     "ancien": "inference:OSM-LAR-001",
+     "nouveau": [
+      "inference:RF-OSM-LAR-001"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/1/prov/largeur/regle",
+     "ancien": "OSM-LAR-010",
+     "nouveau": [
+      "RF-OSM-LAR-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/1/prov/niveau.devers_pct/src",
+     "ancien": "defaut:OSM-NIV-011",
+     "nouveau": [
+      "defaut:RF-OSM-NIV-011"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/1/prov/niveau.devers_pct/regle",
+     "ancien": "OSM-NIV-011",
+     "nouveau": [
+      "RF-OSM-NIV-011"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/2/prov/largeur/src",
+     "ancien": "inference:OSM-LAR-001",
+     "nouveau": [
+      "inference:RF-OSM-LAR-001"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/2/prov/largeur/regle",
+     "ancien": "OSM-LAR-010",
+     "nouveau": [
+      "RF-OSM-LAR-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/3/prov/largeur/src",
+     "ancien": "defaut:OSM-LAR-040",
+     "nouveau": [
+      "defaut:RF-OSM-LAR-040"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/3/prov/largeur/regle",
+     "ancien": "OSM-LAR-040",
+     "nouveau": [
+      "RF-OSM-LAR-040"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/3/prov/stationnement/regle",
+     "ancien": "OSM-STA-001",
+     "nouveau": [
+      "RF-OSM-STA-001"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/4/prov/largeur/src",
+     "ancien": "defaut:OSM-LAR-020",
+     "nouveau": [
+      "defaut:RF-OSM-LAR-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/bandes/4/prov/largeur/regle",
+     "ancien": "OSM-LAR-020",
+     "nouveau": [
+      "RF-OSM-LAR-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/1/bordure/regle",
+     "ancien": "GA-BOR-002",
+     "nouveau": [
+      "RF-OSM-NIV-010"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/profils/0/limites/1/prov/*/src",
+     "ancien": "inference:OSM-MRQ-020",
+     "nouveau": [
+      "inference:RF-OSM-MRQ-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/1/prov/*/regle",
+     "ancien": "OSM-MRQ-020",
+     "nouveau": [
+      "RF-OSM-MRQ-020"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/2/marquages/0/regle",
+     "ancien": "OSM-MRQ-010",
+     "nouveau": [
+      "RF-OSM-MRQ-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/2/prov/marquages/src",
+     "ancien": "inference:OSM-MRQ-010",
+     "nouveau": [
+      "inference:RF-OSM-MRQ-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/2/prov/marquages/regle",
+     "ancien": "OSM-MRQ-010",
+     "nouveau": [
+      "RF-OSM-MRQ-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/3/marquages/0/regle",
+     "ancien": "OSM-MRQ-060",
+     "nouveau": [
+      "RF-OSM-MRQ-060"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/3/prov/marquages/src",
+     "ancien": "inference:OSM-MRQ-060",
+     "nouveau": [
+      "inference:RF-OSM-MRQ-060"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/3/prov/marquages/regle",
+     "ancien": "OSM-MRQ-060",
+     "nouveau": [
+      "RF-OSM-MRQ-060"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/limites/4/bordure/regle",
+     "ancien": "GA-BOR-002",
+     "nouveau": [
+      "RF-OSM-NIV-010"
+     ],
+     "par": "table MIGRATION_DEPOT"
+    },
+    {
+     "chemin": "/profils/0/regles",
+     "ancien": "OSM-PRF-001",
+     "nouveau": [
+      "RF-OSM-PRF-001"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/regles",
+     "ancien": "OSM-PRF-002",
+     "nouveau": [
+      "RF-OSM-PRF-002"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/regles",
+     "ancien": "OSM-LAR-001",
+     "nouveau": [
+      "RF-OSM-LAR-001"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/profils/0/regles",
+     "ancien": "OSM-MRQ-010",
+     "nouveau": [
+      "RF-OSM-MRQ-010"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/routes/0/prov/vitesse_kmh/regle",
+     "ancien": "OSM-VIT-001",
+     "nouveau": [
+      "RF-OSM-VIT-001"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/routes/0/prov/categorie/src",
+     "ancien": "inference:OSM-PRF-001",
+     "nouveau": [
+      "inference:RF-OSM-PRF-001"
+     ],
+     "par": "index_alias"
+    },
+    {
+     "chemin": "/routes/0/prov/categorie/regle",
+     "ancien": "OSM-PRF-001",
+     "nouveau": [
+      "RF-OSM-PRF-001"
+     ],
+     "par": "index_alias"
+    }
+   ]
+  }
+ },
+ "remarques": [
+  "exemple_rue_carrefour.json, signal SG-2 (B21-1 au nez de l'îlot I-1, agglomération) : hauteur_bas_m = 1,00 ; DEF-026 / ARB-04 retiennent 0,60 m [G] (confiance faible) pour une prescription en agglomération. Valeur conservée (migration des identifiants seulement), signalée.",
+  "exemple_rue_carrefour.json, objets_le_long « candelabres » : recul 0,60 m et pas de 30 m reposaient sur ECL-01 / ECL-04 (et ECL-05), sans équivalent dans regles_route_fr.json : l'objet ne cite plus aucune règle après migration ; l'observation RF-OBS-ECL-01 (candélabres de 8 à 11 m) couvrirait la hauteur seulement. Règles manquantes à ajouter à la base (recul du fût, pas, distance aux arbres).",
+  "exemple_rue_carrefour.json, profil P-URB-2V-BC-ST : reference.limite = 3 sans decalage_m alors que la chaussée (bandes cyclables, tampon et stationnement compris) n'est pas symétrique autour de l'axe ; RF-OSM-PRF-010 place la ligne OSM au centre de la chaussée. Valeur conservée, signalée."
+ ]
+}

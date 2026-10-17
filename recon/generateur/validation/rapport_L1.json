@@ -1,0 +1,370 @@
+{
+ "lot": "L1",
+ "plan": "recon/generateur/PLAN_GENERATEUR.md § 3 (L1) et § 2.3",
+ "etapes": {
+  "hda": {
+   "construction": [
+    0,
+    0
+   ],
+   "signatures": "rg::lire_modele::1.0 (e842abca5e14), rg::graphe::1.0 (c0e141d03384), rg::profils::1.0 (787681f8b848)",
+   "signatures_stables": true,
+   "dossiers_identiques": true,
+   "empreinte_dossiers": "18a81d2149ac757412caab79434896493e4817966f31ca4446262b18f9c8fe03",
+   "inchangee_depuis_avant": true,
+   "dossiers": [
+    "recon/generateur/hda/rg_lire_modele/rg_lire_modele.hdalc",
+    "recon/generateur/hda/rg_graphe/rg_graphe.hdalc",
+    "recon/generateur/hda/rg_profils/rg_profils.hdalc"
+   ]
+  },
+  "fabrication": {
+   "descriptions": [
+    "recon/generateur/scenes_simples/S01_route_1x1_hors_agglomeration.yaml",
+    "recon/generateur/scenes_simples/S02_rue_1x1_bordures_trottoirs.yaml",
+    "recon/generateur/scenes_simples/S03_rue_stationnement_arbres.yaml",
+    "recon/generateur/scenes_simples/S04_rue_bandes_cyclables.yaml",
+    "recon/generateur/scenes_simples/S05_rue_pistes_sur_trottoir.yaml",
+    "recon/generateur/scenes_simples/S06_avenue_2x2_terre_plein_plante.yaml",
+    "recon/generateur/scenes_simples/S07_rue_sens_unique_2_voies.yaml",
+    "recon/generateur/scenes_simples/S08_rue_dos_d_ane_passage.yaml",
+    "recon/generateur/scenes_simples/S09_reduction_2_vers_1_voie.yaml",
+    "recon/generateur/scenes_simples/S10_rue_plateau_passage.yaml",
+    "recon/generateur/scenes_simples/S11_rue_courbe_R60.yaml",
+    "recon/generateur/scenes_simples/S12_couloir_bus.yaml",
+    "recon/generateur/description/exemples/01_route_2x1_sans_bordure.yaml",
+    "recon/generateur/description/exemples/02_rue_1x1_trottoirs.yaml",
+    "recon/generateur/description/exemples/03_avenue_bandes_cyclables_stationnement.yaml",
+    "recon/generateur/description/exemples/04_boulevard_2x2_terre_plein_plante.yaml",
+    "recon/generateur/description/exemples/05_rue_piste_bande_plantee_arret_bus.yaml",
+    "recon/generateur/description/exemples/06_rabattement_2_vers_1.yaml",
+    "recon/generateur/description/exemples/07_zone30_ralentisseurs_passage.yaml",
+    "recon/generateur/description/exemples/08_sens_unique_stationnement_charretieres.yaml",
+    "recon/generateur/description/exemples/09_elargissement_tourne_a_gauche.yaml",
+    "recon/generateur/description/exemples/10_changement_de_profil.yaml",
+    "recon/generateur/description/exemples/11_description_rapide_depuis_photo.yaml",
+    "recon/generateur/description/exemples/12_piste_bidirectionnelle_separateur.yaml",
+    "recon/generateur/validation/essais_L1/E1_rue_clothoides.yaml",
+    "recon/generateur/validation/essais_L1/E2_rue_s_rabattement_ralentisseurs.yaml",
+    "recon/generateur/validation/essais_L1/E3_avenue_courbe_serree.yaml"
+   ],
+   "code": 0,
+   "scenes": [
+    "S01",
+    "S02",
+    "S03",
+    "S04",
+    "S05",
+    "S06",
+    "S07",
+    "S08",
+    "S09",
+    "S10",
+    "S11",
+    "S12",
+    "ex01_route_2x1_sans_bordure",
+    "ex02_rue_1x1_trottoirs",
+    "ex03_avenue_bandes_cyclables_stationnement",
+    "ex04_boulevard_2x2_terre_plein_plante",
+    "ex05_rue_piste_bande_plantee_arret_bus",
+    "ex06_rabattement_2_vers_1",
+    "ex07_zone30_ralentisseurs_passage",
+    "ex08_sens_unique_stationnement_charretieres",
+    "ex09_elargissement_tourne_a_gauche",
+    "ex10_changement_de_profil",
+    "ex11_description_rapide_depuis_photo",
+    "ex12_piste_bidirectionnelle_separateur",
+    "E1_rue_clothoides",
+    "E2_rue_s_rabattement_ralentisseurs",
+    "E3_avenue_courbe_serree"
+   ],
+   "deterministe": true,
+   "fichiers_compares": 54
+  },
+  "osm": {
+   "inference": 0,
+   "fabrication": 0,
+   "sortie": [
+    "osm_paquet_jardin : 69 route(s), 69 section(s), 186 limites, 5010 rubans ; largeur min 2.0000 m, jonctions discontinues 0 -> recon/out/generateur/osm_paquet_jardin/l1"
+   ],
+   "controles": {
+    "largeurs_negatives": 0,
+    "largeurs_nulles_hors_biseau": 0,
+    "replis": 0,
+    "inversions": 14,
+    "rubans_invalides": 1,
+    "chevauchement_m2": 2.84217e-12,
+    "sections_contigues": true,
+    "polyligne_ecart_max_m": 0.703756,
+    "reference_polyligne_ecart_max_m": 1.29114e-05
+   },
+   "routes": 69
+  },
+  "controles": {
+   "fichier": "recon/generateur/validation/controles_L1.json",
+   "bilan": {
+    "scenes": 27,
+    "par_type": {
+     "droite": {
+      "cordes": 21842,
+      "fleche_max_m": 1.60984e-05,
+      "milieu_max_m": 8.63798e-06,
+      "sommet_max_m": 1.60984e-05
+     },
+     "arc": {
+      "cordes": 4708,
+      "fleche_max_m": 0.00045219,
+      "milieu_max_m": 0.000452189,
+      "sommet_max_m": 1.50803e-05
+     },
+     "clothoide": {
+      "cordes": 1294,
+      "fleche_max_m": 0.000379333,
+      "milieu_max_m": 0.000379335,
+      "sommet_max_m": 8.80685e-06
+     }
+    },
+    "reference_par_type": {
+     "droite": {
+      "cordes": 3308,
+      "fleche_max_m": 9.7104e-06,
+      "milieu_max_m": 5.77856e-06,
+      "sommet_max_m": 9.7104e-06
+     },
+     "arc": {
+      "cordes": 724,
+      "fleche_max_m": 0.000434851,
+      "milieu_max_m": 0.000434851,
+      "sommet_max_m": 7.95567e-06
+     },
+     "clothoide": {
+      "cordes": 240,
+      "fleche_max_m": 0.000349987,
+      "milieu_max_m": 0.000349988,
+      "sommet_max_m": 5.98074e-06
+     }
+    },
+    "largeurs_negatives": 0,
+    "largeurs_nulles_hors_biseau": 0,
+    "extremites_de_biseau": 6,
+    "replis": 0,
+    "rubans_invalides": 0,
+    "quads_mal_orientes": 0,
+    "inversions": 0,
+    "chevauchement_max_m2": 6.13909e-12,
+    "sections_contigues": 27,
+    "jonctions": 56,
+    "jonctions_instantanees": [
+     {
+      "route": "R-1",
+      "s": 140.0,
+      "ecart_m": 1.5,
+      "bande": "bc1",
+      "instantanee": true
+     }
+    ],
+    "jonction_ecart_max_m": 0.0,
+    "dz_ecart_max_m": 5e-07,
+    "dz_fleche_max_m": 0.000395033,
+    "sommets_obligatoires_manquants": 0,
+    "aire_ecart_rel_max": 0.000115559,
+    "raccord_max_m": 5.78628e-07,
+    "raccord_cap_max_deg": 3.89319e-07,
+    "ecart_longueur_primitives_max_m": 4.7e-05,
+    "polyligne_ecart_max_m": 0.0,
+    "reference_polyligne_ecart_max_m": 0.0,
+    "modeles_sha_ok": 27,
+    "extremites_ok": 27,
+    "noeuds_ok": 27
+   }
+  },
+  "temoins": [
+   {
+    "temoin": "rg::graphe réglé à une flèche de 5 mm (S11, E1)",
+    "mesure": "flèche mesurée 2.248 mm",
+    "detecte": true
+   },
+   {
+    "temoin": "sommet d'une limite déplacé de 3 mm (S09)",
+    "mesure": "sommet 3.000 mm, milieu de corde 1.496 mm",
+    "detecte": true
+   },
+   {
+    "temoin": "changement instantané d'ex10 sans « transition_entree : instantanee »",
+    "mesure": "jonction non déclarée de 1.500 m",
+    "detecte": true
+   },
+   {
+    "temoin": "limite de S02 déplacée au-delà de sa voisine",
+    "mesure": "101 largeurs négatives, recouvrement 100.0 m²",
+    "detecte": true
+   }
+  ],
+  "dessins": {
+   "code": 0,
+   "images": [
+    "E1_rue_clothoides plan_l1 1436×1110, detail_clothoide 997×462",
+    "E2_rue_s_rabattement_ralentisseurs plan_l1 1498×559, detail_s_rabattement 993×697, profil_long_1 1048×418, profil_long_2 1048×518",
+    "E3_avenue_courbe_serree plan_l1 726×797, detail_interieur 859×1098",
+    "S01 plan_l1 1488×238",
+    "S02 plan_l1 1248×238",
+    "S03 plan_l1 1248×262, detail_avancees 1083×538",
+    "S04 plan_l1 1248×286",
+    "S05 plan_l1 1248×306",
+    "S06 plan_l1 1248×370",
+    "S07 plan_l1 1248×238",
+    "S08 plan_l1 1248×238, profil_long_1 1048×518",
+    "S09 plan_l1 1248×238, detail_rabattement 1412×382",
+    "S10 plan_l1 1248×238, detail_plateau 878×598, profil_long_1 1048×418",
+    "S11 plan_l1 1084×776, detail_arc 1046×619",
+    "S12 plan_l1 1248×242",
+    "ex01_route_2x1_sans_bordure plan_l1 1498×498",
+    "ex02_rue_1x1_trottoirs plan_l1 1488×262",
+    "ex03_avenue_bandes_cyclables_stationnement plan_l1 1498×278",
+    "ex04_boulevard_2x2_terre_plein_plante plan_l1 1498×318",
+    "ex05_rue_piste_bande_plantee_arret_bus plan_l1 1498×292",
+    "ex06_rabattement_2_vers_1 plan_l1 1498×204, detail_biseau 1196×328",
+    "ex07_zone30_ralentisseurs_passage plan_l1 1498×188, profil_long_1 1048×518, profil_long_2 1048×418",
+    "ex08_sens_unique_stationnement_charretieres plan_l1 1488×244",
+    "ex09_elargissement_tourne_a_gauche plan_l1 1498×221, detail_elargissement 984×384",
+    "ex10_changement_de_profil plan_l1 1498×198, detail_transition_80 1010×456, detail_instantane_140 928×630",
+    "ex11_description_rapide_depuis_photo plan_l1 345×1418, profil_long_1 1048×418",
+    "ex12_piste_bidirectionnelle_separateur plan_l1 1488×286",
+    "osm_paquet_jardin plan_l1 1402×1418"
+   ]
+  },
+  "revue_visuelle": {
+   "tuiles_produites": 79,
+   "tuiles_regardees": 26,
+   "tuiles_regardees_existantes": 26,
+   "fichier": "recon/generateur/validation/constats_visuels_L1.json"
+  }
+ },
+ "criteres": [
+  {
+   "id": "L1-1 HDA rg::lire_modele, rg::graphe, rg::profils (dossiers .hdalc développés, signature stable, reconstruction identique à l'octet)",
+   "valeur": "3 / 3 ; signatures stables, dossiers identiques",
+   "seuil": "3 / 3",
+   "atteint": true
+  },
+  {
+   "id": "L1-2 pilote fabriquer_generateur.py : entrées description simple et modèle fabriquées sans erreur",
+   "valeur": "descriptions 27 / 27 (S01-S12, 12 exemples, 3 essais) ; modèle OSM réel 1 / 1 (69 routes)",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L1-3 échantillonnage à flèche ≤ 0,5 mm (référence et limites décalées, mesure indépendante)",
+   "valeur": "max 0,452 mm (arc 0,452 mm, clothoide 0,379 mm, droite 0,016 mm ; 27844 cordes de limites)",
+   "seuil": "≤ 0,5 mm",
+   "atteint": true
+  },
+  {
+   "id": "L1-4 écart des limites décalées à la position analytique, mesuré au milieu des cordes (droite, arc, clothoïde)",
+   "valeur": "droite 0,009 mm ; arc 0,452 mm ; clothoide 0,379 mm (sommets : max 0,016 mm)",
+   "seuil": "≤ 1 mm pour chaque type",
+   "atteint": true
+  },
+  {
+   "id": "L1-5 0 bande de largeur négative ou nulle (hors extrémité de biseau : bande qui naît ou disparaît)",
+   "valeur": "0 négative, 0 nulle ; 6 extrémités de biseau",
+   "seuil": "0",
+   "atteint": true
+  },
+  {
+   "id": "L1-6 0 chevauchement (réunion des rubans = somme des aires, 0 repli 1 − tκ ≤ 0, 0 limite inversée)",
+   "valeur": "recouvrement max 6.1e-12 m² (bruit numérique) ; 0 repli ; 0 inversion ; 0 ruban invalide",
+   "seuil": "0 (recouvrement ≤ 1e-6 m²)",
+   "atteint": true
+  },
+  {
+   "id": "L1-7 sections contiguës de 0 à L (modèle et sorties)",
+   "valeur": "27 / 27 scènes",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L1-8 transitions de profil continues (bords d'une même bande, bande qui naît ou disparaît) aux jonctions de sections",
+   "valeur": "55 jonctions, écart max 0,000 mm ; 1 changement instantané déclaré (« transition_entree : instantanee ») : R-1 s = 140 m, 1.50 m (bc1)",
+   "seuil": "≤ 1 mm",
+   "atteint": true
+  },
+  {
+   "id": "L1-9 transitions verticales (plateaux, dos-d'âne) : dz exporté contre analytique ; flèche du profil en long",
+   "valeur": "écart max 0,001 mm ; flèche max 0,395 mm",
+   "seuil": "≤ 1 mm ; ≤ 0,5 mm",
+   "atteint": true
+  },
+  {
+   "id": "L1-10 sommets obligatoires présents (raccords, sections, lois de largeur, évènements des limites, ralentisseurs)",
+   "valeur": "0 manquant",
+   "seuil": "0",
+   "atteint": true
+  },
+  {
+   "id": "L1-11 déterminisme (deux processus identiques à l'octet)",
+   "valeur": "54 fichiers (courbes_controle.json, manifest_l1.json) : identiques ; HDA reconstruites : identiques",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L1-12 S01-S12 en courbes de contrôle, regardées en tuiles natives",
+   "valeur": "12 / 12 fabriquées ; 12 / 12 regardées ; 26 tuiles regardées sur 79",
+   "seuil": "12 / 12",
+   "atteint": true
+  },
+  {
+   "id": "L1-13 témoins négatifs détectés par le contrôle indépendant",
+   "valeur": "4 / 4 : rg::graphe réglé à une flèche de 5 mm (S11, E1) → flèche mesurée 2.248 mm ; sommet d'une limite déplacé de 3 mm (S09) → sommet 3.000 mm, milieu de corde 1.496 mm ; changement instantané d'ex10 sans « transition_entree : instantanee » → jonction non déclarée de 1.500 m ; limite de S02 déplacée au-delà de sa voisine → 101 largeurs négatives, recouvrement 100.0 m²",
+   "seuil": "100 %",
+   "atteint": true
+  }
+ ],
+ "informations": {
+  "aire_rubans_ecart_relatif_max": 0.000115559,
+  "raccords_primitives_max_m": 5.78628e-07,
+  "raccords_primitives_cap_max_deg": 3.89319e-07,
+  "longueur_m_contre_somme_des_primitives_max_m": 4.7e-05,
+  "reference_par_type": {
+   "droite": {
+    "cordes": 3308,
+    "fleche_max_m": 9.7104e-06,
+    "milieu_max_m": 5.77856e-06,
+    "sommet_max_m": 9.7104e-06
+   },
+   "arc": {
+    "cordes": 724,
+    "fleche_max_m": 0.000434851,
+    "milieu_max_m": 0.000434851,
+    "sommet_max_m": 7.95567e-06
+   },
+   "clothoide": {
+    "cordes": 240,
+    "fleche_max_m": 0.000349987,
+    "milieu_max_m": 0.000349988,
+    "sommet_max_m": 5.98074e-06
+   }
+  },
+  "limites_par_type": {
+   "droite": {
+    "cordes": 21842,
+    "fleche_max_m": 1.60984e-05,
+    "milieu_max_m": 8.63798e-06,
+    "sommet_max_m": 1.60984e-05
+   },
+   "arc": {
+    "cordes": 4708,
+    "fleche_max_m": 0.00045219,
+    "milieu_max_m": 0.000452189,
+    "sommet_max_m": 1.50803e-05
+   },
+   "clothoide": {
+    "cordes": 1294,
+    "fleche_max_m": 0.000379333,
+    "milieu_max_m": 0.000379335,
+    "sommet_max_m": 8.80685e-06
+   }
+  }
+ },
+ "statut": "ok"
+}

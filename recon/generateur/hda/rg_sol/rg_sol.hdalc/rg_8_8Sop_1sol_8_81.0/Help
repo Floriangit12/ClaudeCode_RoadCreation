@@ -1,0 +1,54 @@
+= RG Sol (nappe étanche sur le modèle unique) =
+
+"""Sol étanche du générateur : triangulation contrainte en (s, t) (lignes de rupture, contours des zones sous les éléments), Z du modèle unique (rg_niveau.h) par sommet, marches fermées par des murs cachés ; BEV en dalles et plots."""
+
+== Entrées ==
+
+1. Références (rg::graphe), 2. Niveaux (rg::nivellement : sections, ralentisseurs, bordures).
+
+== Sorties ==
+
+1. Sol : triangles et murs (Y haut) ; primitives route, z_type (0 bande ou abord, 1 sous bordure, 2 caniveau relevé, 3 sous élément, 4 mur), section, bande, bande_id, classe, materiau_id, visible, pj_couche, pj_entite, pj_maillage ; points s, t, pt_orig ; sommets N, uv. Détail rg_sol_murs, rg_sol_aretes_sans_paire.
+2. BEV : dalles (groupe dalles) et points des plots (groupe plots) ; materiau_voisin = revêtement de la bande où la BEV est posée (teinte de la BEV en contraste, RF-MA-OBS-003) ; BEV posée dans sa section seulement.
+3. Zones et contraintes (plan des paramètres, contrôle).
+
+Règles : TQ-SOL-002, TQ-SOL-003, TQ-SOL-009, TQ-SOL-013, TQ-BOR-007, DEF-031, RF-MA-BEV-002.
+
+@parameters
+
+Arête cible (m):
+    #id: arete_cible
+    Triangulate 2D, taille cible des triangles (TQ-SOL-002 : 0,25 m sur trottoirs, rampes et îlots, 0,5 m sur chaussée ; une seule valeur pour tout le sol, la plus fine). Arête minimale du raffinement : 0,02 m (TQ-SOL-002 ; évite les aiguilles au croisement rasant de deux contraintes, TQ-SOL-009).
+
+Angle minimal (°):
+    #id: angle_min
+    TQ-SOL-002 : 25°.
+
+Trottoir sous la tête de bordure (m):
+    #id: recouvrement_tete
+    Le trottoir commence sous la tête de la bordure, à l'arrière moins cette longueur (TQ-BOR-007 : 12 mm) ; la chaussée passe sous la bordure jusqu'à ce point (mur caché dans l'élément).
+
+Tolérance de marche (m):
+    #id: tolerance_marche
+    Écart de Z au-dessous duquel deux sommets d'un même point sont confondus (Split Points).
+
+Couche USD:
+    #id: couche
+    
+
+BEV : distance au nez (m):
+    #id: bev_recul
+    DEF-031 : 0,50 m (pas de freinage, RF-MA-BEV-002).
+
+BEV : pas des plots (m):
+    #id: bev_pas
+    Plots en quinconce au pas de 75 mm (pj::sol, GA-BEV-004).
+
+BEV : dessus au-dessus du sol (mm):
+    #id: bev_dessus_mm
+    E9 : dessus des dalles à moins de 5 mm du sol (pj::sol).
+
+BEV : vue visible maximale de la bordure (m):
+    #id: bev_vue_max
+    RF-MA-BEV-002 : BEV au droit de toute bordure de vue < 0,05 m, jamais au-delà du marquage ; 0,05 = vue minimale détectable (RF-MA-TRO-015).
+

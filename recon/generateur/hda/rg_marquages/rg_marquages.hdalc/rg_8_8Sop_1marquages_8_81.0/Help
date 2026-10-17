@@ -1,0 +1,74 @@
+= RG Marquages (empreintes de la section courante) =
+
+"""Empreintes exactes des marquages de la section courante (lignes à modulation IISR, passages piétons, flèches, triangles de dos-d'âne, figurines, inscriptions, zébras), découpées aux lignes de rupture du sol et hors bordures et caniveaux ; à extruder et draper par pj::marquage_solide."""
+
+== Entrées ==
+
+1. Références (rg::graphe), 2. Niveaux (rg::nivellement, sortie 1), 3. Profils (rg::lire_modele, sortie 5), 4. Ponctuels (rg::lire_modele, sortie 4).
+
+== Sorties ==
+
+1. Lignes longitudinales (polygones plans, peinture 2 mm, TQ-MQG-002).
+2. Autres marques (enduit 3 mm).
+3. Table : un point par marque (classe, id, route, clé de limite, modulation, s0, s1, t, cap, gabarit, n, e, W).
+
+Règles : RF-MQ-MOD-*, RF-MQ-LAR-*, DEF-011, RF-MQ-PP-02 à -05, DEF-017, RF-MQ-RAB-*, RF-MQ-RAL-01, DEF-020, RF-MQ-HACH-01, -03, RF-MQ-MUS-01, RF-MA-CYC-012, RF-MQ-TC-03, MQ-DET-010, TQ-MQG-014 ; gabarits du dossier 08 (IISR7 annexes B et D).
+
+@parameters
+
+Gabarits IISR (dossier 08, format pj):
+    #id: spec
+    gabarits_iisr7_pj.json (gabarits_iisr7.py) : gabarits et glyphes de D:/DocRoute/08_Marquages_Geometrie_IISR7/marquages_iisr7.json, lus par pj::gabarits_iisr.
+
+Trait tronqué gardé (fraction du trait):
+    #id: fraction_trait
+    [G] choix du catalogue (scenes_simples/description.py, FRACTION_TRAIT_TRONQUE) : chaque tronçon de ligne commence par un trait ; un trait tronqué en fin de tronçon est gardé s'il fait au moins cette fraction du trait (la phase n'est pas fixée par l'IISR).
+
+Dégagement entre lignes et bordures (u):
+    #id: degagement_u
+    RF-MQ-MUS-01 : espace non peint de 2u (zébra ; lignes qui convergent, par analogie : choix [G]).
+
+Passage piéton : largeur des bandes (m):
+    #id: pp_bande
+    DEF-011 (RF-MQ-PP-02) : bandes de 0,50 m.
+
+Passage piéton : intervalle minimal e (m):
+    #id: pp_marge_min
+    RF-MQ-PP-05 / DEF-011 : e = (W − 0,50 n)/(n + 1) dans [0,50 ; 0,80], n maximal = floor(W − 0,50).
+
+Hachures : largeur des bandes (m):
+    #id: hach_bande
+    DEF-020, RF-MQ-HACH-01 : 0,50.
+
+Hachures : espacement entre parallèles (m):
+    #id: hach_espacement
+    DEF-020, RF-MQ-HACH-01 : 1,35.
+
+Hachures : angle avec la rive (°):
+    #id: hach_angle
+    DEF-020, RF-MQ-HACH-01 : 2 parallèlement à la rive pour 1 perpendiculairement (26,565°).
+
+Hachures : aplat sous la largeur (m):
+    #id: hach_aplat
+    DEF-020, RF-MQ-HACH-03 : aplat (peinture uniforme) où la zone a moins de 0,30 m ; phase : une bande commence là où la zone atteint 0,30 m (dossier 08, parametres_generateur_par_defaut.hachures_phase).
+
+Inscriptions : espacement des caractères (m):
+    #id: espacement_caracteres
+    IISR7 annexe D.2 p. 69 (dossier 08, glyphes.repere).
+
+Pas en long sur un dos-d'âne (m):
+    #id: pas_fin
+    Sommets des empreintes sur un sol courbe en long (dos-d'âne, R ≈ 20 m) : la peinture drapée sommet par sommet s'écarte du sol de moins de 0,1 mm entre deux sommets.
+
+Arêtes des symboles (m):
+    #id: pas_symboles
+    Longueur maximale d'une arête de symbole (drapé).
+
+Flèche des arêtes en courbe (m):
+    #id: corde
+    Pas en long des empreintes sur une route courbe : flèche ≤ 0,1 mm.
+
+u par défaut (m):
+    #id: u_defaut
+    DEF-001 : u = 0,05 m (autres routes), si le modèle ne le dit pas.
+

@@ -1,0 +1,134 @@
+# Dialog script for rg::marquages::1.0 automatically generated
+
+{
+    name	rg::marquages::1.0
+    inputlabel	1	"Références échantillonnées"
+    inputlabel	2	"Niveaux"
+    inputlabel	3	"Profils"
+    inputlabel	4	"Ponctuels"
+    outputlabel	1	"Lignes (empreintes)"
+    outputlabel	2	"Autres marques (empreintes)"
+    outputlabel	3	"Table des marques"
+    script	rg::marquages::1.0
+    label	"RG Marquages (empreintes de la section courante)"
+
+    help {
+    }
+
+    inputlabel	1	"Références échantillonnées"
+    inputlabel	2	Niveaux
+    inputlabel	3	Profils
+    inputlabel	4	Ponctuels
+
+    parm {
+        name    "spec"
+        label   "Gabarits IISR (dossier 08, format pj)"
+        type    file
+        default { "D:/ClaudeCode_RoadCreation/recon/generateur/hda/rg_marquages/gabarits_iisr7_pj.json" }
+        help    "gabarits_iisr7_pj.json (gabarits_iisr7.py) : gabarits et glyphes de D:/DocRoute/08_Marquages_Geometrie_IISR7/marquages_iisr7.json, lus par pj::gabarits_iisr."
+    }
+    parm {
+        name    "fraction_trait"
+        label   "Trait tronqué gardé (fraction du trait)"
+        type    float
+        default { "0.5" }
+        help    "[G] choix du catalogue (scenes_simples/description.py, FRACTION_TRAIT_TRONQUE) : chaque tronçon de ligne commence par un trait ; un trait tronqué en fin de tronçon est gardé s'il fait au moins cette fraction du trait (la phase n'est pas fixée par l'IISR)."
+        range   { 0 1 }
+    }
+    parm {
+        name    "degagement_u"
+        label   "Dégagement entre lignes et bordures (u)"
+        type    float
+        default { "2" }
+        help    "RF-MQ-MUS-01 : espace non peint de 2u (zébra ; lignes qui convergent, par analogie : choix [G])."
+        range   { 0 10 }
+    }
+    parm {
+        name    "pp_bande"
+        label   "Passage piéton : largeur des bandes (m)"
+        type    float
+        default { "0.5" }
+        help    "DEF-011 (RF-MQ-PP-02) : bandes de 0,50 m."
+        range   { 0.1 1 }
+    }
+    parm {
+        name    "pp_marge_min"
+        label   "Passage piéton : intervalle minimal e (m)"
+        type    float
+        default { "0.5" }
+        help    "RF-MQ-PP-05 / DEF-011 : e = (W − 0,50 n)/(n + 1) dans [0,50 ; 0,80], n maximal = floor(W − 0,50)."
+        range   { 0.1 1 }
+    }
+    parm {
+        name    "hach_bande"
+        label   "Hachures : largeur des bandes (m)"
+        type    float
+        default { "0.5" }
+        help    "DEF-020, RF-MQ-HACH-01 : 0,50."
+        range   { 0.1 1 }
+    }
+    parm {
+        name    "hach_espacement"
+        label   "Hachures : espacement entre parallèles (m)"
+        type    float
+        default { "1.35" }
+        help    "DEF-020, RF-MQ-HACH-01 : 1,35."
+        range   { 0.1 5 }
+    }
+    parm {
+        name    "hach_angle"
+        label   "Hachures : angle avec la rive (°)"
+        type    float
+        default { "26.565" }
+        help    "DEF-020, RF-MQ-HACH-01 : 2 parallèlement à la rive pour 1 perpendiculairement (26,565°)."
+        range   { 1 89 }
+    }
+    parm {
+        name    "hach_aplat"
+        label   "Hachures : aplat sous la largeur (m)"
+        type    float
+        default { "0.3" }
+        help    "DEF-020, RF-MQ-HACH-03 : aplat (peinture uniforme) où la zone a moins de 0,30 m ; phase : une bande commence là où la zone atteint 0,30 m (dossier 08, parametres_generateur_par_defaut.hachures_phase)."
+        range   { 0 2 }
+    }
+    parm {
+        name    "espacement_caracteres"
+        label   "Inscriptions : espacement des caractères (m)"
+        type    float
+        default { "0.15" }
+        help    "IISR7 annexe D.2 p. 69 (dossier 08, glyphes.repere)."
+        range   { 0 1 }
+    }
+    parm {
+        name    "pas_fin"
+        label   "Pas en long sur un dos-d'âne (m)"
+        type    float
+        default { "0.05" }
+        help    "Sommets des empreintes sur un sol courbe en long (dos-d'âne, R ≈ 20 m) : la peinture drapée sommet par sommet s'écarte du sol de moins de 0,1 mm entre deux sommets."
+        range   { 0.005 1 }
+    }
+    parm {
+        name    "pas_symboles"
+        label   "Arêtes des symboles (m)"
+        type    float
+        default { "0.25" }
+        help    "Longueur maximale d'une arête de symbole (drapé)."
+        range   { 0.01 5 }
+    }
+    parm {
+        name    "corde"
+        label   "Flèche des arêtes en courbe (m)"
+        type    float
+        default { "0.0001" }
+        help    "Pas en long des empreintes sur une route courbe : flèche ≤ 0,1 mm."
+        range   { 1e-06 0.01 }
+    }
+    parm {
+        name    "u_defaut"
+        label   "u par défaut (m)"
+        type    float
+        default { "0.05" }
+        help    "DEF-001 : u = 0,05 m (autres routes), si le modèle ne le dit pas."
+        range   { 0.01 0.1 }
+    }
+}

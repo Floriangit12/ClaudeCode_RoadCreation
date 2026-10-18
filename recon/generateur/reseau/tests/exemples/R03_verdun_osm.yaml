@@ -1,0 +1,31 @@
+# Accrochage à OSM (FORMAT_DESCRIPTION_RESEAU.md § 3) : un bout d'avenue de Verdun décrit grossièrement, tracé tiré
+# des deux chaussées à sens unique d'OSM (médiane), nœuds recalés sur les sommets OSM, passage à refuge « vers 20 m ».
+format: description_reseau/0.1
+reseau: R03_verdun_osm
+etat: {nom: printemps_2025, date: 2025-05-18}
+repere: l93
+origine: [917391.4, 6460394.0]
+contexte: {agglomeration: oui, vitesse: 50, categorie: avenue}
+noeuds:
+  N_V0: {position: [917391.4, 6460394.0], osm_pres_de: 10, type: limite_carte}
+  N_SOURCES: {position: [917483.4, 6460499.0], osm_pres_de: 10}
+  N_X: {depuis: N_SOURCES, distance: ≈ 40, cap: ≈ 47}
+troncons:
+  - id: R_VERDUN_1
+    nom: Avenue de Verdun
+    de: N_V0
+    vers: N_SOURCES
+    osm: auto
+    profil: "trottoir ≈ 2 | voie ≈ 3,5 ← | zone hachurée ≈ 3,4 (mesure 3,42 ortho) | voie ≈ 3,5 → | trottoir ≈ 2"
+    evenements:
+      - "de ≈ 15 à ≈ 25 avant N_SOURCES : îlot refuge bordure basse vue ≈ 0,11 enrobé"
+      - "à ≈ 20 avant N_SOURCES : passage piéton"
+    preuves: [ortho:2024]
+  - id: R_VERDUN_2
+    nom: Avenue de Verdun
+    de: N_SOURCES
+    vers: N_X
+    profil: "trottoir ≈ 2 | voie ≈ 3,5 ← | zone hachurée ≈ 3,4 (mesure 3,42 ortho) | voie ≈ 3,5 → | trottoir ≈ 2"
+ecarts_admis:
+  RF-OSM-LAR-010: "exemple : voies de 3,5 m (mesures de l'axe du lot B sur l'ortho 2024, 3,45 à 3,6 m)"
+  RF-MA-REF-003: "exemple : bordures des refuges de l'avenue de Verdun vues à 0,11 m (photos M27)"

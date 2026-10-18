@@ -1,0 +1,73 @@
+{
+ "schema": "comparaison_sites/0.1",
+ "note": "Ancrage du modèle de réseau : repère local du site = Lambert-93 moins l'origine de la description (x vers l'est, y vers le nord), donc azimut grille de +x = 90° et origine = origine du site. Écrit par le lot SITES (auto_*, axe_*) ; aucune image. Origine recalée le 18/10/2026 (lot SITES, reprise) sur l'origine de la description (déplacée pour la précision float32 du HeightField, BESOINS.md G1).",
+ "sites": {
+  "meylan_auto_n87_rocade_sud": {
+   "titre": "aire de service (s ≈ 520 m)",
+   "modele": "recon/out/generateur/meylan_auto_n87_rocade_sud_f1",
+   "description": "recon/generateur/meylan/auto_n87_rocade_sud/description.yaml",
+   "ancrage": {
+    "origine_l93": [
+     918293.3,
+     6459314.8
+    ],
+    "azimut_grille_deg": 90.0
+   },
+   "point_interet": {
+    "s": 61.8,
+    "t": -190.0,
+    "nom": "aire de service (s ≈ 520 m)"
+   },
+   "fenetre": {
+    "scene_complete": "recon/out/generateur/meylan_auto_n87_rocade_sud",
+    "locale_xy": [
+     -60,
+     200,
+     -480,
+     0
+    ],
+    "motif": "selection.py sous-échantillonne les arêtes à ≈ 900 points : sur la scène entière (1,1 km) aucune vue n'atteint 20 points (0 photo retenue le 18/10/2026) ; fenêtre de 480 m autour de l'aire de service, rendu sur la scène entière (tmp/lotB_sites/outils/fenetre.py)"
+   }
+  },
+  "meylan_auto_n87_rocade_sud_f2": {
+   "titre": "approche du nœud A41 / N87 (3e voie à gauche)",
+   "modele": "recon/out/generateur/meylan_auto_n87_rocade_sud_f2",
+   "description": "recon/generateur/meylan/auto_n87_rocade_sud/description.yaml",
+   "ancrage": {
+    "origine_l93": [
+     918293.3,
+     6459314.8
+    ],
+    "azimut_grille_deg": 90.0
+   },
+   "point_interet": {
+    "s": 40.0,
+    "t": 300.0,
+    "nom": "approche du nœud, voie gauche ajoutée"
+   },
+   "fenetre": {
+    "scene_complete": "recon/out/generateur/meylan_auto_n87_rocade_sud",
+    "locale_xy": [
+     -60,
+     200,
+     60,
+     380
+    ],
+    "motif": "comparaison v2 (lot SITES, 18/10/2026) : fenêtre supplémentaire pour couvrir une autre zone de conflit du site (12 à 20 photos par fenêtre)"
+   }
+  }
+ },
+ "porteurs_sequences": {
+  "note": "Porteur de la caméra par séquence Panoramax (identifiant de collection), quand la sémantique « transport » manque ou que la vitesse est ambiguë : constaté sur les photos (capot ou toit de voiture, sac à dos, casque) ou repris de recon/pcg/enrichir/camera.py SEQUENCES (mêmes contributeurs, mêmes journées). Sans entrée : sémantique « transport » de la séquence, sinon vitesse médiane de la séquence (> 32 km/h voiture, < 20 km/h vélo ou piéton, entre les deux inconnu).",
+  "4ef310d0-": "velo",
+  "dda9fddd-": "velo",
+  "2b630cec-": "velo",
+  "69791f81-": "velo",
+  "dff66b1c-": "velo",
+  "86c4aa13-": "voiture",
+  "7b1d9477-": "voiture",
+  "a622e3ce-": "voiture",
+  "203bb147-": "voiture",
+  "36c713af-": "voiture"
+ }
+}

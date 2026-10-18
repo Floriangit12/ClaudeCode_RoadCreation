@@ -1,0 +1,73 @@
+{
+ "schema": "comparaison_sites/0.1",
+ "note": "Ancrage du modèle de réseau : repère local du site = Lambert-93 moins l'origine de la description (x vers l'est, y vers le nord), donc azimut grille de +x = 90° et origine = origine du site. Écrit par le lot SITES (auto_*, axe_*) ; aucune image.",
+ "sites": {
+  "meylan_auto_a41_extremite_ouest": {
+   "titre": "réduction 3 → 2 voies sens est (s ≈ 108 m)",
+   "modele": "recon/out/generateur/meylan_auto_a41_extremite_ouest_f1",
+   "description": "recon/generateur/meylan/auto_a41_extremite_ouest/description.yaml",
+   "ancrage": {
+    "origine_l93": [
+     916625.1,
+     6459501.0
+    ],
+    "azimut_grille_deg": 90.0
+   },
+   "point_interet": {
+    "s": 101.0,
+    "t": 35.6,
+    "nom": "réduction 3 → 2 voies sens est (s ≈ 108 m)"
+   },
+   "fenetre": {
+    "scene_complete": "recon/out/generateur/meylan_auto_a41_extremite_ouest",
+    "locale_xy": [
+     -20,
+     420,
+     -60,
+     160
+    ],
+    "motif": "selection.py sous-échantillonne les arêtes à ≈ 900 points : sur une scène de plus de 600 m aucune vue n'atteint 20 points (N87, nœud : 0 photo le 18/10/2026) ; fenêtre de 440 × 220 m autour de la réduction 3 → 2 voies et de l'entrée de Mi-Plaine ; rendu sur la scène entière (tmp/lotB_sites/outils/fenetre.py)"
+   }
+  },
+  "meylan_auto_a41_extremite_ouest_f2": {
+   "titre": "sortie 27 Mi-Plaine (musoir, s ≈ 780 m)",
+   "modele": "recon/out/generateur/meylan_auto_a41_extremite_ouest_f2",
+   "description": "recon/generateur/meylan/auto_a41_extremite_ouest/description.yaml",
+   "ancrage": {
+    "origine_l93": [
+     916625.1,
+     6459501.0
+    ],
+    "azimut_grille_deg": 90.0
+   },
+   "point_interet": {
+    "s": 740.0,
+    "t": 215.0,
+    "nom": "musoir de la sortie 27"
+   },
+   "fenetre": {
+    "scene_complete": "recon/out/generateur/meylan_auto_a41_extremite_ouest",
+    "locale_xy": [
+     440,
+     800,
+     120,
+     260
+    ],
+    "motif": "comparaison v2 (lot SITES, 18/10/2026) : deuxième fenêtre, musoir de la sortie 27 Mi-Plaine et sa bretelle (hors de la fenêtre f1)"
+   }
+  }
+ },
+ "porteurs_sequences": {
+  "note": "Porteur de la caméra par séquence Panoramax (identifiant de collection), quand la sémantique « transport » manque ou que la vitesse est ambiguë : constaté sur les photos (capot ou toit de voiture, sac à dos, casque) ou repris de recon/pcg/enrichir/camera.py SEQUENCES (mêmes contributeurs, mêmes journées). Sans entrée : sémantique « transport » de la séquence, sinon vitesse médiane de la séquence (> 32 km/h voiture, < 20 km/h vélo ou piéton, entre les deux inconnu).",
+  "4ef310d0-": "velo",
+  "dda9fddd-": "velo",
+  "2b630cec-": "velo",
+  "69791f81-": "velo",
+  "dff66b1c-": "velo",
+  "86c4aa13-": "voiture",
+  "7b1d9477-": "voiture",
+  "a622e3ce-": "voiture",
+  "203bb147-": "voiture",
+  "36c713af-": "voiture"
+ }
+}

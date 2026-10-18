@@ -79,7 +79,10 @@ CLES_RESEAU = ("carrefours", "giratoires", "bretelles")
 CLES_CONTEXTE = {"agglomeration", "vitesse", "vitesse_kmh", "categorie", "u", "u_m", "sens_unique", "usure_marquages",
                  "v15", "v15_kmh"}
 CLES_TRONCON = {"trace", "polyligne", "longueur", "depart", "cap", "de", "vers", "repere", "profil", "evenements",
-                "vegetation", "abords", "signalisation", "objets", "nom", "contexte", "id"}
+                "vegetation", "abords", "signalisation", "objets", "nom", "contexte", "id",
+                # lot N1 (réseau, 18/10/2026) : matériaux, marquages et confiance propres à un tronçon (scènes composées
+                # de plusieurs sites) ; absents, ceux de la description valent pour le tronçon (sortie inchangée)
+                "materiaux", "marquages", "confiance"}
 PARAMS = {  # paramètres admis par évènement (en plus de a, type, chemin, texte)
     "passage_pieton": {"largeur", "abaisses", "bev", "panneau", "pente_rampants_pct", "regime"},
     "dos_d_ane": {"longueur", "hauteur", "triangles"},
@@ -96,8 +99,8 @@ PARAMS = {  # paramètres admis par évènement (en plus de a, type, chemin, tex
     "zone_depassement_interdit": {"sens", "fin", "annonce", "fleches"},
     "fleches": {"type_fleche", "voies", "nombre", "interdistance", "sens"},
     "inscription": {"texte_sol", "voie", "hauteur"},
-    "ouverture": {"longueur", "nouveau", "sens"},
-    "fermeture": {"longueur", "nouveau"},
+    "ouverture": {"longueur", "nouveau", "sens", "raccord"},
+    "fermeture": {"longueur", "nouveau", "raccord"},
 }
 
 
@@ -575,6 +578,10 @@ class Troncon:
             for w in av:
                 if w not in self.av:
                     self.av.append(w)
+            if getattr(self, "raccords", None) and _dans_raccord(self, sec["s0"], sec["s1"]):
+                ctrl = [dict(c, statut=c["statut"] + "_raccord", note_raccord="profil de transition d'un raccord de "
+                             "réseau (lot N1) : non bloquant") if c.get("statut") in ("non_conforme", "hors_plage") else c
+                        for c in ctrl]
             for c in ctrl:
                 if c not in self.ctrl:
                     self.ctrl.append(c)
@@ -1922,6 +1929,8 @@ def ev_ouverture(tr: Troncon, e):
     if t0 < -1e-6 or t1 > tr.L + 1e-6:
         raise ErreurDescription(f"{e['chemin']} : l'ouverture [{t0:.1f} ; {t1:.1f}] sort du tronçon [0 ; {tr.L:.2f}]")
     e["_s0"], e["_s1"] = t0, t1
+    if e.get("raccord") is not None and V.booleen(e["raccord"], e["chemin"] + ".raccord"):
+        _noter_raccord(tr, t0, t1)
     if arr and ava and max(arr) < min(ava) and any(b["id"].endswith(AXE_D) for b in bl):
         # lignes de bord de la bande centrale qui naît de largeur nulle : elles partent du même point et se recouvrent
         # sur la longueur où leur écart est inférieur à leur largeur (pointes de 0,04-0,08 m² de J4, J5, G1, G2,
@@ -1946,6 +1955,26 @@ def ev_ouverture(tr: Troncon, e):
             w0, w1 = (wb, wn) if sens == "avant" else (wn, wb)
             tr.mods.append({"op": "loi", "s0": t0, "s1": t1, "bande": b["id"], "w0": w0, "w1": w1,
                             "chemin": e["chemin"], "prov": po})
+
+
+def _noter_raccord(tr: Troncon, s0: float, s1: float):
+    """Lot N1 (réseau, 18/10/2026) : intervalle d'un raccord de profil généré par le résolveur au bout d'un tronçon qui
+    rejoint un nœud partagé (ouverture puis fermeture « raccord: oui ») ; les profils de transition qui y tombent ne
+    sont pas des profils de conception : leurs contrôles de largeur sont rapportés « …_raccord », non bloquants."""
+    if not hasattr(tr, "raccords"):
+        tr.raccords = []
+    tr.raccords.append((s0, s1))
+
+
+def _dans_raccord(tr, s0: float, s1: float) -> bool:
+    iv = sorted(getattr(tr, "raccords", []))
+    fus = []
+    for a, b in iv:
+        if fus and a <= fus[-1][1] + 0.1:
+            fus[-1] = (fus[-1][0], max(fus[-1][1], b))
+        else:
+            fus.append((a, b))
+    return any(a - 1e-6 <= s0 and s1 <= b + 1e-6 for a, b in fus)
 
 
 def _profil_en_vigueur(tr: Troncon, s: float):
@@ -2009,6 +2038,8 @@ def ev_fermeture(tr: Troncon, e):
     tr.mods.append({"op": "profil", "s0": a, "s1": tr.L, "bandes": bl, "lim": limd, "chemin": e["chemin"],
                     "instantane": False})
     e["_s0"], e["_s1"] = t0, a
+    if e.get("raccord") is not None and V.booleen(e["raccord"], e["chemin"] + ".raccord"):
+        _noter_raccord(tr, t0, a)
     po = _prov_ev(e, "longueur", note=f"fermeture progressive sur {lg:.1f} m")
     for i, b in enumerate(trans):
         wb = PF.nombre(b["largeur"])
@@ -2465,20 +2496,26 @@ def compiler(d_brut: dict, source: str = "(objet)", sha: str | None = None, _res
             bandes, limites = FP.analyser(prof, cprof)
         except FP.ErreurFormat as e:
             raise ErreurDescription(str(e))
-        ctxd = lire_contexte(dict(d, contexte=dict(d.get("contexte") or {}, **(tdesc.get("contexte") or {}))), bandes)
-        bandes, limites = resoudre_bandes(bandes, limites, d, cprof, ctxd)
-        mats, mat_bord = materiaux_globaux(d, conf)
+        dt, conf_t = d, conf                # lot N1 : matériaux, marquages et confiance propres au tronçon
+        if any(tdesc.get(k) is not None for k in ("materiaux", "marquages", "confiance")):
+            dt = dict(d, **{k: tdesc[k] for k in ("materiaux", "marquages", "confiance") if tdesc.get(k) is not None})
+            conf_t = dt.get("confiance", "moyenne")
+            if conf_t not in P.CONFIANCES:
+                raise ErreurDescription(f"{ch}.confiance : haute, moyenne ou faible")
+        ctxd = lire_contexte(dict(dt, contexte=dict(d.get("contexte") or {}, **(tdesc.get("contexte") or {}))), bandes)
+        bandes, limites = resoudre_bandes(bandes, limites, dt, cprof, ctxd)
+        mats, mat_bord = materiaux_globaux(dt, conf_t)
         ctx = PF.contexte(ctxd["agglomeration"], ctxd["vitesse"], ctxd["categorie"], u=ctxd.get("u"), prov_u=ctxd.get("prov_u"),
                           prov_agglomeration=ctxd["prov_agglomeration"], prov_vitesse=ctxd["prov_vitesse"], materiaux=mats)
         cx = dict(d.get("contexte") or {}, **(tdesc.get("contexte") or {}))
         if cx.get("v15") is not None or cx.get("v15_kmh") is not None:
             ctx["v15"] = V.nombre(cx.get("v15") if cx.get("v15") is not None else cx["v15_kmh"], "contexte.v15")
-        ctx["marquages"], ctx["usure_marquages"] = marquages_globaux(d, ctx, conf)
+        ctx["marquages"], ctx["usure_marquages"] = marquages_globaux(dt, ctx, conf_t)
         trace = lire_trace(tdesc, origine, ch)
         if getattr(trace, "_cassure", 0) > 1.0:
             av_glob.append(f"{ch}.polyligne : cassure de {trace._cassure:.1f}° non raccordée (préférer « trace » avec arcs)")
         try:
-            tr = Troncon(rid, trace, bandes, limites, ctx, ch, conf)
+            tr = Troncon(rid, trace, bandes, limites, ctx, ch, conf_t)
         except PF.ErreurProfil as e:
             raise ErreurDescription(f"{cprof} : {e}")
         tr.admis = admis
@@ -2531,7 +2568,7 @@ def compiler(d_brut: dict, source: str = "(objet)", sha: str | None = None, _res
         route["prov"] = {"categorie": ctxd["prov_categorie"], "agglomeration": ctxd["prov_agglomeration"],
                          "vitesse_kmh": ctxd["prov_vitesse"],
                          "sens_unique": P.inference("RF-OSM-PRF-002", note="déduit du sens des voies décrites"),
-                         "ligne_reference": P.description(ch, conf, note="tracé décrit")}
+                         "ligne_reference": P.description(ch, conf_t, note="tracé décrit")}
         modele["profils"] += tr.profils
         modele["routes"].append(route)
         if ctx.get("prov_u") and ctx["prov_u"]["src"].startswith("description"):
@@ -2659,6 +2696,14 @@ def ecrire_json(o, chemin: Path):
     chemin.write_bytes((json.dumps(o, ensure_ascii=False, indent=1) + "\n").encode("utf-8"))
 
 
+def _reseau():
+    """Résolveur de la couche réseau (lot N1, recon/generateur/reseau/resoudre_reseau.py), importé à la demande."""
+    if str(GEN / "reseau") not in sys.path:
+        sys.path.insert(0, str(GEN / "reseau"))
+    import resoudre_reseau
+    return resoudre_reseau
+
+
 def compiler_fichier(entree: Path, sortie: Path | None = None):
     octets = entree.read_bytes()
     texte = octets.decode("utf-8")
@@ -2667,11 +2712,23 @@ def compiler_fichier(entree: Path, sortie: Path | None = None):
         src = str(entree.resolve().relative_to(DEPOT)).replace("\\", "/")
     except ValueError:
         src = str(entree).replace("\\", "/")
+    # lot N1 (18/10/2026) : une description qui utilise la couche réseau (nœuds nommés ou partagés, valeurs approchées,
+    # état décrit, positions en mots…, FORMAT_DESCRIPTION_RESEAU.md) est d'abord résolue en description exacte ; une
+    # description au format de l'étape 2 n'est pas touchée (même chemin qu'avant)
+    rap_reseau = None
+    if entree.suffix.lower() != ".json":
+        RR = _reseau()
+        if RR.est_reseau(d):
+            d, rap_reseau = RR.resoudre_dict(d, src, entree.resolve().parent)
     modele, rapport = compiler(d, src, hashlib.sha256(octets).hexdigest())
+    if rap_reseau is not None:
+        RR.apres_compilation(rap_reseau, d, modele, rapport)
     if sortie is None:
         sortie = SORTIE_DEFAUT / rapport["scene"]
     ecrire_json(modele, sortie / "modele_voie.json")
     ecrire_json(rapport, sortie / "compilation.json")
+    if rap_reseau is not None:
+        RR.ecrire_sorties(rap_reseau, d, sortie, hashlib.sha256(octets).hexdigest())
     return modele, rapport, sortie
 
 

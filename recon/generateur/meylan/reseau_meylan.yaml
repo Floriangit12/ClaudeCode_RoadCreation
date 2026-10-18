@@ -1,0 +1,141 @@
+# Réseau commun de Meylan (lot N1 « réseau », 18/10/2026) : nœuds partagés entre les sites, contrats de profil aux
+# joints, alias des sites et compositions. Lu par recon/generateur/reseau/resoudre_reseau.py (clé « reseau_commun »
+# des descriptions de sites) et par l'option --composer.
+#
+# Règles (meylan/RELECTURE_PREPARATION.md, M1, M2, § 5.2, et CHAINE_CONSTRUCTION.md P3, CC-01, CC-04) :
+# - un tronçon, un propriétaire : là où deux sites se recouvraient, le tronçon du site de carrefour (lot A) garde sa
+#   longueur et l'axe du lot B commence ou finit sur le nœud partagé ;
+# - les nœuds sont en Lambert-93 ; ceux de l'avenue de Verdun sont sur la médiane OSM des deux chaussées (axe du lot B),
+#   et le tronçon du lot A y aboutit (rotation de 0,3 à 1,2° autour du centre du carrefour) ;
+# - « profil » : contrat du joint (CC-04), lu de gauche à droite en regardant dans la direction « cap_profil » (cap
+#   OpenDRIVE en degrés : 0 = est, 90 = nord) ; c'est le profil mesuré par le site « proprietaire » à cet endroit.
+#   Un tronçon qui arrive au nœud avec un autre profil reçoit du résolveur un raccord continu sur « raccord » mètres
+#   (fermeture des bandes qui disparaissent, puis ouverture des bandes qui naissent) ; le contrôle CC-04 est refait sur
+#   le modèle compilé et bloque s'il échoue ;
+# - un nœud sans contrat de profil relie des tronçons dont les profils se suivent déjà (A41) ou des chaussées à sens
+#   unique au bout d'une route à double sens (nœuds « jumelés » : besoins B2 et B15 du lot B, non portés par l'étape 2).
+#
+# Dates d'état (date_etat de chaque site) : l'état le plus récent cohérent d'après les photos du site (la date de la
+# photo la plus récente qui confirme la description) ; paquet_jardin : état d'avant les travaux de 2025 (décision prise
+# avec l'utilisateur, CLAUDE.md du dépôt). Une composition réunit des sites de dates différentes : chacun garde la
+# sienne, la scène composée porte la plus récente (avertissement).
+format: reseau_meylan/0.1
+alias:
+  paquet_jardin: pj
+  verdun_centre_feux: m17
+  verdun_lycee_feux: m08
+  vieux_chene_taillefer_feux: m07
+  vieux_chene_inovallee_piste: m16
+  rp_lycee: m02
+  rp_didcot: m03
+  avenue_7_laux_separateur: l7
+  axe_verdun_centre: avc
+  axe_verdun_ouest: avo
+  auto_a41_extremite_ouest: a41o
+  auto_a41_section_courante: a41sc
+  auto_noeud_a41_n87: nd
+  auto_a41_echangeur_meylan_est: a41e
+  auto_n87_rocade_sud: n87
+noeuds:
+  # ---------------------------------------------------------------- avenue de Verdun (corridor M01 – M17 – M08)
+  N_VERDUN_PJ_NE:
+    position: [917351.66, 6460359.2]
+    sites: [paquet_jardin, axe_verdun_centre]
+    proprietaire: paquet_jardin
+    note: "bout de Verdun nord-est de Paquet Jardin (100 m du centre), sur la médiane OSM (k ≈ 1 104) ; l'axe du lot B commençait à k 1 080 (recouvrement de 29,6 m)"
+    profil: "trottoir 1,8 | piste cyclable 3,0 bidirectionnelle | bande enherbée 4,8 | voie 2,9 ← | voie 3,0 ← | voie 2,9 → | voie 3,2 → | trottoir 4,0"
+    cap_profil: 45
+    raccord: ≈ 30
+    preuves: [coupe:verdun_ne_80, photo:20d1a815-ee8d-4d99-97c4-8e70270f289d]
+  N_VERDUN_M17_SO:
+    position: [917613.31, 6460626.49]
+    sites: [verdun_centre_feux, axe_verdun_centre]
+    proprietaire: verdun_centre_feux
+    note: "bout de Verdun sud-ouest du site M17 (80 m du carrefour Buclos sud), sur la médiane OSM (k ≈ 1 478) ; l'axe du lot B allait jusqu'à k 1 525 (recouvrement de 52,9 m)"
+    profil: "trottoir 2,5 | bande enherbée 2,1 | voie 4,1 ← | zone hachurée 3,7 | voie 3,5 → | bande enherbée 2,8 | piste cyclable 3,0 bidirectionnelle | trottoir 1,8"
+    cap_profil: 225
+    raccord: ≈ 30
+    preuves: [coupe:verdun_so_25, photo:f252d62f]
+  N_VERDUN_M17_NE:
+    position: [917717.47, 6460732.81]
+    sites: [verdun_centre_feux, axe_verdun_centre]
+    proprietaire: verdun_centre_feux
+    note: "Verdun nord-est du site M17 ramené à 40 m du carrefour Buclos nord (k ≈ 1 627), sur la médiane OSM ; l'axe du lot B commençait à k 1 610 (recouvrement de 48,1 m) ; le passage à refuge de k ≈ 1 665 reste au lot B, après le raccord"
+    profil: "trottoir 1,8 | piste cyclable 3,0 bidirectionnelle | bande enherbée 2,5 | voie 3,5 ← | zone hachurée 3,7 | voie 3,5 → | bande enherbée 2,0 | piste cyclable 3,0 bidirectionnelle | trottoir 2,0"
+    cap_profil: 45
+    raccord: ≈ 25
+    preuves: [coupe:verdun_ne_15, photo:de22683a]
+  N_VERDUN_M08_SO:
+    position: [917933.41, 6460930.29]
+    sites: [verdun_lycee_feux, axe_verdun_centre]
+    proprietaire: verdun_lycee_feux
+    note: "bout de Verdun sud-ouest du carrefour M08 (70 m du centre), sur la médiane OSM (k ≈ 1 920) ; l'axe du lot B allait jusqu'à k 1 950 (recouvrement de 35,7 m)"
+    profil: "trottoir 3,5 | voie 3,7 ← | tourne-à-gauche 3,7 ← | terre-plein 2,8 gazon | voie 3,5 → | voie 3,5 → | bande enherbée 1,3 | piste cyclable 3,0 bidirectionnelle"
+    cap_profil: 216.4
+    raccord: ≈ 30
+    preuves: [coupe:so_30, photo:5922e7b4]
+  # ---------------------------------------------------------------- avenue des 7 Laux (rond-point du Lycée)
+  N_7LAUX_SO:
+    position: [918246.49, 6461133.71]
+    sites: [rp_lycee, avenue_7_laux_separateur]
+    proprietaire: avenue_7_laux_separateur
+    note: "milieu du séparateur à la coupe t_sw (levé GAM) ; la branche sept_laux du rond-point y aboutit (74 m depuis le bord de l'anneau, cap 51,2°), l'avenue en part au cap 51,65° (axe du séparateur par t_sw et t0) : le décalage latéral de 11,6 m et le vide de 17 m (relecture M7) disparaissent"
+    profil: "voie 4,1 ← | bande plantée 4,2 | piste cyclable 3,0 bidirectionnelle | trottoir 2,1 | voie 3,0 ← | voie 3,0 ← | terre-plein 1,5 béton | voie 6,5 → | bande enherbée 6,0"
+    cap_profil: 51.65
+    raccord: ≈ 30
+    preuves: [coupe:t_sw, photo:c531e1b2]
+  # ---------------------------------------------------------------- A41 (bout à bout, profils déjà continus)
+  N_A41_PEPINIERES_O: {position: [917403.3, 6459717.4], sites: [auto_a41_extremite_ouest, auto_a41_section_courante], note: "médiane OSM 759037980 / 4247774"}
+  N_A41_N87_O: {position: [917939.1, 6459841.3], sites: [auto_a41_section_courante, auto_noeud_a41_n87], note: "médiane OSM, fin de la section courante"}
+  N_A41_MEYLAN_EST_O: {position: [919112.7, 6460164.9], sites: [auto_noeud_a41_n87, auto_a41_echangeur_meylan_est], note: "médiane OSM, début de l'échangeur 26"}
+  N_A41_BRANCHE_N87:
+    position: [919194.1, 6460170.7]
+    sites: [auto_noeud_a41_n87, auto_a41_echangeur_meylan_est]
+    note: "fin de la branche N87 → A41 Chambéry du nœud, début de sa suite et de la sortie vers Meylan-Est (divergence : la paire alignée est fusionnée, la sortie garde une limite de carte, besoin B2)"
+  # ---------------------------------------------------------------- N87 au nœud A41 / N87 (trou de 103 m comblé)
+  N_N87_NOEUD:
+    position: [918361.49, 6459678.5]
+    sites: [auto_n87_rocade_sud]
+    note: "fin de la N87 prolongée de 103,4 m le long de la médiane OSM (25612322, 344514536, 344514534 / 4015293), au droit de la divergence de la chaussée nord"
+  N_N87_DIV:
+    position: [918366.0, 6459676.9]
+    sites: [auto_noeud_a41_n87]
+    type: fourche
+    note: "divergence de la chaussée nord (344514534, 3 voies) en « N87 vers A41 Chambéry » (3230936) et boucle (84073) : nœud jumelé, à 4,8 m à droite de N_N87_NOEUD (besoins B2, B15)"
+  N_N87_SUD:
+    position: [918356.98, 6459680.11]
+    sites: [auto_noeud_a41_n87]
+    note: "chaussée sud de la N87 (4015293) au droit de N_N87_NOEUD : bout de « A41 vers N87 sud », prolongé de 12,9 m depuis la convergence (nœud jumelé, B2)"
+  N_N87_CONV:
+    position: [918361.4, 6459692.4]
+    sites: [auto_noeud_a41_n87]
+    note: "convergence de la sortie Sisteron sur « A41 vers N87 sud » (début de 4015293) : bout de la sortie Sisteron, limite de carte (B2)"
+  # ---------------------------------------------------------------- hélice de Meylan (carrefour M07)
+  N_VCT_HELICE:
+    position: [918497.0, 6460239.1]
+    sites: [vieux_chene_taillefer_feux]
+    note: "bout de la branche « Hélice » du carrefour M07 (80 m du centre)"
+  N_HELICE_MONT:
+    position: [918509.64, 6460242.49]
+    sites: [auto_noeud_a41_n87]
+    note: "hélice montante (vers M07) coupée au droit de N_VCT_HELICE (s 290,4 sur 336,5) ; elle est à 13 m à gauche de l'axe de la branche du lot A, qui la simplifie en ligne droite : raccord jumelé (B2)"
+  N_HELICE_DESC:
+    position: [918497.21, 6460239.16]
+    sites: [auto_noeud_a41_n87]
+    note: "« Meylan vers A41 La Tronche » coupée au droit de N_VCT_HELICE (début ramené de s 0 à s 38,5) : raccord jumelé (B2)"
+compositions:
+  a41:
+    titre: A41 à Meylan, de l'extrémité ouest à l'échangeur 26 (Meylan-Est)
+    sites: [auto_a41_extremite_ouest, auto_a41_section_courante, auto_noeud_a41_n87, auto_a41_echangeur_meylan_est]
+  rocade_sud:
+    titre: N87 Rocade Sud et nœud A41 / N87
+    sites: [auto_n87_rocade_sud, auto_noeud_a41_n87]
+  verdun_centre:
+    titre: Avenue de Verdun de Paquet Jardin au carrefour du lycée (M01, M17, M08)
+    sites: [paquet_jardin, axe_verdun_centre, verdun_centre_feux, verdun_lycee_feux]
+  helice:
+    titre: Hélice de Meylan et carrefour Vieux Chêne × Taillefer
+    sites: [auto_noeud_a41_n87, vieux_chene_taillefer_feux]
+  sept_laux:
+    titre: Rond-point du Lycée et avenue des 7 Laux
+    sites: [rp_lycee, avenue_7_laux_separateur]

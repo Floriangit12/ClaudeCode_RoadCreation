@@ -6,10 +6,16 @@
 # Simplifications : branches droites et radiales issues du centre de l'anneau ; entrée et sortie de Verdun (42° d'écart)
 # réunies en une branche avec un îlot de 4,3 m ; murets, massif boisé surélevé et passages inférieurs non décrits
 # (pas de mot dans le format, ../BESOINS_FORMAT.md).
+# Réseau (lot N1, 18/10/2026) : description au format réseau (FORMAT_DESCRIPTION_RESEAU.md), résolue par
+# recon/generateur/reseau/resoudre_reseau.py (appelé par description_vers_modele.py) ; nœuds partagés et contrats de
+# profil dans ../reseau_meylan.yaml ; date d'état = état le plus récent cohérent d'après les photos du site.
+format: description_reseau/0.1
+reseau_commun: ../reseau_meylan.yaml
 scene: meylan_rp_lycee
 nom: rond_point_du_lycee
 titre: Rond-point du Lycée (Meylan) — giratoire de 66 m à 5 branches, îlot boisé, état du 28/07/2026
-date: 2026-07-28
+date_etat: 2026-07-28                               # photos du 28/07/2026 ; giratoire inchangé depuis le 18/05/2025 et l'ortho 2024
+etat: {nom: ete_2026, photos: "campagne IGN du 28/07/2026"}
 confiance: faible
 origine: [918174.96, 6461050.78, 252.47]           # point du site M02 (dossier 13) ; z RGE ALTI
 description: >
@@ -27,65 +33,99 @@ materiaux:
 marquages:
   usure: moyenne                                    # photo:f4a9aa12
 troncons:
-  # Avenue de Verdun ouest (entrée osm:1412130617 lanes=2, sortie osm:168646541 lanes=1) ; azimut moyen 263°
-  # de gauche (sud, entrée) à droite (nord, sortie) en regardant vers l'extérieur :
+  # Étape 3 (18/10/2026) : branches tracées VERS l'anneau (de = loin, vers = bord extérieur de l'anneau), seule écriture
+  # que fabriquent rg::giratoires / rg::carrefours (« extrémité début non prise en charge ») ; profils lus de gauche à
+  # droite en regardant vers l'anneau, donc retournés par rapport au relevé du 17/10 (mêmes bandes, mêmes cotes).
+  # Avenue de Verdun ouest (entrée osm:1412130617 / 1414211289 lanes=2, sortie osm:168646541 / 1413619622 lanes=1) ;
+  # arrive de l'ouest-sud-ouest ; gauche = nord (sortie), droite = sud (entrée).
+  # Passe 2 (18/10/2026, COMPREHENSION.md § 3.1) : l'axe suit le séparateur bordé des bordures GAM (coupes x = −105,
+  # −95, −80, −70, −60, −50, −42, −38, −34 ; ortho IGN 2024 zoom ouest_gam) et non plus le milieu des deux sens OSM
+  # (bout 2,0 m plus au nord : sortie, îlot et entrée étaient décalés de 1,5 à 4 m vers le sud au droit de l'anneau) ;
+  # séparateur bordé de ≈ 0,9 m jusqu'à x ≈ −60, puis îlot TRIANGULAIRE (goutte d'eau) qui s'élargit jusqu'à ≈ 7,3 m au
+  # bord de l'anneau (2,9 m à x = −50, 4,7 m à −42, 5,8 m à −38, 7,3 m à −34) ; surface grise gravillonnée, panneaux
+  # (AB3a, B21, B1, mât d'éclairage, poteau de jalonnement) au nez (photos ed15dd0e −146, 307cecd9 +005, 3611ffa6 +003)
   - id: verdun_o
     nom: avenue de Verdun ouest
-    de: [-30.18, -3.01]                             # sur le bord extérieur de l'anneau (rayon 33,0 m)
-    vers: [-99.66, -11.54]
+    polyligne: [[-105.0, -29.0], [-60.0, -11.3], [-30.38, -0.85]]   # milieu du séparateur GAM ; bout au bord extérieur de l'anneau (rayon 33,0 m)
     profil:
       - trottoir                                    # largeur non mesurée : DEF-004
-      - voie 4,0 ←                                  # coupe:verdun_o_45 : entrée de 8,04 m (gam 9,10 → 17,14), 2 voies
-      - voie 4,0 ←
-      - terre-plein 4,3 enrobé                      # coupe:verdun_o_45 (gam 17,39 → 21,71) ; îlot revêtu, B1, photo:770c2fc8
-      - voie 4,5 →                                  # coupe:verdun_o_45 : sortie de 6,29 m (une voie OSM) ; surplus non décrit
+      - voie 4,2 ←                                  # gam x = −95 / −105 : 4,1 m
+      - terre-plein 0,9 béton                       # gam : séparateur bordé de 0,8-0,9 m (x = −105 à −60)
+      - voie 3,8 →                                  # gam x = −80 : entrée de 7,6 m, 2 voies (osm lanes=2)
+      - voie 3,8 →
       - trottoir
-  # Chemin de l'Ancienne Mairie (entrée osm:191111233, sortie osm:191111231) ; azimut moyen 336° ; gauche = ouest (entrée)
+    evenements:
+      # sortie élargie au droit de l'arrêt de bus (gam x = −70 : 6,0 m ; −60 à −42 : 6,8-7,1 m ; zigzag GAM)
+      - ouverture: {a: 30, longueur: 10, nouveau: "trottoir | voie 6,5 ← | terre-plein 0,9 béton | voie 3,8 → | voie 3,8 → | trottoir"}
+      # fin du séparateur bordé vers x ≈ −60 (s ≈ 48), puis îlot triangulaire jusqu'au bord de l'anneau. Itération 3
+      # (passe 2) : un terre-plein « enrobé » qui s'élargit (loi de largeur) n'est pas fabriqué au lot L2 (rendu : deux
+      # lignes sur l'enrobé, BESOINS G13 ; « enrobé » non reconnu pour un terre-plein, compilé en gazon) ; itération 4 :
+      # îlot séparateur de giratoire (`ilot` de la branche, ACI tableau 2) dans l'enveloppe hachurée que la branche ouvre
+      - profil: {a: 43, nouveau: "trottoir | voie 6,5 ← | voie 3,8 → | voie 3,8 → | trottoir"}
+      - ouverture: {a: 79.76, longueur: 36, nouveau: "trottoir | voie 6,0 ← | zone hachurée 8,5 | voie 4,1 → | voie 4,1 → | trottoir"}   # gam x = −34 : sortie 5,9, îlot 7,3, entrée 8,2
+  # Chemin de l'Ancienne Mairie (entrée osm:191111233, sortie osm:191111231, tronc commun osm:45838057) ; arrive du
+  # nord (itération 1 : axe recalé sur OSM, l'ancien passait 12 m trop à l'ouest à 60 m de l'anneau) ;
+  # gauche = est (sortie), droite = ouest (entrée)
   - id: mairie
     nom: chemin de l'Ancienne Mairie
-    de: [-10.85, 31.16]
-    vers: [-39.32, 95.11]
-    profil:
-      - trottoir
-      - voie 3,6 ←                                  # coupe:mairie_42 (gam 12,74 → 16,31)
-      - séparateur 0,6                              # coupe:mairie_42 (gam 16,33 → 16,88), séparateur bordé
-      - voie 4,3 →                                  # coupe:mairie_42 (gam 16,88 → 21,23)
-      - trottoir
-  # Avenue des 7 Laux / RD1090 (entrée osm:7838790, sortie osm:1377219194) ; azimut moyen 43° ; gauche = nord-ouest (entrée)
+    de: [-27.0, 96.0]                               # osm:45838057 ; les deux sens se rejoignent vers (− 16 ; 52)
+    vers: [-10.32, 31.39]                           # bissectrice entrée / sortie sur le bord extérieur de l'anneau
+    # Itération 2 : loin de l'anneau la rue n'a pas de séparation centrale (photo a56828f1 du 28/06/2026, planche de
+    # l'itération 1) ; la séparation de 0,6 m n'existe que sur les ≈ 20 derniers mètres (photos eea7ffb5, ea409889)
+    profil: "trottoir | voie 4,3 ← | voie 3,6 → | trottoir"   # coupe:mairie_42 (gam 12,74 → 21,23)
+    evenements:
+      # Passe 2 : séparateur BORDÉ (et non peint) sur les ≈ 15 derniers mètres : bordures GAM à y = 42 (0,6 m) et y = 38
+      # (1,2 m), rien à y = 50 ; mât et panneaux dessus (photo 67834681 +164 du 28/07/2026, zoom nord_ign2024)
+      - ouverture: {a: 51, longueur: 3, nouveau: "trottoir | voie 4,3 ← | zone hachurée 0,8 | voie 3,6 → | trottoir"}
+      - profil: {a: 51, nouveau: "trottoir | voie 4,3 ← | terre-plein 0,8 béton | voie 3,6 → | trottoir"}   # gam y = 42 : entrée 3,6, séparateur 0,6, sortie 4,9 (coupe:mairie_42)
+  # Avenue des 7 Laux / RD1090 (entrée osm:7838790, sortie osm:1377219194) ; arrive du nord-est ;
+  # gauche = sud-est (sortie), droite = nord-ouest (entrée, puis piste)
   - id: sept_laux
     nom: avenue des 7 Laux (RD1090)
-    de: [25.08, 25.14]
-    vers: [72.82, 76.34]
+    # du nœud partagé N_7LAUX_SO (axe du séparateur à la coupe t_sw de l'avenue ; décalage de 11,6 m et vide de 17 m
+    # supprimés, relecture M7) puis radiale sur les 15 derniers mètres (axe du séparateur à 0,5 m près à la coupe
+    # sept_laux_45, RF-GV-GIR-021)
+    polyligne: [N_7LAUX_SO, [35.31, 36.11], [25.08, 25.14]]
     profil:
-      - piste cyclable 3,1 bidirectionnelle         # coupe:sept_laux_45 (gam 0,50 → 3,63) ; osm:1305799234
-      - bande enherbée 1,9                          # coupe:sept_laux_45 (gam 3,63 → 5,52)
-      - trottoir 3,9                                # coupe:sept_laux_45 (gam 5,52 → 9,42) (contre-allée revêtue)
-      - voie 4,0 ←                                  # coupe:sept_laux_45 : entrée 8,08 m, ligne gam 13,76
-      - voie 4,0 ←
-      - séparateur 1,5                              # coupe:sept_laux_45 (gam 17,75 → 19,30) ; muret bas, photo:f4a9aa12
-      - voie 4,8 →                                  # coupe:sept_laux_45 (gam 19,30 → 24,15)
       - trottoir
-  # Accès de service est, entrée seule (osm:154686060 service oneway) ; azimut 97°
+      - voie 4,8 ←                                  # coupe:sept_laux_45 (gam 19,30 → 24,15)
+      - terre-plein 1,5 béton                       # coupe:sept_laux_45 (gam 17,75 → 19,30) ; muret bas, photo:f4a9aa12 ; comme le contrat du nœud N_7LAUX_SO
+      - voie 4,0 →                                  # coupe:sept_laux_45 : entrée 8,08 m, ligne gam 13,76
+      - voie 4,0 →
+      - trottoir 3,9                                # coupe:sept_laux_45 (gam 5,52 → 9,42) (contre-allée revêtue)
+      - bande enherbée 1,9                          # coupe:sept_laux_45 (gam 3,63 → 5,52)
+      - piste cyclable 3,1 bidirectionnelle         # coupe:sept_laux_45 (gam 0,50 → 3,63) ; osm:1305799234
+  # Accès de service est, entrée seule (osm:154686060 service oneway) ; arrive de l'est-sud-est puis tourne vers le
+  # nord-est à ≈ 20 m de l'anneau (OSM) ; l'ancien bras droit de 70 m vers l'est n'existe pas (itération 1).
+  # Reprise du 18/10 : le bras de 18 m faisait tomber la fabrication (le coin de giratoire, qui s'étend sur ≈ 17 m,
+  # atteignait le bout lointain de la branche : raffinement sans fin de Triangulate 2D dans rg::sol, hython à 52 Go,
+  # BESOINS.md G8) ; branche prolongée en ligne droite jusqu'à ≈ 31 m (au-delà de ≈ 20 m le vrai tracé tourne vers
+  # le nord, osm:154686060 : écart assumé, hors des vues des photos)
   - id: acces_est
     nom: accès de service est
-    de: [35.32, -3.01]
-    vers: [104.8, -11.54]
+    de: [63.8, -12.4]
+    vers: [35.32, -3.01]
     profil:
-      - trottoir
-      - voie 4,0 ←                                  # coupe:est_42 (gam 6,85 → 10,88)
       - bande enherbée 4,0                          # coupe:est_42 : espace vert au nord (gam 10,98 → 22,26)
-  # Avenue du Taillefer (entrée osm:759539710, sortie osm:759539709) ; azimut moyen 177° ; gauche = est (entrée)
+      - voie 4,0 →                                  # coupe:est_42 (gam 6,85 → 10,88)
+      - trottoir
+  # Avenue du Taillefer (entrée osm:759539710, sortie osm:759539709, tronc commun à 2 voies osm:759539711) ; arrive du
+  # sud-est en courbe ; gauche = ouest (sortie), droite = est (entrée).
+  # Passe 2 (18/10/2026, COMPREHENSION.md § 3.4) : l'îlot n'est PAS planté : c'est un îlot TRIANGULAIRE bordé, revêtu
+  # (enrobé gris gravillonné, herbes folles), lignes blanches continues le long des deux bordures, caniveau à grille côté
+  # sortie, panneaux de jalonnement, AB3a et B21 au nez (photos 3c5f3ca7 −140 et 3df599ec −146 du 28/07/2026 ; ortho
+  # IGN 2024, zoom sud_ign2024) ; bordures GAM : îlot 0,9 m à y = −60, 2,6 m à −50, 4,95 m à −40, ≈ 6,8 m au bord de
+  # l'anneau, pointe vers y = −62 ; tronc commun de 10,2 m à ligne axiale (gam y = −70, −80, −90). Axe = milieu de
+  # l'îlot puis ligne axiale GAM (l'ancien bout, (10,9 ; −30,9), était 7 m trop à l'est).
   - id: taillefer
     nom: avenue du Taillefer
-    de: [4.3, -31.94]
-    vers: [7.96, -101.85]
-    profil:
-      - trottoir
-      - voie 4,0 ←                                  # coupe:taillefer_42 : entrée de 7,00 m (gam 24,09 → 31,09), une voie OSM
-      - zone hachurée 3,0                           # surplus de l'entrée décrit en zone neutralisée (hypothèse, confiance faible)
-      - terre-plein 4,6 enrobé                      # coupe:taillefer_42 (gam 19,47 → 24,07)
-      - voie 4,5 →                                  # coupe:taillefer_42 (gam 14,96 → 19,47)
-      - trottoir
+    polyligne: [[41.7, -90.0], [23.78, -70.0], [14.0, -55.0], [3.84, -32.0]]   # ligne axiale GAM (41,7 ; −90), (23,8 ; −70), milieu de l'îlot (11,2 ; −50), (7,4 ; −40) ; bout au bord de l'anneau (rayon 33,0)
+    profil: "trottoir | voie 5,0 ← | voie 5,0 → | trottoir"     # gam y = −70 et −80 : 10,2 et 10,9 m bordure à bordure, ligne axiale
+    evenements:
+      # îlot triangulaire de la pointe (gam y ≈ −62, s ≈ 37) au bord de l'anneau. Itération 3 : terre-plein élargi par une
+      # loi de largeur, non fabriqué (BESOINS G13) ; itération 4 : îlot séparateur de giratoire (`ilot`, ACI tableau 2)
+      # dans l'enveloppe hachurée ouverte sur 33 m
+      - ouverture: {a: 69.9, longueur: 38, nouveau: "trottoir | voie 4,8 ← | zone hachurée 7,8 | voie 7,0 → | trottoir"}   # gam y = −40 : sortie 4,8, îlot 4,95, entrée 7,1 ; coupe:taillefer_42
 giratoires:
   - id: LYCEE
     nom: rond-point du Lycée
@@ -96,15 +136,19 @@ giratoires:
     ilot_central: herbe haute                       # massif boisé surélevé derrière un muret de ≈ 0,6 m, photo:a23479c9 (l-0051.4)
     branches:
       - troncon: verdun_o
+        ilot: {largeur: 7.8, longueur: 35}          # passe 2 : îlot triangulaire de ≈ 7,3 m au bord de l'anneau, pointe vers x = −60 (bordures GAM ; photos ed15dd0e −146, 23d3f6ff −068)
       - troncon: mairie
         passage: oui                                # osm crossing ×4 au nord ; photo:ea409889
       - troncon: sept_laux
       - troncon: acces_est
       - troncon: taillefer
+        ilot: {largeur: 7.2, longueur: 37}          # passe 2 : îlot triangulaire de ≈ 6,8 m au bord de l'anneau, pointe vers y = −62 (bordures GAM ; photos 3c5f3ca7 −140, 3df599ec −146)
 ecarts_admis:
   RF-OSM-LAR-012: "voies d'entrée de 4,0 m mesurées (coupes verdun_o_45 et sept_laux_45 : entrées de 8,0 et 8,1 m en deux voies, levé GAM)"
-  RF-OSM-LAR-010: "voies de 3,6 à 4,8 m mesurées bordure à bordure (coupes mairie_42, sept_laux_45, taillefer_42, est_42, verdun_o_45, levé GAM)"
-  RF-OSM-LAR-011: "accès est à sens unique d'une voie de 4,0 m mesurée (coupe est_42, levé GAM ; osm 154686060)"
-  RF-OSM-LAR-033: "séparateurs relevés plus larges que la bordure séparatrice : 0,55 m sur l'Ancienne Mairie (coupe mairie_42) et muret de 1,55 m sur les 7 Laux (coupe sept_laux_45, photo f4a9aa12)"
+  RF-OSM-LAR-010: "voies de 3,6 à 6,5 m mesurées bordure à bordure (coupes mairie_42, sept_laux_45, taillefer_42, est_42, verdun_o_45 ; passe 2 : coupes des bordures GAM de Verdun x = −105 à −34, sortie élargie de 6,0 à 7,1 m au droit de l'arrêt de bus, et du Taillefer y = −90 à −40, tronc commun de 10,2 à 10,9 m en deux voies)"
+  RF-OSM-LAR-011: "entrée du Taillefer en une voie large de 7,0 m sans marquage (coupe taillefer_42, levé GAM ; photos 3df599ec, 48975772) et accès est à sens unique de 4,0 m (coupe est_42 ; osm 154686060)"
+  RF-GV-GIR-021: "axes de l'avenue de Verdun, du chemin de l'Ancienne Mairie et de l'accès est passant à 5-6,5 m du centre de l'anneau, comme les voies OSM (1412130617 / 168646541, 191111231 / 191111233, 154686060) et l'ortho IGN 2024"
   RF-GV-GIR-010: "entrées de Verdun et des 7 Laux en deux voies (OSM lanes=2 ; ligne entre voies du levé GAM, coupe sept_laux_45)"
   RF-GV-GIR-012: "accès est en entrée seule (OSM 154686060 oneway) : pas de sortie sur cette branche"
+  DEF-022: "passage du chemin de l'Ancienne Mairie traversant le séparateur bordé de 0,6-1,2 m (bordures GAM y = 42 et 38 ; photo 67834681 +164) : refuge plus étroit que 2,0 m, comme sur place"
+  RF-MA-REF-003: "séparateur bordé du chemin de l'Ancienne Mairie : bordure d'îlot (vue ≈ 0,11 m), pas une bordure de refuge (photo 67834681 +164)"

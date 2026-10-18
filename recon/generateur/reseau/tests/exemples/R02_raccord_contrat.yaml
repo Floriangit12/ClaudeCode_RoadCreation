@@ -1,0 +1,21 @@
+# Raccord de deux tronçons sur un nœud partagé qui porte un contrat de profil (CC-04) ; le second tronçon décrit un
+# autre profil : le résolveur génère la transition (fermeture puis ouverture) sur ≈ 30 m depuis le nœud.
+format: description_reseau/0.1
+reseau: R02_raccord_contrat
+contexte: {agglomeration: oui, vitesse: 50}
+reseau_commun: R02_reseau_commun.yaml
+noeuds:
+  A: {position: [0, 0]}
+  C: {depuis: N_JOINT, distance: ≈ 120, cap: 0}
+troncons:
+  - id: R1
+    de: A
+    vers: N_JOINT
+    profil: "trottoir 2 | voie 2,9 ← | voie 3,0 ← | voie 2,9 → | voie 3,2 → | trottoir 4"
+  - id: R2
+    de: N_JOINT
+    vers: C
+    profil: "trottoir ≈ 2 | voie ≈ 3,5 ← | zone hachurée 3,4 (mesure 3,42 ortho) | voie ≈ 3,5 → | trottoir 2"
+    evenements:
+      - "à ≈ 60 de N_JOINT : passage piéton"
+      - "de ≈ 75 à ≈ 85 de N_JOINT : îlot refuge bordure basse vue ≈ 0,11 enrobé"

@@ -6,6 +6,10 @@
 
 **État décrit : 28/07/2026** (campagne IGN : photos 360° de 08:28 et photo plane de 10:07), le plus récent.
 
+**Réseau (lot N1, 18/10/2026).** date d'état **28/07/2026** ; pas de nœud partagé (la sortie 26 de l'échangeur s'arrête à ≈ 48 m de la branche de la bretelle : écart signalé, hors recouvrement). Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
+**Reconstruction (étape 3, 18/10/2026).** Quatre directions (et non sept bras), chacune tracée vers l'anneau ; rayons de raccordement au bas des plages (Re 8, Rs 15) pour que les coins tiennent entre les branches (BESOINS D1) ; branche ouest recalée sur OSM, chemin piéton au sud-est loin de l'anneau, passage piéton au nœud OSM. Détail : `RECONSTRUCTION.md` ; manques du générateur : `BESOINS.md`.
+
 ## 1. Description simple
 
 > Giratoire moyen d'environ 47 m de diamètre à l'entrée d'Inovallée, dans les arbres. Anneau d'environ 9 m en enrobé
@@ -19,17 +23,20 @@
 > barrière). Cédez-le-passage aux entrées. Pistes mixtes piétons-vélos d'environ 3 m autour, accotements enherbés,
 > grands arbres partout ; enrobé un peu fissuré.
 
-## 2. Ordre de construction proposé
+## 2. Ordre de construction (celui de la chaîne)
 
-1. **Plate-forme** : terrain plat (z ≈ 222 m), boisé.
-2. **Chaussées** : anneau de 8,9 m (dévers vers l'extérieur), branches et bretelle, grands îlots séparateurs.
-3. **Bordures** : bordure extérieure, bordure de couronne (vue ≤ 3 cm), bordures des îlots.
-4. **Îlot central** : couronne en pavés rouges + 2 rangs de galets, butte plantée, mâts rouges.
-5. **Pistes et trottoirs** : pistes mixtes en béton, trottoirs, passage à îlot sur Chamechaude.
-6. **Marquages** : ligne continue de bord d'îlot, lignes cédez T'2, rives, bande médiane de Chamechaude, passage.
-7. **Signalisation** : B21-1 + panonceau nominatif, AB3a, D21 groupés sur mât à l'angle ouest, panneau de zone,
-   feu et barrière de fermeture de la bretelle.
-8. **Végétation** : butte et îlots plantés, grands feuillus et peupliers autour, accotements en herbe.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 plate-forme | terrain plat (z ≈ 222 m), boisé |
+| E08 bordures | bordure extérieure, bordure de couronne (vue ≤ 3 cm), bordures des îlots |
+| E10 chaussée | anneau de 8,9 m (dévers vers l'extérieur), branches et bretelle, grands îlots séparateurs |
+| E11 trottoirs, pistes, îlots | couronne en pavés rouges + 2 rangs de galets, pistes mixtes en béton, trottoirs, passage à îlot sur Chamechaude |
+| E12 marquages | ligne continue de bord d'îlot, lignes cédez T'2, rives, bande médiane de Chamechaude, passage |
+| E14 signalisation et feux | B21-1 + panonceau nominatif, AB3a, D21 groupés sur mât à l'angle ouest, panneau de zone, feu de fermeture de la bretelle |
+| E16 mobilier | barrière de fermeture de la bretelle, mâts rouges de l'îlot central |
+| E17 végétation (plus tard) | butte et îlots plantés, grands feuillus et peupliers, accotements en herbe |
 
 ## 3. Constats et provenance
 

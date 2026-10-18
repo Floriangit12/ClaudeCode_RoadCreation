@@ -10,6 +10,8 @@ Le « carrefour à feux » du dossier 13 est en fait un **passage piéton à feu
 entre les deux branches du chemin des Buclos, qui débouchent **en baïonnette** (≈ 29 m l'une de l'autre) et en
 cédez-le-passage. Ce site complète l'axe « avenue de Verdun centre » relevé par le lot B (`../axe_verdun_centre/`).
 
+**Réseau (lot N1, 18/10/2026).** date d'état **28/07/2026** ; Verdun sud-ouest finit sur `N_VERDUN_M17_SO` (80 m du carrefour Buclos sud), Verdun nord-est sur `N_VERDUN_M17_NE`, ramené de 65 à 40 m du carrefour Buclos nord : l'axe de `axe_verdun_centre` commence et finit sur ces nœuds (recouvrements de 52,9 et 48,1 m supprimés) ; le profil de ce site est le contrat des deux joints. Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
 ## 1. Description simple
 
 > Avenue de Verdun en ligne droite, une voie par sens d'environ 3,5 m, séparées par une zone hachurée d'environ 3,7 m
@@ -21,17 +23,21 @@ cédez-le-passage. Ce site complète l'axe « avenue de Verdun centre » relevé
 > sur mâts avec caméra, panneau d'affectation des voies, abribus. Enrobé très fissuré avec beaucoup de pontages noirs,
 > marquages moyennement usés, falaise du Saint-Eynard en fond.
 
-## 2. Ordre de construction proposé
+## 2. Ordre de construction (celui de la chaîne)
 
-1. **Plate-forme** : légère pente (z ≈ 229 m).
-2. **Chaussées** : Verdun 2 × 1 voies avec bande médiane, deux débouchés du chemin des Buclos.
-3. **Bordures et îlots** : refuge bordé au passage (vue ≈ 0,11 m), îlots des débouchés, bordurettes des pistes.
-4. **Pistes, trottoirs, bandes enherbées** : Chronovélo au nord-ouest, piste mixte séparée au sud-est, liaisons
-   revêtues au droit du passage.
-5. **Marquages** : zone hachurée axiale à chevrons, voies de tourne-à-gauche, passage piéton, ligne d'effet,
-   cédez-le-passage du chemin des Buclos, bande verte de traversée cyclable (pratique locale photographiée).
-6. **Signalisation et feux** : feux R11 + R12 et bouton d'appel, AB3a, B1, panneau d'affectation des voies, D21.
-7. **Végétation et mobilier** : haies, grands arbres, candélabres, abribus, caméra.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 plate-forme | légère pente (z ≈ 229 m) |
+| E08 bordures | refuge bordé au passage (vue ≈ 0,11 m), îlots des débouchés, bordurettes des pistes |
+| E10 chaussée | Verdun 2 × 1 voies avec bande médiane, deux débouchés du chemin des Buclos |
+| E11 trottoirs, pistes | Chronovélo au nord-ouest, piste mixte séparée au sud-est, bandes enherbées, liaisons revêtues au droit du passage |
+| E12 marquages | zone hachurée axiale à chevrons, voies de tourne-à-gauche, passage piéton, ligne d'effet, cédez-le-passage du chemin des Buclos, bande verte de traversée cyclable (pratique locale photographiée) |
+| E14 signalisation et feux | feux R11 + R12 et bouton d'appel, AB3a, B1, panneau d'affectation des voies, D21 |
+| E15 éclairage | candélabres |
+| E16 mobilier | abribus, caméra |
+| E17 végétation (plus tard) | haies, grands arbres |
 
 ## 3. Constats et provenance
 
@@ -54,3 +60,26 @@ cédez-le-passage. Ce site complète l'axe « avenue de Verdun centre » relevé
   liaison est décrite.
 - La largeur de la Chronovélo et des pistes au droit du passage, la bande verte de traversée cyclable et la caméra n'ont
   pas de mot dans le format (`../BESOINS_FORMAT.md`).
+
+## Étape 3 — reconstruction (18/10/2026)
+
+- Itération 1 : entre le refuge du passage et Buclos nord, **deux voies vers le nord-est** (voie de tourne-à-gauche
+  d'environ 3 m prise sur la zone hachurée, qui tombe à ≈ 1 m) ; la voie continue ≈ 15 m après Buclos nord puis
+  s'efface vers le profil du nœud partagé : photos de22683a (t004 : C24 et deux voies dès le refuge) et fce0902f.
+- Rapport : `RECONSTRUCTION.md` ; manques du générateur : `BESOINS.md`.
+
+## Étape 3, passe v2 — centre relu (18/10/2026)
+
+Dossier de compréhension v2 lu en tuiles natives (50 photos, 77 vues ; IGN 2015 à 2025, levé GAM en surimpression) :
+`COMPREHENSION.md`. Description simple du centre, telle qu'on la dirait :
+
+> Entre les deux branches du chemin des Buclos, le passage piéton à feux est doublé côté sud-ouest d'une bande verte
+> cyclable et traverse la zone hachurée sur deux îlots refuges en D garnis de gravillons. Au sud-est, la sortie de
+> Buclos s'évase entre deux angles plantés, son passage est à ≈ 6 m dans la rue ; au nord-ouest, Buclos débouche en
+> cédez, la Chronovélo le traverse quelques mètres plus loin.
+
+| Itération | Changement | Preuve |
+|---|---|---|
+| v2-1 | retraits des passages de Buclos sud (6 m) et nord (4 m) ; passage à feux recentré sur les zébras réels (0,9 m plus au nord-est, bandes de 3,5 m) ; îlots refuges allongés (≈ 0,5 → 13,3 m du tronçon, 12,8 m au lieu de 8) et garnis de gravillons | `modele_gam_S`, `modele_gam_N` (IGN 2024 + levé GAM) ; 3fc24f3e (28/07/2026), 2b9bed48 +155 (18/05/2025) |
+
+Hors format : `BESOINS.md` (VC-1 îlots en D, VC-2 traversée de la Chronovélo ; C1 baïonnette, C2 côté continu).

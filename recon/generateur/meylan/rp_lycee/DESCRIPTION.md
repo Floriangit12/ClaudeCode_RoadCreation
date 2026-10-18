@@ -7,6 +7,10 @@
 **État décrit : 28/07/2026** (campagne IGN, photos 360°, la plus récente ; identique aux photos du 18/05/2025 et à l'ortho
 IGN 2024).
 
+**Réseau (lot N1, 18/10/2026).** date d'état **28/07/2026** ; la branche des 7 Laux suit l'axe du séparateur jusqu'au nœud partagé `N_7LAUX_SO` (74 m du bord de l'anneau), où commence `avenue_7_laux_separateur` : décalage de 11,6 m et vide de 17 m supprimés (relecture M7) ; le résolveur raccorde son profil à celui du joint sur les 30 derniers mètres. Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
+**Reconstruction (étape 3, 18/10/2026).** Branches tracées vers l'anneau ; Verdun, Ancienne Mairie et Taillefer recalés sur OSM et les photos (Taillefer : tronc commun puis îlot planté de 4,6 m ; entrée en une voie large) ; accès est prolongé à 31 m (fabrication, BESOINS G8) ; séparation de l'Ancienne Mairie limitée aux 20 derniers mètres. Détail, ressemblance par photo et écarts restants : `RECONSTRUCTION.md` ; manques du générateur : `BESOINS.md`.
+
 ## 1. Description simple
 
 > Grand giratoire urbain d'environ 66 m de diamètre sur la RD1090, avec 5 branches. L'anneau fait à peu près 8 m de
@@ -21,19 +25,21 @@ IGN 2024).
 > au nord : ailleurs piétons et vélos passent dessous par des passages inférieurs (garde-corps sur murets en bord
 > d'anneau). Bordures aux joints repeints en blanc, enrobé fissuré et faïencé, beaucoup d'arbres autour.
 
-## 2. Ordre de construction proposé
+## 2. Ordre de construction (celui de la chaîne)
 
-1. **Plate-forme** : léger relief (z ≈ 250 m) ; passages inférieurs des cheminements sous l'anneau (trémies, murets,
-   garde-corps).
-2. **Chaussées** : anneau de 8 m (dévers vers l'extérieur, DEF-006), branches avec leurs îlots séparateurs.
-3. **Bordures** : bordure extérieure de l'anneau, bordure de la couronne (vue ≤ 3 cm), muret de l'îlot central,
-   bordures des îlots séparateurs (joints peints en blanc : pratique locale photographiée).
-4. **Îlot central** : couronne béton balayé + rang de pavés, massif boisé surélevé, sentier circulaire.
-5. **Trottoirs, pistes** : piste cyclable bidirectionnelle le long des 7 Laux, trottoirs, arrêts de bus sur Verdun.
-6. **Marquages** : lignes cédez T'2 à chaque entrée, ligne entre les 2 voies d'entrée, passages piétons au nord,
-   zigzags jaunes des arrêts de bus.
-7. **Signalisation** : AB3a, B1 sur l'îlot de Verdun, panneaux d'arrêt de bus, B21-1 sur l'îlot (non vu : à vérifier).
-8. **Végétation et mobilier** : massif boisé, alignements et talus enherbés autour, candélabres, poteaux bois.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 terrassements, ouvrages | léger relief (z ≈ 250 m) ; passages inférieurs des cheminements sous l'anneau (trémies, murets, garde-corps) |
+| E08 bordures | bordure extérieure de l'anneau, bordure de la couronne (vue ≤ 3 cm), muret de l'îlot central, bordures des îlots séparateurs (joints peints en blanc : pratique locale photographiée) |
+| E10 chaussée | anneau de 8 m (dévers vers l'extérieur, DEF-006), branches |
+| E11 trottoirs, pistes, îlots | couronne béton balayé + rang de pavés, îlot central surélevé, piste bidirectionnelle le long des 7 Laux, trottoirs, quais de bus sur Verdun |
+| E12 marquages | lignes cédez T'2 à chaque entrée, ligne entre les 2 voies d'entrée, passages piétons au nord, zigzags jaunes des arrêts |
+| E14 signalisation | AB3a, B1 sur l'îlot de Verdun, panneaux d'arrêt de bus, B21-1 sur l'îlot (non vu : à vérifier) |
+| E15 éclairage | candélabres |
+| E16 mobilier | poteaux bois |
+| E17 végétation (plus tard) | massif boisé, alignements et talus enherbés |
 
 ## 3. Constats et provenance
 

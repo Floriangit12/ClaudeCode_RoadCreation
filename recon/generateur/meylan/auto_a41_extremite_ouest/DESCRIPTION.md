@@ -4,6 +4,8 @@
 La Tronche, L93 ≈ 916 625 ; 6 459 501) jusqu'au début de `auto_a41_section_courante` (808 m plus à l'est), avec la
 sortie 27 (sens Chambéry → Grenoble) et l'entrée de Mi-Plaine (vers Grenoble). État 2024-2025.*
 
+**Réseau (lot N1, 18/10/2026).** date d'état **14/06/2025** ; les deux tronçons de l'A41 se suivent par le nœud local `N_A41_MIPLAINE` et sont fusionnés en une route ; le second finit sur `N_A41_PEPINIERES_O`. Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
 ## 1. Description en texte libre
 
 > C'est le « bout » de l'autoroute. Vers Chambéry, on part d'un carrefour à feux sur L'Alpine (flèches au sol,
@@ -17,16 +19,20 @@ sortie 27 (sens Chambéry → Grenoble) et l'entrée de Mi-Plaine (vers Grenoble
 > termine sur un carrefour à feux (feux sur mâts et sur potence, panneau de zone à circulation restreinte). Talus
 > enherbés, glissières aux bords, zone d'activités de Mi-Plaine au nord, bois au sud.
 
-## 2. Ordre de construction
+## 2. Ordre de construction (celui de la chaîne)
 
-1. Plate-forme : talus enherbés, TPC de 14 m au départ qui se resserre à 7 m (transitions de 160 et 248 m).
-2. Chaussées : 3 + 3 voies sur 108 m (sens est) / 206 m (sens ouest), puis 2 + 2 ; BDG ouest revêtue de 2,4-2,9 m ;
-   bretelles de 4 m.
-3. TPC enherbé ; 4. glissières (deux files au TPC, une à chaque bord).
-5. Marquages : rives continues 3u, T4 3u des BAU, T1 puis T3 (dissuasion avant la sortie 27) entre voies, oblique de
-   réduction et flèche de rabattement, T'3 3u des bretelles, chevrons du musoir.
-6. Signalisation : C207 et B14 110 au départ (deux côtés), C28, panneaux de direction ; fin au carrefour à feux.
-7. Éclairage : candélabres sur ≈ 300 m depuis le carrefour. 8. Abords : Mi-Plaine au nord, bois au sud.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 plate-forme | talus enherbés, TPC de 14 m au départ qui se resserre à 7 m (transitions de 160 et 248 m) |
+| E10 chaussée | 3 + 3 voies sur 108 m (sens est) / 206 m (sens ouest), puis 2 + 2 ; BDG ouest revêtue de 2,4-2,9 m ; bretelles de 4 m |
+| E11 terre-pleins | TPC enherbé |
+| E12 marquages | rives continues 3u, T4 3u des BAU, T1 puis T3 (dissuasion avant la sortie 27), oblique de réduction et flèche de rabattement, T'3 3u des bretelles, chevrons du musoir |
+| E13 retenue | glissières : deux files au TPC, une à chaque bord |
+| E14 signalisation | C207 et B14 110 au départ (deux côtés), C28, panneaux de direction ; fin au carrefour à feux |
+| E15 éclairage | candélabres sur ≈ 300 m depuis le carrefour |
+| E17 abords (plus tard) | Mi-Plaine au nord, bois au sud |
 
 ## 3. Profils (mesures ortho, `mesures.json`)
 

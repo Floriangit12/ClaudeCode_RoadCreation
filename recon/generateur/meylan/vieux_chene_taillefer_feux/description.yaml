@@ -4,15 +4,22 @@
 # Provenance en fin de ligne : coupe:<nom>, photo:<id>, osm:<way|node>, DEF-/RF- (règle complétée si non dit).
 # Simplifications : centre au milieu des 4 nœuds OSM du carrefour (−1,4 ; −1,3) ; branches droites ; les voies de shunt
 # rejoignent la sortie sans biseau décrit ; plan de feux = hypothèse (non observable).
-scene: meylan_vieux_chene_taillefer
+# Réseau (lot N1, 18/10/2026) : description au format réseau (FORMAT_DESCRIPTION_RESEAU.md), résolue par
+# recon/generateur/reseau/resoudre_reseau.py (appelé par description_vers_modele.py) ; nœuds partagés et contrats de
+# profil dans ../reseau_meylan.yaml ; date d'état = état le plus récent cohérent d'après les photos du site.
+format: description_reseau/0.1
+reseau_commun: ../reseau_meylan.yaml
+scene: meylan_vieux_chene_taillefer_feux
 nom: vieux_chene_taillefer
 titre: Carrefour à feux Vieux Chêne × Taillefer × Hélice de Meylan, îlots directionnels, état du 28/07/2026
-date: 2026-07-28
+date_etat: 2026-07-28                               # photos ad0b728e, fccb6997, e8178560 du 28/07/2026 (cohérentes)
+etat: {nom: ete_2026, photos: "campagne IGN du 28/07/2026"}
 confiance: faible
 origine: [918477.69, 6460317.67, 219.01]           # point du site M07 (dossier 13) ; z RGE ALTI
 description: >
   Grand carrefour à feux à quatre branches au pied de l'Hélice de Meylan (bretelle de l'A41) : avenue du Taillefer au
-  nord, chemin du Vieux Chêne à l'est et à l'ouest. Entrées à 2 ou 3 voies affectées (tourne-à-gauche séparés),
+  nord, chemin du Vieux Chêne à l'est (qui tourne vers le sud-est à une trentaine de mètres, sens séparés par un
+  séparateur en gravillons) et à l'ouest (passage à ≈ 45 m, îlot séparateur au débouché). Entrées à 2 ou 3 voies affectées (tourne-à-gauche séparés),
   sorties à 1 voie (2 vers l'Hélice). Deux tourne-à-droite directs passent derrière des îlots directionnels bordés en
   cédez-le-passage (Hélice vers l'est, ouest vers l'Hélice). Passages piétons à feux avec traversées cyclables vertes,
   pistes mixtes le long du Vieux Chêne, enrobé très rapiécé, candélabres doubles.
@@ -25,60 +32,102 @@ materiaux:
 marquages:
   usure: usée                                       # photo:ad0b728e (bandes faïencées)
 troncons:
-  # Avenue du Taillefer, nord (azimut 340°) ; gauche = ouest (voies entrantes)
+  # Étape 3 (reconstruction, 18/10/2026) : branches tracées VERS le centre (exigence du solveur Houdini rg::carrefours :
+  # « extrémité début non prise en charge ») ; profils retournés (lus de gauche à droite en allant vers le carrefour),
+  # abscisses ramenées à s = L − a ; provenance inchangée.
+  # Avenue du Taillefer, nord (azimut 340°), de la limite de carte (80 m) vers le centre ; gauche = est (voie sortante)
   - id: taillefer_n
     nom: avenue du Taillefer
-    de: [-1.4, -1.3]
-    vers: [-28.76, 73.88]
+    # Étape 3, passe v2 (COMPREHENSION.md) : axe déplacé de 2,5 m vers l'est, parallèle à l'ancien : l'îlot refuge réel
+    # (séparation des sens) est vers (−2,6 ; 8 à 11,5) du repère (IGN 2024 lu à la grille de 1 m, ign24_coeur ; photos
+    # c02e39f5 -131 et 3c82fa3f +013 du 28/07/2026) et la bordure est du levé GAM passe à ≈ −2,5 à y = 20 ; l'ancien axe
+    # passait 3 m à l'ouest de l'îlot. La branche finit au pied du centre (décalage latéral de 2,5 m rapporté).
+    de: [-26.41, 74.73]
+    vers: [0.949, -0.445]
     profil:
-      - trottoir 2,0                                # largeur non mesurée (bordure gam 3,80 / 3,95)
-      - voie 3,5 ←                                  # coupe:n_25 (gam 4,16 → 7,69)
-      - voie 3,5 ←                                  # coupe:n_25 (gam 7,69 → 11,20) ; osm:190600681 left|through|through;right
-      - voie 3,8 →                                  # coupe:n_25 (gam 11,20 → 15,03) ; osm:190600680
       - trottoir 3,0                                # coupe:n_25 (gam 15,03 → pcrs 18,03)
-  # Chemin du Vieux Chêne est (azimut 88°) ; gauche = nord (3 voies entrantes)
+      - voie 3,8 ←                                  # coupe:n_25 (gam 11,20 → 15,03) ; osm:190600680
+      - voie 3,5 →                                  # coupe:n_25 (gam 7,69 → 11,20) ; osm:190600681 left|through|through;right
+      - voie 3,5 →                                  # coupe:n_25 (gam 4,16 → 7,69)
+      - trottoir 2,0                                # largeur non mesurée (bordure gam 3,80 / 3,95)
+    evenements:
+      # Étape 3, passe v2 (COMPREHENSION.md) : îlot refuge entre la sortie et les entrées au droit du passage, côté
+      # cœur : ≈ 1,5 m × 4 m, bordé, B21 et contour peint, mât de feu derrière ; le passage et la traversée cyclable verte
+      # le coupent ; au-delà, un séparateur étroit continue sur ≈ 8 m (photos c02e39f5 -131 et -174, 3c82fa3f +013,
+      # 0190214f -170 du 28/06 et 28/07/2026 ; IGN 2024 : îlot vers (−4,5 ; 9) du repère) ; largeur prise sur les voies
+      # (chaussée inchangée à ≈ 0,2 m près)
+      - ouverture: {a: 58, longueur: 4, nouveau: "trottoir 3,0 | voie 3,5 ← | terre-plein 1,5 béton | voie 3,0 → | voie 3,0 → | trottoir 2,0"}
+      - profil: {a: 58, nouveau: "trottoir 3,0 | voie 3,5 ← | terre-plein 1,5 béton | voie 3,0 → | voie 3,0 → | trottoir 2,0"}
+  # Chemin du Vieux Chêne est, de la limite de carte (≈ 77 m) vers le centre ; gauche = sud (voie sortante).
+  # Étape 3, itération 1 (18/10/2026) : la branche n'est pas droite vers l'est (azimut 88°) mais part du carrefour vers
+  # l'est-nord-est (cap ≈ 20°) puis tourne vers le sud-est ; tracé posé sur la médiane des chaussées OSM (osm:857526256
+  # entrée, 190600688 + 235030395 sortie) ; preuves : photos efc67150, 3eb5557e et 4c3c6ec3 (comparaison multivues,
+  # itération 0 : le modèle droit plaçait les voies d'entrée là où passe la voie de sortie, 7 à 9 m trop au sud à 30-40 m).
+  # La droite près du carrefour est allongée à 36 m (le solveur exige des branches droites jusqu'aux points de tangence
+  # des coins : avec 23 m, le coin du tourne-à-droite de l'Hélice tombait sur l'arc et produisait une bande d'herbe à
+  # travers le carrefour, BESOINS.md G3) ; écart à la médiane OSM ≤ 2,8 m (au lieu de 0,6 m), arc de 24 m de rayon.
   - id: vc_est
     nom: chemin du Vieux Chêne est
-    de: [-1.4, -1.3]
-    vers: [78.55, 1.49]
+    depart: [64.5017, -0.9405]                      # médiane osm:857526256 / 235030395 à ≈ 65 m du centre
+    cap: 136.245
+    trace:
+      - droite: 10
+      - arc: {rayon: 24, angle: 64, sens: gauche}   # osm:857526256 (courbe des voies d'entrée), 190600688
+      - droite: 36                                  # fin au centre du carrefour [-1.4, -1.3]
     profil:
-      - piste cyclable 3,0 bidirectionnelle         # osm:385035108 (piste mixte au-delà de la bordure gam 25,46)
-      - bande enherbée 1,0
-      - voie 3,5 ←                                  # coupe:e_30 (gam 21,91 → 25,45) : tout droit + droite
-      - tourne-à-gauche 3,2 ←                       # coupe:e_30 (18,70 → 21,91) ; osm:857526256 left|left|through;right
-      - tourne-à-gauche 3,0 ←                       # coupe:e_30 (15,71 → 18,70)
-      - séparateur 0,3                              # coupe:e_30 (gam 15,45 → 15,71)
-      - voie 4,0 →                                  # coupe:e_30 : sortie et voie du shunt (gam 8,48 → 15,45 = 6,97 m)
       - bande enherbée 3,0                          # îlot du shunt, photo:fccb6997
-  # Hélice de Meylan, sud (bretelle de l'A41, azimut 165°) ; gauche = est (voies entrantes)
+      - voie 4,0 ←                                  # coupe:e_30 : sortie et voie du shunt (gam 8,48 → 15,45 = 6,97 m)
+      # séparateur bordé garni de gravillons entre la sortie et les voies d'entrée : ≈ 1,2 m (étape 3, itération 2 :
+      # photos 3eb5557e, efc67150, 12844b83 et c02e39f5 du 28/07/2026, deux bordures et gravillons, feu sur le nez) ;
+      # la coupe e_30 (0,26 m) avait été tirée sur l'ancien axe droit, en travers de la courbe ; écrit « terre-plein » et
+      # non « séparateur » (BESOINS.md G1)
+      - terre-plein ≈ 1,2 gravillons
+      - tourne-à-gauche 3,0 →                       # coupe:e_30 (15,71 → 18,70)
+      - tourne-à-gauche 3,2 →                       # coupe:e_30 (18,70 → 21,91) ; osm:857526256 left|left|through;right
+      - voie 3,5 →                                  # coupe:e_30 (gam 21,91 → 25,45) : tout droit + droite
+      - bande enherbée 1,0
+      - piste cyclable 3,0 bidirectionnelle         # osm:385035108 (piste mixte au-delà de la bordure gam 25,46)
+  # Hélice de Meylan, sud (bretelle de l'A41, azimut 165°), du nœud partagé N_VCT_HELICE (80 m) vers le centre ;
+  # gauche = ouest (voies sortantes vers l'autoroute)
   - id: helice_s
     nom: Hélice de Meylan (bretelle)
-    de: [-1.4, -1.3]
-    vers: [19.31, -78.57]
+    de: N_VCT_HELICE                                # nœud partagé : bout de la branche ; l'hélice du lot B (auto_noeud_a41_n87) est coupée à sa hauteur
+    vers: [-1.4, -1.3]
     profil:
-      - bande enherbée 3,0                          # îlot directionnel du shunt sud → est (osm:168365100), photo:fccb6997
-      - voie 3,5 ←                                  # coupe:s_30 : entrée 11,19 m avec le shunt ; osm:235030396 left|through
-      - tourne-à-gauche 3,5 ←
-      - terre-plein 2,0 enrobé                      # îlot entre entrée et sortie (bordure gam 15,37) ; largeur estimée
-      - voie 3,5 →                                  # coupe:s_30 : sortie 2 voies (osm:1341306742 lanes=2)
-      - voie 3,5 →
       - bande enherbée 3,0                          # îlot directionnel du shunt ouest → sud (osm:190600689)
-  # Chemin du Vieux Chêne ouest (azimut 242°) ; gauche = sud-est (voies entrantes)
+      - voie 3,5 ←                                  # coupe:s_30 : sortie 2 voies (osm:1341306742 lanes=2)
+      - voie 3,5 ←
+      - terre-plein 2,0 enrobé                      # îlot entre entrée et sortie (bordure gam 15,37) ; largeur estimée
+      - tourne-à-gauche 3,5 →                       # coupe:s_30 : entrée 11,19 m avec le shunt ; osm:235030396 left|through
+      - voie 3,5 →
+      - bande enherbée 3,0                          # îlot directionnel du shunt sud → est (osm:168365100), photo:fccb6997
+  # Chemin du Vieux Chêne ouest, de la limite de carte (80 m) vers le centre ; gauche = nord (voie sortante).
+  # Étape 3, itération 1 : axe recalé sur la médiane OSM (osm:190600691 sortie, 857526258 / 857526259 entrée : cap 205°
+  # depuis le centre et non 208°) ; l'ancien bout était 4 à 6 m au sud de la médiane (photo 4289a952 rendue dans la voie
+  # de sortie).
   - id: vc_ouest
     nom: chemin du Vieux Chêne ouest
-    de: [-1.4, -1.3]
-    vers: [-72.04, -38.86]
+    de: [-73.87, -35.18]
+    vers: [-1.4, -1.3]
     profil:
-      - trottoir 3,0                                # aboutissement revêtu du passage ouest ; au-delà, îlot du shunt ouest → sud (coupe:w_30, gam 3,94)
-      - voie 3,2 ←                                  # coupe:w_30 : entrée + sortie 9,71 m (gam 7,15 → 16,86) ; osm:857526259 left|through
-      - tourne-à-gauche 3,0 ←
-      - voie 3,5 →                                  # osm:190600691 lanes=1
-      - bande enherbée 2,0                          # gam 16,86 → 17,15 puis talus
       - piste cyclable 3,0 bidirectionnelle         # osm:1351825052 (piste mixte, coupe:w_30 gam 17,15 → pcrs 23,20)
+      - bande enherbée 2,0                          # gam 16,86 → 17,15 puis talus
+      - voie 3,5 ←                                  # osm:190600691 lanes=1
+      - tourne-à-gauche 3,0 →                       # coupe:w_30 : entrée + sortie 9,71 m (gam 7,15 → 16,86) ; osm:857526259 left|through
+      - voie 3,2 →
+      - trottoir 3,0                                # aboutissement revêtu du passage ouest ; au-delà, îlot du shunt ouest → sud (coupe:w_30, gam 3,94)
     evenements:
-      # liaison revêtue entre chaussée et piste au droit du passage ouest
-      - profil: {a: 18, nouveau: "trottoir 3,0 | voie 3,2 ← | tourne-à-gauche 3,0 ← | voie 3,5 → | trottoir 2,0 | piste cyclable 3,0 bidirectionnelle"}
-      - profil: {a: 23.5, nouveau: "trottoir 3,0 | voie 3,2 ← | tourne-à-gauche 3,0 ← | voie 3,5 → | bande enherbée 2,0 | piste cyclable 3,0 bidirectionnelle"}
+      # Étape 3, itération 1 : le passage ouest n'est pas au débouché mais à ≈ 47 m du centre (levé GAM : bandes et
+      # damier ; ortho IGN 2024 ; photo 4289a952 : bandes et damier vus à ≈ 25 m devant la caméra) ; feux (R11 vus sur
+      # e5c7653d) ; liaison revêtue entre chaussée et piste au droit du passage (bande enherbée coupée)
+      - profil: {a: 30.5, nouveau: "piste cyclable 3,0 bidirectionnelle | trottoir 2,0 | voie 3,5 ← | tourne-à-gauche 3,0 → | voie 3,2 → | trottoir 3,0"}
+      - passage_pieton: {a: 33, largeur: 4.0, regime: feux}   # levé GAM ; photo 4289a952 ; DEF-011
+      - profil: {a: 35.5, nouveau: "piste cyclable 3,0 bidirectionnelle | bande enherbée 2,0 | voie 3,5 ← | tourne-à-gauche 3,0 → | voie 3,2 → | trottoir 3,0"}
+      # îlot séparateur bordé entre la sortie et les voies d'entrée sur les ≈ 20 derniers mètres (≈ 29 → ≈ 9 m du
+      # centre ; ≈ 1,4 m de large ; nez à balise J5) : levé GAM (bordure fermée), ortho IGN 2024, photo e5c7653d (nez et
+      # J5 à gauche de la voie de tourne-à-gauche) ; précédé de sa zone hachurée (ouverture sur 4 m)
+      - ouverture: {a: 51, longueur: 4, nouveau: "piste cyclable 3,0 bidirectionnelle | bande enherbée 2,0 | voie 3,5 ← | zone hachurée 1,4 | tourne-à-gauche 3,0 → | voie 3,2 → | trottoir 3,0"}
+      - profil: {a: 51.5, nouveau: "piste cyclable 3,0 bidirectionnelle | bande enherbée 2,0 | voie 3,5 ← | terre-plein 1,4 béton | tourne-à-gauche 3,0 → | voie 3,2 → | trottoir 3,0"}
 carrefours:
   - id: VCT
     nom: Vieux Chêne × Taillefer × Hélice
@@ -89,8 +138,7 @@ carrefours:
         passage: {largeur: 4.0}                     # passage à feux osm:311840568 / 2012464115 ; bandes épaisses + traversée verte, photo:ad0b728e
       - troncon: vc_est
       - troncon: helice_s
-      - troncon: vc_ouest
-        passage: {largeur: 4.0}                     # passage marqué ouest (levé GAM : bandes)
+      - troncon: vc_ouest                         # passage à ≈ 47 m du centre : évènement du tronçon (itération 1)
     ilots:
       - type: directionnel                          # Hélice → Vieux Chêne est, photo:fccb6997 (îlot revêtu bordé, B1, D21)
         de: helice_s
@@ -117,3 +165,5 @@ carrefours:
 ecarts_admis:
   RF-OSM-LAR-012: "voies entrantes de 3,5 m relevées (coupes n_25 et e_30, lignes du levé GAM)"
   RF-OSM-LAR-010: "voies de sortie de 3,5 à 4,0 m relevées bordure à bordure (coupes n_25 : 3,83 m ; e_30 : sortie + shunt 6,97 m ; s_30 : sortie 2 voies 12,2 m avec le shunt ; levé GAM et PCRS)"
+  DEF-022: "îlot refuge du passage nord (Taillefer) d'environ 1,5 m, bordé, B21, coupé par le passage et la traversée cyclable verte : photos c02e39f5 (-131, -174) et 3c82fa3f (+013) du 28/07/2026, 0190214f (-170) du 28/06/2026 ; refuge étroit réel"
+  RF-MA-REF-003: "vue de la bordure de l'îlot refuge du Taillefer non mesurable sur les photos c02e39f5 et 3c82fa3f (bordure basse, ≈ 0,10-0,12 m) ; 0,11 m (DEF-005, îlot) retenu"

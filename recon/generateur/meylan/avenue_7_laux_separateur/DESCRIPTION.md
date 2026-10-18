@@ -7,6 +7,10 @@ pas dans le dossier 13 : il a été choisi pour représenter les **avenues à ch
 
 **État décrit : 28/07/2026** (campagne IGN, photos 360° de 08:23), le plus récent.
 
+**Réseau (lot N1, 18/10/2026).** date d'état **28/07/2026** ; l'axe suit le milieu du séparateur relevé aux coupes t_sw et t0 (cap 51,65°) et part du nœud partagé `N_7LAUX_SO` (coupe t_sw), dont le profil (deux voies vers le rond-point, photo c531e1b2) est le contrat du joint ; la seconde voie disparaît avant le point du site (coupe t0). Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
+**Reconstruction (étape 3, 18/10/2026).** Séparateur en pavés après le muret (muret non fabriqué, BESOINS S1) ; bande plantée entre piste et contre-allée refermée avant le point du site ; chaussée nord-ouest à deux voies jusqu'à ≈ 50 m. Détail : `RECONSTRUCTION.md` ; manques du générateur : `BESOINS.md`.
+
 ## 1. Description simple
 
 > Avenue à la sortie de Meylan vers Montbonnot, en deux chaussées à sens unique séparées au milieu par une bande
@@ -18,16 +22,21 @@ pas dans le dossier 13 : il a été choisi pour représenter les **avenues à ch
 > pelouse en talus, puis des parkings. Enrobé très fissuré avec un réseau de pontages noirs, grands conifères et
 > feuillus, candélabres simples ; la falaise du Saint-Eynard domine.
 
-## 2. Ordre de construction proposé
+## 2. Ordre de construction (celui de la chaîne)
 
-1. **Plate-forme** : pente douce vers le sud-ouest (z ≈ 258 m), talus enherbé au sud-est.
-2. **Chaussées** : deux chaussées à sens unique, contre-allée.
-3. **Bordures et séparateur** : bordures et caniveau pavé du séparateur (muret béton à l'approche du rond-point),
-   bordures de la piste et de la contre-allée.
-4. **Piste, bandes, trottoirs** : bande béton, piste cyclable bidirectionnelle, bande plantée.
-5. **Marquages** : rives, figurines vélo de la piste (au pas de 50 m, DEF-018), lignes de la contre-allée.
-6. **Signalisation** : panneaux de direction vers le rond-point, panneaux de piste.
-7. **Végétation et mobilier** : barrières bordeaux à croisillons, haies, conifères, candélabres, pelouse.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 plate-forme | pente douce vers le sud-ouest (z ≈ 258 m), talus enherbé au sud-est |
+| E08 bordures | bordures et caniveau pavé du séparateur (muret béton à l'approche du rond-point), bordures de la piste et de la contre-allée |
+| E10 chaussée | deux chaussées à sens unique (deux voies vers le rond-point), contre-allée |
+| E11 trottoirs, pistes | bande béton, piste cyclable bidirectionnelle, bande plantée, pelouse |
+| E12 marquages | rives, ligne entre les deux voies vers le rond-point, figurines vélo de la piste (au pas de 50 m, DEF-018), lignes de la contre-allée |
+| E14 signalisation | panneaux de direction vers le rond-point, panneaux de piste |
+| E15 éclairage | candélabres |
+| E16 mobilier | barrières bordeaux à croisillons |
+| E17 végétation (plus tard) | haies, conifères |
 
 ## 3. Constats et provenance
 

@@ -8,16 +8,24 @@
 #   [R] règle de regles_route_fr.json (citée) quand la mesure ne tranche pas.
 # La partie « format existant » (scene … ecarts_admis) se compile avec description_vers_modele.py ; extensions_auto
 # porte ce que le format ne sait pas encore dire (BESOINS_FORMAT_AUTO.md).
-scene: auto_a41_section_courante
+# Réseau (lot N1, 18/10/2026) : description au format réseau (FORMAT_DESCRIPTION_RESEAU.md), résolue par
+# recon/generateur/reseau/resoudre_reseau.py (appelé par description_vers_modele.py) ; nœuds partagés dans
+# ../reseau_meylan.yaml ; date d'état = état le plus récent cohérent d'après les photos du site ; « extensions_auto »
+# est une clé de la couche réseau (non portée par l'étape 2, recopiée dans compilation_reseau.json) ; « DBA » =
+# séparateur béton double face entre les deux sens (relecture M8 ; « GBA » est le profil simple face).
+format: description_reseau/0.1
+reseau_commun: ../reseau_meylan.yaml
+scene: meylan_auto_a41_section_courante
 nom: A41 (Meylan) section courante
-titre: A41 à Meylan — section courante 2 × 2 voies, BAU, TPC enherbé à deux glissières, passage supérieur des Pépinières
-date: 2025-06-14
+titre: A41 à Meylan — section courante 2 × 2 voies, BAU, TPC enherbé à une glissière, passage supérieur des Pépinières
+date_etat: 2026-07-28                   # photo la plus récente cohérente : 84303e7a du 28/07/2026 (D41c et garde-corps en place)
+etat: {nom: ete_2026, valable_depuis: 2024-05-01, photos: "716ad033 (2024-05), a2064553 (2025-06-01), 28b78e21 et 5d4f7b5b (2025-06-14), 84303e7a (2026-07-28)"}
 confiance: moyenne
 origine: [917403.3, 6459717.4]          # [O] point de la médiane des deux chaussées (OSM 759037980 / 4247774), L93
 description: >
   Autoroute A41 à 2 × 2 voies de 3,60 m, bande d'arrêt d'urgence de 3,40 m de chaque côté, terre-plein central de
   6,90 m entre les lignes continues : bandes dérasées de gauche revêtues de 1 m puis bande médiane enherbée de 4,90 m
-  portant deux glissières simples, une le long de chaque bande dérasée ; glissière simple au bord extérieur de chaque BAU ; pas d'éclairage ;
+  avec une seule glissière, le long de la bande dérasée du sens Chambéry ; glissière simple au bord extérieur de chaque BAU ; pas d'éclairage ;
   110 km/h ; enrobé gris homogène, marquages blancs nets ; au nord talus enherbé montant et rideau d'arbres, au sud
   champ cultivé et peupliers ; passage supérieur du chemin des Pépinières (pont-route + trottoirs, pile dans le TPC)
   à 70 m ; panneau de bifurcation A41 Chambéry / N87 Sisteron à 500 m peu après le pont, sens est.
@@ -26,7 +34,7 @@ contexte:
   categorie: autoroute                  # [OSM] highway=motorway, ref=A 41
   vitesse: 110                          # [OSM] maxspeed=110 (les deux chaussées)
   u: 7,5 cm                             # [R] RF-MQ-U-01 (autoroute) ; largeur des traits non mesurable à 20 cm/px
-troncon: {de: [0, 0], vers: [535.8, 123.9]}   # [OSM] médiane des chaussées, droite de 549,9 m, cap 13,0° (ENE)
+troncon: {de: N_A41_PEPINIERES_O, vers: N_A41_N87_O}   # [OSM] médiane des chaussées, droite de 549,9 m, cap 13,0° (ENE) ; nœuds partagés avec auto_a41_extremite_ouest et auto_noeud_a41_n87
 profil:
   - berme 1,5 herbe haute               # [O] végétation à |t| ≥ 14,0 ; [P] a2064553 : glissière puis herbe
   - glissière                           # [P] a2064553, 5d4f7b5b : glissière simple au bord de la BAU
@@ -36,9 +44,8 @@ profil:
   - voie 3,6 ←
   - ligne continue 3u                   # [O] rive du TPC continue (toutes coupes) ; [R] RF-MQ-SC-06 (TPC continue 3u)
   - BDG 1,0                             # [O] ligne +3,25 → début de la bande médiane +2,4 ; −3,65 → −2,4 (0,85-1,25)
-  - glissière                           # [P] 5d4f7b5b l−51 : glissière simple côté est à ≈ 0,5 m dans l'herbe
   - terre-plein 4,9 herbe haute niveau chaussée   # [O] saturation 0,08-0,13 entre +2,4 et −2,4 ; [P] herbe haute, sol nu rouge par endroits
-  - glissière                           # [P] a2064553 l−51 : seconde glissière côté ouest
+  - glissière                           # itération 1 (lot SITES, 18/10/2026) : UNE seule glissière (rouillée), le long de la BDG du sens Chambéry (côté sud), et non deux : [O] coupe s0330 (un seul rail sombre vers t ≈ −2, rien à +2,4) ; [P] c235b69b, 7f197e9e, 131258a6 (comparaison multivues : un rail proche depuis la chaussée sud), a2064553 l−51 (rail du côté opposé depuis la chaussée nord), 5d4f7b5b l−51 ; deux files près de la pile du pont des Pépinières seulement (716ad033 vu du pont ; non décrites)
   - BDG 1,0
   - ligne continue 3u
   - voie 3,6 →                          # [O] −3,65 ± 0,07 → −7,20 ± 0,11 → −10,85 ± 0,08 : 3,55 et 3,65
@@ -54,7 +61,11 @@ marquages:
 evenements:
   # ligne de dissuasion T3 entre les voies à l'approche des divergences (sortie 27 vers l'ouest, bifurcation N87 vers
   # l'est) : [O] coupes s0130-s0530 (sens est) et s0080 (sens ouest), [R] RF-MQ-DEC-02 ; transition prise à s = 130
-  - profil: {a: 130, nouveau: "berme 1,5 herbe haute | glissière | BAU 3,4 | ligne T4 3u | voie 3,6 ← | ligne T1 2u | voie 3,6 ← | ligne continue 3u | BDG 1,0 | glissière | terre-plein 4,9 herbe haute niveau chaussée | glissière | BDG 1,0 | ligne continue 3u | voie 3,6 → | ligne T3 2u | voie 3,6 → | ligne T4 3u | BAU 3,4 | glissière | berme 1,5 herbe haute"}
+  - profil: {a: 130, nouveau: "berme 1,5 herbe haute | glissière | BAU 3,4 | ligne T4 3u | voie 3,6 ← | ligne T1 2u | voie 3,6 ← | ligne continue 3u | BDG 1,0 | terre-plein 4,9 herbe haute niveau chaussée | glissière | BDG 1,0 | ligne continue 3u | voie 3,6 → | ligne T3 2u | voie 3,6 → | ligne T4 3u | BAU 3,4 | glissière | berme 1,5 herbe haute"}
+  # v2 (18/10/2026) : vers x ≈ 420 (s ≈ 431), au droit d'un portique, la BAU du sens Chambéry devient la voie de décélération de la
+  # sortie Sisteron (ligne T4 → tirets larges T2, rive continue à droite) ; elle quitte l'A41 sur le site voisin (auto_noeud_a41_n87, x ≈ 30,
+  # « bretelles ») : [O] IGN 2024 zooms a41sc_x300 et a41sc_fin (comparaison v2) ; [P] 1575f4f9_-017 (nœud, portique)
+  - profil: {a: 431, nouveau: "berme 1,5 herbe haute | glissière | BAU 3,4 | ligne T4 3u | voie 3,6 ← | ligne T1 2u | voie 3,6 ← | ligne continue 3u | BDG 1,0 | terre-plein 4,9 herbe haute niveau chaussée | glissière | BDG 1,0 | ligne continue 3u | voie 3,6 → | ligne T3 2u | voie 3,6 → | ligne T2 5u | voie de décélération 3,5 → | ligne continue 3u | accotement 0,5 | glissière | berme 1,5 herbe haute"}
 signalisation:
   - {code: D41c, a: 100, cote: droite}  # [P] 716ad033 l+103, 28b78e21 l+0 : « A41 CHAMBÉRY | N87 SISTERON ST MARTIN d'H. 500 m », sur 2 mâts, ≈ 30 m après le pont
 abords:
@@ -68,8 +79,7 @@ extensions_auto:
   chaussees_separees: {entraxe_lignes_tpc_m: 6.9, sens_gauche: ouest, sens_droite: est}   # B1 [O]
   dispositifs_retenue:                                                                  # B3
     - {limite: "berme|BAU gauche", type: glissiere_simple, hauteur_m: 0.75, decalage_m: 0.3, de: 0, a: 549.9, prov: "P a2064553 ; hauteur [R] gamme N2 courante, non mesurée"}
-    - {limite: "BDG|TPC gauche", type: glissiere_simple, hauteur_m: 0.75, decalage_m: 0.5, de: 0, a: 549.9, contournement_pile: {a: 69.7}, prov: "P a2064553 l-51, 28b78e21 (pile)"}
-    - {limite: "TPC|BDG droite", type: glissiere_simple, hauteur_m: 0.75, decalage_m: -0.5, de: 0, a: 549.9, contournement_pile: {a: 69.7}, prov: "P 5d4f7b5b l-51"}
+    - {limite: "TPC|BDG droite (sud)", type: glissiere_simple_ou_double, decalage_m: -0.5, hauteur_m: 0.75, de: 0, a: 549.9, contournement_pile: {a: 69.7, note: "deux files près de la pile du pont"}, prov: "itération 1 (18/10/2026) : P c235b69b, 7f197e9e, 131258a6 ; a2064553 l-51, 5d4f7b5b l-51 relus ; 28b78e21 (pile)"}
     - {limite: "BAU|berme droite", type: glissiere_simple, hauteur_m: 0.75, decalage_m: -0.3, de: 0, a: 549.9, prov: "P 28b78e21, 716ad033"}
   ouvrages:                                                                             # B5
     - type: passage_superieur
@@ -93,12 +103,12 @@ extensions_auto:
   marquages_detail:                                                                     # B8
     - {ligne: "entre voies, sens est", modulation: T3, de: 130, a: 549.9, motif: "dissuasion avant la bifurcation N87 (RF-MQ-DEC-02)", prov: "O coupes s0180-s0530"}
     - {ligne: "entre voies, sens ouest", modulation: T3, de: 0, a: 130, motif: "dissuasion avant la sortie 27", prov: "O coupe s0080 ; P 716ad033 l−103"}
-  etapes:                                                                               # B12 : ordre de construction
+  etapes:                                                                               # B12 : ordre propre au site, en note ; l'ordre qui fait foi est celui de la chaîne (CHAINE_CONSTRUCTION.md § 2)
     - "1 plate-forme : terrassement au terrain naturel (+ talus nord), assise des deux chaussées et du TPC"
     - "2 ouvrage : pile dans le TPC, culées perrées, tablier du chemin des Pépinières (avant la couche de roulement)"
     - "3 chaussées : enrobé des deux chaussées (BDG + 2 voies + BAU), dévers en toit vers l'extérieur 2,5 %"
     - "4 TPC et accotements : terre végétale et herbe haute, bermes enherbées"
-    - "5 retenue : 4 files de glissières simples (2 au bord des BAU, 2 dans le TPC, contournant la pile)"
+    - "5 retenue : glissières simples au bord des BAU, une glissière dans le TPC le long de la BDG sud (deux files contournant la pile)"
     - "6 marquages longitudinaux : rives continues 3u du TPC, T4 3u des BAU, T1 puis T3 2u entre voies"
     - "7 signalisation verticale : D41c (présignalisation de bifurcation) sur 2 mâts côté est"
     - "8 équipements : clôtures, ligne HT"
@@ -108,6 +118,6 @@ extensions_auto:
     profil.voie: "O coupes a41_sc (10 stations), voies 3,55-3,65 d'axe de ligne à axe de ligne"
     profil.BAU: "O 3,20-3,60 jusqu'au bord de l'enrobé ; P glissière au bord"
     profil.BDG: "O 0,85-1,25"
-    profil.terre-plein: "O 4,8 ± 0,3 (indice de saturation) ; P deux glissières, herbe haute"
+    profil.terre-plein: "O 4,8 ± 0,3 (indice de saturation) ; P une seule glissière, côté sud (itération 1 : O s0330 ; P c235b69b, 7f197e9e, 131258a6, a2064553), herbe haute"
     signalisation.D41c: "P 716ad033 (2024-05-01), 28b78e21 (2025-06-14), 84303e7a (2026-07-28) ; position ± 20 m"
     contexte.vitesse: "OSM maxspeed=110"

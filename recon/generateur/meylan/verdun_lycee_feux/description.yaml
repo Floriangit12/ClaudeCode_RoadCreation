@@ -6,16 +6,23 @@
 # carrefour à 4 branches centré au milieu des 4 nœuds ; l'allée du Château (zone 30, au sud-est) n'est pas décrite ;
 # les tirets observés dans le carrefour (dossier 13 M08 : « différent » de l'IISR7) ne sont pas décrits (ARB-08) ;
 # plan de feux = hypothèse.
-scene: meylan_verdun_chamrousse
+# Réseau (lot N1, 18/10/2026) : description au format réseau (FORMAT_DESCRIPTION_RESEAU.md), résolue par
+# recon/generateur/reseau/resoudre_reseau.py (appelé par description_vers_modele.py) ; nœuds partagés et contrats de
+# profil dans ../reseau_meylan.yaml ; date d'état = état le plus récent cohérent d'après les photos du site.
+format: description_reseau/0.1
+reseau_commun: ../reseau_meylan.yaml
+scene: meylan_verdun_lycee_feux
 nom: verdun_chamrousse
 titre: Carrefour à feux Verdun × Chamrousse × Chaumetière (Meylan), état du 28/07/2026
-date: 2026-07-28
+date_etat: 2026-07-28                               # photos 921c90d1, ef8cd80b, 5922e7b4 du 28/07/2026 (cohérentes)
+etat: {nom: ete_2026, photos: "campagne IGN du 28/07/2026"}
 confiance: faible
 origine: [917989.78, 6460971.81, 249.21]           # point du site M08 (dossier 13) ; z RGE ALTI
 description: >
   Carrefour à feux en croix sur l'avenue de Verdun à chaussées séparées : au nord-est 3 voies d'entrée (gauche, tout
   droit, tout droit et droite) et une sortie, séparées par un îlot de 3 m ; au sud-ouest 2 voies dans chaque sens
-  séparées par un îlot ; avenue de Chamrousse à l'ouest (une voie par sens, bande cyclable en sortie, îlot) ; chemin de
+  séparées par un îlot ; avenue de Chamrousse à l'ouest (une voie par sens qui s'écartent autour d'un îlot planté
+  d'environ 5 m, bande cyclable en sortie) ; chemin de
   Chaumetière au sud (rue étroite à double sens). Îlots plantés en buttes basses, passages piétons sur chaque branche,
   pistes et Chronovélo côté nord-ouest, enrobé fissuré avec pontages.
 contexte:
@@ -27,63 +34,91 @@ materiaux:
 marquages:
   usure: moyenne
 troncons:
-  # Avenue de Verdun nord-est (azimut 52°) ; gauche = nord-ouest (voies entrantes)
+  # Étape 3 (reconstruction, 18/10/2026) : branches tracées VERS le centre (exigence du solveur Houdini rg::carrefours :
+  # « extrémité début non prise en charge ») ; profils retournés (lus de gauche à droite en allant vers le carrefour),
+  # abscisses ramenées à s = L − a ; provenance inchangée.
+  # Avenue de Verdun nord-est (azimut 52°), de la limite de carte (70 m) vers le centre ; gauche = sud-est (voie sortante)
   - id: verdun_ne
     nom: avenue de Verdun nord-est
-    de: [0, 0]
-    vers: [55.16, 43.1]
+    de: [55.16, 43.1]
+    vers: [0, 0]
     profil:
-      - piste cyclable 3,2 bidirectionnelle         # coupe:ne_30 (gam 31,59 → 34,75) ; osm:190080271
-      - bande enherbée 8,0                          # coupe:ne_30 (gam 23,46 → 31,52) ; plantée
-      - voie 3,6 ←                                  # coupe:ne_30 (19,78 → 23,40) : tout droit + droite
-      - voie 3,6 ←                                  # coupe:ne_30 (16,10 → 19,68) : tout droit
-      - tourne-à-gauche 3,6 ←                       # coupe:ne_30 (12,42 → 16,00) ; osm:1293831015 left|through|through;right
-      - terre-plein 3,3 gazon                       # coupe:ne_30 (gam 9,09 → 12,42)
-      - voie 4,4 →                                  # coupe:ne_30 (gam 4,68 → 9,09) ; osm:39990137 lanes=1
       - trottoir 2,0                                # largeur non mesurée (DEF-004)
+      - voie 4,4 ←                                  # coupe:ne_30 (gam 4,68 → 9,09) ; osm:39990137 lanes=1
+      - terre-plein 3,3 gazon                       # coupe:ne_30 (gam 9,09 → 12,42)
+      - tourne-à-gauche 3,6 →                       # coupe:ne_30 (12,42 → 16,00) ; osm:1293831015 left|through|through;right
+      - voie 3,6 →                                  # coupe:ne_30 (16,10 → 19,68) : tout droit
+      - voie 3,6 →                                  # coupe:ne_30 (19,78 → 23,40) : tout droit + droite
+      - bande enherbée 2,0                          # étape 3, itération 1 : ≈ 1,5-2 m à 55-70 m du centre (photos 0c2f5716 du 09/05/2024, a86b55d2 du 18/05/2025)
+      - piste cyclable 3,2 bidirectionnelle         # coupe:ne_30 (gam 31,59 → 34,75) ; osm:190080271
     evenements:
-      # liaison revêtue à travers la bande plantée au droit du passage (photo:5922e7b4 : cheminement vers la piste)
-      - profil: {a: 13, nouveau: "piste cyclable 3,2 bidirectionnelle | trottoir 8,0 | voie 3,6 ← | voie 3,6 ← | tourne-à-gauche 3,6 ← | terre-plein 3,3 gazon | voie 4,4 → | trottoir 2,0"}
-      - profil: {a: 18.5, nouveau: "piste cyclable 3,2 bidirectionnelle | bande enherbée 8,0 | voie 3,6 ← | voie 3,6 ← | tourne-à-gauche 3,6 ← | terre-plein 3,3 gazon | voie 4,4 → | trottoir 2,0"}
-  # Avenue de Chamrousse (D590, azimut 283°) ; gauche = sud (voie entrante)
+      # la bande plantée s'élargit en approchant du carrefour (8,0 m à 30 m : coupe:ne_30 gam 23,46 → 31,52) ; la piste
+      # s'écarte de la chaussée (osm:190080271)
+      - ouverture: {a: 35, longueur: 15, nouveau: "trottoir 2,0 | voie 4,4 ← | terre-plein 3,3 gazon | tourne-à-gauche 3,6 → | voie 3,6 → | voie 3,6 → | bande enherbée 8,0 | piste cyclable 3,2 bidirectionnelle"}
+      # liaison revêtue à travers la bande plantée au droit du passage (photo:5922e7b4 : cheminement vers la piste) ;
+      # début avancé de 51,5 à 48,5 aux itérations 1 et 2 (le passage recule avec l'îlot de Chamrousse ; à 47,5 la
+      # liaison atteignait le point de tangence du coin nord-ouest, rendu en trottoir au lieu de la butte plantée)
+      # Étape 3, passe v2 (COMPREHENSION.md) : l'îlot de la médiane va jusqu'au cœur (nez vers (8,2 ; 4,5) du repère, à
+      # ≈ 9 m du centre) et porte le refuge des deux demi-passages (≈ 18,5-20,5 m du centre) : IGN 2024 et levé GAM lus à la
+      # grille de 1 m (gam_NE) ; photos 54c3c177 -008 et 8892229b -012 (18/05/2025). Jusqu'ici la dernière section commençait
+      # dans la zone de conflit et le compilateur ne faisait aucun îlot (« le terre-plein ne dépasse pas la limite »). La
+      # dernière section commence donc à ≈ 21,5 m du centre (îlot porté par le profil jusqu'à la frontière) ; la liaison
+      # revêtue n'occupe plus que 3 m le long de la chaussée, la bande plantée reste derrière (angle nord-ouest planté).
+      # nez de la médiane revêtu (dessus gris, bordure basse, balise) : photos 54c3c177 -008 et 8892229b -012 du 18/05/2025 ;
+      # revêtu dès ≈ 26 m du centre pour que le refuge du passage ne soit pas « revêtu dans un îlot planté » (qui coupe
+      # la section et renvoie l'îlot dans la zone de conflit)
+      - profil: {a: 44, nouveau: "trottoir 2,0 | voie 4,4 ← | terre-plein 3,3 béton | tourne-à-gauche 3,6 → | voie 3,6 → | voie 3,6 → | bande enherbée 8,0 | piste cyclable 3,2 bidirectionnelle"}
+      - profil: {a: 48.5, nouveau: "trottoir 2,0 | voie 4,4 ← | terre-plein 3,3 béton | tourne-à-gauche 3,6 → | voie 3,6 → | voie 3,6 → | trottoir 3,0 | bande enherbée 5,0 | piste cyclable 3,2 bidirectionnelle"}
+  # Avenue de Chamrousse (D590, azimut 283°), de la limite de carte (60 m) vers le centre ; gauche = nord (voie sortante)
   - id: chamrousse
     nom: avenue de Chamrousse
-    de: [0, 0]
-    vers: [-58.47, 13.5]
+    de: [-58.47, 13.5]
+    vers: [0, 0]
     profil:
-      - trottoir 2,8                                # coupe:chamrousse_30 (gam 0,57 → 3,38)
-      - bande enherbée 3,4                          # îlot planté bas, coupe:chamrousse_30 (gam 5,82 → 9,26) ; photo:ef8cd80b
-      - voie 4,5 ←                                  # coupe:chamrousse_30 (gam 9,26 → 13,73) ; osm:7838799
-      - voie 3,9 →                                  # coupe:chamrousse_30 (14,12 → 18,0) ; osm:1271547679
-      - bande cyclable 1,5                          # osm:1271547679 cycleway:right=lane ; coupe:chamrousse_30 (→ gam 19,51)
       - trottoir 2,0
+      - bande cyclable 1,5                          # osm:1271547679 cycleway:right=lane ; coupe:chamrousse_30 (→ gam 19,51)
+      - voie 3,9 ←                                  # coupe:chamrousse_30 (14,12 → 18,0) ; osm:1271547679
+      - voie 4,5 →                                  # coupe:chamrousse_30 (gam 9,26 → 13,73) ; osm:7838799
+      - bande enherbée 3,4                          # îlot planté bas, coupe:chamrousse_30 (gam 5,82 → 9,26) ; photo:ef8cd80b
+      - trottoir 2,8                                # coupe:chamrousse_30 (gam 0,57 → 3,38)
     evenements:
-      # traversée revêtue de l'îlot au droit du passage (coupe:chamrousse_30 : traversée gam 3,38 → 5,82)
-      - profil: {a: 21, nouveau: "trottoir 2,8 | trottoir 3,4 | voie 4,5 ← | voie 3,9 → | bande cyclable 1,5 | trottoir 2,0"}
-      - profil: {a: 26.3, nouveau: "trottoir 2,8 | bande enherbée 3,4 | voie 4,5 ← | voie 3,9 → | bande cyclable 1,5 | trottoir 2,0"}
-  # Avenue de Verdun sud-ouest (azimut 232°) ; gauche = sud-est (voies entrantes)
+      # Étape 3, itération 1 : près du carrefour, les deux sens de Chamrousse s'écartent autour d'un îlot planté en butte
+      # basse (OSM : sortie 7838796 et entrée 7838799 séparées à partir de ≈ 30 m du centre, ≈ 6 m d'écart à 15 m ;
+      # photos 208a1f46 du 01/05/2024, cb597029 du 09/05/2024, 921c90d1 du 28/07/2026 : butte plantée bordée) ; largeur
+      # constante ≈ 5 m (simplification : l'îlot réel est triangulaire), précédé de sa zone hachurée (ouverture sur 8 m) ;
+      # le passage de la branche (à ≈ 25 m du centre, au bord de la zone de conflit) le traverse (refuge revêtu).
+      - ouverture: {a: 28, longueur: 8, nouveau: "trottoir 2,0 | bande cyclable 1,5 | voie 3,9 ← | zone hachurée 5,0 | voie 4,5 → | bande enherbée 3,4 | trottoir 2,8"}
+      - profil: {a: 28.5, nouveau: "trottoir 2,0 | bande cyclable 1,5 | voie 3,9 ← | terre-plein 5,0 gazon | voie 4,5 → | bande enherbée 3,4 | trottoir 2,8"}
+      # traversée revêtue de la bande plantée sud au droit du passage (coupe:chamrousse_30 : traversée gam 3,38 → 5,82)
+      - profil: {a: 31, nouveau: "trottoir 2,0 | bande cyclable 1,5 | voie 3,9 ← | terre-plein 5,0 gazon | voie 4,5 → | trottoir 3,4 | trottoir 2,8"}
+      - profil: {a: 37.5, nouveau: "trottoir 2,0 | bande cyclable 1,5 | voie 3,9 ← | terre-plein 5,0 gazon | voie 4,5 → | bande enherbée 3,4 | trottoir 2,8"}
+  # Avenue de Verdun sud-ouest (azimut 232°), du nœud partagé N_VERDUN_M08_SO (70 m) vers le centre ; gauche = nord-ouest
   - id: verdun_so
     nom: avenue de Verdun sud-ouest
-    de: [0, 0]
-    vers: [-55.16, -43.1]
+    de: N_VERDUN_M08_SO                             # nœud partagé avec axe_verdun_centre (médiane OSM, à 2,0 m de [-55.16, -43.1]) ; contrat du joint
+    vers: [0, 0]
     profil:
-      - trottoir 3,5                                # coupe:so_30 (gam 14,09 → 17,62)
-      - voie 3,7 ←                                  # coupe:so_30 : entrée 7,39 m (gam 17,62 → 25,01) ; tout droit
-      - tourne-à-gauche 3,7 ←                       # osm:63600574 left|through
-      - terre-plein 2,8 gazon                       # coupe:so_30 (gam 25,01 → ligne 27,82) ; pointe d'îlot
-      - voie 3,5 →                                  # coupe:so_30 : sortie 7,1 m (27,82 → gam 34,92) ; osm:1412130619 lanes=2
-      - voie 3,5 →
-      - bande enherbée 1,3                          # coupe:so_30 (gam 34,92 → 36,18)
       - piste cyclable 3,0 bidirectionnelle         # Chronovélo osm:398052219 (width 4)
+      - bande enherbée 1,3                          # coupe:so_30 (gam 34,92 → 36,18)
+      - voie 3,5 ←                                  # coupe:so_30 : sortie 7,1 m (27,82 → gam 34,92) ; osm:1412130619 lanes=2
+      - voie 3,5 ←
+      - terre-plein 2,8 gazon                       # coupe:so_30 (gam 25,01 → ligne 27,82) ; pointe d'îlot
+      - tourne-à-gauche 3,7 →                       # osm:63600574 left|through
+      - voie 3,7 →                                  # coupe:so_30 : entrée 7,39 m (gam 17,62 → 25,01) ; tout droit
+      - trottoir 3,5                                # coupe:so_30 (gam 14,09 → 17,62)
     evenements:
-      # liaison revêtue vers la Chronovélo au droit du passage
-      - profil: {a: 14, nouveau: "trottoir 3,5 | voie 3,7 ← | tourne-à-gauche 3,7 ← | terre-plein 2,8 gazon | voie 3,5 → | voie 3,5 → | trottoir 1,3 | piste cyclable 3,0 bidirectionnelle"}
-      - profil: {a: 19.2, nouveau: "trottoir 3,5 | voie 3,7 ← | tourne-à-gauche 3,7 ← | terre-plein 2,8 gazon | voie 3,5 → | voie 3,5 → | bande enherbée 1,3 | piste cyclable 3,0 bidirectionnelle"}
-  # Chemin de Chaumetière (azimut 170°) ; gauche = est
+      # liaison revêtue vers la Chronovélo au droit du passage (début avancé de 50,8 à 47 à l'itération 1 : le passage
+      # recule avec l'îlot de Chamrousse)
+      # Étape 3, passe v2 : même correction que Verdun nord-est ; l'îlot de la médiane va jusqu'au cœur (nez vers
+      # (−12,5 ; −7,5), à ≈ 14,5 m du centre) et porte le refuge du passage (≈ 19-20 m) : IGN 2024 et levé GAM (gam_SO) ;
+      # photos 674d46c6 +171 (01/05/2024), 80dcf3ae -144 (18/05/2025). Dernière section à partir de ≈ 23 m du centre.
+      - profil: {a: 43, nouveau: "piste cyclable 3,0 bidirectionnelle | bande enherbée 1,3 | voie 3,5 ← | voie 3,5 ← | terre-plein 2,8 béton | tourne-à-gauche 3,7 → | voie 3,7 → | trottoir 3,5"}
+      - profil: {a: 47, nouveau: "piste cyclable 3,0 bidirectionnelle | trottoir 1,3 | voie 3,5 ← | voie 3,5 ← | terre-plein 2,8 béton | tourne-à-gauche 3,7 → | voie 3,7 → | trottoir 3,5"}
+  # Chemin de Chaumetière (azimut 170°), de la limite de carte (69 m) vers le centre ; gauche = ouest
   - id: chaumetiere
     nom: chemin de Chaumetière
-    de: [0, 0]
-    vers: [11.98, -67.94]
+    de: [11.98, -67.94]
+    vers: [0, 0]
     profil: "trottoir 1,5 | voie 3,1 ← | voie 3,1 → | trottoir 1,5"   # coupe:chaumetiere_25 (gam 12,75 → 18,92 : 6,17 m)
 carrefours:
   - id: VCH
@@ -98,7 +133,7 @@ carrefours:
       - troncon: verdun_so
         passage: {largeur: 4.0}                     # osm:3051569319 ; photo:5922e7b4
       - troncon: chaumetiere
-        passage: {largeur: 4.0}                     # osm:3051569320 (marqué)
+        passage: {largeur: 3.0, retrait: 0.6}       # osm:3051569320 ; passe v2 : zébra réel à ≈ 12-15 m du centre (gam_SE, IGN 2024 : (−3 ; −17) → (10 ; −9)) ; la frontière calculée est à 11,4 m
     feux:
       # HYPOTHÈSE (plan de feux non observable) : 2 phases, cycle ≈ 70 s (DEF-028)
       note: plan de feux supposé, à remplacer par le plan réel de la Métropole
@@ -114,4 +149,3 @@ ecarts_admis:
   RF-OSM-LAR-010: "voies de 3,5 à 4,5 m relevées bordure à bordure (coupes ne_30, so_30, chamrousse_30, levé GAM)"
   RF-MA-REF-003: "vues des bordures des îlots de Verdun non mesurables sur les photos 921c90d1 et 5922e7b4 ; 0,11 m (DEF-005, îlot) retenu"
   RF-MA-TRO-001: "liaison revêtue de 1,26 m entre la chaussée et la Chronovélo au droit du passage sud-ouest (coupe so_30 : bande gam 34,92 → 36,18)"
-  RF-GV-CAR-008: "îlots de Verdun réduits par le solveur à leur nez près du carrefour (3,8 à 3,9 m²) ; les îlots réels se prolongent sur plus de 20 m (levé GAM, plan annoté du site)"

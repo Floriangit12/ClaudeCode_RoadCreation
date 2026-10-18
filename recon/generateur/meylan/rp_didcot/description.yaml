@@ -4,10 +4,16 @@
 # Provenance en fin de ligne : coupe:<nom>, radial:<az>, photo:<id>, osm:<way>, DEF-/RF- (règle complétée si non dit).
 # Simplifications : sept bras radiaux et droits (entrées et sorties séparées) ; largeurs non mesurées prises à 4 m
 # d'après les photos ; butte plantée, mâts rouges, barrière et feu de la bretelle non décrits (../BESOINS_FORMAT.md).
+# Réseau (lot N1, 18/10/2026) : description au format réseau (FORMAT_DESCRIPTION_RESEAU.md), résolue par
+# recon/generateur/reseau/resoudre_reseau.py (appelé par description_vers_modele.py) ; nœuds partagés et contrats de
+# profil dans ../reseau_meylan.yaml ; date d'état = état le plus récent cohérent d'après les photos du site.
+format: description_reseau/0.1
+reseau_commun: ../reseau_meylan.yaml
 scene: meylan_rp_didcot
 nom: rond_point_de_didcot
 titre: Rond-point de Didcot (Meylan) — giratoire de 47 m, couronne en pavés rouges, état du 28/07/2026
-date: 2026-07-28
+date_etat: 2026-07-28                               # photos du 28/07/2026 (cohérentes)
+etat: {nom: ete_2026, photos: "campagne IGN du 28/07/2026"}
 confiance: faible
 origine: [919119.28, 6460492.69, 221.86]           # point du site M03 (dossier 13) ; z RGE ALTI
 description: >
@@ -24,78 +30,122 @@ materiaux:
 marquages:
   usure: légère                                     # photo:7544b177
 troncons:
-  # azimuts depuis le centre de l'anneau (osm) ; chaque bras part du bord extérieur de l'anneau (rayon 23,5 m)
-  - id: chamechaude                                 # osm:8015851 (tertiary, lanes=2), azimut 5°
+  # Étape 3 (18/10/2026), relecture sur l'ortho IGN 2024 et OSM (ways 8015846, 8015852, 8015855, 8015854, 8015875,
+  # 997434685, 1268386834, 1413619617) : QUATRE directions et non sept bras radiaux. À l'est, au sud-sud-est et au
+  # sud-ouest, l'entrée et la sortie sont les deux sens d'une même route, écartés près de l'anneau par un îlot qui se
+  # referme plus loin (l'ancien relevé envoyait la sortie est vers le sud-est et la sortie de la bretelle vers le
+  # sud-sud-ouest, à 30-50° de leur vrai tracé). Une branche par direction, tracée VERS l'anneau (seule écriture que
+  # fabriquent rg::giratoires / rg::carrefours) ; axes issus du centre de l'anneau ; profils de gauche à droite en
+  # regardant vers l'anneau (sortie à gauche, entrée à droite).
+  - id: chamechaude                                 # osm:8015851 (tertiary, lanes=2), du nord (azimut 5°)
     nom: avenue de Chamechaude
-    de: [1.49, 23.08]
-    vers: [6.72, 82.85]
+    de: [6.72, 82.85]
+    vers: [1.49, 23.08]                             # bord extérieur de l'anneau (rayon 23,5 m)
     profil:
-      - trottoir                                    # osm sidewalk=right ; largeur non mesurée (DEF-004)
-      - voie 4,7 ←                                  # coupe:br_n (rive 3,82 → 8,55 ; chaussée 11,49 m)
+      # au-delà du passage, bande enherbée entre chaussée et piste côté est (coupe:br_n, gam 14,83 → pcrs 18,02)
+      - bande enherbée 3,2
+      - voie 4,7 ←                                  # coupe:br_n (9,56 → 14,31 ; chaussée 11,49 m)
       - zone hachurée 1,0                           # coupe:br_n (lignes gam 8,55 → 9,56)
-      - voie 4,7 →                                  # coupe:br_n (9,56 → 14,31)
-      - trottoir 3,2                                # au droit du passage : liaison revêtue vers la piste osm:1351825057
+      - voie 4,7 →                                  # coupe:br_n (rive 3,82 → 8,55)
+      - trottoir                                    # osm sidewalk=right ; largeur non mesurée (DEF-004)
     evenements:
-      # au-delà du passage, bande enherbée entre chaussée et piste (coupe:br_n, gam 14,83 → pcrs 18,02)
-      - profil: {a: 12, nouveau: "trottoir | voie 4,7 ← | zone hachurée 1,0 | voie 4,7 → | bande enherbée 3,2"}
-  - id: vc_est_entree                               # osm:1268386834 (entrée seule, lanes=1), azimut 42°
-    nom: chemin du Vieux Chêne est (entrée)
-    de: [15.16, 17.13]
-    vers: [55.31, 61.72]
-    profil: "trottoir | voie 4,0 ← | bande enherbée 3,0"   # largeur non mesurée (photos) ; accotements plantés
-  - id: vc_est_sortie                               # osm:1413619617 (sortie seule), azimut 123°
-    nom: chemin du Vieux Chêne est (sortie)
-    de: [19.15, -13.13]
-    vers: [69.47, -45.81]
-    profil: "bande enherbée 3,0 | voie 4,0 → | bande enherbée 3,0"
-  - id: helice_entree                               # osm:8015852 (trunk_link, lanes=2), azimut 147° ; feu osm:10577671775
-    nom: bretelle de la rocade (entrée)
-    de: [12.24, -20.04]
-    vers: [44.92, -70.36]
+      # au droit du passage (12 derniers mètres) : liaison revêtue vers la piste osm:1351825057
+      - profil: {a: 48, nouveau: "trottoir 3,2 | voie 4,7 ← | zone hachurée 1,0 | voie 4,7 → | trottoir"}
+      # Passe 2 (COMPREHENSION.md § 2.3) : la bande médiane peinte s'élargit vers l'anneau en un îlot séparateur bordé en
+      # goutte d'eau (≈ 5,5 m au bord de l'anneau, pointe ≈ 10 m plus loin), coupé en deux par le passage (refuge) :
+      # bordures GAM y = 23 → 26,3 et 30 → 32,6 (zoom nord_gam) ; photos 71960487 +132, c4d60a47 −151, 30b80a7b −020
+      # (la bande médiane de 1 m est arrêtée 1 m avant : une zone hachurée qui existe déjà et s'élargit n'ouvre pas
+      # d'enveloppe centrée pour l'îlot, contrôle ilot_dans_enveloppe ; l'enveloppe neuve part de 0 m)
+      - profil: {a: 48.5, nouveau: "trottoir 3,2 | voie 4,7 ← | voie 4,7 → | trottoir"}
+      - ouverture: {a: 59.99, longueur: 11, nouveau: "trottoir 3,2 | voie 4,7 ← | zone hachurée 7,5 | voie 4,7 → | trottoir"}
+  - id: vc_est                                      # chemin du Vieux Chêne est : entrée osm:1268386834 (au nord), sortie osm:1413619617 (au sud)
+    nom: chemin du Vieux Chêne est
+    de: [95.79, 20.15]                              # vers x ≈ 100-135 les deux sens se rejoignent (osm:1413619621)
+    vers: [22.43, 4.56]                             # axe au cap 12° depuis le centre, entre l'entrée (≈ 49°) et la sortie (≈ − 35°)
+    profil:
+      - bande enherbée 3,0                          # accotements plantés, photos 7544b177, 25cbe3d8
+      - voie 4,0 ←                                  # sortie, une voie (osm lanes=1) ; largeur non mesurée (photos)
+      - terre-plein 12 planté                       # bande boisée entre les deux sens : ≈ 6 m à 75 m de l'anneau, ≈ 16-24 m au bord de l'anneau (ortho 2024, OSM) ; largeur moyenne constante (une loi de largeur sur un terre-plein bordé n'est pas fabriquée au lot L2 : BESOINS.md)
+      - voie 4,0 →                                  # entrée, une voie (osm lanes=1)
+      - bande enherbée 3,0
+  - id: helice                                      # bretelle de la rocade : entrée osm:8015852 (2 voies, feu osm:10577671775), sortie osm:8015846 (1 voie, barrière + B1)
+    nom: bretelle de la rocade (Hélice)
+    # Passe 2 (COMPREHENSION.md § 2.3) : axe recalé sur l'îlot réel (bordures et marquages GAM, zoom sud_gam) : îlot
+    # TRIANGULAIRE bordé, revêtu, base de ≈ 6,5 m au bord de l'anneau (x 0,5 → 7), pointe en (11 ; − 40), puis deux
+    # lignes continues qui se rejoignent vers (14 ; − 47) ; l'ancien îlot rectangulaire de 7 m (x 5 → 13) était 4 m
+    # trop à l'est et sa zone hachurée de 25 m trop longue. Entrée en 2 voies de ≈ 4,2 m (lignes GAM y = − 28 : 8,4 /
+    # 12,6 / 16,7), sortie de ≈ 5 m (rive − 3,6 → îlot 2,0 à y = − 28)
+    polyligne: [[29.88, -94.01], [20.4, -64.4], [14.0, -47.0], [3.77, -23.43]]   # osm:8015855 puis axe GAM ; bout au bord de l'anneau (rayon 23,5)
     profil:
       - bande enherbée 3,0                          # accotement enherbé, photo:0f41f230
-      - voie 4,1 ←                                  # coupe:br_s_in (gam 11,43 → 15,52)
-      - voie 4,1 ←                                  # coupe:br_s_in (gam 15,52 → 19,64)
+      - voie 4,5 ←                                  # sortie vers la rocade (gam y = − 55 : 12,9 → 17,5)
+      - voie 4,2 →                                  # gam y = − 55 : 17,5 → 21,4
+      - voie 4,2 →                                  # gam y = − 55 : 21,4 → 25,6 ; coupe:br_s_in
       - bande enherbée 3,0
-  - id: helice_sortie                               # osm:8015846 (trunk_link, lanes=1), azimut 197° ; barrière + B1, photo:0f41f230
-    nom: bretelle de la rocade (sortie)
-    de: [-7.43, -22.8]
-    vers: [-24.97, -80.18]
-    profil: "bande enherbée 3,0 | voie 4,0 → | bande enherbée 3,0"
-  - id: vc_ouest_entree                             # osm:8015854 (lanes=1), azimut 223°
-    nom: chemin du Vieux Chêne ouest (entrée)
-    de: [-16.59, -17.52]
-    vers: [-57.51, -61.4]
-    profil: "trottoir | voie 4,0 ← | bande enherbée 3,0"
-  - id: vc_ouest_sortie                             # osm:8015875 (lanes=1), azimut 266°
-    nom: chemin du Vieux Chêne ouest (sortie)
-    de: [-24.0, -1.97]
-    vers: [-83.86, -6.15]
-    profil:
-      - bande enherbée 3,0
-      - voie 4,8 →                                  # coupe:br_w_out (gam 1,67 → pcrs 6,50)
-      - bande enherbée 0,6                          # coupe:br_w_out (6,50 → 7,06)
-      - piste cyclable 3,2 bidirectionnelle         # coupe:br_w_out (7,06 → 10,31) ; piste mixte osm:385035108, photo:7b6c1e1a
+    evenements:
+      - ouverture: {a: 75.24, longueur: 26, nouveau: "bande enherbée 3,0 | voie 5,0 ← | zone hachurée 7,5 | voie 4,2 → | voie 4,2 → | bande enherbée 3,0"}
+  - id: vc_ouest
+    nom: chemin du Vieux Chêne ouest
+    # Itération 2 (planches 265149e9, bdce9363, f09ca37b, cf8c7a89 de l'itération 1) : la route réelle passe 4 à 6 m au
+    # nord-ouest de l'ancien axe radial ; tracé recalé sur le tronc commun osm:1519291779 puis sur la bissectrice entrée /
+    # sortie (osm:8015854 / 8015875), cassure de 12° partagée en deux ; loin de l'anneau, un chemin piéton longe la route
+    # au SUD-EST derrière une bande enherbée (la piste osm:385035108 s'écarte à 11-15 m au nord-ouest, dans les arbres)
+    polyligne: [[-104.0, -72.0], [-77.0, -49.0], [-48.1, -25.5], [-41.45, -21.16], [-21.58, -10.83]]
+    profil: "bande enherbée 3,0 | voie 4,8 ← | voie 4,0 → | bande enherbée 3,0 | chemin 2,5"   # photos bdce9363, 265149e9, f09ca37b
+    evenements:
+      # Passe 2 (COMPREHENSION.md § 2.3) : passage piéton zébré centré vers (− 54 ; − 28) (bandes du levé GAM,
+      # x − 57 → − 51 : s ≈ 65,5) ; côté anneau, juste après le zébra, deux lignes continues à ≈ 1,2 m (s ≈ 67 → 72)
+      # puis un refuge bordé étroit (≈ 1,2 m sur ≈ 6 m, s ≈ 72 → 78) à balise J5 (photo bdce9363 −013 du 28/07/2026 ;
+      # bordures GAM (− 47,5 ; − 28) → (− 41,5 ; − 24)). Itération 4 (passe 2) : passage avancé de 71 à 65,5 m (planche
+      # bdce9363_-013 et vue de dessus p2_ouest de l'itération 3 : zébra du modèle ≈ 5 m trop près de l'anneau, refuge
+      # posé dans le passage) ; liaisons revêtues au droit du passage
+      - profil: {a: 63, nouveau: "trottoir 3,0 | voie 4,8 ← | voie 4,0 → | trottoir 3,0 | chemin 2,5"}
+      - passage_pieton: {a: 65.5}
+      - profil: {a: 68, nouveau: "bande enherbée 3,0 | voie 4,8 ← | zone hachurée 1,2 | voie 4,0 → | bande enherbée 3,0 | chemin 2,5"}
+      - profil: {a: 72, nouveau: "bande enherbée 3,0 | voie 4,8 ← | terre-plein 1,2 béton | voie 4,0 → | bande enherbée 3,0 | chemin 2,5"}
+      - profil: {a: 78, nouveau: "bande enherbée 3,0 | voie 4,8 ← | zone hachurée 1,2 | voie 4,0 → | bande enherbée 3,0 | chemin 2,5"}
+      # près de l'anneau : profil de la coupe br_w_out (piste mixte au nord-ouest, osm:385035108, photo:7b6c1e1a) ; entre
+      # le refuge et l'anneau, deux lignes discontinues à ≈ 1 m (marquages GAM), simplifiées en une ligne d'axe
+      - profil: {a: 79, nouveau: "piste cyclable 3,2 bidirectionnelle | bande enherbée 0,6 | voie 4,8 ← | voie 4,0 → | trottoir"}
+      # au bord de l'anneau, petit îlot séparateur bordé triangulaire (base ≈ 6 m, ≈ 8 m de long ; bordures GAM
+      # (− 29 ; − 13,5) → (− 22,5 ; − 9,5), contour peint) : l'ancien îlot planté de 5 m sur 20 m (10 m hachurés) était
+      # trop long
+      - ouverture: {a: 103.04, longueur: 12, nouveau: "piste cyclable 3,2 bidirectionnelle | bande enherbée 0,6 | voie 4,8 ← | zone hachurée 6,5 | voie 4,0 → | trottoir"}
 giratoires:
   - id: DIDCOT
     nom: rond-point de Didcot
     centre: [-0.56, -0.33]                          # centroïde de l'anneau osm:624258028
     diametre: 47                                    # bordure extérieure GAM r 23,0-24,4 (radial:315/80/200/135) ; dossier 13 : 47 ± 2
     anneau: 8.9                                     # 23,5 − 14,6 (bordure de l'îlot GAM)
-    couronne: 2.0                                   # pavés rouges + 2 rangs de galets, photo:25cbe3d8 (l-0102.9) ; dossier 13 : 1,8
+    couronne: 2.0                                   # pavés rouges + 2 rangs de galets, photo:25cbe3d8 (l-0102.9) ; dossier 13 : 1,8 (matériau sans mot : BESOINS.md)
     ilot_central: herbe haute                       # butte plantée (arbustes, graminées, arbres), photo:25cbe3d8
+    # Itération 1 (comparaison multivues du 18/10) : avec les rayons du tableau ACI (Re 15, Rs 20 pour Rg 25), trois
+    # coins sur quatre ne tenaient pas entre des branches espacées de 73 à 84° (îlots de 5 à 12 m au bord de l'anneau) :
+    # le générateur les faisait faire le tour de l'anneau (coins de 180 à 186 m, trottoir de coin en gazon en travers
+    # des bouches ; photos c4d60a47, 30b80a7b, ba5d0ba1 : les bouches sont libres, BESOINS.md D1). Rayons pris au bas
+    # des plages (Re 8 m, RF-GV-GIR-011 urbain ; Rs 15 m, RF-GV-GIR-012) : bordures de raccordement serrées sur l'ortho
     branches:
       - troncon: chamechaude
-        passage: oui                                # osm:311840635 (zébra, crossing:island=yes)
-      - troncon: vc_est_entree
-      - troncon: vc_est_sortie
-      - troncon: helice_entree
-      - troncon: helice_sortie
-      - troncon: vc_ouest_entree
-      - troncon: vc_ouest_sortie
+        passage: oui                                # osm:311840635 (zébra, crossing:island=yes) ; le passage coupe l'îlot (refuge)
+        ilot: {largeur: 6.5, longueur: 12}          # passe 2 : îlot bordé en goutte d'eau (zoom nord_gam ; photo 71960487 +132)
+        rayon_entree: 8
+        rayon_sortie: 15
+      - troncon: vc_est
+        rayon_entree: 8
+        rayon_sortie: 15
+      - troncon: helice
+        ilot: {largeur: 7.5, longueur: 17}          # passe 2 : îlot triangulaire bordé, pointe en (11 ; − 40) (zoom sud_gam)
+        rayon_entree: 8
+        rayon_sortie: 15
+      - troncon: vc_ouest
+        ilot: {largeur: 5.0, longueur: 9}           # passe 2 : petit îlot triangulaire bordé (zoom ouest_gam)
+        rayon_entree: 8
+        rayon_sortie: 15
 ecarts_admis:
-  RF-OSM-LAR-010: "voies de 4,7 m relevées sur l'avenue de Chamechaude (coupe br_n : chaussée de 11,49 m bordure à bordure, lignes du levé GAM)"
-  RF-OSM-LAR-011: "bras à sens unique d'une voie de 4,0 à 4,8 m (coupe br_w_out, levé GAM ; photos 7b6c1e1a, 0f41f230)"
+  RF-OSM-LAR-010: "voies de 4,0 à 4,8 m relevées : Chamechaude 4,7 m (coupe br_n : chaussée de 11,49 m bordure à bordure, lignes du levé GAM), sortie ouest 4,8 m (coupe br_w_out), autres sorties et entrées à une voie d'environ 4 m (photos 7b6c1e1a, 0f41f230)"
   RF-OSM-LAR-012: "entrée de la bretelle en deux voies de 4,1 m (coupe br_s_in, lignes du levé GAM ; OSM lanes=2)"
-  RF-GV-GIR-010: "entrées relevées : Chamechaude en une voie de 4,7 m (coupe br_n) et bretelle en deux voies (coupe br_s_in, OSM lanes=2) ; les bras de sortie seule (Vieux Chêne est et ouest, bretelle) n'ont pas d'entrée : l'entrée est le bras voisin, séparé par un grand îlot (OSM 1268386834 / 1413619617, 8015852 / 8015846, 8015854 / 8015875)"
-  RF-GV-GIR-012: "bras d'entrée seule (Vieux Chêne est et ouest, bretelle) : la sortie est le bras voisin, séparé par un grand îlot (OSM)"
+  RF-GV-GIR-010: "entrées relevées plus larges que la plage urbaine : Chamechaude en une voie de 4,7 m (coupe br_n, levé GAM) et bretelle en deux voies de 2 × 4,1 m (coupe br_s_in, OSM lanes=2)"
+  RF-OSM-LAR-050: "séparations entre l'entrée et la sortie plus larges qu'un terre-plein courant : bande boisée du Vieux Chêne est décrite à 12 m (6 à 24 m réels) (ortho IGN 2024, OSM 1268386834 / 1413619617 écartés de 10 à 30 m) et îlot enherbé de la bretelle d'environ 7 m au bord de l'anneau (plan coté, bordure GAM ; photo 0f41f230)"
+  RF-GV-GIR-014: "passage de l'avenue de Chamechaude coupant l'îlot séparateur réel (bordures GAM y = 23 → 26,3 et 30 → 32,6 ; photo 71960487 +132) : le refuge du modèle (≈ 1,4 m) est plus étroit que les 2,0 m de la règle ; l'îlot réel, plus large au droit du passage (≈ 3 m), n'a pas la forme du triangle ACI que fabrique le générateur (BESOINS D7)"
+  RF-GV-GIR-008: "traversée Chamechaude → Vieux Chêne ouest (première sortie, à ≈ 112-120° de l'entrée) : avec les îlots séparateurs relevés (GAM, passe 2), la corde entre les bordures d'entrée et de sortie ne coupe plus le cercle de l'îlot central + 1,5 m (déflexion « infinie » au sens du calcul) ; géométrie décrite d'après le levé, non mesurée sur place"
+  RF-GV-GIR-021: "axe de la bretelle de la rocade passant à ≈ 5 m du centre de l'anneau : axe de l'îlot triangulaire et des lignes du levé GAM (zoom sud_gam), comme sur l'ortho IGN 2024"

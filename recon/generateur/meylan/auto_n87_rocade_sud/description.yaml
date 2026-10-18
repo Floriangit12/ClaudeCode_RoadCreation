@@ -2,12 +2,25 @@
 # Voie rapide urbaine à chaussées séparées (trunk, 90 km/h), terre-plein central en GBA. État 2024 (photos
 # Panoramax 23/06/2024 ; ortho IGN 09/08/2024). Provenances : [O] ortho (coupes n87, mesures.json), [P] photo
 # (photos.json), [OSM], [R] règle, [G] choix faute de mesure. Le tronçon se raccorde au nord à auto_noeud_a41_n87.
-scene: auto_n87_rocade_sud
+# Réseau (lot N1, 18/10/2026) : description au format réseau (FORMAT_DESCRIPTION_RESEAU.md), résolue par
+# recon/generateur/reseau/resoudre_reseau.py (appelé par description_vers_modele.py) ; nœuds partagés dans
+# ../reseau_meylan.yaml ; date d'état = état le plus récent cohérent d'après les photos du site ; « extensions_auto »
+# est une clé de la couche réseau (non portée par l'étape 2, recopiée dans compilation_reseau.json) ; « DBA » =
+# séparateur béton double face entre les deux sens (relecture M8 ; « GBA » est le profil simple face).
+format: description_reseau/0.1
+reseau_commun: ../reseau_meylan.yaml
+# Harmonisation (lot N1, relecture § 5.2) : la N87 s'arrêtait à s = 997, à 103 m des bretelles du nœud A41 / N87 ;
+# elle est prolongée de 103,4 m le long de la médiane OSM (25612322, 344514536, 344514534 / 4015293, entraxe constant
+# de 9,4 à 9,6 m) jusqu'au nœud N_N87_NOEUD, au droit de la divergence de la chaussée nord. La chaussée nord y a
+# 3 voies (OSM 344514534 lanes=3 à partir de s ≈ 1 033) : la voie de gauche part vers la boucle de La Tronche (photo
+# 3f34cf0a : bretelle de gauche, musoir à chevrons et J14a) ; les deux autres vers Chambéry.
+scene: meylan_auto_n87_rocade_sud
 nom: N87 Rocade Sud (Meylan)
-titre: N87 Rocade Sud à Meylan — 2 × 2 voies, GBA centrale, aire de service, du pont de l'Isère au nœud A41
-date: 2024-06-23
+titre: N87 Rocade Sud à Meylan — 2 × 2 voies, DBA centrale, aire de service, du pont de l'Isère au nœud A41
+date_etat: 2026-09-13                   # itération 1 (lot SITES) : photos du 13/09/2026 (0feb1b4f, 53f09e82, 8aa90ca1, comparaison multivues) cohérentes avec la série du 23/06/2024 (8357ddf1, 589161f4, 2e993fc0)
+etat: {nom: ete_2026, valable_depuis: 2024-06-23, photos: "série du 23/06/2024 ; 0feb1b4f, 53f09e82, 8aa90ca1 du 13/09/2026"}
 confiance: moyenne
-origine: [918427.3, 6458607.9]          # [OSM] médiane des chaussées (25612322 / 4015293) au nord du pont de l'Isère, L93
+origine: [918293.3, 6459314.8]          # origine déplacée de (-134, 706.9) m le 18/10/2026 (précision float32 du HeightField de rg::nivellement : |y| local < 450 m, BESOINS.md G1) ; point de la médiane OSM à s ≈ 707 (L93) ; le début du tronçon (s = 0, médiane 25612322 / 4015293 au nord du pont de l'Isère) est en [134.0, -706.9]
 description: >
   Voie rapide à 2 × 2 voies et 90 km/h, sans éclairage, qui monte en remblai du pont de l'Isère vers l'échangeur de
   l'A41 en décrivant une large courbe. Les deux chaussées sont collées l'une à l'autre de part et d'autre d'une GBA en
@@ -22,10 +35,10 @@ contexte:
   vitesse: 90                           # [OSM] maxspeed=90 (25612322, 4015293)
   u: 7,5 cm                             # [R] RF-MQ-U-01 (routes à chaussées séparées)
 troncon:
-  polyligne: [[0.0, 0.0], [-0.3, 25.0], [-0.7, 50.0], [-1.1, 75.0], [-1.7, 100.0], [-2.5, 125.0], [-3.4, 150.0], [-4.6, 174.9], [-6.0, 199.9], [-7.8, 224.8], [-10.0, 249.7], [-12.8, 274.6], [-16.2, 299.3], [-20.1, 324.0], [-24.7, 348.6], [-29.8, 373.1], [-35.6, 397.4], [-42.0, 421.6], [-48.9, 445.6], [-56.3, 469.5], [-64.1, 493.2], [-72.2, 516.9], [-80.5, 540.4], [-89.0, 564.0], [-97.5, 587.4], [-106.0, 611.0], [-114.2, 634.6], [-121.9, 658.4], [-128.5, 682.5], [-134.0, 706.9], [-138.0, 731.5], [-140.5, 756.4], [-141.4, 781.4], [-140.8, 806.4], [-138.6, 831.3], [-134.9, 856.0], [-129.7, 880.4], [-123.2, 904.6], [-115.8, 928.4], [-107.8, 952.1], [-100.5, 973.3]]   # [OSM] médiane 25612322+344514536 / 4015293 rééchantillonnée tous les 25 m et lissée (moyenne sur 3 points) : 997 m, courbe à gauche puis à droite, cassures ≤ 3,7°
+  polyligne: [[134.0, -706.9], [133.7, -681.9], [133.3, -656.9], [132.9, -631.9], [132.3, -606.9], [131.5, -581.9], [130.6, -556.9], [129.4, -532.0], [128.0, -507.0], [126.2, -482.1], [124.0, -457.2], [121.2, -432.3], [117.8, -407.6], [113.9, -382.9], [109.3, -358.3], [104.2, -333.8], [98.4, -309.5], [92.0, -285.3], [85.1, -261.3], [77.7, -237.4], [69.9, -213.7], [61.8, -190.0], [53.5, -166.5], [45.0, -142.9], [36.5, -119.5], [28.0, -95.9], [19.8, -72.3], [12.1, -48.5], [5.5, -24.4], [0.0, 0.0], [-4.0, 24.6], [-6.5, 49.5], [-7.4, 74.5], [-6.8, 99.5], [-4.6, 124.4], [-0.9, 149.1], [4.3, 173.5], [10.8, 197.7], [18.2, 221.5], [26.2, 245.2], [33.5, 266.4], N_N87_NOEUD]   # [OSM] médiane 25612322+344514536 / 4015293 rééchantillonnée tous les 25 m et lissée (moyenne sur 3 points) : 997 m, courbe à gauche puis à droite, cassures ≤ 3,7°
 profil:
   - berme 1,5 herbe haute               # [P] 2e993fc0 : talus boisé derrière le muret
-  - muret                               # [P] 2e993fc0 : muret béton (GBA simple) au bord droit du sens sud
+  - glissière                           # itération 1 (lot SITES, 18/10/2026) : glissière au bord extérieur du sens sud jusqu'à s ≈ 650 ([P] 53f09e82 s ≈ 470, 8aa90ca1 s ≈ 380, 13/09/2026) ; muret béton ensuite (évènement à 650) ; le mot « muret » n'était pas fabriqué (rg::autoroute : GBA, DBA, LBA, MVL, glissière)
   - BAU 1,7                             # [O] s0130-s0230 : ligne +7,5 → bord +9,2
   - ligne T4 3u                         # [R] RF-OSM-MRQ-022 (chaussées séparées)
   - voie 3,8 ←                          # [O] +7,45 / +3,65 / +0,15 (s0180)
@@ -33,7 +46,7 @@ profil:
   - ligne continue 3u
   - BDG 0,5                             # [O] +0,15 → GBA
   - terre-plein 0,4 béton niveau chaussée   # [P] 8357ddf1, 589161f4, 2e993fc0 : GBA béton double ; [O] bande claire ≈ 0,8 m vers t = −0,8
-  - GBA
+  - DBA
   - terre-plein 0,4 béton niveau chaussée
   - BDG 0,6
   - ligne continue 3u
@@ -49,8 +62,11 @@ marquages:
   usure: moyenne                        # [P] 2e993fc0, 8357ddf1
 evenements:
   # aire de service côté sud-ouest (sens sud = ←) : voie supplémentaire entre s ≈ 430 et s ≈ 630 ([O] coupes s0430-s0630 : 3 lignes +10,55 / +7,15 / +3,35 / −0,25)
-  - profil: {a: 430, nouveau: "berme 1,5 herbe haute | muret | accotement 0,5 | ligne T2 5u | voie de décélération 3,4 ← | ligne T2 5u | voie 3,8 ← | voie 3,6 ← | ligne continue 3u | BDG 0,5 | terre-plein 0,4 béton niveau chaussée | GBA | terre-plein 0,4 béton niveau chaussée | BDG 0,6 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 2,5 | glissière | berme 1,5 herbe haute"}   # [P] 8357ddf1 : station-service et portique côté sud-ouest ; type de la voie (sortie / entrée de l'aire) [G]
-  - profil: {a: 630, nouveau: "berme 1,5 herbe haute | muret | BAU 1,7 | ligne T4 3u | voie 3,8 ← | voie 3,5 ← | ligne continue 3u | BDG 0,5 | terre-plein 0,4 béton niveau chaussée | GBA | terre-plein 0,4 béton niveau chaussée | BDG 0,6 | ligne continue 3u | voie 3,5 → | voie 3,6 → | ligne T4 3u | BAU 2,5 | glissière | berme 1,5 herbe haute"}
+  - profil: {a: 430, nouveau: "berme 1,5 herbe haute | glissière | accotement 0,5 | ligne T2 5u | voie de décélération 3,4 ← | ligne T2 5u | voie 3,8 ← | voie 3,6 ← | ligne continue 3u | BDG 0,5 | terre-plein 0,4 béton niveau chaussée | DBA | terre-plein 0,4 béton niveau chaussée | BDG 0,6 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 2,5 | glissière | berme 1,5 herbe haute"}   # [P] 8357ddf1 : station-service et portique côté sud-ouest ; type de la voie (sortie / entrée de l'aire) [G]
+  - elargissement: {a: "≈ 35 avant N_N87_NOEUD", sens: →, voie: gauche, largeur: ≈ 3.5, biseau: ≈ 30}   # 3e voie au nord (OSM 344514534 lanes=3, dès s ≈ 1 033) : voie de gauche vers la boucle (photo 3f34cf0a) ; largeur et biseau [G]
+  - profil: {a: 630, nouveau: "berme 1,5 herbe haute | glissière | BAU 1,7 | ligne T4 3u | voie 3,8 ← | voie 3,5 ← | ligne continue 3u | BDG 0,5 | terre-plein 0,4 béton niveau chaussée | DBA | terre-plein 0,4 béton niveau chaussée | BDG 0,6 | ligne continue 3u | voie 3,5 → | voie 3,6 → | ligne T4 3u | BAU 2,5 | glissière | berme 1,5 herbe haute"}
+  # muret béton (GBA simple face) au bord extérieur du sens sud à partir de s ≈ 650 : [P] 2e993fc0 (s ≈ 777) ; début ± 50 m
+  - profil: {a: 650, nouveau: "berme 1,5 herbe haute | GBA | BAU 1,7 | ligne T4 3u | voie 3,8 ← | voie 3,5 ← | ligne continue 3u | BDG 0,5 | terre-plein 0,4 béton niveau chaussée | DBA | terre-plein 0,4 béton niveau chaussée | BDG 0,6 | ligne continue 3u | voie 3,5 → | voie 3,6 → | ligne T4 3u | BAU 2,5 | glissière | berme 1,5 herbe haute"}
 abords:
   gauche: {type: forêt, largeur: 15}    # [P] 2e993fc0 : bois sur talus
   droite: {type: herbe haute, largeur: 10}   # [P] 8357ddf1, 589161f4 : talus enherbé, clôture, arbres

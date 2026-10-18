@@ -4,10 +4,20 @@
 # commence auto_a41_section_courante (s = 808 ici = s = 0 là-bas) : les deux descriptions se raccordent.
 # Provenances : [O] ortho (coupes a41_ouest, bretelle_* ; mesures.json), [P] photo (photos.json), [OSM], [R] règle,
 # [G] choix faute de mesure.
-scene: auto_a41_extremite_ouest
+# Réseau (lot N1, 18/10/2026) : description au format réseau (FORMAT_DESCRIPTION_RESEAU.md), résolue par
+# recon/generateur/reseau/resoudre_reseau.py (appelé par description_vers_modele.py) ; nœuds partagés dans
+# ../reseau_meylan.yaml ; date d'état = état le plus récent cohérent d'après les photos du site ; « extensions_auto »
+# est une clé de la couche réseau (non portée par l'étape 2, recopiée dans compilation_reseau.json) ; « DBA » =
+# séparateur béton double face entre les deux sens (relecture M8 ; « GBA » est le profil simple face).
+format: description_reseau/0.1
+reseau_commun: ../reseau_meylan.yaml
+scene: meylan_auto_a41_extremite_ouest
 nom: A41 (Meylan) extrémité ouest
 titre: A41 à Meylan — début de l'autoroute à La Tronche, réduction 3 → 2 voies, entrée et sortie 27 Mi-Plaine
-date: 2025-06-14
+date_etat: 2025-06-14                   # photos du 01/06 et du 14/06/2025, cohérentes
+etat: {nom: printemps_2025, photos: "série du 01/06/2025 (sens ouest) et du 14/06/2025 (sens est)"}
+noeuds:
+  N_A41_MIPLAINE: {position: [259.0, 81.2], note: "raccord des deux tronçons au nez de l'entrée de Mi-Plaine (chevrons vus sur l'ortho IGN 2024 et 2021 vers x ≈ 255-265 ; comparaison v2 du 18/10/2026, COMPREHENSION.md § 3.4) : la 3e voie du sens ouest commence ici, et non à 206,9 (point OSM) ; les deux tronçons sont fusionnés en un seul"}
 confiance: moyenne
 origine: [916625.1, 6459501.0]           # [OSM] médiane A41 (4247773 / 4247752) au bout des voies d'autoroute, L93
 description: >
@@ -24,7 +34,7 @@ contexte:
   u: 7,5 cm                              # [R] RF-MQ-U-01
 troncons:
   - nom: A41 extrémité ouest, carrefour → entrée Mi-Plaine
-    polyligne: [[0.0, 0.0], [53.0, 20.2], [129.1, 44.5], [206.9, 66.8]]   # [OSM] médiane 4247773+759037980 / 4247752 (s = 0 à 206,9)
+    polyligne: [[0.0, 4.5], [53.0, 20.2], [129.1, 44.5], [206.9, 66.8], N_A41_MIPLAINE]   # [OSM] médiane 4247773+759037980 / 4247752 ; v2 (18/10/2026) : premier point relevé de 4,5 m vers le nord (au départ les deux chaussées s'écartent autour d'une butte : chaussée ouest à y ≈ 13-26, chaussée est à y ≈ −5…−19 sur l'ortho IGN 2024, planche_dessus_site_ign_t04) ; fin prolongée jusqu'au nez de l'entrée (N_A41_MIPLAINE, x ≈ 259)
     profil:   # s = 0-108 : 3 voies dans chaque sens
       - berme 1,5 herbe haute            # [P] 31863b68 : talus enherbé et glissière à gauche (sens ouest = droite des usagers)
       - glissière
@@ -35,36 +45,47 @@ troncons:
       - voie 3,0 ←
       - ligne continue 3u
       - BDG 1,0
-      - glissière                        # [P] 80d3d532 : glissière et balises jaunes au TPC
-      - terre-plein 8,0 herbe haute niveau chaussée   # [O] s0140 : TPC de 10,1 m entre lignes continues
-      - glissière
+      - terre-plein 15,0 herbe haute niveau chaussée   # v2 (18/10/2026) : au départ (s 0-50) BUTTE enherbée d'environ 15 m entre les deux chaussées, SANS glissière, bordée de bordures et portant des candélabres ([P] 80d3d532_-114/-142, cb457c16_-023 ; [O] IGN 2024 t04 : TPC ≈ 18 m à x ≈ 0, ≈ 10 m à x ≈ 40) ; la butte (≈ 1 m) et ses bordures ne sont pas décrites (BESOINS.md A41O-1) ; elle se resserre à 8,1 m (évènement à 15)
       - BDG 1,0
       - ligne continue 3u
       - voie 3,5 →                       # [P] 80d3d532 : 3 voies, flèche de rabattement dans la voie de gauche
       - voie 3,5 →
       - voie 3,5 →
-      - ligne T4 3u
-      - BAU 2,5                          # [G]
+      - ligne continue 3u                # [P] 80d3d532 : rive continue jusqu'au carrefour
+      - accotement 1,0                   # [P] 80d3d532 (14/06/2025, s ≈ 29) : ≈ 1 m d'enrobé entre la rive et la glissière, pas de BAU ; corrigé le 18/10/2026 (lot SITES ; était « BAU 2,5 [G] »)
       - glissière                        # [P] 80d3d532 : glissière, grillage, candélabres à droite
       - berme 1,5 herbe haute
     evenements:
+      # v2 (18/10/2026) : la butte du départ se resserre en TPC enherbé de 8,1 m ; la glissière du TPC commence vers s ≈ 50 (balise jaune à son about, [P] 80d3d532_-029) et longe le seul sens est (côté sud) : [P] 140623f2_-017, c97bad2a_-015 (sens ouest : aucune glissière à gauche), 121deee8_+013, 661269be_-040, 5221bda4_+038, cb374a8d_-119 (sens est : une glissière contre la BDG) ; l'ancienne description en mettait deux
+      - profil: {a: 15, transition: 35, nouveau: "berme 1,5 herbe haute | glissière | BAU 2,5 | ligne T4 3u | voie 3,6 ← | voie 3,6 ← | voie 3,0 ← | ligne continue 3u | BDG 1,0 | terre-plein 8,1 herbe haute niveau chaussée | glissière | BDG 1,0 | ligne continue 3u | voie 3,5 → | voie 3,5 → | voie 3,5 → | ligne continue 3u | accotement 1,0 | glissière | berme 1,5 herbe haute"}
       - rabattement: {a: 108, sens: →, voie: gauche, biseau: 80, fleches: non}   # [OSM] 1310424871 turn:lanes=merge_to_right|none|none, 3 voies jusqu'à s = 108 ; [P] 80d3d532 : C28 ; biseau [G] ; une seule flèche de rabattement vue (extensions_auto.marquages_detail), aucune inventée
       - panneau: {a: 50, code: C28, cote: droite}   # [P] 80d3d532 (≈ 20 m devant la caméra à s = 29)
+      - panneau: {a: 50, code: C28, cote: gauche}   # v2 (18/10/2026) : [P] 80d3d532_-029 (C28 sur la butte du TPC, à gauche du sens est)
   # sens ouest : l'entrée de Mi-Plaine rejoint à s = 206 ([OSM] 4247747 → 4247752, 3 voies) ; au-delà 2 voies et TPC de 14 m :
   # second tronçon (le format compare une transition au profil de départ du tronçon, BESOINS B13)
   - nom: A41 extrémité ouest, entrée Mi-Plaine → section courante
-    polyligne: [[206.9, 66.8], [283.5, 87.9], [360.5, 109.8], [437.6, 131.4], [515.0, 152.4], [592.6, 172.3], [631.4, 181.8], [693.6, 196.2], [778.2, 216.4]]   # [OSM] médiane 4247746 / 759037980 (s = 0 ici = 206,9 sur le tronçon précédent ; fin = s 601,3 = auto_a41_section_courante s 0)
-    profil: "berme 1,5 herbe haute | glissière | BAU 2,8 | ligne T4 3u | voie 3,6 ← | voie 3,6 ← | ligne continue 3u | BDG 2,9 | glissière | terre-plein 10,3 herbe haute niveau chaussée | glissière | BDG 0,9 | ligne continue 3u | voie 3,5 → | voie 3,7 → | ligne T4 3u | BAU 3,2 | glissière | berme 1,5 herbe haute"   # [O] coupes s0260-s0380 : +14,45 / +10,85 / +7,15 | −6,95 / −10,40 / −14,15 ; bords +17,2 / −17,35 ; BDG ouest revêtue jusqu'à +4,3
+    polyligne: [N_A41_MIPLAINE, [283.5, 87.9], [360.5, 109.8], [437.6, 131.4], [515.0, 152.4], [592.6, 172.3], [631.4, 181.8], [693.6, 196.2], N_A41_PEPINIERES_O]   # [OSM] médiane 4247746 / 759037980 (s = 0 ici = 206,9 sur le tronçon précédent ; fin = s 601,3 = auto_a41_section_courante s 0)
+    profil: "berme 1,5 herbe haute | glissière | BAU 2,8 | ligne T4 3u | voie 3,6 ← | voie 3,6 ← | ligne continue 3u | BDG 2,9 | terre-plein 10,3 herbe haute niveau chaussée | glissière | BDG 0,9 | ligne continue 3u | voie 3,5 → | voie 3,7 → | ligne T4 3u | BAU 3,2 | glissière | berme 1,5 herbe haute"   # [O] coupes s0260-s0380 : +14,45 / +10,85 / +7,15 | −6,95 / −10,40 / −14,15 ; bords +17,2 / −17,35 ; BDG ouest revêtue jusqu'à +4,3
     evenements:
-      - profil: {a: 193, transition: 160, nouveau: "berme 1,5 herbe haute | glissière | BAU 3,0 | ligne T4 3u | voie 3,6 ← | voie 3,6 ← | ligne continue 3u | BDG 2,4 | glissière | terre-plein 6,0 herbe haute niveau chaussée | glissière | BDG 0,9 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 3,2 | glissière | berme 1,5 herbe haute"}   # [O] s0500-s0560 : +12,05 / +8,35 / +4,85 | −4,45 / −11,75 ; végétation de +2,45 à −3,55
-      - profil: {a: 353, transition: 248, nouveau: "berme 1,5 herbe haute | glissière | BAU 3,4 | ligne T4 3u | voie 3,6 ← | ligne T3 2u | voie 3,6 ← | ligne continue 3u | BDG 1,0 | glissière | terre-plein 4,9 herbe haute niveau chaussée | glissière | BDG 1,0 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 3,4 | glissière | berme 1,5 herbe haute"}   # profil atteint à s = 601 (fin du tronçon) = raccord avec auto_a41_section_courante (s = 0) ; T3 de dissuasion avant la sortie 27 : [P] 8eb030a9
+      # v2 (18/10/2026) : les deux tronçons de l'A41 sont fusionnés par le résolveur ; une transition se compare au profil de
+      # DÉPART du tronçon fusionné (3 + 3 voies) : elle est ignorée (changement instantané, avertissement R-1, BESOINS B13).
+      # Les resserrements du TPC sont donc dits sans transition, au milieu de la zone où ils se font (x ≈ 450 et 560).
+      - profil: {a: 195.0, nouveau: "berme 1,5 herbe haute | glissière | BAU 3,0 | ligne T4 3u | voie 3,6 ← | voie 3,6 ← | ligne continue 3u | BDG 2,4 | terre-plein 6,0 herbe haute niveau chaussée | glissière | BDG 0,9 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 3,2 | glissière | berme 1,5 herbe haute"}   # [O] s0500-s0560 : +12,05 / +8,35 / +4,85 | −4,45 / −11,75 ; végétation de +2,45 à −3,55
+      - profil: {a: 300.0, nouveau: "berme 1,5 herbe haute | glissière | BAU 3,4 | ligne T4 3u | voie 3,6 ← | ligne T3 2u | voie 3,6 ← | ligne continue 3u | BDG 1,0 | terre-plein 4,9 herbe haute niveau chaussée | glissière | BDG 1,0 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 3,4 | glissière | berme 1,5 herbe haute"}   # profil atteint à s = 601 (fin du tronçon) = raccord avec auto_a41_section_courante (s = 0) ; T3 de dissuasion avant la sortie 27 : [P] 8eb030a9 ; v2 (18/10/2026) : resserrement achevé au nez de la sortie 27 (x ≈ 597) au lieu de la fin du tronçon, pour laisser la place à la voie de décélération et au musoir (écart ≤ 1,2 m par chaussée sur x 600-778)
+      # v2 (18/10/2026) — SORTIE 27 (zone de conflit de la fenêtre f2) : voie de décélération du sens Grenoble ouverte vers x ≈ 770-790 (biseau),
+      # séparée par des tirets larges, bretelle qui s'en sépare vers x ≈ 665 (s ≈ 420), musoir à chevrons de x ≈ 665 au nez x ≈ 597 (s ≈ 350) :
+      # [O] IGN 2024 f2 site_ign2024_t00 et t01 ; [R] RF-MQ-DEC-01/-02 (T2 5u), RF-MQ-MUS-01 ; le musoir est rendu par une zone hachurée à la
+      # place de la BAU (les chevrons d'un musoir ne sont fabriqués que par « bretelles », du côté → : BESOINS.md A41O-2)
+      - profil: {a: 350.4, nouveau: "berme 1,5 herbe haute | zone hachurée 3,4 | ligne continue 3u | voie 3,6 ← | ligne T3 2u | voie 3,6 ← | ligne continue 3u | BDG 1,0 | terre-plein 4,9 herbe haute niveau chaussée | glissière | BDG 1,0 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 3,4 | glissière | berme 1,5 herbe haute"}
+      - profil: {a: 420.3, nouveau: "berme 1,5 herbe haute | glissière | BAU 3,4 | ligne T4 3u | voie de décélération 3,5 ← | ligne T2 5u | voie 3,6 ← | ligne T3 2u | voie 3,6 ← | ligne continue 3u | BDG 1,0 | terre-plein 4,9 herbe haute niveau chaussée | glissière | BDG 1,0 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 3,4 | glissière | berme 1,5 herbe haute"}
+      - fermeture: {a: 498.0, longueur: 30, nouveau: "berme 1,5 herbe haute | glissière | BAU 3,4 | ligne T4 3u | voie 3,6 ← | ligne T3 2u | voie 3,6 ← | ligne continue 3u | BDG 1,0 | terre-plein 4,9 herbe haute niveau chaussée | glissière | BDG 1,0 | ligne continue 3u | voie 3,6 → | voie 3,6 → | ligne T4 3u | BAU 3,4 | glissière | berme 1,5 herbe haute"}
   - nom: sortie 27 Mi-Plaine
     contexte: {vitesse: 70}              # [OSM] 4247740 maxspeed=70
-    polyligne: [[753.1, 218.1], [726.5, 213.8], [699.8, 209.5], [673.2, 205.2], [646.5, 200.9], [619.8, 196.9], [592.9, 193.9], [566.1, 190.9], [539.6, 185.7], [513.7, 178.1], [487.4, 172.4]]   # [OSM] 4247740
-    profil: "berme 1,5 herbe haute | glissière | accotement 0,5 | ligne continue 3u | voie 4,0 → | ligne T'3 3u | BAU 2,0 | glissière | berme 1,5 herbe haute"   # [O] bretelle_sortie27 : lignes +2,05 / −1,95 ; [R] RF-MQ-SC-06
+    polyligne: [[662.0, 202.4], [630.0, 198.6], [592.9, 193.9], [566.1, 190.9], [539.6, 185.7], [513.7, 178.1], [487.4, 172.4]]   # [OSM] 4247740 à partir du nez ; v2 (18/10/2026) : départ ramené au point où la bretelle quitte la voie de décélération (x ≈ 662, axe de la voie de décélération à ≈ 12,4 m de la médiane), l'axe OSM partait de x = 753 sur la chaussée de l'A41
+    profil: "accotement 0,5 | ligne continue 3u | voie 4,0 → | ligne T'3 3u | BAU 2,0 | glissière | berme 1,5 herbe haute"   # [O] bretelle_sortie27 : lignes +2,05 / −1,95 ; [R] RF-MQ-SC-06 ; v2 : ni berme ni glissière à gauche (côté A41 : chevrons puis terre-plein d'herbe, f2 site_ign2024_t00)
   - nom: entrée Mi-Plaine vers Grenoble
     contexte: {vitesse: 70}              # [OSM] 4247747 maxspeed=70
-    polyligne: [[272.5, 120.0], [252.8, 96.8], [222.9, 86.1], [193.1, 75.4]]   # [OSM] 4247747
+    polyligne: [[272.5, 120.0], [270.9, 114.7], [269.0, 110.0], [266.7, 105.8], [264.1, 102.1], [261.1, 99.0], [257.7, 96.5], [254.0, 94.5], [250.0, 93.0]]   # v2 (18/10/2026) : départ [OSM] 4247747 au giratoire de Mi-Plaine, puis courbe serrée jusqu'au nez (chevrons) vers x ≈ 255-262 où sa voie devient la 3e voie du sens ouest ([O] IGN 2024 et 2021, site_ign2024_t01 ; [P] 5221bda4_+038) ; l'axe OSM courait ensuite 60 m SUR la chaussée de l'A41 (rendu v2 : bretelle posée en travers de la BAU et des voies, planche_dessus_site_ign_t02)
     profil: "berme 1,5 herbe haute | glissière | accotement 0,5 | ligne continue 3u | voie 4,0 → | ligne T'3 3u | BAU 1,5 | glissière | berme 1,5 herbe haute"   # [O] bretelle_entree_miplaine : +2,55 / −2,45 au raccord
 materiaux:
   chaussee: enrobé                       # [P] enrobé gris, quelques reprises
@@ -79,22 +100,22 @@ abords:
 extensions_auto:
   vitesses:                                                                            # B10 : vitesse par sens
     - {sens: →, de: 0, a: 808, repere: "abscisse cumulée des deux premiers tronçons", kmh: 110, prov: "P 07416282 (B14 110 des deux côtés) ; OSM 4247773"}
-    - {sens: ←, de: 206, a: 808, kmh: 90, prov: "OSM 4247746 maxspeed=90"}
-    - {sens: ←, de: 0, a: 206, kmh: 70, prov: "OSM 4247752 maxspeed=70 ; [P] 095f42ab"}
+    - {sens: ←, de: 260, a: 808, kmh: 90, prov: "OSM 4247746 maxspeed=90"}
+    - {sens: ←, de: 0, a: 260, kmh: 70, prov: "OSM 4247752 maxspeed=70 ; [P] 095f42ab, c97bad2a_-015 (B14 70 des deux côtés)"}
   extremite:                                                                           # B11 : début / fin d'autoroute
     a: 0
     sens_est: {panneaux: [{code: C207, cotes: [gauche, droite]}, {code: B14, valeur: 110, cotes: [gauche, droite]}, {code: D21_D43, texte: "A41 Turin-Milan Chambéry (bleu), N87 Sisteron, St-Martin-d'H. (vert)"}], prov: "P 07416282 (sur L'Alpine, ≈ 30 m avant s = 0)"}
     sens_ouest: {fin: "carrefour à feux (feux R11 sur mâts et sur potence), panneau « ZONE » de circulation restreinte, B1 et AB3a des branches voisines, balises de virage bleues et blanches", prov: "P 0916d10b, 31863b68"}
     carrefour: "carrefour à feux A41 / L'Alpine / avenue de Verdun (M14 du dossier 13) — hors lot B, à décrire avec les carrefours"
   raccordements:                                                                       # B2
-    - {type: divergence, de: "A41 extrémité ouest, entrée Mi-Plaine → section courante", sens: ←, a: 577, vers: "sortie 27 Mi-Plaine", a_vers: 0, musoir: {chevrons: oui, balise: J14a}, prov: "OSM 4247740 ; P 8eb030a9 (zone hachurée et balise au nez au loin)"}
-    - {type: convergence, vers: "A41 extrémité ouest, carrefour → entrée Mi-Plaine", sens: ←, a: 206.9, de: "entrée Mi-Plaine vers Grenoble", a_de: 95.2, mode: "ajout de voie (3e voie jusqu'au carrefour)", prov: "OSM 4247747 → 4247752 (3 voies)"}
-    - {type: continuite, de: "A41 extrémité ouest, carrefour → entrée Mi-Plaine", a: 206.9, vers: "A41 extrémité ouest, entrée Mi-Plaine → section courante", a_vers: 0, prov: "même médiane OSM"}
+    - {type: divergence, de: "A41 extrémité ouest, entrée Mi-Plaine → section courante", sens: ←, a: 420.3, vers: "sortie 27 Mi-Plaine", a_vers: 0, voie_quittante: "voie de décélération (s 420-528, biseau 498-528)", musoir: {chevrons: oui, de: 420.3, nez: 350.4, balise: J14a, rendu: "zone hachurée à la place de la BAU (v2)"}, prov: "OSM 4247740 ; P 8eb030a9 (zone hachurée et balise au nez au loin)"}
+    - {type: convergence, vers: "A41 extrémité ouest, carrefour → entrée Mi-Plaine", sens: ←, a: 259.0, de: "entrée Mi-Plaine vers Grenoble", a_de: 34.0, musoir: {chevrons: oui, note: "petit musoir de convergence en V vu sur l'ortho (x ≈ 255-265) ; non fabricable du côté ← (BESOINS.md A41O-2)"}, mode: "ajout de voie (3e voie jusqu'au carrefour)", prov: "OSM 4247747 → 4247752 (3 voies)"}
+    - {type: continuite, de: "A41 extrémité ouest, carrefour → entrée Mi-Plaine", a: 260.5, vers: "A41 extrémité ouest, entrée Mi-Plaine → section courante", a_vers: 0, prov: "même médiane OSM"}
     - {type: continuite, de: "A41 extrémité ouest, entrée Mi-Plaine → section courante", a: 601.3, vers: "auto_a41_section_courante / A41 section courante", a_vers: 0, prov: "même médiane OSM"}
   marquages_detail:                                                                    # B8
     - {type: fleche_rabattement, voie: "gauche, sens →", a: 45, nombre: 1, prov: "P 80d3d532 (une flèche vue dans la voie de gauche, à ≈ 15 m de la caméra) ; les autres éventuelles non vues"}
   dispositifs_retenue:                                                                 # B3
-    - {limite: "TPC (deux files)", type: glissiere_simple, de: 0, a: 808, prov: "P 80d3d532, 095f42ab"}
+    - {limite: "TPC, une file contre la BDG du sens est (sud)", type: glissiere_simple, de: 50, a: 808, prov: "v2 (18/10/2026) : P 80d3d532_-029 (début avec balise jaune), 140623f2_-017, c97bad2a_-015, 121deee8_+013, 661269be_-040, 5221bda4_+038, cb374a8d_-119, c1e3c195_-014 ; avant : « deux files » (faux)"}
     - {limite: "bords extérieurs", type: glissiere_simple, de: 0, a: 808, prov: "P 31863b68, 8eb030a9, 80d3d532"}
     - {limite: "TPC", type: balises_jaunes, de: 0, a: 60, prov: "P 80d3d532 (poteaux jaunes près du nez du TPC, type non identifié)"}
   equipements:

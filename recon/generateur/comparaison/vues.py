@@ -126,14 +126,39 @@ def masque_porteur(cam, porteur):
     return m
 
 
-def extraire_vue(photo_jpg, est360, lacet_image, tangage, fov_plan=None):
-    """Image de la vue (PIL RGB) et (W, H, champ) : 360° -> vue_equirect native ; plane -> image réduite à ≤ 1092."""
+def redresser_mapillary(im, mly):
+    """Photo Mapillary perspective ou fisheye -> image sténopé sans distorsion (modèles d'OpenSfM, f normalisée par
+    max(W, H), k1, k2) et son champ horizontal (°). Perspective : même focale ; fisheye : champ ramené à 100°."""
+    import cv2
+    a = np.asarray(im)
+    h, w = a.shape[:2]
+    cp = list(mly.get("camera_parameters") or [])
+    f = float(cp[0]) * max(w, h) if cp else None
+    k1, k2 = (float(cp[1]) if len(cp) > 1 else 0.0), (float(cp[2]) if len(cp) > 2 else 0.0)
+    if not f:
+        return im, None
+    K = np.array([[f, 0, w / 2.0], [0, f, h / 2.0], [0, 0, 1.0]])
+    if mly.get("camera_type") == "fisheye":
+        fn = (w / 2.0) / math.tan(math.radians(50.0))
+        Kn = np.array([[fn, 0, w / 2.0], [0, fn, h / 2.0], [0, 0, 1.0]])
+        b = cv2.fisheye.undistortImage(a, K, np.array([k1, k2, 0.0, 0.0]), Knew=Kn)
+        return Image.fromarray(b), 100.0
+    b = cv2.undistort(a, K, np.array([k1, k2, 0.0, 0.0]))
+    return Image.fromarray(b), math.degrees(2.0 * math.atan(w / (2.0 * f)))
+
+
+def extraire_vue(photo_jpg, est360, lacet_image, tangage, fov_plan=None, mly=None):
+    """Image de la vue (PIL RGB) et (W, H, champ) : 360° -> vue_equirect native ; plane -> image réduite à ≤ 1092
+    (Mapillary perspective ou fisheye : redressée d'abord, `mly` = paramètres de la caméra)."""
     im = Image.open(photo_jpg).convert("RGB")
     if est360:
         W = im.size[0]
         fov = fov_equirect(W)
         vue = decoupe.vue_equirect(np.asarray(im), lacet_image, tangage, fov, TAILLE)
         return vue, (TAILLE, TAILLE, fov)
+    if mly and mly.get("camera_type") in ("perspective", "fisheye"):
+        im, fov_r = redresser_mapillary(im, mly)
+        fov_plan = fov_r or fov_plan
     w, h = im.size
     k = min(1.0, TAILLE / max(w, h))
     W, H = int(round(w * k)), int(round(h * k))

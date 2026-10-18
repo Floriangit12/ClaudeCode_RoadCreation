@@ -6,6 +6,8 @@ av. de Verdun, près du rond-point du Lycée »). Point du site : 45,213561 N, 5
 
 **État décrit : 28/07/2026** (campagne IGN, photos planes 92° de 10:59), le plus récent.
 
+**Réseau (lot N1, 18/10/2026).** date d'état **28/07/2026** ; Verdun sud-ouest finit sur `N_VERDUN_M08_SO` (médiane OSM, 2 m du bout d'avant) : l'axe de `axe_verdun_centre` y finit (recouvrement de 35,7 m supprimé) ; le profil de ce site est le contrat du joint. Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
 ## 1. Description simple
 
 > Carrefour à feux en croix sur l'avenue de Verdun, qui a ici deux chaussées séparées par des îlots plantés. Depuis le
@@ -17,16 +19,21 @@ av. de Verdun, près du rond-point du Lycée »). Point du site : 45,213561 N, 5
 > bas au milieu des passages, butte plantée d'arbustes couvre-sol dans le grand îlot, murets et palissades avec
 > affiches. Enrobé fissuré avec pontages, tirets de guidage peints dans le carrefour.
 
-## 2. Ordre de construction proposé
+## 2. Ordre de construction (celui de la chaîne)
 
-1. **Plate-forme** : pente douce vers le sud-ouest (z ≈ 249 m).
-2. **Chaussées** : Verdun à chaussées séparées, Chamrousse, Chaumetière, zone de conflit centrale.
-3. **Bordures et îlots** : îlots séparateurs de Verdun, îlot planté de Chamrousse, petit îlot rond, nez avec balises.
-4. **Trottoirs, pistes, bandes plantées** : bande plantée de 8 m, pistes, liaisons revêtues aux passages.
-5. **Marquages** : voies affectées et flèches, lignes d'effet, passages, bande cyclable de Chamrousse (les tirets
-   observés dans le carrefour ne sont pas reproduits par défaut : ARB-08).
-6. **Signalisation et feux** : feux sur les 4 entrées, R12, panneaux d'affectation, balises de nez.
-7. **Végétation et mobilier** : buttes d'arbustes, grands arbres, murets, palissades, potelets, candélabres.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 plate-forme | pente douce vers le sud-ouest (z ≈ 249 m) |
+| E08 bordures | îlots séparateurs de Verdun, îlot planté de Chamrousse, petit îlot rond, nez |
+| E10 chaussée | Verdun à chaussées séparées, Chamrousse, Chaumetière, zone de conflit centrale |
+| E11 trottoirs, pistes | bande plantée de 8 m, pistes, liaisons revêtues aux passages |
+| E12 marquages | voies affectées et flèches, lignes d'effet, passages, bande cyclable de Chamrousse (les tirets observés dans le carrefour ne sont pas reproduits par défaut : ARB-08) |
+| E14 signalisation et feux | feux sur les 4 entrées, R12, panneaux d'affectation, balises de nez |
+| E15 éclairage | candélabres |
+| E16 mobilier | murets, palissades, potelets |
+| E17 végétation (plus tard) | buttes d'arbustes, grands arbres |
 
 ## 3. Constats et provenance
 
@@ -46,3 +53,28 @@ av. de Verdun, près du rond-point du Lycée »). Point du site : 45,213561 N, 5
 - L'allée du Château (zone 30) au sud-est et les liaisons internes (OSM primary_link) ne sont pas décrites.
 - Les tirets de guidage, les buttes plantées, le petit îlot rond et les palissades n'ont pas de mot ou sont exclus
   par règle (`../BESOINS_FORMAT.md`).
+
+## Étape 3 — reconstruction (18/10/2026)
+
+- Itération 1 : la bande plantée entre Verdun nord-est et la piste ne fait ≈ 2 m qu'au-delà de 50 m du centre et
+  s'élargit à 8 m en approchant (photos 0c2f5716, a86b55d2 ; coupe ne_30) ; les deux sens de Chamrousse s'écartent
+  autour d'un îlot planté d'environ 5 m (photos 208a1f46, cb597029, 921c90d1 ; OSM 7838796 / 7838799), largeur
+  constante (l'îlot réel est triangulaire, BESOINS.md L2).
+- Rapport : `RECONSTRUCTION.md` ; manques du générateur : `BESOINS.md`.
+
+## Étape 3, passe v2 — centre relu (18/10/2026)
+
+Dossier de compréhension v2 lu en tuiles natives (59 photos, 129 vues dont 52 du centre ; IGN 2015 à 2025, levé GAM en
+surimpression) : `COMPREHENSION.md`. Description simple du centre, telle qu'on la dirait :
+
+> Un carrefour très ouvert : les médianes plantées de Verdun finissent chacune par un nez revêtu qui avance jusqu'au
+> cœur et porte le refuge du passage ; l'avenue de Chamrousse arrive très en biais, ses deux sens écartés autour d'une
+> butte plantée ; un long passage en biais longe le bord nord-ouest de Verdun avec de petits refuges à balise J5, et
+> des traversées cyclables en carrés coupent le cœur ; le chemin de Chaumetière s'évase au débouché.
+
+| Itération | Changement | Preuve |
+|---|---|---|
+| v2-1 | médianes de Verdun NE et SO en béton depuis ≈ 26 m jusqu'au cœur : îlots portés par le profil, refuges des passages (la passe 1 n'avait aucun îlot dans le carrefour) ; liaison revêtue NE réduite à 3 m ; passage de Chaumetière en retrait de 0,6 m | `gam_NE`, `gam_SO`, `gam_SE` (IGN 2024 + levé GAM) ; 54c3c177 -008, 8892229b -012 (18/05/2025), 6b04ee98 (28/07/2026) |
+
+Hors format : `BESOINS.md` (LY-1 nez d'îlot dans la zone de conflit, LY-2 long passage en biais, LY-3 traversées en
+carrés et refuges à J5, LY-4 embouchure évasée ; L1-L4 de la passe 1).

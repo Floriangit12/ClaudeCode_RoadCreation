@@ -208,11 +208,13 @@
      "compilateur de réseau de l'étape 2 en cours d'écriture : `description/carrefours.py`, format `description_simple/0.2` (troncons[] à id, carrefours, giratoires, bretelles ; scènes `scenes_carrefours/J1` à `J3`)",
      "descriptions de sites de Meylan en cours dans les lots voisins (`recon/generateur/meylan/<site>/` : description.yaml, mesures.json, photos.json, et `extensions_auto` pour ce que le format ne dit pas encore)",
      "12 exemples, catalogue S01 à S12, trois rues de Meylan décrites d'après photo (M20, M24, M27)",
-     "inférence OSM → modèle avec nœuds partagés et carrefours topologiques"
+     "inférence OSM → modèle avec nœuds partagés et carrefours topologiques",
+     "résolveur de la couche réseau (lot N1, 18/10/2026) : `recon/generateur/reseau/resoudre_reseau.py` (nœuds ancrés et partagés, valeurs approchées, positions en mots, accrochage à OSM, raccords de profil, fusions, composition de sites), appelé par `description_vers_modele.py` ; réseau commun de Meylan `meylan/reseau_meylan.yaml` ; 15 sites au format réseau"
     ],
     "manque": [
-     "couche réseau (proposée : FORMAT_DESCRIPTION_RESEAU.md) : nœuds ancrés, valeurs approchées, accrochage à OSM, itinéraires, ouvrages, échangeurs",
-     "résolveur (lot N1)"
+     "mesures lues automatiquement (OSM width:lanes, BD TOPO, coupes de mesures.json) dans le choix des valeurs approchées",
+     "coupure d'un tronçon par un nœud « sur » ; ancrage symbolique relatif à un carrefour (FORMAT_DESCRIPTION_RESEAU § 6.4) ; tracé qualitatif",
+     "itinéraires, ouvrages et échangeurs : lus et recopiés dans compilation_reseau.json, pas encore portés par le modèle (schéma modele_voie/0.2)"
     ]
    },
    "lot": "N1"
@@ -337,10 +339,11 @@
    "etat": {
     "existe": [
      "inférence OSM : nœuds partagés et carrefours (osm_vers_modele.py l. 585-613 ; `carrefour_plan` l. 766 ; `carrefour_giratoire` l. 928)",
-     "rg::graphe : branches et valence"
+     "rg::graphe : branches et valence",
+     "nœuds partagés entre sites et fusion des tronçons aux raccords de valence 2 (`recon/generateur/reseau/fusion.py`) : une route continue d'un carrefour à l'autre dans une scène composée"
     ],
     "manque": [
-     "description : chaque tronçon isolé reçoit deux nœuds `limite_carte` (description_vers_modele.py l. 2221-2222) ; l'étape 2 crée désormais les nœuds des carrefours décrits (`description/carrefours.py`), mais pas encore les nœuds de connexion ni les ancrages",
+     "description : un nœud de raccord jumelé (deux chaussées à sens unique au bout d'une route à double sens) ou une divergence de bretelles reste une limite de carte (besoin B2) ; les itinéraires ne sont pas encore portés par le modèle",
      "itinéraires, mouvements voie à voie, fusion des carrefours complexes",
      "lecture des carrefours dans Houdini (lot de l'étape 2)"
     ]
@@ -359,7 +362,7 @@
     "polylignes OSM ou tracé décrit",
     "mesures d'axe sur l'ortho",
     "MNT ou LiDAR HD : 4 dalles de 1 km² autour de Paquet Jardin (`data/sites/paquet_jardin/avant_travaux/lidar_hd*`) ; le reste de Meylan est à télécharger (lacune L-08)",
-    "gabarits verticaux des ouvrages (E04, E07)"
+    "gabarits verticaux des ouvrages : donnée de description (`ouvrages[].gabarit`, E00) ou règle RF-GV-PON-012 (relecture C1 : E02 ne lit plus de sortie postérieure)"
    ],
    "sorties": [
     {
@@ -917,6 +920,10 @@
     {
      "fichier": "recon/out/generateur/meylan/<reseau>/niveau/hydraulique.json",
      "contrat": "points bas et leur exutoire, pente de chaque file de fil d'eau, bassins de surface et aire collectée"
+    },
+    {
+     "fichier": "recon/out/generateur/meylan/<reseau>/niveau/terrain.json",
+     "contrat": "terrain naturel, talus et abaissement sous les ouvrages, calculés ici (relecture C2) ; E07 n'en fait que les maillages"
     }
    ],
    "hda": [
@@ -997,7 +1004,7 @@
     },
     {
      "id": "P06-4",
-     "controle": "aucun point bas sans exutoire (avaloir à moins de 1 m)",
+     "controle": "chaque point bas a un exutoire prévu (position d'avaloir) ; la pose est contrôlée par P09-1 (relecture C3)",
      "seuil": "0",
      "regle": "GA-CHA-004 ; CC-12"
     },
@@ -1049,7 +1056,7 @@
    "phase": "C",
    "proposition": "nouvelle",
    "nom": "Terrassements, plate-forme et ouvrages d'art",
-   "but": "Fabriquer ce qui porte la chaussée. D'abord la plate-forme étanche, raccordée au terrain par des talus. Puis les murs de soutènement et les ouvrages : tablier, corniches, piles, culées, joints, trémies, par exemple les trois ponts OSM de la bretelle de la Rocade Sud vers l'A41 et l'« Hélice de Meylan ». Le terrain est abaissé sous les ouvrages.",
+   "but": "Fabriquer ce qui porte la chaussée. D'abord la plate-forme étanche, raccordée au terrain par des talus. Puis les murs de soutènement et les ouvrages : tablier, corniches, piles, culées, joints, trémies, par exemple les trois ponts OSM de la bretelle de la Rocade Sud vers l'A41 et l'« Hélice de Meylan ». Le terrain, les talus et l'abaissement sous les ouvrages sont ceux calculés en E06 : E07 en fait les maillages et ne modifie aucune cote (P2 ; relecture C2).",
    "entrees": [
     "plan-masse et Z (E05, E06)",
     "`ouvrages[]` du modèle (routes portées, franchit, gabarit, travées)",
@@ -1522,8 +1529,8 @@
    ],
    "sorties": [
     {
-     "fichier": "recon/out/generateur/meylan/<reseau>/fabrique/sol_<tuile>.usda",
-     "contrat": "faces non circulées dans le même maillage que E10 (même triangulation)"
+     "fichier": "recon/out/generateur/meylan/<reseau>/fabrique/revetements_<tuile>.usda",
+     "contrat": "matériaux, joints, BEV et remplissages des faces non circulées, sur la triangulation d'E10 (couche à part : seule E10 possède sol_<tuile>.usda ; relecture C4)"
     },
     {
      "fichier": "recon/out/generateur/meylan/<reseau>/fabrique/ilots.usda",
@@ -2689,7 +2696,8 @@
    "rupture": "Chaque tronçon décrit seul reçoit ses deux nœuds `limite_carte` : il n'y a ni nœud partagé ni carrefour. L'étape 2 corrige en ce moment le cas des carrefours décrits (`description/carrefours.py`) ; restent les nœuds de connexion, les ancrages et les itinéraires.",
    "preuve": "description/description_vers_modele.py l. 2221-2222",
    "etape": "E00, E01",
-   "lot": "N1"
+   "lot": "N1",
+   "etat_lot_N1": "levée pour les tronçons qui se suivent par un nœud nommé : fusion en une route (reseau/fusion.py), dans un site et dans une scène composée ; restent les raccords jumelés et les divergences (B2)"
   },
   {
    "id": "R-02",
@@ -2782,7 +2790,8 @@
     "N0",
     "compilateur de réseau de l'étape 2"
    ],
-   "critere": "une description au format de l'étape 2 ressort du résolveur identique à l'octet ; S01-S12, J1-J3, exemples et M20/M24/M27 : empreintes sha256 des modèles inchangées ; porte P01 sur 2 réseaux de Meylan"
+   "critere": "une description au format de l'étape 2 ressort du résolveur identique à l'octet ; S01-S12, J1-J3, exemples et M20/M24/M27 : empreintes sha256 des modèles inchangées ; porte P01 sur 2 réseaux de Meylan",
+   "etat": "fait le 18/10/2026 : resoudre_reseau.py, approx.py, osm_reseau.py, fusion.py, composer.py, yaml_ecrire.py, tests (tester_reseau.py : 92 / 92 ; empreintes.py : modèles des 42 scènes de référence identiques) ; réseau commun de Meylan et 15 sites harmonisés ; porte P01 (P01-1, P01-2) dans compilation_reseau.json ; reste : schéma modele_voie/0.2 et modele_reseau.json (passe 3 du format)"
   },
   {
    "id": "N2",
@@ -3007,5 +3016,84 @@
    "Le solveur de carrefours, les types de bordures, les giratoires, les autoroutes et les véhicules appartiennent à l'étape 2 ; la chaîne réseau consomme leurs sorties (E04) sans les réécrire.",
    "Sorties du réseau dans recon/out/generateur/meylan/<reseau>/, sans collision avec recon/out/generateur/<scene>/."
   ]
+ },
+ "mise_a_jour": "2026-10-18, lot N1 (réseau) : ordre unique (ordre_unique), résolveur écrit (E00, E01, lot N1), correctifs C1 à C4 de la relecture de la préparation",
+ "ordre_unique": {
+  "regle": "Un seul ordre de construction : celui de la chaîne (E07 à E17). Les ordres propres aux sites (DESCRIPTION.md § 2 des sites de meylan/, extensions_auto.etapes du lot B) ne sont que des notes, rangées dans ces étapes ; les phases P01 à P11 des assets de l'étape 3 portent leur étape (catalogue_assets_route.json, etape3.phases_chantier[].etape_chaine). Relecture de la préparation, § 3 et X1 ; aligné par le lot N1 le 18/10/2026.",
+  "raison": "chaque écart à l'ordre « bitume, trottoirs, panneaux, flèches » est une dépendance de données : bordures et caniveaux = coffrage de l'enrobé (TQ-BOR-007) ; AB4 au droit de la ligne STOP (RF-SV-AB4.POSITION) ; R11 au droit de la ligne d'effet (RF-FEU.POSITION_LIGNE_EFFET) ; C24 dès qu'il y a des flèches (RF-MQ-DIR-01) ; distance arbre-candélabre contrôlée à la pose des arbres (RI ECL-05)",
+  "phases_assets": [
+   {
+    "phase": "P01_reseaux",
+    "etapes": [
+     "E07",
+     "E09"
+    ],
+    "note": "terrassements en E07 ; regards et chambres en E09"
+   },
+   {
+    "phase": "P02_bordures",
+    "etapes": [
+     "E08"
+    ],
+    "note": "l'avaloir de la famille P02 se pose en E09"
+   },
+   {
+    "phase": "P03_chaussee",
+    "etapes": [
+     "E10"
+    ]
+   },
+   {
+    "phase": "P04_trottoirs",
+    "etapes": [
+     "E11"
+    ]
+   },
+   {
+    "phase": "P05_affleurants",
+    "etapes": [
+     "E09"
+    ]
+   },
+   {
+    "phase": "P06_retenue",
+    "etapes": [
+     "E13"
+    ]
+   },
+   {
+    "phase": "P07_eclairage",
+    "etapes": [
+     "E15"
+    ],
+    "note": "après les panneaux et les feux"
+   },
+   {
+    "phase": "P08_signalisation",
+    "etapes": [
+     "E14"
+    ]
+   },
+   {
+    "phase": "P09_feux",
+    "etapes": [
+     "E14"
+    ]
+   },
+   {
+    "phase": "P10_marquage",
+    "etapes": [
+     "E12"
+    ],
+    "note": "avant la retenue, les panneaux, les feux et l'éclairage"
+   },
+   {
+    "phase": "P11_mobilier",
+    "etapes": [
+     "E16"
+    ]
+   }
+  ],
+  "assets_etape1": "les 120 assets de l'étape 1 sans phase prennent l'étape de leur famille (bordures et caniveaux E08, garde-corps E13, supports et feux E14, potelets et barrières E16) ; le champ n'est pas encore écrit entrée par entrée"
  }
 }

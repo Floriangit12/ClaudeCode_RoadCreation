@@ -1,0 +1,37 @@
+{
+ "schema": "comparaison_sites/0.1",
+ "note": "Configuration de comparaison multivues du site (étape 3, lot A carrefours), lue par comparaison/comparer_multivues.py --sites-conf. Le modèle d'un site de Meylan est dans le repère local du site (x vers l'est, y vers le nord, origine = « origine » de description.yaml) : l'ancrage est donc l'origine Lambert-93 du site et l'azimut grille 90° de l'axe x (aucun ajustement OSM ni photo). s et t de l'outil sont alors x et y du site. Seuls des identifiants, dates et positions figurent ici.",
+ "porteurs_sequences": {
+  "note": "Porteur de la caméra par séquence Panoramax (identifiant de collection), quand la sémantique « transport » manque ou que la vitesse est ambiguë : constaté sur les photos (capot ou toit de voiture, sac à dos, casque) ou repris de recon/pcg/enrichir/camera.py SEQUENCES (mêmes contributeurs, mêmes journées). Sans entrée : sémantique « transport » de la séquence, sinon vitesse médiane de la séquence (> 32 km/h voiture, < 20 km/h vélo ou piéton, entre les deux inconnu).",
+  "4ef310d0-": "velo",
+  "dda9fddd-": "velo",
+  "2b630cec-": "velo",
+  "69791f81-": "velo",
+  "dff66b1c-": "velo",
+  "86c4aa13-": "voiture",
+  "7b1d9477-": "voiture",
+  "a622e3ce-": "voiture",
+  "203bb147-": "voiture",
+  "36c713af-": "voiture"
+ },
+ "sites": {
+  "meylan_verdun_lycee_feux": {
+   "titre": "Carrefour à feux Verdun x Chamrousse x Chaumetière (Meylan), état du 28/07/2026",
+   "modele": "recon/out/generateur/meylan_verdun_lycee_feux",
+   "description": "recon/generateur/meylan/verdun_lycee_feux/description.yaml",
+   "ancrage": {
+    "origine_l93": [
+     917989.78,
+     6460971.81
+    ],
+    "azimut_grille_deg": 90.0
+   },
+   "point_interet": {
+    "s": 0.0,
+    "t": 0.0,
+    "nom": "centre du carrefour"
+   },
+   "date_reference": "2026-07-28T12:00:00+00:00"
+  }
+ }
+}

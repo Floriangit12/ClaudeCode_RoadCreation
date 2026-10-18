@@ -4,7 +4,15 @@ d'écarts. Voir README.md.
 
     python recon/generateur/comparaison/comparer_multivues.py S_M20 S_M24 S_M27
            [--etapes selection,pose,rendu,planches] [--rafraichir] [--depuis 2019-01-01] [--echantillons 128]
-           [--sites recon/generateur/comparaison/sites_meylan.json]
+           [--sites-conf recon/generateur/comparaison/sites_meylan.json]
+    v2 (dossier de compréhension à LIRE PAR LE MODÈLE : kit multi-orthos datées, sélection guidée par la couverture
+    des zones d'intérêt, 40 à 60 photos pour un carrefour ou un giratoire, plusieurs vues par photo 360°, Mapillary en
+    complément, vue de dessus rendu | ortho, carte de couverture, index des vues, grille du centre ; etapes_v2.py) :
+    python recon/generateur/comparaison/comparer_multivues.py meylan_paquet_jardin --v2
+           --sites-conf recon/generateur/meylan/paquet_jardin/comparaison_site.json
+           [--sortie recon/out/generateur/meylan_paquet_jardin/comparaison] [--depuis 2024-08-24] [--jusqu-au 2025-06-22]
+           [--complement-depuis 2019-01-01 | non] [--etapes selection,orthos,pose,rendu,dessus,planches,dossier]
+           [--processus 4] [--sans-mapillary] [--couches-orthos pcrs2022,ign2024,...]
 
 Entrées (lecture seule) : recon/out/generateur/<scène>/ (modèle fabriqué, l2, l2b, rendus/scene_rendu.usda), la
 configuration des sites (ancrage), OSM local (data/vector_gz/osm), API publique Panoramax.
@@ -41,6 +49,7 @@ DEPOT = ICI.parents[2]
 SORTIE = DEPOT / "recon" / "out" / "generateur" / "comparaison"
 HYTHON = Path("C:/Program Files/Side Effects Software/Houdini 22.0.459/bin/hython.exe")
 ETAPES = ("selection", "pose", "rendu", "planches")
+ETAPES_V2 = ("selection", "orthos", "pose", "rendu", "dessus", "planches", "dossier")
 SEUIL_VALIDATION = 0.03       # amélioration relative minimale du score sur les segments de validation
 
 
@@ -90,6 +99,96 @@ def cam_depuis(d):
                     d["tangage_deg"], d["roulis_deg"])
 
 
+def poser_vue(ph, jpg, r_vert, coh, m, A, P, T, typ, dossier_vues, cle=None):
+    """Pose d'une vue (redressement par les verticales, affinage validé, mesures) : enregistrement de poses.json.
+    r_vert : résultat de vues.verticale_360 de la photo (360°) ou None ; coh : cohérence de séquence de la photo ;
+    cle : nom des fichiers de la vue (v1 : id8 ; v2 : id8 + lacet de la vue)."""
+    t0 = time.time()
+    cle = cle or ph["id8"]
+    est360 = ph["type"] == "360"
+    img, (W, H, fov) = V.extraire_vue(jpg, est360, ph["vue"]["lacet_image_deg"], ph["vue"]["tangage_deg"],
+                                      None if est360 else ph["vue"]["champ_deg"], mly=ph.get("mly"))
+    vue_png = Path(dossier_vues) / f"vue_{cle}.png"
+    vue_png.parent.mkdir(parents=True, exist_ok=True)
+    img.save(vue_png)
+    x, y = ph["l93"]
+    s, t = (float(v) for v in A.vers_modele(x, y))
+    por = ph["porteur"]
+    z = m.z_sol(s, t)
+    az_v = ph["cap_vrai_deg"] + ph["vue"]["lacet_image_deg"]
+    az_g = geo.az_vrai_vers_grille(az_v, ph["lon"], ph["lat"])
+    cam0 = V.Camera(W, H, fov, np.array([s, t, z + V.PORTEURS[por]["h"]]), A.lacet(az_g), ph["vue"]["tangage_deg"], 0.0)
+    masque = V.masque_porteur(cam0, por)
+    sig = float(ph.get("precision_m") or 4.0)
+    # redressement par les verticales (photos 360° : la caméra portée ou fixée de travers n'est pas de niveau)
+    cam_dep, redr = cam0, None
+    r = r_vert
+    if est360 and r is not None:
+        u, n_seg, res_deg = r
+        incl = math.degrees(math.acos(min(1.0, float(u[2]))))
+        lac_c = A.lacet(geo.az_vrai_vers_grille(ph["cap_vrai_deg"], ph["lon"], ph["lat"]))
+        lac, tg, rl = V.orientation_redressee(lac_c, u, ph["vue"]["lacet_image_deg"], ph["vue"]["tangage_deg"])
+        # appliqué seulement si : inclinaison ≥ 3° (en deçà, l'imprécision du redressement, résidu 0,5 à 1° soit 7 à
+        # 14 px dans la vue, dépasse ce qu'il corrige), ≥ 30 segments, résidu ≤ 1°, et cohérent avec les autres
+        # photos de la même séquence (même support de caméra : à 4° de leur verticale médiane). Essais du
+        # 18/10/2026 : les scènes boisées (troncs penchés) donnaient des inclinaisons de 6 à 23° dans une même
+        # séquence, fausses (ef372e02) ; la séquence au casque du 12/01/2025 donne 16 à 20°, stable et juste.
+        applique = incl >= 3.0 and n_seg >= 30 and res_deg <= 1.0 and coh.get("coherent", False)
+        if applique:
+            cam_dep = V.Camera(W, H, fov, cam0.C.copy(), lac, tg, rl)
+        redr = {"inclinaison_deg": round(incl, 2), "applique": applique, "segments": n_seg,
+                "residu_deg": round(res_deg, 2), "verticale_photo": [round(float(v), 5) for v in u],
+                "sequence": coh, "correction_vue": {"dlacet": round(lac - cam0.lacet, 3),
+                                                    "dtangage": round(tg - cam0.tangage, 3),
+                                                    "droulis": round(rl - cam0.roulis, 3)}}
+    al = PO.Alignement(cam_dep, P, T, typ, img, masque, porteur=por, sigma_xy=max(2.0, min(sig, 6.0)), modele=m,
+                       cam_meta=cam0)
+    m0 = al.mesures(None, cam=cam0)
+    res = al.affiner(SEUIL_VALIDATION)
+    rec = {"id": ph["id"], "id8": ph["id8"], **({"cle": cle} if cle != ph["id8"] else {}), "vue": ph["vue"], "porteur": por, "fichier_vue": vue_png.name,
+           "camera_initiale": cam0.dict(), "mesures_initiales": m0, "points_modele_vus": al.n,
+           "segments_photo": {"retenus": int(len(al.segments)), "ecartes": al.ecart_segments},
+           "garde_fous": al.bornes | {"deplacement_m": PO.DEPLACEMENT_MAX}, "a_priori_sigma": al.sigma,
+           "redressement_verticales": redr, "emprise_verticale_modele": round(al.emprise_verticale(), 3)}
+    if res is None:
+        rec.update({"camera_affinee": None, "statut": "non affinée : trop peu d'arêtes du modèle ou de segments",
+                    "mesures_affinees": m0, "confiance": {"indice": 0.0, "niveau": "faible"},
+                    "score_ameliore": False, "validation_amelioree": False})
+    else:
+        x6 = res["x"]
+        m1 = al.mesures(x6)
+        conf = PO.confiance(m0, m1, x6, al.n, res["stabilite"], res["validation"], al.bornes, al.emprise_verticale())
+        niveau = res["niveau"]
+        rec.update({"validation": res["validation"], "confiance": conf, "niveau_affinage": niveau,
+                    "validation_amelioree": niveau is not None})
+        if niveau is not None and m1["score_tau10"] < m0["score_tau10"]:
+            cam1 = al.camera(x6)
+            corr = {"ds": cam1.C[0] - cam0.C[0], "dt": cam1.C[1] - cam0.C[1], "dlacet": cam1.lacet - cam0.lacet,
+                    "dtangage": cam1.tangage - cam0.tangage, "droulis": cam1.roulis - cam0.roulis,
+                    "dh": cam1.C[2] - cam0.C[2]}
+            rec.update({"camera_affinee": cam1.dict(), "mesures_affinees": m1,
+                        "statut": "affinée (" + {"complete": "pose complète", "orientation": "orientation seule",
+                                                 "redressement": "redressement par les verticales"}[niveau] + ")",
+                        "correction": {k: round(float(v), 3) for k, v in corr.items()}
+                        | {"deplacement_m": round(float(math.hypot(corr["ds"], corr["dt"])), 3)},
+                        "amelioration_score_relative": round((m0["score_tau10"] - m1["score_tau10"])
+                                                             / max(m0["score_tau10"], 1e-6), 4),
+                        "etalement": round(al.etalement(x6), 3), "score_ameliore": True})
+        else:
+            rec.update({"camera_affinee": None, "mesures_affinees": m0, "score_ameliore": False,
+                        "statut": "affinage rejeté (validation, garde-fou ou écrasement) : pose des métadonnées"})
+    rec["duree_s"] = round(time.time() - t0, 1)
+    journal(f"    pose {cle} ({ph['vue']['quadrant']:6s}) : {al.n:5d} points, {len(al.segments):4d} segments ; "
+            f"recouvrement 3 px {m0.get('recouvrement_3px', 0):.3f} -> {rec['mesures_affinees'].get('recouvrement_3px', 0):.3f} ; "
+            f"écart moyen {m0.get('ecart_moyen_px', 0):.2f} -> {rec['mesures_affinees'].get('ecart_moyen_px', 0):.2f} px ; "
+            f"redr. {(rec.get('redressement_verticales') or {}).get('inclinaison_deg', 0):4.1f}° "
+            f"val. redr. {rec.get('validation', {}).get('redressement', {}).get('amelioration_relative', 0):+.3f} "
+            f"orient. {rec.get('validation', {}).get('orientation', {}).get('amelioration_relative', 0):+.3f} "
+            f"compl. {rec.get('validation', {}).get('complete', {}).get('amelioration_relative', 0):+.3f} ; "
+            f"{rec['statut'][:40]} ; confiance {rec['confiance']['niveau']} ; {rec['duree_s']} s")
+    return rec
+
+
 def etape_pose(site, sel):
     m, A = site.modele, site.ancrage
     P, T, typ = m.aretes()
@@ -107,95 +206,17 @@ def etape_pose(site, sel):
             verticales[ph["id"]] = V.verticale_360(im_r)
     coherence = coherence_verticales(sel, verticales)
     for ph in sel["photos"]:
-        t0 = time.time()
-        jpg = jpgs[ph["id"]]
-        est360 = ph["type"] == "360"
-        img, (W, H, fov) = V.extraire_vue(jpg, est360, ph["vue"]["lacet_image_deg"], ph["vue"]["tangage_deg"],
-                                          None if est360 else ph["vue"]["champ_deg"])
-        vue_png = site.dossiers["vues"] / f"vue_{ph['id8']}.png"
-        vue_png.parent.mkdir(parents=True, exist_ok=True)
-        img.save(vue_png)
-        x, y = ph["l93"]
-        s, t = (float(v) for v in A.vers_modele(x, y))
-        por = ph["porteur"]
-        z = m.z_sol(s, t)
-        az_v = ph["cap_vrai_deg"] + ph["vue"]["lacet_image_deg"]
-        az_g = geo.az_vrai_vers_grille(az_v, ph["lon"], ph["lat"])
-        cam0 = V.Camera(W, H, fov, np.array([s, t, z + V.PORTEURS[por]["h"]]), A.lacet(az_g), ph["vue"]["tangage_deg"], 0.0)
-        masque = V.masque_porteur(cam0, por)
-        sig = float(ph.get("precision_m") or 4.0)
-        # redressement par les verticales (photos 360° : la caméra portée ou fixée de travers n'est pas de niveau)
-        cam_dep, redr = cam0, None
-        r = verticales.get(ph["id"])
-        if est360 and r is not None:
-            u, n_seg, res_deg = r
-            incl = math.degrees(math.acos(min(1.0, float(u[2]))))
-            lac_c = A.lacet(geo.az_vrai_vers_grille(ph["cap_vrai_deg"], ph["lon"], ph["lat"]))
-            lac, tg, rl = V.orientation_redressee(lac_c, u, ph["vue"]["lacet_image_deg"], ph["vue"]["tangage_deg"])
-            coh = coherence.get(ph["id"], {})
-            # appliqué seulement si : inclinaison ≥ 3° (en deçà, l'imprécision du redressement, résidu 0,5 à 1° soit 7 à
-            # 14 px dans la vue, dépasse ce qu'il corrige), ≥ 30 segments, résidu ≤ 1°, et cohérent avec les autres
-            # photos de la même séquence (même support de caméra : à 4° de leur verticale médiane). Essais du
-            # 18/10/2026 : les scènes boisées (troncs penchés) donnaient des inclinaisons de 6 à 23° dans une même
-            # séquence, fausses (ef372e02) ; la séquence au casque du 12/01/2025 donne 16 à 20°, stable et juste.
-            applique = incl >= 3.0 and n_seg >= 30 and res_deg <= 1.0 and coh.get("coherent", False)
-            if applique:
-                cam_dep = V.Camera(W, H, fov, cam0.C.copy(), lac, tg, rl)
-            redr = {"inclinaison_deg": round(incl, 2), "applique": applique, "segments": n_seg,
-                    "residu_deg": round(res_deg, 2), "verticale_photo": [round(float(v), 5) for v in u],
-                    "sequence": coh, "correction_vue": {"dlacet": round(lac - cam0.lacet, 3),
-                                                        "dtangage": round(tg - cam0.tangage, 3),
-                                                        "droulis": round(rl - cam0.roulis, 3)}}
-        al = PO.Alignement(cam_dep, P, T, typ, img, masque, porteur=por, sigma_xy=max(2.0, min(sig, 6.0)), modele=m,
-                           cam_meta=cam0)
-        m0 = al.mesures(None, cam=cam0)
-        res = al.affiner(SEUIL_VALIDATION)
-        rec = {"id": ph["id"], "id8": ph["id8"], "vue": ph["vue"], "porteur": por, "fichier_vue": vue_png.name,
-               "camera_initiale": cam0.dict(), "mesures_initiales": m0, "points_modele_vus": al.n,
-               "segments_photo": {"retenus": int(len(al.segments)), "ecartes": al.ecart_segments},
-               "garde_fous": al.bornes | {"deplacement_m": PO.DEPLACEMENT_MAX}, "a_priori_sigma": al.sigma,
-               "redressement_verticales": redr, "emprise_verticale_modele": round(al.emprise_verticale(), 3)}
-        if res is None:
-            rec.update({"camera_affinee": None, "statut": "non affinée : trop peu d'arêtes du modèle ou de segments",
-                        "mesures_affinees": m0, "confiance": {"indice": 0.0, "niveau": "faible"},
-                        "score_ameliore": False, "validation_amelioree": False})
-        else:
-            x6 = res["x"]
-            m1 = al.mesures(x6)
-            conf = PO.confiance(m0, m1, x6, al.n, res["stabilite"], res["validation"], al.bornes, al.emprise_verticale())
-            niveau = res["niveau"]
-            rec.update({"validation": res["validation"], "confiance": conf, "niveau_affinage": niveau,
-                        "validation_amelioree": niveau is not None})
-            if niveau is not None and m1["score_tau10"] < m0["score_tau10"]:
-                cam1 = al.camera(x6)
-                corr = {"ds": cam1.C[0] - cam0.C[0], "dt": cam1.C[1] - cam0.C[1], "dlacet": cam1.lacet - cam0.lacet,
-                        "dtangage": cam1.tangage - cam0.tangage, "droulis": cam1.roulis - cam0.roulis,
-                        "dh": cam1.C[2] - cam0.C[2]}
-                rec.update({"camera_affinee": cam1.dict(), "mesures_affinees": m1,
-                            "statut": "affinée (" + {"complete": "pose complète", "orientation": "orientation seule",
-                                                     "redressement": "redressement par les verticales"}[niveau] + ")",
-                            "correction": {k: round(float(v), 3) for k, v in corr.items()}
-                            | {"deplacement_m": round(float(math.hypot(corr["ds"], corr["dt"])), 3)},
-                            "amelioration_score_relative": round((m0["score_tau10"] - m1["score_tau10"])
-                                                                 / max(m0["score_tau10"], 1e-6), 4),
-                            "etalement": round(al.etalement(x6), 3), "score_ameliore": True})
-            else:
-                rec.update({"camera_affinee": None, "mesures_affinees": m0, "score_ameliore": False,
-                            "statut": "affinage rejeté (validation, garde-fou ou écrasement) : pose des métadonnées"})
-        rec["duree_s"] = round(time.time() - t0, 1)
-        journal(f"    pose {ph['id8']} ({ph['vue']['quadrant']:6s}) : {al.n:5d} points, {len(al.segments):4d} segments ; "
-                f"recouvrement 3 px {m0.get('recouvrement_3px', 0):.3f} -> {rec['mesures_affinees'].get('recouvrement_3px', 0):.3f} ; "
-                f"écart moyen {m0.get('ecart_moyen_px', 0):.2f} -> {rec['mesures_affinees'].get('ecart_moyen_px', 0):.2f} px ; "
-                f"redr. {(rec.get('redressement_verticales') or {}).get('inclinaison_deg', 0):4.1f}° "
-                f"val. redr. {rec.get('validation', {}).get('redressement', {}).get('amelioration_relative', 0):+.3f} "
-                f"orient. {rec.get('validation', {}).get('orientation', {}).get('amelioration_relative', 0):+.3f} "
-                f"compl. {rec.get('validation', {}).get('complete', {}).get('amelioration_relative', 0):+.3f} ; "
-                f"{rec['statut'][:40]} ; confiance {rec['confiance']['niveau']} ; {rec['duree_s']} s")
+        rec = poser_vue(ph, jpgs[ph["id"]], verticales.get(ph["id"]), coherence.get(ph["id"], {}), m, A, P, T, typ,
+                        site.dossiers["vues"], cle=ph["id8"])
         poses.append(rec)
-    # diagnostic du site : correction médiane des poses de confiance au moins moyenne (décalage systématique
-    # du modèle par rapport aux photos, si toutes les photos le voient)
-    # (contrôle du 18/10/2026 : ds et dt ne se lisent que sur les poses complètes ; une pose « orientation seule » a
-    # ds = dt = 0 par construction, ce qui tirait la médiane vers 0)
+    return poses, diagnostic_poses(poses)
+
+
+def diagnostic_poses(poses):
+    """Diagnostic du site : correction médiane des poses de confiance au moins moyenne (décalage systématique du modèle
+    par rapport aux photos, si toutes les photos le voient).
+    (contrôle du 18/10/2026 : ds et dt ne se lisent que sur les poses complètes ; une pose « orientation seule » a
+    ds = dt = 0 par construction, ce qui tirait la médiane vers 0)"""
     bonnes = [p for p in poses if p.get("correction") and p["confiance"]["niveau"] in ("haute", "moyenne")]
     completes = [p for p in bonnes if p.get("niveau_affinage") == "complete"]
     diag = None
@@ -205,7 +226,7 @@ def etape_pose(site, sel):
         diag["dlacet"] = round(float(np.median([p["correction"]["dlacet"] for p in bonnes])), 3)
         diag["n_poses"] = len(bonnes)
         diag["n_poses_completes"] = len(completes)
-    return poses, diag
+    return diag
 
 
 def coherence_verticales(sel, verticales, tol=4.0):
@@ -333,7 +354,7 @@ def traiter(nom, conf, etapes, args):
     if "selection" in etapes:
         conf_sel = dict(conf, porteurs_sequences=args.porteurs)
         sel = SE.choisir(nom, conf_sel, site.modele, site.ancrage, site.poi, site.dossiers, rafraichir=args.rafraichir,
-                         depuis=args.depuis, journal=journal)
+                         depuis=args.depuis, journal=journal, jusqu_au=args.jusqu_au)
         sel["ancrage"] = site.ancrage.dict() | {"diagnostic": site.diag_ancrage}
         sel["point_interet"] = conf.get("point_interet")
         ecrire(site.dos / "selection.json", sel)
@@ -399,26 +420,58 @@ def traiter(nom, conf, etapes, args):
 
 
 def main():
+    global SORTIE
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("sites", nargs="+")
     ap.add_argument("--sites-conf", default=str(ICI / "sites_meylan.json"))
-    ap.add_argument("--etapes", default=",".join(ETAPES))
-    ap.add_argument("--rafraichir", action="store_true", help="rejouer la recherche Panoramax (sinon : cache)")
+    ap.add_argument("--etapes", default=None, help="v1 : selection,pose,rendu,planches ; v2 : + dessus")
+    ap.add_argument("--rafraichir", action="store_true", help="rejouer les recherches Panoramax et Mapillary (sinon : cache)")
     ap.add_argument("--depuis", default="2019-01-01", help="date minimale des photos")
+    ap.add_argument("--jusqu-au", dest="jusqu_au", default=None, help="date maximale des photos (état décrit)")
     ap.add_argument("--echantillons", type=int, default=128)
     ap.add_argument("--limite", type=int, default=240, help="limite de temps d'un rendu (s)")
+    ap.add_argument("--sortie", default=None, help="racine des sorties (défaut : recon/out/generateur/comparaison)")
+    ap.add_argument("--v2", action="store_true", help="comparaison v2 (sélection guidée par la couverture)")
+    ap.add_argument("--selection", choices=("v1", "couverture"), default=None,
+                    help="« couverture » = --v2 ; « v1 » (défaut) : sélection de 6 à 12 photos de la v1")
+    ap.add_argument("--processus", type=int, default=4, help="v2 : processus parallèles pour les poses et les planches")
+    ap.add_argument("--sans-mapillary", dest="sans_mapillary", action="store_true", help="v2 : Panoramax seul")
+    ap.add_argument("--complement-depuis", dest="complement_depuis", default="2019-01-01",
+                    help="v2 : photos antérieures à --depuis admises en complément depuis cette date (marquées hors "
+                         "fenêtre d'état) ; « non » pour s'en passer")
+    ap.add_argument("--exclure-periodes", dest="exclure_periodes", default=None,
+                    help="v2 : périodes de photos écartées (travaux, état transitoire), AAAA-MM-JJ:AAAA-MM-JJ[,...]")
+    ap.add_argument("--couches-orthos", dest="couches_orthos", default=None,
+                    help="v2 : couches du kit multi-orthos (défaut : toutes ; ex. pcrs2022,ign2024,ign2021)")
     args = ap.parse_args()
+    if args.sortie:
+        p = Path(args.sortie)
+        SORTIE = (p if p.is_absolute() else DEPOT / p).resolve()
+    v2 = args.v2 or args.selection == "couverture"
+    if str(args.complement_depuis).lower() in ("non", "aucun", "none", ""):
+        args.complement_depuis = None
+    args.couches_orthos = [c.strip() for c in args.couches_orthos.split(",")] if args.couches_orthos else None
+    args.exclure_periodes = [tuple(p.strip().split(":")) for p in args.exclure_periodes.split(",")] \
+        if args.exclure_periodes else None
     doc_sites = lire(args.sites_conf)
     confs = doc_sites["sites"]
     args.porteurs = doc_sites.get("porteurs_sequences", {})
-    etapes = [e.strip() for e in args.etapes.split(",") if e.strip()]
+    etapes = [e.strip() for e in (args.etapes or ",".join(ETAPES_V2 if v2 else ETAPES)).split(",") if e.strip()]
     bilan = {}
     for s in args.sites:
-        bilan[s] = traiter(s, confs[s], etapes, args)
+        if v2:
+            import etapes_v2 as E2
+            E2.CM.SORTIE = SORTIE        # lancé comme script : etapes_v2 importe une seconde instance du module
+            bilan[s] = E2.traiter(s, confs[s], etapes, args)
+        else:
+            bilan[s] = traiter(s, confs[s], etapes, args)
     tout = lire(SORTIE / "bilan.json", {}) or {}
-    tout.update({k: {kk: v.get(kk) for kk in ("photos", "quadrants", "positions", "poses_ameliorees",
-                                              "part_poses_ameliorees", "confiance", "recouvrement_3px_median",
-                                              "ecart_moyen_px_median", "correction_mediane_du_site", "durees")}
+    tout.update({k: {kk: v.get(kk) for kk in ("version", "photos", "vues", "photos_panoramax", "photos_mapillary",
+                                              "photos_hors_fenetre_etat", "fenetre_etat",
+                                              "quadrants", "positions", "poses_ameliorees", "part_poses_ameliorees",
+                                              "confiance", "recouvrement_3px_median", "ecart_moyen_px_median",
+                                              "correction_mediane_du_site", "couverture_coeur", "zones_aveugles", "durees")
+                     if kk in v}
                  for k, v in bilan.items()})
     ecrire(SORTIE / "bilan.json", tout)
 

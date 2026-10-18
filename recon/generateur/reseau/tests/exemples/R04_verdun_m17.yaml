@@ -1,0 +1,63 @@
+# Exemple réel du § 10.2 de FORMAT_DESCRIPTION_RESEAU.md, corrigé après la relecture (F2) : le site M17 n'est pas un
+# carrefour à feux mais un passage piéton à feux avec refuge, entre deux débouchés en baïonnette du chemin des Buclos
+# (sortie seule au sud, cédez-le-passage au nord) ; largeurs de l'axe mesurées par le lot B (3,6 / 3,4 / 3,6).
+# Description grossière : les nœuds sont ancrés en Lambert-93, l'avenue est accrochée à OSM (médiane des deux sens).
+format: description_reseau/0.1
+reseau: R04_verdun_m17
+etat: {nom: ete_2026, date: 2026-07-28}
+repere: l93
+origine: [917676.06, 6460690.07]
+contexte: {agglomeration: oui, vitesse: 50}
+noeuds:
+  N_SOURCES: {position: [917483.4, 6460499.0], tolerance: 3}                     # débouché du chemin des Sources
+  N_BS: {position: [917669.46, 6460683.47], preuves: [osm:28420143]}             # Buclos sud (sortie seule)
+  N_BN: {position: [917689.86, 6460703.87], preuves: [osm:581180883]}            # Buclos nord (cédez)
+  N_V3: {depuis: N_BN, distance: ≈ 60, cap: 45, type: limite_carte}
+  N_BS_FIN: {depuis: N_BS, distance: ≈ 40, cap: -40, type: limite_carte}
+  N_BN_FIN: {depuis: N_BN, distance: ≈ 40, cap: 130, type: limite_carte}
+troncons:
+  - id: R_VERDUN_2
+    nom: Avenue de Verdun
+    de: N_SOURCES
+    vers: N_BS
+    osm: auto
+    profil: "trottoir ≈ 2 | voie 3,6 ← | zone hachurée 3,4 | voie 3,6 → | trottoir ≈ 2"
+  - id: R_MILIEU
+    de: N_BS
+    vers: N_BN
+    profil: "trottoir ≈ 2 | voie 3,6 ← | zone hachurée 3,4 | voie 3,6 → | trottoir ≈ 2"
+    evenements:
+      - "de ≈ 11 à ≈ 18 de N_BS : îlot refuge bordure basse vue ≈ 0,11 enrobé"
+      - passage_pieton: {a: "≈ 14,5 de N_BS", regime: feux}
+  - id: R_VERDUN_3
+    nom: Avenue de Verdun
+    de: N_BN
+    vers: N_V3
+    profil: "trottoir ≈ 2 | voie 3,6 ← | zone hachurée 3,4 | voie 3,6 → | trottoir ≈ 2"
+  - id: R_BUCLOS_S
+    nom: chemin des Buclos
+    de: N_BS
+    vers: N_BS_FIN
+    profil: "trottoir 1,5 | voie ≈ 4,4 → | trottoir 1,5"
+  - id: R_BUCLOS_N
+    nom: chemin des Buclos
+    de: N_BN
+    vers: N_BN_FIN
+    profil: "trottoir 1,5 | voie ≈ 3 ← | voie ≈ 3 → | trottoir 1,5"
+carrefours:
+  - id: BS
+    noeud: N_BS
+    branches:
+      - {troncon: R_VERDUN_2, regime: prioritaire}
+      - {troncon: R_MILIEU, regime: prioritaire, mouvements: {v1: [TD]}}   # pas de tourne-à-gauche serré vers Buclos sud (relecture M4)
+      - {troncon: R_BUCLOS_S, regime: sortie seule, passage: oui}
+  - id: BN
+    noeud: N_BN
+    branches:
+      - {troncon: R_MILIEU, regime: prioritaire}
+      - {troncon: R_VERDUN_3, regime: prioritaire}
+      - {troncon: R_BUCLOS_N, regime: cédez, passage: oui}
+ecarts_admis:
+  RF-OSM-LAR-010: "exemple : voies de 3,6 m mesurées sur l'ortho IGN 2024 (axe_verdun_centre, coupes verdun_c)"
+  RF-OSM-LAR-011: "exemple : sortie à sens unique du chemin des Buclos de 4,4 m (coupe buclos_s_20)"
+  RF-MA-REF-003: "exemple : bordure du refuge vue à 0,11 m (photos M17 / M27)"

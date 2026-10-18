@@ -5,12 +5,20 @@
 # la prolonge sur 780 m et corrige ses largeurs par l'ortho. État 2024-2025 (photos Panoramax 18/05/2025 vers le
 # sud-ouest ; ortho IGN 09/08/2024). k = abscisse le long de la médiane OSM depuis M14 (comme axe_verdun_ouest).
 # Provenances : [O] ortho (coupes verdun_c), [P] photo, [OSM], [R], [G], [M27] description d'étape 1.
-scene: axe_verdun_centre
+# Harmonisation du réseau (lot N1, 18/10/2026, meylan/RELECTURE_PREPARATION.md M1) : un tronçon, un propriétaire. Les
+# deux tronçons commencent et finissent sur les nœuds partagés de ../reseau_meylan.yaml, au bout des branches des
+# carrefours du lot A (Paquet Jardin, M17, M08) : tronçon 1 de k ≈ 1 104 à k ≈ 1 478, tronçon 2 de k ≈ 1 627 à
+# k ≈ 1 920 ; les abscisses des évènements sont comptées depuis ces nouveaux débuts. Le profil du joint est celui que
+# le carrefour a mesuré (contrat du nœud) : le résolveur raccorde le profil de l'axe sur 25 à 30 m à chaque bout.
+format: description_reseau/0.1
+reseau_commun: ../reseau_meylan.yaml
+scene: meylan_axe_verdun_centre
 nom: Avenue de Verdun, centre
 titre: Avenue de Verdun (D1090), centre — 2 × 1 voies, îlot central peint et refuges bordés, accotements enherbés, piste bidirectionnelle
-date: 2025-05-18
+date_etat: 2025-05-18                   # état le plus récent cohérent : toutes les photos du site sont du 18/05/2025
+etat: {nom: printemps_2025, photos: "série Panoramax du 18/05/2025 (sens La Tronche)", ortho: "IGN 09/08/2024"}
 confiance: moyenne
-origine: [917334.8, 6460342.1]          # [OSM] médiane à k = 1 080, L93
+origine: [917584.8, 6460592.1]          # origine déplacée de (250, 250) m le 18/10/2026 (précision float32 du HeightField de rg::nivellement : |y| local < 450 m, BESOINS.md G1) ; L93, sans sens propre ; l'ancienne origine (médiane OSM à k = 1 080) est en [-250.0, -250.0]
 description: >
   Avenue à 50 km/h, une voie dans chaque sens de 3,60 m séparées par une bande centrale peinte d'environ 3,40 m
   (deux lignes continues et des hachures), qui devient un refuge bordé à chaque passage piéton et s'ouvre en voie de
@@ -23,8 +31,9 @@ contexte:
   categorie: avenue                     # [OSM] primary, D 1090 (chaussées tracées séparément dans OSM : 2 ways oneway)
   vitesse: 50                           # [OSM] maxspeed=50
 troncons:
-  - nom: Verdun centre, Paquet Jardin → M17 (k 1080-1525)
-    polyligne: [[0.0, -0.0], [28.1, 28.5], [56.1, 57.0], [84.1, 85.6], [112.1, 114.2], [140.0, 142.8], [167.9, 171.5], [195.8, 200.2], [223.8, 228.7], [251.8, 257.3], [279.9, 285.8], [308.0, 314.3], [311.5, 317.8]]   # [OSM] médiane des deux ways oneway (entraxe 5,7-7,8 m)
+  - id: T1
+    nom: Verdun centre, Paquet Jardin → M17 (k 1104-1478)
+    polyligne: [N_VERDUN_PJ_NE, [-221.9, -221.5], [-193.9, -193.0], [-165.9, -164.4], [-137.9, -135.8], [-110.0, -107.2], [-82.1, -78.5], [-54.2, -49.8], [-26.2, -21.3], [1.8, 7.3], N_VERDUN_M17_SO]   # [OSM] médiane des deux ways oneway (entraxe 5,7-7,8 m), coupée aux nœuds partagés (k 1 104 et 1 478)
     profil:
       - bande plantée 2,0 arbres        # [P] 9985e2e3, 1977f0a0 : haies et grands arbres au nord-ouest
       - trottoir 2,0 enrobé niveau chaussée   # [OSM] footway à t ≈ +14,8 / +13,4 le long de la piste
@@ -37,15 +46,22 @@ troncons:
       - trottoir 2,0 enrobé niveau chaussée   # [OSM] footway (sidewalk) à t ≈ −10…−12, asphalt
       - bande plantée 3,0 arbres        # [P] haies taillées et arbres au sud-est
     evenements:
-      # passage piéton à refuge bordé de M27 (k ≈ 1 325 → s ≈ 245) : îlot bordé de 14 m au lieu de la zone hachurée ([M27], [P] 1977f0a0) ;
+      # passage piéton à refuge bordé de M27 (k ≈ 1 325 → s ≈ 221) : îlot bordé de 14 m au lieu de la zone hachurée ([M27], [P] 1977f0a0) ;
       # au droit du passage, accotements coupés par une liaison revêtue de plain-pied (comme M27) jusqu'aux trottoirs
-      - profil: {a: 238, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement herbe 5,6 | voie 3,6 ← | bordure basse vue 0,11 | terre-plein 3,4 enrobé | bordure basse vue 0,11 | voie 3,6 → | accotement herbe 4,4 | trottoir 2,0 enrobé niveau chaussée | bande plantée 3,0 arbres"}
-      - profil: {a: 242.5, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée dévers 2,5 | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement 5,6 enrobé dévers 0 | voie 3,6 ← | bordure basse vue 0,11 | terre-plein 3,4 enrobé | bordure basse vue 0,11 | voie 3,6 → | accotement 4,4 enrobé dévers 0 | trottoir 2,0 enrobé niveau chaussée dévers -2,5 | bande plantée 3,0 arbres"}
-      - profil: {a: 247.5, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement herbe 5,6 | voie 3,6 ← | bordure basse vue 0,11 | terre-plein 3,4 enrobé | bordure basse vue 0,11 | voie 3,6 → | accotement herbe 4,4 | trottoir 2,0 enrobé niveau chaussée | bande plantée 3,0 arbres"}
-      - profil: {a: 252, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement herbe 5,6 | voie 3,6 ← | zone hachurée 3,4 | voie 3,6 → | accotement herbe 4,4 | trottoir 2,0 enrobé niveau chaussée | bande plantée 3,0 arbres"}
-      - passage_pieton: {a: 245, largeur: 4.0}   # [M27] ; [P] 1977f0a0 (bandes, refuge) ; position ± 10 m
-  - nom: Verdun centre, M17 → lycée (k 1610-1950)
-    polyligne: [[370.9, 378.6], [398.8, 407.3], [426.9, 435.8], [455.0, 464.2], [483.9, 491.8], [513.6, 518.7], [543.2, 545.5], [574.8, 570.0], [606.6, 594.3], [622.8, 606.0]]   # [OSM] médiane
+      - profil: {a: 204.99, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement herbe 5,6 | voie 3,6 ← | bordure basse vue 0,11 | terre-plein 3,4 enrobé | bordure basse vue 0,11 | voie 3,6 → | accotement herbe 4,4 | trottoir 2,0 enrobé niveau chaussée | bande plantée 3,0 arbres"}
+      - profil: {a: 209.49, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée dévers 2,5 | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement 5,6 enrobé dévers 0 | voie 3,6 ← | bordure basse vue 0,11 | terre-plein 3,4 enrobé | bordure basse vue 0,11 | voie 3,6 → | accotement 4,4 enrobé dévers 0 | trottoir 2,0 enrobé niveau chaussée dévers -2,5 | bande plantée 3,0 arbres"}
+      - profil: {a: 214.49, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement herbe 5,6 | voie 3,6 ← | bordure basse vue 0,11 | terre-plein 3,4 enrobé | bordure basse vue 0,11 | voie 3,6 → | accotement herbe 4,4 | trottoir 2,0 enrobé niveau chaussée | bande plantée 3,0 arbres"}
+      - profil: {a: 218.99, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement herbe 5,6 | voie 3,6 ← | zone hachurée 3,4 | voie 3,6 → | accotement herbe 4,4 | trottoir 2,0 enrobé niveau chaussée | bande plantée 3,0 arbres"}
+      - passage_pieton: {a: 211.99, largeur: 4.0}   # [M27] ; [P] 1977f0a0 (bandes, refuge) ; position ± 10 m ; v2 (18/10/2026) : passage, refuge et ouverture de l'îlot reculés de 9 m (s 221 → 212) : l'ortho IGN 2024 (zoom avc_m27_passage, contours_site_ign_t04) place les bandes et le refuge bordé à (−85 ; −81), 9 m au sud-ouest du modèle ; [P] 176f9ab0_-008 (refuge bordé avec B21, hachures avant le refuge)
+      # lot SITES (18/10/2026, itération 0) : approche du carrefour M17 (k ≈ 1 443 → 1 478) décrite avec le profil que
+      # le site M17 a mesuré à son bout (contrat de N_VERDUN_M17_SO, lu vers le nord-est) : bordure puis bande enherbée,
+      # piste et trottoir ([P] 9985e2e3, k ≈ 1 521 : « bordure puis bande enherbée fleurie à droite »). Le raccord généré
+      # par le résolveur entre le profil de l'axe et ce contrat (naissances de bandes à niveaux différents) faisait planter
+      # rg::sol (Triangulate2D, segfault ; essais tc / td, BESOINS.md V-C1) : le changement est dit ici, 35 m avant le nœud.
+      - profil: {a: 339.0, nouveau: "trottoir 1,8 | piste cyclable 3,0 bidirectionnelle | bande enherbée 2,8 | voie 3,5 ← | zone hachurée 3,7 | voie 4,1 → | bande enherbée 2,1 | trottoir 2,5"}
+  - id: T2
+    nom: Verdun centre, M17 → lycée (k 1627-1920)
+    polyligne: [N_VERDUN_M17_NE, [148.8, 157.3], [176.9, 185.8], [205.0, 214.2], [233.9, 241.8], [263.6, 268.7], [293.2, 295.5], [324.8, 320.0], N_VERDUN_M08_SO]   # [OSM] médiane, coupée aux nœuds partagés (k 1 627 et 1 920)
     profil:
       - bande plantée 2,0 arbres        # [P] 0f8d41e7 : arbustes et grands arbres au nord-ouest
       - trottoir 2,0 enrobé niveau chaussée   # [OSM] footway à t ≈ +13,4
@@ -58,11 +74,11 @@ troncons:
       - trottoir 2,0 enrobé niveau chaussée   # [OSM] footway à t ≈ −12
       - bande plantée 3,0 arbres        # [P] 4959d14a : haies taillées continues au sud-est
     evenements:
-      - passage_pieton: {a: 55, largeur: 4.0}   # [P] a319c17a (k ≈ 1 661) : passage et refuge bordé dans l'îlot peint
-      - profil: {a: 48, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement herbe 5,0 | voie 3,6 ← | bordure basse vue 0,11 | terre-plein 3,4 enrobé | bordure basse vue 0,11 | voie 3,6 → | accotement herbe 4,0 | trottoir 2,0 enrobé niveau chaussée | bande plantée 3,0 arbres"}
-      - profil: {a: 52.5, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée dévers 2,5 | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement 5,0 enrobé dévers 0 | voie 3,6 ← | bordure basse vue 0,11 | terre-plein 3,4 enrobé | bordure basse vue 0,11 | voie 3,6 → | accotement 4,0 enrobé dévers 0 | trottoir 2,0 enrobé niveau chaussée dévers -2,5 | bande plantée 3,0 arbres"}
-      - profil: {a: 57.5, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement herbe 5,0 | voie 3,6 ← | bordure basse vue 0,11 | terre-plein 3,4 enrobé | bordure basse vue 0,11 | voie 3,6 → | accotement herbe 4,0 | trottoir 2,0 enrobé niveau chaussée | bande plantée 3,0 arbres"}
-      - profil: {a: 62, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement herbe 5,0 | voie 3,6 ← | zone hachurée 3,4 | voie 3,6 → | accotement herbe 4,0 | trottoir 2,0 enrobé niveau chaussée | bande plantée 3,0 arbres"}
+      - passage_pieton: {a: 38.11, largeur: 4.0}   # [P] a319c17a (k ≈ 1 661) : passage et refuge bordé dans l'îlot peint
+      - profil: {a: 31.11, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement herbe 5,0 | voie 3,6 ← | bordure basse vue 0,11 | terre-plein 3,4 enrobé | bordure basse vue 0,11 | voie 3,6 → | accotement herbe 4,0 | trottoir 2,0 enrobé niveau chaussée | bande plantée 3,0 arbres"}
+      - profil: {a: 35.61, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée dévers 2,5 | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement 5,0 enrobé dévers 0 | voie 3,6 ← | bordure basse vue 0,11 | terre-plein 3,4 enrobé | bordure basse vue 0,11 | voie 3,6 → | accotement 4,0 enrobé dévers 0 | trottoir 2,0 enrobé niveau chaussée dévers -2,5 | bande plantée 3,0 arbres"}
+      - profil: {a: 40.61, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement herbe 5,0 | voie 3,6 ← | bordure basse vue 0,11 | terre-plein 3,4 enrobé | bordure basse vue 0,11 | voie 3,6 → | accotement herbe 4,0 | trottoir 2,0 enrobé niveau chaussée | bande plantée 3,0 arbres"}
+      - profil: {a: 45.11, nouveau: "bande plantée 2,0 arbres | trottoir 2,0 enrobé niveau chaussée | piste cyclable bidirectionnelle 4,0 niveau chaussée | accotement herbe 5,0 | voie 3,6 ← | zone hachurée 3,4 | voie 3,6 → | accotement herbe 4,0 | trottoir 2,0 enrobé niveau chaussée | bande plantée 3,0 arbres"}
 materiaux:
   chaussee: enrobé usé                  # [P] 9985e2e3, 4959d14a : enrobé très fissuré (fissures pontées)
   pistes: enrobé
@@ -85,9 +101,9 @@ extensions_auto:
   vegetation:
     - {cote: droite, type: haie_taillee, hauteur_m: 1.2, prov: "P 4959d14a, 9985e2e3"}
     - {cotes: [gauche, droite], type: grands_arbres, essences: "saule pleureur, cèdre, peuplier (identification sur photo, non confirmée)", prov: "P 1977f0a0"}
-  carrefours_limites: [{k: 1004, id: M01}, {k: 1567, id: M17}, {k: 1990, id: M08}]
+  carrefours_limites: [{k: 1004, id: M01}, {k: 1567, id: M17}, {k: 1990, id: M08}]   # nœuds partagés : k 1 104, 1 478, 1 627, 1 920 (reseau_meylan.yaml)
   lien_etape_1: {fichier: "recon/generateur/scenes_meylan/M27_avenue_de_verdun.yaml", difference: "voies 3,25 → 3,60 et îlot 2,80 → 3,40 (ortho IGN 2024 au lieu d'estimations sur photo)"}
-  etapes:                                                                                # B12
+  etapes:                                                                                # B12 — en note seulement : l'ordre qui fait foi est celui de la chaîne (CHAINE_CONSTRUCTION.md § 2, étapes E07 à E17)
     - "1 plate-forme : chaussée unique de 10,6 m, accotements enherbés à niveau"
     - "2 refuges : bordures basses (vue 0,11) autour des îlots de 10-14 m aux passages"
     - "3 chaussée en enrobé ancien fissuré ; piste bidirectionnelle et trottoir en enrobé"

@@ -5,13 +5,15 @@ Mi-Plaine, à l'ouest) et la bifurcation A41 / N87 (à l'est), sur 550 m centré
 (L93 ≈ 917 400 → 917 940 ; 6 459 717 → 6 459 841). État décrit : 2024-2025. Fichiers voisins : `description.yaml`
 (traduction), `mesures.json` (coupes ortho, valeurs et incertitudes), `photos.json` (photos regardées, constats).*
 
+**Réseau (lot N1, 18/10/2026).** date d'état **28/07/2026** (photo 84303e7a la plus récente, cohérente) ; le tronçon va de `N_A41_PEPINIERES_O` à `N_A41_N87_O`, nœuds partagés avec l'extrémité ouest et le nœud A41 / N87. Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
 ## 1. Description en texte libre
 
 > Autoroute à 2 × 2 voies en rase campagne, 110 km/h, sans éclairage. Chaque chaussée a deux voies de 3,60 m et une
 > bande d'arrêt d'urgence de 3,40 m à droite, bordée d'une glissière simple. Entre les deux sens, un terre-plein
 > central d'environ 7 m : un mètre d'enrobé de chaque côté (bande dérasée de gauche) derrière une ligne continue,
-> puis une bande d'herbe haute d'environ 5 m qui porte deux glissières simples, une pour chaque sens, à un demi-mètre
-> du bord de l'enrobé. Au nord, un talus enherbé monte d'environ 3 m vers une clôture et un rideau de grands
+> puis une bande d'herbe haute d'environ 5 m, avec une seule glissière, côté sud, à un demi-mètre du bord de l'enrobé
+> (deux files autour de la pile du pont). Au nord, un talus enherbé monte d'environ 3 m vers une clôture et un rideau de grands
 > feuillus ; au sud, après une berme enherbée et une clôture, un champ (labouré au printemps, maïs l'été) et des
 > peupliers. Une ligne à haute tension traverse. Au milieu, un pont-route étroit (le chemin des Pépinières) passe
 > au-dessus presque à angle droit : tablier en béton de 8 m, une pile dans le terre-plein, culées en talus bétonnés,
@@ -20,20 +22,20 @@ Mi-Plaine, à l'ouest) et la bifurcation A41 / N87 (à l'est), sur 550 m centré
 > entre voies passent de tirets longs (T1) à des tirets courts serrés (T3) environ 130 m après le pont vers l'est,
 > et inversement vers l'ouest à l'approche de la sortie 27. Enrobé gris homogène, marquages nets.
 
-## 2. Ordre de construction (étapes du PCG)
+## 2. Ordre de construction (celui de la chaîne)
 
-1. **Plate-forme** : terrain naturel de la plaine de l'Isère, talus montant au nord (déblai léger), assise des deux
-   chaussées et du terre-plein central (TPC) ; dévers en toit vers l'extérieur de 2,5 % sur chaque chaussée.
-2. **Ouvrage** : pile rectangulaire (≈ 1 m) dans le TPC, culées perrées, tablier du chemin des Pépinières (8 m) —
-   avant la couche de roulement pour que la chaussée passe dessous sans rupture.
-3. **Chaussées** : enrobé continu BDG 1,0 + 2 voies 3,6 + BAU 3,4 par sens (28,1 m revêtus au total).
-4. **TPC et accotements** : terre végétale et herbe haute sur 4,9 m au centre ; bermes enherbées de 1,5 m.
-5. **Dispositifs de retenue** : quatre files de glissières simples (bords extérieurs des BAU ; deux dans le TPC),
-   interrompues et contournant la pile du pont.
-6. **Marquages** : rives continues 3u du TPC (u = 7,5 cm), lignes T4 3u des BAU, T1 2u puis T3 2u entre voies.
-7. **Signalisation verticale** : D41c (présignalisation de bifurcation) sur deux mâts, accotement droit, sens est.
-8. **Équipements** : clôtures autoroutières, ligne HT ; pas de candélabre.
-9. **Abords** : talus enherbé et arbres au nord, champ et peupliers au sud.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 terrassements, ouvrages | terrain naturel de la plaine de l'Isère, talus montant au nord, assise des deux chaussées et du TPC ; pile dans le TPC, culées perrées, tablier du chemin des Pépinières, avant la couche de roulement |
+| E10 chaussée | enrobé continu BDG 1,0 + 2 voies 3,6 + BAU 3,4 par sens, dévers en toit de 2,5 % |
+| E11 terre-pleins, accotements | terre végétale et herbe haute du TPC (4,9 m), bermes enherbées de 1,5 m |
+| E12 marquages | rives continues 3u du TPC (u = 7,5 cm), T4 3u des BAU, T1 2u puis T3 2u entre voies |
+| E13 retenue | glissières simples aux bords des BAU, une glissière dans le TPC côté sud (deux autour de la pile) |
+| E14 signalisation | D41c sur deux mâts, accotement droit, sens est |
+| E16 équipements | clôtures autoroutières, ligne HT ; pas de candélabre |
+| E17 abords (plus tard) | talus enherbé et arbres au nord, champ et peupliers au sud |
 
 ## 3. Profil en travers (de gauche à droite dans le sens est, vers Chambéry)
 
@@ -74,3 +76,7 @@ Mi-Plaine, à l'ouest) et la bifurcation A41 / N87 (à l'est), sur 550 m centré
 - Position du passage T1 → T3 connue à ± 25 m ; dévers et profil en long non mesurés (plaine quasi plate).
 - Le format actuel ne porte ni l'ouvrage, ni les glissières dans le TPC avec leur décalage, ni le talus, ni les
   clôtures : ils sont dans `extensions_auto` (voir `../BESOINS_FORMAT_AUTO.md`, B1 à B12).
+
+## Reconstruction (lot SITES, étape 3, 18/10/2026)
+
+Itération 1 : le TPC n'a **qu'une glissière**, le long de la bande dérasée du sens Chambéry (sud), et non deux (ortho, coupe s0330 ; photos c235b69b, 7f197e9e, 131258a6, a2064553, 5d4f7b5b). Deux files seulement autour de la pile du pont des Pépinières (vue du pont 716ad033), non décrites. Détail : `RECONSTRUCTION.md`.

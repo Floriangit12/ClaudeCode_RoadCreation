@@ -4,6 +4,8 @@
 L93 ≈ 916 598 ; 6 459 553) et le carrefour des Aiguinards (M13, k ≈ 649), en deux tronçons de section courante
 séparés par le carrefour de la Plaine Fleurie (M15, k ≈ 250). Les carrefours relèvent du lot A. État 2024-2025.*
 
+**Réseau (lot N1, 18/10/2026).** date d'état **18/05/2025** ; pas de nœud partagé (le site est à 380 m de Paquet Jardin). Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
 ## 1. Description en texte libre
 
 > Grande avenue d'entrée de ville à chaussées séparées, 50 km/h, éclairée. En sortant de l'autoroute, trois voies de
@@ -17,16 +19,21 @@ séparés par le carrefour de la Plaine Fleurie (M15, k ≈ 250). Les carrefours
 > peinte en damier jaune (itinéraire Chronovélo). Avant le carrefour des Aiguinards, un arrêt de bus avec quai béton,
 > abri et zigzag jaune. Enrobé ancien, fissuré et rapiécé.
 
-## 2. Ordre de construction
+## 2. Ordre de construction (celui de la chaîne)
 
-1. Plate-forme : deux chaussées et le terre-plein central, larges accotements.
-2. Bordures : bordures basses du TPC (tronçon 1), bordures T2 autour de la haie (tronçon 2), bordure droite (1).
-3. Chaussées en enrobé, couloirs bus. 4. TPC : herbe (1) ; terre, paillage et haie taillée, candélabres (2).
-5. Accotements enherbés, glissière côté sud-est (1).
-6. Marquages : T3 5u des couloirs bus, lignes entre voies, rives continues, damier jaune Chronovélo (relevé sur
-   photo, jamais par défaut), zigzag de l'arrêt de bus.
-7. Signalisation des carrefours (lot A) ; panneaux de direction près de l'A41.
-8. Pistes et trottoirs latéraux, arbres, arbustes, bâtiments d'activité.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 plate-forme | deux chaussées et le terre-plein central, larges accotements |
+| E08 bordures | bordures basses du TPC (tronçon 1), bordures T2 autour de la haie (tronçon 2), bordure droite (1) |
+| E10 chaussée | chaussées en enrobé, couloirs bus |
+| E11 trottoirs, pistes, terre-pleins | TPC en herbe (1), terre et paillage (2), accotements enherbés, pistes et trottoirs latéraux |
+| E12 marquages | T3 5u des couloirs bus, lignes entre voies, rives continues, damier jaune Chronovélo (relevé sur photo, jamais par défaut), zigzag de l'arrêt de bus |
+| E13 retenue | glissière côté sud-est (1) |
+| E14 signalisation | signalisation des carrefours (lot A) ; panneaux de direction près de l'A41 |
+| E15 éclairage | candélabres du TPC (2) |
+| E17 végétation (plus tard) | haie taillée du TPC, arbres, arbustes |
 
 ## 3. Profils (`description.yaml`, `mesures.json`)
 
@@ -42,3 +49,7 @@ séparés par le carrefour de la Plaine Fleurie (M15, k ≈ 250). Les carrefours
 - Pistes, trottoirs, arrêt de bus, traversée en damier, haie et candélabres sont dans `extensions_auto` (BESOINS B4,
   B6-B8) : les pistes sont à 15-20 m de l'axe, au-delà d'accotements que le profil porte en bermes.
 - Le tronçon k 650-950 (vers Paquet Jardin) n'est pas décrit : chaussées rapprochées, lignes masquées par les arbres.
+
+## Reconstruction (lot SITES, étape 3, 18/10/2026)
+
+Itération 1 : **passage piéton** (à feux) de k ≈ 406 avec **ouverture du terre-plein en refuge** et débouchés sur trottoir (photos a880f2d0, 61a21d0a ; OSM). La traversée cyclable en damier jaune n'a pas de mot dans le format (`BESOINS.md` V-O1). Détail : `RECONSTRUCTION.md`.

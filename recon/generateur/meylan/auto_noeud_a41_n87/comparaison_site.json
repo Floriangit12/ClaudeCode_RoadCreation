@@ -1,0 +1,100 @@
+{
+ "schema": "comparaison_sites/0.1",
+ "note": "Ancrage du modèle de réseau : repère local du site = Lambert-93 moins l'origine de la description (x vers l'est, y vers le nord), donc azimut grille de +x = 90° et origine = origine du site. Écrit par le lot SITES (auto_*, axe_*) ; aucune image.",
+ "sites": {
+  "meylan_auto_noeud_a41_n87": {
+   "titre": "divergence de la N87, pont de la N87 sur l'A41 et pied de l'hélice",
+   "modele": "recon/out/generateur/meylan_auto_noeud_a41_n87_f2",
+   "description": "recon/generateur/meylan/auto_noeud_a41_n87/description.yaml",
+   "ancrage": {
+    "origine_l93": [
+     917939.1,
+     6459841.3
+    ],
+    "azimut_grille_deg": 90.0
+   },
+   "point_interet": {
+    "s": 511.0,
+    "t": 126.0,
+    "nom": "pont de la N87 sur l'A41 (s ≈ 525 m)"
+   },
+   "fenetre": {
+    "scene_complete": "recon/out/generateur/meylan_auto_noeud_a41_n87",
+    "locale_xy": [
+     380,
+     650,
+     -230,
+     230
+    ],
+    "motif": "selection.py sous-échantillonne les arêtes à ≈ 900 points : sur la scène entière (1,2 km, 7 bretelles) aucune vue n'atteint 20 points (0 photo retenue le 18/10/2026) ; fenêtre de 220 × 200 m autour du pont de la N87 sur l'A41 et du pied de l'hélice (une fenêtre de 380 × 460 m ne retenait que 2 photos) ; rendu sur la scène entière (tmp/lotB_sites/outils/fenetre.py) ; v2 (lot SITES, 18/10/2026) : fenêtre élargie à 270 × 460 m (380-650 × −230-230) pour couvrir aussi le musoir de la divergence de la N87, au sud de l'A41"
+   }
+  },
+  "meylan_auto_noeud_a41_n87_f4": {
+   "titre": "sortie Sisteron (divergence sur l'A41 vers Chambéry)",
+   "modele": "recon/out/generateur/meylan_auto_noeud_a41_n87_f4",
+   "description": "recon/generateur/meylan/auto_noeud_a41_n87/description.yaml",
+   "ancrage": {
+    "origine_l93": [
+     917939.1,
+     6459841.3
+    ],
+    "azimut_grille_deg": 90.0
+   },
+   "point_interet": {
+    "s": 60.0,
+    "t": 0.0,
+    "nom": "divergence de la sortie Sisteron"
+   },
+   "fenetre": {
+    "scene_complete": "recon/out/generateur/meylan_auto_noeud_a41_n87",
+    "locale_xy": [
+     -10,
+     260,
+     -60,
+     90
+    ],
+    "motif": "comparaison v2 (lot SITES, 18/10/2026) : fenêtre supplémentaire pour couvrir une autre zone de conflit du site (12 à 20 photos par fenêtre)"
+   }
+  },
+  "meylan_auto_noeud_a41_n87_f5": {
+   "titre": "divergence A41 → N87 sud (sens Grenoble) et passage supérieur de desserte",
+   "modele": "recon/out/generateur/meylan_auto_noeud_a41_n87_f5",
+   "description": "recon/generateur/meylan/auto_noeud_a41_n87/description.yaml",
+   "ancrage": {
+    "origine_l93": [
+     917939.1,
+     6459841.3
+    ],
+    "azimut_grille_deg": 90.0
+   },
+   "point_interet": {
+    "s": 1050.0,
+    "t": 280.0,
+    "nom": "musoir de la divergence A41 → N87 sud"
+   },
+   "fenetre": {
+    "scene_complete": "recon/out/generateur/meylan_auto_noeud_a41_n87",
+    "locale_xy": [
+     900,
+     1230,
+     200,
+     370
+    ],
+    "motif": "comparaison v2 (lot SITES, 18/10/2026) : fenêtre supplémentaire pour couvrir une autre zone de conflit du site (12 à 20 photos par fenêtre)"
+   }
+  }
+ },
+ "porteurs_sequences": {
+  "note": "Porteur de la caméra par séquence Panoramax (identifiant de collection), quand la sémantique « transport » manque ou que la vitesse est ambiguë : constaté sur les photos (capot ou toit de voiture, sac à dos, casque) ou repris de recon/pcg/enrichir/camera.py SEQUENCES (mêmes contributeurs, mêmes journées). Sans entrée : sémantique « transport » de la séquence, sinon vitesse médiane de la séquence (> 32 km/h voiture, < 20 km/h vélo ou piéton, entre les deux inconnu).",
+  "4ef310d0-": "velo",
+  "dda9fddd-": "velo",
+  "2b630cec-": "velo",
+  "69791f81-": "velo",
+  "dff66b1c-": "velo",
+  "86c4aa13-": "voiture",
+  "7b1d9477-": "voiture",
+  "a622e3ce-": "voiture",
+  "203bb147-": "voiture",
+  "36c713af-": "voiture"
+ }
+}

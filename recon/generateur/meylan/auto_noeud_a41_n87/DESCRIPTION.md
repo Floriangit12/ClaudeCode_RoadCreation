@@ -6,9 +6,11 @@ relient à la Rocade Sud N87 et à Meylan-Centre. Raccords : `auto_a41_section_c
 faible : la géométrie des bretelles est celle des axes OSM ; les largeurs sont mesurées sur l'ortho là où c'est
 lisible.*
 
+**Réseau (lot N1, 18/10/2026).** date d'état **14/06/2025** ; l'A41 va de `N_A41_N87_O` à `N_A41_MEYLAN_EST_O` ; « N87 vers A41 Chambéry » finit sur `N_A41_BRANCHE_N87` ; les bretelles partent de la divergence `N_N87_DIV` au bout de la N87 prolongée, « A41 vers N87 sud » est prolongée de 12,9 m jusqu'à `N_N87_SUD` ; l'hélice montante est coupée au droit du carrefour M07 (`N_HELICE_MONT`) et « Meylan vers A41 La Tronche » commence au même droit (`N_HELICE_DESC`) ; séparateur central en **DBA** (relecture M8). Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
 ## 1. Description en texte libre
 
-> Grand échangeur sur trois niveaux au milieu des champs. L'A41 (2 × 2 voies, terre-plein enherbé à deux glissières,
+> Grand échangeur sur trois niveaux au milieu des champs. L'A41 (2 × 2 voies, terre-plein enherbé à une glissière,
 > BAU de 3,4 m, 110 km/h) passe sous un long pont à poutres en béton posé sur plusieurs files de piles — la poutre de
 > rive est couverte de graffitis — qui porte la Rocade Sud. Celle-ci arrive du sud en remblai et se divise devant un
 > musoir à chevrons : deux voies continuent vers Chambéry en longeant l'A41 au sud derrière une double glissière (elles
@@ -22,18 +24,19 @@ lisible.*
 > et une vers la Rocade Sud. Bretelles de 4 m, rive gauche continue, rive droite en tirets longs, glissières des deux
 > côtés ; borne orange d'appel d'urgence, panneau de sortie « n° 27 à 1 500 m » vers Grenoble ; pas d'éclairage.
 
-## 2. Ordre de construction
+## 2. Ordre de construction (celui de la chaîne)
 
-1. Terrassements : remblais de la N87 et des bretelles hautes, talus de l'hélice.
-2. Ouvrages, avant les chaussées qu'ils enjambent : pont de la N87 sur l'A41 (s ≈ 525), ponts des bretelles,
-   passage de l'hélice sous elle-même (23 m), passage supérieur de desserte (s ≈ 1 007).
-3. Chaussées : A41 2 + 2, branches à 2 voies, bretelles d'une voie, voies d'insertion.
-4. TPC : herbe à deux glissières jusqu'à s ≈ 1 000, puis revêtu avec GBA (raccord à l'échangeur 26).
-5. Retenue : glissières, doubles glissières entre chaussées parallèles, murets de l'hélice.
-6. Marquages : lignes de l'A41 (u = 7,5 cm), T2 5u des insertions, T'3 3u des bretelles, chevrons des musoirs,
-   flèches de l'hélice.
-7. Signalisation : B14 70 et J14a à la divergence de la N87, J4 sur la courbe de la sortie Sisteron, D41a / D41c,
-   CE2a, panneau du concessionnaire. 8. Abords : bois, champs, talus.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 terrassements, ouvrages | remblais de la N87 et des bretelles hautes, talus de l'hélice ; puis, avant les chaussées qu'ils enjambent : pont de la N87 sur l'A41 (s ≈ 525), ponts des bretelles, passage de l'hélice sous elle-même (23 m), passage supérieur de desserte (s ≈ 1 007) |
+| E10 chaussée | A41 2 + 2, branches à 2 voies, bretelles d'une voie, voies d'insertion |
+| E11 terre-pleins | TPC en herbe à une glissière (côté sud) jusqu'à s ≈ 1 000, puis revêtu (DBA) |
+| E12 marquages | lignes de l'A41 (u = 7,5 cm), T2 5u des insertions, T'3 3u des bretelles, chevrons des musoirs, flèches de l'hélice |
+| E13 retenue | glissières, doubles glissières entre chaussées parallèles, DBA du TPC, murets de l'hélice |
+| E14 signalisation | B14 70 et J14a à la divergence de la N87, J4 sur la courbe de la sortie Sisteron, D41a / D41c, CE2a, panneau du concessionnaire |
+| E17 abords (plus tard) | bois, champs, talus |
 
 ## 3. Tronçons décrits (`description.yaml`)
 
@@ -55,3 +58,7 @@ lisible.*
 - Polylignes OSM avec cassures de 7 à 30° dans les boucles (ajustement en arcs à faire, BESOINS B14).
 - Le carrefour à feux en haut de l'hélice et la bretelle Meylan → Rocade Sud (134 m) ne sont pas décrits en détail.
 - La photo de l'hélice date de mars 2023 (seule couverture) ; aucune photo du pont de desserte.
+
+## Reconstruction (lot SITES, étape 3, 18/10/2026)
+
+Itération 1 : une seule glissière dans le TPC de l'A41, le long de la BDG sud (949a4e59, 91d270d4, 7b271e3a) ; murets de l'hélice écrits `GBA`. Les niveaux, les ponts et les musoirs restent des manques du générateur (`BESOINS.md`). Détail : `RECONSTRUCTION.md`.

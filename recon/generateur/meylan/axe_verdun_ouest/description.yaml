@@ -4,10 +4,18 @@
 # Aiguinards (k ≈ 649) ne sont pas décrits ici (lot A) : deux tronçons de section courante entre eux.
 # k = abscisse le long de la médiane OSM des deux chaussées depuis le carrefour M14 (mesures.json).
 # Provenances : [O] ortho (coupes verdun_o), [P] photo, [OSM], [R], [G].
-scene: axe_verdun_ouest
+# Réseau (lot N1, 18/10/2026) : description au format réseau (FORMAT_DESCRIPTION_RESEAU.md), résolue par
+# recon/generateur/reseau/resoudre_reseau.py (appelé par description_vers_modele.py) ; nœuds partagés dans
+# ../reseau_meylan.yaml ; date d'état = état le plus récent cohérent d'après les photos du site ; « extensions_auto »
+# est une clé de la couche réseau (non portée par l'étape 2, recopiée dans compilation_reseau.json) ; « DBA » =
+# séparateur béton double face entre les deux sens (relecture M8 ; « GBA » est le profil simple face).
+format: description_reseau/0.1
+reseau_commun: ../reseau_meylan.yaml
+scene: meylan_axe_verdun_ouest
 nom: Avenue de Verdun, côté La Tronche
 titre: Avenue de Verdun (D1090) — 2 × 3 voies avec couloirs bus puis 2 × 2 voies, terre-plein étroit enherbé puis haie taillée
-date: 2025-05-18
+date_etat: 2025-05-18                   # toutes les photos du site sont du 18/05/2025
+etat: {nom: printemps_2025, photos: "série Panoramax du 18/05/2025"}
 confiance: moyenne
 origine: [916617.5, 6459575.7]          # [OSM] médiane à k = 30, L93
 description: >
@@ -63,6 +71,14 @@ troncons:
       - ligne continue 3u
       - accotement 0,5
       - berme 6,0 herbe haute           # [O] s0490 : herbe et arbres de −8 à −14 ; [OSM] trottoir à −13
+    evenements:
+      # itération 1 (lot SITES, 18/10/2026) : passage piéton à feux qui traverse les deux chaussées et le terre-plein
+      # (refuge revêtu dans l'ouverture de la haie), à côté de la traversée cyclable en damier jaune (extensions_auto.traversees,
+      # non portée par le format) : [P] a880f2d0, 61a21d0a (comparaison multivues, 18/05/2025) ; [OSM] node/1958999093
+      # (crossing=traffic_signals) et 1958999095, 1958999142 (marked), projetés à s ≈ 128 du tronçon ; position ± 5 m
+      - passage_pieton: {a: 128, largeur: 4.0}
+      - profil: {a: 125.0, nouveau: "trottoir 8,5 enrobé | bordure T2 | voie 3,0 ← | voie 2,6 ← | bordure I2 vue 0,12 | terre-plein 2,6 BRF | bordure I2 vue 0,12 | voie 3,1 → | voie 3,2 → | bordure T2 | trottoir 6,5 enrobé"}   # débouchés du passage sur trottoir bordé (abaissé et BEV posés par la règle ; [OSM] tactile_paving=yes sur 1958999093 / 1958999095) ; terre-plein ouvert en refuge de 2,6 m (haie interrompue, bordures de refuge 0,12, RF-MA-REF-003) : [P] a880f2d0 (trottoir, bordure et barrières au débouché)
+      - profil: {a: 131.0, nouveau: "berme 8,0 herbe haute | accotement 0,5 | ligne continue 3u | voie 3,0 ← | voie 2,6 ← | bordure T2 | terre-plein 1,3 BRF | haie | terre-plein 1,3 BRF | bordure T2 | voie 3,1 → | voie 3,2 → | ligne continue 3u | accotement 0,5 | berme 6,0 herbe haute"}
 materiaux:
   chaussee: enrobé rapiécé              # [P] 9f1498db, f86cca91 : enrobé ancien fissuré, reprises
 marquages:

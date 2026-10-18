@@ -1,7 +1,10 @@
 # Format de description d'un réseau (`description_reseau/0.1`), proposé pour l'étape 3
 
-*`recon/generateur/FORMAT_DESCRIPTION_RESEAU.md`, 17/10/2026. Proposition du lot « chaîne de construction » (étape E00
-de `CHAINE_CONSTRUCTION.md`). Le résolveur `recon/generateur/reseau/resoudre_reseau.py` sera écrit au lot N1.*
+*`recon/generateur/FORMAT_DESCRIPTION_RESEAU.md`, 17/10/2026, mis à jour le 18/10/2026 par le lot N1 « réseau » :
+le résolveur `recon/generateur/reseau/resoudre_reseau.py` est écrit (§ 13), le réseau commun de Meylan et ses nœuds
+partagés sont en place (§ 14), les correctifs de la relecture de la préparation (`meylan/RELECTURE_PREPARATION.md`,
+F1 à F6) sont faits (§ 15). Proposition initiale du lot « chaîne de construction » (étape E00 de
+`CHAINE_CONSTRUCTION.md`).*
 
 Ce format décrit un morceau de Meylan : plusieurs tronçons reliés par des nœuds partagés, des carrefours, des
 giratoires, des bretelles et des ouvrages. Les coordonnées sont réelles (Lambert-93) ou relatives, accrochées à OSM
@@ -35,6 +38,9 @@ Trois règles :
    plage et la raison de son choix dans la provenance.
 3. **Les nœuds sont partagés.** Deux tronçons qui se touchent citent le même nœud. Un carrefour est un objet décrit
    (type, régime, branches), jamais la fin d'un tronçon. C'est la condition de la continuité (CHAINE_CONSTRUCTION P3).
+
+Une **mesure** attachée à une valeur (« voie ≈ 3,5 (mesure 3,62 ortho) ») est toujours retenue. Si elle tombe hors
+de la plage dite, elle prime quand même et un avertissement le dit : on ne revient jamais au centre (relecture F1).
 
 Chaque tronçon accepte toute la grammaire du tronçon simple (`description/FORMAT_DESCRIPTION.md` § 3 à § 12 bis) :
 profil en travers, matériaux, marquages, évènements, végétation, objets, abords, signalisation, écarts admis. Un mot ou
@@ -75,11 +81,21 @@ Ce que le résolveur et le compilateur en tirent (le détail le long de la chaî
 |---|---|---|---|
 | longueur du terre-plein planté | [18 ; 22] m (« environ » sur une longueur : ± 10 %, § 4.2) | 20 m | aucune règle ne fixe cette longueur : centre de la plage |
 | position | « au milieu » : centre à 0,5 L ± 0,1 L = [60 ; 90] m | centre à 75 m, soit [65 ; 85] m | centre ; avertissement « position approchée » |
-| largeur du terre-plein | non dite | 2,00 m | RF-OSM-LAR-050 (confiance faible) |
+| largeur du terre-plein | non dite | 2,00 m | RF-OSM-LAR-050, minimum d'un terre-plein planté (`tpc_plante_min` ; la règle est de confiance moyenne, la provenance de la valeur non dite est notée faible) |
 | emprise | non dite | la plate-forme s'élargit de 2 m ; les bandes extérieures se déportent de 1 m de chaque côté | défaut du format (§ 6.3), avertissement |
 | voies, trottoirs, bordures | non dites | 3,00 m ; 2,00 m ; T2 vue 0,14 ; I2 vue 0,11 autour du terre-plein | RF-OSM-LAR-010 ; DEF-004 ; DEF-005 |
 | raccord des voies au nez | non dit | déport de 1 m sur L/2 = 19,5 m avant chaque nez | oblique de tête d'îlot symétrique (RF-MQ-OBL-05), plus douce que le déport de 1/15 de RF-GV-CAR-010 |
 | nœuds A et B | sans carrefour décrit | `limite_carte` | bord de la description |
+
+Résolu par le lot N1 (`reseau/tests/exemples/R01_terre_plein_20m.yaml`, test T2 de `reseau/tests/tester_reseau.py`) :
+zone hachurée qui s'ouvre de 45,5 à 65 m (oblique L/2 = 19,5 m), terre-plein planté de 2,00 m bordé I2 de 65 à 85 m,
+zone hachurée qui se referme de 85 à 104,5 m ; 0 erreur de validation, 0 non-conformité.
+
+**Lecture de la phrase (relecture F5).** La phrase est lue « 2 × 1 voies, terre-plein central planté de 20 m de long
+environ, posé au milieu du tronçon » : c'est la lecture des voies dites (« 2 voies ») et d'un terre-plein limité
+(« sur environ 20 m »). La lecture « 2 × 2 voies et terre-plein de 20 m » (table des assets de l'étape 3) et celle
+d'un terre-plein continu « végétalisé sur environ 20 m » sont écartées ; un « au milieu » non dit est un choix du
+format, avec avertissement.
 
 ## 2. Clés du fichier
 
@@ -88,7 +104,9 @@ Ce que le résolveur et le compilateur en tirent (le détail le long de la chaî
 | `format` | `description_reseau/0.1` | remplacé par `description_simple/0.2` à la résolution | oui |
 | `reseau` | nom court ; sorties dans `recon/out/generateur/meylan/<reseau>/` | devient `scene` | oui |
 | `titre`, `description` | titre et phrase libre | repris | non |
-| `etat` | `{nom, date}` : état décrit (« avant_travaux », 2024-08-24) ; les photos citées doivent être valables à cette date | couche réseau (va dans `date` et `meta`) | oui dès qu'une photo est citée |
+| `etat` | `{nom, date, …}` : état décrit (« avant_travaux », 2024-08-24) ; les photos citées doivent être valables à cette date ; autres clés libres (`valable_depuis`, `photos`, `ortho`) recopiées dans le rapport | couche réseau (va dans `date` et `meta`) | oui dès qu'une photo est citée |
+| `date_etat` | date de l'état décrit, écriture courte de `etat.date` ; `date`, `date_etat` et `etat.date` différents : erreur (P00-5) | devient `date` | non |
+| `reseau_commun` | chemin (relatif au fichier) du réseau commun : nœuds partagés et contrats de profil (§ 14) | couche réseau | non |
 | `confiance` | `haute`, `moyenne` (défaut), `faible` : confiance des valeurs dites sans plage | repris | non |
 | `repere`, `origine` | § 3.1 | `origine` reprise | non (défaut : `local`, origine O du dépôt) |
 | `contexte` | contexte commun (agglomération, vitesse, catégorie, u…), comme `FORMAT_DESCRIPTION.md` § 3 ; chaque tronçon peut le surcharger | repris | oui |
@@ -99,6 +117,9 @@ Ce que le résolveur et le compilateur en tirent (le détail le long de la chaî
 | `echangeurs`, `ouvrages`, `itineraires` | § 7.4, § 7.5, § 8.1 | couche réseau | non |
 | `ecarts_admis` | comme `FORMAT_DESCRIPTION.md` § 12 bis ; aussi par tronçon | repris | non |
 | `attendus` | ce qui doit apparaître (recopié dans le rapport) | repris | non |
+| `extensions_auto`, `extensions` | ce que les sites décrivent sans mot du format (lot B : retenue, ouvrages, équipements, talus, vitesses par sens…) | couche réseau, recopié dans `compilation_reseau.json` (`non_portes_etape2`) | non |
+| `retenue`, `equipements`, `talus` | clés du § 7.5, déclarées (relecture F4) ; non portées par l'étape 2 : recopiées dans le rapport | couche réseau | non |
+| `preuves`, `notes` | preuves et notes de la description entière | couche réseau | non |
 
 Les clés s'écrivent avec ou sans accents ni majuscules, comme dans le format du tronçon.
 
@@ -122,13 +143,20 @@ Les caps suivent la convention OpenDRIVE : 0° = est, 90° = nord, sens trigonom
 | `osm: node/123` | nœud OSM de l'extrait cité dans `sources.osm` | 0 (géométrie OSM) |
 | `osm_pres_de: 10` (avec `position` ou `site`) | recalage sur le nœud OSM routier le plus proche à moins de 10 m | 10 m (erreur au-delà) |
 | `site: M17` | position du site dans `D:\DocRoute\13_…\sites.json` | ± 15 m (les sites sont des points de requête) |
-| `photo: <identifiant>` | position de la prise de vue Panoramax (sans pose recalée) | ± 5 m |
+| `photo: <identifiant>` | position de la prise de vue Panoramax (sans pose recalée), lue dans les `photos.json` de `meylan/` | ± 5 m |
 | `sur: R1` + `a: …` | point de l'axe d'un tronçon, à une abscisse (§ 4) ; il coupe le tronçon en deux tronçons qui partagent ce nœud | celle de l'abscisse |
 | `depuis: A` + `distance: ≈ 80` + `cap: ≈ 45` | position relative | celles de la distance et du cap |
 | `intersection: [R1, R2]` | croisement des axes de deux tronçons | 0 |
 
 Un nœud sans ancrage est une erreur. Deux ancrages contradictoires sont aussi une erreur : écart supérieur à la
 somme de leurs tolérances. Un nœud ne peut pas être ancré par `sur` sur un tronçon dont il est une extrémité.
+
+Mise en œuvre (lot N1) : l'extrait OSM du dépôt ne porte pas les identifiants des sommets des ways ; `osm: node/<id>`
+se résout sur ses couches ponctuelles (passages, feux, panneaux, bordures, barrières, ralentisseurs, arrêts,
+candélabres) et `osm_pres_de` recale sur le sommet routier le plus proche, de préférence partagé par deux ways. Sur une
+route à chaussées séparées, ce sommet est sur l'une des chaussées : préférer alors une `position` sur la médiane. Une
+clé `tolerance` (m) peut élargir la tolérance d'une `position`. Le nœud `sur` donne la position ; il ne coupe pas
+encore le tronçon en deux (à faire quand un carrefour y sera décrit).
 
 ### 3.3 Ancrer un tronçon
 
@@ -155,6 +183,7 @@ tronçon sans nœud décrit donne un avertissement : un carrefour existe peut-ê
 | `20`, `20 m`, `20,0` | exacte (plage nulle), confiance de la description |
 | `≈ 20`, `~20`, `environ 20`, `à peu près 20`, `vers 20` | plage par défaut de la grandeur (§ 4.2) |
 | `20 ± 3` | [17 ; 23] |
+| `3,6 (mesure 3,62 ortho)`, `≈ 3,5 (mesuré 3,62 coupe s0060)` | plage de la valeur dite (celle de la grandeur pour une valeur sans « ≈ ») ; la mesure est retenue (§ 4.3) |
 | `15 à 25`, `entre 15 et 25` | [15 ; 25] |
 | `au moins 20`, `≥ 20` | [20 ; borne haute de la règle de la grandeur, sinon 2 × 20] [G] |
 | `au plus 20`, `≤ 20` | [borne basse de la règle, sinon 0 ; 20] |
@@ -184,8 +213,10 @@ ci-dessous sont des choix du format, à réviser au lot N1 sur les premiers rés
 
 Pour chaque valeur approchée, dans cet ordre :
 
-1. **Mesure dans la plage.** Une mesure disponible et comprise dans la plage est retenue : largeur OSM `width:lanes`,
-   largeur BD TOPO, cote PCRS ou GAM, mesure sur l'ortho (`mesures.json` du site). Provenance `mesure:<source>`.
+1. **Mesure.** Une mesure attachée à la valeur (`(mesure 3,62 ortho)`) est retenue, provenance `mesure:<source>`.
+   Hors de la plage dite, elle est retenue quand même et un avertissement dit que la description est contredite par la
+   mesure (relecture F1 : une mesure n'est jamais jetée en silence). Au lot N1 la mesure s'écrit à côté de la valeur ;
+   la lecture automatique des largeurs OSM `width:lanes`, BD TOPO ou des coupes de `mesures.json` reste à faire.
 2. **Règle dans la plage.** Une règle RF ou DEF dont la valeur tombe dans la plage est retenue, avec la provenance
    « règle dans la plage dite ». Par exemple, « trottoir ≈ 2 » retient 2,00 m (DEF-004).
 3. **Centre de la plage.** Sinon le centre, avec la provenance `description:approx`.
@@ -197,6 +228,12 @@ Pour chaque valeur approchée, dans cet ordre :
 5. **Conformité.** Si toute la plage est hors d'une plage réglementaire, la valeur est « non conforme ». La
    fabrication est alors bloquée sauf écart admis (`FORMAT_DESCRIPTION.md` § 12 bis). Une plage qui chevauche la plage
    réglementaire est ramenée dans l'intersection, avec un avertissement.
+
+Mise en œuvre (lot N1) : les étapes 1 à 3 sont faites pour les largeurs de bande (la règle est celle que le compilateur
+appliquerait à la bande non dite : `commun/profil.largeur_defaut`), pour les grandeurs des carrefours, giratoires et
+bretelles (`coin` → DEF-010, `anneau` → DEF-024, `trottoir` → DEF-004 ; les autres prennent le centre) et pour les
+abscisses ; les contraintes entre valeurs (étape 4) se limitent au contrôle des évènements dans leur tronçon, et la
+conformité (étape 5) reste celle du compilateur.
 
 Le choix est déterministe : même fichier, même choix. Chaque valeur porte
 `prov = {src, regle, conf, plage: [min, max], choix: mesure | regle | centre | contrainte}` : c'est l'extension
@@ -234,6 +271,8 @@ noeuds:
 | ancrage | une des formes du § 3.2 (obligatoire) |
 | `repere` | surcharge le repère global pour ce nœud |
 | `type` | déduit de la valence (RF-OSM-CAR-001) ; à dire seulement pour `limite_carte` (bord de la description), `impasse` ou `fourche` (musoir) |
+| `profil`, `cap_profil`, `raccord` | contrat de profil d'un nœud partagé (§ 14) : profil du joint, lu de gauche à droite en regardant vers `cap_profil` ; longueur du raccord (défaut ≈ 30 m [G]) |
+| `proprietaire`, `sites`, `note`, `ecarts_admis` | site dont le profil mesuré fait le contrat ; sites reliés ; note ; écarts admis du profil du joint, recopiés dans le site qui reçoit le raccord |
 | `z` | altitude dite ; sinon le MNT, et le z est commun à tous les tronçons du nœud (CHAINE P02-3) |
 | `preuves` | `[photo:<id>, ortho:<millésime>, osm:<id>]` |
 
@@ -261,6 +300,8 @@ troncons:
 |---|---|
 | `id` | identifiant (obligatoire, comme à l'étape 2) |
 | `de`, `vers` | nœuds de la couche réseau, ou coordonnées comme à l'étape 2 ; le tronçon est orienté de `de` vers `vers` (sens de s, gauche et droite du profil). L'étape 2 accepte qu'un tronçon commence ou finisse au centre d'un carrefour (`carrefours.py`, tolérance 0,05 m) |
+| `polyligne` | comme à l'étape 2 ; un sommet peut être un nom de nœud (`[N_A, [10, 2], N_B]`) : le premier et le dernier sont alors les bouts du tronçon |
+| `materiaux`, `marquages`, `confiance` | propres au tronçon (lot N1 : portés par le compilateur de l'étape 2, sortie inchangée quand ils manquent) |
 | `nom`, `ref` | nom de voie, numéro (A41, N87, RD1090) ; le nom est hérité de l'itinéraire s'il n'est pas dit |
 | `itineraire` | identifiant d'itinéraire (§ 8.1) |
 | `categorie`, `vitesse`, `agglomeration`… | surcharges du contexte (`FORMAT_DESCRIPTION.md` § 3) ; `categorie: autoroute \| bretelle \| anneau_giratoire…` (énumération du schéma) |
@@ -295,6 +336,11 @@ Le résolveur la traduit en évènements `profil` exacts de `FORMAT_DESCRIPTION.
   séparation déjà présente au même endroit (zone hachurée, terre-plein d'un autre genre), à la même largeur si aucune
   largeur n'est dite. S'il n'y a rien à remplacer, la bande est insérée sur la ligne de référence et `pris_sur`
   s'applique. Exemple : `"de ≈ 15 à ≈ 25 : îlot refuge bordure basse vue ≈ 0,11 enrobé"`, dans une zone hachurée.
+
+Mise en œuvre (lot N1) : seules les bandes centrales s'insèrent par intervalle (terre-plein, îlot refuge, zone hachurée)
+et seulement prises sur la plate-forme ; une insertion sans bande centrale reçoit ses têtes d'îlot (zone hachurée
+ouverte puis refermée sur L/2 de part et d'autre) ; les voies, bandes cyclables et stationnements s'écrivent avec les
+évènements de l'étape 2 (`elargissement`, `profil`, `ouverture`, `fermeture`).
 
 ### 6.4 Positions relatives aux carrefours
 
@@ -414,7 +460,7 @@ echangeurs:
 ```yaml
 ouvrages:
   O_2:
-    type: pont                      # pont | passage_superieur | passerelle | tremie | mur | buse
+    type: pont                      # pont | passage_superieur | passage_inferieur | passerelle | tremie | mur | buse
     porte: [B_N87_DIV]
     franchit: [R_A41_O2]            # axes OSM croisés vers (918 473 ; 6 459 983) : à confirmer sur l'ortho
     osm: [way/28341977]             # bridge=yes, layer=1 ; layer n'est pas une altitude (RF-OSM-OUV-001)
@@ -424,16 +470,17 @@ ouvrages:
 Sous l'ouvrage, la hauteur libre est contrôlée : gabarit plus 0,10 m (RF-GV-PON-012). Le profil en long du tronçon
 porté en découle (étape E02).
 
-Les descriptions de sites d'autoroute en cours d'écriture portent dans `extensions_auto` ce que le format ne sait pas
-encore dire. Exemple : `recon/generateur/meylan/auto_a41_section_courante/description.yaml`, avec ses besoins B1 à
-B12 listés dans `BESOINS_FORMAT_AUTO.md` (fichier annoncé, pas encore écrit le 17/10/2026). La couche réseau les
-reprend ainsi :
+Les descriptions de sites d'autoroute portent dans `extensions_auto` ce que le format ne sait pas encore dire.
+Exemple : `recon/generateur/meylan/auto_a41_section_courante/description.yaml`, avec ses besoins B1 à B17 listés dans
+`meylan/BESOINS_FORMAT_AUTO.md` ; ceux des carrefours et des rues (A1 à A20) sont dans `meylan/BESOINS_FORMAT.md`.
+`extensions_auto` est une clé de la couche réseau : le résolveur la recopie dans `compilation_reseau.json`
+(`non_portes_etape2`) et la retire de la description exacte (relecture M9). La couche réseau les reprend ainsi :
 
 | Besoin du site (`extensions_auto`) | Clé de la couche réseau | Étape de la chaîne |
 |---|---|---|
 | `chaussees_separees` | `osm: {aller, retour}` ou `jumele_avec` (§ 3.3, § 6.1) | E01, E03 |
 | `dispositifs_retenue` (limite, type, hauteur, décalage, de, a, contournement de pile) | `retenue:` sur le tronçon, liste de mêmes champs | E13 |
-| `ouvrages` (passage supérieur, biais, tablier, appuis, garde-corps) | `ouvrages` (§ 7.5), mêmes champs | E07 |
+| `ouvrages` (passage supérieur, passage inférieur, biais, tablier, appuis, garde-corps) | `ouvrages` (§ 7.5), mêmes champs | E07 |
 | `equipements` (clôtures, lignes aériennes, éclairage) | `equipements:` sur le tronçon | E15, E16 |
 | `talus` (côté, sens, hauteur, pente, végétation) | `abords` du tronçon, complété de `talus: {hauteur, pente}` | E07 |
 | `marquages_detail` (ligne, modulation, de, a, motif) | évènements `profil` ou surcharge de ligne (`FORMAT_DESCRIPTION.md` § 5.2) | E12 |
@@ -478,7 +525,10 @@ RF-OBS-MAR-01, RF-OBS-MAR-02, RF-OBS-ILO-03). Une photo de chantier (marquage ja
 
 ## 9. De la description au modèle
 
-Trois passes, dans `recon/out/generateur/meylan/<reseau>/` :
+Trois passes, dans le dossier de la scène (`recon/out/generateur/<scene>/` ; pour un site de Meylan,
+`recon/out/generateur/meylan_<site>/`, la scène des sites étant `meylan_<site>`). Au lot N1, les passes 1 et 2 sont
+faites (§ 13) ; la passe 3 (modèle `modele_voie/0.2` et `modele_reseau.json`) reste à faire : en attendant, ce que
+l'étape 2 ne porte pas est dans `compilation_reseau.json`.
 
 1. **Résolution** (lot N1, `recon/generateur/reseau/resoudre_reseau.py`, Python hors Houdini). Elle résout les nœuds,
    les ancrages, OSM, les tracés et les profils `osm`, les positions en mots et les valeurs approchées. Elle écrit :
@@ -520,114 +570,95 @@ valeurs « ≈ » ci-dessous (choix « mesure », § 4.3).
 
 C'est l'exemple du § 1.
 
-### 10.2 Avenue de Verdun, du chemin des Sources au chemin des Buclos (sites M27 et M17)
+### 10.2 Avenue de Verdun au chemin des Buclos (site M17), corrigé
 
-Le site M27 (îlots refuges et îlots peints) est à environ 20 m du débouché du chemin des Sources. Le site M17 est le
-carrefour à feux du chemin des Buclos. Dans OSM (état 2026), l'avenue est découpée de part et d'autre des îlots en
-ways à sens unique (`oneway=yes`, 50 km/h), dont plusieurs portent des voies de tourne-à-gauche (`turn:lanes`). Entre
-les deux sites, on compte une vingtaine de ways. Ici, l'avenue est décrite comme **un** tronçon à double sens entre
-deux nœuds (`osm: auto`) : c'est la fusion de RF-OSM-PRF-011, qui supprime les micro-routes (rupture R-09 de la chaîne).
+*Correction de la relecture (F2, M3).* La première version de cet exemple décrivait M17 comme un carrefour à feux à
+trois branches avec un îlot central ovale, en reprenant l'intitulé du dossier 13. Le relevé du lot A
+(`meylan/verdun_centre_feux`) montre autre chose : un **passage piéton à feux avec refuge**, sur le tronçon d'environ
+29 m qui relie deux débouchés en baïonnette du chemin des Buclos, l'un en sortie seule (sud), l'autre en
+cédez-le-passage (nord). Feux (`traffic_signals`) seulement au passage (OSM 1333024067 et 1333024069) ; AB3a et B1 sur
+le chemin des Buclos (photos de22683a t003, f252d62f t004). Les largeurs de l'axe sont celles que le lot B a mesurées
+sur l'ortho (voies 3,6 m, îlot peint 3,4 m), et non celles de M27 (3,25 / 2,8, estimées sur photo).
+
+Description réseau (fichier `reseau/tests/exemples/R04_verdun_m17.yaml`, compilée sans erreur ni non-conformité par
+le test T2) :
 
 ```yaml
 format: description_reseau/0.1
-reseau: verdun_sources_buclos
-titre: Avenue de Verdun (Meylan), du chemin des Sources au chemin des Buclos
-etat: {nom: printemps_2025, date: 2025-05-18}     # photos M27 du 18/05/2025 ; date des photos M17 à relire
+reseau: R04_verdun_m17
+etat: {nom: ete_2026, date: 2026-07-28}
 repere: l93
-contexte: {agglomeration: oui, vitesse: 50, categorie: avenue}
-sources:
-  osm: {extrait: data/vector_gz/osm/roads.geojson.gz, note: état 2026, à recouper avec l'état décrit}
-  photos: [176f9ab0-70a1-419e-9444-969bb89df5ac, 7ab5b751-02a9-459f-af08-8e8f0cb380b3,
-           2b9bed48-67ea-4ebb-9c40-8356cec831b8, 10ab11e4-d6b3-43f2-b9f2-830a7adc3073]
+origine: [917676.06, 6460690.07]
+contexte: {agglomeration: oui, vitesse: 50}
 noeuds:
-  N_V0:      {position: [917391.4, 6460394.0], osm_pres_de: 10, type: limite_carte}  # côté Paquet Jardin (hors description)
-  N_SOURCES: {position: [917483.4, 6460499.0], osm_pres_de: 10}                     # débouché du chemin des Sources
-  N_BUCLOS:  {site: M17, osm_pres_de: 15}                                            # carrefour à feux
-  N_V3:      {position: [917751.4, 6460763.0], osm_pres_de: 10, type: limite_carte}
-  N_SRC_FIN: {depuis: N_SOURCES, distance: ≈ 60, cap: ≈ 290, type: limite_carte}
-  N_BUC_N:   {depuis: N_BUCLOS, distance: ≈ 60, cap: ≈ 95, type: limite_carte}
-itineraires:
-  I_VERDUN: {nom: avenue de Verdun, troncons: [R_VERDUN_1, R_VERDUN_2, R_VERDUN_3], prioritaire: oui}
+  N_SOURCES: {position: [917483.4, 6460499.0], tolerance: 3}                     # débouché du chemin des Sources
+  N_BS: {position: [917669.46, 6460683.47], preuves: [osm:28420143]}             # Buclos sud (sortie seule)
+  N_BN: {position: [917689.86, 6460703.87], preuves: [osm:581180883]}            # Buclos nord (cédez)
+  N_V3: {depuis: N_BN, distance: ≈ 60, cap: 45, type: limite_carte}
+  N_BS_FIN: {depuis: N_BS, distance: ≈ 40, cap: -40, type: limite_carte}
+  N_BN_FIN: {depuis: N_BN, distance: ≈ 40, cap: 130, type: limite_carte}
 troncons:
-  - id: R_VERDUN_1                                 # ≈ 140 m
-    de: N_V0
-    vers: N_SOURCES
-    osm: auto
-    # profil du tronçon M27 (scenes_meylan/M27_avenue_de_verdun.yaml), écrit d'après les tuiles des photos 176f9ab0 et 7ab5b751
-    profil: "bande plantée ≈ 4 | trottoir ≈ 2 enrobé niveau chaussée | accotement herbe ≈ 2 | voie ≈ 3,25 ← | zone hachurée ≈ 2,8 | voie ≈ 3,25 → | accotement herbe ≈ 2 | piste cyclable ≈ 2,5 niveau chaussée | bande plantée ≈ 4"
-    materiaux: {chaussee: enrobé usé, pistes: enrobé}
-    marquages: {usure: usée}
-    preuves: [photo:176f9ab0-70a1-419e-9444-969bb89df5ac, photo:7ab5b751-02a9-459f-af08-8e8f0cb380b3]
-  - id: R_VERDUN_2                                 # ≈ 280 m
+  - id: R_VERDUN_2
+    nom: Avenue de Verdun
     de: N_SOURCES
-    vers: N_BUCLOS
+    vers: N_BS
     osm: auto
-    # même profil que R_VERDUN_1, prolongé : la suite îlot peint → continue axiale → îlot peint n'est pas relevée sur
-    # toute la longueur (constats M27 et M17) ; à reprendre sur les photos avant fabrication
-    profil: "bande plantée ≈ 4 | trottoir ≈ 2 enrobé niveau chaussée | accotement herbe ≈ 2 | voie ≈ 3,25 ← | zone hachurée ≈ 2,8 | voie ≈ 3,25 → | accotement herbe ≈ 2 | piste cyclable ≈ 2,5 niveau chaussée | bande plantée ≈ 4"
+    profil: "trottoir ≈ 2 | voie 3,6 ← | zone hachurée 3,4 | voie 3,6 → | trottoir ≈ 2"
+  - id: R_MILIEU
+    de: N_BS
+    vers: N_BN
+    profil: "trottoir ≈ 2 | voie 3,6 ← | zone hachurée 3,4 | voie 3,6 → | trottoir ≈ 2"
     evenements:
-      # site M27 : îlot refuge bordé court (≈ 8 à 10 m) au passage, dans la zone hachurée ; J5 aux nez par la règle
-      # (RF-GV-ILO-008 : îlot ≥ 1,90 m entre rives pour une J5 de 500)
-      - "de ≈ 15 à ≈ 25 de N_SOURCES : îlot refuge bordure basse vue ≈ 0,11 enrobé"
-      - "à ≈ 20 de N_SOURCES : passage piéton"
-    preuves: [photo:176f9ab0-70a1-419e-9444-969bb89df5ac]
-    ecarts_admis:
-      RF-MA-REF-003: "bordures du refuge vues à 0,11 m ± 0,04 sur la photo M27 (176f9ab0), < 0,12 m"
-  - id: R_VERDUN_3                                 # ≈ 95 m
-    de: N_BUCLOS
+      - "de ≈ 11 à ≈ 18 de N_BS : îlot refuge bordure basse vue ≈ 0,11 enrobé"
+      - passage_pieton: {a: "≈ 14,5 de N_BS", regime: feux}
+  - id: R_VERDUN_3
+    nom: Avenue de Verdun
+    de: N_BN
     vers: N_V3
-    osm: auto
-    # constat M17 (photo 2b9bed48) : chaussée à 2 voies, bandes enherbées de 3 à 5 m entre chaussée et trottoirs
-    profil: "trottoir ≈ 2 | accotement herbe 3 à 5 | voie ≈ 3,25 ← | voie ≈ 3,25 → | accotement herbe 3 à 5 | trottoir ≈ 2"
-    preuves: [photo:2b9bed48-67ea-4ebb-9c40-8356cec831b8]
-  - id: R_SOURCES
-    nom: chemin des Sources
-    de: N_SOURCES
-    vers: N_SRC_FIN
-    osm: [way/28420096]
-    profil: osm                    # rien de relevé : profil inféré des tags OSM (avertissement « profil non relevé »)
-  - id: R_BUCLOS
+    profil: "trottoir ≈ 2 | voie 3,6 ← | zone hachurée 3,4 | voie 3,6 → | trottoir ≈ 2"
+  - id: R_BUCLOS_S
     nom: chemin des Buclos
-    de: N_BUCLOS
-    vers: N_BUC_N
-    osm: auto                      # OSM : 2 voies près de l'avenue, puis sens unique (way/27286062, oneway=yes)
-    profil: osm
+    de: N_BS
+    vers: N_BS_FIN
+    profil: "trottoir 1,5 | voie ≈ 4,4 → | trottoir 1,5"
+  - id: R_BUCLOS_N
+    nom: chemin des Buclos
+    de: N_BN
+    vers: N_BN_FIN
+    profil: "trottoir 1,5 | voie ≈ 3 ← | voie ≈ 3 → | trottoir 1,5"
 carrefours:
-  - id: C_SOURCES
-    noeud: N_SOURCES
-    regime: a_verifier             # régime non relevé : rien de peint ni posé (RF-OSM-CAR-012)
-    branches: [{troncon: R_VERDUN_1}, {troncon: R_VERDUN_2}, {troncon: R_SOURCES}]
-  - id: C_BUCLOS
-    noeud: N_BUCLOS
-    regime: feux
+  - id: BS
+    noeud: N_BS
     branches:
-      # constat M17 (photo 10ab11e4) : en amont, l'îlot bordé est prolongé par un îlot peint à contour continu et
-      # chevrons, puis par une continue axiale ; les chevrons et la continue viennent des règles (RF-MQ-HACH-02, E12)
-      - {troncon: R_VERDUN_2, passage: oui, ilot: central ovale}
-      - {troncon: R_VERDUN_3, passage: oui}
-      - {troncon: R_BUCLOS, passage: oui}
-    preuves: [photo:2b9bed48-67ea-4ebb-9c40-8356cec831b8, photo:10ab11e4-d6b3-43f2-b9f2-830a7adc3073]
-    # constats non portés par l'étape 2 (à lui proposer, § 7.1) : traversée cyclable en résine verte des deux côtés de
-    # l'îlot (photo 2b9bed48) ; mâts bas R11 + R12 et répétiteur (photo 10ab11e4) ; J5 au nez, bas ≈ 0,6 m (photo 2b9bed48)
+      - {troncon: R_VERDUN_2, regime: prioritaire}
+      - {troncon: R_MILIEU, regime: prioritaire, mouvements: {v1: [TD]}}   # pas de tourne-à-gauche serré vers Buclos sud (relecture M4)
+      - {troncon: R_BUCLOS_S, regime: sortie seule, passage: oui}
+  - id: BN
+    noeud: N_BN
+    branches:
+      - {troncon: R_MILIEU, regime: prioritaire}
+      - {troncon: R_VERDUN_3, regime: prioritaire}
+      - {troncon: R_BUCLOS_N, regime: cédez, passage: oui}
+ecarts_admis:
+  RF-OSM-LAR-010: "exemple : voies de 3,6 m mesurées sur l'ortho IGN 2024 (axe_verdun_centre, coupes verdun_c)"
+  RF-OSM-LAR-011: "exemple : sortie à sens unique du chemin des Buclos de 4,4 m (coupe buclos_s_20)"
+  RF-MA-REF-003: "exemple : bordure du refuge vue à 0,11 m (photos M17 / M27)"
 ```
 
 Ce que l'exemple éprouve :
 
-- **Fusion des chaussées séparées d'OSM** en un tronçon à double sens (`osm: auto`). La ligne de référence passe au
-  milieu de la zone hachurée.
-- **Positions relatives** (« à ≈ 20 de N_SOURCES », « de ≈ 15 à ≈ 25 ») et **nœuds ancrés de quatre façons** : L93
-  recalé sur OSM, site du dossier 13, relatif, limite de carte.
-- **Largeur en plage** (`accotement herbe 3 à 5`), reprise d'un constat photo.
-- **Régime incertain** (`a_verifier`) : rien n'est peint au débouché du chemin des Sources.
-- **Écart admis** repris du tronçon M27 (`scenes_meylan/M27_avenue_de_verdun.yaml`).
-- **Constats que l'étape 2 ne porte pas encore**, laissés en commentaire. La traversée cyclable verte en est un : c'est
-  une pratique locale photographiée, donc admissible avec sa preuve. La hauteur de J5 (≈ 0,6 m) en est un autre :
-  elle ne serait contrôlée qu'à ± 0,20 m (ARB-04).
-- **Avertissements attendus** :
-  - profils de R_SOURCES et R_BUCLOS non relevés (`profil: osm`) ;
-  - l'allée de la Faculté débouche à environ 35 m du nœud N_BUCLOS (OSM way/1088412105) : c'est un carrefour OSM
-    traversé par R_VERDUN_3 sans nœud décrit. Il faudra la décrire comme second nœud du carrefour (fusion de la porte
-    P01-2) après lecture des photos.
+- **Nœuds ancrés de trois façons** : Lambert-93 (`position`, avec `tolerance`), relatif (`depuis`, `distance ≈`,
+  `cap`), limite de carte ;
+- **accrochage à OSM** (`osm: auto`) : les deux chaussées à sens unique de l'avenue sont fusionnées en un tronçon à
+  double sens, sur leur médiane (RF-OSM-PRF-011 ; rupture R-09 de la chaîne) ;
+- **positions relatives à un nœud** (« de ≈ 11 à ≈ 18 de N_BS », `a: "≈ 14,5 de N_BS"`) et **refuge dans une zone
+  hachurée** (remplacement à largeur égale, § 6.3) ;
+- **régimes exacts** par branche (sortie seule, cédez) ; le tourne-à-gauche serré vers Buclos sud est exclu
+  (`mouvements`), au lieu d'admettre un rayon de 2,7 m calculé sur la géométrie simplifiée (relecture M4).
+
+Constats que l'étape 2 ne porte pas encore (à lui proposer, § 7.1) : traversée cyclable verte, mâts bas R11 + R12 et
+répétiteur, hauteur de la balise J5 au nez. L'allée de la Faculté débouche à environ 45 m au nord-est de M17 : c'est
+un carrefour OSM traversé par R_VERDUN_3 sans nœud décrit, à décrire après lecture des photos.
 
 ### 10.3 Bout d'autoroute : sortie de la Rocade Sud (N87) vers l'A41 et vers le chemin du Vieux Chêne par l'« Hélice de Meylan »
 
@@ -655,7 +686,7 @@ contexte: {agglomeration: non, categorie: voie_express}
 noeuds:
   N_N87_S:       {position: [918366, 6459677], osm_pres_de: 10, type: limite_carte}
   M_DIV_HELICE:  {position: [918625, 6460037], osm_pres_de: 5, type: fourche}    # musoir de divergence
-  M_CONV_A41:    {position: [918480, 6459983], osm_pres_de: 5, type: fourche}    # musoir de convergence sur l'A41
+  M_CONV_A41:    {depuis: N_A41_O, distance: ≈ 300, cap: ≈ 15, type: fourche}  # musoir de convergence : ≈ 35 m à l'est du pont O_2 (lot B : insertion de s 420 à 559)
   N_A41_E:       {position: [919109, 6460171], osm_pres_de: 10, type: limite_carte}
   N_A41_O:       {position: [918221, 6459917], osm_pres_de: 10, type: limite_carte}
   N_VIEUX_CHENE: {site: M07, osm_pres_de: 15}                                   # carrefour à feux
@@ -675,8 +706,8 @@ troncons:
     de: M_DIV_HELICE
     vers: M_CONV_A41
     osm: [way/235030397]
-    vitesse: 90
-    profil: "BDG ≈ 0,75 | voie 4 → | BAU ≈ 2"
+    vitesse: 50                     # lot B : vitesse la plus basse de la boucle (auto_noeud_a41_n87, mesures.json prime)
+    profil: "accotement 0,5 | voie 4,0 → | BAU 2,0"
   - id: R_A41_O1                    # A41 sens ouest, en amont du musoir de convergence
     ref: A41
     categorie: autoroute
@@ -700,7 +731,7 @@ troncons:
     vers: N_VIEUX_CHENE
     osm: [way/112621089, way/361790056, way/361790055, way/857526255, way/235030396]
     # forme (boucle, diagonale, anse) à relever sur l'ortho
-    vitesse: 30                     # maxspeed OSM du premier way
+    vitesse: 30                     # maxspeed OSM du premier way (hélice)
     profil: osm                     # OSM lanes 1, 1, 2, 3, 2 selon les ways : une section par way ; à vérifier sur les
                                     # photos du site M07 (arrivée sur feux en 2 ou 3 voies : ICTAVRU p. 91)
 bretelles:
@@ -719,7 +750,7 @@ echangeurs:
 ouvrages:
   O_1: {type: pont, porte: [B_N87_DIV], osm: [way/28712714]}
   O_2: {type: pont, porte: [B_N87_DIV], franchit: [R_A41_O2], osm: [way/28341977]}   # croise aussi la chaussée est (non décrite) ; à confirmer sur l'ortho
-  O_3: {type: pont, porte: [B_N87_DIV], osm: [way/165939595]}
+  O_3: {type: pont, porte: [B_N87_DIV], franchit: [B_HELICE], osm: [way/165939595]}   # l'hélice (way 361790056) passe dessous (relecture F3)
 carrefours:
   - id: C_VIEUX_CHENE
     noeud: N_VIEUX_CHENE
@@ -761,7 +792,15 @@ Le résolveur **refuse** (erreur) :
 - une pratique locale non conforme sans preuve `photo:` ou `mesure:` ;
 - deux tronçons qui se croisent sans nœud ni ouvrage ;
 - une bretelle dont un bout n'est ni un musoir ni un carrefour ;
-- une clé de la couche réseau que l'étape 2 ne porte pas encore, si elle change la géométrie.
+- une clé de la couche réseau que l'étape 2 ne porte pas encore, si elle change la géométrie ;
+- des dates d'état contradictoires (`date`, `date_etat`, `etat.date`) ;
+- un raccord non conforme à un nœud qui porte un contrat de profil (CC-04, contrôlé sur le modèle compilé : un
+  contrôle de continuité ne s'admet pas, CHAINE P6) ;
+- une position qui dépend de la frontière d'un carrefour (« juste avant », « à la ligne d'arrêt »), tant que
+  l'ancrage symbolique du § 6.4 n'est pas porté ; un tracé qualitatif (« courbe à gauche R ≈ 150 », lot N2).
+
+Mise en œuvre (lot N1) : les refus suivants ne sont pas encore programmés et restent au compilateur ou aux lots
+suivants : pratique locale sans preuve, tronçons qui se croisent sans nœud ni ouvrage, bretelle sans musoir.
 
 Il **avertit** dans les cas suivants :
 
@@ -772,16 +811,107 @@ Il **avertit** dans les cas suivants :
 - photo sans date ou d'un autre état que celui décrit ;
 - itinéraire déduit des noms ;
 - tracé OSM à plus de 1,50 m [G] du tracé régulier ;
-- way OSM partagé avec un tronçon non décrit, ou carrefour OSM traversé sans nœud décrit.
+- way OSM partagé avec un tronçon non décrit, ou carrefour OSM traversé sans nœud décrit ;
+- mesure hors de la plage dite (la mesure prime) ;
+- raccord de profil généré au bout d'un tronçon qui finit sur un nœud à contrat (§ 14) ;
+- deux tronçons fusionnés à un nœud sans contrat dont les profils diffèrent (changement instantané dans la route) ;
+- nœud partagé de valence 3 ou plus sans carrefour (divergence, convergence, chaussées jumelées : besoin B2).
 
 ## 12. Compatibilité
 
 - **Format de l'étape 2.** Une description `description_simple/0.2` (tronçon seul, ou réseau à `troncons`,
   `carrefours`, `giratoires`, `bretelles`) est déjà une description réseau valide. Le résolveur la laisse inchangée,
-  à l'octet.
+  à l'octet (test T1 : les 42 descriptions de référence S01-S12, B01, J1-J6, G1-G4, A1-A4, exemples et M20/M24/M27).
+  `description_vers_modele.py` n'appelle le résolveur que pour une description qui utilise la couche réseau
+  (`format: description_reseau/…`, une clé réseau, un nœud nommé) : pour les autres, le chemin est celui d'avant.
 - **Format du tronçon de l'étape 1.** `scenes_simples/S*.yaml`, `scenes_meylan/M*.yaml` et
   `description/exemples/*.yaml` restent valides tels quels et passent directement au compilateur.
 - **Descriptions de sites** (`recon/generateur/meylan/<site>/description.yaml`). Ce qu'elles mettent dans
   `extensions_auto` se transpose avec la table du § 7.5.
 - **Relevé de Paquet Jardin.** La description réseau ne le remplace pas (`recon/pcg`, état avant travaux). Elle sert à
   décrire le reste de Meylan ; ce relevé reste la référence de comparaison (PLAN_GENERATEUR § 6).
+
+## 13. Le résolveur (lot N1, 18/10/2026)
+
+```
+python -B recon/generateur/reseau/resoudre_reseau.py DESCRIPTION.yaml [--sortie DOSSIER] [--sans-compiler]
+python -B recon/generateur/reseau/resoudre_reseau.py --composer NOM | SITE1,SITE2,… [--sortie DOSSIER]
+python -B recon/generateur/description/description_vers_modele.py DESCRIPTION.yaml [--sortie DOSSIER]   # même chose
+hython recon/generateur/fabriquer_generateur.py DESCRIPTION.yaml --complet                              # inchangé
+python -B recon/generateur/reseau/tests/tester_reseau.py       # tests T1 à T6
+python -B recon/generateur/reseau/tests/empreintes.py SORTIE.json --comparer AVANT.json   # non-régression
+```
+
+Le compilateur de l'étape 2 délègue au résolveur toute description qui utilise la couche réseau : la fabrication
+(`fabriquer_generateur.py`) s'en sert donc sans changement. Sorties, dans le dossier de la scène
+(`recon/out/generateur/<scene>/` par défaut) : `description_resolue.yaml` (description exacte au format de l'étape 2,
+relue à l'identique par `yaml_simple`), `compilation_reseau.json` (état, origine, nœuds résolus avec leur ancrage et
+leur tolérance, tronçons avec leurs ways OSM, approximations avec texte, plage, valeur retenue et choix mesure / règle /
+centre, insertions de bandes, raccords générés, fusions, clés non portées par l'étape 2, portes P00 et P01, contrôles
+CC-04), puis `modele_voie.json` et `compilation.json` du compilateur (avec un résumé `reseau_n1`).
+
+| Fichier | Rôle |
+|---|---|
+| `reseau/resoudre_reseau.py` | détection (`est_reseau`), nœuds et ancrages, géométrie (nœuds, polyligne à nœuds, OSM), valeurs approchées, positions en mots, insertion de bandes centrales, raccords de profil, fusions internes, clés réseau, CLI, contrôles après compilation |
+| `reseau/approx.py` | écritures approchées et mesures (§ 4.1), plages par défaut (§ 4.2), choix (§ 4.3) |
+| `reseau/osm_reseau.py` | extrait OSM du dépôt en Lambert-93 : ways, nœuds ponctuels, sommet le plus proche, chaînes de ways, `osm: auto` (chemin le plus court sur les ways de même nom, médiane des chaussées jumelles), découpe, simplification |
+| `reseau/fusion.py` | fusion des tronçons aux nœuds de raccord, retournement d'un tronçon, renommage des références |
+| `reseau/composer.py` | composition de sites |
+| `reseau/yaml_ecrire.py` | écriture YAML relue à l'identique |
+| `reseau/tests/` | tests, empreintes de non-régression, mesure des recouvrements entre sites, exemples R01 à R04 |
+
+**Raccords de profil.** Un nœud qui porte un contrat (`profil`, `cap_profil`, § 14) impose son profil au bout de
+chaque tronçon qui y arrive. Si le profil décrit diffère, le résolveur ajoute sur `raccord` mètres (≈ 30 par défaut)
+une transition continue et monotone : les deux profils sont alignés sur leur plus longue sous-suite commune de bandes
+(type, sous-type, sens) ; à mi-longueur, toutes les bandes sont présentes, celles du seul profil de départ à la moitié
+de leur largeur, celles du seul profil d'arrivée à la moitié de la leur, les communes à la largeur moyenne
+(`ouverture`, puis `fermeture` 5 cm plus loin). Ces deux évènements portent `raccord: oui` : les contrôles de largeur
+des profils de transition sont rapportés « …_raccord », non bloquants (ce ne sont pas des profils de conception). Les
+écarts admis du profil du joint (`ecarts_admis` du nœud) passent au site qui reçoit le raccord.
+
+**Fusions.** Deux tronçons qui se suivent par un nœud nommé de valence 2 hors carrefour (écart de cap ≤ 30°) sont
+fusionnés en une route : une seule ligne de référence, pas de couture de bordure, de tirets ni de socle au raccord
+(ruptures R-01, R-05, R-06, R-08 de la chaîne). Le profil du second est posé en évènement « profil » au raccord s'il
+diffère, ses évènements et panneaux sont décalés, ses matériaux et marquages remplacés par ceux du premier (rapporté
+dans `fusions[].pertes`). Un tronçon arrivant tête-bêche est retourné (profils lus à l'envers, ouvertures et fermetures
+échangées, passages, panneaux et ralentisseurs ramenés en L − s). À un nœud de valence 3 ou plus, seule la paire la
+mieux alignée est fusionnée (écart ≤ 15°, et meilleur de 5° que la paire suivante).
+
+**Ce qui reste à faire.** Le choix par une mesure lue automatiquement (OSM `width:lanes`, BD TOPO, coupes) ; la
+coupure d'un tronçon par un nœud `sur` ; l'ancrage symbolique relatif à un carrefour (§ 6.4) ; le tracé qualitatif et la
+régularisation en arcs et clothoïdes (lot N2) ; les altitudes `z` (lot N2) ; les raccords jumelés (deux chaussées à
+sens unique au bout d'une route à double sens) et les divergences de bretelles (besoin B2) ; `pris_sur` autre que la
+plate-forme ; les refus listés au § 11.
+
+## 14. Réseau commun de Meylan : nœuds partagés, contrats de profil, compositions
+
+`recon/generateur/meylan/reseau_meylan.yaml` porte ce qui relie les sites : les **nœuds partagés** (Lambert-93, avec
+les sites qu'ils relient), les **contrats de profil** des joints, les **alias** des sites et les **compositions**.
+Chaque site le cite (`reseau_commun: ../reseau_meylan.yaml`) et emploie les noms de ses nœuds dans `de`, `vers`,
+`polyligne`, `noeud` (carrefour, giratoire) ou `point` (bretelle) ; un site ne redéclare jamais un nœud commun.
+
+| Clé d'un nœud commun | Contenu |
+|---|---|
+| `position` | Lambert-93 (repère par défaut du réseau commun) |
+| `sites` | sites que le nœud relie (contrôlé : chacun le cite, test T4) |
+| `proprietaire` | site dont la mesure fait le contrat (règle « un tronçon, un propriétaire » : le carrefour du lot A garde sa branche, l'axe du lot B commence ou finit sur le nœud) |
+| `profil`, `cap_profil`, `raccord` | contrat CC-04 (profil du joint lu en regardant vers `cap_profil`), longueur du raccord généré chez les autres |
+| `ecarts_admis`, `note`, `preuves`, `type` | comme pour un nœud de description |
+
+Une **composition** (`--composer a41`) réunit plusieurs sites dans une scène : chaque site est résolu seul, ramené
+dans le repère du premier, ses identifiants préfixés par son alias (`pj_verdun_ne`, `avc_T1`…), puis les tronçons
+qui se suivent à un nœud partagé sont fusionnés. Les dates d'état peuvent différer d'un site à l'autre : la scène
+porte la plus récente et l'avertissement les liste. Compositions déclarées : `a41` (4 sites, l'A41 devient une route
+continue de 3,3 km), `rocade_sud`, `verdun_centre` (Paquet Jardin, axe, M17, M08 : deux routes continues d'un
+carrefour à l'autre), `helice`, `sept_laux`.
+
+## 15. Suite donnée à la relecture de la préparation (F1 à F6)
+
+| # | Constat | Suite |
+|---|---|---|
+| F1 | une mesure hors de la plage dite était jetée en silence | § 4.3 : la mesure est toujours retenue ; hors plage, avertissement (programmé dans `approx.choisir`) |
+| F2 | l'exemple du § 10.2 faisait de M17 un carrefour à feux | § 10.2 réécrit (passage à feux entre deux T en cédez, largeurs du lot B), compilé (R04) |
+| F3 | l'exemple du § 10.3 était refusé par le § 11 (O_3 sans `franchit`) ; musoir et vitesse faux | `franchit: [B_HELICE]`, musoir ≈ 35 m à l'est du pont O_2, boucle à 50 km/h et 1 voie de 4,0 m ; la ligne volontairement fausse reste |
+| F4 | `retenue`, `equipements`, `talus` utilisés sans être déclarés ; B1-B12 et A1-A20 périmés | clés déclarées (§ 2) et recopiées dans le rapport ; renvois à B1-B17 et A1-A20 (§ 7.5) |
+| F5 | la phrase de l'utilisateur lue de deux façons | lecture unique au § 1 |
+| F6 | `passage_inferieur` absent de `ouvrages.type` | ajouté (§ 7.5) |

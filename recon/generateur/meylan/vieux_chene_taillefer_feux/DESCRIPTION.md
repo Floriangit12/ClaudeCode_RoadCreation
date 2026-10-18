@@ -9,6 +9,8 @@
 C'est le carrefour d'arrivée de l'**Hélice de Meylan**, la bretelle qui descend de l'A41 et de la rocade sud : le bout
 d'autoroute lui-même est relevé par le lot B (`../auto_a41_echangeur_meylan_est/`, `../auto_noeud_a41_n87/`).
 
+**Réseau (lot N1, 18/10/2026).** date d'état **28/07/2026** ; la branche Hélice finit sur `N_VCT_HELICE` ; les deux chaussées de l'hélice du nœud A41 / N87 sont coupées au droit de ce nœud (recouvrement de 44,5 m supprimé ; raccord « jumelé » d'une branche à double sens et de deux chaussées à sens unique, besoin B2). Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
 ## 1. Description simple
 
 > Grand carrefour à feux à quatre branches au pied de l'Hélice de Meylan. Au nord l'avenue du Taillefer (2 voies
@@ -21,18 +23,20 @@ d'autoroute lui-même est relevé par le lot B (`../auto_a41_echangeur_meylan_es
 > traversée cyclable peinte en vert, pistes mixtes en enrobé le long du Vieux Chêne derrière des bandes d'herbe.
 > Grande zone de conflit en enrobé très rapiécé, candélabres doubles avec décors lumineux, haies et murs blancs.
 
-## 2. Ordre de construction proposé
+## 2. Ordre de construction (celui de la chaîne)
 
-1. **Plate-forme** : terrain plat (z ≈ 219 m) ; la bretelle monte vers le sud.
-2. **Chaussées** : quatre branches, zone de conflit, voies de shunt courbes.
-3. **Bordures et îlots** : îlots directionnels revêtus (nez arrondis), îlot entre les sens de la bretelle, séparateur
-   bordé du Vieux Chêne est, bordures des trottoirs.
-4. **Trottoirs, pistes, bandes enherbées** : pistes mixtes du Vieux Chêne, trottoirs du Taillefer.
-5. **Marquages** : lignes de voies, flèches d'affectation (TAG / TD / TAD), lignes d'effet des feux, passages,
-   traversées vertes (pratique locale photographiée), cédez-le-passage des shunts.
-6. **Signalisation et feux** : R11 sur chaque entrée, R12 aux passages, B1 sur les îlots, D21 groupés sur mâts,
-   panneau d'autoroute bleu, AB3a des shunts.
-7. **Végétation et mobilier** : haies, grands arbres, candélabres doubles décorés.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 plate-forme | terrain plat (z ≈ 219 m) ; la bretelle monte vers le sud |
+| E08 bordures | îlots directionnels revêtus (nez arrondis), îlot entre les sens de la bretelle, séparateur bordé du Vieux Chêne est, bordures des trottoirs |
+| E10 chaussée | quatre branches, zone de conflit, voies de shunt courbes |
+| E11 trottoirs, pistes | pistes mixtes du Vieux Chêne, trottoirs du Taillefer, bandes enherbées |
+| E12 marquages | lignes de voies, flèches d'affectation (TAG / TD / TAD), lignes d'effet, passages, traversées vertes (pratique locale photographiée), cédez-le-passage des shunts |
+| E14 signalisation et feux | R11 sur chaque entrée, R12 aux passages, B1 sur les îlots, D21 groupés sur mâts, panneau d'autoroute bleu, AB3a des shunts |
+| E15 éclairage | candélabres doubles décorés |
+| E17 végétation (plus tard) | haies, grands arbres |
 
 ## 3. Constats et provenance
 
@@ -55,3 +59,32 @@ d'autoroute lui-même est relevé par le lot B (`../auto_a41_echangeur_meylan_es
 - Le Taillefer est décrit avec 2 voies entrantes (lignes du levé GAM à 25 m) alors qu'OSM en compte 3 à la ligne de
   feux : la troisième naît probablement plus près du carrefour (à vérifier sur photo de face).
 - Les décors lumineux, le panneau bleu d'autoroute et les murs blancs n'ont pas de mot dans le format.
+
+## 5. Étape 3 — reconstruction (18/10/2026)
+
+- Séparateur du Vieux Chêne est écrit « terre-plein » (une bande « séparateur » n'est pas fabricable, BESOINS.md G1),
+  puis élargi à environ 1,2 m garni de gravillons (itération 2 : photos 3eb5557e, efc67150, 12844b83, c02e39f5).
+- Itération 1 : la branche est n'est pas droite : elle part vers l'est-nord-est puis tourne vers le sud-est (droite de
+  36 m, arc de ≈ 24 m de rayon ; médiane des chaussées OSM ; photos efc67150, 3eb5557e, 4c3c6ec3) ; axe ouest recalé
+  sur la médiane OSM ; passage ouest déplacé à ≈ 47 m du centre (levé GAM, photo 4289a952) ; îlot séparateur bordé
+  d'environ 1,4 m sur les 20 derniers mètres de la branche ouest (levé GAM, photo e5c7653d).
+- Rapport : `RECONSTRUCTION.md` ; manques du générateur : `BESOINS.md`.
+
+## 6. Étape 3, passe v2 — centre relu (18/10/2026)
+
+Dossier de compréhension v2 lu en tuiles natives (60 photos, 169 vues dont 65 du centre ; IGN 2015 à 2025) :
+`COMPREHENSION.md`. Description simple du centre, telle qu'on la dirait :
+
+> Le cœur est un grand espace d'enrobé uni et très rapiécé, sans aucun marquage intérieur. Chaque branche y débouche
+> avec un îlot : au nord, un petit îlot refuge bordé (environ 1,5 × 4 m, B21) entre la sortie et les deux entrées du
+> Taillefer, coupé par le passage et sa bande verte cyclable, puis un séparateur étroit ; à l'ouest, un îlot étroit à
+> balise ; au sud, l'îlot central de l'Hélice ; à l'est, le séparateur en gravillons. Les deux tourne-à-droite directs
+> passent en cédez derrière un petit triangle revêtu (Hélice → est) et un grand triangle (ouest → Hélice).
+
+| Itération | Changement | Preuve |
+|---|---|---|
+| v2-1 | îlot refuge du Taillefer (ouverture de 4 m, terre-plein bordé 1,5 m, écarts DEF-022 et RF-MA-REF-003 admis) | c02e39f5 -131 et -174, 3c82fa3f +013 (28/07/2026), 0190214f -170 (28/06/2026) ; IGN 2024 |
+| v2-2 | axe du Taillefer déplacé de 2,5 m vers l'est : l'îlot du modèle tombait 3 m à l'ouest de l'îlot réel | IGN 2024 lu à la grille (`ign24_coeur`) ; bordure est du levé GAM ; 2a5175d2 +009 |
+
+Hors format : `BESOINS.md` (VT-1 séparateur étroit, VT-2 traversées vertes et damier, VT-3 zébra du levé GAM d'un autre
+état).

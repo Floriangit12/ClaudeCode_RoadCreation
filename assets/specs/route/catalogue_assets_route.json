@@ -84972,50 +84972,66 @@
   "date": "2026-10-17",
   "fabrication": "hython recon/pcg/assets_route/fabriquer_assets_etape3.py (HDA route::assemblage, route::panneau et HDA de l'étape 1) ; matériaux : python recon/pcg/assets_route/telecharger_materiaux_etape3.py",
   "documentation": "recon/pcg/assets_route/ASSETS_ROUTE_ETAPE3.md",
+  "phases_chantier_ordre": "lot N1 (réseau, 18/10/2026 ; relecture de la préparation § 3 et X1) : l'ordre qui fait foi est celui de la chaîne de construction (recon/generateur/CHAINE_CONSTRUCTION.md § 2, chaine_construction.json) ; chaque phase porte ici son étape de la chaîne (etape_chaine). Les numéros P01 à P11 restent des identifiants de familles, pas un ordre : le marquage (P10) se pose en E12, avant la retenue (P06, E13), les panneaux et les feux (P08, P09, E14) et l'éclairage (P07, E15).",
   "phases_chantier": [
    {
     "id": "P01_reseaux",
-    "role": "terrassement, réseaux enterrés, regards et chambres (corps sous chaussée)"
+    "role": "terrassement, réseaux enterrés, regards et chambres (corps sous chaussée)",
+    "etape_chaine": ["E07", "E09"],
+    "note_chaine": "terrassements en E07 ; regards et chambres en E09"
    },
    {
     "id": "P02_bordures",
-    "role": "bordures, caniveaux, éléments d'îlots et de giratoires préfabriqués (posés sur béton de calage)"
+    "role": "bordures, caniveaux, éléments d'îlots et de giratoires préfabriqués (posés sur béton de calage)",
+    "etape_chaine": ["E08"],
+    "note_chaine": "bordures et caniveaux en E08 (les avaloirs posés en E09)"
    },
    {
     "id": "P03_chaussee",
-    "role": "couches de chaussée et couche de roulement (enrobés, matériaux de surface)"
+    "role": "couches de chaussée et couche de roulement (enrobés, matériaux de surface)",
+    "etape_chaine": ["E10"]
    },
    {
     "id": "P04_trottoirs",
-    "role": "revêtements des trottoirs, îlots, terre-pleins (béton, dalles, pavés, résine, galets, gravillons)"
+    "role": "revêtements des trottoirs, îlots, terre-pleins (béton, dalles, pavés, résine, galets, gravillons)",
+    "etape_chaine": ["E11"]
    },
    {
     "id": "P05_affleurants",
-    "role": "mise à niveau des affleurants : tampons, grilles, bouches à clé, avaloirs"
+    "role": "mise à niveau des affleurants : tampons, grilles, bouches à clé, avaloirs",
+    "etape_chaine": ["E09"]
    },
    {
     "id": "P06_retenue",
-    "role": "dispositifs de retenue : GBA/DBA/MVL coulés en place, glissières, extrémités, atténuateurs"
+    "role": "dispositifs de retenue : GBA/DBA/MVL coulés en place, glissières, extrémités, atténuateurs",
+    "etape_chaine": ["E13"]
    },
    {
     "id": "P07_eclairage",
-    "role": "candélabres et luminaires"
+    "role": "candélabres et luminaires",
+    "etape_chaine": ["E15"],
+    "note_chaine": "après les panneaux et les feux (E14)"
    },
    {
     "id": "P08_signalisation",
-    "role": "supports, panneaux, panonceaux, potences, portiques, balises"
+    "role": "supports, panneaux, panonceaux, potences, portiques, balises",
+    "etape_chaine": ["E14"]
    },
    {
     "id": "P09_feux",
-    "role": "mâts, têtes de feux, répétiteurs, boîtiers d'appel, armoires"
+    "role": "mâts, têtes de feux, répétiteurs, boîtiers d'appel, armoires",
+    "etape_chaine": ["E14"]
    },
    {
     "id": "P10_marquage",
-    "role": "marquage au sol et plots rétroréfléchissants J15a (dossier 08)"
+    "role": "marquage au sol et plots rétroréfléchissants J15a (dossier 08)",
+    "etape_chaine": ["E12"],
+    "note_chaine": "avant la retenue, les panneaux et les feux : AB4 au droit de la ligne STOP, R11 au droit de la ligne d'effet, C24 dès qu'il y a des flèches"
    },
    {
     "id": "P11_mobilier",
-    "role": "potelets, barrières, arceaux, bancs, corbeilles, abris"
+    "role": "potelets, barrières, arceaux, bancs, corbeilles, abris",
+    "etape_chaine": ["E16"]
    }
   ],
   "conventions": {

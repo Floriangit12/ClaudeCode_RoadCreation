@@ -1771,7 +1771,7 @@ class CarrefourPlan(ObjetReseau):
         if self.regime == "feux" and getattr(self, "guides", None):
             for nom, mvts in self.phases_mv:
                 tags = [t for t in mvts if self.traj_geo[t]["m"] == "TAG" and t in {tt["id"] for x, ts in self.guides for tt in ts}]
-                for tg in tags:
+                for tg in sorted(tags):         # ordre fixe (rapport déterministe ; lot N1, 18/10/2026)
                     xg = self.traj_geo[tg]["x"]
                     opp_td = [t for t in mvts if self.traj_geo[t]["m"] == "TD"
                               and abs(abs(norm180(self.traj_geo[t]["x"].azimut - xg.azimut)) - 180) < 20]

@@ -51,27 +51,54 @@ def _resume(f):
             "instance": instance}
 
 
+INSTANCES = {"ign": "https://panoramax.ign.fr/api", "osm-fr": "https://panoramax.openstreetmap.fr/api"}
+
+
+def _get_court(url, timeout=45):
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read()
+
+
+def _pages(url, pages_max, get, vus, instance=None):
+    for _ in range(pages_max):
+        d = json.loads(get(url).decode("utf-8"))
+        for f in d.get("features", []):
+            r = _resume(f)
+            if instance:
+                r["instance"] = r.get("instance") or instance
+            vus[f["id"]] = r
+        nxt = next((ln.get("href") for ln in d.get("links", []) if ln.get("rel") == "next"), None)
+        if not nxt or not d.get("features"):
+            break
+        url = nxt
+
+
 def rechercher(bbox, cache, rafraichir=False, limite=1000, pages_max=10):
-    """Photos dans bbox (lon0, lat0, lon1, lat1). Cache : fichier JSON (requête + réponses résumées)."""
+    """Photos dans bbox (lon0, lat0, lon1, lat1). Cache : fichier JSON (requête + réponses résumées).
+    Si le méta-catalogue (api.panoramax.xyz) ne répond pas (HTTP 500 ou délai de 45 s, constaté le 18/10/2026), la
+    recherche est faite sur les instances IGN et OSM-FR, qui portent les photos de Meylan, et fusionnée (même cache,
+    même format ; « note » dans le cache)."""
     cache = Path(cache)
     cle = hashlib.sha256(json.dumps([round(v, 6) for v in bbox]).encode()).hexdigest()[:12]
     if cache.exists() and not rafraichir:
         d = json.loads(cache.read_text(encoding="utf-8"))
         if d.get("cle") == cle:
             return d["photos"], d
-    url = API + "/search?" + urllib.parse.urlencode({"bbox": ",".join("%.6f" % v for v in bbox), "limit": limite})
-    vus = {}
-    for _ in range(pages_max):
-        d = json.loads(_get(url).decode("utf-8"))
-        for f in d.get("features", []):
-            vus[f["id"]] = _resume(f)
-        nxt = next((ln.get("href") for ln in d.get("links", []) if ln.get("rel") == "next"), None)
-        if not nxt or not d.get("features"):
-            break
-        url = nxt
+    bb = ",".join("%.6f" % v for v in bbox)
+    vus, note, api = {}, None, API
+    try:
+        _pages(API + "/search?" + urllib.parse.urlencode({"bbox": bb, "limit": limite}), pages_max, _get_court, vus)
+    except Exception as e:  # méta-catalogue indisponible : instances
+        vus, api = {}, list(INSTANCES.values())
+        note = f"méta-catalogue indisponible ({str(e)[:80]}) : instances IGN et OSM-FR fusionnées"
+        for nom, base in INSTANCES.items():
+            _pages(base + "/search?" + urllib.parse.urlencode({"bbox": bb, "limit": 500}), pages_max, _get, vus, nom)
     photos = sorted(vus.values(), key=lambda r: (r["proprietes"].get("datetime") or "", r["id"]))
-    doc = {"schema": "comparaison_recherche_panoramax/0.1", "cle": cle, "bbox": list(bbox), "api": API,
+    doc = {"schema": "comparaison_recherche_panoramax/0.1", "cle": cle, "bbox": list(bbox), "api": api,
            "date_requete": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "n": len(photos), "photos": photos}
+    if note:
+        doc["note"] = note
     cache.parent.mkdir(parents=True, exist_ok=True)
     cache.write_text(json.dumps(doc, ensure_ascii=False, indent=0), encoding="utf-8")
     return photos, doc

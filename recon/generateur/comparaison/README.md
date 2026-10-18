@@ -1,6 +1,6 @@
 # Comparaison multivues d'un tronçon fabriqué avec des photos Panoramax
 
-*`recon/generateur/comparaison/` — 17/10/2026.*
+*`recon/generateur/comparaison/` — 17/10/2026 ; v2 (dossier de compréhension) le 18/10/2026.*
 
 Principe voulu par l'utilisateur : Claude décrit une scène réelle de Meylan à partir de photos (description
 grossière, « environ 20 m »), le générateur la reconstruit en gérant le détail par les règles, et on juge la
@@ -16,6 +16,96 @@ python recon/generateur/comparaison/comparer_multivues.py S_M20 S_M24 S_M27
 Python système (numpy, scipy, OpenCV, pyproj, shapely, Pillow) ; le rendu passe par hython
 (`rendu_hython.py`, Houdini 22.0.459, Karma XPU). Aucune écriture hors de `D:` : les fichiers temporaires de
 Houdini vont dans `recon/out/generateur/comparaison/_tmp/`.
+
+La **v2** (18/10/2026, section suivante) prépare un *dossier de compréhension* pour les carrefours et les giratoires
+(`--v2`) ; sans `--v2`, l'appel est celui de la v1, inchangé (sections « Entrées » et suivantes).
+
+## v2 : dossier de compréhension, lu par le modèle (18/10/2026)
+
+Remarques de l'utilisateur : « avec 6-10 photos tu ne peux pas comprendre toute la scène, et surtout le CENTRE avec la
+ZONE DE CONFLIT » ; « l'outil de comparaison, c'est directement toi qui passes les images dans ton modèle et essaies
+de comprendre la scène ; il peut aussi intégrer plusieurs orthos pour comprendre la scène de manière générale : c'est
+de la fusion, mais directement dans ton modèle ». La v2 ne remplace donc pas la lecture par des algorithmes : elle
+**choisit, découpe, date et indexe** les images (orthos de plusieurs dates, 40 à 60 photos sous toutes les directions,
+rendu) que l'agent lit ensuite lui-même, dans l'ordre donné par `comprehension/LISEZMOI.md`. La pose reste celle de
+la v1 (métadonnées, redressement, affinage validé) : approximative, elle suffit pour comparer à l'œil.
+
+```
+python recon/generateur/comparaison/comparer_multivues.py meylan_paquet_jardin --v2
+       --sites-conf recon/generateur/meylan/paquet_jardin/comparaison_site.json
+       --sortie recon/out/generateur/meylan_paquet_jardin/comparaison
+       [--depuis 2024-08-24] [--jusqu-au 2025-06-22] [--complement-depuis 2019-01-01 | non]
+       [--etapes selection,orthos,pose,rendu,dessus,planches,dossier] [--processus 4] [--sans-mapillary]
+       [--couches-orthos pcrs2022,ign2024,...] [--echantillons 128] [--rafraichir]
+```
+
+| Étape | Module | Ce qu'elle fait |
+|---|---|---|
+| `selection` | `zones.py`, `selection_v2.py`, `api_panoramax.py`, `api_mapillary.py` | **zones d'intérêt** tirées du modèle (`modele_voie.json`) : zone centrale de conflit (ou anneau découpé par branche et îlot central d'un giratoire), îlots, passages, 45 m d'approche de chaque branche ; recherche Panoramax (repli sur les instances IGN et OSM-FR si le méta-catalogue ne répond pas) puis **Mapillary en complément** (jeton lu dans `%USERPROFILE%\.config\meylan_adas\mapillary_token.txt`, jamais écrit ; doublons d'une même prise publiée sur les deux écartés) ; filtres de la v1 ; **plusieurs vues par photo 360°** (vers le centre de chaque zone et les 8 azimuts, fusionnées à 25°) ; choix glouton qui **maximise la couverture** (zone × secteur d'observation × distance ≤ 20 m / au-delà), primes pour une photo prise **dans le cœur ou à son bord** et pour chaque **mouvement** nouveau (passage d'une séquence dans le cœur, branche d'entrée → branche de sortie) ; toute 360° garde une vue vers le centre et **vers chaque branche** visible (6 au plus si elle est prise dans le cœur, 4 ailleurs), et une 360° restée à une seule vue reçoit après le choix un contrechamp (vue à 90° ou plus qui montre le cœur ou une approche : sur une approche, la branche derrière la caméra) ; photo prise dans l'îlot central d'un giratoire écartée, îlot central supposé opaque ; doublons quasi identiques écartés ; périodes de travaux déclarées écartées (`--exclure-periodes`) ; **40 à 60 photos** pour un carrefour ou un giratoire (240 vues au plus), 12 à 20 pour une section ; **fenêtre d'état** `--depuis`/`--jusqu-au` d'abord, puis, en complément seulement (malus), photos antérieures depuis `--complement-depuis`, marquées « HORS FENÊTRE » partout → `selection.json`, `zones.json`, `couverture.json` (avant v1 / après v2, mêmes zones, même visibilité), `plan_couverture.png`, `plan_couverture_centre.png` |
+| `orthos` | `orthos.py` | **kit multi-orthos** : PCRS 5 cm 2022 (si ≥ 50 % de l'emprise), IGN BD ORTHO 20 cm 2024, 2021, 2018, 2015, Pléiades 50 cm 2025, IRC 2024 (végétation en rouge), Plan IGN en plan de contexte ; même emprise L93 et même cadrage pour toutes les couches, **date de prise de vue sur chaque image** (graphe de mosaïquage WFS), zoom du **centre** par couche, tuiles natives des couches plus fines que le pas commun, planches 2 × 2 de quatre dates → `orthos/` (`kit.json`) |
+| `pose` | `pose_lot.py` → `comparer_multivues.poser_vue` | pose de chaque vue comme en v1, en parallèle (`--processus`) |
+| `rendu` | `rendu_hython.py` (mode par lots) | un appel husk par lot de 40 vues de même résolution (≈ 5 à 6 s par vue au lieu de 14 à 30 s) ; une vue déjà rendue est reprise si sa caméra, son soleil, les échantillons et l'empreinte de la scène (scene_rendu.usda, couches L2 / L2b) sont identiques → `rendus_v2/` |
+| `dessus` | `dessus.py` | rendu de dessus du modèle (Karma, caméra quasi orthographique) **\|** ortho (PCRS 5 cm si elle couvre l'emprise, sinon IGN 20 cm) à la même échelle, contours du modèle sur l'ortho (bordures rouges, limites de matériau jaunes, marquages cyan), en tuiles de 740 px, site entier et **centre** → `dessus/` (`dessus.json`) |
+| `planches` | `etapes_v2.py` | planche par vue (photo \| rendu \| contours \| arêtes, comme la v1), synthèses de 15 paires, plan des poses, grille `ecarts.json` avec la section **`centre_zone_conflit`** (îlots, guidage, traversées cyclables, pavés, zébras, passages, refuges, autres marquages : ce que dit le modèle, rempli automatiquement ; constat et détail à remplir par l'agent ; sources : zooms du centre des orthos, tuiles de dessus du centre, vues du centre) |
+| `dossier` | `dossier.py` | **dossier de compréhension** : `comprehension/LISEZMOI.md` (ordre de lecture et, pour chaque vue, numéro sur le plan, date DANS / HORS fenêtre, position, visée, zones vues, fichiers), `index.json`, `plan_vues_centre.png` et `plan_vues_site.png` (meilleure ortho + zones du modèle + position et visée de chaque photo, numérotées P01…), planches 2 × 2 des vues du centre en tour d'horizon (`photos_non_versionnees/v2/comprehension/centre_pNN.png`) |
+
+Ordre de lecture (LISEZMOI) : orthos datées (dates côte à côte, puis zoom du centre de chaque couche, tuiles
+natives) → plans d'index → vue de dessus rendu | ortho → vues du centre par direction d'observation → vues de chaque
+branche, îlot et passage → mouvements → remplir `centre_zone_conflit` et la grille des vues. Un élément vu seulement
+sur une photo hors fenêtre se confirme sur une photo de la fenêtre ou sur l'ortho la plus proche de la date d'état.
+
+Sorties v2 sous `<sortie>/<site>/` : `selection.json`, `zones.json`, `couverture.json`, `poses.json`,
+`ecarts.json`, `rapport.json`, plans (`plan_site.png`, `plan_couverture*.png`), `orthos/`, `dessus/`, `rendus_v2/`,
+`comprehension/` (diffusables : rendus, orthos sous licence ouverte, plans sans photo) ; photos de tiers et planches
+qui en contiennent sous `photos_non_versionnees/{brut, v2/vues, v2/planches, v2/comprehension}` (jamais versionnées
+ni diffusées). Une sélection v1 présente est d'abord copiée dans `v1/` (rien n'est effacé). Le cache des orthos
+(réponses WMS, dates des graphes) est sous `<sortie>/_orthos/`.
+
+### Essai v2 sur Paquet Jardin et le Rond-point du Lycée (18/10/2026)
+
+```
+python recon/generateur/comparaison/comparer_multivues.py meylan_paquet_jardin --v2 --sites-conf recon/generateur/meylan/paquet_jardin/comparaison_site.json --sortie recon/out/generateur/meylan_paquet_jardin/comparaison --depuis 2024-08-24 --jusqu-au 2025-06-22
+python recon/generateur/comparaison/comparer_multivues.py meylan_rp_lycee --v2 --sites-conf recon/generateur/meylan/rp_lycee/comparaison_site.json --sortie recon/out/generateur/meylan_rp_lycee/comparaison --depuis 2024-05-01
+```
+
+| | Paquet Jardin (carrefour à feux) | Rond-point du Lycée (giratoire, 5 branches) |
+|---|---|---|
+| Photos v1 → v2 | 7 → **60** (38 Panoramax, 22 Mapillary ; 30 dans la fenêtre d'état 24/08/2024-22/06/2025, 30 antérieures 2019-2024 en complément : la fenêtre n'a que 32 photos candidates) | 9 → **60** (Panoramax ; toutes dans la fenêtre ≥ 01/05/2024 ; 21 photos prises dans l'îlot central écartées) |
+| Vues | 123 (40 photos 360°, 1 à 6 vues chacune ; 16 n'ont qu'une vue : prises 20 à 60 m en dehors du cœur, les autres directions ne montrent aucune zone du site) | 243 (56 photos 360°, 2 à 6 vues chacune) |
+| Photos dans le cœur ou à son bord | 9 | 32 (anneau) |
+| Mouvements couverts | 3 (Revirée → Vercors, Verdun NE → SO, SO → NE ; les 3 disponibles) | 5 sur 7 disponibles |
+| **Centre v1 → v2** (vues qui voient ≥ 20 % de la zone / photos / secteurs d'observation) | zone de conflit : 2 / 2 / 1 (SO) → **54 / 29 / 6** ; approche Verdun SO aveugle → 38 / 26 / 6 | anneau : 4 secteurs sur 5 aveugles, 1 vue → **22 à 66 vues, 13 à 35 photos, 4 à 8 secteurs par secteur d'anneau** ; îlot central aveugle → 34 / 26 / 8 ; approche de l'accès est aveugle → 12 / 7 / 4 |
+| Zones aveugles v2 | aucune | aucune |
+| Kit d'orthos | PCRS 2022-05-10 (5 cm), IGN 2024-08-09, 2021-08-13, 2018-08-21, 2015-07-03, IRC 2024, Pléiades 2025, Plan IGN de contexte | mêmes couches sans PCRS (hors emprise) |
+| Vue de dessus | PCRS 5 cm : centre 4 tuiles, site 16 tuiles ; IGN 20 cm | IGN agrandie à 10 cm : centre 2 tuiles, site 4 tuiles |
+| Temps, premier passage à froid | ≈ 22 min (sélection 124 s, orthos 192 s, poses 245 s, rendus 647 s pour 112 vues, dessus 79 s, planches 47 s, dossier 4 s) | ≈ 32 min (sélection 218 s, orthos 216 s, poses 272 s, rendus 1 099 s pour 243 vues, dessus 40 s, planches 95 s, dossier 12 s) |
+| Temps, relance (caches, rendus repris) | ≈ 5 min (poses 218 s, rendus repris en 0,2 s, planches 52 s) | — |
+
+Lecture faite par l'agent (kit d'orthos, tuiles de dessus du centre, toutes les vues du centre de Paquet Jardin et 28
+vues du centre du Lycée sur les 8 directions, planches photo | rendu), consignée dans `ecarts.json` →
+`centre_zone_conflit` de chaque site :
+- **Paquet Jardin : ressemblance du centre FAIBLE.** Le cœur du modèle est un enrobé uni bordé de 4 passages et 4
+  refuges rectangulaires ; le cœur réel porte des lignes de guidage du tourne-à-gauche Verdun NE → Vercors, la
+  traversée de la Chronovélo en rectangles jaunes et logos vélo (côté cœur du passage SO), une traversée cyclable
+  verte sur la Revirée, des îlots en pointe à balise J5 et deux îlots d'angle plantés ; les passages du modèle sont
+  décalés de 2 à 6 m (le passage SO est posé sur la traversée Chronovélo réelle, `contours_centre_pcrs2022_t00`).
+  Les photos du 01/05/2024 (hors fenêtre) montrent le chantier de l'angle ouest : la fenêtre d'état est justifiée.
+- **Rond-point du Lycée : ressemblance du centre MOYENNE.** Rayon de l'îlot, largeur de l'anneau, entrées et lignes
+  de cédez-le-passage justes (contours du modèle sur l'IGN 2024 à ≈ 1 m) ; habillage faux : le réel est un îlot-parc
+  boisé et surélevé ceint d'un muret de 0,6 à 0,8 m, couronne en béton coulé avec caniveau à fentes, B21 face aux
+  entrées, passages inférieurs piétons sous l'anneau ; le modèle est un disque de gazon plat bordé de pavés.
+
+Limites connues de la v2 :
+- Les positions GNSS restent approximatives (± 4 m annoncés ; Mapillary : `computed_geometry`) : une vue « prise dans
+  le cœur » peut montrer la branche qui suit (m323711951, Paquet Jardin). Le plan d'index et la vue elle-même le
+  disent ; la pose n'est pas raffinée davantage (principe de l'utilisateur).
+- La visibilité d'une zone est géométrique (champ, distance, bâtiments OSM, îlot central d'un giratoire supposé
+  opaque) : la végétation, les véhicules et les murets ailleurs ne sont pas modélisés ; « voir » une zone veut dire
+  « l'avoir dans le champ, sans bâtiment devant ».
+- Les photos hors fenêtre d'état montrent d'autres états : à Paquet Jardin, celles du 01/05/2024 montrent le chantier
+  de l'angle ouest. `--exclure-periodes` écarte une période connue de travaux.
+- Le Pléiades 2025 n'a pas de date d'image publiée ; le Plan IGN n'est lisible qu'en plan de contexte (0,6 m/px).
+- Le temps est surtout celui des rendus (≈ 5 à 6 s par vue sur la RTX 5070, partagée avec les autres lots).
 
 ## Entrées (lecture seule)
 

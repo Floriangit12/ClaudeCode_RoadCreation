@@ -1,0 +1,55 @@
+{
+ "schema": "comparaison_sites/0.1",
+ "note": "Ancrage du modèle de réseau : repère local du site = Lambert-93 moins l'origine de la description (x vers l'est, y vers le nord), donc azimut grille de +x = 90° et origine = origine du site. Écrit par le lot SITES (auto_*, axe_*) ; aucune image. Origine recalée le 18/10/2026 (lot SITES, reprise) sur l'origine de la description (déplacée pour la précision float32 du HeightField, BESOINS.md G1).",
+ "sites": {
+  "meylan_axe_verdun_centre": {
+   "titre": "tronçon T1 (Paquet Jardin → M17), passage à refuge de M27",
+   "modele": "recon/out/generateur/meylan_axe_verdun_centre",
+   "description": "recon/generateur/meylan/axe_verdun_centre/description.yaml",
+   "ancrage": {
+    "origine_l93": [
+     917584.8,
+     6460592.1
+    ],
+    "azimut_grille_deg": 90.0
+   },
+   "point_interet": {
+    "s": -77.0,
+    "t": -76.0,
+    "nom": "passage à refuge de M27 (T1, s ≈ 221 m)"
+   },
+   "note": "scène de fabrication du seul tronçon T1 (la scène à deux tronçons fait planter rg::sol, BESOINS.md V-C1)"
+  },
+  "meylan_axe_verdun_centre_t2": {
+   "titre": "tronçon T2 (M17 → lycée), passage à refuge k ≈ 1 661",
+   "modele": "recon/out/generateur/meylan_axe_verdun_centre_t2",
+   "description": "recon/generateur/meylan/axe_verdun_centre/description.yaml",
+   "ancrage": {
+    "origine_l93": [
+     917584.8,
+     6460592.1
+    ],
+    "azimut_grille_deg": 90.0
+   },
+   "point_interet": {
+    "s": 159.7,
+    "t": 167.4,
+    "nom": "passage à refuge de T2 (k ≈ 1 661, a319c17a)"
+   },
+   "note": "scène de fabrication du seul tronçon T2"
+  }
+ },
+ "porteurs_sequences": {
+  "note": "Porteur de la caméra par séquence Panoramax (identifiant de collection), quand la sémantique « transport » manque ou que la vitesse est ambiguë : constaté sur les photos (capot ou toit de voiture, sac à dos, casque) ou repris de recon/pcg/enrichir/camera.py SEQUENCES (mêmes contributeurs, mêmes journées). Sans entrée : sémantique « transport » de la séquence, sinon vitesse médiane de la séquence (> 32 km/h voiture, < 20 km/h vélo ou piéton, entre les deux inconnu).",
+  "4ef310d0-": "velo",
+  "dda9fddd-": "velo",
+  "2b630cec-": "velo",
+  "69791f81-": "velo",
+  "dff66b1c-": "velo",
+  "86c4aa13-": "voiture",
+  "7b1d9477-": "voiture",
+  "a622e3ce-": "voiture",
+  "203bb147-": "voiture",
+  "36c713af-": "voiture"
+ }
+}

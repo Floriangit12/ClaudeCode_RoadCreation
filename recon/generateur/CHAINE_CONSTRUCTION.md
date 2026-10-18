@@ -1,6 +1,6 @@
 # Chaîne de construction d'un réseau routier : de la description au réseau continu
 
-*`recon/generateur/CHAINE_CONSTRUCTION.md`, 17/10/2026. Lot « chaîne de construction » de l'étape 3 du générateur.
+*`recon/generateur/CHAINE_CONSTRUCTION.md`, 17/10/2026, mis à jour le 18/10/2026 par le lot N1 (§ 2.4 ; fiches E00, E01, E02, E06, E07, E11 ; § 5, § 6, § 7). Lot « chaîne de construction » de l'étape 3 du générateur.
 Version machine : `recon/generateur/chaine_construction.json` ; les fiches du § 3 et le JSON ont la même donnée. Format
 d'entrée proposé : `recon/generateur/FORMAT_DESCRIPTION_RESEAU.md`. Ce document s'appuie sur `PLAN_GENERATEUR.md`
 (lots L0 à L9), `hda/README_RG.md`, `description/FORMAT_DESCRIPTION.md`, la synthèse
@@ -134,6 +134,30 @@ format réseau (FORMAT_DESCRIPTION_RESEAU § 10.1), à travers la chaîne :
 | E14 | Balise J5 au nez si l'îlot fait au moins 1,90 m entre rives (RF-GV-ILO-008). |
 | E17 | Plus tard : végétation basse à moins de 0,60 m dans les triangles de visibilité (DEF-029). |
 
+### 2.4 Un seul ordre de construction (lot N1, 18/10/2026)
+
+La relecture de la préparation (`meylan/RELECTURE_PREPARATION.md` § 3) a trouvé quatre ordres de chantier : la chaîne,
+les relevés du lot A, ceux du lot B et les phases P01 à P11 des assets. **La chaîne fait foi.** Les ordres des sites
+ne sont plus que des notes, rangées dans les étapes de la chaîne (§ 2 des `DESCRIPTION.md` des 15 sites,
+`extensions_auto.etapes` du lot B) ; chaque phase des assets porte son étape (`etape3.phases_chantier[].etape_chaine`
+de `assets/specs/route/catalogue_assets_route.json`) :
+
+| Phase des assets | Étape de la chaîne | Note |
+|---|---|---|
+| P01_reseaux | E07, E09 | terrassements en E07 ; regards et chambres en E09 |
+| P02_bordures | E08 | l'avaloir de la famille se pose en E09 |
+| P03_chaussee | E10 | |
+| P04_trottoirs | E11 | |
+| P05_affleurants | E09 | |
+| P06_retenue | E13 | |
+| P07_eclairage | E15 | après les panneaux et les feux |
+| P08_signalisation, P09_feux | E14 | |
+| P10_marquage | E12 | avant la retenue, les panneaux, les feux et l'éclairage |
+| P11_mobilier | E16 | |
+
+Les 120 assets de l'étape 1 sans phase prennent l'étape de leur famille (bordures et caniveaux E08, garde-corps E13,
+supports et feux E14, potelets et barrières E16). Même donnée dans `chaine_construction.json` (`ordre_unique`).
+
 ## 3. Fiches des étapes
 
 Chaque fiche donne : le but ; les entrées ; les sorties avec leur contrat ; les HDA (existantes, en cours dans l'étape
@@ -201,8 +225,10 @@ qui garantit la continuité ; l'état du code. Les sorties d'un réseau vont dan
 - Existe : descriptions de sites de Meylan en cours dans les lots voisins (`recon/generateur/meylan/<site>/` : description.yaml, mesures.json, photos.json, et `extensions_auto` pour ce que le format ne dit pas encore).
 - Existe : 12 exemples, catalogue S01 à S12, trois rues de Meylan décrites d'après photo (M20, M24, M27).
 - Existe : inférence OSM → modèle avec nœuds partagés et carrefours topologiques.
-- Manque : couche réseau (proposée : FORMAT_DESCRIPTION_RESEAU.md) : nœuds ancrés, valeurs approchées, accrochage à OSM, itinéraires, ouvrages, échangeurs.
-- Manque : résolveur (lot N1).
+- Existe : résolveur de la couche réseau (lot N1, 18/10/2026) : `recon/generateur/reseau/resoudre_reseau.py` (nœuds ancrés et partagés, valeurs approchées, positions en mots, accrochage à OSM, raccords de profil, fusions, composition de sites), appelé par `description_vers_modele.py` ; réseau commun de Meylan `meylan/reseau_meylan.yaml` ; 15 sites au format réseau.
+- Manque : mesures lues automatiquement (OSM width:lanes, BD TOPO, coupes de mesures.json) dans le choix des valeurs approchées.
+- Manque : coupure d'un tronçon par un nœud « sur » ; ancrage symbolique relatif à un carrefour (FORMAT_DESCRIPTION_RESEAU § 6.4) ; tracé qualitatif.
+- Manque : itinéraires, ouvrages et échangeurs : lus et recopiés dans compilation_reseau.json, pas encore portés par le modèle (schéma modele_voie/0.2).
 
 ### E01 — Graphe topologique
 
@@ -257,7 +283,8 @@ qui garantit la continuité ; l'état du code. Les sorties d'un réseau vont dan
 
 - Existe : inférence OSM : nœuds partagés et carrefours (osm_vers_modele.py l. 585-613 ; `carrefour_plan` l. 766 ; `carrefour_giratoire` l. 928).
 - Existe : rg::graphe : branches et valence.
-- Manque : description : chaque tronçon isolé reçoit deux nœuds `limite_carte` (description_vers_modele.py l. 2221-2222) ; l'étape 2 crée désormais les nœuds des carrefours décrits (`description/carrefours.py`), mais pas encore les nœuds de connexion ni les ancrages.
+- Existe : nœuds partagés entre sites et fusion des tronçons aux raccords de valence 2 (`recon/generateur/reseau/fusion.py`) : une route continue d'un carrefour à l'autre dans une scène composée.
+- Manque : description : un nœud de raccord jumelé (deux chaussées à sens unique au bout d'une route à double sens) ou une divergence de bretelles reste une limite de carte (besoin B2) ; les itinéraires ne sont pas encore portés par le modèle.
 - Manque : itinéraires, mouvements voie à voie, fusion des carrefours complexes.
 - Manque : lecture des carrefours dans Houdini (lot de l'étape 2).
 
@@ -273,7 +300,7 @@ qui garantit la continuité ; l'état du code. Les sorties d'un réseau vont dan
 - polylignes OSM ou tracé décrit
 - mesures d'axe sur l'ortho
 - MNT ou LiDAR HD : 4 dalles de 1 km² autour de Paquet Jardin (`data/sites/paquet_jardin/avant_travaux/lidar_hd*`) ; le reste de Meylan est à télécharger (lacune L-08)
-- gabarits verticaux des ouvrages (E04, E07)
+- gabarits verticaux des ouvrages : donnée de description (`ouvrages[].gabarit`, E00) ou règle RF-GV-PON-012 (relecture C1 : E02 ne lit plus de sortie postérieure)
 
 **Sorties (contrat de données).**
 
@@ -514,6 +541,7 @@ qui garantit la continuité ; l'état du code. Les sorties d'un réseau vont dan
 | Fichier | Contrat |
 |---|---|
 | `recon/out/generateur/meylan/<reseau>/niveau/heightfield_<tuile>.npy` | HeightField 0,10 m (height, r0, z1, r1, z2, r2), rangé comme celui de pj::lire_description (README_HDA § 2) |
+| `recon/out/generateur/meylan/<reseau>/niveau/terrain.json` | terrain naturel, talus et abaissement sous les ouvrages, calculés ici (relecture C2) ; E07 n'en fait que les maillages |
 | `recon/out/generateur/meylan/<reseau>/niveau/niveaux.json` | sections, files de bordure (pied, tête, vue, fil d'eau), aires de carrefour |
 | `recon/out/generateur/meylan/<reseau>/niveau/hydraulique.json` | points bas et leur exutoire, pente de chaque file de fil d'eau, bassins de surface et aire collectée |
 
@@ -539,7 +567,7 @@ qui garantit la continuité ; l'état du code. Les sorties d'un réseau vont dan
 | P06-1 | un seul Z par (x, y, région) ; les marches existent seulement aux bordures | vue = modèle ± 5 mm | TQ-SOL-013 |
 | P06-2 | continuité aux joints, aux tuiles et aux chantiers | \|Δz\| ≤ 1 mm | CC-03 ; CC-07 |
 | P06-3 | cheminement : dévers ≤ 2 % ; pente < 5 % hors rampants | 100 % | RF-MA-TRO-002 ; RF-MA-TRO-003 |
-| P06-4 | aucun point bas sans exutoire (avaloir à moins de 1 m) | 0 | GA-CHA-004 ; CC-12 |
+| P06-4 | chaque point bas a un exutoire prévu (position d'avaloir) ; la pose est contrôlée par P09-1 (relecture C3) | 0 | GA-CHA-004 ; CC-12 |
 | P06-5 | fil d'eau : pente ≥ 0,5 %, sinon dents de scie avec un avaloir à chaque point bas | 100 % | GA-CHA-003 |
 | P06-6 | aire de carrefour : pente résultante ≥ 0,5 %, dévers local ≤ 4 %, aucun minimum dans un passage, un abaissé ou un sas | 100 % | TQ-SOL-014 |
 | P06-7 | anneau de giratoire : dévers vers l'extérieur, ≤ 3 % | 100 % | RF-GV-GIR-005 |
@@ -562,7 +590,7 @@ qui garantit la continuité ; l'état du code. Les sorties d'un réseau vont dan
 
 *Phase C ; étape ajoutée à la proposition de départ ; lot de migration : N9.*
 
-**But.** Fabriquer ce qui porte la chaussée. D'abord la plate-forme étanche, raccordée au terrain par des talus. Puis les murs de soutènement et les ouvrages : tablier, corniches, piles, culées, joints, trémies, par exemple les trois ponts OSM de la bretelle de la Rocade Sud vers l'A41 et l'« Hélice de Meylan ». Le terrain est abaissé sous les ouvrages.
+**But.** Fabriquer ce qui porte la chaussée. D'abord la plate-forme étanche, raccordée au terrain par des talus. Puis les murs de soutènement et les ouvrages : tablier, corniches, piles, culées, joints, trémies, par exemple les trois ponts OSM de la bretelle de la Rocade Sud vers l'A41 et l'« Hélice de Meylan ». Le terrain, les talus et l'abaissement sous les ouvrages sont ceux calculés en E06 : E07 en fait les maillages et ne modifie aucune cote (P2 ; relecture C2).
 
 **Entrées.**
 
@@ -808,7 +836,7 @@ qui garantit la continuité ; l'état du code. Les sorties d'un réseau vont dan
 
 | Fichier | Contrat |
 |---|---|
-| `recon/out/generateur/meylan/<reseau>/fabrique/sol_<tuile>.usda` | faces non circulées dans le même maillage que E10 (même triangulation) |
+| `recon/out/generateur/meylan/<reseau>/fabrique/revetements_<tuile>.usda` | matériaux, joints, BEV et remplissages des faces non circulées, sur la triangulation d'E10 (couche à part : seule E10 possède sol_<tuile>.usda ; relecture C4) |
 | `recon/out/generateur/meylan/<reseau>/fabrique/ilots.usda` | remplissages (pj::ilot) |
 | `recon/out/generateur/meylan/<reseau>/points/bev.json` | BEV (dalles podotactiles) |
 
@@ -1330,7 +1358,7 @@ fichiers à cette date.
 
 | Étape | Existe | Manque | Lot |
 |---|---|---|---|
-| E00 Description du réseau (texte libre et photos → YAML réseau) | format d'un tronçon isolé (`description/FORMAT_DESCRIPTION.md`) et son compilateur (`description_vers_modele.py`, 2 418 lignes à la lecture)<br>compilateur de réseau de l'étape 2 en cours d'écriture : `description/carrefours.py`, format `description_simple/0.2` (troncons[] à id, carrefours, giratoires, bretelles ; scènes `scenes_carrefours/J1` à `J3`)<br>descriptions de sites de Meylan en cours dans les lots voisins (`recon/generateur/meylan/<site>/` : description.yaml, mesures.json, photos.json, et `extensions_auto` pour ce que le format ne dit pas encore)<br>12 exemples, catalogue S01 à S12, trois rues de Meylan décrites d'après photo (M20, M24, M27)<br>inférence OSM → modèle avec nœuds partagés et carrefours topologiques | couche réseau (proposée : FORMAT_DESCRIPTION_RESEAU.md) : nœuds ancrés, valeurs approchées, accrochage à OSM, itinéraires, ouvrages, échangeurs<br>résolveur (lot N1) | N1 |
+| E00 Description du réseau (texte libre et photos → YAML réseau) | format d'un tronçon isolé (`description/FORMAT_DESCRIPTION.md`) et son compilateur (`description_vers_modele.py`, 2 418 lignes à la lecture)<br>compilateur de réseau de l'étape 2 en cours d'écriture : `description/carrefours.py`, format `description_simple/0.2` (troncons[] à id, carrefours, giratoires, bretelles ; scènes `scenes_carrefours/J1` à `J3`)<br>descriptions de sites de Meylan en cours dans les lots voisins (`recon/generateur/meylan/<site>/` : description.yaml, mesures.json, photos.json, et `extensions_auto` pour ce que le format ne dit pas encore)<br>12 exemples, catalogue S01 à S12, trois rues de Meylan décrites d'après photo (M20, M24, M27)<br>inférence OSM → modèle avec nœuds partagés et carrefours topologiques | résolveur de la couche réseau (lot N1, `reseau/resoudre_reseau.py`, 18/10/2026) : nœuds partagés, valeurs approchées, OSM, raccords, fusions, compositions<br>mesures lues automatiquement, nœud « sur » coupant, ancrage symbolique, tracé qualitatif ; itinéraires, ouvrages et échangeurs non portés par le modèle | N1 |
 | E01 Graphe topologique | inférence OSM : nœuds partagés et carrefours (osm_vers_modele.py l. 585-613 ; `carrefour_plan` l. 766 ; `carrefour_giratoire` l. 928)<br>rg::graphe : branches et valence | description : chaque tronçon isolé reçoit deux nœuds `limite_carte` (description_vers_modele.py l. 2221-2222) ; l'étape 2 crée désormais les nœuds des carrefours décrits (`description/carrefours.py`), mais pas encore les nœuds de connexion ni les ancrages<br>itinéraires, mouvements voie à voie, fusion des carrefours complexes<br>lecture des carrefours dans Houdini (lot de l'étape 2) | N1, N3 |
 | E02 Tracé en plan et profil en long | droites, arcs et clothoïdes dans la description et dans rg::graphe<br>dévers en toit ou à pente unique (DEF-006, commun/profil.py l. 632-684) | ajustement de géométries régulières sur OSM (README_RG § 8 : décalés en onglet, replis aux sommets)<br>profil en long : jamais lu ; chaussée ancrée à Z = 0 (README_RG § 5)<br>dévers en courbe (RF-GV-DEV-002) et gauchissement le long des clothoïdes<br>règles de tracé des voies rapides urbaines (ICTAVRU, VSA 90/110) absentes de la base | N2 |
 | E03 Profils en travers et transitions le long des arcs | rg::profils et commun/profil.py (lots L0 à L2b) | contrôle de continuité d'une route à la suivante (aujourd'hui seulement d'une section à l'autre dans une route)<br>profils d'autoroute et de bretelle (BAU, BDG, séparateur GBA) : lot de l'étape 2 | N1 (contrôle inter-routes), étape 2 (profils d'autoroute) |
@@ -1355,7 +1383,7 @@ fichiers à cette date.
 
 | Id | Rupture | Preuve | Étape qui la supprime | Lot |
 |---|---|---|---|---|
-| R-01 | Chaque tronçon décrit seul reçoit ses deux nœuds `limite_carte` : il n'y a ni nœud partagé ni carrefour. L'étape 2 corrige en ce moment le cas des carrefours décrits (`description/carrefours.py`) ; restent les nœuds de connexion, les ancrages et les itinéraires. | description/description_vers_modele.py l. 2221-2222 | E00, E01 | N1 |
+| R-01 | Chaque tronçon décrit seul reçoit ses deux nœuds `limite_carte` : il n'y a ni nœud partagé ni carrefour. L'étape 2 corrige en ce moment le cas des carrefours décrits (`description/carrefours.py`) ; restent les nœuds de connexion, les ancrages et les itinéraires. **Lot N1 (18/10/2026)** : levée pour les tronçons qui se suivent par un nœud nommé (fusion en une route, `reseau/fusion.py`), dans un site et dans une scène composée ; restent les raccords jumelés et les divergences (B2). | description/description_vers_modele.py l. 2221-2222 | E00, E01 | N1 |
 | R-02 | Les carrefours du modèle ne sont pas lus par Houdini. | hda/rg_lire_modele/lecteur.py l. 30-32 (NON_LUS_L1), l. 313 | E01 | étape 2, N3 |
 | R-03 | Aucune altitude de réseau : chaque route est ancrée à Z = 0 en t = 0 et `profil_long` n'est jamais lu. | hda/commun/vex/rg_niveau.h l. 5 et l. 128 ; README_RG § 5 | E02, E06 | N2, N5 |
 | R-04 | Une triangulation et un HeightField par route : nappes numérotées 100 × rang de route + nappe. | README_RG § 5 ; hda/rg_nivellement/construire.py l. 777-815 ; hda/rg_sol/construire.py l. 1-9 | E05, E06, E10 | N4, N5 |
@@ -1377,7 +1405,7 @@ dès qu'on assemble un réseau.
 | Lot | Contenu | Livrables | Touche l'étape 2 | Dépend de | Critère de fin |
 |---|---|---|---|---|---|
 | N0 | Chaîne et format réseau (ce lot) | CHAINE_CONSTRUCTION.md<br>chaine_construction.json<br>FORMAT_DESCRIPTION_RESEAU.md | non | — | identifiants cités tous présents dans la base (vérifié) |
-| N1 | Compilateur réseau et graphe (E00, E01, contrôle inter-routes de E03) | recon/generateur/reseau/resoudre_reseau.py (description réseau → description exacte de l'étape 2)<br>recon/generateur/reseau/tests/<br>schéma modele_voie/0.2 proposé (copie nouvelle, la 0.1 reste)<br>recon/generateur/meylan/<reseau>/description_reseau.yaml | non | N0, compilateur de réseau de l'étape 2 | une description au format de l'étape 2 ressort du résolveur identique à l'octet ; S01-S12, J1-J3, exemples et M20/M24/M27 : empreintes sha256 des modèles inchangées ; porte P01 sur 2 réseaux de Meylan |
+| N1 | Compilateur réseau et graphe (E00, E01, contrôle inter-routes de E03) | recon/generateur/reseau/resoudre_reseau.py (description réseau → description exacte de l'étape 2)<br>recon/generateur/reseau/tests/<br>schéma modele_voie/0.2 proposé (copie nouvelle, la 0.1 reste)<br>recon/generateur/meylan/<reseau>/description_reseau.yaml | non | N0, compilateur de réseau de l'étape 2 | une description au format de l'étape 2 ressort du résolveur identique à l'octet ; S01-S12, J1-J3, exemples et M20/M24/M27 : empreintes sha256 des modèles inchangées ; porte P01 sur 2 réseaux de Meylan<br>**Fait le 18/10/2026** : tests 92 / 92 ; modèles des 42 scènes de référence identiques (empreintes) ; 15 sites et 5 compositions sans erreur ; reste le schéma modele_voie/0.2 (passe 3 du format) |
 | N2 | Tracé en plan et profil en long (E02) | recon/generateur/reseau/trace.py (ajustement droites, arcs, clothoïdes)<br>recon/generateur/reseau/profil_long.py (MNT, déclivités, raccordements)<br>règles ICTAVRU / VSA 90/110 proposées au propriétaire de regles_route_fr.json | non | N1 | porte P02 ; écart à l'axe ortho ≤ 0,30 m sur le corridor de l'avenue de Verdun |
 | N3 | Lecture des carrefours dans Houdini (E01) | adoption de la version de rg::lire_modele produite par l'étape 2 | oui (réutilisation) | étape 2 terminée | aucun développement propre : réutiliser, ne pas refaire |
 | N4 | Plan-masse (E05) et chantiers (P8) | hda/rg_plan_masse/ (rg::plan_masse::1.0)<br>validation/controler_plan_masse.py | non | N1, étape 2 (compilateur de réseau) | porte P05 sur un carrefour à feux et un giratoire de Meylan |

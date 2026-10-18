@@ -220,7 +220,10 @@ del _k, _v
 SEPARATEURS = {"potelets": "potelets", "potelet": "potelets", "balises": "balises_J11", "balises j11": "balises_J11",
                "plots": "plots", "glissiere": "glissiere", "gba": "GBA", "muret": "muret",
                "jardinieres": "jardinieres", "bordure separatrice": "bordure_separatrice", "garde-corps": "garde_corps",
-               "haie": "haie"}
+               "haie": "haie",
+               # lot N1 (18/10/2026, relecture M8) : séparateur béton double face entre deux sens (Cerema ; catalogue
+               # retenue_DBA_*, base 0,60) ; « GBA » reste le profil simple face (retenue_GBA_*, base 0,48)
+               "dba": "DBA", "gba double face": "DBA", "separateur beton double": "DBA"}
 MODULATIONS = {"t1": "T1", "t'1": "T'1", "t2": "T2", "t'2": "T'2", "t3": "T3", "t'3": "T'3", "t4": "T4",
                "continue": "continue", "continu": "continue", "pleine": "continue", "double continue": "double_continue",
                "double-continue": "double_continue", "mixte": "mixte", "aucune": "aucune", "aucun": "aucune",

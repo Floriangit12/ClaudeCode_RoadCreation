@@ -1,0 +1,429 @@
+﻿[
+    {
+        "status":  "ok",
+        "summary":  "Lot RÉSEAU (N1) terminé. 1) Points bloquants de la relecture traités. Il n\u0027y a plus qu\u0027un seul ordre de construction : la chaîne fait foi (CHAINE_CONSTRUCTION.md § 2.4, clé ordre_unique de chaine_construction.json). Les § 2 des 15 DESCRIPTION.md sont alignés sur les étapes E07 à E17, et chaque phase P01 à P11 du catalogue des assets porte désormais son étape (etape3.phases_chantier[].etape_chaine, avec une note). Les 5 recouvrements sont coupés à des nœuds partagés ancrés en L93 dans meylan/reseau_meylan.yaml (17 nœuds, dont 5 portent un contrat de profil). Les sites ne font plus que se toucher : bouts à 0,0 m, recouvrement résiduel ≤ 6 m, ce qui est le pas de mesure. Les profils contradictoires ont été arbitrés : le propriétaire fait le contrat, et les autres sites reçoivent un raccord monotone généré. Le trou de 103 m entre la N87 et le nœud A41/N87 est fermé : N87 prolongée de 103,4 m jusqu\u0027à N_N87_NOEUD, avec une voie gauche ajoutée avant le nœud. Il reste un décalage de 4,8 m vers les chaussées jumelées, non représentable aujourd\u0027hui (besoin B2). Chaque site porte son date_etat. paquet_jardin est revenu à l\u0027état avant travaux du 18/05/2025 : bretelle sud-est, îlot en galets, contre-allée, îlot de la Revirée en béton. L\u0027option chantier n\u0027est plus dans la description. 2) Le résolveur est écrit : recon/generateur/reseau/, environ 2 900 lignes. Il traite les valeurs approchées (une mesure est toujours retenue), les positions en mots, les nœuds partagés, l\u0027accrochage OSM auto (avec médiane des chaussées jumelles), les raccords de contrat, la fusion des tronçons aux nœuds de valence 2 et les compositions. description_vers_modele.py lui délègue les descriptions au format réseau. Résultats : les 15 sites compilent avec 0 erreur, et 1 seule non-conformité, antérieure au lot (verdun_centre_feux, surface d\u0027îlot de 2,3 m² sous les 5 m² de RF-GV-CAR-008). Le contrôle CC-04 donne 0 raccord non conforme. Les 5 compositions compilent avec 0 erreur et 0 non-conformité : a41 (4 sites, 3 fusions), verdun_centre (4 fusions), sept_laux, helice, rocade_sud. Tests : tester_reseau.py 93/93. 3) Scènes de référence (S01-S12, B01, J1-J6, G1-G4, A1-A4, plus exemples et M20/M24/M27, soit 42 scènes) : 0 erreur et modèles identiques 42/42 (empreintes). Le rapport de J5 diffère seulement par l\u0027ordre de ses lignes : il était non déterministe à cause du parcours d\u0027un ensemble, désormais trié (carrefours.py). La chaîne est mise à jour : E00, E01, R-01, lot N1 marqué fait, correctifs C1 à C4 de la relecture. Aucun rendu n\u0027a été produit par ce lot. Reste à faire : le schéma modele_voie/0.2 (passe 3).",
+        "sites":  [
+                      {
+                          "site":  "paquet_jardin",
+                          "etat":  "état avant travaux, date_etat 2025-05-18 (avant_travaux_2025, ortho IGN 09/08/2024). Réécrit avant travaux : bretelle SE = voie v1 (TAD), îlot en galets, contre-allée à partir d\u0027environ 25 m, Vercors, îlot de la Revirée en béton. Nœud N_VERDUN_PJ_NE (contrat propriétaire)",
+                          "ressemblance":  "non évaluée par ce lot (aucun rendu). Compilation : 0 erreur, 0 non-conformité, 1 raccord, 13 approximations résolues, 4 tronçons",
+                          "ecarts_restants":  [
+                                                  "profils avant travaux encore approchés (≈) : à affiner par l\u0027agent du site sur l\u0027inventaire v2_avant_travaux",
+                                                  "option chantier du 31/08/2025 retirée de la description (à reprendre en option datée si besoin)"
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau, pas de rendu)"
+                      },
+                      {
+                          "site":  "verdun_centre_feux",
+                          "etat":  "date_etat 2026-07-28. Branches verdun_so et verdun_ne coupées aux nœuds N_VERDUN_M17_SO et N_VERDUN_M17_NE (40 m)",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 1 non-conformité antérieure au lot (ilot_surface 2,3 m² \u003c 5, RF-GV-CAR-008, îlot I-BS), 2 raccords contrôlés, 0 non conforme",
+                          "ecarts_restants":  [
+                                                  "M6 de la relecture (lot A) : buclos_n à double sens sur 40 m au lieu de 20 m, B1 manquant, provenance give_way fausse",
+                                                  "îlot BS sous la surface minimale"
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "verdun_lycee_feux",
+                          "etat":  "date_etat 2026-07-28. Branche sud-ouest arrêtée au nœud N_VERDUN_M08_SO",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité, 1 raccord",
+                          "ecarts_restants":  [
+
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "vieux_chene_taillefer_feux",
+                          "etat":  "date_etat 2026-07-28. Branche hélice arrêtée à N_VCT_HELICE",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité",
+                          "ecarts_restants":  [
+                                                  "hélice à double sens ici, montée et descente jumelées dans auto_noeud_a41_n87 : bout à 0,2 m de R-7, à 13,1 m de R-6 (raccord jumelé non représentable, B2)"
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "vieux_chene_inovallee_piste",
+                          "etat":  "date_etat 2026-07-28 (photo plus récente que l\u0027ortho 2024). Format réseau, aucun nœud partagé",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité",
+                          "ecarts_restants":  [
+
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "rp_didcot",
+                          "etat":  "date_etat 2026-07-28. Format réseau",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité, 8 tronçons",
+                          "ecarts_restants":  [
+                                                  "vide d\u0027environ 48 m vers la sortie 26 / auto_a41_echangeur_meylan_est, hors relecture, sans nœud partagé"
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "rp_lycee",
+                          "etat":  "date_etat 2026-07-28. Branche sept_laux en polyligne jusqu\u0027à N_7LAUX_SO (décalage de 11,6 m et vide de 17 m de M7 supprimés)",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité, 1 raccord, 1 approximation",
+                          "ecarts_restants":  [
+                                                  "feu sur poteau à l\u0027entrée de Verdun ouest non expliqué (relecture)",
+                                                  "ilot_central herbe haute faute de mot (A4)"
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "avenue_7_laux_separateur",
+                          "etat":  "date_etat 2026-07-28. Part de N_7LAUX_SO avec 2 voies d\u0027entrée (M7), fermeture à environ 28 m sur environ 15 m",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité, 1 raccord, 2 approximations",
+                          "ecarts_restants":  [
+
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "axe_verdun_centre",
+                          "etat":  "date_etat 2025-05-18. Tronçons T1 (N_VERDUN_PJ_NE → N_VERDUN_M17_SO) et T2 (N_VERDUN_M17_NE → N_VERDUN_M08_SO), évènements recalés",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité, 4 raccords contrôlés (0 non conforme), 4 approximations",
+                          "ecarts_restants":  [
+                                                  "M5 de la relecture (lot B) : bordure et tourne-à-droite vers k 1 500-1 525, débouché latéral k 1 420-1 460 et rues latérales non décrits"
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "axe_verdun_ouest",
+                          "etat":  "date_etat 2025-05-18. Format réseau, aucun nœud partagé (pas de contact mesuré avec un autre site)",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité",
+                          "ecarts_restants":  [
+
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "auto_a41_section_courante",
+                          "etat":  "date_etat 2026-07-28. De N_A41_PEPINIERES_O vers N_A41_N87_O",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité. Composition a41 : A41 continue sur environ 3,3 km",
+                          "ecarts_restants":  [
+                                                  "sortie Sisteron (auto_noeud_a41_n87 R-5) à 19,9 m de l\u0027axe : divergence non représentable (B2)"
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "auto_a41_extremite_ouest",
+                          "etat":  "date_etat 2025-06-14. Nœud local N_A41_MIPLAINE (fusion interne) et nœud partagé N_A41_PEPINIERES_O",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité, 1 raccord, 1 fusion",
+                          "ecarts_restants":  [
+                                                  "sortie 27 Mi-Plaine à 25,2 m de la section courante (divergence, B2)"
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "auto_noeud_a41_n87",
+                          "etat":  "date_etat 2025-06-14. Nœuds A41 et N87 (N87_DIV, N87_CONV, N87_SUD), hélice coupée à N_HELICE_MONT et N_HELICE_DESC, DBA",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité, 7 tronçons",
+                          "ecarts_restants":  [
+                                                  "décalage de 4,8 m vers la N87 à double sens (raccord jumelé, B2)",
+                                                  "fusion à N_A41_BRANCHE_N87 refusée : contextes différents (voie express 70 km/h / échangeur)"
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "auto_a41_echangeur_meylan_est",
+                          "etat":  "date_etat 2026-02-28 (hiver 2026, valable depuis 2024-06-23). Nœuds A41 partagés, DBA",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité",
+                          "ecarts_restants":  [
+                                                  "vide d\u0027environ 48 m vers rp_didcot (hors relecture)"
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      },
+                      {
+                          "site":  "auto_n87_rocade_sud",
+                          "etat":  "date_etat 2024-06-23. Polyligne prolongée de 103,4 m jusqu\u0027à N_N87_NOEUD (trou de 103 m fermé), élargissement d\u0027une voie gauche d\u0027environ 3,5 m environ 35 m avant le nœud, DBA",
+                          "ressemblance":  "non évaluée (aucun rendu). 0 erreur, 0 non-conformité, 3 approximations",
+                          "ecarts_restants":  [
+                                                  "photos plus anciennes que le reste (2024-06) : état à vérifier",
+                                                  "raccord à chaussées jumelées décalé de 4,8 m (B2)"
+                                              ],
+                          "planche_rendu":  "aucune (lot réseau)"
+                      }
+                  ],
+        "besoins_generateur":  [
+                                   "B2 : raccord jumelé (route à double sens qui se sépare en deux chaussées à sens unique) et divergence ou convergence de bretelles à un nœud de valence 3 sans carrefour. Exemples : N87 ↔ nœud A41/N87 (4,8 m), hélice VCT ↔ R-6/R-7 (13,1 m), sorties Sisteron et Mi-Plaine",
+                                   "coupure d\u0027un tronçon par un nœud « sur » (aujourd\u0027hui position seule, sans découpe)",
+                                   "ancrage symbolique relatif à la frontière d\u0027un carrefour (« juste avant », « à la ligne d\u0027arrêt », FORMAT § 6.4) et tracé qualitatif (lot N2)",
+                                   "lecture automatique des mesures (OSM width:lanes, BD TOPO, coupes de mesures.json) dans le choix d\u0027une valeur approchée",
+                                   "schéma modele_voie/0.2 et modele_reseau.json (passe 3) : itinéraires, ouvrages et échangeurs ne sont aujourd\u0027hui que recopiés dans compilation_reseau.json",
+                                   "fusion : matériaux, marquages et abords du second tronçon remplacés par ceux du premier (pertes rapportées dans fusions[].pertes) ; il faudrait des matériaux et marquages par intervalle",
+                                   "vitesse et contexte par sens ou par intervalle (refus de fusion à N_A41_BRANCHE_N87)",
+                                   "etape_chaine entrée par entrée dans le catalogue des assets (aujourd\u0027hui sur les phases seulement ; 120 assets de l\u0027étape 1 sans phase)"
+                               ],
+        "problemes":  [
+                          "Le rapport de J5 (pas son modèle) diffère de l\u0027empreinte d\u0027avant : l\u0027ordre des lignes TAG_indonesienne était non déterministe (parcours d\u0027un ensemble). Il est maintenant trié (carrefours.py). Modèles identiques 42/42",
+                          "Une non-conformité antérieure au lot est conservée sur verdun_centre_feux (ilot_surface RF-GV-CAR-008) : correction réservée à l\u0027agent du site",
+                          "Points de la relecture laissés aux agents de site : M5 (axe_verdun_centre), M6 (verdun_centre_feux), feu inexpliqué de rp_lycee",
+                          "Fichiers partagés modifiés hors du périmètre strict, pour le N1 : description/description_vers_modele.py (délégation au résolveur, clés materiaux/marquages/confiance par tronçon, drapeau raccord), description/carrefours.py (tri), description/vocabulaire.py (DBA), schema/modele_voie.schema.json (DBA), et assets/specs/route/catalogue_assets_route.json (etape_chaine sur les phases, demandé par la tâche). Copies de sauvegarde dans recon/generateur/tmp/reseau_n1/",
+                          "Aucun rendu ni planche produits par ce lot : la ressemblance n\u0027est pas évaluée ici"
+                      ],
+        "files":  [
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\resoudre_reseau.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\approx.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\osm_reseau.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\fusion.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\composer.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\yaml_ecrire.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\tests\\tester_reseau.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\tests\\empreintes.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\tests\\recouvrements.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\tests\\exemples\\R01_terre_plein_20m.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\tests\\exemples\\R02_raccord_contrat.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\tests\\exemples\\R02_reseau_commun.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\tests\\exemples\\R03_verdun_osm.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\reseau\\tests\\exemples\\R04_verdun_m17.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\reseau_meylan.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\\u003c15 sites\u003e\\description.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\\u003c15 sites\u003e\\DESCRIPTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\description\\description_vers_modele.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\description\\carrefours.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\description\\vocabulaire.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\schema\\modele_voie.schema.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\FORMAT_DESCRIPTION_RESEAU.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\CHAINE_CONSTRUCTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\chaine_construction.json",
+                      "D:\\ClaudeCode_RoadCreation\\assets\\specs\\route\\catalogue_assets_route.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\reseau_n1\\tests\\rapport_tests.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\reseau_n1\\tests\\sites",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\reseau_n1\\tests\\compositions",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\tmp\\reseau_n1\\empreintes_avant.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\tmp\\reseau_n1\\empreintes_final.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\tmp\\reseau_n1"
+                  ]
+    },
+    {
+        "status":  "ok",
+        "summary":  "Où on en est : le lot « giratoires et rues » est terminé. Les 4 sites sont fabriqués, rendus et comparés aux photos Panoramax, avec 2 itérations chacun. Oui, il y a des images : pour chaque site, un rendu seul (route seule, vue de dessus + oblique 3/4) dans recon/out/generateur/meylan_\u003csite\u003e/rendus/. Je vous ai envoyé les 4 planches finales. Il y a aussi 9 à 12 planches photo|rendu par itération, rangées dans .../photos_non_versionnees/ ; je les ai toutes regardées en tuiles natives.\n\nReprise du premier passage, interrompu :\n- rp_lycee : la fabrication de l\u0027itération 1 et celle de vieux_chene avaient planté. Triangulate 2D de rg::sol s\u0027emballait : hython montait à 52-67 Go puis segfault, ce qui saturait la machine partagée avec les autres lots.\n- J\u0027ai écrit un garde mémoire, non versionné, qui tue seulement l\u0027arbre de processus du lot. Avec lui, une série d\u0027essais a trouvé les causes, puis les contournements dans les descriptions :\n  - rp_lycee : le coin du giratoire atteignait le bout d\u0027une branche de 18 m. Branche prolongée à 31 m.\n  - vieux_chene : les îlots peints étaient posés sur des polylignes à cassures non raccordées. Tracés lissés.\n  - Les deux besoins sont décrits pour le générateur.\n- avenue_7_laux : itération 1 déjà fabriquée ; je l\u0027ai comparée.\n- rp_didcot : itération 0 déjà fabriquée ; je l\u0027ai comparée.\n\nCorrections de description, toujours grossières et avec leur provenance :\n- Lycée : séparation de l\u0027Ancienne Mairie limitée aux 20 derniers mètres.\n- Didcot :\n  - rayons de raccordement au bas des plages, parce que les coins par défaut faisaient le tour de l\u0027anneau et fermaient les bouches avec du gazon ;\n  - branche ouest recalée, avec le chemin du bon côté et un passage piéton.\n- 7 Laux : deux voies vers le rond-point au-delà du point du site.\n- Vieux Chêne : îlots peints ocre rétablis.\n\nGrilles d\u0027écarts remplies à chaque itération ; ressemblance finale moyenne à bonne sur les photos exploitables. Le code partagé n\u0027a pas été touché. Les 4 sites ont chacun leur RECONSTRUCTION.md et leur BESOINS.md. Les manifestes de fabrication correspondent aux descriptions finales : empreintes sha256 vérifiées.",
+        "sites":  [
+                      {
+                          "site":  "rp_lycee",
+                          "etat":  "fabriqué, rendu, comparé ; itération 2 finale (date d\u0027état 28/07/2026) ; giratoire 66 m, 5 branches, nœud partagé N_7LAUX_SO",
+                          "ressemblance":  "Moyenne : les branches sont justes en orientation et en voies ; les écarts restants viennent surtout de manques du générateur (murets). Itération 2, 9 photos : conformes 17, différents 17, non visibles 29 ; ressemblance moyenne 4, faible 2, inexploitable 3 ; recouvrement 3 px médian 0,01→0,13, écart moyen 28,1→17,7 px. Itération 0 : bonne 1, moyenne 2, faible 3, inexploitable 3, avec 21 « différent » (Taillefer mal orienté, Verdun décalé).",
+                          "ecarts_restants":  [
+                                                  "séparateur des 7 Laux = muret béton plein ≈ 1 m, rendu en terre-plein bas (pas de mot)",
+                                                  "murets et garde-corps des passages inférieurs, îlot central surélevé derrière un muret (rendu en disque plat)",
+                                                  "couronne en béton balayé avec rang de pavés, rendue grise",
+                                                  "Taillefer : séparateur étroit bordé au-delà de la jonction décrite (photo fcfac79c), non corrigé faute d\u0027itération",
+                                                  "Ancienne Mairie : petit îlot bordé au droit du passage, décrit en séparation peinte",
+                                                  "facettes du raccord de profil des 7 Laux près du coin (G5)",
+                                                  "accès est prolongé en ligne droite à 31 m (vrai tracé : virage vers le nord à 20 m), pour contourner G8"
+                                              ],
+                          "planche_rendu":  "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_rp_lycee\\rendus\\planche_meylan_rp_lycee.png"
+                      },
+                      {
+                          "site":  "rp_didcot",
+                          "etat":  "fabriqué, rendu, comparé ; itération 2 finale (date d\u0027état 28/07/2026) ; giratoire 47 m, 4 directions",
+                          "ressemblance":  "Bonne à moyenne. Itération 2, 9 photos : conformes 37, différents 8, absent 1 ; bonne 3, moyenne 5, inexploitable 1 ; recouvrement 0,10→0,15. Itération 0 : conformes 31, différents 13 ; moyenne 4, faible 4 ; 3 bouches sur 4 y étaient fermées par un trottoir de coin en gazon.",
+                          "ecarts_restants":  [
+                                                  "couronne en pavés rouges avec 2 rangs de galets rendue grise ; îlot central en butte rendu plat",
+                                                  "refuges absents (bordé au passage de Chamechaude, à balise sur la branche ouest)",
+                                                  "îlot de la branche ouest trop large (5 m) et trop haut",
+                                                  "bande boisée du Vieux Chêne est à largeur constante de 12 m (6 à 24 m réels)",
+                                                  "traversée cyclable verte, STOP cycliste, panneaux non décrits",
+                                                  "rayons de raccordement pris au bas des plages, non mesurés (contournement de D1)"
+                                              ],
+                          "planche_rendu":  "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_rp_didcot\\rendus\\planche_meylan_rp_didcot.png"
+                      },
+                      {
+                          "site":  "vieux_chene_inovallee_piste",
+                          "etat":  "fabriqué, rendu, comparé ; itération 1 finale (itération 0 sans îlots peints, seul moyen de fabriquer avant d\u0027avoir trouvé la cause) ; date d\u0027état 28/07/2026",
+                          "ressemblance":  "Bonne à moyenne. Itération 1, 10 photos : conformes 40, différents 17, absent 1 ; bonne 2, moyenne 5, faible 3 ; recouvrement 0,06→0,16, écart 22,5→17,9 px. Itération 0 : conformes 30, absents 7 (îlot peint manquant sur 6 planches) ; bonne 1, moyenne 6, faible 3.",
+                          "ecarts_restants":  [
+                                                  "îlots peints hachurés blanc sur ocre au lieu d\u0027un aplat ocre à contour blanc et nez arrondi ; refuge peint rond au passage ouest absent",
+                                                  "ligne blanche qui quitte le bord de l\u0027îlot peint aux sommets des polylignes (vue de dessus, bout est c9e3e7e6) : défaut de marquage à confirmer",
+                                                  "angle nord-ouest : îlot bordé arrondi rendu en trottoir d\u0027angle",
+                                                  "traversée cyclable à figurines et chevrons, arrêts de bus à zigzags, feux non décrits",
+                                                  "tracés lissés à la main (≤ 1 m du tracé OSM)"
+                                              ],
+                          "planche_rendu":  "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_vieux_chene_inovallee_piste\\rendus\\planche_meylan_vieux_chene_inovallee_piste.png"
+                      },
+                      {
+                          "site":  "avenue_7_laux_separateur",
+                          "etat":  "fabriqué, rendu, comparé ; itération 2 finale (date d\u0027état 28/07/2026) ; part du nœud partagé N_7LAUX_SO (contrat de profil)",
+                          "ressemblance":  "Moyenne. Itération 2, 12 photos : conformes 28, différents 16, absent 1 ; bonne 1, moyenne 7, inexploitable 4 ; recouvrement 0,05→0,08, écart moyen 24,9→21,1 px. Itération 0 : bonne 2, moyenne 3, faible 2, inexploitable 5.",
+                          "ecarts_restants":  [
+                                                  "muret séparateur plein du nœud jusqu\u0027à ≈ 25 m (la description change de matériau à 12 m) : non fabriqué, pas de mot",
+                                                  "seconde voie vers le rond-point refermée de 50 à 62 m alors qu\u0027elle continue au-delà de 75 m (photo 4388769c)",
+                                                  "fermeture de la bande plantée avancée à 14-24 m sur une abscisse mal lue (8e286398 prise à 61 m) : ni confirmée ni infirmée",
+                                                  "ligne de gros blocs entre piste et contre-allée, barrière bordeaux, enrobé fissuré à pontages absents",
+                                                  "la vue de dessus du pilote ne couvre que 39 m sur 73 m"
+                                              ],
+                          "planche_rendu":  "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_avenue_7_laux_separateur\\rendus\\planche_meylan_avenue_7_laux_separateur.png"
+                      }
+                  ],
+        "besoins_generateur":  [
+                                   "rg::sol (Triangulate 2D raffiné, angle min 25°) part en raffinement sans fin, sans message. hython monte à 52-67 Go puis segfault, et sature la machine partagée (journal système 2004 du 18/10). Deux causes trouvées par essais : (1) rp_lycee G8 : une branche de giratoire de 18 m plus courte que l\u0027emprise de son coin, la coupe de coin commençant à s = 0,5 ; (2) vieux_chene V1 : une zone hachurée centrale sur une polyligne à cassures non raccordées (21,5° et 17,3°). Besoin : contrôle au compilateur (refus ou raccordement automatique des cassures), raffinement borné, zone en cause nommée.",
+                                   "Giratoire rp_didcot D1 : avec les rayons ACI par défaut (Re 15, Rs 20 pour Rg 25) entre des branches espacées de 73 à 84°, rg::giratoires/rg::carrefours font faire le tour de l\u0027anneau à 3 coins (180-186 m), sans erreur ni avertissement ; un trottoir de coin en gazon ferme alors les bouches (photos c4d60a47, 30b80a7b, ba5d0ba1). Besoin : contrôle que les congés tiennent entre les branches voisines.",
+                                   "Muret séparateur plein hors autoroute (avenue_7_laux S1, rp_lycee branche 7 Laux) : environ 0,8-1 m, about incliné, du rond-point du Lycée jusqu\u0027à ≈ 25 m après N_7LAUX_SO (photos 7b560dfa, 36bf8ffd, 5b9befe0, bd7d48ad). Seules GBA, DBA et glissière ont une géométrie, et seulement par rg::autoroute.",
+                                   "Murets et garde-corps des passages inférieurs au bord de l\u0027anneau, îlot central surélevé derrière un muret (rp_lycee G3, ouvrages.type passage_inferieur F6 ; photos 3d7dd376, a23479c9).",
+                                   "Couronne franchissable avec matériau et rangs (rp_lycee G4 : béton balayé et rang de pavés ; rp_didcot D2 : pavés rouges et 2 rangs de galets). Îlot central en butte (rp_didcot D3).",
+                                   "Îlot peint plein (aplat ocre, contour blanc, nez arrondi) et refuge peint rond au droit d\u0027un passage (vieux_chene V2 et V3, photos 7d44455e, cbd7ccdb) : « zone hachurée enrobé ocre » donne des hachures blanches.",
+                                   "Refuge sur le passage d\u0027une branche de giratoire posé sur une bande peinte (rp_didcot D4, osm 311840635 crossing:island=yes, photo ba5d0ba1).",
+                                   "Traversée cyclable sur une branche de carrefour : figurines et doubles chevrons (vieux_chene V4, photo 7d44455e l+51.4), ou peinte en vert (rp_didcot D6, ba5d0ba1).",
+                                   "Avenue des 7 Laux : ligne de gros blocs entre piste et contre-allée de plain-pied (S3), barrière bordeaux sur bande béton (S2), enrobé fissuré à pontages (S4).",
+                                   "Raccord de profil près d\u0027un coin de giratoire : les bandes extérieures (piste, bande enherbée) ne sont pas découpées par le coin, d\u0027où des facettes noires (rp_lycee G5, vue de dessus, planche 812f8985).",
+                                   "Lois de largeur sur un terre-plein bordé au lot L2 (rp_didcot D5 : bande boisée de 6 à 24 m).",
+                                   "Marquage : sur vieux_chene itération 1, une ligne blanche quitte le bord de l\u0027îlot peint aux sommets des polylignes et coupe la voie (vue de dessus, planche c9e3e7e6) ; à confirmer.",
+                                   "Pilote et comparaison pour les sites en réseau (rp_lycee G6, G7) :",
+                                   "- option --vues dessus,oblique et oblique à l\u0027échelle de l\u0027objet ;",
+                                   "- option --sortie par site ;",
+                                   "- repli sur les instances IGN et OSM-FR quand le méta-catalogue Panoramax renvoie HTTP 500 ;",
+                                   "- profil visé calculé sur la route la plus proche ;",
+                                   "- abscisse « s » des planches qui soit la distance le long de la route, et non le x local : la confusion m\u0027a fait mal placer deux photos sur 7 Laux."
+                               ],
+        "problemes":  [
+                          "Les fabrications plantées du premier passage (rp_lycee itération 1, vieux_chene) ont épuisé la mémoire de la machine pendant que deux autres lots tournaient. Depuis, toutes mes fabrications et comparaisons passent par recon/out/generateur/meylan_rp_lycee/outils_lot_c/garde_memoire.py. Ce garde a tué 8 essais en emballement, et seulement mon propre arbre de processus.",
+                          "avenue_7_laux : en itération 1, j\u0027ai lu l\u0027abscisse « s » des planches comme une distance le long du tronçon. C\u0027est en fait le x local. Deux décisions de l\u0027itération 2 sont donc mal fondées :",
+                          "- la fermeture de la bande plantée avancée à 14-24 m ;",
+                          "- la seconde voie refermée à 50-62 m.",
+                          "Elles sont corrigées dans les grilles et RECONSTRUCTION.md, mais pas refabriquées (2 itérations atteintes). La fin du muret (≈ 25 m et non 12 m) n\u0027est pas non plus reportée dans la description.",
+                          "vieux_chene : l\u0027itération 0 a été fabriquée sans les îlots peints, faute d\u0027avoir encore trouvé la cause. L\u0027itération 1 les rétablit avec des tracés lissés à la main.",
+                          "Méta-catalogue Panoramax en HTTP 500 toute la journée : recherche faite sur les instances IGN et OSM-FR (enveloppe comparer_site.py du lot).",
+                          "Poses : beaucoup de rendus sont pris depuis la position GNSS, parfois sur l\u0027autre chaussée ou au bord du socle. Ces planches sont notées « non lisible » dans la grille au lieu d\u0027être jugées. Peu de poses affinées : 3 à 5 sur 9 à 12 selon le site.",
+                          "Les photos choisies changent d\u0027une itération à l\u0027autre (la sélection dépend du modèle). Les décomptes des grilles ne portent donc pas exactement sur les mêmes vues.",
+                          "Les essais de diagnostic ont laissé des sorties dans recon/out/generateur/meylan_vieux_chene_inovallee_piste/essais/ et meylan_rp_lycee/essais/ (dossiers créés par ce lot). Les YAML d\u0027essai y ont été déplacés hors du dossier versionné. Aucun dossier n\u0027a été effacé."
+                      ],
+        "files":  [
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\rp_lycee\\description.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\rp_lycee\\DESCRIPTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\rp_lycee\\RECONSTRUCTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\rp_lycee\\BESOINS.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\rp_didcot\\description.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\rp_didcot\\DESCRIPTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\rp_didcot\\RECONSTRUCTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\rp_didcot\\BESOINS.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\vieux_chene_inovallee_piste\\description.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\vieux_chene_inovallee_piste\\DESCRIPTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\vieux_chene_inovallee_piste\\RECONSTRUCTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\vieux_chene_inovallee_piste\\BESOINS.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\avenue_7_laux_separateur\\description.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\avenue_7_laux_separateur\\DESCRIPTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\avenue_7_laux_separateur\\RECONSTRUCTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\avenue_7_laux_separateur\\BESOINS.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_rp_lycee\\rendus\\planche_meylan_rp_lycee.png",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_rp_didcot\\rendus\\planche_meylan_rp_didcot.png",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_vieux_chene_inovallee_piste\\rendus\\planche_meylan_vieux_chene_inovallee_piste.png",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_avenue_7_laux_separateur\\rendus\\planche_meylan_avenue_7_laux_separateur.png",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_rp_lycee\\comparaison\\meylan_rp_lycee\\ecarts.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_rp_didcot\\comparaison\\meylan_rp_didcot\\ecarts.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_vieux_chene_inovallee_piste\\comparaison\\meylan_vieux_chene_inovallee_piste\\ecarts.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_avenue_7_laux_separateur\\comparaison\\meylan_avenue_7_laux_separateur\\ecarts.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_rp_lycee\\outils_lot_c\\garde_memoire.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_rp_lycee\\outils_lot_c\\fabriquer_site.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_rp_lycee\\outils_lot_c\\comparer_site.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_rp_lycee\\outils_lot_c\\remplir_grille.py"
+                  ]
+    },
+    {
+        "status":  "partial",
+        "summary":  "Réponse à la question : oui, les images sont faites. Les 4 carrefours du lot ont été fabriqués, rendus et comparés. Chacun a une vue de dessus et une oblique 3/4 en rendu seul, sans photo, et ces 4 planches ont été envoyées. La comparaison multivues a tourné sur 6 à 10 photos Panoramax par site. J\u0027ai regardé toutes les planches en tuiles natives et rempli honnêtement les grilles d\u0027écarts, puis fait 1 ou 2 itérations de description par site et écrit RECONSTRUCTION.md et BESOINS.md pour chacun.\n\nLe statut reste « partial » pour deux raisons. (1) Sans contournement, aucun des 4 sites ne se fabrique. Le raffinement de Triangulate 2D de rg::carrefours_sol (angle minimal 25°) s\u0027emballe : plus de 14 Go de mémoire, puis plantage dans GU_Delaunay. Diagnostic sur l\u0027entrée enregistrée : 25°, 20°, 15°, 10° et 5° s\u0027emballent, 0° passe en 0,3 s. Les rendus ont donc été faits avec angle_min = 0 posé sur l\u0027instance, à l\u0027exécution, par une enveloppe non versionnée ; le code partagé n\u0027a pas été modifié et le contournement est déclaré partout. Conséquence : TQ-SOL-002 (25°) n\u0027est pas tenu dans le cœur des carrefours (triangles plus étirés, forme du sol inchangée). (2) Plusieurs écarts restants viennent de manques du générateur, décrits dans les BESOINS.md.\n\nÀ la reprise, aucune sortie de rendu du premier passage n\u0027était utilisable : 3 sites avaient planté au L2, le 4e n\u0027avait pas été fabriqué. Tout a été refait. Aucun dossier n\u0027a été effacé ; les processus des autres lots et tmp/hython n\u0027ont pas été touchés.\n\nItérations de description, avec preuves photo :\n- Paquet Jardin : séparation de la bretelle peinte et non îlot en galets.\n- Verdun × Buclos : voie de tourne-à-gauche vers le nord-est.\n- Vieux Chêne × Taillefer : séparateur réécrit en terre-plein (la bande « séparateur » n\u0027est pas fabricable), branche est tracée en courbe sur la médiane OSM, axe ouest recalé, passage ouest déplacé à environ 47 m, îlot séparateur ouest, séparateur de la branche est élargi à environ 1,2 m en gravillons.\n- Verdun × Chamrousse : bande plantée de 2 m loin du carrefour, îlot planté de Chamrousse.\n\nComparaison de Verdun × Chamrousse lancée avec --depuis 2024-05-01, sans baisser aucun seuil : avec --depuis 2025-06-01, les 68 photos IGN de 2026 étaient écartées par le seuil d\u0027emprise.",
+        "sites":  [
+                      {
+                          "site":  "paquet_jardin",
+                          "etat":  "État avant les travaux de 2025, au 18/05/2025. Fabriqué (itération 1), rendu dessus + oblique, comparé sur 7 photos datées du 24/08/2024 au 18/05/2025 (photos postérieures au 22/06/2025 retirées).",
+                          "ressemblance":  "Bonne sur le cœur et les approches nord-est et sud-ouest. Itération 1 : 4 bonne, 2 moyenne, 1 inexploitable ; grille 27 conformes, 13 différents, 9 non visibles (itération 0 : 3 / 3 / 1 ; 25 / 15 / 9). Écart moyen médian après affinage 12,2 px.",
+                          "ecarts_restants":  [
+                                                  "Traversée Chronovélo en pavés jaunes et bandes vertes de la Revirée absentes (pas de mot dans le format, A2)",
+                                                  "Enrobé ancien fissuré à pontages rendu uniforme",
+                                                  "Bretelle de tourne-à-droite SE décrite comme voie de droite de Verdun SO : en réalité elle contourne le cœur jusqu\u0027au Vercors (format sans tourne-à-droite long)",
+                                                  "Côté nord-ouest de Verdun SO près du carrefour simplifié ; inscription « 50 » au sol absente",
+                                                  "Branche du Vercors non jugée (seule planche inexploitable : 360° au casque inclinée de 14,8°)"
+                                              ],
+                          "planche_rendu":  "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_paquet_jardin\\rendus\\planche_meylan_paquet_jardin.png"
+                      },
+                      {
+                          "site":  "verdun_centre_feux",
+                          "etat":  "État du 28/07/2026. Fabriqué (itération 1), rendu, comparé sur 6 photos (28/07/2026 et 31/08/2025), quadrants +x, -x et gauche seulement.",
+                          "ressemblance":  "Moyenne. Itération 1 : 1 bonne, 1 moyenne, 3 faible, 1 inexploitable ; grille 14 conformes, 13 différents, 15 non visibles (itération 0 : 0 / 2 / 2 / 2). Passage à feux, refuge et zone hachurée justes ; 4 photos du 31/08/2025 ont une position GNSS décalée.",
+                          "ecarts_restants":  [
+                                                  "Baïonnette : le tronçon de 29 m est coupé en deux routes (un seul carrefour par route, à son extrémité fin), avec des décrochements des bandes extérieures",
+                                                  "Côté continu des deux T : Chronovélo et herbe remplacées par un trottoir de carrefour sur environ 15 m",
+                                                  "Bande verte de traversée cyclable absente (A2) ; fissures pontées absentes",
+                                                  "Voie de tourne-à-droite vers une rue latérale au sud-ouest et allée de la Faculté non décrites : nœuds partagés à contrat 1 + 1, propriété du lot réseau"
+                                              ],
+                          "planche_rendu":  "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_verdun_centre_feux\\rendus\\planche_meylan_verdun_centre_feux.png"
+                      },
+                      {
+                          "site":  "verdun_lycee_feux",
+                          "etat":  "État du 28/07/2026. Fabriqué (itération 2), rendu, comparé sur 10 photos de 2024-2025 (voirie inchangée) dans les 4 quadrants.",
+                          "ressemblance":  "Moyenne. Itération 2 : 2 bonne, 5 moyenne, 2 faible, 1 inexploitable ; grille 36 conformes, 18 différents, 1 absent, 15 non visibles (itération 0 : 2 / 3 / 4 / 1). Écart moyen médian après affinage d\u0027environ 21-23 px (photos 360° à vélo inclinées, la moitié des poses rejetées).",
+                          "ecarts_restants":  [
+                                                  "Petit îlot rond d\u0027environ 2 m au centre de la zone de conflit : pas de mot pour un îlot libre",
+                                                  "Forme réelle de chaussées séparées qui se croisent (4 nœuds de feux) ; îlot triangulaire de Chamrousse rendu en bande de 5 m",
+                                                  "Pistes Chronovélo qui traversent les angles plantés absentes ; angle nord-ouest rendu en trottoir (l\u0027itération 2 n\u0027a eu aucun effet visible)",
+                                                  "Tirets de guidage non conformes non décrits (ARB-08) ; buttes plantées, potelets et barrières hors étape ; fissures pontées"
+                                              ],
+                          "planche_rendu":  "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_verdun_lycee_feux\\rendus\\planche_meylan_verdun_lycee_feux.png"
+                      },
+                      {
+                          "site":  "vieux_chene_taillefer_feux",
+                          "etat":  "État du 28/07/2026. Fabriqué (itération 2), rendu, comparé sur 7 photos (28/06/2026 et 28/07/2026) dans les 4 quadrants, plus une relance à photos égales sur les photos de l\u0027itération 0.",
+                          "ressemblance":  "Moyenne à bonne. Itération 2 : 2 bonne, 5 moyenne ; grille 28 conformes, 13 différents, 8 non visibles (itération 0 : 4 moyenne, 3 faible, 1 inexploitable). À photos égales (5 photos), écart moyen médian 15,3 → 10,6 px et recouvrement à 3 px 0,19 → 0,30 entre les itérations 0 et 2.",
+                          "ecarts_restants":  [
+                                                  "Traversées cyclables peintes (bande verte au nord, damier à l\u0027ouest) absentes (A2)",
+                                                  "Hélice à environ 50 m : glissières et rives peintes, alors que le modèle a un terre-plein bordé",
+                                                  "Séparateur de la branche est de largeur constante ; îlots des tourne-à-droite en gazon plat",
+                                                  "Branche est écartée jusqu\u0027à environ 2,8 m de la médiane OSM (droite allongée à 36 m pour le solveur) ; enrobé rapiécé uniforme"
+                                              ],
+                          "planche_rendu":  "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_vieux_chene_taillefer_feux\\rendus\\planche_meylan_vieux_chene_taillefer_feux.png"
+                      }
+                  ],
+        "besoins_generateur":  [
+                                   "G2 (bloquant, 4 sites du lot + vieux_chene_inovallee_piste) : la Triangulate 2D de rg::carrefours_sol (arête 0,5 m, angle minimal 25°) ne se termine pas. Mémoire au-delà de 14-18 Go, puis segfault dans GU_Delaunay. Entrée enregistrée : meylan_vieux_chene_taillefer_feux/_travail/diag_tri/tri01_entree.bgeo.sc. Elle contient 114 paires de segments de contrainte à moins de 5°, presque toutes à 0° (lignes des faces de bordure posées sur le contour), 8 croisements lignes / contour, des boucles d\u0027îlot ouvertes dont les bouts restent écartés de 0,17 à 5 mm, et la boucle de 2 cm d\u0027un nez de 0,3 m. Essais : 25°, 20°, 15°, 10° et 5° s\u0027emballent, 0° passe en 0,3 s. Besoin : nettoyer l\u0027entrée (segments colinéaires, soudure des boucles), plafonner maxnewpts avec une erreur au lieu d\u0027un plantage, ajouter M07 aux scènes de non-régression.",
+                                   "G1 (vieux_chene_taillefer_feux, coupe e_30, photo 3eb5557e ; exemple 12 du format aussi) : une bande « séparateur » (RF-OSM-LAR-033, RF-MA-SEP-001) a dz 0,15 m mais des limites sans bordure. rg::nivellement refuse : « dénivelé sans bordure entre v1 et sep1 ». Une bordure de séparateur est à poser sur ses limites.",
+                                   "G3 (vieux_chene_taillefer_feux, branche est courbe ; photos efc67150, 3eb5557e) : quand le point de tangence d\u0027un coin tombe sur la partie courbe d\u0027une branche, le sol du carrefour reçoit une bande carrefour_trottoir en gazon d\u0027environ 3 × 43 m à travers la zone de conflit, et aucun contrôle ne le signale. Besoin : contrôle bloquant « coin hors partie droite », puis prise en charge des bords courbes.",
+                                   "C1 (verdun_centre_feux, baïonnette de Buclos) : rg::carrefours ne prend en charge qu\u0027un carrefour par route, à son extrémité fin. Le tronçon de 29 m entre deux T doit être coupé en deux routes, ce qui crée des décrochements des bandes extérieures. Besoin : coupe « début ».",
+                                   "C2 (verdun_centre_feux ; photos de22683a t003, f252d62f) : du côté continu d\u0027un T, le solveur remplace les bandes extérieures alignées (Chronovélo, bande enherbée) par un trottoir de carrefour sur environ 15 m. Il faut prolonger le profil.",
+                                   "L1 (verdun_lycee_feux ; photos 921c90d1 t004, 551efb9c, 54c3c177) : pas de mot pour un îlot libre du cœur (îlot rond d\u0027environ 2 m, centre ou polygone dits), alors que le solveur sait fabriquer des îlots du cœur.",
+                                   "L2 (verdun_lycee_feux ; OSM 137649, 57599588, 1689337428, 1689337431 ; photos 208a1f46, cb597029) : carrefour de chaussées séparées qui se croisent, et îlot de branche de largeur variable dite par points.",
+                                   "L3 (verdun_lycee_feux ; photos ab5960e2, 90781bde, 9aa4825c ; OSM 190080268) : pas d\u0027objet pour une piste cyclable qui traverse un angle de carrefour hors chaussée. De plus, le coin prend le revêtement de la bande extérieure à la frontière : liaison revêtue au droit du passage, donc angle planté rendu en trottoir.",
+                                   "P1 (paquet_jardin ; OSM 168730949 → 312004805 ; photos 0fe2656f, 034cb578, 119d9094) : pas de tourne-à-droite direct « long » (voie séparée qui quitte une branche à environ 100 m et rejoint une autre branche, avec ses passages à feux propres).",
+                                   "G4 / A2 (4 sites) : traversées cyclables peintes (bande verte, damier) et traversée Chronovélo à pavés jaunes non décrivables ; RF-MA-CHR-007, RF-OBS-CYC-03.",
+                                   "G5 (vieux_chene_taillefer_feux, photo d7449e61) : glissières entre les chaussées dans une scène à carrefour plan. Composition carrefour + autoroute « sans scène de contrôle dédiée » non éprouvée.",
+                                   "G6 (outil de comparaison, 4 sites) : ecarts.json → profil_modele_vise donne, sur une scène de réseau, le profil de la première route avec de fausses largeurs (trottoir 11,81 m pour e5c7653d) ; grilles remplies à la main. Le seuil EMPRISE_MIN de 3,5 % écarte toutes les photos IGN du 28/07/2026 de M08 (1,4 à 2,8 %).",
+                                   "G7 (pilote, 4 sites) : pas d\u0027option --vues dessus,oblique pour les scènes de réseau ; enveloppe utilisée.",
+                                   "G8 (4 sites) : pas de carte de fissures pontées ni de reprises pour « enrobé usé » et « enrobé rapiécé » (RF-OBS-REV-01)."
+                               ],
+        "problemes":  [
+                          "Rendus obtenus seulement avec un contournement déclaré : angle_min de rg::carrefours_sol mis à 0° à l\u0027exécution par l\u0027enveloppe recon/out/generateur/meylan_paquet_jardin/_travail/fabriquer_lot_a.py, rien d\u0027enregistré dans les HDA. TQ-SOL-002 (25°) n\u0027est pas tenu dans le cœur des 4 carrefours.",
+                          "Méta-catalogue Panoramax en erreur HTTP 500 le 18/10/2026 : recherche refaite sur les instances IGN et OSM-FR par l\u0027enveloppe comparer_lot_a.py (repli repris du lot voisin), métadonnées seulement.",
+                          "verdun_lycee_feux : avec --depuis 2025-06-01, sélection limitée à 6 photos d\u0027un seul quadrant (les photos IGN 2026 échouent au seuil d\u0027emprise) ; comparaison faite avec --depuis 2024-05-01, sans changer les seuils.",
+                          "verdun_centre_feux : 4 des 6 photos retenues (31/08/2025, à plat) sont mal positionnées ; aucune vue « droite » ne passe les filtres.",
+                          "Machine partagée avec deux autres lots : la mémoire a été surveillée par un garde (garde_motif.ps1), qui a tué une fabrication à 17,8 Go avant le contournement.",
+                          "Après les dernières fabrications, seul le champ libre « description: » de description.yaml a été retouché (verdun_centre_feux, vieux_chene_taillefer_feux). La géométrie compilée est la même, mais meta.description diffère du modele_voie.json fabriqué."
+                      ],
+        "files":  [
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\paquet_jardin\\description.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\paquet_jardin\\DESCRIPTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\paquet_jardin\\RECONSTRUCTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\paquet_jardin\\BESOINS.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\verdun_centre_feux\\description.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\verdun_centre_feux\\DESCRIPTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\verdun_centre_feux\\RECONSTRUCTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\verdun_centre_feux\\BESOINS.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\verdun_lycee_feux\\description.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\verdun_lycee_feux\\DESCRIPTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\verdun_lycee_feux\\RECONSTRUCTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\verdun_lycee_feux\\BESOINS.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\vieux_chene_taillefer_feux\\description.yaml",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\vieux_chene_taillefer_feux\\DESCRIPTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\vieux_chene_taillefer_feux\\RECONSTRUCTION.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\generateur\\meylan\\vieux_chene_taillefer_feux\\BESOINS.md",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_paquet_jardin\\rendus\\planche_meylan_paquet_jardin.png",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_verdun_centre_feux\\rendus\\planche_meylan_verdun_centre_feux.png",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_verdun_lycee_feux\\rendus\\planche_meylan_verdun_lycee_feux.png",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_vieux_chene_taillefer_feux\\rendus\\planche_meylan_vieux_chene_taillefer_feux.png",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_paquet_jardin\\comparaison\\meylan_paquet_jardin\\ecarts.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_verdun_centre_feux\\comparaison\\meylan_verdun_centre_feux\\ecarts.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_verdun_lycee_feux\\comparaison\\meylan_verdun_lycee_feux\\ecarts.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_vieux_chene_taillefer_feux\\comparaison\\meylan_vieux_chene_taillefer_feux\\ecarts.json",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_paquet_jardin\\_travail\\fabriquer_lot_a.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_paquet_jardin\\_travail\\comparer_lot_a.py",
+                      "D:\\ClaudeCode_RoadCreation\\recon\\out\\generateur\\meylan_vieux_chene_taillefer_feux\\_travail\\diag_tri\\tri01_entree.bgeo.sc"
+                  ]
+    }
+]

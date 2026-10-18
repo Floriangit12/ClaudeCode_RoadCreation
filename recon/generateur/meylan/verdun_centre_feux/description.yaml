@@ -7,16 +7,23 @@
 # reliés par le tronçon « verdun_milieu » qui porte le passage piéton à feux (le point du site, osm:1333024067/69).
 # Simplifications : le carrefour voisin de l'allée de la Faculté (≈ 45 m au nord-est) n'est pas décrit ; la bande
 # parallèle au sud-est de Verdun sud-ouest (4,7 m, non identifiée dans OSM) est décrite en trottoir + bande enherbée.
-scene: meylan_verdun_centre_buclos
+# Réseau (lot N1, 18/10/2026) : description au format réseau (FORMAT_DESCRIPTION_RESEAU.md), résolue par
+# recon/generateur/reseau/resoudre_reseau.py (appelé par description_vers_modele.py) ; nœuds partagés et contrats de
+# profil dans ../reseau_meylan.yaml ; date d'état = état le plus récent cohérent d'après les photos du site.
+format: description_reseau/0.1
+reseau_commun: ../reseau_meylan.yaml
+scene: meylan_verdun_centre_feux
 nom: verdun_centre_buclos
 titre: Avenue de Verdun × chemin des Buclos (Meylan) — baïonnette et passage piéton à feux, état du 28/07/2026
-date: 2026-07-28
+date_etat: 2026-07-28                               # photos de22683a et f252d62f du 28/07/2026 (les seules, cohérentes)
+etat: {nom: ete_2026, photos: "campagne IGN du 28/07/2026"}
 confiance: faible
 origine: [917676.06, 6460690.07, 229.32]           # point du site M17 (dossier 13) = passage piéton à feux ; z RGE ALTI
 description: >
   Avenue de Verdun en 2 × 1 voies d'environ 3,5 m séparées par une zone hachurée d'environ 3,7 m, coupée en baïonnette
   par le chemin des Buclos (sortie vers le sud, rue à double sens vers le nord, cédez-le-passage). Entre les deux, un
-  passage piéton à feux à bouton d'appel avec refuge au milieu. Chronovélo (piste bidirectionnelle de 3 m) côté
+  passage piéton à feux à bouton d'appel avec refuge au milieu ; du refuge à Buclos nord, une voie de tourne-à-gauche
+  s'ajoute vers le nord-est. Chronovélo (piste bidirectionnelle de 3 m) côté
   nord-ouest derrière une bande enherbée de 2,5 m, piste mixte côté sud-est ; enrobé très fissuré avec pontages.
 contexte:
   agglomeration: oui
@@ -27,88 +34,137 @@ materiaux:
 marquages:
   usure: moyenne
 troncons:
-  # Verdun sud-ouest, du carrefour sud (Buclos sud) vers La Tronche (azimut 225°) ; gauche = sud-est (voie ←)
+  # Étape 3 (reconstruction, 18/10/2026) : branches tracées VERS le centre de leur carrefour (exigence du solveur Houdini
+  # rg::carrefours : « extrémité début non prise en charge ») ; profils retournés, abscisses ramenées à s = L − a.
+  # Le tronçon entre les deux carrefours (≈ 29 m) ne peut pas être une branche des deux à la fois (son début serait au
+  # centre d'un carrefour) : il est coupé en deux tronçons de même profil qui se touchent à 16 m de Buclos sud, en un
+  # point sans nom (pas de fusion par le résolveur), chacun tracé vers son carrefour (besoin du générateur, BESOINS.md).
+  # Verdun sud-ouest, du nœud partagé N_VERDUN_M17_SO (80 m) vers le carrefour sud (Buclos sud) ; gauche = nord-ouest
   - id: verdun_so
     nom: avenue de Verdun sud-ouest
-    de: [-6.6, -6.6]
-    vers: [-63.17, -63.17]
+    de: N_VERDUN_M17_SO                             # nœud partagé avec axe_verdun_centre (médiane OSM, à 0,6 m de [-63.17, -63.17]) ; contrat du joint
+    vers: [-6.6, -6.6]
     profil:
-      - trottoir 2,5                                # côté sud-est : bande parallèle non identifiée (coupe:verdun_so_25, pcrs 6,89 → 11,60), simplifiée
-      - bande enherbée 2,1                          # îlot (coupe:verdun_so_25, pcrs 11,60 → 13,74)
-      - voie 4,1 ←                                  # coupe:verdun_so_25 (pcrs 13,74 → gam 17,83) ; osm:1412130586
-      - zone hachurée 3,7                           # coupe:verdun_so_25 (gam 17,83 → 21,49) ; photo:f252d62f (t007)
-      - voie 3,5 →                                  # coupe:verdun_so_25 (gam 21,49 → 24,93) ; osm:1412130602
-      - bande enherbée 2,8                          # coupe:verdun_so_25 (rive 24,93 → bordure 26,25 → 28,97), rive comprise
-      - piste cyclable 3,0 bidirectionnelle         # coupe:verdun_so_25 (gam 29,06 → 32,07) ; Chronovélo osm:398052219
       - trottoir 1,8                                # coupe:verdun_so_25 (gam 33,47 → 35,29)
-  # Verdun entre les deux carrefours (≈ 29 m), azimut 45° ; gauche = nord-ouest (voie ←) ; porte le passage à feux
-  - id: verdun_milieu
-    nom: avenue de Verdun (entre les deux branches du chemin des Buclos)
-    de: [-6.6, -6.6]
+      - piste cyclable 3,0 bidirectionnelle         # coupe:verdun_so_25 (gam 29,06 → 32,07) ; Chronovélo osm:398052219
+      - bande enherbée 2,8                          # coupe:verdun_so_25 (rive 24,93 → bordure 26,25 → 28,97), rive comprise
+      - voie 3,5 ←                                  # coupe:verdun_so_25 (gam 21,49 → 24,93) ; osm:1412130602
+      - zone hachurée 3,7                           # coupe:verdun_so_25 (gam 17,83 → 21,49) ; photo:f252d62f (t007)
+      - voie 4,1 →                                  # coupe:verdun_so_25 (pcrs 13,74 → gam 17,83) ; osm:1412130586
+      - bande enherbée 2,1                          # îlot (coupe:verdun_so_25, pcrs 11,60 → 13,74)
+      - trottoir 2,5                                # côté sud-est : bande parallèle non identifiée (coupe:verdun_so_25, pcrs 6,89 → 11,60), simplifiée
+  # Verdun entre les deux carrefours, moitié sud (16 m), du point de coupure vers le carrefour sud ; gauche = sud-est.
+  # Porte le passage à feux (osm:1333024067 / 1333024069 : feux, bouton d'appel, refuge) et son refuge bordé dans la zone
+  # hachurée (photo:de22683a t003 : refuge à nez arrondi et balise ; t004 : zone hachurée à chevrons au-delà du refuge).
+  - id: verdun_milieu_s
+    nom: avenue de Verdun (entre les deux branches du chemin des Buclos, moitié sud)
+    de: [4.71, 4.71]
+    vers: [-6.6, -6.6]
+    profil:
+      - trottoir 2,0
+      - piste cyclable 3,0 bidirectionnelle         # piste mixte séparée osm:301046542 (coupe:verdun_ne_15, 4,96 m avec le trottoir)
+      - bande enherbée 2,0                          # photo:de22683a (t004)
+      # étape 3, itération 1 : vers le nord-est, une seconde voie (tourne-à-gauche) naît au nez du refuge (photo:de22683a
+      # t004 : 2 voies et panneau d'affectation C24 dès le refuge ; photo:fce0902f : 2 voies à ≈ 35 m) ; prise sur la zone
+      # hachurée et la voie directe (3,5 + 3,7 = 3,25 + 3,0 + 0,95 ; RF-OSM-LAR-012 : 3,25 au plus pour deux voies de même sens)
+      - voie 3,25 ←
+      - voie 3,0 ←
+      - zone hachurée 0,95
+      - voie 3,5 →
+      - bande enherbée 2,6                          # photo:de22683a (t003)
+      - piste cyclable 3,0 bidirectionnelle         # Chronovélo osm:398052219
+      - trottoir 1,8
+    evenements:
+      # refuge bordé du passage à feux, de ≈ 4 à ≈ 12 m de Buclos sud (osm crossing:island=yes ; photo:de22683a t003)
+      # passe v2 (COMPREHENSION.md) : deux îlots refuges en D garnis de gravillons de part et d'autre du passage, de
+      # ≈ 0,5 à ≈ 13,3 m de ce tronçon (IGN 2024 + levé GAM, modele_gam_S : bordures fermées vers (0 à 3 ; 1 à 5) et
+      # (−5 à −2 ; −6 à −2)) ; photos 2b9bed48 -011 (18/05/2025), de22683a (28/07/2026)
+      - profil: {a: 0.5, nouveau: "trottoir 2,0 | piste cyclable 3,0 bidirectionnelle | bande enherbée 2,0 | voie 3,5 ← | terre-plein 3,7 gravillons | voie 3,5 → | bande enherbée 2,6 | piste cyclable 3,0 bidirectionnelle | trottoir 1,8"}
+      # au droit du passage, les bandes enherbées sont coupées par une liaison revêtue (photo:de22683a t003 : bande verte de traversée)
+      - profil: {a: 5.1, nouveau: "trottoir 2,0 | piste cyclable 3,0 bidirectionnelle | trottoir 2,0 | voie 3,5 ← | terre-plein 3,7 gravillons | voie 3,5 → | trottoir 2,6 | piste cyclable 3,0 bidirectionnelle | trottoir 1,8"}
+      - profil: {a: 9.7, nouveau: "trottoir 2,0 | piste cyclable 3,0 bidirectionnelle | bande enherbée 2,0 | voie 3,5 ← | terre-plein 3,7 gravillons | voie 3,5 → | bande enherbée 2,6 | piste cyclable 3,0 bidirectionnelle | trottoir 1,8"}
+      - profil: {a: 13.3, nouveau: "trottoir 2,0 | piste cyclable 3,0 bidirectionnelle | bande enherbée 2,0 | voie 3,5 ← | zone hachurée 3,7 | voie 3,5 → | bande enherbée 2,6 | piste cyclable 3,0 bidirectionnelle | trottoir 1,8"}
+      - passage_pieton: {a: 7.4, largeur: 3.5, regime: feux}   # osm:1333024067 / 1333024069 (feux, bouton d'appel, refuge) ; passe v2 : zébras réels centrés sur le point du site (IGN 2024 + levé GAM, modele_v2_1b), bandes ≈ 3,5 m
+  # Verdun entre les deux carrefours, moitié nord (12,85 m), du point de coupure vers le carrefour nord ; gauche = nord-ouest
+  - id: verdun_milieu_n
+    nom: avenue de Verdun (entre les deux branches du chemin des Buclos, moitié nord)
+    de: [4.71, 4.71]
     vers: [13.8, 13.8]
     profil:
       - trottoir 1,8
       - piste cyclable 3,0 bidirectionnelle         # Chronovélo osm:398052219
       - bande enherbée 2,6                          # photo:de22683a (t003)
       - voie 3,5 ←
-      - terre-plein 3,7 enrobé                      # refuge du passage à feux (osm crossing:island=yes) ; photo:de22683a (t003)
-      - voie 3,5 →
+      - zone hachurée 0,95                          # photo:de22683a (t004, chevrons) ; photo:f252d62f (t004) ; réduite par la voie de TAG (itération 1)
+      - tourne-à-gauche 3,0 →                       # étape 3, itération 1 : photo:de22683a (t004 : C24 et 2 voies), photo:fce0902f
+      - voie 3,25 →                                 # RF-OSM-LAR-012 (deux voies de même sens : 3,25 au plus)
       - bande enherbée 2,0                          # photo:de22683a (t004)
-      - piste cyclable 3,0 bidirectionnelle         # piste mixte séparée osm:301046542 (coupe:verdun_ne_15, 4,96 m avec le trottoir)
+      - piste cyclable 3,0 bidirectionnelle         # piste mixte séparée osm:301046542
       - trottoir 2,0
-    evenements:
-      # au droit du passage, les bandes enherbées sont coupées par une liaison revêtue (photo:de22683a t003 : bande verte de traversée)
-      - profil: {a: 5.2, nouveau: "trottoir 1,8 | piste cyclable 3,0 bidirectionnelle | trottoir 2,6 | voie 3,5 ← | terre-plein 3,7 enrobé | voie 3,5 → | trottoir 2,0 | piste cyclable 3,0 bidirectionnelle | trottoir 2,0"}
-      - profil: {a: 10.2, nouveau: "trottoir 1,8 | piste cyclable 3,0 bidirectionnelle | bande enherbée 2,6 | voie 3,5 ← | terre-plein 3,7 enrobé | voie 3,5 → | bande enherbée 2,0 | piste cyclable 3,0 bidirectionnelle | trottoir 2,0"}
-      - passage_pieton: {a: 7.7, largeur: 4.0, regime: feux}   # osm:1333024067 / 1333024069 (feux, bouton d'appel, refuge) ; DEF-011
-  # Verdun nord-est, du carrefour nord (Buclos nord) vers le centre de Meylan (azimut 45°) ; gauche = nord-ouest
+  # Verdun nord-est, du nœud partagé N_VERDUN_M17_NE (40 m après Buclos nord) vers le carrefour nord ; gauche = sud-est
   - id: verdun_ne
     nom: avenue de Verdun nord-est
-    de: [13.8, 13.8]
-    vers: [60.0, 60.0]
+    de: N_VERDUN_M17_NE                             # nœud partagé avec axe_verdun_centre, 40 m après Buclos nord (le lot B décrit la suite) ; contrat du joint
+    vers: [13.8, 13.8]
     profil:
-      - trottoir 1,8
-      - piste cyclable 3,0 bidirectionnelle         # Chronovélo osm:398052219 (coupe:verdun_ne_15 : 33,07)
-      - bande enherbée 2,5
-      - voie 3,5 ←                                  # osm:1412130603 (lanes=2 left|through plus loin, vers l'allée de la Faculté)
-      - zone hachurée 3,7                           # coupe:verdun_ne_15 (gam 18,34 → 22,00) ; photo:de22683a (t004, chevrons)
-      - voie 3,5 →                                  # coupe:verdun_ne_15 (gam 12,79 → 18,34 : 5,55 m avec la rive)
-      - bande enherbée 2,0                          # photo:de22683a (t004)
-      - piste cyclable 3,0 bidirectionnelle         # osm:301046542 (piste + trottoir séparés, coupe:verdun_ne_15 gam 7,83 → 12,79)
       - trottoir 2,0
-  # Chemin des Buclos sud : sortie à sens unique depuis Verdun (osm:28420143 oneway), azimut ≈ 130°
+      - piste cyclable 3,0 bidirectionnelle         # osm:301046542 (piste + trottoir séparés, coupe:verdun_ne_15 gam 7,83 → 12,79)
+      - bande enherbée 2,0                          # photo:de22683a (t004)
+      - voie 3,5 ←                                  # coupe:verdun_ne_15 (gam 12,79 → 18,34 : 5,55 m avec la rive)
+      - zone hachurée 3,7                           # coupe:verdun_ne_15 (gam 18,34 → 22,00) ; photo:de22683a (t004, chevrons)
+      - voie 3,5 →                                  # osm:1412130603 (lanes=2 left|through plus loin, vers l'allée de la Faculté)
+      - bande enherbée 2,5
+      - piste cyclable 3,0 bidirectionnelle         # Chronovélo osm:398052219 (coupe:verdun_ne_15 : 33,07)
+      - trottoir 1,8
+    evenements:
+      # étape 3, itération 1 : la voie de tourne-à-gauche vers le nord-est continue au-delà de Buclos nord jusqu'au
+      # débouché de l'allée de la Faculté (≈ 25 m après Buclos nord, non décrit : besoin de carrefour d'extrémité) ;
+      # le profil du nœud partagé (contrat, 1 + 1 voies) est rendu à ≈ 15 m du nœud (photo:fce0902f, 2 voies à ≈ 35 m
+      # du passage ; osm:1412130603 lanes=2 left|through)
+      - ouverture: {a: 15, longueur: 5, nouveau: "trottoir 2,0 | piste cyclable 3,0 bidirectionnelle | bande enherbée 2,0 | voie 3,25 ← | voie 3,0 ← | zone hachurée 0,95 | voie 3,5 → | bande enherbée 2,5 | piste cyclable 3,0 bidirectionnelle | trottoir 1,8"}
+  # Chemin des Buclos sud : sortie à sens unique depuis Verdun (osm:28420143 oneway), azimut ≈ 130° ; tracé de la limite
+  # de carte vers le carrefour, la voie est donc à contresens du tracé (←)
   - id: buclos_s
     nom: chemin des Buclos sud
-    de: [-6.6, -6.6]
-    vers: [24.04, -32.31]
-    profil: "trottoir 1,5 | voie 4,4 → | trottoir 1,5"   # coupe:buclos_s_20 (gam 12,33 → pcrs 16,72) ; trottoir gauche osm sidewalk=left
-  # Chemin des Buclos nord : rue à double sens (osm:581180883 lanes=2) puis sens unique vers le sud (osm:27286062), azimut ≈ 320°
+    de: [24.04, -32.31]
+    vers: [-6.6, -6.6]
+    profil: "trottoir 1,5 | voie 4,4 ← | trottoir 1,5"   # coupe:buclos_s_20 (gam 12,33 → pcrs 16,72) ; trottoir osm sidewalk=left
+  # Chemin des Buclos nord (osm:581180883 lanes=2 sur ≈ 20 m depuis l'avenue, puis 27286062 à sens unique vers l'avenue,
+  # B1 à l'entrée, photo:de22683a t003 ; relecture M6) : de la limite de carte (40 m) vers le carrefour ; gauche = nord-est
   - id: buclos_n
     nom: chemin des Buclos nord
-    de: [13.8, 13.8]
-    vers: [-11.91, 44.44]
-    profil: "trottoir 1,5 | voie 3,0 ← | voie 3,0 → | trottoir 1,5"   # largeurs non mesurées ; photo:f252d62f (t004)
+    de: [-11.91, 44.44]
+    vers: [13.8, 13.8]
+    profil: "trottoir 1,5 | voie 3,5 → | trottoir 1,5"   # partie à sens unique vers l'avenue (osm:27286062) ; largeur non mesurée (photo:f252d62f t004)
+    evenements:
+      # à ≈ 20 m de l'avenue : la rue devient à double sens (accès du parking ; osm:581180883 lanes=2)
+      - ouverture: {a: 22, longueur: 4, nouveau: "trottoir 1,5 | voie 3,0 ← | voie 3,0 → | trottoir 1,5"}
 carrefours:
   - id: BS
     nom: Verdun × Buclos sud
     centre: [-6.6, -6.6]
     branches:
       - {troncon: verdun_so, regime: prioritaire}
-      - {troncon: verdun_milieu, regime: prioritaire}
+      - troncon: verdun_milieu_s
+        regime: prioritaire
+        mouvements: {v2: [TD]}                      # pas de tourne-à-gauche serré vers Buclos sud (rayon de 2,7 m sur la géométrie simplifiée ; relecture M4 : mouvement exclu plutôt qu'admis)
       - troncon: buclos_s
         regime: sortie seule                        # osm:28420143 oneway
-        passage: oui                                # osm:312211595 (passage marqué)
+        # passe v2 (COMPREHENSION.md) : zébra réel ≈ 4 m plus loin dans la rue que le passage de la passe 1, vers
+        # (4 à 7 ; −12 à −16) du repère (IGN 2024 et levé GAM à la grille de 1 m, modele_gam_S ; photo 3fc24f3e du 28/07/2026)
+        passage: {largeur: 3.0, retrait: 6.0}       # osm:312211595 (passage marqué)
   - id: BN
     nom: Verdun × Buclos nord
     centre: [13.8, 13.8]
     branches:
-      - {troncon: verdun_milieu, regime: prioritaire}
+      - {troncon: verdun_milieu_n, regime: prioritaire, fleches: non}   # branche de 12,85 m : pas de place pour 3 flèches (aucune vue sur les photos)
       - {troncon: verdun_ne, regime: prioritaire}
       - troncon: buclos_n
-        regime: cédez                               # osm:8355380882 give_way ; AB3a, photo:f252d62f (t004)
-        passage: oui                                # osm:7095192469
+        regime: cédez                               # AB3a, photo:f252d62f (t004) (relecture M6 : le nœud osm:8355380882 est à ≈ 20 m du débouché)
+        # passe v2 : la Chronovélo traverse Buclos nord quelques mètres après la ligne de cédez (zébra et bande verte),
+        # photo 2b9bed48 +155 (18/05/2025) ; IGN 2024 (modele_gam_N) : ≈ 2 m plus loin que le passage de la passe 1
+        passage: {largeur: 3.0, retrait: 4.0}       # osm:7095192469
 ecarts_admis:
   RF-OSM-LAR-010: "voie de 4,1 m relevée sur Verdun sud-ouest (coupe verdun_so_25 : limite PCRS 13,74 → ligne GAM 17,83)"
   RF-OSM-LAR-011: "sortie à sens unique du chemin des Buclos sud de 4,4 m bordure à bordure (coupe buclos_s_20)"
   RF-MA-REF-003: "bordure du refuge du passage à feux vue à ≈ 0,11 m (îlots refuges bordés de l'avenue de Verdun, dossier 13 M17 / M27 : 0,10-0,12 m) ; 0,11 m (DEF-005, îlot) retenu"
-  RF-GV-RAY-006: "tourne-à-gauche de Verdun (sens sud-ouest) vers le chemin des Buclos sud : rayon de 2,7 m calculé sur la géométrie simplifiée (baïonnette de 29 m, refuge de 3,7 m) ; mouvement ni observé ni exclu sur les photos, à vérifier"

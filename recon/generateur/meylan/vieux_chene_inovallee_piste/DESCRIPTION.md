@@ -7,6 +7,10 @@ z ≈ 215,7 m (RGE ALTI). Centre du carrefour : nœud OSM à (−1,04 ; −2,64)
 **État décrit : 28/07/2026** (campagne IGN, photos 360° de 07:52), le plus récent. Depuis l'ortho IGN 2024, l'enrobé a
 été refait et la traversée cyclable verte remplacée par des figurines et doubles chevrons.
 
+**Réseau (lot N1, 18/10/2026).** date d'état **28/07/2026** (enrobé refait depuis l'ortho 2024 : la photo prime) ; pas de nœud partagé. Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
+**Reconstruction (étape 3, 18/10/2026).** Branches tracées vers le carrefour, en polylignes OSM lissées (les cassures non raccordées faisaient s'emballer la fabrication sous les îlots peints, BESOINS V1). Détail : `RECONSTRUCTION.md` ; manques du générateur : `BESOINS.md`.
+
 ## 1. Description simple
 
 > Rue d'Inovallée à 50 km/h sous de grands arbres. Une voie par sens d'environ 3,3 m, séparées au milieu par une
@@ -17,16 +21,21 @@ z ≈ 215,7 m (RGE ALTI). Centre du carrefour : nœud OSM à (−1,04 ; −2,64)
 > piste traverse avec des figurines vélo et des doubles chevrons. Arrêts de bus de chaque côté juste à l'ouest, avec
 > abris et zigzags jaunes. Enrobé neuf presque noir, marquages neufs, haies, candélabres, palissade de chantier au sud.
 
-## 2. Ordre de construction proposé
+## 2. Ordre de construction (celui de la chaîne)
 
-1. **Plate-forme** : terrain plat (z ≈ 216 m).
-2. **Chaussées** : 2 × 1 voies, rue de desserte, enrobé neuf.
-3. **Bordures** : bordures de trottoir et de quais, refuge rond, bordurettes de la piste.
-4. **Piste, trottoirs, bandes enherbées** : piste séparée (vélos + piétons) au nord, liaisons revêtues aux passages.
-5. **Marquages** : îlots peints ocre à contour blanc (pratique locale photographiée), rives, passages, figurines et
-   doubles chevrons de la traversée cyclable, zigzags jaunes des arrêts.
-6. **Signalisation et feux** : feux tricolores, feux piétons et cyclistes à bouton, panneaux d'arrêt de bus.
-7. **Végétation et mobilier** : grands arbres, haies, abribus, candélabres, borne incendie.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 plate-forme | terrain plat (z ≈ 216 m) |
+| E08 bordures | bordures de trottoir et de quais, refuge rond, bordurettes de la piste |
+| E10 chaussée | 2 × 1 voies, rue de desserte, enrobé neuf |
+| E11 trottoirs, pistes | piste séparée (vélos + piétons) au nord, bandes enherbées, liaisons revêtues aux passages |
+| E12 marquages | îlots peints ocre à contour blanc (pratique locale photographiée), rives, passages, figurines et doubles chevrons de la traversée cyclable, zigzags jaunes des arrêts |
+| E14 signalisation et feux | feux tricolores, feux piétons et cyclistes à bouton, panneaux d'arrêt de bus |
+| E15 éclairage | candélabres |
+| E16 mobilier | abribus, borne incendie |
+| E17 végétation (plus tard) | grands arbres, haies |
 
 ## 3. Constats et provenance
 

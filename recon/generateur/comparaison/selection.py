@@ -187,7 +187,8 @@ def nettete(img_sd, est360, lacet_image, tangage, fov, por):
     return float(lap[m2].std() / (g[m2].std() + 1.0)), float(g[m2].mean() / 255.0)
 
 
-def choisir(site, conf, modele, ancrage, poi, dossiers, rafraichir=False, depuis="2019-01-01", journal=print):
+def choisir(site, conf, modele, ancrage, poi, dossiers, rafraichir=False, depuis="2019-01-01", journal=print,
+            jusqu_au=None):
     """Sélection complète ; renvoie le document selection.json (dict)."""
     marge = DIST_MAX
     coins = emprise_l93(modele, ancrage, marge)
@@ -218,6 +219,8 @@ def choisir(site, conf, modele, ancrage, poi, dossiers, rafraichir=False, depuis
             raison = f"trop loin ({d:.0f} m de l'emprise)"
         elif dt[:10] < depuis:
             raison = f"trop ancienne ({dt[:10]} < {depuis})"
+        elif jusqu_au and dt[:10] > jusqu_au:
+            raison = f"postérieure à l'état décrit ({dt[:10]} > {jusqu_au})"
         elif pr.get("geovisio:status", "ready") != "ready":
             raison = "statut " + str(pr.get("geovisio:status"))
         elif (pr.get("quality:horizontal_accuracy") or 0) > PRECISION_MAX:

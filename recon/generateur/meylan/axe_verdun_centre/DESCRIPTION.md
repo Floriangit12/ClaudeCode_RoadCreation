@@ -5,6 +5,8 @@ du lycée (M08, k ≈ 1 990), en deux tronçons de part et d'autre du carrefour 
 relèvent du lot A ; le passage à refuge de k ≈ 1 325 est déjà décrit en détail à l'étape 1
 (`scenes_meylan/M27_avenue_de_verdun.yaml`) : ce site le prolonge et en corrige les largeurs par l'ortho.*
 
+**Réseau (lot N1, 18/10/2026).** date d'état **18/05/2025** ; tronçon 1 de `N_VERDUN_PJ_NE` (k ≈ 1 104) à `N_VERDUN_M17_SO` (k ≈ 1 478), tronçon 2 de `N_VERDUN_M17_NE` (k ≈ 1 627) à `N_VERDUN_M08_SO` (k ≈ 1 920) : un tronçon, un propriétaire, les carrefours du lot A gardent leurs branches ; les abscisses des évènements sont comptées depuis ces débuts ; à chaque bout, le résolveur raccorde le profil de l'axe au profil mesuré par le carrefour (contrat du nœud) sur 25 à 30 m. Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
 ## 1. Description en texte libre
 
 > Avenue de quartier à 50 km/h, une voie par sens d'environ 3,60 m, séparées par une bande peinte d'environ 3,40 m
@@ -15,16 +17,21 @@ relèvent du lot A ; le passage à refuge de k ≈ 1 325 est déjà décrit en d
 > de grands arbres (cèdres, peupliers, saules) et des immeubles. Candélabres à simple crosse d'environ 9 m côté
 > nord-ouest, abris de bus. Enrobé ancien très fissuré, fissures pontées, marquages usés.
 
-## 2. Ordre de construction
+## 2. Ordre de construction (celui de la chaîne)
 
-1. Plate-forme : chaussée unique de 10,8 m entre rives, accotements enherbés au même niveau.
-2. Refuges : bordures basses (vue 0,11) autour des îlots de 10-14 m aux passages piétons.
-3. Enrobés : chaussée (ancienne, fissurée), piste à double sens et trottoirs.
-4. Accotements enherbés, bandes plantées, haies taillées, grands arbres.
-5. Marquages : continues et hachures de l'îlot central, rives, passages piétons (bandes prolongées sur les liaisons
-   revêtues des accotements), flèches des poches de tourne-à-gauche.
-6. Signalisation : C20a aux passages, arrêts de bus ; feux aux carrefours (lot A).
-7. Éclairage côté nord-ouest, abris de bus, immeubles.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 plate-forme | chaussée unique de 10,8 m entre rives, accotements enherbés au même niveau |
+| E08 bordures | bordures basses (vue 0,11) autour des refuges de 10-14 m aux passages piétons |
+| E10 chaussée | enrobé ancien fissuré (pontages), piste à double sens et trottoirs en enrobé |
+| E11 trottoirs, pistes | accotements enherbés, liaisons revêtues des passages |
+| E12 marquages | continues et hachures de l'îlot central, rives, passages piétons (bandes prolongées sur les liaisons revêtues), flèches des poches de tourne-à-gauche |
+| E14 signalisation | C20a aux passages, arrêts de bus ; feux aux carrefours (lot A) |
+| E15 éclairage | candélabres côté nord-ouest |
+| E16 mobilier | abris de bus |
+| E17 végétation (plus tard) | bandes plantées, haies taillées, grands arbres |
 
 ## 3. Profil (nord-ouest → sud-est), mesuré sur l'ortho
 
@@ -44,3 +51,7 @@ relèvent du lot A ; le passage à refuge de k ≈ 1 325 est déjà décrit en d
 - Les poches de tourne-à-gauche (tous les 60-100 m selon OSM) ne sont pas positionnées, sauf une (k ≈ 1 767) ; l'arrêt
   de bus (k ≈ 1 690) est dans `extensions_auto` (le format exige un trottoir contigu à la chaussée).
 - Au tronçon 2, les lignes du sens vers Meylan sont masquées par les arbres sur l'ortho : profil supposé symétrique.
+
+## Reconstruction (lot SITES, étape 3, 18/10/2026)
+
+Itération 0 (lot SITES) : approche du carrefour M17 dite avec le profil mesuré par M17 sur les 35 derniers mètres de T1 (le raccord généré faisait planter le générateur) ; le site est fabriqué en deux scènes (T1, T2) dérivées de `description.yaml` (`BESOINS.md` V-C1). Constat des photos 392b3706 et 1791b85f (18/05/2025) : depuis Paquet Jardin, la chaussée reste à 2 × 2 voies jusqu'à k ≈ 1 140, puis la voie de gauche du sens nord-est se rabat et l'îlot hachuré s'ouvre (le raccord généré la remplace par une transition de 30 m, `BESOINS.md` V-C2). Détail : `RECONSTRUCTION.md`.

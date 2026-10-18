@@ -4,6 +4,8 @@
 qui amène la Rocade Sud (N87) vers Chambéry, la sortie 26 (sens Chambéry → Grenoble) et les bretelles de
 Meylan-Est. État décrit : 2024-2025. Voir `description.yaml`, `mesures.json`, `photos.json`.*
 
+**Réseau (lot N1, 18/10/2026).** date d'état **28/02/2026** (photo 0ee0e9e0 la plus récente, cohérente) ; l'A41 commence sur `N_A41_MEYLAN_EST_O`, la branche N87 et la sortie vers Meylan-Est sur `N_A41_BRANCHE_N87` ; séparateur central en **DBA**. Description au format réseau, résolue par `recon/generateur/reseau/resoudre_reseau.py` ; nœuds partagés et contrats de profil dans `../reseau_meylan.yaml`.
+
 ## 1. Description en texte libre
 
 > Autoroute en rase campagne, 110 km/h, sans éclairage, entre deux rideaux d'arbres. Au milieu, un terre-plein étroit
@@ -20,19 +22,18 @@ Meylan-Est. État décrit : 2024-2025. Voir `description.yaml`, `mesures.json`, 
 > voie de droite disparaît en biseau ; il reste 3 voies et une BAU large. Plus loin, un portique avec panneau à
 > messages variables.
 
-## 2. Ordre de construction
+## 2. Ordre de construction (celui de la chaîne)
 
-1. Plate-forme commune (remblai léger) pour l'A41 et la branche N87 ; plates-formes des bretelles en courbe.
-2. Pont de l'échangeur (piles dans le TPC et entre l'A41 et la branche, culée en talus bétonné) avant les enrobés.
-3. Enrobés : A41 (3 + 2 voies), branche (2 voies), voie de décélération, voie d'insertion, 3 bretelles de 4 m.
-4. GBA béton au TPC sur toute la longueur.
-5. Glissières simples aux bords extérieurs ; double glissière entre A41 et branche jusqu'à s = 908.
-6. Marquages : rives continues 3u, T4 3u des BAU, T1 2u entre voies (T3 2u entre les deux groupes après la
-   convergence), T2 5u des voies d'insertion et de décélération, T'3 3u à droite des bretelles, puis chevrons et
-   lignes du musoir de la sortie 26.
-7. Signalisation : limitation 70 et balise de musoir (J14a probable) sur la sortie, AB3a + panonceau « cédez le
-   passage » dans la zone à 4 voies, panneaux de direction portés par le pont, portique PMV à l'est.
-8. Abords : bois au nord et au sud, champ au sud-est, ligne HT.
+L'ordre qui fait foi est celui de la chaîne de construction (`../../CHAINE_CONSTRUCTION.md` § 2 et `chaine_construction.json`) : bordures et caniveaux avant l'enrobé, marquages avant la retenue et les panneaux, éclairage après les panneaux. L'ordre que proposait ce relevé est rangé ci-dessous dans ces étapes (relecture de la préparation, § 3).
+
+| Étape de la chaîne | Ce que le site y construit |
+|---|---|
+| E07 terrassements, ouvrages | plate-forme commune (remblai léger) pour l'A41 et la branche N87, plates-formes des bretelles ; pont de l'échangeur (piles dans le TPC et entre l'A41 et la branche, culée en talus bétonné), avant les enrobés |
+| E10 chaussée | A41 (3 + 2 voies), branche (2 voies), voie de décélération, voie d'insertion, 3 bretelles de 4 m |
+| E12 marquages | rives continues 3u, T4 3u des BAU, T1 2u entre voies (T3 2u après la convergence), T2 5u des voies d'insertion et de décélération, T'3 3u des bretelles, chevrons et lignes du musoir de la sortie 26 |
+| E13 retenue | DBA au TPC sur toute la longueur ; glissières simples aux bords extérieurs ; double glissière entre l'A41 et la branche jusqu'à s = 908 |
+| E14 signalisation | limitation 70 et balise de musoir (J14a probable), AB3a + panonceau « cédez le passage » dans la zone à 4 voies, panneaux de direction portés par le pont, portique PMV à l'est |
+| E17 abords (plus tard) | bois au nord et au sud, champ au sud-est, ligne HT |
 
 ## 3. Profils mesurés (ortho IGN 2024, coupes redressées)
 

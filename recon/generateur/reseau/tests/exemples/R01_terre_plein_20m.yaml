@@ -1,0 +1,15 @@
+# Exemple du § 1 de FORMAT_DESCRIPTION_RESEAU.md : la phrase de l'utilisateur.
+# « Route à 2 voies à double sens, avec un terre-plein entre les deux sens, végétalisé sur environ 20 m »
+format: description_reseau/0.1
+reseau: R01_terre_plein_20m
+contexte: {agglomeration: oui, vitesse: 50}
+noeuds:
+  A: {position: [0, 0]}
+  B: {position: [150, 0]}
+troncons:
+  - id: R1
+    de: A
+    vers: B
+    profil: "trottoir | voie ← | voie → | trottoir"
+    evenements:
+      - "sur environ 20 m au milieu : terre-plein planté"

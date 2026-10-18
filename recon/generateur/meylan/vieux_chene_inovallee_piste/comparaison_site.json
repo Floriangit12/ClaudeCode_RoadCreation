@@ -1,0 +1,36 @@
+{
+ "schema": "comparaison_sites/0.1",
+ "note": "Configuration de la comparaison multivues du site (étape 3, lot de sites C). Le modèle d'un site de Meylan au format réseau est dans le repère local de la description (x vers l'est, y vers le nord de la grille Lambert-93, origine = « origine » de la description) : l'ancrage est donc l'origine donnée et l'azimut grille 90° de l'axe +x (s = x, t = y). Seuls des identifiants, dates, positions et caps figurent ici. Lancement : enveloppe non versionnée recon/out/generateur/meylan_rp_lycee/outils_lot_c/comparer_site.py (sorties dans recon/out/generateur/meylan_<site>/comparaison/ ; repli sur les instances IGN et OSM-FR quand le méta-catalogue Panoramax ne répond pas), voir RECONSTRUCTION.md.",
+ "sites": {
+  "meylan_vieux_chene_inovallee_piste": {
+   "titre": "Chemin du Vieux Chêne (Inovallée), piste séparée, îlot peint ocre, T à feux",
+   "modele": "recon/out/generateur/meylan_vieux_chene_inovallee_piste",
+   "description": "recon/generateur/meylan/vieux_chene_inovallee_piste/description.yaml",
+   "ancrage": {
+    "origine_l93": [
+     919608.06,
+     6460487.77
+    ],
+    "azimut_grille_deg": 90.0
+   },
+   "point_interet": {
+    "s": -1.04,
+    "t": -2.64,
+    "nom": "centre du carrefour en T"
+   }
+  }
+ },
+ "porteurs_sequences": {
+  "note": "Porteur de la caméra par séquence Panoramax (identifiant de collection), quand la sémantique « transport » manque ou que la vitesse est ambiguë : constaté sur les photos (capot ou toit de voiture, sac à dos, casque) ou repris de recon/pcg/enrichir/camera.py SEQUENCES (mêmes contributeurs, mêmes journées). Sans entrée : sémantique « transport » de la séquence, sinon vitesse médiane de la séquence (> 32 km/h voiture, < 20 km/h vélo ou piéton, entre les deux inconnu).",
+  "4ef310d0-": "velo",
+  "dda9fddd-": "velo",
+  "2b630cec-": "velo",
+  "69791f81-": "velo",
+  "dff66b1c-": "velo",
+  "86c4aa13-": "voiture",
+  "7b1d9477-": "voiture",
+  "a622e3ce-": "voiture",
+  "203bb147-": "voiture",
+  "36c713af-": "voiture"
+ }
+}

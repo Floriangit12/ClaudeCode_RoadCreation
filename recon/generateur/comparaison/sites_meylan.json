@@ -1,0 +1,118 @@
+{
+ "schema": "comparaison_sites/0.1",
+ "note": "Ancrage des tronçons fabriqués (repère local s, t du générateur) dans le Lambert-93. photos_reference : photos d'après lesquelles la description a été écrite, avec leur position estimée dans le modèle (recon/generateur/rendu/rendu_l2b.py VUES_PHOTO : s, t, lacet relatif à l'axe) et le lacet de la vue « vise » regardée (dossier 13, sources/panoramax_meta/<site>.json, vues_ciblees.lacet_deg, relatif au centre de l'image). voie_osm : voies OSM (data/vector_gz/osm/roads) sur lesquelles la direction de l'axe est ajustée. passage_osm : nœuds OSM (crossings) du passage piéton décrit, et sa position (s, t) dans le modèle. Seuls des identifiants, dates, positions et caps figurent ici (aucune image).",
+ "sites": {
+  "S_M20": {
+   "titre": "Avenue de Chamechaude (Meylan), rue 1 + 1, passage piéton",
+   "modele": "recon/out/generateur/S_M20",
+   "description": "recon/generateur/scenes_meylan/M20_avenue_de_chamechaude.yaml",
+   "ancrage": {
+    "photos_reference": [
+     {
+      "id": "30b80a7b-41b0-40de-a166-c31417ccfcb7",
+      "s": 5.0,
+      "t": -1.5,
+      "lacet_relatif_deg": 2.0,
+      "lacet_image_deg": 12.0
+     }
+    ],
+    "voie_osm": [
+     "way/8015851"
+    ]
+   },
+   "point_interet": {
+    "s": 30.0,
+    "t": 0.0,
+    "nom": "passage piéton (évènement à 30 m)"
+   }
+  },
+  "S_M24": {
+   "titre": "Avenue du Granier (Meylan), passage piéton à refuge, piste bidirectionnelle",
+   "modele": "recon/out/generateur/S_M24",
+   "description": "recon/generateur/scenes_meylan/M24_avenue_du_granier.yaml",
+   "ancrage": {
+    "photos_reference": [
+     {
+      "id": "f877235a-ec11-4a85-b001-3b67855890f2",
+      "s": 33.0,
+      "t": -8.4,
+      "lacet_relatif_deg": 40.0,
+      "lacet_image_deg": 127.3
+     },
+     {
+      "id": "9badc00e-d636-4f6d-aeea-2d75503a1dfe",
+      "s": 38.0,
+      "t": -5.6,
+      "lacet_relatif_deg": 80.0,
+      "lacet_image_deg": 83.0
+     }
+    ],
+    "voie_osm": [
+     "way/981637581",
+     "way/1464893894",
+     "way/1412404047"
+    ],
+    "passage_osm": {
+     "noeuds": [
+      "node/8663905957"
+     ],
+     "s": 40.0,
+     "t": 0.0
+    }
+   },
+   "point_interet": {
+    "s": 40.0,
+    "t": 0.0,
+    "nom": "passage piéton et îlot refuge (évènement à 40 m)"
+   }
+  },
+  "S_M27": {
+   "titre": "Avenue de Verdun (Meylan), îlot peint et refuge bordé au passage piéton",
+   "modele": "recon/out/generateur/S_M27",
+   "description": "recon/generateur/scenes_meylan/M27_avenue_de_verdun.yaml",
+   "ancrage": {
+    "photos_reference": [
+     {
+      "id": "176f9ab0-70a1-419e-9444-969bb89df5ac",
+      "s": 25.0,
+      "t": -3.0,
+      "lacet_relatif_deg": 6.0,
+      "lacet_image_deg": -12.8
+     }
+    ],
+    "voie_osm": [
+     "way/442125313",
+     "way/1412130593",
+     "way/1412130594",
+     "way/1412130595"
+    ],
+    "passage_osm": {
+     "noeuds": [
+      "node/6499454053",
+      "node/6499454485"
+     ],
+     "s": 45.0,
+     "t": 0.0
+    }
+   },
+   "point_interet": {
+    "s": 45.0,
+    "t": 0.0,
+    "nom": "passage piéton et refuge bordé (42,5 à 47,5 m)"
+   }
+  }
+ },
+ "porteurs_sequences": {
+  "note": "Porteur de la caméra par séquence Panoramax (identifiant de collection), quand la sémantique « transport » manque ou que la vitesse est ambiguë : constaté sur les photos (capot ou toit de voiture, sac à dos, casque) ou repris de recon/pcg/enrichir/camera.py SEQUENCES (mêmes contributeurs, mêmes journées). Sans entrée : sémantique « transport » de la séquence, sinon vitesse médiane de la séquence (> 32 km/h voiture, < 20 km/h vélo ou piéton, entre les deux inconnu).",
+  "4ef310d0-": "velo",
+  "dda9fddd-": "velo",
+  "2b630cec-": "velo",
+  "69791f81-": "velo",
+  "dff66b1c-": "velo",
+  "86c4aa13-": "voiture",
+  "7b1d9477-": "voiture",
+  "a622e3ce-": "voiture",
+  "203bb147-": "voiture",
+  "36c713af-": "voiture"
+ }
+}

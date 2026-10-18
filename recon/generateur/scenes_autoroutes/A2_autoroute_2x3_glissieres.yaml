@@ -1,0 +1,20 @@
+# A2 — Autoroute 2 × 3 voies, section courante, terre-plein central engazonné entre deux glissières.
+# Voies de 3,50 m, BAU de 3,00 m, bermes de 1,00 m (RF-OSM-LAR-014) ; TPC de 5,00 m = BDG 1,00 + bande médiane
+# engazonnée de 3,00 m (RF-GV-TPC-006 : engazonnée si ≥ 3,00 m ; BDG 1,00) + BDG 1,00, avec une glissière de chaque côté
+# de la bande médiane (RF-GV-TPC-008 : barrières de niveau N sur tout TPC < 12 m). Bande médiane de plain-pied.
+# Marquages déduits : u = 7,5 cm, délimitation T1 2u entre voies de même sens, rive de BAU T4 3u, rive côté TPC
+# continue 3u (RF-MQ-SC-06, RF-OSM-MRQ-022).
+format: description_simple/0.2
+scene: A2_autoroute_2x3_glissieres
+titre: Autoroute 2 × 3 voies, TPC engazonné à double glissière
+description: "Section courante d'autoroute 2 × 3 voies de 3,50 m, BAU de 3,00 m, TPC de 5,00 m engazonné entre deux glissières."
+contexte: {agglomeration: non, categorie: autoroute, vitesse: 130}
+troncon: {de: [0, 0], vers: [500, 0]}
+profil: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | glissière | TPC 3,0 gazon plain-pied | glissière | BDG 1,0 | voie 3,5 → | voie 3,5 → | voie 3,5 → | BAU 3,0 | berme 1,0"
+attendus:
+  largeur_plateforme_m: 34.0          # 2 × (1 + 3 + 10,5 + 1) + 3,0 (bermes et BDG comprises)
+  largeur_tpc_m: 5.0
+  voies: {arriere: 3, avant: 3}
+  u_m: 0.075
+  lignes: {delimitation: "T1 2u", rive_BAU: "T4 3u", rive_TPC: "continue 3u"}
+  separateurs: {glissiere: 2}

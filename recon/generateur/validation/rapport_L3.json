@@ -1,0 +1,564 @@
+{
+ "lot": "L3",
+ "date": "2026-10-18",
+ "criteres": [
+  {
+   "id": "L3-1 coins tangents (rupture de la polyligne au point de tangence ; tangence de l'arc ajusté)",
+   "valeur": "rupture max 0.398° ; tangence 0.0000° (18 congés)",
+   "seuil": "≤ 0,5°",
+   "atteint": true
+  },
+  {
+   "id": "L3-2 rayon des coins = consigne (cercle ajusté aux sommets du congé) ; file de bordure fabriquée sur la face",
+   "valeur": "écart max 0.00 mm ; file à 0.00 mm de la face",
+   "seuil": "± 1 cm",
+   "atteint": true
+  },
+  {
+   "id": "L3-3 frontière fermée et simple",
+   "valeur": "5/5",
+   "seuil": "5/5",
+   "atteint": true
+  },
+  {
+   "id": "L3-4 lignes CÉDEZ / STOP à la limite de la chaussée prioritaire (bord aval de la peinture fabriquée)",
+   "valeur": "écart max 0.000 m (5 lignes)",
+   "seuil": "0 ± 0,05 m",
+   "atteint": true
+  },
+  {
+   "id": "L3-5 passages en retrait de la ligne CÉDEZ / STOP (bande la plus proche, peinture fabriquée)",
+   "valeur": "[2.0, 2.0, 2.0, 2.0, 2.0] m",
+   "seuil": "2,00 ± 0,05 m",
+   "atteint": true
+  },
+  {
+   "id": "L3-6 refuges au droit des passages (largeur le long de l'axe du passage, sol fabriqué)",
+   "valeur": "min 2.000 m (9 refuges)",
+   "seuil": "≥ 2,00 m",
+   "atteint": true
+  },
+  {
+   "id": "L3-7 aucune ligne CÉDEZ sur une branche à feux",
+   "valeur": "0",
+   "seuil": "0",
+   "atteint": true
+  },
+  {
+   "id": "L3-8 traversée hors refuge (bloquant) : parcours de chaussée continu le long de l'axe de chaque passage, entre faces de bordure fabriquées",
+   "valeur": "max 8.57 m (11 passages)",
+   "seuil": "≤ 12 m",
+   "atteint": true
+  },
+  {
+   "id": "L3-9 nez des îlots au premier contact des balayages + 0,30 m (VL, lot L3a ; retrait plafonné par les refuges)",
+   "valeur": "marge min -1.256 m (B-est.nez.tp1) ; 4/8 nez",
+   "seuil": "≥ 0,30 m",
+   "atteint": false
+  },
+  {
+   "id": "L3-9 nez des îlots au premier contact des balayages + 0,30 m (bus standard 12 m, lot L3a ; retrait plafonné par les refuges)",
+   "valeur": "marge min -5.400 m (B-est.nez.tp2) ; 0/8 nez",
+   "seuil": "≥ 0,30 m",
+   "atteint": false
+  },
+  {
+   "id": "L3-10 îlots directionnels hors des balayages faisables (distance minimale)",
+   "valeur": "0.583 m (2 îlots)",
+   "seuil": "≥ 0,30 m",
+   "atteint": true
+  },
+  {
+   "id": "L3-11 sol étanche : écart vertical aux raccords carrefour / branches",
+   "valeur": "J1 0.13 mm; J2 20.00 mm; J3 0.13 mm; J4 1.74 mm; J5 0.21 mm",
+   "seuil": "≤ 1 mm",
+   "atteint": false
+  },
+  {
+   "id": "L3-12 sol étanche : bords libres hors du bord extérieur des trottoirs",
+   "valeur": "J1 1; J2 5; J3 0; J4 0; J5 0",
+   "seuil": "0",
+   "atteint": false
+  },
+  {
+   "id": "L3-13 vue des bordures T2 du carrefour = modèle (sondes de fabriquer_l2 sur la géométrie posée)",
+   "valeur": "écart max 2.0 mm",
+   "seuil": "± 5 mm",
+   "atteint": true
+  },
+  {
+   "id": "L3-14 abaissés des bordures du carrefour avec BEV (DEF-031)",
+   "valeur": "27/27",
+   "seuil": "27/27",
+   "atteint": true
+  },
+  {
+   "id": "L3-15 scènes fabriquées jusque dans le carrefour (sol, bordures, lignes, passages)",
+   "valeur": "5/5",
+   "seuil": "5/5",
+   "atteint": true
+  },
+  {
+   "id": "L3-16 planches de rendu regardées en tuiles natives (2 vues ; 3 pour J5)",
+   "valeur": "5/5",
+   "seuil": "5/5",
+   "atteint": true
+  },
+  {
+   "id": "L3-17 déterminisme (deux processus, vérifié une fois en fin de lot)",
+   "valeur": "identique (J1_T_cedez, J4_ilots_directionnel_separateurs ; 60 fichiers)",
+   "seuil": "identique",
+   "atteint": true
+  }
+ ],
+ "scenes": [
+  {
+   "scene": "J1_T_cedez",
+   "raccords": {
+    "aretes_de_bord": 868,
+    "raccords_branches": 580,
+    "bords_libres": 273,
+    "ecart_max_m": 0.0001251,
+    "pires": [
+     [
+      0.00012505054473876953,
+      3.008,
+      -3.0,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.00012502074241638184,
+      -3.0,
+      -8.875,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.00012502074241638184,
+      -7.824,
+      -3.0,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.00012499094009399414,
+      13.875,
+      -3.0,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.00012499094009399414,
+      13.625,
+      -3.0,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.00012499094009399414,
+      13.375,
+      -3.0,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.00012499094009399414,
+      13.125,
+      -3.0,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.00012499094009399414,
+      12.875,
+      -3.0,
+      -0.075,
+      -0.0749
+     ]
+    ],
+    "bords_libres_hors_exterieur": 1,
+    "exemples_bords_libres_hors_exterieur": [
+     [
+      -3.0,
+      3.138,
+      -0.0785
+     ]
+    ],
+    "note": "écart vertical entre le bord du sol du carrefour et le sol de la branche voisine (sondes à 5 mm du milieu de l'arête, puis au quart et aux trois quarts) ; bords libres = contour extérieur (trottoirs, accotements) et arêtes sans voisin"
+   },
+   "avertissements": [],
+   "balayages": {
+    "n": 12,
+    "faisables": 8,
+    "infaisables": [
+     "T-est.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-est.v2.TAG vl (R axe 4.4721 < 5.467)",
+     "T-sud.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-sud.v2.TAG vl (R axe 4.4721 < 5.467)"
+    ]
+   }
+  },
+  {
+   "scene": "J2_croix_stop",
+   "raccords": {
+    "aretes_de_bord": 1722,
+    "raccords_branches": 1198,
+    "bords_libres": 516,
+    "ecart_max_m": 0.0199996,
+    "pires": [
+     [
+      0.01999962329864502,
+      3.0,
+      -3.5,
+      -0.075,
+      -0.095
+     ],
+     [
+      0.019998908042907715,
+      3.0,
+      -3.5,
+      -0.075,
+      -0.095
+     ],
+     [
+      0.019998013973236084,
+      3.0,
+      -3.5,
+      -0.075,
+      -0.095
+     ],
+     [
+      0.019996166229248047,
+      3.0,
+      -3.5,
+      -0.075,
+      -0.095
+     ],
+     [
+      0.01980006694793701,
+      -3.0,
+      3.5,
+      -0.075,
+      -0.0948
+     ],
+     [
+      0.01979994773864746,
+      -3.0,
+      3.5,
+      -0.075,
+      -0.0948
+     ],
+     [
+      0.01979982852935791,
+      -3.0,
+      3.5,
+      -0.075,
+      -0.0948
+     ],
+     [
+      0.01979959011077881,
+      -3.0,
+      3.5,
+      -0.075,
+      -0.0948
+     ]
+    ],
+    "bords_libres_hors_exterieur": 5,
+    "exemples_bords_libres_hors_exterieur": [
+     [
+      -3.0,
+      -3.5,
+      -0.095
+     ],
+     [
+      -3.0,
+      -3.5,
+      -0.095
+     ],
+     [
+      -3.0,
+      -3.5,
+      -0.095
+     ],
+     [
+      -3.0,
+      -3.5,
+      -0.095
+     ],
+     [
+      -3.0,
+      -3.5,
+      -0.095
+     ]
+    ],
+    "note": "écart vertical entre le bord du sol du carrefour et le sol de la branche voisine (sondes à 5 mm du milieu de l'arête, puis au quart et aux trois quarts) ; bords libres = contour extérieur (trottoirs, accotements) et arêtes sans voisin"
+   },
+   "avertissements": [],
+   "balayages": {
+    "n": 24,
+    "faisables": 16,
+    "infaisables": [
+     "T-est.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-est.v2.TAG vl (R axe 4.4721 < 5.467)",
+     "T-nord.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-nord.v2.TAG vl (R axe 4.4721 < 5.467)",
+     "T-ouest.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-ouest.v2.TAG vl (R axe 4.4721 < 5.467)",
+     "T-sud.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-sud.v2.TAG vl (R axe 4.4721 < 5.467)"
+    ]
+   }
+  },
+  {
+   "scene": "J3_croix_feux",
+   "raccords": {
+    "aretes_de_bord": 1604,
+    "raccords_branches": 1064,
+    "bords_libres": 520,
+    "ecart_max_m": 0.0001272,
+    "pires": [
+     [
+      0.0001271963119506836,
+      -3.0,
+      3.0,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.0001264810562133789,
+      -3.0,
+      3.0,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.00012606382369995117,
+      -3.0,
+      3.0,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.00012546777725219727,
+      -3.0,
+      3.0,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.0001251697540283203,
+      -3.0,
+      3.0,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.00012505054473876953,
+      3.0,
+      3.016,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.00012505054473876953,
+      -3.0,
+      3.0,
+      -0.075,
+      -0.0749
+     ],
+     [
+      0.00012502074241638184,
+      8.625,
+      3.0,
+      -0.075,
+      -0.0749
+     ]
+    ],
+    "bords_libres_hors_exterieur": 0,
+    "exemples_bords_libres_hors_exterieur": [],
+    "note": "écart vertical entre le bord du sol du carrefour et le sol de la branche voisine (sondes à 5 mm du milieu de l'arête, puis au quart et aux trois quarts) ; bords libres = contour extérieur (trottoirs, accotements) et arêtes sans voisin"
+   },
+   "avertissements": [],
+   "balayages": {
+    "n": 24,
+    "faisables": 16,
+    "infaisables": [
+     "T-est.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-est.v2.TAG vl (R axe 4.4721 < 5.467)",
+     "T-nord.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-nord.v2.TAG vl (R axe 4.4721 < 5.467)",
+     "T-ouest.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-ouest.v2.TAG vl (R axe 4.4721 < 5.467)",
+     "T-sud.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-sud.v2.TAG vl (R axe 4.4721 < 5.467)"
+    ]
+   }
+  },
+  {
+   "scene": "J4_ilots_directionnel_separateurs",
+   "raccords": {
+    "aretes_de_bord": 1666,
+    "raccords_branches": 1128,
+    "bords_libres": 526,
+    "ecart_max_m": 0.0017368,
+    "pires": [
+     [
+      0.0017368197441101074,
+      3.78,
+      -29.337,
+      -0.075,
+      -0.0767
+     ],
+     [
+      0.0002079606056213379,
+      0.73,
+      3.5,
+      0.0993,
+      0.0991
+     ],
+     [
+      0.0002079606056213379,
+      0.73,
+      -3.5,
+      0.0993,
+      0.0991
+     ],
+     [
+      0.0002079606056213379,
+      0.668,
+      3.5,
+      0.0993,
+      0.0991
+     ],
+     [
+      0.0002079606056213379,
+      0.668,
+      -3.5,
+      0.0993,
+      0.0991
+     ],
+     [
+      0.0002079606056213379,
+      0.574,
+      3.5,
+      0.0993,
+      0.0991
+     ],
+     [
+      0.0002079606056213379,
+      0.574,
+      -3.5,
+      0.0993,
+      0.0991
+     ],
+     [
+      0.0002079606056213379,
+      0.386,
+      -3.5,
+      0.0993,
+      0.0991
+     ]
+    ],
+    "bords_libres_hors_exterieur": 0,
+    "exemples_bords_libres_hors_exterieur": [],
+    "note": "écart vertical entre le bord du sol du carrefour et le sol de la branche voisine (sondes à 5 mm du milieu de l'arête, puis au quart et aux trois quarts) ; bords libres = contour extérieur (trottoirs, accotements) et arêtes sans voisin"
+   },
+   "avertissements": [],
+   "balayages": {
+    "n": 24,
+    "faisables": 16,
+    "infaisables": [
+     "T-est.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-est.v2.TAG vl (R axe 4.4721 < 5.467)",
+     "T-nord.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-nord.v2.TAG vl (R axe 4.4721 < 5.467)",
+     "T-ouest.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-ouest.v2.TAG vl (R axe 4.4721 < 5.467)",
+     "T-sud.v2.TAG bus_standard_12m (R axe 4.4721 < 8.6533)",
+     "T-sud.v2.TAG vl (R axe 4.4721 < 5.467)"
+    ]
+   }
+  },
+  {
+   "scene": "J5_carrefour_complexe",
+   "raccords": {
+    "aretes_de_bord": 1889,
+    "raccords_branches": 1331,
+    "bords_libres": 538,
+    "ecart_max_m": 0.000208,
+    "pires": [
+     [
+      0.0002079606056213379,
+      4.5,
+      4.73,
+      0.0775,
+      0.0773
+     ],
+     [
+      0.0002079606056213379,
+      4.5,
+      4.668,
+      0.0744,
+      0.0742
+     ],
+     [
+      0.0002079606056213379,
+      4.5,
+      4.574,
+      0.0697,
+      0.0695
+     ],
+     [
+      0.0002079606056213379,
+      4.5,
+      -4.011,
+      0.0425,
+      0.0423
+     ],
+     [
+      0.0002079606056213379,
+      4.5,
+      -4.386,
+      0.0425,
+      0.0423
+     ],
+     [
+      0.0002079606056213379,
+      -0.574,
+      13.0,
+      0.0785,
+      0.0783
+     ],
+     [
+      0.0002079606056213379,
+      -0.668,
+      13.0,
+      0.0785,
+      0.0783
+     ],
+     [
+      0.0002079606056213379,
+      -0.73,
+      13.0,
+      0.0785,
+      0.0783
+     ]
+    ],
+    "bords_libres_hors_exterieur": 0,
+    "exemples_bords_libres_hors_exterieur": [],
+    "note": "écart vertical entre le bord du sol du carrefour et le sol de la branche voisine (sondes à 5 mm du milieu de l'arête, puis au quart et aux trois quarts) ; bords libres = contour extérieur (trottoirs, accotements) et arêtes sans voisin"
+   },
+   "avertissements": [],
+   "balayages": {
+    "n": 28,
+    "faisables": 26,
+    "infaisables": [
+     "T-nord.v2.TAG bus_standard_12m (R axe 6.448 < 8.6533)",
+     "T-sud.v2.TAG bus_standard_12m (R axe 6.448 < 8.6533)"
+    ]
+   }
+  }
+ ],
+ "detail": "validation/controles_L3.json"
+}

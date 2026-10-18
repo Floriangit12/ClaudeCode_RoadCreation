@@ -1,0 +1,62 @@
+# G2 — Giratoire périurbain de 50 m de diamètre, hors agglomération, 4 branches à îlots séparateurs « gouttes d'eau » ACI.
+# Rg = 25 m (RF-GV-GIR-002 : 20-25 m pour routes importantes ou deux chaussées) ; anneau de 8,00 m (ACI tabl. 1,
+# Rg 25 : la = 8, RF-GV-GIR-003 ; RF-GV-GIR-004 6-9 m) ; pas de bande franchissable (tabl. 1 : sans objet à partir de
+# Rg 20) ; îlot central engazonné sans arbre ni obstacle agressif (ACI p. 84, RF-GV-GIR-006), bordure ≤ 6 cm.
+# Branches : routes départementales 2 × 1 voie de 3,00 m (RF-OSM-LAR-014), bandes dérasées de 0,50 m, bermes 1,00 m ;
+# sur les 25 derniers mètres : entrée 4,00 m (RF-GV-GIR-010 interurbain 1 voie ; tabl. 1 le = 4), sortie 5,00 m
+# (RF-GV-GIR-012 4-5 m ; tabl. 1 ls = 5), enveloppe de l'îlot séparateur ACI tabl. 2 (RF-GV-GIR-013 : H = Rg = 25 m,
+# B = Rg/4 = 6,25 m, d = 0,50 m, r = 0,50 m, retrait 1 m sur l'anneau). Raccordements Re 15 / Rs 20 (tabl. 1).
+# Signalisation hors agglomération : AB25 à 150 m (RF-SV-AB25.DISTANCE.GENERATEUR), AB3a + M9c au cédez (RF-GV-GIR-024),
+# B21-1 face à chaque entrée ; pas de passage piéton.
+format: description_simple/0.2
+scene: G2_giratoire_periurbain_D50
+titre: Giratoire périurbain Ø 50 m, gouttes d'eau ACI
+description: "Giratoire hors agglomération de 50 m de diamètre, anneau de 8 m, îlot central engazonné, 4 routes départementales à îlots séparateurs construits selon l'ACI."
+contexte: {agglomeration: non, vitesse: 80, categorie: route départementale}
+troncons:
+  - id: ouest
+    de: [-245, 0]
+    vers: [-25, 0]
+    profil: "berme 1,0 | bande dérasée 0,5 | voie 3,0 ← | voie 3,0 → | bande dérasée 0,5 | berme 1,0"
+    evenements:
+      - ouverture: {a: 220, longueur: 25, nouveau: "berme 1,0 | bande dérasée 0,5 | voie 5,0 ← | zone hachurée 6,25 | voie 4,0 → | bande dérasée 0,5 | berme 1,0"}
+  - id: nord
+    de: [0, 245]
+    vers: [0, 25]
+    profil: "berme 1,0 | bande dérasée 0,5 | voie 3,0 ← | voie 3,0 → | bande dérasée 0,5 | berme 1,0"
+    evenements:
+      - ouverture: {a: 220, longueur: 25, nouveau: "berme 1,0 | bande dérasée 0,5 | voie 5,0 ← | zone hachurée 6,25 | voie 4,0 → | bande dérasée 0,5 | berme 1,0"}
+  - id: est
+    de: [245, 0]
+    vers: [25, 0]
+    profil: "berme 1,0 | bande dérasée 0,5 | voie 3,0 ← | voie 3,0 → | bande dérasée 0,5 | berme 1,0"
+    evenements:
+      - ouverture: {a: 220, longueur: 25, nouveau: "berme 1,0 | bande dérasée 0,5 | voie 5,0 ← | zone hachurée 6,25 | voie 4,0 → | bande dérasée 0,5 | berme 1,0"}
+  - id: sud
+    de: [0, -245]
+    vers: [0, -25]
+    profil: "berme 1,0 | bande dérasée 0,5 | voie 3,0 ← | voie 3,0 → | bande dérasée 0,5 | berme 1,0"
+    evenements:
+      - ouverture: {a: 220, longueur: 25, nouveau: "berme 1,0 | bande dérasée 0,5 | voie 5,0 ← | zone hachurée 6,25 | voie 4,0 → | bande dérasée 0,5 | berme 1,0"}
+giratoires:
+  - id: G2
+    centre: [0, 0]
+    diametre: 50
+    anneau: 8
+    ilot_central: gazon
+    branches:
+      - {troncon: ouest, ilot: oui}
+      - {troncon: nord, ilot: oui}
+      - {troncon: est, ilot: oui}
+      - {troncon: sud, ilot: oui}
+attendus:
+  Rg_m: 25.0
+  anneau_m: 8.0
+  Ri_m: 17.0
+  ilots_separateurs: {H_m: 25.0, B_m: 6.25, d_m: 0.5, r_m: 0.5, retrait_anneau_m: 1.0}   # ACI tabl. 2
+  entree_m: 4.0
+  sortie_m: 5.0
+  raccordements_m: {entree: 15, sortie: 20}
+  deflexion_max_m: 100
+  panneaux: {AB25: 4, AB3a: 4, M9c: 4, B21-1: 4}
+  conflits: {convergence: 4, divergence: 4}

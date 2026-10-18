@@ -1,0 +1,132 @@
+= RG Carrefours (sol, bordures, marques) =
+
+"""Fabrication de l'intérieur des carrefours plans (lot L3) : sol étanche du cœur, des coins et des nez (triangulation contrainte, Z imposés du modèle unique aux embouchures, aux bords des branches et aux coins, interpolation harmonique ailleurs, marches fermées par des murs sous les bordures), bordures des coins, des nez et des îlots du cœur avec les abaissés des passages (DEF-031) et leurs BEV, lignes transversales (CÉDEZ, STOP, effet des feux) et passages sans route. Le pilote fusionne sol et BEV avec ceux de rg::sol (README_RG.md § 9)."""
+
+== Entrées ==
+
+1. NIVEAUX (rg::nivellement). 2. Profils (rg::carrefours, sortie 2). 3. SOLVEUR (rg::carrefours, sortie 3). 4. Références (rg::graphe).
+
+== Sorties ==
+
+1. SOL du carrefour (contrat de rg::sol ; classe carrefour_*, z_type 10, murs z_type 14).
+2. BEV.
+3. ENTITÉS des bordures du carrefour (contrat pj::bordure).
+4. MARQUES du carrefour (contrat pj::marquage_solide).
+5. CONTRÔLES (faces de bordure, pied, abaissés).
+
+Règles : TQ-SOL-013, TQ-BOR-007, DEF-031, RF-MA-BEV-002, RF-MQ-CED-01, RF-MQ-STOP-01, RF-MQ-FEU-01, RF-MQ-MOD-T'2, DEF-011. Table des bases : {'bordures.json': '3d95240ff2288cf4', 'bordures_elements.json': '31673a9cab9f6b71', 'regles_route_fr.json': 'd4d63edeabf0820a'}.
+
+@parameters
+
+Amorce droite des bordures de coin (m):
+    #id: amorce
+    Même valeur que rg::carrefours (le pilote la relie).
+
+Recouvrement du trottoir sous la tête (m):
+    #id: recouvrement_tete
+    La chaussée passe sous la bordure jusqu'à l'arrière moins 12 mm, le trottoir sous la tête sur 12 mm (TQ-BOR-007 ; même valeur que rg::sol, RG_RECOUV_HAUT).
+
+Vue des abaissés (m):
+    #id: abaisse_vue
+    DEF-031 (RF-MA-ABA-001).
+
+Rampant des abaissés (m):
+    #id: abaisse_rampant
+    DEF-031 : 2,40 m à 5 %.
+
+Rampant minimal (m):
+    #id: abaisse_rampant_min
+    DEF-031 : 1,50 m à 8 % ; un rampant plus court (bout de file) est signalé.
+
+Marge de l'axe d'un passage (m):
+    #id: passage_marge
+    Une bordure reçoit l'abaissé d'un passage si elle coupe la bande du passage (axe ± longueur des bandes / 2) à moins de cette distance des bouts de l'axe du modèle [G].
+
+Base d'une bordure absente des tables (m):
+    #id: base_defaut
+    Secours ; la table de pj::bordure prime.
+
+Table des bases (profil:base):
+    #id: table_bases
+    Bases des profils de bordure (table de pj::bordure, assets/specs/bordures.json, lue à la construction).
+
+Bordure d'îlot par défaut:
+    #id: bordure_ilot_defaut
+    Îlot du cœur sans ceinture : I2 (DEF-005 îlot).
+
+Matériau des bordures par défaut:
+    #id: materiau_bordure_defaut
+    Même défaut que rg::vers_entites.
+
+Arête cible de la triangulation (m):
+    #id: arete_cible
+    Triangulate 2D raffiné [G].
+
+Angle minimal (°):
+    #id: angle_min
+    TQ-SOL-002 (rg::sol).
+
+Itérations du lissage harmonique:
+    #id: iterations_lissage
+    Gauss-Seidel sur-relaxé des Z de chaussée libres (choix de fabrication [G]).
+
+Sur-relaxation:
+    #id: relaxation
+    Facteur ω du Gauss-Seidel (1 < ω < 2).
+
+Matériau de la chaussée du carrefour:
+    #id: materiau_chaussee
+    Revêtement des voies des branches (bande voie_circulation des J1-J5).
+
+BEV : recul au nez (m):
+    #id: bev_recul
+    DEF-031, RF-MA-BEV-002.
+
+BEV : profondeur (m):
+    #id: bev_profondeur
+    DEF-031.
+
+BEV : profondeur réduite (m):
+    #id: bev_profondeur_reduite
+    DEF-031 : trottoir de moins de 1,90 m.
+
+BEV : largeur de trottoir du seuil (m):
+    #id: bev_seuil_trottoir
+    DEF-031.
+
+Pièces d'abaissé (profil:pièce, …):
+    #id: pieces_abaisse
+    Même table que rg::vers_entites (bordures_elements.json, abaisses.traversee).
+
+Matériau de la peinture:
+    #id: materiau_peinture
+    Peinture blanche, classe d'usure 1 (usure légère 0,2 : rg_m_materiau de rg::marquages).
+
+Usure de la peinture:
+    #id: usure_peinture
+    Usure légère des scènes J (description : marquages.usure).
+
+Ligne STOP : largeur (m):
+    #id: stop_largeur
+    RF-MQ-STOP-01 : continue de 0,50 m.
+
+Ligne CÉDEZ : largeur (m):
+    #id: cedez_largeur
+    RF-MQ-CED-01 : T'2 de 0,50 m.
+
+Ligne d'effet des feux : largeur (m):
+    #id: effet_largeur
+    RF-MQ-FEU-01 : T'2 de 0,15 m.
+
+T'2 : trait (m):
+    #id: tp2_trait
+    RF-MQ-MOD-T'2.
+
+T'2 : intervalle (m):
+    #id: tp2_intervalle
+    RF-MQ-MOD-T'2.
+
+Passage : largeur des bandes (m):
+    #id: passage_bande
+    DEF-011.
+

@@ -111,12 +111,24 @@ MESO = {"gazon_tondu": (("meso_herbe_touffes", 4.7), ("meso_herbe_plaques", 11.3
 # trottoirs chauds, il paraissait bleuté (240°, saturation 0,01-0,02). Échelle par canal pour un gris chaud rendu
 # (bordure 30°, caniveau 35° ; saturation 0,075 ; photos M24 : bordures 28-33°, saturation 0,07-0,10, caniveau 40°) à
 # luminance inchangée (bordure 0,349 = × 1,44 ; caniveau 0,267 = × 1,10 ; critère C-18 inchangé).
-ECHELLE_ALBEDO = {"beton_bordure_gris": (1.5288, 1.4279, 1.2934), "beton_bordure_clair": (1.5288, 1.4279, 1.2934),
-                  "beton_bordure": (1.5288, 1.4279, 1.2934), "caniveau_beton": (1.151, 1.0962, 0.9909)}
+ECHELLE_ALBEDO = {"beton_bordure_gris": (1.5288, 1.4279, 1.2934),
+                  # lot bordures : béton clair plus clair que le gris (bordures_elements.json materiaux : beton_clair
+                  # 0,45 / 0,455 / 0,43 contre beton_gris 0,354 / 0,369 / 0,336, rapport 1,27) ; même teinte chaude rendue
+                  "beton_bordure_clair": (1.9416, 1.8134, 1.6426),
+                  "beton_bordure": (1.5288, 1.4279, 1.2934), "caniveau_beton": (1.151, 1.0962, 0.9909),
+                  # lot bordures : bordures en granit (GR_T1, GR_T2, GR_P1, pavés) : granit_gris_flamme de la
+                  # bibliothèque (RF-AS-regle_materiaux_elements ; albédo 0,492 / 0,471 / 0,446) ramené à la valeur et à
+                  # la teinte rendue de la bordure béton (0,371 / 0,346 / 0,314 : bordures_elements.json materiaux.granit
+                  # vise 0,36 ; gris chaud ~30° rendu) ; sans entrée, granit_bordure retombait sur enrobe_trottoir
+                  "granit_bordure": (0.7528, 0.7351, 0.7037)}
 
 # relief de la carte de normales du béton lisse (bibliothèque : × 2 en x, y) atténué à 35 % sur les bordures et les
 # caniveaux : à la lumière rasante d'une face verticale, le « bullage fin » se lisait en stries de béton bouchardé
 ATTENUER_NORMALE = {"beton_bordure_gris": 0.35, "beton_bordure_clair": 0.35, "beton_bordure": 0.35, "caniveau_beton": 0.35}
+# lot autoroutes (intégration de l'étape 2) : béton des séparateurs DBA / GBA (catalogue : beton_prefa_lisse, albédo
+# 0,242) recalé comme le béton gris des bordures (rendu seulement, matériau inchangé)
+ECHELLE_ALBEDO.setdefault("beton_prefa_lisse", ECHELLE_ALBEDO["beton_bordure_gris"])
+ATTENUER_NORMALE.setdefault("beton_prefa_lisse", 0.35)
 
 # ÉTAPE 1 (route seule) : sol de présentation et aspects sobres
 SOL_NEUTRE = (0.50, 0.485, 0.445)  # albédo linéaire du socle et du sol plat : gris-beige clair, mat, uni
@@ -145,6 +157,8 @@ LOOKS = {
     "beton_bordure_clair": ("route", "beton_prefa_lisse"),
     "beton_bordure": ("route", "beton_prefa_lisse"),
     "caniveau_beton": ("route", "beton_prefa_lisse"),
+    "granit_bordure": ("route", "granit_gris_flamme"),      # lot bordures (bordures granit GR_*)
+    "calcaire_bordure": ("site", "calcaire_bordure"),       # lot bordures (bordure calcaire, bibliothèque du site)
 }
 GENERES = {   # matériaux à texture procédurale : (texture, rugosité, alpha, tuile (m) en u, en v, primvar)
     "ecorce": ("ecorce", 0.85, False, 0.5, 0.5, "st"),

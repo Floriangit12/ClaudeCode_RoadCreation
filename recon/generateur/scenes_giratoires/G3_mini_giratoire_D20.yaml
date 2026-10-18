@@ -1,0 +1,66 @@
+# G3 — Mini-giratoire de 20 m de diamètre extérieur, îlot central franchissable, en zone 30.
+# Rext = 10 m (RF-GV-GIR-016 : 7,50-12 m ; classe « mini », RF-GV-GIR-001) ; îlot central franchissable de rayon 2,00 m
+# (RF-GV-GIR-016 : 1,50-2,50 m) en dôme de 10 cm (10-15 cm, bus ≤ 12 cm), contour T'2 3u (RF-MQ-GIR-02) ; anneau de
+# 8,00 m (RF-GV-GIR-001 mini : 6-9,50 m). Branches : rues 2 × 1 voie de 3,00 m (RF-OSM-LAR-010) à 30 km/h, trottoirs de
+# 2,00 m (DEF-004) ; sur les 6 derniers mètres, entrée 3,00 m (RF-GV-GIR-016 : 2,50-3,50), sortie 3,25 m (2,75-3,50) et
+# enveloppe d'îlot séparateur de 2,00 m (0,85-2,00 m), longueur 6 m (dite) : zone hachurée bordée d'une continue 3u,
+# îlot franchissable (A2, 3 cm, pavés) posé dedans en retrait de 2u + 3u. Raccordements de bordure : 5 m (DEF-010,
+# desserte). Ligne cédez à chaque entrée, AB25 à 50 m, pas de B21-1 (RF-GV-GIR-024 : sauf mini), passages à 5 m de la
+# ligne cédez (DEF-012 : 2 à 5 m), au-delà de la pointe de l'îlot.
+# Corrigée le 18/10/2026 après le contrôle de l'étape 2 : îlots de 1,50 m dégénérés (saillie de 0,50 m des îlots
+# infranchissables), hachures sous les passages.
+format: description_simple/0.2
+scene: G3_mini_giratoire_D20
+titre: Mini-giratoire Ø 20 m franchissable
+description: "Mini-giratoire de 20 m de diamètre en zone 30, îlot central franchissable en dôme, 4 rues avec îlots séparateurs franchissables et passages piétons."
+contexte: {agglomeration: oui, vitesse: 30, categorie: rue}
+marquages: {usure: légère}
+troncons:
+  - id: ouest
+    de: [-70, 0]
+    vers: [-10, 0]
+    profil: "trottoir 2 | voie 3,0 ← | voie 3,0 → | trottoir 2"
+    evenements:
+      - ouverture: {a: 60, longueur: 6, nouveau: "trottoir 2 | voie 3,25 ← | zone hachurée 2,0 | voie 3,0 → | trottoir 2"}
+  - id: nord
+    de: [0, 70]
+    vers: [0, 10]
+    profil: "trottoir 2 | voie 3,0 ← | voie 3,0 → | trottoir 2"
+    evenements:
+      - ouverture: {a: 60, longueur: 6, nouveau: "trottoir 2 | voie 3,25 ← | zone hachurée 2,0 | voie 3,0 → | trottoir 2"}
+  - id: est
+    de: [70, 0]
+    vers: [10, 0]
+    profil: "trottoir 2 | voie 3,0 ← | voie 3,0 → | trottoir 2"
+    evenements:
+      - ouverture: {a: 60, longueur: 6, nouveau: "trottoir 2 | voie 3,25 ← | zone hachurée 2,0 | voie 3,0 → | trottoir 2"}
+  - id: sud
+    de: [0, -70]
+    vers: [0, -10]
+    profil: "trottoir 2 | voie 3,0 ← | voie 3,0 → | trottoir 2"
+    evenements:
+      - ouverture: {a: 60, longueur: 6, nouveau: "trottoir 2 | voie 3,25 ← | zone hachurée 2,0 | voie 3,0 → | trottoir 2"}
+giratoires:
+  - id: G3
+    type: mini_giratoire
+    centre: [0, 0]
+    diametre: 20
+    anneau: 8
+    trottoir: 2
+    branches:
+      - {troncon: ouest, ilot: {largeur: 2.0, longueur: 6}, passage: {retrait: 5}}
+      - {troncon: nord, ilot: {largeur: 2.0, longueur: 6}, passage: {retrait: 5}}
+      - {troncon: est, ilot: {largeur: 2.0, longueur: 6}, passage: {retrait: 5}}
+      - {troncon: sud, ilot: {largeur: 2.0, longueur: 6}, passage: {retrait: 5}}
+attendus:
+  Rext_m: 10.0
+  Ri_franchissable_m: 2.0
+  anneau_m: 8.0
+  dome_m: 0.10
+  entree_m: 3.0
+  sortie_m: 3.25
+  ilot_separateur_largeur_m: 2.0
+  passage_retrait_m: 5.0
+  raccordements_m: {entree: 5, sortie: 5}
+  panneaux: {AB25: 4, B21-1: 0, AB3a: 0}
+  angles_branches_deg: 90                             # RF-GV-GIR-016 : 80-140°

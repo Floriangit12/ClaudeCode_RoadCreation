@@ -78,6 +78,10 @@ def parametres():
           max=1.0, help="DEF-011 (RF-MQ-PP-02) : bandes de 0,50 m."),
         F("pp_marge_min", "Passage piéton : intervalle minimal e (m)", 1, default_value=(0.5,), min=0.1, max=1.0,
           help="RF-MQ-PP-05 / DEF-011 : e = (W − 0,50 n)/(n + 1) dans [0,50 ; 0,80], n maximal = floor(W − 0,50)."),
+        F("pp_degagement_zebra", "Passage piéton : dégagement des zébras et aplats (m)", 1,
+          default_value=(float(regles.valeur("RF-MQ-PP-03", "distance")),), min=0.0, max=2.0,
+          help="RF-MQ-PP-03 (lignes interrompues à 0,50 m du passage), appliqué aux zébras et aux aplats : aucune "
+               "hachure sous les bandes d'un passage (correction après le contrôle de l'étape 2)."),
         F("hach_bande", "Hachures : largeur des bandes (m)", 1, default_value=(float(d20["bande"]),), min=0.1, max=1.0,
           help="DEF-020, RF-MQ-HACH-01 : 0,50."),
         F("hach_espacement", "Hachures : espacement entre parallèles (m)", 1, default_value=(float(d20["espacement"]),),

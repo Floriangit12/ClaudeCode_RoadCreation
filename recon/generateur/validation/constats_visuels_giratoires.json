@@ -1,0 +1,40 @@
+{
+ "schema": "rg_constats_visuels/0.1",
+ "lot": "L5 giratoires",
+ "methode": "planches ≤ 1092 px regardées en entier (decoupe.py verifier : 1092 x 1075, 1092 x 415, 1092 x 415) ; vues de plus de 1092 px lues en tuiles natives (rendus/tuiles/<vue>/, découpe du rendu) ; détails agrandis au plus proche voisin depuis le rendu natif (îlots de G1)",
+ "regardees": 3,
+ "vues": 7,
+ "scenes": {
+  "G1_giratoire_urbain_D40": {
+   "vues": ["dessus", "conducteur_carrefour", "oblique_carrefour"],
+   "tuiles": ["dessus_t000", "conducteur_carrefour_t000", "oblique_carrefour_t000", "zoom îlot ouest (oblique, x3)", "zoom îlot nord (dessus, x4)"],
+   "constats": [
+    {"element": "anneau, couronne, îlot central", "constat": "conforme : couronne pavée claire contre l'anneau, bordure A2 basse, gazon de l'îlot central, anneau de largeur constante"},
+    {"element": "raccordements Re 15 / Rs 20 et trottoir de l'anneau", "constat": "conforme : bordures T2 continues en éléments, congés tangents, trottoir de 2,50 m continu d'une branche à l'autre"},
+    {"element": "îlots séparateurs (gouttes d'eau ACI)", "constat": "conforme : béton balayé, bordure I2, nez arrondi, refuge abaissé au passage avec deux BEV ; enveloppe hachurée autour, hachures cachées sous l'îlot"},
+    {"element": "passages et lignes CÉDEZ", "constat": "conforme : passages à 5 m, bandes interrompues par l'îlot, abaissés et BEV sur les trottoirs de coin ; lignes CÉDEZ T'2 droites à la frontière (lentille de chaussée entre la ligne et l'anneau)"},
+    {"element": "vue conducteur", "constat": "conforme après correction : caméra sur la voie entrante (la première version, avec la caméra de fabriquer_carrefours, était sur le trottoir : largeurs de l'évasement prises à 3,00 m)"},
+    {"element": "enveloppe hachurée", "constat": "différent (modèle) : l'îlot est décalé de d vers la sortie dans une zone hachurée symétrique ; la marge hachurée est d'un seul côté"}
+   ]
+  },
+  "G2_giratoire_periurbain_D50": {
+   "vues": ["dessus", "conducteur_carrefour"],
+   "tuiles": ["dessus_t000", "conducteur_carrefour_t000"],
+   "constats": [
+    {"element": "anneau interurbain", "constat": "conforme : rive intérieure T2 3u autour de l'îlot central, ligne T2 3u à 25 m interrompue aux bouches, bermes engazonnées sans bordure dans les coins"},
+    {"element": "îlot central", "constat": "conforme : gazon, bordure A2 de 6 cm, aucun arbre ni obstacle"},
+    {"element": "îlots séparateurs", "constat": "conforme pour la forme ; différent (modèle) : la base de l'îlot (Rg + 1 = 26 m) touche le bord de la bande dérasée de l'anneau (R0 = 26 m)"}
+   ]
+  },
+  "G3_mini_giratoire_D20": {
+   "vues": ["dessus", "conducteur_carrefour"],
+   "tuiles": ["dessus_t000", "conducteur_carrefour_t000"],
+   "constats": [
+    {"element": "îlot central franchissable", "constat": "conforme : dôme béton de 10 cm, relief de 2 cm au bord, contour T'2 3u (13 traits)"},
+    {"element": "coins R 5 m et trottoirs de 2 m", "constat": "conforme"},
+    {"element": "îlots séparateurs", "constat": "absent : polygones du modèle dégénérés (0,12 m²), non fabriqués ; seule l'enveloppe hachurée du profil est peinte"},
+    {"element": "hachures et passages", "constat": "différent (hors lot) : sans îlot, les hachures de l'enveloppe traversent le passage (rg::marquages ne les interrompt pas au passage)"}
+   ]
+  }
+ }
+}

@@ -1,0 +1,29 @@
+# A1 — Autoroute 2 × 2 voies, section courante, terre-plein central à GBA (double barrière en béton adhérent).
+# Voies de 3,50 m, BAU de 3,00 m, bermes de 1,00 m (RF-OSM-LAR-014 : autoroute) ; TPC de 2,60 m = BDG 1,00 + bande
+# médiane 0,60 portant la GBA + BDG 1,00 (RF-GV-TPC-002 : type A, DBA 0,60 + BDG normale 1,00 ; RF-GV-TPC-003 ;
+# RF-OBS-TPC-01 : DBA béton double ≈ 2,6 m observé en Isère ; RF-GV-TPC-008 : barrières sur tout TPC < 12 m). La bande
+# médiane est décrite en deux demi-bandes revêtues de plain-pied de 0,30 m de part et d'autre de la GBA (posée sur la
+# limite centrale, largeur 0,60 m).
+# Marquages (déduits) : u = 7,5 cm (DEF-001, RF-MQ-U-01) ; délimitation T1 2u ; rive de BAU T4 3u ; rive côté TPC
+# continue 3u (RF-MQ-SC-06, RF-OSM-MRQ-022). Vitesse 130 km/h (RF-OSM-VIT-003).
+format: description_simple/0.2
+scene: A1_autoroute_2x2_GBA
+titre: Autoroute 2 × 2 voies, TPC à GBA
+description: "Section courante d'autoroute 2 × 2 voies de 3,50 m, BAU de 3,00 m, TPC de 2,60 m avec GBA, en alignement droit puis courbe de 1 000 m."
+contexte: {agglomeration: non, categorie: autoroute, vitesse: 130}
+troncon:
+  depart: [0, 0]
+  cap: 0
+  trace:
+    - droite: 300
+    - arc: {rayon: 1000, angle: 12, sens: gauche}
+    - droite: 150
+profil: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | BAU 3,0 | berme 1,0"
+attendus:
+  largeur_plateforme_m: 24.6          # 2 × (1 + 3 + 7 + 1) + 0,6 (bande médiane) ; BDG comprises dans les 2 × 12
+  largeur_tpc_m: 2.6
+  voies: {arriere: 2, avant: 2}
+  u_m: 0.075
+  lignes: {delimitation: "T1 2u", rive_BAU: "T4 3u", rive_TPC: "continue 3u"}
+  separateur: {type: GBA, largeur_m: 0.6}
+  bordures: 0                         # aucune bordure : rives peintes

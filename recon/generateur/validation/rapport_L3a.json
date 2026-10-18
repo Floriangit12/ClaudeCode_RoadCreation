@@ -1,0 +1,382 @@
+{
+ "lot": "L3a",
+ "titre": "modèles de véhicules de projet et balayage (épures de giration)",
+ "plan": "recon/generateur/PLAN_GENERATEUR.md § 3 (L3a)",
+ "statut": "ok",
+ "criteres": [
+  {
+   "id": "L3a-1",
+   "libelle": "100 % des dimensions sourcées (source connue, nature, calcul des cotes dérivées) ; longueur hors tout de la cinématique = cote sourcée ± 1 mm",
+   "valeur": "63 / 63 cotes sourcées (annonce 8, derive 14, donnee_administrative 1, donnee_constructeur 16, norme 24) ; écart de longueur hors tout max 0.001 mm",
+   "seuil": "100 % ; ≤ 1 mm",
+   "atteint": true,
+   "manquants": []
+  },
+  {
+   "id": "L3a-2",
+   "libelle": "balayage d'un virage du cercle homologué (semi-remorque de vérification N05 / 96/53) reproduit Rext 12,50 / Rint 5,30 m (CU p. 78) à ± 0,10 m",
+   "valeur": "poses : Rext 12.500, Rint 5.300 ; polygone rendu : Rext 12.503, Rint 5.297 ; écart max 0.003 m",
+   "seuil": "12.50 / 5.30 ± 0,10 m",
+   "atteint": true,
+   "note": "avance de sellette dérivée de la couronne : Rint reproduit PAR CONSTRUCTION en régime établi ; la mesure valide la chaîne numérique (approche, convergence de la tractrice, enveloppe rendue)"
+  },
+  {
+   "id": "L3a-3",
+   "libelle": "balayage du bus standard reproduit Rint 4,80 / Rext 11,50 m (VU p. 144) à ± 0,10 m",
+   "valeur": "poses : Rext 11.500, Rint 4.867 ; polygone rendu : Rext 11.503, Rint 4.864 ; écart max 0.067 m",
+   "seuil": "11.50 / 4.80 ± 0,10 m",
+   "atteint": true,
+   "note": "Rext 11,50 = donnée de calage du braquage ; Rint = contrôle indépendant des cotes (Urbanway 12, transbus)"
+  },
+  {
+   "id": "L3a-A1",
+   "libelle": "(appui) virage de 720° de chaque véhicule au rayon minimal : rayons mesurés (poses, polygone rendu) = régime établi analytique",
+   "valeur": "7 véhicules ; écart max 5.3 mm ; 1 composante, 1 trou chacun",
+   "seuil": "≤ 10 mm",
+   "atteint": true
+  },
+  {
+   "id": "L3a-A2",
+   "libelle": "(appui) chaque véhicule s'inscrit dans la couronne 96/53 § 1.5 (Rint ≥ 5,30 m quand Rext = 12,50 m)",
+   "valeur": "6 / 7 ; non conforme : autocar_15m (Rint 4.91 m)",
+   "seuil": "7 / 7",
+   "atteint": false
+  },
+  {
+   "id": "L3a-A3",
+   "libelle": "(appui) autobus : débord au-delà du plan tangent au flanc en entrant dans la couronne ≤ 0,60 m (96/53 § 1.5 bis ; borne haute, braquage instantané)",
+   "valeur": "bus_standard_12m 0.220 m ; bus_12m_citaro 0.277 m ; bus_articule_18m 0.348 m ; autocar_15m 0.677 m",
+   "seuil": "≤ 0,60 m",
+   "atteint": false
+  },
+  {
+   "id": "L3a-A4",
+   "libelle": "(appui) faisabilité (rayon local de l'axe ≥ rayon_min) : axe à 1,002 × rayon_min accepté, à 0,95 × rayon_min refusé ; braquage simulé ≤ braquage maximal + 0,1° à 1,002 × rayon_min",
+   "valeur": "7 / 7",
+   "seuil": "7 / 7",
+   "atteint": true
+  },
+  {
+   "id": "L3a-A5",
+   "libelle": "(appui) balayage rectiligne de 30 m du bus : aire = largeur × (30 + longueur)",
+   "valeur": "104.9975 m² pour 105.0000 m² (0.0024 %)",
+   "seuil": "≤ 0,1 %",
+   "atteint": true
+  },
+  {
+   "id": "L3a-A6",
+   "libelle": "(appui) témoins négatifs : une cote faussée fait sortir Rint de la tolérance",
+   "valeur": "empattement du bus + 0,30 m -> écart -0.308 m ; largeur du bus + 0,20 m -> écart -0.132 m ; pivot - essieux de la semi + 0,30 m -> écart -0.369 m",
+   "seuil": "3 / 3 détectés",
+   "atteint": true
+  },
+  {
+   "id": "L3a-A7",
+   "libelle": "(appui) déterminisme : vehicules_projet.json reconstruit à l'octet ; polygones de deux virages identiques dans deux processus Python et dans hython 22",
+   "valeur": "JSON identique ; empreintes 08d220b6d5d1 / 08d220b6d5d1 ; hython 08d220b6d5d1",
+   "seuil": "identique",
+   "atteint": true
+  }
+ ],
+ "mesures": {
+  "L3a-2": {
+   "poses": {
+    "Rext": 12.50010319551743,
+    "Rint": 5.299569502395194
+   },
+   "polygone": {
+    "Rext": 12.502536988110082,
+    "Rint": 5.296849332659607
+   },
+   "n_poses": 1353,
+   "anneaux": 2,
+   "composantes": 1
+  },
+  "L3a-3": {
+   "poses": {
+    "Rext": 11.500089977736987,
+    "Rint": 4.867121340213222
+   },
+   "polygone": {
+    "Rext": 11.503040918881185,
+    "Rint": 4.86418161695603
+   },
+   "n_poses": 1089,
+   "anneaux": 2,
+   "composantes": 1
+  },
+  "regime_etabli": [
+   {
+    "vehicule": "autocar_15m",
+    "R_guide_min": 8.9487,
+    "Rext_etabli": 12.045,
+    "Rint_etabli": 4.1194,
+    "Rext_poses": 12.045,
+    "Rint_poses": 4.1191,
+    "Rext_polygone": 12.0473,
+    "Rint_polygone": 4.1155,
+    "ecart_max_m": 0.0039,
+    "anneaux": 2,
+    "composantes": 1
+   },
+   {
+    "vehicule": "bus_12m_citaro",
+    "R_guide_min": 8.5709,
+    "Rext_etabli": 11.485,
+    "Rint_etabli": 4.9419,
+    "Rext_poses": 11.4851,
+    "Rint_poses": 4.9415,
+    "Rext_polygone": 11.4881,
+    "Rint_polygone": 4.9383,
+    "ecart_max_m": 0.0036,
+    "anneaux": 2,
+    "composantes": 1
+   },
+   {
+    "vehicule": "bus_articule_18m",
+    "R_guide_min": 9.1431,
+    "Rext_etabli": 12.0,
+    "Rint_etabli": 5.3,
+    "Rext_poses": 12.0001,
+    "Rint_poses": 5.2995,
+    "Rext_polygone": 12.0031,
+    "Rint_polygone": 5.2963,
+    "ecart_max_m": 0.0037,
+    "anneaux": 2,
+    "composantes": 1
+   },
+   {
+    "vehicule": "bus_standard_12m",
+    "R_guide_min": 8.6533,
+    "Rext_etabli": 11.5,
+    "Rint_etabli": 4.8676,
+    "Rext_poses": 11.5001,
+    "Rint_poses": 4.8671,
+    "Rext_polygone": 11.503,
+    "Rint_polygone": 4.8642,
+    "ecart_max_m": 0.0034,
+    "anneaux": 2,
+    "composantes": 1
+   },
+   {
+    "vehicule": "pl_porteur",
+    "R_guide_min": 10.5164,
+    "Rext_etabli": 12.5,
+    "Rint_etabli": 6.5,
+    "Rext_poses": 12.5,
+    "Rint_poses": 6.4996,
+    "Rext_polygone": 12.5034,
+    "Rint_polygone": 6.4964,
+    "ecart_max_m": 0.0037,
+    "anneaux": 2,
+    "composantes": 1
+   },
+   {
+    "vehicule": "semi_remorque",
+    "R_guide_min": 10.7546,
+    "Rext_etabli": 12.5,
+    "Rint_etabli": 5.3,
+    "Rext_poses": 12.5001,
+    "Rint_poses": 5.2996,
+    "Rext_polygone": 12.5025,
+    "Rint_polygone": 5.2968,
+    "ecart_max_m": 0.0032,
+    "anneaux": 2,
+    "composantes": 1
+   },
+   {
+    "vehicule": "vl",
+    "R_guide_min": 5.467,
+    "Rext_etabli": 6.9,
+    "Rint_etabli": 3.6,
+    "Rext_poses": 6.9,
+    "Rint_poses": 3.5996,
+    "Rext_polygone": 6.9022,
+    "Rint_polygone": 3.5947,
+    "ecart_max_m": 0.0053,
+    "anneaux": 2,
+    "composantes": 1
+   }
+  ],
+  "debord_1_5_bis": {
+   "bus_standard_12m": 0.2204,
+   "bus_12m_citaro": 0.277,
+   "bus_articule_18m": 0.3479,
+   "autocar_15m": 0.6772
+  },
+  "faisabilite": [
+   {
+    "vehicule": "autocar_15m",
+    "braquage_max_deg": 52.928,
+    "rayon_min": 8.9487,
+    "rayon_axe_1_002": 8.9666,
+    "rayon_axe_0_95": 8.5013,
+    "braquage_demande_1_002": 52.649,
+    "braquage_demande_0_95": 56.787
+   },
+   {
+    "vehicule": "bus_12m_citaro",
+    "braquage_max_deg": 43.502,
+    "rayon_min": 8.5709,
+    "rayon_axe_1_002": 8.588,
+    "rayon_axe_0_95": 8.1424,
+    "braquage_demande_1_002": 43.42,
+    "braquage_demande_0_95": 46.432
+   },
+   {
+    "vehicule": "bus_articule_18m",
+    "braquage_max_deg": 40.188,
+    "rayon_min": 9.1431,
+    "rayon_axe_1_002": 9.1614,
+    "rayon_axe_0_95": 8.6859,
+    "braquage_demande_1_002": 40.135,
+    "braquage_demande_0_95": 42.816
+   },
+   {
+    "vehicule": "bus_standard_12m",
+    "braquage_max_deg": 45.011,
+    "rayon_min": 8.6533,
+    "rayon_axe_1_002": 8.6706,
+    "rayon_axe_0_95": 8.2206,
+    "braquage_demande_1_002": 44.912,
+    "braquage_demande_0_95": 48.083
+   },
+   {
+    "vehicule": "pl_porteur",
+    "braquage_max_deg": 42.326,
+    "rayon_min": 10.5164,
+    "rayon_axe_1_002": 10.5374,
+    "rayon_axe_0_95": 9.9906,
+    "braquage_demande_1_002": 42.264,
+    "braquage_demande_0_95": 45.158
+   },
+   {
+    "vehicule": "semi_remorque",
+    "braquage_max_deg": 20.123,
+    "rayon_min": 10.7546,
+    "rayon_axe_1_002": 10.7761,
+    "rayon_axe_0_95": 10.2169,
+    "braquage_demande_1_002": 20.137,
+    "braquage_demande_0_95": 21.29
+   },
+   {
+    "vehicule": "vl",
+    "braquage_max_deg": 31.728,
+    "rayon_min": 5.467,
+    "rayon_axe_1_002": 5.4779,
+    "rayon_axe_0_95": 5.1936,
+    "braquage_demande_1_002": 31.71,
+    "braquage_demande_0_95": 33.67
+   }
+  ],
+  "virages_90": [
+   {
+    "vehicule": "vl",
+    "aire_m2": 122.737,
+    "braquage_max_demande_deg": 29.35,
+    "faisable": true,
+    "sommets": 147
+   },
+   {
+    "vehicule": "bus_standard_12m",
+    "aire_m2": 220.176,
+    "braquage_max_demande_deg": 37.35,
+    "faisable": true,
+    "sommets": 240
+   },
+   {
+    "vehicule": "bus_articule_18m",
+    "aire_m2": 245.176,
+    "braquage_max_demande_deg": 34.84,
+    "faisable": true,
+    "sommets": 285
+   },
+   {
+    "vehicule": "pl_porteur",
+    "aire_m2": 223.389,
+    "braquage_max_demande_deg": 36.04,
+    "faisable": true,
+    "sommets": 211
+   },
+   {
+    "vehicule": "semi_remorque",
+    "aire_m2": 251.805,
+    "braquage_max_demande_deg": 19.87,
+    "faisable": true,
+    "sommets": 391
+   },
+   {
+    "vehicule": "autocar_15m",
+    "aire_m2": 251.681,
+    "braquage_max_demande_deg": 40.76,
+    "faisable": true,
+    "sommets": 250
+   }
+  ]
+ },
+ "problemes": [
+  "Autocar 15 m (Setra S 519 HD, cotes lues par moteur de recherche) : avec l'empattement avant-moteur de 7,14 m et un essieu suiveur directionnel idéal, le modèle ne s'inscrit pas dans la couronne 96/53 (Rint 4,91 m < 5,30 m à Rext 12,50 m), alors que le véhicule est homologué : porte-à-faux avant (2,89 m) à confirmer sur la fiche PDF du constructeur, ou empattement équivalent < 7,14 m (centre instantané en avant de l'essieu moteur). Le balayage de l'autocar est donc plus large que le réel côté intérieur (sécuritaire).",
+  "Débord 96/53 § 1.5 bis > 0,60 m pour autocar_15m (0.68 m) : borne haute (braquage instantané à l'entrée du cercle) ; pour l'autocar, porte-à-faux arrière de 4,97 m derrière l'essieu moteur dans le modèle (essieu suiveur directionnel idéal) — même cause probable que la couronne (cotes Setra à confirmer)."
+ ],
+ "planches": {
+  "planche_couronne.png": [
+   1092,
+   560
+  ],
+  "planche_virages.png": [
+   1092,
+   740
+  ]
+ },
+ "vehicules": {
+  "autocar_15m": {
+   "libelle": "Autocar 15 m à essieu arrière directionnel (autocar de vérification N05 ; Setra S 519 HD)",
+   "rayon_point_guide_min": 8.9487,
+   "rayon_exterieur_caisse_min": 12.045,
+   "rayon_interieur_calcule": 4.1194,
+   "angle_braquage_bicyclette_max": 52.9282
+  },
+  "bus_12m_citaro": {
+   "libelle": "Autobus Mercedes-Benz Citaro 12 m (variante constructeur)",
+   "rayon_point_guide_min": 8.5709,
+   "rayon_exterieur_caisse_min": 11.485,
+   "rayon_interieur_calcule": 4.9419,
+   "angle_braquage_bicyclette_max": 43.502
+  },
+  "bus_articule_18m": {
+   "libelle": "Autobus articulé 18 m (Mercedes-Benz Citaro G, pousseur)",
+   "rayon_point_guide_min": 9.1431,
+   "rayon_exterieur_caisse_min": 12.0,
+   "rayon_interieur_calcule": 5.3,
+   "angle_braquage_bicyclette_max": 40.1878
+  },
+  "bus_standard_12m": {
+   "libelle": "Autobus urbain standard 12 m (Iveco Urbanway 12, successeur des Agora / Citelis)",
+   "rayon_point_guide_min": 8.6533,
+   "rayon_exterieur_caisse_min": 11.5,
+   "rayon_interieur_calcule": 4.8676,
+   "angle_braquage_bicyclette_max": 45.0114
+  },
+  "pl_porteur": {
+   "libelle": "Camion porteur 11 m (camion de VU p. 144)",
+   "rayon_point_guide_min": 10.5164,
+   "rayon_exterieur_caisse_min": 12.5,
+   "rayon_interieur_calcule": 6.5,
+   "angle_braquage_bicyclette_max": 42.3262
+  },
+  "semi_remorque": {
+   "libelle": "Tracteur 4x2 + semi-remorque 3 essieux (ensemble de vérification N05, 16,50 m)",
+   "rayon_point_guide_min": 10.7546,
+   "rayon_exterieur_caisse_min": 12.5,
+   "rayon_interieur_calcule": 5.3,
+   "angle_braquage_bicyclette_max": 20.1232
+  },
+  "vl": {
+   "libelle": "Voiture particulière (berline de référence, VU p. 144)",
+   "rayon_point_guide_min": 5.467,
+   "rayon_exterieur_caisse_min": 6.9,
+   "rayon_interieur_calcule": 3.6,
+   "angle_braquage_bicyclette_max": 31.7277
+  }
+ }
+}

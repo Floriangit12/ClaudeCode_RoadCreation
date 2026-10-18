@@ -1,0 +1,56 @@
+# A4 — Bretelle de sortie d'autoroute 2 × 2 voies : sortie en déboîtement (voie de décélération en biseau, musoir).
+# Chaussée principale : profil de A1 (voies 3,50, BAU 3,00, bermes 1,00, TPC 2,60 à GBA). Dispositif (VSA 90/110
+# Cerema 2014 p. 31, schéma 14 « déboîtement d'une voie ») : biseau de 150 m entre S.1,50 et S.1,00 ; la voie de
+# décélération est séparée de la voie de droite par une ligne T2 5u (RF-MQ-DEC-01 ; IISR7 tableau 113-2 B1b) et longée
+# par la BAU ; obliquité de la bretelle 1/33 (VSA p. 38 : 3 % en règle générale). Musoir de divergence : chevrons
+# (pointe vers le conducteur, RF-MQ-HACH-02) du point à 1,00 m (S.1,00) au point à 5,00 m (S.5,00, balise J14a,
+# RF-SV-J14), contour continue 3u et espace 2u (RF-MQ-MUS-01) ; terre-plein latéral en saillie au-delà, à 0,70 m des
+# chaussées (VSA p. 39, note 23). BAU de la principale interrompue au droit du musoir, reprise au nez.
+# Bretelle : voie de 3,50 m, BAU de 3,00 m (rive T'3 3u, RF-MQ-SC-06), berme 1,00 m ; 200 m d'alignement puis arc de
+# 200 m. ICTAAL n'est pas dans les sources locales : longueurs de la VSA 110, principale à 110 km/h.
+# Lot autoroutes (18/10/2026) : rive gauche de la bretelle continue 3u (IISR7 art. 114-4 B p. 15 : « en l'absence de
+# bande d'arrêt d'urgence, la ligne de rive est continue de largeur 3u » ; RF-MQ-SC-06 sans_bau, RF-OSM-MRQ-022) au lieu
+# de la rive de route T2 3u déduite par défaut (RF-OSM-MRQ-021, routes). La BDG de 0,50 m de la VSA 90/110 (§ 6.4.5.2
+# p. 49) n'est pas décrite : le compilateur ancre une route à sens unique sur son bord gauche, une BDG interrompue
+# avant la jonction déplacerait la voie de 0,50 m (signalé à l'intégration).
+format: description_simple/0.2
+scene: A4_bretelle_sortie
+titre: Autoroute 2 × 2, bretelle de sortie en déboîtement
+description: "Sortie d'autoroute 2 × 2 voies : voie de décélération en biseau de 150 m, ligne T2 5u, musoir à chevrons, bretelle à obliquité 1/33."
+contexte: {agglomeration: non, categorie: autoroute, vitesse: 110}
+troncons:
+  - id: principale
+    nom: autoroute (chaussée principale)
+    de: [-400, 0]
+    vers: [400, 0]
+    profil: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | BAU 3,0 | berme 1,0"
+    evenements:
+      # biseau de déboîtement de 150 m : la voie de décélération s'ouvre entre la voie de droite et la BAU
+      - ouverture: {a: 500, longueur: 150, nouveau: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | ligne T2 5u | voie de décélération 3,5 → | BAU 3,0 | berme 1,0"}
+      # divergence (pointe du musoir) : la bretelle part, la principale reste sans BAU au droit du musoir
+      - profil: {a: 500, nouveau: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 →"}
+      # S.5,00 (écart de 5 m à 165 m de la divergence, obliquité 1/33) : la BAU reprend au nez du terre-plein latéral
+      - profil: {a: 665, nouveau: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | BAU 3,0 | berme 1,0"}
+  - id: bretelle
+    nom: bretelle de sortie
+    contexte: {categorie: bretelle, u_m: 0.075}         # u homogène sur l itinéraire (DEF-001, RF-OSM-MRQ-001)
+    depart: [99.9546, -11.5493]        # référence de la bretelle (milieu voie + BAU) : axe de voie à 1,50 m à sa gauche
+    cap: -1.7357045
+    trace:
+      - droite: 200
+      - arc: {rayon: 200, angle: 30, sens: droite}
+    profil: "ligne continue 3u | voie 3,5 → | ligne T'3 3u | BAU 3,0 | berme 1,0"
+bretelles:
+  - id: S1
+    type: sortie
+    principale: principale
+    bretelle: bretelle
+    musoir: {longueur: 40}
+attendus:
+  obliquite: 0.0303                    # 1/33
+  point_1m_m: 33.0                     # depuis la divergence, le long de la bretelle (1,00 × 33)
+  point_5m_m: 165.0
+  voie_deceleration: {biseau_m: 150, debut_s: 350, divergence_s: 500}
+  ligne_deceleration: "T2 5u"
+  musoir: {chevrons: true, contour: "continue 3u", balise: J14a}
+  bau_interrompue_s: [500, 665]

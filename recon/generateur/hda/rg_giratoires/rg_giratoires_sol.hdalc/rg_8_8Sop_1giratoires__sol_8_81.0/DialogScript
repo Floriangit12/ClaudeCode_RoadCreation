@@ -1,0 +1,200 @@
+# Dialog script for rg::giratoires_sol::1.0 automatically generated
+
+{
+    name	rg::giratoires_sol::1.0
+    inputlabel	1	"Giratoires (rg::giratoires, sortie 4)"
+    inputlabel	2	"Sol sans îlots"
+    outputlabel	1	"Sol des îlots"
+    outputlabel	2	"BEV des îlots"
+    outputlabel	3	"Entités (bordures des îlots)"
+    outputlabel	4	"Marques des giratoires"
+    outputlabel	5	"Contrôles"
+    script	rg::giratoires_sol::1.0
+    label	"RG Giratoires (îlots posés, marques de l'anneau)"
+
+    help {
+    }
+
+    inputlabel	1	"Giratoires (rg::giratoires, sortie 4)"
+    inputlabel	2	"Sol sans îlots"
+
+    parm {
+        name    "fleche"
+        label   "Flèche maximale des arcs (m)"
+        type    float
+        default { "0.0005" }
+        help    "Faces circulaires : flèche ≤ 0,5 mm (RF-OSM-CAR-001)."
+        range   { 1e-05 0.01 }
+    }
+    parm {
+        name    "pas_angulaire_max"
+        label   "Pas angulaire maximal des arcs (°)"
+        type    float
+        default { "0.8" }
+        help    "Comme rg::giratoires."
+        range   { 0.05 5 }
+    }
+    parm {
+        name    "angle_depart"
+        label   "Angle de départ des faces circulaires (°)"
+        type    float
+        default { "-90" }
+        help    "Ouverture des files fermées (couronne, îlot central) : point le plus au sud [G]."
+        range   { -360 360 }
+    }
+    parm {
+        name    "recouvrement_tete"
+        label   "Recouvrement sous la tête (m)"
+        type    float
+        default { "0.012" }
+        help    "Le dessus d'un îlot passe sous la tête de sa bordure sur 12 mm (TQ-BOR-007, même valeur que rg::sol)."
+        range   { 0 0.05 }
+    }
+    parm {
+        name    "couronne_pente_pct"
+        label   "Pente de la couronne franchissable (%)"
+        type    float
+        default { "5" }
+        help    "RF-GV-GIR-006 : bande franchissable en pente de 4 à 6 % vers l'anneau ; milieu de la plage [G]."
+        range   { 0 15 }
+    }
+    parm {
+        name    "pas_radial"
+        label   "Pas radial des dessus circulaires (m)"
+        type    float
+        default { "0.25" }
+        help    "Maillage polaire [G]."
+        range   { 0.02 2 }
+    }
+    parm {
+        name    "dome_relief"
+        label   "Relief au bord du dôme (m)"
+        type    float
+        default { "0.02" }
+        help    "RF-GV-GIR-016 : relief dissuasif de 1 à 3 cm au bord de l'îlot franchissable du mini-giratoire ; milieu [G]."
+        range   { 0 0.05 }
+    }
+    parm {
+        name    "aire_min_ilot"
+        label   "Aire minimale d'un îlot séparateur (m²)"
+        type    float
+        default { "0.5" }
+        help    "Un polygone d'îlot plus petit est signalé et non fabriqué (îlot dégénéré du modèle) [G]."
+        range   { 0 10 }
+    }
+    parm {
+        name    "abaisse_vue"
+        label   "Vue des abaissés (m)"
+        type    float
+        default { "0.02" }
+        help    "DEF-031 (RF-MA-ABA-001)."
+        range   { 0 0.1 }
+    }
+    parm {
+        name    "abaisse_rampant"
+        label   "Rampant des abaissés (m)"
+        type    float
+        default { "2.4" }
+        help    "DEF-031 : 2,40 m à 5 %."
+        range   { 0 5 }
+    }
+    parm {
+        name    "abaisse_rampant_min"
+        label   "Rampant minimal (m)"
+        type    float
+        default { "1.5" }
+        help    "DEF-031 : 1,50 m à 8 % ; un rampant plus court est signalé."
+        range   { 0 5 }
+    }
+    parm {
+        name    "passage_marge"
+        label   "Marge de l'axe d'un passage (m)"
+        type    float
+        default { "2" }
+        help    "Une bordure reçoit l'abaissé d'un passage si elle coupe la bande du passage à moins de cette distance des bouts de l'axe du modèle [G] (même valeur que rg::carrefours_sol)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "base_defaut"
+        label   "Base d'une bordure absente des tables (m)"
+        type    float
+        default { "0.15" }
+        help    "Secours ; la table de pj::bordure prime."
+        range   { 0.05 0.5 }
+    }
+    parm {
+        name    "table_bases"
+        label   "Table des bases (profil:base)"
+        type    string
+        default { "A1:0.2000,A2:0.1500,AC1:0.3500,ACCESBUS:0.2000,GR_A1:0.2000,GR_A2:0.1500,GR_P1:0.0800,GR_P3:0.0600,GR_T1:0.1200,GR_T2:0.1500,I1:0.2500,I2:0.2500,I3:0.3000,I4:0.3000,IL:0.2000,MURET_TALUS:0.2000,P1:0.0800,P1_basse:0.0800,P2:0.0600,P3:0.0800,P4:0.0500,PAVES_GRANIT:0.1400,QUAI_BUS:0.3500,T1:0.1200,T2:0.1500,T2_basse:0.1510,T2_bateau:0.1500,T2_surbaissee:0.1510,T3:0.1700,T3_basse:0.1700,T3_surbaissee:0.1700,T4:0.2000,TU:0.2500" }
+        help    "Bases des profils de bordure (table de pj::bordure, assets/specs/bordures.json, lue à la construction)."
+    }
+    parm {
+        name    "bordure_ilot_defaut"
+        label   "Bordure d'îlot par défaut"
+        type    string
+        default { "I2" }
+        help    "Îlot sans ceinture : I2 (DEF-005 îlot)."
+    }
+    parm {
+        name    "pieces_abaisse"
+        label   "Pièces d'abaissé (profil:pièce, …)"
+        type    string
+        default { "T2:T2_bateau" }
+        help    "Même table que rg::vers_entites (bordures_elements.json, abaisses.traversee)."
+    }
+    parm {
+        name    "bev_recul"
+        label   "BEV : recul au nez (m)"
+        type    float
+        default { "0.5" }
+        help    "DEF-031, RF-MA-BEV-002."
+        range   { 0 2 }
+    }
+    parm {
+        name    "bev_profondeur"
+        label   "BEV : profondeur (m)"
+        type    float
+        default { "0.5875" }
+        help    "DEF-031."
+        range   { 0.1 2 }
+    }
+    parm {
+        name    "bev_profondeur_reduite"
+        label   "BEV : profondeur réduite (m)"
+        type    float
+        default { "0.4" }
+        help    "DEF-031 : trottoir de moins de 1,90 m ; refuge : demi-largeur du refuge par côté [G]."
+        range   { 0.1 2 }
+    }
+    parm {
+        name    "bev_seuil_trottoir"
+        label   "BEV : largeur de trottoir du seuil (m)"
+        type    float
+        default { "1.9" }
+        help    "DEF-031."
+        range   { 0 5 }
+    }
+    parm {
+        name    "materiau_peinture"
+        label   "Matériau de la peinture"
+        type    string
+        default { "peinture_blanc_u1" }
+        help    "Peinture blanche, classe d'usure 1 (usure légère 0,2), comme rg::carrefours_sol."
+    }
+    parm {
+        name    "usure_peinture"
+        label   "Usure de la peinture"
+        type    float
+        default { "0.2" }
+        help    "Usure légère (description : marquages.usure)."
+        range   { 0 1 }
+    }
+    parm {
+        name    "modulations"
+        label   "Modulations (nom:trait:intervalle)"
+        type    string
+        default { "T1:3.0000:10.0000,T'1:1.5000:5.0000,T2:3.0000:3.5000,T'2:0.5000:0.5000,T3:3.0000:1.3300,T'3:20.0000:6.0000,T4:39.0000:13.0000" }
+        help    "RF-MQ-MOD-* (regles_route_fr.json, lu à la construction)."
+    }
+}

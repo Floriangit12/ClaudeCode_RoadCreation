@@ -58,6 +58,21 @@
         range   { 0.2 2 }
     }
     parm {
+        name    "pieces_abaisse"
+        label   "Pièces d'abaissé (profil:pièce, …)"
+        type    string
+        default { "T2:T2_bateau" }
+        help    "Pièce d'abaissé (bateau, vue ≤ vue_max_bateau) de chaque profil courant, même base que lui : T2:T2_bateau (bordures_elements.json abaisses.traversee) ; lot bordures : T3:T3_surbaissee, T2_basse:T2_surbaissee, T3_basse:T3_surbaissee, A2:A2 (RF-AS-raccord_bateau ; commun/bordures_catalogue.py PIECES_ABAISSE). Un profil absent est posé abaissé avec son propre contour ([G])."
+    }
+    parm {
+        name    "vue_max_bateau"
+        label   "Vue maximale d'une pièce d'abaissé (m)"
+        type    float
+        default { "0.04" }
+        help    "Intervalle de vue constante ≤ cette valeur : pièce d'abaissé (rôle bateau). 0,04 : borne haute de la vue nominale de T2_bateau / T2_surbaissee (bordures.json, RF-AS-profil_T2_surbaissee) ; 0,05 couvre les entrées charretières (RF-MA-TRO-015 entree_charretiere_max)."
+        range   { 0 0.1 }
+    }
+    parm {
         name    "avaloir_fin_de_file"
         label   "Avaloir au bout d'une file de caniveau fermée"
         type    toggle

@@ -1,0 +1,50 @@
+# J2 — Carrefour en croix hors agglomération, route départementale prioritaire, route secondaire en STOP.
+# Route départementale à 80 km/h (RF-OSM-VIT-003) : voies de 3,00 m (RF-OSM-LAR-014 RD 1 chaussée), bandes dérasées
+# de 0,50 m (RF-OSM-LAR-014), rives T2 3u (RF-OSM-MRQ-021), axe T1 2u (RF-OSM-MRQ-010), bermes de 1,00 m.
+# Route secondaire (voie communale) 2 × 3,00 m, bermes de 1,00 m. STOP confirmé par la description : AB4 au droit de
+# la ligne continue de 0,50 m (RF-SV-AB4.POSITION, RF-MQ-STOP-01), continue axiale 2u sur 15 m (DEF-013), AB5 à 150 m
+# (RF-SV-AB5.EMPLOI) ; route prioritaire : AB2 à 150 m (RF-SV-AB2.EMPLOI), balises J3 dans les quatre angles (RF-SV-J3 :
+# hors agglomération sans îlot séparateur sur la route prioritaire). Rayons d'angle 12 m (RF-GV-RAY-001 : périurbain PL
+# 8-12 m ; borne haute retenue pour la giration des PL en rase campagne).
+format: description_simple/0.2
+scene: J2_croix_stop
+titre: Carrefour en croix hors agglomération, route secondaire en STOP
+description: "RD 2 × 1 voie à 80 km/h prioritaire ; voie communale en STOP de part et d'autre ; rayons d'angle 12 m."
+contexte: {agglomeration: non, categorie: route départementale, vitesse: 80}
+troncons:
+  - id: ouest
+    de: [-220, 0]
+    vers: [0, 0]
+    profil: "berme 1,0 | bande dérasée 0,5 | voie 3,0 ← | voie 3,0 → | bande dérasée 0,5 | berme 1,0"
+  - id: est
+    de: [220, 0]
+    vers: [0, 0]
+    profil: "berme 1,0 | bande dérasée 0,5 | voie 3,0 ← | voie 3,0 → | bande dérasée 0,5 | berme 1,0"
+  - id: nord
+    contexte: {categorie: route communale}
+    de: [0, 200]
+    vers: [0, 0]
+    profil: "berme 1,0 | voie 3,0 ← | voie 3,0 → | berme 1,0"
+  - id: sud
+    contexte: {categorie: route communale}
+    de: [0, -200]
+    vers: [0, 0]
+    profil: "berme 1,0 | voie 3,0 ← | voie 3,0 → | berme 1,0"
+carrefours:
+  - id: J2
+    centre: [0, 0]
+    branches:
+      - {troncon: ouest, regime: prioritaire, coin: 12}
+      - {troncon: est, regime: prioritaire, coin: 12}
+      - {troncon: nord, regime: stop, coin: 12}
+      - {troncon: sud, regime: stop, coin: 12}
+attendus:
+  branches: 4
+  regime: stop
+  frontiere_m: {ouest: 3.0, est: 3.0, nord: 3.5, sud: 3.5}     # bords de chaussée (rives) prolongés, BDD comprises
+  ligne: {nord: {type: STOP, distance_au_centre_m: 3.5, largeur_m: 0.5, modulation: continue}, sud: {type: STOP, distance_au_centre_m: 3.5}}
+  continue_approche_m: {nord: 15.0, sud: 15.0}
+  panneaux: {AB4: 2, AB5: 2, AB2: 2, J3: 4, AB3a: 0}
+  coins_rayon_m: 12.0
+  trajectoires: 12
+  conflits: {croisement_reference_CU: 16, total_reference_CU: 32, convergence: 8, divergence: 8}   # croix complète (CU p. 120-122) ; décompte géométrique rapporté à part

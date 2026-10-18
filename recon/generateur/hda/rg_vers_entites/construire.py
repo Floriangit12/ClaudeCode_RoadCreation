@@ -9,6 +9,10 @@ Réseau (recon/generateur/hda/README_RG.md § 5) :
          rôle courant | chartiere | bateau), niv_s / niv_z_pied / niv_z_tete, caniveau et ses intervalles, aspect)
       -> ENTITES (sortie 1)
       -> vegetation (VEX, détail : arbres des objets le long des bandes, mode points ou pas, ancrage) -> VEGETATION
+Lot bordures (17/10/2026) : files coupées aux changements de profil, de caniveau ou de matériau d'une section à l'autre
+(decouper_profils) ; pièce d'abaissé de chaque type (paramètres pieces_abaisse, vue_max_bateau ; défaut T2:T2_bateau et
+0,04 m, comportement d'avant) ; un intervalle n'est « bateau » que s'il est plus bas que la vue courante de la file ;
+boucles fermées ouvertes en un sommet aligné (pièces d'angle à tous les coins d'un îlot).
 Contrat pj::bordure (README_HDA § 8) : courbe d'arête avant (face vue), trottoir à gauche ; niv_s = abscisse plane de
 la courbe ; niv_z_pied = pied de face du modèle unique (TQ-SOL-013 (4)). Les rampants d'abaissé deviennent des
 chartières de la longueur du modèle (2,40 m à 5 % : ARR2007, RF-MA-ABA-004), en éléments de 1,00 m au plus.
@@ -48,9 +52,19 @@ foreach (int i; int pt; pts) {
     q = p;
 }
 string prof = s@profil;
-string bateau = prof + "_bateau";
-string bateaux[] = array("T2_bateau");
-if (find(bateaux, bateau) < 0) bateau = prof;
+// pièce d'abaissé (bateau) du profil courant : table « profil:pièce » du paramètre pieces_abaisse (lot bordures :
+// T2 → T2_bateau, T3 → T3_surbaissee, T2_basse → T2_surbaissee… ; même base que le profil courant) ; un profil absent
+// de la table est posé abaissé avec son propre contour ([G], aucun élément bateau de ce type au catalogue)
+string bateau = prof;
+foreach (string paire; split(chs("../pieces_abaisse"), ",")) {
+    string kv[] = split(paire, ":");
+    if (len(kv) == 2 && strip(kv[0]) == prof) bateau = strip(kv[1]);
+}
+float vue_bateau = chf("../vue_max_bateau");
+// un intervalle n'est un abaissé (rôle bateau) que s'il est plus bas que la vue courante de la file (vue maximale) :
+// une bordure basse posée à sa vue nominale sur toute la file (IL 0,03, bordurettes P, T2 surbaissée de couronne) reste
+// « courant » (lot bordures ; sans effet sur une file T2 à abaissé)
+float vmax_file = max(V);
 dict ivs[];
 int i = 0;
 while (i < n - 1) {
@@ -78,7 +92,7 @@ while (i < n - 1) {
         while (j < n - 1 && K[j] == 0 && K[j + 1] == 0 && S[j + 1] - S[j] > 1e-9 && abs(V[j + 1] - V[j]) < 1e-5
                && abs(V[j] - V[i]) < 1e-5) j++;
         dict d; d["s0"] = S[i]; d["s1"] = S[j]; d["vue_m"] = V[i];
-        if (V[i] <= 0.04 + 1e-6) { d["profil"] = bateau; d["role"] = "bateau"; }
+        if (V[i] <= vue_bateau + 1e-6 && V[i] < vmax_file - 0.02) { d["profil"] = bateau; d["role"] = "bateau"; }
         else { d["profil"] = prof; d["role"] = "courant"; }
         push(ivs, d);
         i = j;
@@ -234,6 +248,89 @@ if (cprof != "") {
 }
 d@caniveau = can;
 s@props = props;
+"""
+
+VEX_DECOUPER = r"""
+// decouper_profils (détail ; entrée 0 : files de bordures ouvertes, entrée 1 : niveaux, groupe sections) — lot bordures :
+// une file par profil de bordure, profil de caniveau et matériau continus. rg::nivellement chaîne en une file les
+// bordures d'une même limite sur plusieurs sections et lui donne le profil de son premier point : un changement de type
+// au fil de la rue (section suivante : T2 → T3, caniveau CS1 → CS2, bordurette P1 → P2) était perdu. Le profil, le
+// caniveau et le matériau de chaque point sont lus dans sa section (l_prof, l_cprof, l_mat à sa limite) ; un point de
+// retour transversal (limite −1) prend ceux du point longitudinal le plus proche de la file. La file est coupée au point
+// de raccord doublé entre deux sections où l'un des trois change : la première part garde l'identifiant de la file, les
+// suivantes prennent « <id>.1 », « <id>.2 »… (identifiants stables). Une file sans changement est inchangée.
+int npr = nprimitives(0);
+int a_retirer[];
+for (int pr = 0; pr < npr; pr++) {
+    int pts[] = primpoints(0, pr);
+    int n = len(pts);
+    string rid = prim(0, "route", pr);
+    string P[], C[], M[];
+    int def[];
+    for (int i = 0; i < n; i++) {
+        int k = point(0, "section", pts[i]), l = point(0, "limite", pts[i]);
+        string p = "", c = "", m = "";
+        int ok = 0;
+        if (l >= 0) {
+            int sp = rg_point_section(1, rid, k);
+            if (sp >= 0) {
+                string lp[] = point(1, "l_prof", sp), lc[] = point(1, "l_cprof", sp), lm[] = point(1, "l_mat", sp);
+                if (l < len(lp) && lp[l] != "") { p = lp[l]; c = lc[l]; m = lm[l]; ok = 1; }
+            }
+        }
+        push(P, p); push(C, c); push(M, m); push(def, ok);
+    }
+    // points de retour : valeurs du point longitudinal le plus proche (le long de la file)
+    for (int i = 0; i < n; i++) {
+        if (def[i]) continue;
+        for (int d = 1; d < n; d++) {
+            int j = -1;
+            if (i - d >= 0 && def[i - d]) j = i - d;
+            else if (i + d < n && def[i + d]) j = i + d;
+            if (j >= 0) { P[i] = P[j]; C[i] = C[j]; M[i] = M[j]; break; }
+        }
+    }
+    int coupes[];
+    // coupe : changement de profil, de profil de caniveau ou de matériau dits des deux côtés (un caniveau absent d'une
+    // section ne coupe pas la file : sa présence est portée par les intervalles du caniveau, attribut de point can)
+    for (int i = 1; i < n; i++) {
+        if (P[i] == "" || P[i - 1] == "") continue;
+        int ch = P[i] != P[i - 1];
+        if (C[i] != "" && C[i - 1] != "" && C[i] != C[i - 1]) ch = 1;
+        if (M[i] != "" && M[i - 1] != "" && M[i] != M[i - 1]) ch = 1;
+        if (ch) push(coupes, i);
+    }
+    if (len(coupes) == 0) continue;
+    string kid = prim(0, "id", pr);
+    push(coupes, n);
+    int debut = 0;
+    foreach (int q; int fin; coupes) {
+        int sous[];
+        for (int i = debut; i < fin; i++) push(sous, pts[i]);
+        if (len(sous) >= 2) {
+            int np_ = addprim(0, "polyline", sous);
+            setprimattrib(0, "id", np_, q == 0 ? kid : sprintf("%s.%d", kid, q));
+            setprimattrib(0, "route", np_, rid);
+            string cp = "", mp = "";
+            for (int i = debut; i < fin; i++) { if (cp == "" && C[i] != "") cp = C[i]; if (mp == "" && M[i] != "") mp = M[i]; }
+            setprimattrib(0, "profil", np_, P[debut]);
+            string cpo = prim(0, "cprof", pr);
+            setprimattrib(0, "cprof", np_, cp != "" ? cp : cpo);
+            string mo = prim(0, "materiau_id", pr);
+            setprimattrib(0, "materiau_id", np_, mp != "" ? mp : mo);
+            string noms_f[] = {"base", "H", "wc", "dhc"};
+            foreach (string nom; noms_f) {
+                float vf = prim(0, nom, pr);
+                setprimattrib(0, nom, np_, vf);
+            }
+            setprimattrib(0, "fermee", np_, 0);
+            setprimgroup(0, "bordures", np_, 1);
+        }
+        debut = fin;
+    }
+    push(a_retirer, pr);
+}
+foreach (int pr; a_retirer) removeprim(0, pr, 0);
 """
 
 VEX_AVALOIRS = r"""
@@ -423,6 +520,16 @@ def parametres():
           help="Grille d'avaloir posée au pied de chaque rampe de plateau, dans le caniveau (Certu, Coussins et plateaux, "
                "2010, p. 46 § 2.1.3) ; 0,65 m = asset decal_grille_avaloir de assets/specs/route/catalogue_assets_route.json "
                "(tile_m). Aucune règle de regles_route_fr.json ne la cote : règle demandée au propriétaire de la base."),
+        T.StringParmTemplate("pieces_abaisse", "Pièces d'abaissé (profil:pièce, …)", 1, default_value=("T2:T2_bateau",),
+                             help="Pièce d'abaissé (bateau, vue ≤ vue_max_bateau) de chaque profil courant, même base que "
+                                  "lui : T2:T2_bateau (bordures_elements.json abaisses.traversee) ; lot bordures : "
+                                  "T3:T3_surbaissee, T2_basse:T2_surbaissee, T3_basse:T3_surbaissee, A2:A2 "
+                                  "(RF-AS-raccord_bateau ; commun/bordures_catalogue.py PIECES_ABAISSE). Un profil absent "
+                                  "est posé abaissé avec son propre contour ([G])."),
+        F("vue_max_bateau", "Vue maximale d'une pièce d'abaissé (m)", 1, default_value=(0.04,), min=0.0, max=0.10,
+          help="Intervalle de vue constante ≤ cette valeur : pièce d'abaissé (rôle bateau). 0,04 : borne haute de la vue "
+               "nominale de T2_bateau / T2_surbaissee (bordures.json, RF-AS-profil_T2_surbaissee) ; 0,05 couvre les "
+               "entrées charretières (RF-MA-TRO-015 entree_charretiere_max)."),
         T.ToggleParmTemplate("avaloir_fin_de_file", "Avaloir au bout d'une file de caniveau fermée", default_value=True,
                              help="Grille d'avaloir au bout aval (abscisses croissantes) de toute file de caniveau qui "
                                   "s'arrête contre un retour de bordure (avancée, îlot), hors bout de la voie et hors "
@@ -443,14 +550,29 @@ def construire(dossier=ICI):
     # boucles fermées (îlot central isolé : la bordure en fait le tour) ouvertes au premier point, le dernier point
     # répétant le premier : pj::bordure ne pose que des courbes ouvertes (correction après contrôle : îlot de S_M24
     # sans bordure)
+    # lot bordures : la boucle est ouverte en un sommet aligné avec ses voisins (milieu d'un côté) plutôt qu'en son
+    # premier point, souvent un coin : un coin pris comme début et fin de file était posé en deux abouts sciés droits
+    # au lieu d'une pièce d'angle (îlots de B01 : 3 angles sur 4) ; sans sommet aligné, le premier point est gardé
     ouv = R.wrangle(sub, "ouvrir_boucles", r"""
 if (primintrinsic(0, "closed", @primnum)) {
     int pts[] = primpoints(0, @primnum);
-    addvertex(0, @primnum, pts[0]);
+    int n = len(pts);
+    int k0 = 0;
+    for (int i = 0; i < n; i++) {
+        vector a = point(0, "P", pts[(i - 1 + n) % n]), b = point(0, "P", pts[i]), c = point(0, "P", pts[(i + 1) % n]);
+        vector u = set(b.x - a.x, 0, b.z - a.z), v = set(c.x - b.x, 0, c.z - b.z);
+        if (length(u) < 1e-6 || length(v) < 1e-6) continue;
+        if (dot(normalize(u), normalize(v)) > cos(radians(1.0))) { k0 = i; break; }
+    }
+    for (int j = 0; j < n; j++) setvertexpoint(0, @primnum, j, pts[(k0 + j) % n]);
+    addvertex(0, @primnum, pts[k0]);
     setprimintrinsic(0, "closed", @primnum, 0);
 }
 """, "primitive", gb)
-    bor = R.wrangle(sub, "bordures", VEX_BORDURES, "primitive", ouv, entrees=(e1,))
+    # lot bordures : files coupées aux changements de profil, de caniveau ou de matériau d'une section à l'autre
+    dec = R.wrangle(sub, "decouper_profils", VEX_DECOUPER, "detail", ouv, entrees=(e1,),
+                    bibliotheques=("rg_geometrie.h", "rg_niveau.h"))
+    bor = R.wrangle(sub, "bordures", VEX_BORDURES, "primitive", dec, entrees=(e1,))
     # contrat de pj::bordure : attributs de la description seulement (les attributs internes du nivellement, « kind »
     # entier notamment, entraient en collision avec ceux de pj::bordure : kind = element | joint)
     net = sub.createNode("attribdelete", "contrat_pj")
@@ -495,7 +617,9 @@ if (primintrinsic(0, "closed", @primnum)) {
             "points des arbres d'alignement ; caniveau à grille au droit des ralentisseurs (intervalles dans props) et "
             "grilles d'avaloir au pied des rampes de plateau et au bout des files de caniveau fermées (sortie 3), qui "
             "remplacent le caniveau qu'elles occupent (intervalles du caniveau coupés) ; retours transversaux à vue "
-            "variable marqués usage = retour (elements.json : raccord_vue).")
+            "variable marqués usage = retour (elements.json : raccord_vue). Lot bordures : une file par profil, caniveau "
+            "et matériau continus (coupe aux changements de type d'une section à l'autre) ; pièce d'abaissé de chaque "
+            "type (paramètre pieces_abaisse) ; boucles ouvertes au milieu d'un côté (pièces d'angle à tous les coins).")
     details = ("== Entrées ==\n\n1. Niveaux (rg::nivellement), 2. Profils (rg::lire_modele, sortie 5), 3. Références "
                "(rg::graphe).\n\n== Sorties ==\n\n1. Entités bordures (polylignes au pied, côté haut à gauche).\n"
                "2. Végétation (points : id, route, type, bande, s, t).\n3. Grilles d'avaloir (quadrilatères dans le "

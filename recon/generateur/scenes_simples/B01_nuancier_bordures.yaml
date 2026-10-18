@@ -1,0 +1,435 @@
+# B01 — nuancier des bordures (lot bordures) : écrit par B01_generer.py, ne pas modifier à la main.
+# Une rue de 66 m découpée en tronçons, un type de bordure par tronçon (voir l'en-tête du générateur et
+# B01_nuancier_bordures.etiquettes.json) ; types étendus : compiler avec commun/bordures_catalogue.py --compiler
+# (fabriquer_bordures.py).
+format: description_simple/0.1
+scene: B01
+nom: nuancier_bordures
+titre: Nuancier des bordures — un type par tronçon (T, A, I, P, granit, quais, caniveaux)
+description: "Rue de démonstration : 2 voies de 3,00 m ; à gauche 11 blocs de trottoir ou de quai (T1-T4, granit, T2/T3 basses, pavés, quais) ; au centre 11 îlots (A1, A2, I1-I4, IL, TU, AC1, couronne, refuge) ; à droite trottoir continu avec bordure T2/T3, caniveaux CS1-CS4, CC1, CC2, bordurettes P1-P4, GR_P1, P1 basse, abaissés et entrée charretière."
+contexte:
+  agglomeration: true
+  vitesse_kmh: 30
+  categorie: rue
+marquages: {usure: légère}
+trace:
+  - droite: 96
+profil:
+  - {bande: trottoir, largeur: 2.0}
+  - {bordure: T1, vue: 0.12}
+  - voie 3,0 ←
+  - {bordure: A1, vue: 0.09}
+  - terre-plein 2,0 enrobé dévers 0
+  - {bordure: A1, vue: 0.09}
+  - voie 3,0 →
+  - {bordure: T2, vue: 0.16, caniveau: CS1}
+  - {bande: trottoir, largeur: 2.0}
+  - {bordure: P1}
+  - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+evenements:
+  - profil:
+      a: 4.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CS1}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P1}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 6
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: T2, vue: 0.14}
+        - voie 3,0 ←
+        - {bordure: A2, vue: 0.07}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: A2, vue: 0.07}
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CS1}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P1}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 10.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CS1}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P1}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 12
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: T3, vue: 0.18}
+        - voie 3,0 ←
+        - {bordure: I1, vue: 0.06}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: I1, vue: 0.06}
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CS1}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P1}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 13
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: T3, vue: 0.18}
+        - voie 3,0 ←
+        - {bordure: I1, vue: 0.06}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: I1, vue: 0.06}
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CS2}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P2}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 16.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CS2}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P2}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 18
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: T4, vue: 0.2}
+        - voie 3,0 ←
+        - {bordure: I2, vue: 0.11}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: I2, vue: 0.11}
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CS2}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P2}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 22.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CS2}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P2}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 24
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: GR_T1, vue: 0.12, materiau: granit_bordure}
+        - voie 3,0 ←
+        - {bordure: I3, vue: 0.06}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: I3, vue: 0.06}
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CS2}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P2}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 26
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: GR_T1, vue: 0.12, materiau: granit_bordure}
+        - voie 3,0 ←
+        - {bordure: I3, vue: 0.06}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: I3, vue: 0.06}
+        - voie 3,0 →
+        - {bordure: T3, vue: 0.16, caniveau: CS3}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P3}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 28.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T3, vue: 0.16, caniveau: CS3}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P3}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 30
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: GR_T2, vue: 0.14, materiau: granit_bordure}
+        - voie 3,0 ←
+        - {bordure: I4, vue: 0.11}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: I4, vue: 0.11}
+        - voie 3,0 →
+        - {bordure: T3, vue: 0.16, caniveau: CS3}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P3}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 34.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T3, vue: 0.16, caniveau: CS3}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P3}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 36
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: T2_basse, vue: 0.08}
+        - voie 3,0 ←
+        - {bordure: IL, vue: 0.03}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: IL, vue: 0.03}
+        - voie 3,0 →
+        - {bordure: T3, vue: 0.16, caniveau: CS3}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P3}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 39
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: T2_basse, vue: 0.08}
+        - voie 3,0 ←
+        - {bordure: IL, vue: 0.03}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: IL, vue: 0.03}
+        - voie 3,0 →
+        - {bordure: T3, vue: 0.16, caniveau: CS4}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P4}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 40.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T3, vue: 0.16, caniveau: CS4}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P4}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 42
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: T3_basse, vue: 0.1}
+        - voie 3,0 ←
+        - {bordure: TU, vue: 0.06}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: TU, vue: 0.06}
+        - voie 3,0 →
+        - {bordure: T3, vue: 0.16, caniveau: CS4}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P4}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 46.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T3, vue: 0.16, caniveau: CS4}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P4}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 48
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: PAVES_GRANIT, vue: 0.12, materiau: granit_bordure}
+        - voie 3,0 ←
+        - {bordure: AC1, vue: 0.06}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: AC1, vue: 0.06}
+        - voie 3,0 →
+        - {bordure: T3, vue: 0.16, caniveau: CS4}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P4}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 52
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: PAVES_GRANIT, vue: 0.12, materiau: granit_bordure}
+        - voie 3,0 ←
+        - {bordure: AC1, vue: 0.06}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: AC1, vue: 0.06}
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CC1}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: GR_P1, materiau: granit_bordure}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 52.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CC1}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: GR_P1, materiau: granit_bordure}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 54
+      nouveau:
+        - {bande: quai, largeur: 2.0}
+        - {bordure: QUAI_BUS, vue: 0.21}
+        - voie 3,0 ←
+        - {bordure: T2_surbaissee, vue: 0.03}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: T2_surbaissee, vue: 0.03}
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CC1}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: GR_P1, materiau: granit_bordure}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 58.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CC1}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: GR_P1, materiau: granit_bordure}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 60
+      nouveau:
+        - {bande: quai, largeur: 2.0}
+        - {bordure: ACCESBUS, vue: 0.21}
+        - voie 3,0 ←
+        - {bordure: T2, vue: 0.12}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: T2, vue: 0.12}
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CC1}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: GR_P1, materiau: granit_bordure}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 64.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CC1}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: GR_P1, materiau: granit_bordure}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 65
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CC2}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P1_basse}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 66
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: T2, vue: 0.14, materiau: beton_bordure_clair}
+        - voie 3,0 ←
+        - {bordure: GR_A1, vue: 0.09, materiau: granit_bordure}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: GR_A1, vue: 0.09, materiau: granit_bordure}
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CC2}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P1_basse}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 70.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CC2}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P1_basse}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 72
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: T2, vue: 0.14, materiau: calcaire_bordure}
+        - voie 3,0 ←
+        - {bordure: GR_A2, vue: 0.07, materiau: granit_bordure}
+        - terre-plein 2,0 enrobé dévers 0
+        - {bordure: GR_A2, vue: 0.07, materiau: granit_bordure}
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CC2}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P1_basse}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 76.5
+      nouveau:
+        - trottoir 2,0 enrobé niveau chaussée dévers 1,5
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CC2}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P1_basse}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 78
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: T2, vue: 0.14}
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T2, vue: 0.16, caniveau: CS2}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: P1}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - profil:
+      a: 87
+      nouveau:
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: T2, vue: 0.14}
+        - voie 3,0 ←
+        - zone hachurée 2,0
+        - voie 3,0 →
+        - {bordure: T3, vue: 0.16, caniveau: CS3}
+        - {bande: trottoir, largeur: 2.0}
+        - {bordure: GR_P3, materiau: granit_bordure}
+        - {bande: bande plantée, largeur: 1.5, dz: 0.19}
+  - abaisse: {a: 82.5, cote: droite}         # T2 → T2_bateau (bordures_elements.json abaisses.traversee)
+  - abaisse: {a: 91.5, cote: droite}         # T3 → T3_surbaissee (RF-AS-raccord_bateau)
+  - entree_charretiere: {a: 87, cote: gauche, largeur: 3}   # RF-MA-TRO-015, RF-MA-TRO-016
+abords: {gauche: pelouse 4, droite: pelouse 4}

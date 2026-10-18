@@ -1,6 +1,7 @@
 # Format de description simple d'une route (`description simple → modele_voie`)
 
-*`recon/generateur/description/FORMAT_DESCRIPTION.md` — lot L0 du générateur (PLAN_GENERATEUR § 3), 17/10/2026.*
+*`recon/generateur/description/FORMAT_DESCRIPTION.md` — lot L0 du générateur (PLAN_GENERATEUR § 3), 17/10/2026 ;
+complété le 18/10/2026 (intégration de l'étape 2 : réseau § 15, types de bordures § 5.2, fabrication § 16).*
 
 On décrit une route comme on la décrirait en regardant une photo : « route X → Y, 2 × 1 voies, bordures T2, trottoir
 2 m en béton balayé, rabattement ici, dos-d'âne là avec passage piéton, enrobé usé ». Le compilateur
@@ -170,6 +171,8 @@ s'y écrivent en `materiau_id` du catalogue `assets/specs/materiaux_sol.json` ou
 | Écrire | Effet |
 |---|---|
 | `bordure T2` (`T1`, `T3`, `A1`, `A2`, `I1`, `I2`, `P1`-`P3`, `CS1`… `quai`, `bateau`, `basse` = A2, `haute` = T2) | profil de bordure ; la vue est le saut de niveau des deux bandes |
+| `bordure T4` (`I3`, `I4`, `P4`, `TU`, `AC1`, `GR_T1` / `granit_t1`, `GR_T2`, `GR_P1`, `GR_A1`, `GR_A2`, `GR_P3`, `T2_basse`, `T3_basse`, `T2_surbaissee`, `T3_surbaissee`, `P1_basse`, `ACCESBUS` / `quai_accessible`, `bordurette` = P1, `paves_granit`, `t2_bateau`) | types du catalogue route_fr ajoutés par le lot « bordures » (cotes RF-AS-profil_* ; `commun/bordures_catalogue.py`) ; caniveau `CS4` en plus de CS1-CS3, CC1, CC2 |
+| (saut de niveau sans règle de profil) | le compilateur prend le profil dont la vue nominale contient la vue (piste à niveau intermédiaire : A2, RF-MA-SEP-005), provenance de confiance faible |
 | `bordure … granit` / `béton` / `béton clair` / `calcaire` | matériau de la bordure |
 | `bordure … vue 0,12` (ou `vue 12 cm`) | vue dite : la bande haute voisine prend ce niveau |
 | `bordure … caniveau CS2` | caniveau au pied de la bordure |
@@ -253,7 +256,7 @@ evenements:
 | `fleches` | `type` TD, TAD, TAG, TD_TAD, TD_TAG (RF-MQ-DIR-02, tout autre refusé) ; `voies` (toutes ou liste) ; `nombre` 3 et `interdistance` 20 (DEF-017) | flèches au milieu des voies (RF-MQ-DIR-03) ; C24 signalé pour une affectation (RF-MQ-DIR-01) |
 | `inscription` | `texte` (BUS…) ; `voie` ; `hauteur` (1,50 si V ≤ 50, RF-MA-CTC-002) | marquage inscription |
 | `arret_bus` | `cote` (droite) ; `quai` (14 m, 20 si `articule`, DEF-032) ; `abri` (non) ; `zigzag` (oui) ; `panneau` (C6, non) | quai à 0,21 m sur les bandes contiguës à la chaussée (stationnement, bande plantée, trottoir ; une piste passe derrière) ; neutralisation 5 m avant et après (RF-MA-BUS-015) ; zigzag jaune 20 m avant / 10 m après le poteau (DEF-019, ARB-03) ; poteau, abri avec passage de 1,40 m devant (RF-MA-BUS-012, DEF-032) ; bande cyclable interrompue (RF-MA-BAN-007) |
-| `entree_charretiere` | `cote` ; `largeur` (**à dire**) | abaissé « charretière » en vue 0,05 (RF-MA-TRO-015) ; rampants de 2 m si trottoir < 2,50 (RF-MA-TRO-016) ; pas de BEV |
+| `entree_charretiere` | `cote` ; `largeur` (**à dire**) | abaissé « charretière » en vue 0,03 (`bordures_elements.json` abaisses.entree_charretiere, pièce T2_bateau ; bornée par le maximum 0,05 de RF-MA-TRO-015) ; rampants de 2 m si trottoir < 2,50 (RF-MA-TRO-016) ; pas de BEV |
 | `abaisse` | `cote` (droite, gauche ou deux) ; `largeur` 1,20 (DEF-031) ; `bev` (oui) | abaissé de traversée |
 | `panneau` | `code` (C20a, AB4, B14…) ; `cote` ; `valeur` | signal ; hauteur 2,30 en agglomération / 1,00 hors (DEF-025) ; décalage latéral au lot L6 (ARB-20) |
 | `profil` | `nouveau` (une ligne de profil) ; `transition` (m) | nouveau profil à partir de `a` ; lois de largeur linéaires sur la transition si les bandes sont les mêmes, sinon changement instantané signalé |
@@ -363,10 +366,207 @@ réglementaire arrête déjà la compilation.
 
 ## 14. Limites connues (étape 1)
 
-- Pas de carrefour : un tronçon est isolé, ses extrémités sont des « limites de carte » (lots L3 et suivants).
+- Pas de carrefour : un tronçon est isolé, ses extrémités sont des « limites de carte » (lots L3 et suivants) —
+  levée par le lot « scenes » : réseau de tronçons reliés par carrefours, giratoires et bretelles (§ 15).
 - Le dessin des marques (traits, phase, hachures, aplats) est fait par les HDA `pj::marquage_*` au lot L4 : le modèle
   donne lignes, modulations, intervalles et interruptions, pas les traits.
 - Le rayon de houppier, la hauteur et le fût des arbres sont portés depuis la correction après contrôle (champs
   `houppier_rayon_m` et `fut_m` ajoutés à la copie du schéma, `recon/generateur/schema/`). Quelques autres valeurs
   dites n'ont toujours pas de champ dans `modele_voie/0.1` (cotes des arbres d'une
   avancée) : elles sont listées dans `compilation.json` (`non_portes_par_le_schema`) au lieu d'être perdues en silence.
+
+## 15. Réseau : carrefours, giratoires, autoroutes (lot « scenes », 17/10/2026)
+
+Une description peut relier plusieurs tronçons (`troncons:`, chacun avec un `id`) par des **carrefours plans**, des
+**giratoires** et des **bretelles d'autoroute**. Le compilateur de réseau (`description/carrefours.py`, appelé par
+`description_vers_modele.compiler`) fait deux passes : tronçons seuls (géométrie des extrémités), puis tronçons avec les
+évènements posés aux branches (passages, continue d'approche) et objets du réseau. Rien n'est inventé : une valeur non
+dite vient d'une règle citée, sinon la compilation s'arrête. Les descriptions sans réseau compilent à l'octet comme avant.
+
+```yaml
+troncons:
+  - {id: ouest, de: [-80, 0], vers: [0, 0], profil: "trottoir 2,5 | voie 3,0 ← | voie 3,0 → | trottoir 2,5"}
+  - {id: sud, de: [0, -70], vers: [0, 0], profil: "trottoir 2 | voie 3,0 ← | voie 3,0 → | trottoir 2"}
+  # …
+carrefours:
+  - id: J1
+    centre: [0, 0]
+    regime: feux                         # facultatif : feux, priorité à droite (sinon régime par branche)
+    branches:
+      - {troncon: ouest, regime: prioritaire}
+      - {troncon: sud, regime: cédez, passage: oui, coin: 8}
+    ilots:
+      - {type: directionnel, de: sud, vers: est, rayon: 25, largeur_voie: 4.0, regime: cédez, passage: oui}
+    feux: {phases: [{nom: P1, mouvements: [ouest TD, ouest TAD], pietons: [sud], vert: 30}]}
+    guidage: {mouvements: [ouest TAG, est TAG], modulation: "T'2", largeur: 0.10}
+```
+
+### 15.1 Branches
+
+Chaque branche est l'**extrémité d'un tronçon** au centre du carrefour (tracer les branches *vers* le centre est
+conseillé). L'extrémité doit être au droit du centre à 5 cm près (« les branches se rejoignent ») ; un décalage latéral
+de la ligne de référence est admis et rapporté (séparation des sens déportée par un îlot de TAG, scène J5).
+
+| Clé de branche | Valeurs | Si non dit |
+|---|---|---|
+| `troncon` | `id` du tronçon | obligatoire |
+| `regime` | prioritaire, cédez, stop, feux, priorité à droite, sortie seule | celui du carrefour (`feux`, `priorité à droite`) ; sinon **à dire** |
+| `passage` | oui, ou `{largeur, retrait}` | non ; largeur 4,00 (DEF-011) ; retrait 2,00 m de la ligne cédez / STOP (DEF-012, ARB-02) ou de la zone de conflit aux feux (RF-GV-PIE-006) |
+| `sas` | oui (feux) : sas vélo de 4 m sur le couloir de droite (DEF-016, RF-MQ-SAS-01) ; la ligne d'effet est alors peinte (ARB-01) | non |
+| `ligne_effet` | oui : ligne d'effet T'2 0,15 à 3,0 m en amont du passage (DEF-015) | non peinte : le passage tient lieu de ligne (ARB-01) |
+| `coin` | rayon (m) du raccord de bordure vers la branche suivante (sens trigonométrique) | 8 m en agglomération (DEF-010) ; hors agglomération **à dire** |
+| `fleches` | oui / non | oui si la branche a une voie de TAG ou de TAD : 3 flèches au pas de 20 m, pointe de la dernière à 1,50 m (DEF-017) |
+| `mouvements` | `{voie: [TD, TAG, TAD]}` | voie de TAG → TAG ; voie de TAD → TAD ; voie générale de gauche + TAG, de droite + TAD (sans voie dédiée) ; toutes TD |
+
+Ce que le compilateur calcule et écrit : **limite de la chaussée abordée** (frontière, `branche.s_frontiere_m`) =
+sortie des bords de chaussée prolongés des branches sécantes ; ligne cédez T'2 0,50 / STOP continue 0,50 à 0 m de la
+frontière (DEF-012, RF-MQ-CED-01, RF-MQ-STOP-01), une ligne par **couloir** (jamais sur un îlot) ; continue axiale
+d'approche 2u sur 15 m sur une branche à double sens sans îlot en cédez / STOP (DEF-013, posée sur l'axe du tronçon) ;
+passages (évènement `passage_pieton` posé sur le tronçon : abaissés, BEV, interruptions, refuges) ; panneaux AB3a + M9c,
+AB4 (DEF-025 : bord à 0,70 m de la rive ; placement fin au lot L6, ARB-20), hors agglomération AB3b / AB5 à 150 m, AB2
+à 150 m sur les branches prioritaires, balises J3 dans les angles (RF-SV-J3) ; coins (`coin_droit`).
+
+### 15.2 Îlots de carrefour
+
+- **Îlots portés par le profil** : un terre-plein entre voies à l'extrémité d'une branche (TPC, îlot séparateur
+  urbain, îlot de TAG) devient une entité `ilots[]` (refuge, nez, balise J5 si la largeur le permet, RF-GV-ILO-008 ;
+  signaux portés : R11 sur l'îlot de TAG) dont le polygone est l'empreinte de la bande ; champ **`porte_par_profil`**
+  (ajouté au schéma) : la bande du profil fabrique l'îlot, ne pas le refabriquer. Un îlot se décrit dans le profil par
+  une **ouverture** (§ 15.5) puis un changement de profil (zone hachurée → terre-plein bordé) : le nez est précédé de
+  sa zone hachurée. Refuge : bordures à 0,12 m (« bordure I2 vue 0,12 », RF-MA-REF-003).
+- **Îlot directionnel de tourne-à-droite** (`ilots: [{type: directionnel, de, vers, rayon, largeur_voie}]`) : la voie
+  directe (shunt) longe une bordure de rayon `rayon` tangente aux bords de chaussée des deux branches ; l'îlot est la
+  zone d'angle au-delà de `rayon + largeur_voie`, en saillie de 0,50 m, nez de 0,50 m (RF-GV-ILO-015) ; ligne cédez au
+  débouché, AB3a + M9c sur l'îlot (IISR3 art. 42-9) ; `passage: oui` prolonge la traversée de la branche de départ à
+  travers la voie directe (refuge contrôlé ≥ 2,00 m, DEF-022). Rayon et largeur **à dire** (RF-GV-VS-017 : 25 m, 4 m).
+
+### 15.3 Feux, guidage, trajectoires
+
+`feux.phases[]` : `nom`, `mouvements` (« <branche> TD|TAG|TAD »), `pietons` (branches dont le passage est vert), `vert`
+(s, **à dire**, ≥ 6 s DEF-028). Le compilateur pose un **R11** + répétiteur par couloir à droite (trottoir ou îlot, 0,30 m
+en aval de la ligne d'effet, DEF-027), le rappel sur l'îlot qui sépare deux couloirs (RF-FEU.PHASE_SPECIALE), des **R12**
+aux deux extrémités de chaque passage géré (RF-FEU.R12.POSITION), et le **contrôleur** (`controleurs[]`) : pour chaque
+phase, vert / jaune 3 s (DEF-028) / rouge de dégagement = plus longue trajectoire / 10 m/s (RF-GV-FEU-004), états de
+chaque signal, `groupes` de signaux (ajouté au schéma). Refusé : un couloir servi en partie par une phase (il faut un
+îlot portant les R11, sinon des R14 hors format) ; contrôlés : mouvements tous servis, rouge ≤ 120 s, vert ≥ 6 s, aucune
+ligne cédez aux feux, TAG guidés jamais dans une phase avec le direct opposé.
+
+**Guidage** (`guidage`) : seulement s'il est dit (ARB-08) et seulement aux feux (phase spéciale) : ligne T'2 0,10
+(RF-MQ-GUI-01) tracée selon RF-MQ-CAR-03 (prolongement des bords droits des voies de TAG opposées reliés à 45°) ;
+trajectoires des TAG guidés le long de ce tracé, `guidage.materialise = true` ; contrôles : les TAG opposés ne se coupent
+pas et chacun garde la ligne à sa droite. *Correction de l'étape 2 (18/10/2026)* : la caisse du VL garde 0,725 m au
+moins du bord de la peinture le long des raccords et de l'oblique (garde entre enveloppes de RF-GV-TRJ-006, lot L4) ;
+pour que la phase spéciale soit praticable, décrire les deux voies de TAG opposées **dans le même axe** (terre-plein
+et îlot de TAG de même largeur de part et d'autre, scènes J5 et J6) : avec des voies côte à côte, les deux courants se
+frôlent. Plusieurs paires guidées sont admises (J6 : `mouvements: [ouest TAG, est TAG, nord TAG, sud TAG]`).
+
+**Véhicules de projet** (`vehicule`, *ajout de la correction de l'étape 2*) : `vehicule: {bus: [ouest TD, est TD]}` dit
+quels mouvements le bus standard 12 m (lot L3a) doit desservir ; le VL les dessert tous. Le modèle porte
+`trajectoires[].usagers` ; les balayages du lot L3 (nez des îlots, îlots du cœur) ne sont calculés que pour ces
+véhicules, sur les trajectoires **finales** du lot L4 (le bus suit les mêmes axes de voie avec un arc de son rayon
+minimal). Sans la clé, VL et bus balaient tous les mouvements.
+
+**Refuges revêtus** (*correction de l'étape 2*) : un passage qui traverse un terre-plein planté entre les voies
+(refuge) le revêt (béton balayé) sur la largeur du passage et ses rampants : le passage coupe l'îlot à niveau
+(RF-OBS-ILO-01, observations M24, M29, I10) ; rien à décrire.
+
+**Trajectoires et conflits** (tous carrefours) : droite – arc tangent – droite entre les frontières le long des axes
+de voie (RF-GV-TRJ-006 ; TAD concentrique au coin) ; conflits : croisements géométriques, (n − 1) convergences par voie
+de destination et divergences par voie d'origine ; deux décomptes rapportés (géométrique, et de référence CU p. 120-122
+sans les TAG opposés qui se croisent « en arrière ») ; zone de conflit = enveloppe des frontières (surface ; plus longue
+trajectoire ≤ 40 m en avertissement, RF-GV-PIE-010) ; traversées hors refuge ≤ 12 m (bloquant).
+
+### 15.4 Giratoires
+
+```yaml
+giratoires:
+  - {id: G1, centre: [0, 0], diametre: 40, anneau: 7, couronne: 1.5, ilot_central: gazon, trottoir: 2.5,
+     branches: [{troncon: ouest, ilot: oui, passage: oui}]}
+```
+
+Branches tracées jusqu'au **bord extérieur de l'anneau** (rayon Rg à 5 cm près). Diamètre **à dire** (DEF-024 : observé
+29-66 m) ; anneau 7 m (DEF-024) ; couronne franchissable dite (RF-GV-GIR-006 : 1,50-2,00 m, vue ≤ 3 cm) ; `type:
+mini_giratoire` : îlot central franchissable en dôme (RF-GV-GIR-016, contour T'2 3u RF-MQ-GIR-02). Le modèle reçoit
+l'anneau comme une **route fermée** `anneau_giratoire` à sens unique (couronne + voie + bordure + trottoir ou BDD),
+l'objet `carrefour.anneau` (rayons ; `construction.raccordements` Re / Rs dits ou ACI tableau 1, RF-GV-GIR-003,
+contrôlés RF-GV-GIR-011 / -012 ; mini : DEF-010), l'îlot central, les **îlots séparateurs ACI tableau 2** (H = Rg,
+B = Rg/4, d, r ; retrait 1 m ; saillie 0,50 m, RF-GV-GIR-013 ; mini : `ilot: {largeur, longueur}` dits, 0,85-2,00 m)
+qui doivent tenir dans la zone hachurée que la branche ouvre (`ouverture`, contrôle `ilot_dans_enveloppe`), lignes
+cédez, passages à 5 m (2 m si Rg < 15, 4 m hors agglomération, DEF-012), AB25 (50 m en agglomération, 150 m hors), AB3a
++ M9c hors agglomération, B21-1 face à chaque entrée (sauf mini) ; trajectoires entrée – anneau – sortie, conflits
+(4 convergences VL / VL), **déflexion** (RF-GV-GIR-008 : cercle à 2 m des bordures d'entrée et de sortie et à 1,50 m de
+l'îlot, ≤ 100 m).
+
+*Correction de l'étape 2 (18/10/2026)* : rives peintes de l'anneau en **continue 3u** (contour du terre-plein central
+RF-MQ-GIR-01, rive intérieure à l'anneau RF-MQ-GIR-04 ; les rives d'approche gardent leur T2 3u) ; passage d'une branche
+de giratoire avec retrait dit, `passage: {retrait: 5}` (DEF-012 : 2 à 5 m, contrôlé) ; îlot franchissable du
+mini-giratoire posé dans l'enveloppe peinte en retrait de 2u + 3u (et non de 0,50 m, qui ne laissait rien d'un îlot de
+moins de 2 m) ; entrées à 2 voies contrôlées à RF-GV-GIR-010 « urbain 2 voies » (6-7 m), anneau multivoie sans voies
+peintes (RF-GV-GIR-023 ; scène G4). Zébras et aplats des enveloppes interrompus à 0,50 m des passages (RF-MQ-PP-03).
+
+### 15.5 Évènements ajoutés : ouverture, fermeture
+
+| Évènement | Paramètres | Effet |
+|---|---|---|
+| `ouverture` | `a`, `longueur` (**à dire**), `nouveau` (profil complet), `sens` (→ défaut ; ← : nouveau profil avant `a`) | les bandes du nouveau profil absentes du profil en vigueur entrent avec une largeur de 0 à la leur sur `longueur` ; les bandes communes changent linéairement ; une bande centrale nouvelle entre les sens est coupée en deux demi-bandes pour que la séparation des sens reste sur la ligne de référence (déport symétrique) |
+| `fermeture` | `a`, `longueur`, `nouveau` | inverse : les bandes absentes du nouveau profil se réduisent à 0 sur `longueur` avant `a` (fin d'une voie d'insertion en biseau) |
+
+### 15.6 Autoroutes et bretelles
+
+Section courante : un tronçon `categorie: autoroute` ; vocabulaire ajouté : `voie d'insertion`, `voie d'accélération`,
+`voie de décélération`, `voie TAG`, `voie TAD` ; séparateur en ligne avec dimensions (`GBA largeur 0,6`, `glissière`) ;
+terre-plein de plain-pied (`TPC 0,3 béton plain-pied` : dz = 0, pas de bordure). Rives et délimitations déduites
+(u = 7,5 cm, T1 2u, BAU T4 3u, continue 3u côté TPC, RF-MQ-SC-06).
+
+```yaml
+bretelles:
+  - {id: E1, type: entrée, principale: principale, bretelle: bretelle, musoir: {longueur: 40}}
+```
+
+`type: entrée` (insertion) : la bretelle **finit** sur la voie d'insertion de la principale ; `type: sortie`
+(déboîtement) : elle **part** de la voie de décélération. La voie auxiliaire et la BAU interrompue se décrivent sur la
+principale (`profil`, `ouverture`, `fermeture`), avec la ligne T2 5u (RF-MQ-INS-01 / RF-MQ-DEC-01). Le compilateur crée
+le nœud `fourche`, le carrefour `bifurcation`, le **musoir** peint (chevrons du point à 1,00 m au point à 5,00 m,
+contour continue 3u, espace 2u, RF-MQ-MUS-01, RF-MQ-HACH-02), le terre-plein latéral en saillie (`musoir.longueur`), la
+balise J14a, et contrôle l'obliquité (1/33 à 1/20, VSA 90/110 p. 38) et la continuité de la voie à la jonction.
+
+### 15.7 Plan coté et contrôle
+
+`python recon/generateur/description/plan_reseau.py <sortie de la scène> --plans <dossier> --nom J5` écrit un plan
+d'ensemble et un zoom par carrefour (SVG versionnés dans `scenes_*/plans/`, PNG dans la sortie de la scène, à découper
+en tuiles). `python recon/generateur/validation/controler_scenes.py --determinisme --json …` compile les scènes J1-J5,
+G1-G3, A1-A4, mesure leurs `attendus`, la cohérence (îlots hors des voies, îlots dans leur enveloppe, branches qui se
+rejoignent) et la rétrocompatibilité (S01-S12, exemples, Meylan à l'octet).
+
+| Scène | Contenu |
+|---|---|
+| `scenes_carrefours/J1_T_cedez.yaml` | T, branche en cédez, passage, continue d'approche |
+| `scenes_carrefours/J2_croix_stop.yaml` | croix hors agglomération, STOP, AB5, AB2, J3, rayons 12 m |
+| `scenes_carrefours/J3_croix_feux.yaml` | croix à feux 2 phases, R11 + répétiteur, R12, ligne d'effet non peinte |
+| `scenes_carrefours/J4_ilots_directionnel_separateurs.yaml` | îlots séparateurs urbains, shunt de TAD en cédez, refuges |
+| `scenes_carrefours/J5_carrefour_complexe.yaml` | scène A : artère 2 × 2 + TAG sur îlots portant les R11, 3 phases dont TAG à l'indonésienne guidés T'2 0,10, sas, refuges, shunt |
+| `scenes_giratoires/G1_giratoire_urbain_D40.yaml` | Ø 40, anneau 7, couronne 1,50, gouttes d'eau ACI, passages à 5 m |
+| `scenes_giratoires/G2_giratoire_periurbain_D50.yaml` | Ø 50 hors agglomération, anneau 8, ACI tableaux 1 et 2, AB3a, AB25 à 150 m |
+| `scenes_giratoires/G3_mini_giratoire_D20.yaml` | mini-giratoire Ø 20 franchissable, zone 30 |
+| `scenes_autoroutes/A1_autoroute_2x2_GBA.yaml` | 2 × 2, BAU 3, BDG 1, TPC 2,60 à GBA |
+| `scenes_autoroutes/A2_autoroute_2x3_glissieres.yaml` | 2 × 3, TPC engazonné à double glissière |
+| `scenes_autoroutes/A3_bretelle_entree.yaml` | entrée en insertion : obliquité 1/25, musoir, 200 m + biseau 75 m |
+| `scenes_autoroutes/A4_bretelle_sortie.yaml` | sortie en déboîtement : biseau 150 m, musoir à chevrons, J14a |
+
+Limites (lot « scenes ») : branches rectilignes au voisinage du carrefour (coins et trajectoires par droites
+prolongées) ; une seule voie sur l'anneau ; les coupes fines (bordures des coins, frontière `voie` le long des bords
+continus, nez au premier contact des balayages) et les ouvrages (échangeur dénivelé) restent au solveur `rg::carrefours`
+et aux lots L3-L6 ; ICTAAL absente des sources locales (bretelles cotées selon la VSA 90/110).
+
+## 16. Fabrication : une seule commande, description → rendu (intégration de l'étape 2)
+
+```
+hython recon/generateur/fabriquer_generateur.py MA_SCENE.yaml [AUTRE.yaml ...] --complet [--sortie DOSSIER]
+```
+
+`--complet` (= `--l2b --rendus`) compile la description, choisit la chaîne d'après le modèle (rue ou route seule ;
+carrefours plans ; giratoires ; autoroutes et bretelles ; familles composées entre elles : `hda/README_RG.md` § 14),
+fabrique dans Houdini (sol, bordures, caniveaux, marquages, carrefours, îlots, retenues) et rend la route seule sur un
+sol neutre (2 vues, 3 pour les scènes phares ; planche ≤ 1092 px dans `<scene>/rendus/`). Une description sans réseau
+est fabriquée exactement comme à l'étape 1. Sorties : `recon/out/generateur/<scene>/` (`l1/`, `l2/`, `l2b/`, et selon
+la scène `l3/`, `l4/`, `l5/`, `autoroute/`, `rendus/`).

@@ -1,0 +1,1014 @@
+{
+ "schema": "vehicules_projet/1.0",
+ "lot": "L3a",
+ "date": "2026-10-17",
+ "construit_par": "recon/generateur/vehicules/construire_vehicules.py",
+ "conventions": {
+  "repere": "unités en mètres ; repère de chaque unité : x vers l'avant depuis son essieu équivalent, y à gauche",
+  "point_guide": "centre de l'essieu avant directeur de l'unité motrice ; l'axe donné au balayage est la trajectoire de ce point (RF-GV-TRJ-006 : axe de voie, arc tangent, axe de voie)",
+  "modele": "bicyclette sans glissement ; tractrice exacte par pas rectiligne ; caisses rectangulaires (chanfrein de 2,04 m de la semi-remorque, soufflet du bus articulé)",
+  "unite_cinematique": "empattement : essieu avant -> essieu équivalent (unité motrice), attelage -> essieu équivalent (remorque) ; avant / arriere : extrémités de la caisse depuis l'essieu équivalent ; attelage : abscisse du point d'attelage de l'unité suivante",
+  "giration": "rayon_point_guide_min = rayon minimal de l'axe suivi (régime établi, braquage maximal), calé sur un rayon extérieur de caisse publié",
+  "natures": "norme | donnee_constructeur | donnee_administrative | annonce | derive | convention"
+ },
+ "sources": {
+  "VU": {
+   "titre": "Cerema, Voirie urbaine - guide d'aménagement, 2016",
+   "chemin": "D:/DocRoute/10_Carrefours_Ilots_TerrePleins_Giratoires_Ponts/sources/Cerema_Voirie_Urbaine_Guide_Amenagement_2016.pdf",
+   "pages": "p. 142 (gabarits : VL 1,80 x 5 m ; berline 2,10 m avec rétroviseurs) ; p. 143-144 (épure, tableau « Exemple de rayons de braquage de véhicules standard » : rayon intérieur / extérieur (caisse))"
+  },
+  "CU": {
+   "titre": "Certu, Carrefours urbains - guide, 2010",
+   "chemin": "D:/DocRoute/10_Carrefours_Ilots_TerrePleins_Giratoires_Ponts/sources/CERTU_Carrefours_Urbains_Guide_2010.pdf",
+   "pages": "p. 78 (directive 97/27 : couronne de 12,50 m / 5,30 m)"
+  },
+  "CF": {
+   "titre": "Certu, Guide de conception des carrefours à feux, 2010",
+   "chemin": "D:/DocRoute/10_Carrefours_Ilots_TerrePleins_Giratoires_Ponts/sources/CERTU_Guide_Conception_Carrefours_a_Feux_2010.pdf",
+   "pages": "p. 22, § 3.8 (autobus articulé : rayon intérieur 5,30 m, balayage extérieur 12 m)"
+  },
+  "N05": {
+   "titre": "Cerema, note d'information n° 05, Le giratoire à terre-plein central franchissable en milieu interurbain, novembre 2018",
+   "chemin": "D:/DocRoute/02_Cerema_Guides_Voirie_Carrefours_Cyclable/Cerema_Giratoire_Terre_Plein_Franchissable_Interurbain.pdf",
+   "pages": "p. 4, note 1 (autocar 15,00 x 2,55 m à essieux arrière directionnels ; tracteur 6,08 x 2,50 m + semi-remorque 13,67 x 2,55 m)"
+  },
+  "D9653": {
+   "titre": "Directive 96/53/CE consolidée au 14/08/2019 (poids et dimensions)",
+   "chemin": "D:/DocRoute/17_Modele_Vehicules_Conducteurs/01_Vehicules/sources/reglementation/UE_Directive_96_53_consolidee_20190814_FR.pdf",
+   "pages": "annexe I § 1.1 (longueurs : véhicule articulé 16,50 m), § 1.2 (largeur 2,55 m), § 1.5 (couronne 12,50 / 5,30 m), § 1.5 bis (débord ≤ 0,60 m des autobus), § 1.6 (pivot - arrière ≤ 12,00 m), § 4.4 (pivot - avant ≤ 2,04 m) ; PDF p. 15-16 et 20"
+  },
+  "CITARO": {
+   "titre": "Mercedes-Benz, Citaro - technical data and equipment at a glance (facts-citaro.pdf, GB)",
+   "chemin": "D:/DocRoute/17_Modele_Vehicules_Conducteurs/01_Vehicules/sources/constructeurs/MB_Citaro_facts_gb_en.pdf",
+   "pages": "p. 3 (longueurs, largeur, empattements, porte-à-faux, turning circle) ; p. 4 (track circle, braquage 53°/46°)"
+  },
+  "TRANSBUS": {
+   "titre": "transbus.org, fiche Iveco Bus Urbanway 12 (base documentaire d'amateurs ; données d'origine constructeur non citées), reprise par DocRoute 17",
+   "chemin": "D:/DocRoute/17_Modele_Vehicules_Conducteurs/01_Vehicules/vehicules_parametres.json",
+   "pages": "paramètre BUS12-DIM-URBANWAY (confiance moyenne)"
+  },
+  "AEE_VP": {
+   "titre": "AEE, CO2 voitures neuves 2021, France, segment berline (via DocRoute 17)",
+   "chemin": "D:/DocRoute/17_Modele_Vehicules_Conducteurs/01_Vehicules/vehicules_parametres.json",
+   "pages": "paramètre BERLINE-EMPATTEMENT (médiane 2 875 mm, n = 55 649)"
+  },
+  "SETRA": {
+   "titre": "Setra, fiche « ComfortClass 500 HD » (setra-bus.com, éditions cs_CZ, pl_PL, sk_SK), S 519 HD ; Bus & Coach Buyer, essai ComfortClass 500 du 02/01/2015",
+   "chemin": "https://www.setra-bus.com/pl_PL/models/cc-hd-models/models/facts-ComfortClass-500-HD-Modelle.html ; https://www.busandcoachbuyer.com/?p=11001",
+   "pages": "S 519 HD : longueur 14 945, largeur 2 550, empattement essieu avant - essieu moteur 7 140, porte-à-faux avant 2 890 et arrière 3 315, cercle de braquage minimal 24 090 mm (tableau lu par moteur de recherche le 17/10/2026, non téléchargé) ; « main wheelbase of 7.14m », « steered third axle » (B&CB, lu le 17/10/2026)"
+  },
+  "SCHMITZ": {
+   "titre": "Annonce truckscout24 A222-13-422 : Schmitz Cargobull S.CS 24/L-13.62 (2023)",
+   "chemin": "https://www.truckscout24.com/tsp/ts-222-13-422",
+   "pages": "« Wheelbase 7700 mm » ; « Axle distance 1310/1310 mm » ; « kingpin position 1690mm » (lu le 17/10/2026)"
+  },
+  "TRACTEURS": {
+   "titre": "Annonces de tracteurs routiers 4x2 : Mercedes-Benz Actros 1845 LS (truckscout24 ts-206-07-670, ts-205-97-170 : empattement 3 700 mm) ; Renault Trucks T 480 4x2 (used-renault-trucks.com : 3 700 mm)",
+   "chemin": "https://www.truckscout24.de/tsp/ts-206-07-670 ; https://www.used-renault-trucks.com",
+   "pages": "relevé par moteur de recherche le 17/10/2026 (d'autres annonces : 3 710 à 3 850 mm)"
+  },
+  "G": {
+   "titre": "Choix de génération du lot L3a (convention écrite, PLAN_GENERATEUR § 2.4 et RF-GV-TRJ-006)",
+   "chemin": "recon/generateur/vehicules/balayage.py",
+   "pages": "docstring"
+  }
+ },
+ "alias": {
+  "VL": "vl",
+  "berline": "vl",
+  "bus": "bus_standard_12m",
+  "bus_12m": "bus_standard_12m",
+  "citaro": "bus_12m_citaro",
+  "bus_articule": "bus_articule_18m",
+  "articule": "bus_articule_18m",
+  "PL": "pl_porteur",
+  "camion": "pl_porteur",
+  "porteur": "pl_porteur",
+  "semi": "semi_remorque",
+  "SR": "semi_remorque",
+  "car": "autocar_15m",
+  "autocar": "autocar_15m"
+ },
+ "vehicules": {
+  "vl": {
+   "libelle": "Voiture particulière (berline de référence, VU p. 144)",
+   "categorie": "M1",
+   "role": "véhicule léger de vérification (urbain)",
+   "dimensions": {
+    "longueur": {
+     "valeur": 5.0,
+     "unite": "m",
+     "source": "VU p. 142, 144",
+     "nature": "norme",
+     "confiance": "haute"
+    },
+    "largeur_caisse": {
+     "valeur": 1.8,
+     "unite": "m",
+     "source": "VU p. 142",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "« largeur d'une berline : environ 2,10 m avec rétroviseurs (1,80 m sans) »"
+    },
+    "largeur_retroviseurs": {
+     "valeur": 2.1,
+     "unite": "m",
+     "source": "VU p. 142",
+     "nature": "norme",
+     "confiance": "haute"
+    },
+    "empattement": {
+     "valeur": 2.875,
+     "unite": "m",
+     "source": "AEE_VP (DocRoute 17, BERLINE-EMPATTEMENT, médiane)",
+     "nature": "donnee_administrative",
+     "confiance": "haute"
+    },
+    "porte_a_faux_avant": {
+     "valeur": 1.0134,
+     "unite": "m",
+     "source": "VU p. 144 ; VU p. 142 ; AEE_VP",
+     "nature": "derive",
+     "confiance": "moyenne",
+     "calcul": "sqrt(Rext² − (Rint + l)²) − empattement, Rext 6,90, Rint 3,60 (VU p. 144), l = 2,10 m (encombrement rétroviseurs compris, VU p. 142)"
+    },
+    "porte_a_faux_arriere": {
+     "valeur": 1.1116,
+     "unite": "m",
+     "source": "VU p. 144 ; AEE_VP",
+     "nature": "derive",
+     "confiance": "moyenne",
+     "calcul": "longueur − empattement − porte-à-faux avant"
+    }
+   },
+   "cinematique": {
+    "unites": [
+     {
+      "nom": "caisse",
+      "empattement": 2.875,
+      "avant": 3.888444,
+      "arriere": 1.111556,
+      "largeur_balayage": 2.1
+     }
+    ],
+    "note": "balayage à la largeur rétroviseurs compris (2,10 m) : « encombrement total » (VU p. 144)"
+   },
+   "giration": {
+    "rayon_exterieur_caisse_min": {
+     "valeur": 6.9,
+     "unite": "m",
+     "source": "VU p. 144",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "rayon extérieur de la caisse au braquage maximal : donnée d'entrée du calage"
+    },
+    "rayon_essieu_arriere_min": {
+     "valeur": 4.65,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "r0 tel que le rayon extérieur de caisse en régime établi = rayon_exterieur_caisse_min (balayage.r0_pour_rext)"
+    },
+    "rayon_point_guide_min": {
+     "valeur": 5.467,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "sqrt(r0² + empattement²) : rayon minimal du centre de l'essieu avant"
+    },
+    "angle_braquage_bicyclette_max": {
+     "valeur": 31.7277,
+     "unite": "°",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "asin(empattement / rayon_point_guide_min)"
+    },
+    "rayon_interieur_calcule": {
+     "valeur": 3.6,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "balayage.rayons_etablis(r0) : distance minimale centre - caisses"
+    },
+    "rayon_interieur_reference": {
+     "valeur": 3.6,
+     "unite": "m",
+     "source": "VU p. 144",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "valeur publiée, comparée au rayon intérieur calculé (contrôle L3a)"
+    },
+    "note": "porte-à-faux avant dérivé des deux rayons de VU p. 144 : rayon intérieur reproduit PAR CONSTRUCTION (pas un contrôle)",
+    "couronne_96_53": {
+     "Rext": 12.5,
+     "Rint": 9.7798,
+     "conforme": true,
+     "tolerance": "0,5 mm (arrondi des cotes au micromètre)",
+     "source": "D9653 annexe I § 1.5 ; CU p. 78"
+    }
+   }
+  },
+  "bus_standard_12m": {
+   "libelle": "Autobus urbain standard 12 m (Iveco Urbanway 12, successeur des Agora / Citelis)",
+   "categorie": "M3 classe I",
+   "role": "bus standard de VU p. 144 (urbain)",
+   "dimensions": {
+    "longueur": {
+     "valeur": 12.0,
+     "unite": "m",
+     "source": "TRANSBUS (DocRoute 17, BUS12-DIM-URBANWAY)",
+     "nature": "annonce",
+     "confiance": "moyenne",
+     "note": "VU p. 144 : bus 12 m"
+    },
+    "largeur_caisse": {
+     "valeur": 2.5,
+     "unite": "m",
+     "source": "TRANSBUS (DocRoute 17, BUS12-DIM-URBANWAY)",
+     "nature": "annonce",
+     "confiance": "moyenne"
+    },
+    "empattement": {
+     "valeur": 6.12,
+     "unite": "m",
+     "source": "TRANSBUS (DocRoute 17, BUS12-DIM-URBANWAY)",
+     "nature": "annonce",
+     "confiance": "moyenne"
+    },
+    "porte_a_faux_avant": {
+     "valeur": 2.71,
+     "unite": "m",
+     "source": "TRANSBUS (DocRoute 17, BUS12-DIM-URBANWAY)",
+     "nature": "annonce",
+     "confiance": "moyenne"
+    },
+    "porte_a_faux_arriere": {
+     "valeur": 3.17,
+     "unite": "m",
+     "source": "TRANSBUS (DocRoute 17, BUS12-DIM-URBANWAY)",
+     "nature": "annonce",
+     "confiance": "moyenne"
+    }
+   },
+   "cinematique": {
+    "unites": [
+     {
+      "nom": "caisse",
+      "empattement": 6.12,
+      "avant": 8.83,
+      "arriere": 3.17,
+      "largeur_balayage": 2.5
+     }
+    ]
+   },
+   "giration": {
+    "rayon_exterieur_caisse_min": {
+     "valeur": 11.5,
+     "unite": "m",
+     "source": "VU p. 144",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "rayon extérieur de la caisse au braquage maximal : donnée d'entrée du calage"
+    },
+    "rayon_essieu_arriere_min": {
+     "valeur": 6.1176,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "r0 tel que le rayon extérieur de caisse en régime établi = rayon_exterieur_caisse_min (balayage.r0_pour_rext)"
+    },
+    "rayon_point_guide_min": {
+     "valeur": 8.6533,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "sqrt(r0² + empattement²) : rayon minimal du centre de l'essieu avant"
+    },
+    "angle_braquage_bicyclette_max": {
+     "valeur": 45.0114,
+     "unite": "°",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "asin(empattement / rayon_point_guide_min)"
+    },
+    "rayon_interieur_calcule": {
+     "valeur": 4.8676,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "balayage.rayons_etablis(r0) : distance minimale centre - caisses"
+    },
+    "rayon_interieur_reference": {
+     "valeur": 4.8,
+     "unite": "m",
+     "source": "VU p. 144",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "valeur publiée, comparée au rayon intérieur calculé (contrôle L3a)"
+    },
+    "note": "seul le rayon extérieur (11,50 m) sert au calage ; le rayon intérieur calculé est comparé à 4,80 m (VU p. 144) : contrôle indépendant des cotes du véhicule",
+    "couronne_96_53": {
+     "Rext": 12.5,
+     "Rint": 6.3477,
+     "conforme": true,
+     "tolerance": "0,5 mm (arrondi des cotes au micromètre)",
+     "source": "D9653 annexe I § 1.5 ; CU p. 78"
+    }
+   }
+  },
+  "bus_12m_citaro": {
+   "libelle": "Autobus Mercedes-Benz Citaro 12 m (variante constructeur)",
+   "categorie": "M3 classe I",
+   "role": "variante du bus standard (contrôle de sensibilité)",
+   "dimensions": {
+    "longueur": {
+     "valeur": 12.135,
+     "unite": "m",
+     "source": "CITARO p. 3",
+     "nature": "donnee_constructeur",
+     "confiance": "haute"
+    },
+    "largeur_caisse": {
+     "valeur": 2.55,
+     "unite": "m",
+     "source": "CITARO p. 3",
+     "nature": "donnee_constructeur",
+     "confiance": "haute"
+    },
+    "largeur_retroviseurs": {
+     "valeur": 2.95,
+     "unite": "m",
+     "source": "CITARO p. 3",
+     "nature": "donnee_constructeur",
+     "confiance": "haute"
+    },
+    "empattement": {
+     "valeur": 5.9,
+     "unite": "m",
+     "source": "CITARO p. 3",
+     "nature": "donnee_constructeur",
+     "confiance": "haute"
+    },
+    "porte_a_faux_avant": {
+     "valeur": 2.805,
+     "unite": "m",
+     "source": "CITARO p. 3",
+     "nature": "donnee_constructeur",
+     "confiance": "haute"
+    },
+    "porte_a_faux_arriere": {
+     "valeur": 3.43,
+     "unite": "m",
+     "source": "CITARO p. 3",
+     "nature": "donnee_constructeur",
+     "confiance": "haute"
+    }
+   },
+   "cinematique": {
+    "unites": [
+     {
+      "nom": "caisse",
+      "empattement": 5.9,
+      "avant": 8.705,
+      "arriere": 3.43,
+      "largeur_balayage": 2.55
+     }
+    ]
+   },
+   "giration": {
+    "rayon_exterieur_caisse_min": {
+     "valeur": 11.485,
+     "unite": "m",
+     "source": "CITARO p. 3 (turning circle 22 970 mm)",
+     "nature": "donnee_constructeur",
+     "confiance": "haute",
+     "note": "rayon extérieur de la caisse au braquage maximal : donnée d'entrée du calage"
+    },
+    "rayon_essieu_arriere_min": {
+     "valeur": 6.2169,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "r0 tel que le rayon extérieur de caisse en régime établi = rayon_exterieur_caisse_min (balayage.r0_pour_rext)"
+    },
+    "rayon_point_guide_min": {
+     "valeur": 8.5709,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "sqrt(r0² + empattement²) : rayon minimal du centre de l'essieu avant"
+    },
+    "angle_braquage_bicyclette_max": {
+     "valeur": 43.502,
+     "unite": "°",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "asin(empattement / rayon_point_guide_min)"
+    },
+    "rayon_interieur_calcule": {
+     "valeur": 4.9419,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "balayage.rayons_etablis(r0) : distance minimale centre - caisses"
+    },
+    "rayon_interieur_reference": {
+     "valeur": 4.8,
+     "unite": "m",
+     "source": "VU p. 144",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "valeur publiée, comparée au rayon intérieur calculé (contrôle L3a)"
+    },
+    "note": "cercle de braquage du constructeur ; les autres cotes de giration de la fiche (ring width 7 478 mm, track circle 19 160 mm) ne sont pas cohérentes avec un modèle rigide sans glissement (DocRoute 17, VEHICULES § 3.3) : non utilisées",
+    "couronne_96_53": {
+     "Rext": 12.5,
+     "Rint": 6.4207,
+     "conforme": true,
+     "tolerance": "0,5 mm (arrondi des cotes au micromètre)",
+     "source": "D9653 annexe I § 1.5 ; CU p. 78"
+    }
+   }
+  },
+  "bus_articule_18m": {
+   "libelle": "Autobus articulé 18 m (Mercedes-Benz Citaro G, pousseur)",
+   "categorie": "M3 classe I",
+   "role": "bus articulé de CF p. 22 (lignes fortes)",
+   "dimensions": {
+    "longueur": {
+     "valeur": 18.125,
+     "unite": "m",
+     "source": "CITARO p. 3 (Citaro G)",
+     "nature": "donnee_constructeur",
+     "confiance": "haute"
+    },
+    "largeur_caisse": {
+     "valeur": 2.55,
+     "unite": "m",
+     "source": "CITARO p. 3",
+     "nature": "donnee_constructeur",
+     "confiance": "haute"
+    },
+    "empattement_avant_milieu": {
+     "valeur": 5.9,
+     "unite": "m",
+     "source": "CITARO p. 3",
+     "nature": "donnee_constructeur",
+     "confiance": "haute"
+    },
+    "empattement_milieu_moteur": {
+     "valeur": 5.99,
+     "unite": "m",
+     "source": "CITARO p. 3",
+     "nature": "donnee_constructeur",
+     "confiance": "haute"
+    },
+    "porte_a_faux_avant": {
+     "valeur": 2.805,
+     "unite": "m",
+     "source": "CITARO p. 3",
+     "nature": "donnee_constructeur",
+     "confiance": "haute"
+    },
+    "porte_a_faux_arriere": {
+     "valeur": 3.43,
+     "unite": "m",
+     "source": "CITARO p. 3",
+     "nature": "donnee_constructeur",
+     "confiance": "haute"
+    },
+    "articulation_derriere_essieu_milieu": {
+     "valeur": 2.5313,
+     "unite": "m",
+     "source": "CF p. 22 ; CITARO p. 3",
+     "nature": "derive",
+     "confiance": "faible",
+     "calcul": "e tel que, au braquage donnant un balayage extérieur de 12 m, le rayon intérieur vaille 5,30 m (CF p. 22) ; dichotomie sur le modèle établi",
+     "note": "position de l'articulation absente des fiches lues ; caisse avant = 2,805 + 5,90 + e"
+    }
+   },
+   "cinematique": {
+    "unites": [
+     {
+      "nom": "caisse_avant",
+      "empattement": 5.9,
+      "avant": 8.705,
+      "arriere": 2.531254,
+      "largeur_balayage": 2.55,
+      "attelage": -2.531254,
+      "soufflet": true
+     },
+     {
+      "nom": "caisse_arriere",
+      "empattement": 3.458747,
+      "avant": 3.458747,
+      "arriere": 3.43,
+      "largeur_balayage": 2.55
+     }
+    ],
+    "note": "soufflet = disque de diamètre 2,55 m à l'articulation (convention [G]) ; caisse arrière de l'articulation à l'arrière"
+   },
+   "giration": {
+    "rayon_exterieur_caisse_min": {
+     "valeur": 12.0,
+     "unite": "m",
+     "source": "CF p. 22",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "rayon extérieur de la caisse au braquage maximal : donnée d'entrée du calage"
+    },
+    "rayon_essieu_arriere_min": {
+     "valeur": 6.9847,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "r0 tel que le rayon extérieur de caisse en régime établi = rayon_exterieur_caisse_min (balayage.r0_pour_rext)"
+    },
+    "rayon_point_guide_min": {
+     "valeur": 9.1431,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "sqrt(r0² + empattement²) : rayon minimal du centre de l'essieu avant"
+    },
+    "angle_braquage_bicyclette_max": {
+     "valeur": 40.1878,
+     "unite": "°",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "asin(empattement / rayon_point_guide_min)"
+    },
+    "rayon_interieur_calcule": {
+     "valeur": 5.3,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "balayage.rayons_etablis(r0) : distance minimale centre - caisses"
+    },
+    "rayon_interieur_reference": {
+     "valeur": 5.3,
+     "unite": "m",
+     "source": "CF p. 22",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "valeur publiée, comparée au rayon intérieur calculé (contrôle L3a)"
+    },
+    "note": "articulation dérivée de CF p. 22 : rayon intérieur reproduit PAR CONSTRUCTION ; le constructeur annonce un cercle de braquage de 22 970 mm (Rext 11,485 m)",
+    "couronne_96_53": {
+     "Rext": 12.5,
+     "Rint": 6.0508,
+     "conforme": true,
+     "tolerance": "0,5 mm (arrondi des cotes au micromètre)",
+     "source": "D9653 annexe I § 1.5 ; CU p. 78"
+    }
+   }
+  },
+  "pl_porteur": {
+   "libelle": "Camion porteur 11 m (camion de VU p. 144)",
+   "categorie": "N3",
+   "role": "poids lourd urbain (livraison, collecte)",
+   "dimensions": {
+    "longueur": {
+     "valeur": 11.0,
+     "unite": "m",
+     "source": "VU p. 144",
+     "nature": "norme",
+     "confiance": "haute"
+    },
+    "largeur_caisse": {
+     "valeur": 2.55,
+     "unite": "m",
+     "source": "D9653 annexe I § 1.2 a)",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "2,60 m pour une caisse frigorifique (D9653 § 1.2 b ; VU p. 142)"
+    },
+    "porte_a_faux_avant": {
+     "valeur": 1.5413,
+     "unite": "m",
+     "source": "semi_remorque.tracteur_porte_a_faux_avant",
+     "nature": "derive",
+     "confiance": "faible",
+     "note": "même cabine avancée que le tracteur de vérification"
+    },
+    "empattement": {
+     "valeur": 7.0812,
+     "unite": "m",
+     "source": "VU p. 144 ; D9653 § 1.2",
+     "nature": "derive",
+     "confiance": "faible",
+     "calcul": "sqrt(Rext² − (Rint + l)²) − porte-à-faux avant ; Rext 12,50, Rint 6,50 (VU p. 144), l = 2,55 m",
+     "note": "empattement équivalent (milieu du groupe arrière pour un 6x2/6x4)"
+    },
+    "porte_a_faux_arriere": {
+     "valeur": 2.3775,
+     "unite": "m",
+     "source": "VU p. 144",
+     "nature": "derive",
+     "confiance": "faible",
+     "calcul": "longueur − (empattement + porte-à-faux avant)"
+    }
+   },
+   "cinematique": {
+    "unites": [
+     {
+      "nom": "caisse",
+      "empattement": 7.0812,
+      "avant": 8.6225,
+      "arriere": 2.3775,
+      "largeur_balayage": 2.55
+     }
+    ]
+   },
+   "giration": {
+    "rayon_exterieur_caisse_min": {
+     "valeur": 12.5,
+     "unite": "m",
+     "source": "VU p. 144",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "rayon extérieur de la caisse au braquage maximal : donnée d'entrée du calage"
+    },
+    "rayon_essieu_arriere_min": {
+     "valeur": 7.775,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "r0 tel que le rayon extérieur de caisse en régime établi = rayon_exterieur_caisse_min (balayage.r0_pour_rext)"
+    },
+    "rayon_point_guide_min": {
+     "valeur": 10.5164,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "sqrt(r0² + empattement²) : rayon minimal du centre de l'essieu avant"
+    },
+    "angle_braquage_bicyclette_max": {
+     "valeur": 42.3262,
+     "unite": "°",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "asin(empattement / rayon_point_guide_min)"
+    },
+    "rayon_interieur_calcule": {
+     "valeur": 6.5,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "balayage.rayons_etablis(r0) : distance minimale centre - caisses"
+    },
+    "rayon_interieur_reference": {
+     "valeur": 6.5,
+     "unite": "m",
+     "source": "VU p. 144",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "valeur publiée, comparée au rayon intérieur calculé (contrôle L3a)"
+    },
+    "note": "empattement dérivé des deux rayons de VU p. 144 : rayon intérieur reproduit PAR CONSTRUCTION",
+    "couronne_96_53": {
+     "Rext": 12.5,
+     "Rint": 6.5,
+     "conforme": true,
+     "tolerance": "0,5 mm (arrondi des cotes au micromètre)",
+     "source": "D9653 annexe I § 1.5 ; CU p. 78"
+    }
+   }
+  },
+  "semi_remorque": {
+   "libelle": "Tracteur 4x2 + semi-remorque 3 essieux (ensemble de vérification N05, 16,50 m)",
+   "categorie": "N3 + O4",
+   "role": "poids lourd de vérification interurbain (ACI, N05) et couronne 96/53",
+   "dimensions": {
+    "tracteur_longueur": {
+     "valeur": 6.08,
+     "unite": "m",
+     "source": "N05 p. 4",
+     "nature": "norme",
+     "confiance": "haute"
+    },
+    "tracteur_largeur": {
+     "valeur": 2.5,
+     "unite": "m",
+     "source": "N05 p. 4",
+     "nature": "norme",
+     "confiance": "haute"
+    },
+    "tracteur_empattement": {
+     "valeur": 3.7,
+     "unite": "m",
+     "source": "TRACTEURS",
+     "nature": "annonce",
+     "confiance": "moyenne"
+    },
+    "tracteur_avant_pivot": {
+     "valeur": 4.5,
+     "unite": "m",
+     "source": "D9653 annexe I § 1.1 et 1.6",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "16,50 (véhicule articulé) − 12,00 (pivot - arrière) : ensemble de longueur maximale"
+    },
+    "avance_sellette": {
+     "valeur": 0.7413,
+     "unite": "m",
+     "source": "D9653 annexe I § 1.5 ; CU p. 78 ; SCHMITZ ; TRACTEURS",
+     "nature": "derive",
+     "confiance": "faible",
+     "calcul": "c tel que l'ensemble s'inscrive au plus juste dans la couronne 12,50 / 5,30 m (véhicule de vérification limite) ; dichotomie sur le modèle établi",
+     "note": "cote de sellette absente des fiches lues ; ordre de grandeur courant 0,5-0,8 m"
+    },
+    "tracteur_porte_a_faux_avant": {
+     "valeur": 1.5413,
+     "unite": "m",
+     "source": "D9653 ; TRACTEURS",
+     "nature": "derive",
+     "confiance": "faible",
+     "calcul": "avant_pivot − empattement + avance_sellette"
+    },
+    "tracteur_porte_a_faux_arriere": {
+     "valeur": 0.8387,
+     "unite": "m",
+     "source": "N05 p. 4",
+     "nature": "derive",
+     "confiance": "faible",
+     "calcul": "longueur − empattement − porte-à-faux avant"
+    },
+    "semi_longueur": {
+     "valeur": 13.67,
+     "unite": "m",
+     "source": "N05 p. 4",
+     "nature": "norme",
+     "confiance": "haute"
+    },
+    "semi_largeur": {
+     "valeur": 2.55,
+     "unite": "m",
+     "source": "N05 p. 4 ; D9653 annexe I § 1.2",
+     "nature": "norme",
+     "confiance": "haute"
+    },
+    "semi_pivot_arriere": {
+     "valeur": 12.0,
+     "unite": "m",
+     "source": "D9653 annexe I § 1.6",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "maximum réglementaire, retenu pour le véhicule de vérification"
+    },
+    "semi_pivot_avant": {
+     "valeur": 1.67,
+     "unite": "m",
+     "source": "N05 p. 4 ; D9653 § 1.6",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "13,67 − 12,00 ; l'annonce SCHMITZ donne 1,69 m"
+    },
+    "semi_rayon_avant_pivot": {
+     "valeur": 2.04,
+     "unite": "m",
+     "source": "D9653 annexe I § 4.4",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "coins avant chanfreinés au rayon de 2,04 m autour du pivot"
+    },
+    "semi_empattement": {
+     "valeur": 7.7,
+     "unite": "m",
+     "source": "SCHMITZ",
+     "nature": "annonce",
+     "confiance": "moyenne",
+     "note": "pivot - milieu du groupe de trois essieux"
+    },
+    "semi_entraxe_essieux": {
+     "valeur": 1.31,
+     "unite": "m",
+     "source": "SCHMITZ",
+     "nature": "annonce",
+     "confiance": "moyenne"
+    },
+    "semi_porte_a_faux_arriere_dernier_essieu": {
+     "valeur": 2.99,
+     "unite": "m",
+     "source": "D9653 ; SCHMITZ",
+     "nature": "derive",
+     "confiance": "moyenne",
+     "calcul": "12,00 − 7,70 − 1,31"
+    }
+   },
+   "cinematique": {
+    "unites": [
+     {
+      "nom": "tracteur",
+      "empattement": 3.7,
+      "avant": 5.241299,
+      "arriere": 0.838702,
+      "largeur_balayage": 2.5,
+      "attelage": 0.741298
+     },
+     {
+      "nom": "semi_remorque",
+      "empattement": 7.7,
+      "avant": 9.37,
+      "arriere": 4.3,
+      "largeur_balayage": 2.55,
+      "rayon_avant_pivot": 2.04
+     }
+    ],
+    "note": "essieu équivalent de la semi-remorque = milieu du groupe de trois essieux fixes (convention [G]) ; attelage = sellette, en avant de l'essieu moteur"
+   },
+   "giration": {
+    "rayon_exterieur_caisse_min": {
+     "valeur": 12.5,
+     "unite": "m",
+     "source": "D9653 annexe I § 1.5 ; CU p. 78",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "rayon extérieur de la caisse au braquage maximal : donnée d'entrée du calage"
+    },
+    "rayon_essieu_arriere_min": {
+     "valeur": 10.0981,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "r0 tel que le rayon extérieur de caisse en régime établi = rayon_exterieur_caisse_min (balayage.r0_pour_rext)"
+    },
+    "rayon_point_guide_min": {
+     "valeur": 10.7546,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "sqrt(r0² + empattement²) : rayon minimal du centre de l'essieu avant"
+    },
+    "angle_braquage_bicyclette_max": {
+     "valeur": 20.1232,
+     "unite": "°",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "asin(empattement / rayon_point_guide_min)"
+    },
+    "rayon_interieur_calcule": {
+     "valeur": 5.3,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "haute",
+     "calcul": "balayage.rayons_etablis(r0) : distance minimale centre - caisses"
+    },
+    "rayon_interieur_reference": {
+     "valeur": 5.3,
+     "unite": "m",
+     "source": "D9653 annexe I § 1.5 ; CU p. 78",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "valeur publiée, comparée au rayon intérieur calculé (contrôle L3a)"
+    },
+    "note": "braquage minimal = couronne d'homologation ; avance de sellette dérivée de cette couronne : rayon intérieur reproduit PAR CONSTRUCTION en régime établi",
+    "couronne_96_53": {
+     "Rext": 12.5,
+     "Rint": 5.3,
+     "conforme": true,
+     "tolerance": "0,5 mm (arrondi des cotes au micromètre)",
+     "source": "D9653 annexe I § 1.5 ; CU p. 78"
+    }
+   }
+  },
+  "autocar_15m": {
+   "libelle": "Autocar 15 m à essieu arrière directionnel (autocar de vérification N05 ; Setra S 519 HD)",
+   "categorie": "M3 classe III",
+   "role": "car interurbain de vérification (N05)",
+   "dimensions": {
+    "longueur": {
+     "valeur": 15.0,
+     "unite": "m",
+     "source": "N05 p. 4",
+     "nature": "norme",
+     "confiance": "haute",
+     "note": "Setra S 519 HD : 14,945 m"
+    },
+    "largeur_caisse": {
+     "valeur": 2.55,
+     "unite": "m",
+     "source": "N05 p. 4 ; SETRA",
+     "nature": "norme",
+     "confiance": "haute"
+    },
+    "empattement_avant_moteur": {
+     "valeur": 7.14,
+     "unite": "m",
+     "source": "SETRA",
+     "nature": "donnee_constructeur",
+     "confiance": "moyenne"
+    },
+    "porte_a_faux_avant": {
+     "valeur": 2.89,
+     "unite": "m",
+     "source": "SETRA",
+     "nature": "donnee_constructeur",
+     "confiance": "moyenne"
+    },
+    "entraxe_moteur_suiveur": {
+     "valeur": 1.6,
+     "unite": "m",
+     "source": "SETRA",
+     "nature": "derive",
+     "confiance": "moyenne",
+     "calcul": "14,945 − 2,890 − 7,140 − 3,315 (S 519 HD)"
+    },
+    "porte_a_faux_arriere_suiveur": {
+     "valeur": 3.37,
+     "unite": "m",
+     "source": "N05 p. 4 ; SETRA",
+     "nature": "derive",
+     "confiance": "moyenne",
+     "calcul": "15,00 − porte-à-faux avant − empattement − entraxe"
+    }
+   },
+   "cinematique": {
+    "unites": [
+     {
+      "nom": "caisse",
+      "empattement": 7.14,
+      "avant": 10.03,
+      "arriere": 4.97,
+      "largeur_balayage": 2.55
+     }
+    ],
+    "note": "essieu suiveur directionnel idéal : centre instantané sur l'essieu moteur (empattement équivalent = avant - moteur, convention [G])"
+   },
+   "giration": {
+    "rayon_exterieur_caisse_min": {
+     "valeur": 12.045,
+     "unite": "m",
+     "source": "SETRA (cercle de braquage 24 090 mm)",
+     "nature": "donnee_constructeur",
+     "confiance": "moyenne",
+     "note": "rayon extérieur de la caisse au braquage maximal : donnée d'entrée du calage"
+    },
+    "rayon_essieu_arriere_min": {
+     "valeur": 5.3944,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "moyenne",
+     "calcul": "r0 tel que le rayon extérieur de caisse en régime établi = rayon_exterieur_caisse_min (balayage.r0_pour_rext)"
+    },
+    "rayon_point_guide_min": {
+     "valeur": 8.9487,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "moyenne",
+     "calcul": "sqrt(r0² + empattement²) : rayon minimal du centre de l'essieu avant"
+    },
+    "angle_braquage_bicyclette_max": {
+     "valeur": 52.9282,
+     "unite": "°",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "moyenne",
+     "calcul": "asin(empattement / rayon_point_guide_min)"
+    },
+    "rayon_interieur_calcule": {
+     "valeur": 4.1194,
+     "unite": "m",
+     "source": "G",
+     "nature": "derive",
+     "confiance": "moyenne",
+     "calcul": "balayage.rayons_etablis(r0) : distance minimale centre - caisses"
+    },
+    "note": "aucun rayon publié par N05 ; cercle de braquage du constructeur pris comme diamètre extérieur de caisse",
+    "couronne_96_53": {
+     "Rext": 12.5,
+     "Rint": 4.9098,
+     "conforme": false,
+     "tolerance": "0,5 mm (arrondi des cotes au micromètre)",
+     "source": "D9653 annexe I § 1.5 ; CU p. 78"
+    }
+   }
+  }
+ }
+}

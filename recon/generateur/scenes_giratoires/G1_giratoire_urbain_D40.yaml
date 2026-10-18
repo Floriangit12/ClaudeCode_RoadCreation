@@ -1,0 +1,69 @@
+# G1 — Giratoire urbain de 40 m de diamètre, 4 branches, couronne franchissable de 1,50 m (scène B du plan, § 4).
+# Rg = 20 m (diamètre observé en Isère 29-66 m, DEF-024 ; classe « moyen » 15-22 m, RF-GV-GIR-001) ; anneau de 7,00 m
+# (DEF-024, RF-GV-GIR-004 : 6-9 m) ; couronne franchissable de 1,50 m en pavés, bordure de 0,03 m (RF-GV-GIR-006 : bande
+# 1,50-2,00 m, vue ≤ 3 cm) ; îlot central planté (gazon) de rayon 11,50 m (≥ 3,50 m), bordure ≤ 6 cm (RF-GV-GIR-006).
+# Branches : rues 2 × 1 voie de 3,00 m (RF-OSM-LAR-010), trottoirs de 2,50 m ; à 20 m de l'anneau, l'entrée passe à
+# 4,00 m (RF-GV-GIR-010 urbain 3-4 m ; ACI tabl. 1 Rg 20 : le = 4, RF-GV-GIR-003) et la sortie à 4,50 m (RF-GV-GIR-012
+# 4-5 m ; tabl. 1 : ls = 4,5) ; entre elles, l'enveloppe peinte de l'îlot séparateur (ACI tabl. 2, RF-GV-GIR-013 :
+# H = Rg = 20 m, B = Rg/4 = 5,00 m, d = 0,45 m, r = 0,40 m ; retrait de 1 m sur l'anneau ; saillie 0,50 m).
+# Ligne cédez à chaque entrée, AB25 à 50 m (RF-SV-AB25.DISTANCE.GENERATEUR agglomération 0-50 m), B21-1 sur l'îlot
+# central face à chaque entrée (RF-GV-GIR-024) ; pas d'AB3a en agglomération (facultatif) ; passages 5 m en retrait de
+# la ligne cédez (ARB-02 : Rg ≥ 15 m), refuge ≥ 2,00 m dans l'îlot séparateur (RF-GV-GIR-014).
+format: description_simple/0.2
+scene: G1_giratoire_urbain_D40
+titre: Giratoire urbain Ø 40 m, 4 branches, couronne franchissable
+description: "Giratoire urbain de 40 m de diamètre, anneau de 7 m, couronne franchissable de 1,50 m en pavés, îlot central engazonné ; 4 rues 2 × 1 voie avec îlots séparateurs ACI et passages piétons à 5 m."
+contexte: {agglomeration: oui, vitesse: 50, categorie: rue}
+marquages: {usure: légère}
+troncons:
+  - id: ouest
+    de: [-100, 0]
+    vers: [-20, 0]
+    profil: "trottoir 2,5 | voie 3,0 ← | voie 3,0 → | trottoir 2,5"
+    evenements:
+      - ouverture: {a: 80, longueur: 20, nouveau: "trottoir 2,5 | voie 4,5 ← | zone hachurée 5,0 | voie 4,0 → | trottoir 2,5"}
+  - id: nord
+    de: [0, 100]
+    vers: [0, 20]
+    profil: "trottoir 2,5 | voie 3,0 ← | voie 3,0 → | trottoir 2,5"
+    evenements:
+      - ouverture: {a: 80, longueur: 20, nouveau: "trottoir 2,5 | voie 4,5 ← | zone hachurée 5,0 | voie 4,0 → | trottoir 2,5"}
+  - id: est
+    de: [100, 0]
+    vers: [20, 0]
+    profil: "trottoir 2,5 | voie 3,0 ← | voie 3,0 → | trottoir 2,5"
+    evenements:
+      - ouverture: {a: 80, longueur: 20, nouveau: "trottoir 2,5 | voie 4,5 ← | zone hachurée 5,0 | voie 4,0 → | trottoir 2,5"}
+  - id: sud
+    de: [0, -100]
+    vers: [0, -20]
+    profil: "trottoir 2,5 | voie 3,0 ← | voie 3,0 → | trottoir 2,5"
+    evenements:
+      - ouverture: {a: 80, longueur: 20, nouveau: "trottoir 2,5 | voie 4,5 ← | zone hachurée 5,0 | voie 4,0 → | trottoir 2,5"}
+giratoires:
+  - id: G1
+    centre: [0, 0]
+    diametre: 40
+    anneau: 7
+    couronne: 1.5
+    ilot_central: gazon
+    trottoir: 2.5
+    branches:
+      - {troncon: ouest, ilot: oui, passage: oui}
+      - {troncon: nord, ilot: oui, passage: oui}
+      - {troncon: est, ilot: oui, passage: oui}
+      - {troncon: sud, ilot: oui, passage: oui}
+attendus:
+  Rg_m: 20.0
+  anneau_m: 7.0
+  couronne_m: 1.5
+  Ri_infranchissable_m: 11.5                          # 20 − 7 − 1,5 (≥ 3,50, RF-GV-GIR-006)
+  ilots_separateurs: {H_m: 20.0, B_m: 5.0, d_m: 0.45, r_m: 0.4, retrait_anneau_m: 1.0}   # ACI tabl. 2
+  entree_m: 4.0
+  sortie_m: 4.5
+  passage_retrait_m: 5.0
+  refuges_min_m: 2.0
+  deflexion_max_m: 100                                # RF-GV-GIR-008 (traversées)
+  panneaux: {AB25: 4, B21-1: 4, AB3a: 0}
+  lignes_cedez: 4
+  conflits: {convergence: 4, divergence: 4}           # VL / VL : 4 points (VU p. 84, RF-GV-TRJ-001)

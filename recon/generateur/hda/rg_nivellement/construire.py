@@ -35,8 +35,11 @@ def table_profils():
     (profils.construire_table), complétée des hauteurs côté chaussée de bordures.json pour les caniveaux."""
     import json
     sys.path.insert(0, str(PJ_BORDURE))
-    import profils as PR  # noqa: E402
-    table, src = PR.construire_table(SPECS)
+    sys.path.insert(0, str(ICI.parents[1] / "commun"))
+    import bordures_catalogue as BC  # noqa: E402
+    # table étendue (lot bordures, intégration de l'étape 2) : table de pj::bordure inchangée pour ses profils, complétée
+    # des profils du catalogue route_fr (RF-AS-profil_*) ; sans elle, un type ajouté est refusé (profil inconnu)
+    table, src = BC.construire_table_etendue(SPECS)
     brut = json.loads((SPECS / "bordures.json").read_text(encoding="utf-8"))["profils"]
     lignes = []
     for nom in sorted(table):

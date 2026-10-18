@@ -1,0 +1,97 @@
+# Dialog script for rg::carrefours::1.0 automatically generated
+
+{
+    name	rg::carrefours::1.0
+    inputlabel	1	"Routes (rg::lire_modele, sortie 1)"
+    inputlabel	2	"Profils (rg::lire_modele, sortie 5)"
+    outputlabel	1	"Routes coupées"
+    outputlabel	2	"Profils (+ réduits)"
+    outputlabel	3	"Solveur"
+    script	rg::carrefours::1.0
+    label	"RG Carrefours (solveur, coupes)"
+
+    help {
+    }
+
+    inputlabel	1	"Routes (rg::lire_modele, sortie 1)"
+    inputlabel	2	"Profils (rg::lire_modele, sortie 5)"
+
+    parm {
+        name    "fichier"
+        label   "Modèle (modele_voie.json)"
+        type    file
+        default { "" }
+        help    "Même fichier que rg::lire_modele (le pilote y renvoie son paramètre) : carrefours, îlots, passages et lignes transversales sont lus ici (rg::lire_modele ne les lit pas)."
+    }
+    parm {
+        name    "balayages"
+        label   "Balayages des véhicules (JSON, lot L3a)"
+        type    file
+        default { "" }
+        help    "Enveloppes balayées des trajectoires du modèle, calculées par le pilote avec vehicules/balayage.py (lot L3a) : {balayages: [{trajectoire, vehicule, carrefour, faisable, exterieur: [[x, y], …] locaux]}}. Vide : nez à la frontière."
+    }
+    parm {
+        name    "amorce"
+        label   "Amorce droite des bordures de coin (m)"
+        type    float
+        default { "3" }
+        help    "Longueur droite de la bordure de coin de part et d'autre du congé, prise sur la branche (le trottoir de la branche est coupé d'autant) : place des rampants d'abaissé (DEF-031 : 2,40 m à 5 %) d'un passage proche du coin dans la même file. Choix de fabrication [G] (aucune règle)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "rayon_defaut"
+        label   "Rayon de coin par défaut (m)"
+        type    float
+        default { "8" }
+        help    "Rayon d'un coin dont le modèle ne dit rien (coin_droit absent) et dont les bords ne sont pas alignés : DEF-010 bus / PL occasionnels (signalé dans le solveur)."
+        range   { 1 50 }
+    }
+    parm {
+        name    "fleche"
+        label   "Flèche maximale des arcs (m)"
+        type    float
+        default { "0.0005" }
+        help    "Échantillonnage des congés : flèche ≤ 0,5 mm (critère L1 du plan, RF-OSM-CAR-001)."
+        range   { 1e-05 0.01 }
+    }
+    parm {
+        name    "pas_angulaire_max"
+        label   "Pas angulaire maximal des arcs (°)"
+        type    float
+        default { "0.8" }
+        help    "Angle entre deux cordes consécutives d'un congé ≤ 0,8° : la rupture de la polyligne au point de tangence (demi-pas) reste sous 0,5° (critère « coins tangents, rupture ≤ 0,5° », PLAN_GENERATEUR § 3 L3)."
+        range   { 0.05 5 }
+    }
+    parm {
+        name    "nez_rayon"
+        label   "Rayon des nez d'îlot par défaut (m)"
+        type    float
+        default { "0.5" }
+        help    "Nez d'un îlot du profil sans rayon dans le modèle : RF-GV-ILO-015 (nez 0,50 à 1,50 m)."
+        range   { 0.1 2 }
+    }
+    parm {
+        name    "marge_balayage"
+        label   "Marge au premier contact des balayages (m)"
+        type    float
+        default { "0.3" }
+        help    "Nez des îlots au premier contact des balayages des véhicules (lot L3a) + 0,30 m (PLAN_GENERATEUR § 3, L3)."
+        range   { 0 2 }
+    }
+    parm {
+        name    "pas_retrait_nez"
+        label   "Pas du retrait des nez (m)"
+        type    float
+        default { "0.05" }
+        help    "Retrait arrondi au pas supérieur [G]."
+        range   { 0.001 1 }
+    }
+    parm {
+        name    "rampant_refuge"
+        label   "Longueur gardée après un passage (m)"
+        type    float
+        default { "2.4" }
+        help    "Le nez d'un îlot traversé par un passage n'est pas reculé au-delà de la bande du passage + le rampant de l'abaissé (DEF-031 : 2,40 m) : le refuge est gardé (DEF-022) ; le balayage non dégagé est signalé."
+        range   { 0 10 }
+    }
+}

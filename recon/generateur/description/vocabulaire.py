@@ -56,6 +56,11 @@ BANDES = {  # expression → (type, sous_type, attributs par défaut)
     "voie de tourne-a-droite": ("voie_tourne_droite", None, {}),
     "tourne-a-droite": ("voie_tourne_droite", None, {}),
     "voie de stockage": ("voie_stockage", None, {}),
+    "voie d'insertion": ("voie_insertion", None, {}),
+    "voie d'acceleration": ("voie_insertion", None, {}),
+    "voie de deceleration": ("voie_deceleration", None, {}),
+    "voie tag": ("voie_tourne_gauche", None, {}),
+    "voie tad": ("voie_tourne_droite", None, {}),
     "voie centrale banalisee": ("voie_centrale_banalisee", None, {}),
     "chaussee partagee": ("chaussee_partagee", None, {}),
     "bande cyclable": ("bande_cyclable", None, {}),
@@ -187,6 +192,7 @@ ATTRIBUTS = {  # expression → (clé, valeur)
     "hachure": ("franchissable", "peint"),
     "peint": ("franchissable", "peint"),
     "franchissable": ("franchissable", "vl_pl"),
+    "franchissable pl": ("franchissable", "pl_seulement"),
     "velos admis": ("velos_admis", True),
     "ouvert aux velos": ("velos_admis", True),
     "permanent": ("permanent", True),
@@ -198,6 +204,19 @@ PROFILS_BORDURE = {"t1": "T1", "t2": "T2", "t3": "T3", "a1": "A1", "a2": "A2", "
                    "cs1": "CS1", "cs2": "CS2", "cc1": "CC1", "cc2": "CC2", "i1": "I1", "i2": "I2", "il": "IL",
                    "quai": "QUAI_BUS", "bateau": "T2_bateau", "basse": "A2", "franchissable": "A2", "haute": "T2"}
 CANIVEAUX = {"cs1": "CS1", "cs2": "CS2", "cs3": "CS3", "cc1": "CC1", "cc2": "CC2"}
+# types du catalogue route_fr ajoutés par le lot « bordures » (commun/bordures_catalogue.py : MOTS_PROFILS,
+# MOTS_CANIVEAUX ; cotes RF-AS-profil_*) ; les mots existants ci-dessus gardent leur sens (intégration, étape 2)
+for _k, _v in (("t4", "T4"), ("i3", "I3"), ("i4", "I4"), ("p4", "P4"), ("tu", "TU"), ("ac1", "AC1"),
+               ("gr_t1", "GR_T1"), ("gr_t2", "GR_T2"), ("gr_p1", "GR_P1"), ("granit_t1", "GR_T1"), ("granit_t2", "GR_T2"),
+               ("granit_p1", "GR_P1"), ("t2_basse", "T2_basse"), ("t3_basse", "T3_basse"),
+               ("t2_surbaissee", "T2_surbaissee"), ("t3_surbaissee", "T3_surbaissee"), ("p1_basse", "P1_basse"),
+               ("accesbus", "ACCESBUS"), ("quai_accessible", "ACCESBUS"), ("gr_a1", "GR_A1"), ("gr_a2", "GR_A2"),
+               ("gr_p3", "GR_P3"), ("granit_a1", "GR_A1"), ("granit_a2", "GR_A2"), ("granit_p3", "GR_P3"),
+               ("bordurette", "P1"), ("paves_granit", "PAVES_GRANIT"), ("quai_bus", "QUAI_BUS"), ("t2_bateau", "T2_bateau"),
+               ("cs3", "CS3"), ("cs4", "CS4")):
+    PROFILS_BORDURE.setdefault(_k, _v)
+CANIVEAUX.setdefault("cs4", "CS4")
+del _k, _v
 SEPARATEURS = {"potelets": "potelets", "potelet": "potelets", "balises": "balises_J11", "balises j11": "balises_J11",
                "plots": "plots", "glissiere": "glissiere", "gba": "GBA", "muret": "muret",
                "jardinieres": "jardinieres", "bordure separatrice": "bordure_separatrice", "garde-corps": "garde_corps",
@@ -226,11 +245,11 @@ EVENEMENTS = {
     "nouveau profil": "profil", "changement de profil": "profil", "profil": "profil",
     "ligne continue": "zone_depassement_interdit", "zone de depassement interdit": "zone_depassement_interdit",
     "depassement interdit": "zone_depassement_interdit", "fleches": "fleches", "fleches directionnelles": "fleches",
-    "inscription": "inscription",
+    "inscription": "inscription", "ouverture": "ouverture", "evasement": "ouverture", "fermeture": "fermeture",
 }
 CLES_EVENEMENTS = {"passage_pieton", "dos_d_ane", "plateau", "plateau_pieton", "coussin", "rabattement",
                    "elargissement", "arret_bus", "entree_charretiere", "abaisse", "panneau", "profil",
-                   "zone_depassement_interdit", "fleches", "inscription"}
+                   "zone_depassement_interdit", "fleches", "inscription", "ouverture", "fermeture"}
 SYNONYMES_CLES = {"passage_pietons": "passage_pieton", "passage_pour_pietons": "passage_pieton",
                   "dos_dane": "dos_d_ane", "ralentisseur": "dos_d_ane", "coussin_berlinois": "coussin",
                   "arret_de_bus": "arret_bus", "nouveau_profil": "profil", "changement_de_profil": "profil",

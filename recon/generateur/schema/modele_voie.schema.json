@@ -645,9 +645,29 @@
       "IL",
       "QUAI_BUS",
       "PAVES_GRANIT",
+      "AC1",
+      "ACCESBUS",
+      "CS3",
+      "CS4",
+      "GR_A1",
+      "GR_A2",
+      "GR_P1",
+      "GR_P3",
+      "GR_T1",
+      "GR_T2",
+      "I3",
+      "I4",
+      "P1_basse",
+      "P4",
+      "T2_basse",
+      "T2_surbaissee",
+      "T3_basse",
+      "T3_surbaissee",
+      "T4",
+      "TU",
       "autre"
      ],
-     "description": "profils de assets/specs/bordures.json (autre équipe, lecture seule)"
+     "description": "profils de assets/specs/bordures.json (autre équipe, lecture seule), complétés des profils du catalogue route_fr (lot bordures : commun/bordures_catalogue.py, cotes RF-AS-profil_*)"
     },
     "vue_m": {
      "$ref": "#/$defs/loi_s"
@@ -669,6 +689,7 @@
         "CS3",
         "CC1",
         "CC2",
+        "CS4",
         "aucun"
        ]
       },
@@ -2032,6 +2053,11 @@
       "type": "string",
       "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
      }
+    },
+    "s_frontiere_m": {
+     "type": "number",
+     "minimum": 0,
+     "description": "abscisse, sur la route de la branche, de la limite de la chaussée abordée (frontière du carrefour, ligne cédez / STOP à 0 m, DEF-012) ; ajout lot « scenes »"
     }
    },
    "required": [
@@ -2633,6 +2659,30 @@
     },
     "prov": {
      "$ref": "#/$defs/prov"
+    },
+    "porte_par_profil": {
+     "type": "object",
+     "properties": {
+      "route": {
+       "type": "string",
+       "pattern": "^[A-Z]{1,3}-[A-Za-z0-9_.:-]+$"
+      },
+      "bande": {
+       "type": "string"
+      },
+      "s0": {
+       "type": "number"
+      },
+      "s1": {
+       "type": "number"
+      }
+     },
+     "required": [
+      "route",
+      "bande"
+     ],
+     "additionalProperties": false,
+     "description": "îlot dont la géométrie est fabriquée par une bande terre-plein du profil de la route (route, bande, s0-s1) : l'entité porte le refuge, les nez, la balise et les signaux, le polygone est l'empreinte de la bande ; ne pas refabriquer l'îlot (ajout lot « scenes », 17/10/2026)"
     }
    },
    "required": [
@@ -3177,6 +3227,16 @@
       ],
       "additionalProperties": false
      }
+    },
+    "groupes": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "description": "groupes de signaux commandés ensemble (couloir de véhicules, traversée piétonne) : groupe → identifiants de signaux ; ajout lot « scenes »"
     }
    },
    "required": [

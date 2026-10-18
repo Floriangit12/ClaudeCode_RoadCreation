@@ -11,6 +11,7 @@ float H_BANDE = chf("../hach_bande");             // DEF-020 / RF-MQ-HACH-01 : 0
 float H_ESP = chf("../hach_espacement");          // 1,35 entre parallÃ¨les
 float H_ANG = chf("../hach_angle");               // 26,565Â° (2 parallÃ¨lement Ã  la rive pour 1 perpendiculairement)
 float H_APLAT = chf("../hach_aplat");             // aplat sous 0,30 (DEF-020, RF-MQ-HACH-03)
+float DG_PP = chf("../pp_degagement_zebra");      // RF-MQ-PP-03 : zébras et aplats interrompus à 0,50 m des passages
 float ESP_CAR = chf("../espacement_caracteres");  // 0,15 entre caractÃ¨res (IISR7 annexe D.2)
 float PAS_FIN = chf("../pas_fin");                // pas en long sur un dos-d'Ã¢ne (drapÃ©)
 float PAS_SYMB = chf("../pas_symboles");          // arÃªtes des symboles (drapÃ©)
@@ -494,6 +495,21 @@ foreach (int pr; ref_prims) {
         string bidp[] = point(0, "bande_id", pp);
         foreach (int b; string bt; bty) if (bt == "zone_neutralisee" && bst[b] == "hachures" && find(ZB, bidp[b]) < 0) push(ZB, bidp[b]);
     }
+    // emprises (s) des passages piétons de la route : zébras et aplats découpés au droit des passages, à la distance
+    // d'interruption des lignes (RF-MQ-PP-03, 0,50 m) ; correction après le contrôle de l'étape 2 (G1, G3 : hachures
+    // et aplats des enveloppes d'îlots peints sous les bandes des passages)
+    float PP0[], PP1[];
+    foreach (int q3; findattribval(3, "point", "route", rid)) {
+        if (point(3, "famille_modele", q3) != "marquage" || point(3, "type", q3) != "passage_pieton") continue;
+        float nbp[] = rg_m_nombres_apres(point(3, "props", q3), "exterieur");
+        float a0 = 1e18, a1 = -1e18;
+        for (int v = 0; v + 1 < len(nbp); v += 2) {
+            float s_, t_;
+            rg_st_local(1, pr, nbp[v] - O[0], nbp[v + 1] - O[1], s_, t_);
+            a0 = min(a0, s_); a1 = max(a1, s_);
+        }
+        if (a1 > a0) { push(PP0, a0 - DG_PP); push(PP1, a1 + DG_PP); }
+    }
     foreach (string zb; ZB) {
         // abscisses : ruptures oÃ¹ la bande existe (d'un cÃ´tÃ© ou de l'autre)
         float S[];
@@ -554,6 +570,17 @@ foreach (int pr; ref_prims) {
                 } else {
                     int ir = -1;
                     for (int r = 0; r < len(RA); r++) if (RK[r] == cle && x >= RA[r] - 1e-6 && x <= RB[r] + 1e-6) ir = r;
+                    // ligne interrompue en x (passage, convergence) : marge de la ligne la plus proche sur la même limite
+                    // (correction après le contrôle de l'étape 2 : marge nulle à un échantillon d'interruption, marge
+                    // interpolée trop faible ensuite, aplats sur la ligne de contour)
+                    if (ir < 0) {
+                        float dbest = 1e18;
+                        for (int r = 0; r < len(RA); r++) {
+                            if (RK[r] != cle) continue;
+                            float dd = x < RA[r] ? RA[r] - x : (x > RB[r] ? x - RB[r] : 0.0);
+                            if (dd < dbest) { dbest = dd; ir = r; }
+                        }
+                    }
                     if (ir >= 0) {
                         mg[cote] = (0.5 * RW[ir] + DEG_U * RU[ir]) * k_perp;
                         cote_ligne = (cote == 0) ? 1 : -1;
@@ -564,8 +591,22 @@ foreach (int pr; ref_prims) {
                     }
                 }
             }
-            push(HI, T[b] - mg[0]);
-            push(LO, T[b + 1] + mg[1]);
+            // lignes peintes voisines au-delà des limites de la bande (correction après le contrôle de l'étape 2) : la
+            // ligne qui borde l'autre demi-bande d'une zone centrale scindée déborde, près de la pointe, sur cette
+            // demi-bande ; la zone hachurable s'arrête à sa demi-largeur + 2u comme devant sa propre ligne (aplats et
+            // hachures sur les lignes de contour, 0,009 m² par pointe dans G1, G3, J4, J5)
+            float hi_ = T[b] - mg[0], lo_ = T[b + 1] + mg[1];
+            float tc_ = 0.5 * (T[b] + T[b + 1]);
+            for (int r = 0; r < len(RA); r++) {
+                int l2 = rg_m_limite_cle(2, sp, RK[r]);
+                if (l2 < 0 || l2 == b || l2 == b + 1) continue;
+                float p2 = (Te[l2] - T[l2]) / dx;
+                float m2 = (0.5 * RW[r] + DEG_U * RU[r]) * sqrt(1.0 + p2 * p2);
+                if (T[l2] >= tc_) hi_ = min(hi_, T[l2] - m2);
+                else lo_ = max(lo_, T[l2] + m2);
+            }
+            push(HI, hi_);
+            push(LO, lo_);
         }
         // zone : largeur(s) = HI âˆ’ LO, linÃ©aire par morceaux ; bornes oÃ¹ elle s'annule ; aplats sous H_APLAT
         int n = len(S);
@@ -623,6 +664,29 @@ foreach (int pr; ref_prims) {
             }
         } else {
             push(PDEB, len(PIECES)); push(PNB, len(Zp)); push(PTYP, "aplat"); foreach (vector2 v; Zp) push(PIECES, v);
+        }
+        if (len(PP0) > 0) {
+            // découpe des morceaux par les emprises des passages (s ≤ a0 et s ≥ a1 gardés)
+            vector2 P2[];
+            int D2[], N2[];
+            string T2[];
+            int ordre[] = argsort(PP0);
+            for (int z = 0; z < len(PDEB); z++) {
+                vector2 RESTE[];
+                for (int v = 0; v < PNB[z]; v++) push(RESTE, PIECES[PDEB[z] + v]);
+                foreach (int ip; ordre) {
+                    if (len(RESTE) < 3) break;
+                    vector2 AV[] = rg_m_nettoyer(rg_m_demi_plan(RESTE, -1.0, 0.0, PP0[ip]), 1e-9);
+                    if (len(AV) >= 3 && abs(rg_m_aire(AV)) > 1e-5) {
+                        push(D2, len(P2)); push(N2, len(AV)); push(T2, PTYP[z]); foreach (vector2 v; AV) push(P2, v);
+                    }
+                    RESTE = rg_m_nettoyer(rg_m_demi_plan(RESTE, 1.0, 0.0, -PP1[ip]), 1e-9);
+                }
+                if (len(RESTE) >= 3 && abs(rg_m_aire(RESTE)) > 1e-5) {
+                    push(D2, len(P2)); push(N2, len(RESTE)); push(T2, PTYP[z]); foreach (vector2 v; RESTE) push(P2, v);
+                }
+            }
+            PIECES = P2; PDEB = D2; PNB = N2; PTYP = T2;
         }
         for (int z = 0; z < len(PDEB); z++) {
             vector2 R0[];

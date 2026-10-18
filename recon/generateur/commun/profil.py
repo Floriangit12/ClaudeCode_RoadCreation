@@ -449,6 +449,11 @@ def bordure_entre(a: dict, b: dict, dza: float, dzb: float, ctx: dict) -> dict:
     else:
         bo = {"profil": "autre", "vue_m": vue, "cote_haut": cote}
         pv = P.solveur("bordure", note=f"saut de niveau {kb} → {kh}", conf="faible")
+    if bo.get("profil") == "autre":
+        # saut de niveau sans profil de règle (rg::nivellement refuse « autre ») : profil dont la vue nominale contient
+        # la vue (lot bordures, commun/bordures_catalogue.py ; intégration de l'étape 2)
+        from commun import bordures_catalogue as BC
+        bo, pv = BC.resoudre_saut_de_niveau(bo, kh, kb, P)
     return {"nature": ["bordure"], "bordure": bo, "prov": {"bordure": pv}}
 
 

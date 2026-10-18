@@ -1,0 +1,171 @@
+"""Module Python embarqué des HDA pj::bordure et pj::caniveau (section PythonModule) : table des profils.
+
+Seul usage de Python dans ces HDA (entrée-sortie JSON, README_HDA.md) : le nœud « lire_profils » (Python SOP) convertit
+la table des profils en contours Houdini (un polygone fermé par profil dans le plan XY : x = u, y = v), avec :
+  - primitive : profil, famille (bordure | caniveau), base, H, i_top (début de la tête), k_back (arête arrière haute),
+    h_fil_eau (caniveaux : hauteur côté bordure, fil d'eau) ;
+  - point : u_cs, v_cs, chaine (0 = face vue et tête jusqu'à l'arête arrière haute, 1 = arrière et dessous), rang,
+    p_cs (abscisse sur le périmètre), perim (périmètre) ;
+  - détail : pj_profils_noms[], pj_profils_base[], pj_profils_H[], pj_profils_hfe[] (h côté bordure des caniveaux),
+    pj_profils_source.
+Les caniveaux sont posés devant la face vue : leurs contours sont décalés de −largeur en u.
+
+La table est figée dans le module de l'HDA à la construction (TABLE_EMBARQUEE, autonome dans Unreal) ; le paramètre
+« Dossier des specs » permet de la relire depuis assets/specs (bordures.json, bordures_elements.json).
+
+Règles appliquées (assets/specs/bordures_elements.json) :
+  - profils_complementaires (TU, AC1, CS3) ;
+  - corrections_profils.*.remplace_sommets (CS1, CS2 : chanfrein 15 x 15 côté chaussée, fiches Sepa) ;
+  - aretes.<profil>.arete_arriere_haute : chanfrein 5 x 5 mm (T1, T2, T3, T2_bateau, TU, QUAI_BUS) ou 3 x 3 mm (P1,
+    P3) ajouté au contour quand l'arête arrière haute est vive ;
+  - MURET_TALUS (bordures.json regles_affectation : « muret, soutènement ou talus ») : section rectangulaire de 0,20 m,
+    hauteur unitaire (mise à la hauteur de chaque section par la pose).
+"""
+import hashlib
+import json
+from pathlib import Path
+
+CHANFREIN_ARRIERE = {"T1": 0.005, "T2": 0.005, "T3": 0.005, "T2_bateau": 0.005, "TU": 0.005, "QUAI_BUS": 0.005,
+                     "P1": 0.003, "P3": 0.003, "PAVES_GRANIT": 0.0}
+CANIVEAUX = ("CS1", "CS2", "CS3", "CC1", "CC2")
+MURET = {"contour": [[0.0, 0.0], [0.0, 1.0], [0.2, 1.0], [0.2, 0.0]], "base": 0.2, "H": 1.0}
+
+
+def _chanfrein_arriere(c, base, H, e):
+    """Remplace le coin vif (base, H) du contour par deux sommets (base − e, H) et (base, H − e)."""
+    out = []
+    for u, v in c:
+        if e > 0 and abs(u - base) < 1e-9 and abs(v - H) < 1e-9:
+            out += [[round(base - e, 6), H], [base, round(H - e, 6)]]
+        else:
+            out.append([u, v])
+    return out
+
+
+def construire_table(dossier_specs):
+    """Table {profil: {contour, base, H, famille, h_fil_eau?}} depuis assets/specs ; renvoie (table, source)."""
+    d = Path(dossier_specs)
+    b = json.loads((d / "bordures.json").read_text(encoding="utf-8"))
+    e = json.loads((d / "bordures_elements.json").read_text(encoding="utf-8"))
+    prof = {k: dict(v) for k, v in b["profils"].items() if v.get("contour")}
+    for k, v in (e.get("profils_complementaires") or {}).items():
+        if v.get("contour"):
+            prof[k] = dict(v)
+    for k, corr in (e.get("corrections_profils") or {}).items():
+        rs = corr.get("remplace_sommets")
+        if k in prof and rs:
+            c = [list(p) for p in prof[k]["contour"]]
+            for de, par in zip(rs["de"], rs["par"]):
+                for i, p in enumerate(c):
+                    if abs(p[0] - de[0]) < 1e-9 and abs(p[1] - de[1]) < 1e-9:
+                        c[i] = list(par)
+            prof[k]["contour"] = c
+    table = {}
+    for k in sorted(prof):
+        v = prof[k]
+        c = [[float(x), float(y)] for x, y in v["contour"]]
+        base = max(p[0] for p in c)
+        H = max(p[1] for p in c)
+        fam = "caniveau" if k in CANIVEAUX else "bordure"
+        ent = {"base": round(base, 6), "H": round(H, 6), "famille": fam}
+        if fam == "bordure":
+            c = _chanfrein_arriere(c, base, H, CHANFREIN_ARRIERE.get(k, 0.0))
+        else:
+            # fil d'eau côté bordure : dessus du caniveau en u = largeur (bordures_elements.caniveaux.pose)
+            ent["h_fil_eau"] = round(max(p[1] for p in c if abs(p[0] - base) < 1e-9), 6)
+        ent["contour"] = [[round(x, 6), round(y, 6)] for x, y in c]
+        table[k] = ent
+    table["MURET_TALUS"] = dict(MURET, famille="bordure")
+    src = {f: hashlib.sha256((d / f).read_bytes()).hexdigest()[:16] for f in ("bordures.json", "bordures_elements.json")}
+    return table, src
+
+
+def _indices(c, base, H):
+    """i_top : premier sommet de la tête (v = H) ; k_back : arête arrière haute (premier u = base)."""
+    i_top = next(i for i, p in enumerate(c) if p[1] >= H - 1e-9)
+    k_back = next(i for i, p in enumerate(c) if abs(p[0] - base) < 1e-9)
+    return i_top, k_back
+
+
+TABLE_EMBARQUEE = None          # remplacé à la construction de l'HDA (table figée : {"profils": ..., "source": ...})
+
+
+def table_embarquee(node):
+    """Table figée dans le module de l'HDA (TABLE_EMBARQUEE), ou relue depuis le dossier de specs (paramètre)."""
+    hda = node.parent()
+    dossier = hda.parm("dossier_specs").evalAsString().strip() if hda.parm("dossier_specs") else ""
+    if dossier or TABLE_EMBARQUEE is None:
+        dossier = dossier or str(Path(__file__).resolve().parents[5] / "assets" / "specs")
+        table, src = construire_table(dossier)
+        return table, json.dumps({"dossier": Path(dossier).as_posix(), "sha256": src}, sort_keys=True)
+    d = json.loads(TABLE_EMBARQUEE)
+    return d["profils"], json.dumps(d["source"], sort_keys=True)
+
+
+def lire_profils(node):
+    """Python SOP : contours des profils (plan XY, x = u, y = v), attributs décrits dans l'en-tête du module."""
+    import hou
+    geo = node.geometry()
+    geo.clear()
+    table, source = table_embarquee(node)
+    for nom, t in (("profil", ""), ("famille", "")):
+        geo.addAttrib(hou.attribType.Prim, nom, t)
+    for nom in ("base", "H", "h_fil_eau"):
+        geo.addAttrib(hou.attribType.Prim, nom, 0.0)
+    for nom in ("i_top", "k_back", "n_pts"):
+        geo.addAttrib(hou.attribType.Prim, nom, 0)
+    for nom in ("u_cs", "v_cs"):
+        geo.addAttrib(hou.attribType.Point, nom, 0.0)
+    geo.addAttrib(hou.attribType.Point, "chaine", 0)
+    geo.addAttrib(hou.attribType.Point, "rang", 0)
+    geo.addAttrib(hou.attribType.Point, "p_cs", 0.0)
+    geo.addAttrib(hou.attribType.Point, "perim", 0.0)
+    noms = sorted(table)
+    for nom in noms:
+        t = table[nom]
+        c = t["contour"]
+        i_top, k_back = _indices(c, t["base"], t["H"])
+        pts = []
+        # caniveau : section posée devant la face vue de la bordure (u de −largeur à 0 dans le repère de la bordure ;
+        # bordures_elements.json caniveaux.pose : u = 0 côté chaussée, u = largeur contre la face vue)
+        du = -float(t["base"]) if t["famille"] == "caniveau" else 0.0
+        acc, cum = 0.0, []                     # abscisse sur le périmètre du contour (UV en mètres : v des bordures)
+        for i in range(len(c)):
+            cum.append(acc)
+            j = (i + 1) % len(c)
+            acc += ((c[j][0] - c[i][0]) ** 2 + (c[j][1] - c[i][1]) ** 2) ** 0.5
+        for i, (u, v) in enumerate(c):
+            u = u + du
+            p = geo.createPoint()
+            p.setPosition((u, v, 0.0))
+            p.setAttribValue("u_cs", u)
+            p.setAttribValue("v_cs", v)
+            p.setAttribValue("chaine", 0 if i <= k_back else 1)
+            p.setAttribValue("rang", i)
+            p.setAttribValue("p_cs", cum[i])
+            p.setAttribValue("perim", acc)
+            pts.append(p)
+        pr = geo.createPolygon()
+        for p in pts:
+            pr.addVertex(p)
+        pr.setAttribValue("profil", nom)
+        pr.setAttribValue("famille", t["famille"])
+        pr.setAttribValue("base", float(t["base"]))
+        pr.setAttribValue("H", float(t["H"]))
+        pr.setAttribValue("h_fil_eau", float(t.get("h_fil_eau", 0.0)))
+        pr.setAttribValue("i_top", int(i_top))
+        pr.setAttribValue("k_back", int(k_back))
+        pr.setAttribValue("n_pts", len(c))
+    geo.addArrayAttrib(hou.attribType.Global, "pj_profils_noms", hou.attribData.String)
+    geo.addArrayAttrib(hou.attribType.Global, "pj_profils_base", hou.attribData.Float)
+    geo.addArrayAttrib(hou.attribType.Global, "pj_profils_H", hou.attribData.Float)
+    geo.addArrayAttrib(hou.attribType.Global, "pj_profils_hfe", hou.attribData.Float)
+    geo.addAttrib(hou.attribType.Global, "pj_profils_source", "")
+    geo.setGlobalAttribValue("pj_profils_hfe", [float(table[n].get("h_fil_eau", 0.0)) for n in noms])
+    geo.setGlobalAttribValue("pj_profils_noms", noms)
+    geo.setGlobalAttribValue("pj_profils_base", [float(table[n]["base"]) for n in noms])
+    geo.setGlobalAttribValue("pj_profils_H", [float(table[n]["H"]) for n in noms])
+    geo.setGlobalAttribValue("pj_profils_source", source)
+
+
+TABLE_EMBARQUEE = r'''{"profils": {"A1": {"H": 0.25, "base": 0.2, "contour": [[0.0, 0.0], [0.0, 0.19], [0.08, 0.25], [0.195, 0.25], [0.2, 0.245], [0.2, 0.0]], "famille": "bordure"}, "A2": {"H": 0.2, "base": 0.15, "contour": [[0.0, 0.0], [0.0, 0.14], [0.08, 0.2], [0.145, 0.2], [0.15, 0.195], [0.15, 0.0]], "famille": "bordure"}, "AC1": {"H": 0.18, "base": 0.35, "contour": [[0.0, 0.0], [0.0, 0.104], [0.015, 0.12], [0.1325, 0.11], [0.139, 0.1125], [0.144, 0.122], [0.153, 0.131], [0.224, 0.18], [0.35, 0.18], [0.35, 0.0]], "famille": "bordure"}, "ACCESBUS": {"H": 0.295, "base": 0.2, "contour": [[0.0, 0.0], [0.0, 0.09], [0.002, 0.09], [0.04823, 0.28167], [0.04896, 0.28369], [0.0501, 0.28551], [0.0516, 0.28705], [0.0534, 0.28823], [0.05541, 0.28899], [0.05754, 0.28931], [0.195, 0.295], [0.2, 0.29], [0.2, 0.0]], "famille": "bordure"}, "CC1": {"H": 0.12, "base": 0.4, "contour": [[0.0, 0.0], [0.0, 0.115], [0.005, 0.12], [0.2, 0.105], [0.395, 0.12], [0.4, 0.115], [0.4, 0.0]], "famille": "caniveau", "h_fil_eau": 0.115}, "CC2": {"H": 0.14, "base": 0.5, "contour": [[0.0, 0.0], [0.0, 0.14], [0.06, 0.14], [0.1075, 0.1285], [0.155, 0.1188], [0.2025, 0.1123], [0.25, 0.11], [0.2975, 0.1123], [0.345, 0.1188], [0.3925, 0.1285], [0.44, 0.14], [0.5, 0.14], [0.5, 0.0]], "famille": "caniveau", "h_fil_eau": 0.14}, "CS1": {"H": 0.1185, "base": 0.2, "contour": [[0.0, 0.0], [0.0, 0.105], [0.015, 0.1185], [0.2, 0.1], [0.2, 0.0]], "famille": "caniveau", "h_fil_eau": 0.1}, "CS2": {"H": 0.1335, "base": 0.25, "contour": [[0.0, 0.0], [0.0, 0.12], [0.015, 0.1335], [0.25, 0.11], [0.25, 0.0]], "famille": "caniveau", "h_fil_eau": 0.11}, "CS3": {"H": 0.1635, "base": 0.25, "contour": [[0.0, 0.0], [0.0, 0.15], [0.015, 0.1635], [0.25, 0.14], [0.25, 0.0]], "famille": "caniveau", "h_fil_eau": 0.14}, "CS4": {"H": 0.19, "base": 0.3, "contour": [[0.0, 0.0], [0.0, 0.175], [0.015, 0.19], [0.3, 0.16], [0.3, 0.0]], "famille": "caniveau", "h_fil_eau": 0.16}, "GR_A1": {"H": 0.25, "base": 0.2, "contour": [[0.0, 0.0], [0.0, 0.19], [0.08, 0.25], [0.2, 0.25], [0.2, 0.0]], "famille": "bordure"}, "GR_A2": {"H": 0.2, "base": 0.15, "contour": [[0.0, 0.0], [0.0, 0.14], [0.08, 0.2], [0.15, 0.2], [0.15, 0.0]], "famille": "bordure"}, "GR_P1": {"H": 0.2, "base": 0.08, "contour": [[0.0, 0.0], [0.0, 0.19], [0.00034, 0.19259], [0.00134, 0.195], [0.00293, 0.19707], [0.005, 0.19866], [0.00741, 0.19966], [0.01, 0.2], [0.08, 0.2], [0.08, 0.0]], "famille": "bordure"}, "GR_P3": {"H": 0.2, "base": 0.06, "contour": [[0.0, 0.0], [0.0, 0.2], [0.06, 0.2], [0.06, 0.0]], "famille": "bordure"}, "GR_T1": {"H": 0.2, "base": 0.12, "contour": [[0.0, 0.0], [0.0, 0.185], [0.00051, 0.18888], [0.00201, 0.1925], [0.00439, 0.19561], [0.0075, 0.19799], [0.01112, 0.19949], [0.015, 0.2], [0.12, 0.2], [0.12, 0.0]], "famille": "bordure"}, "GR_T2": {"H": 0.25, "base": 0.15, "contour": [[0.0, 0.0], [0.0, 0.235], [0.00051, 0.23888], [0.00201, 0.2425], [0.00439, 0.24561], [0.0075, 0.24799], [0.01112, 0.24949], [0.015, 0.25], [0.15, 0.25], [0.15, 0.0]], "famille": "bordure"}, "I1": {"H": 0.13, "base": 0.25, "contour": [[0.0, 0.0], [0.0, 0.05], [0.01, 0.06], [0.0425, 0.0781], [0.075, 0.095], [0.1075, 0.1095], [0.14, 0.1206], [0.1725, 0.1276], [0.205, 0.13], [0.25, 0.13], [0.25, 0.0]], "famille": "bordure"}, "I2": {"H": 0.18, "base": 0.25, "contour": [[0.0, 0.0], [0.0, 0.1], [0.01, 0.11], [0.0425, 0.1281], [0.075, 0.145], [0.1075, 0.1595], [0.14, 0.1706], [0.1725, 0.1776], [0.205, 0.18], [0.25, 0.18], [0.25, 0.0]], "famille": "bordure"}, "I3": {"H": 0.13, "base": 0.3, "contour": [[0.0, 0.0], [0.0, 0.046], [0.002, 0.046], [0.00241, 0.05004], [0.00364, 0.0539], [0.00563, 0.05743], [0.00829, 0.06048], [0.01153, 0.06293], [0.01519, 0.06466], [0.2, 0.13], [0.3, 0.13], [0.3, 0.0]], "famille": "bordure"}, "I4": {"H": 0.18, "base": 0.3, "contour": [[0.0, 0.0], [0.0, 0.096], [0.002, 0.096], [0.00241, 0.10004], [0.00364, 0.1039], [0.00563, 0.10743], [0.00829, 0.11048], [0.01153, 0.11293], [0.01519, 0.11466], [0.2, 0.18], [0.3, 0.18], [0.3, 0.0]], "famille": "bordure"}, "IL": {"H": 0.09, "base": 0.2, "contour": [[0.0, 0.0], [0.0, 0.02], [0.01, 0.03], [0.0357, 0.0455], [0.0613, 0.06], [0.087, 0.0724], [0.1127, 0.082], [0.1383, 0.088], [0.164, 0.09], [0.2, 0.09], [0.2, 0.0]], "famille": "bordure"}, "MURET_TALUS": {"H": 1.0, "base": 0.2, "contour": [[0.0, 0.0], [0.0, 1.0], [0.2, 1.0], [0.2, 0.0]], "famille": "bordure"}, "P1": {"H": 0.2, "base": 0.08, "contour": [[0.0, 0.0], [0.0, 0.18], [0.0015, 0.1877], [0.0059, 0.1941], [0.0123, 0.1985], [0.02, 0.2], [0.077, 0.2], [0.08, 0.197], [0.08, 0.0]], "famille": "bordure"}, "P1_basse": {"H": 0.12, "base": 0.08, "contour": [[0.0, 0.0], [0.0, 0.09], [0.003, 0.09], [0.00402, 0.09776], [0.00702, 0.105], [0.01179, 0.11121], [0.018, 0.11598], [0.02524, 0.11898], [0.033, 0.12], [0.077, 0.12], [0.08, 0.117], [0.08, 0.0]], "famille": "bordure"}, "P2": {"H": 0.28, "base": 0.06, "contour": [[0.0, 0.0], [0.003, 0.255], [0.0083, 0.2675], [0.0175, 0.2767], [0.03, 0.28], [0.0425, 0.2767], [0.0517, 0.2675], [0.057, 0.255], [0.06, 0.0]], "famille": "bordure"}, "P3": {"H": 0.2, "base": 0.08, "contour": [[0.0, 0.0], [0.0, 0.2], [0.077, 0.2], [0.08, 0.197], [0.08, 0.0]], "famille": "bordure"}, "P4": {"H": 0.2, "base": 0.05, "contour": [[0.0, 0.0], [0.0, 0.192], [0.00027, 0.19407], [0.00107, 0.196], [0.00234, 0.19766], [0.004, 0.19893], [0.00593, 0.19973], [0.008, 0.2], [0.047, 0.2], [0.05, 0.197], [0.05, 0.0]], "famille": "bordure"}, "PAVES_GRANIT": {"H": 0.17, "base": 0.14, "contour": [[0.0, 0.0], [0.0, 0.14], [0.004, 0.155], [0.015, 0.166], [0.03, 0.17], [0.11, 0.17], [0.125, 0.166], [0.136, 0.155], [0.14, 0.14], [0.14, 0.0]], "famille": "bordure"}, "QUAI_BUS": {"H": 0.295, "base": 0.35, "contour": [[0.0, 0.0], [0.0, 0.11], [0.051, 0.278], [0.062, 0.295], [0.345, 0.295], [0.35, 0.29], [0.35, 0.0]], "famille": "bordure"}, "T1": {"H": 0.2, "base": 0.12, "contour": [[0.0, 0.0], [0.0, 0.1], [0.0171, 0.1853], [0.0193, 0.1917], [0.023, 0.1963], [0.0283, 0.1991], [0.035, 0.2], [0.115, 0.2], [0.12, 0.195], [0.12, 0.0]], "famille": "bordure"}, "T2": {"H": 0.25, "base": 0.15, "contour": [[0.0, 0.0], [0.0, 0.11], [0.0258, 0.2304], [0.0289, 0.239], [0.034, 0.2451], [0.041, 0.2488], [0.05, 0.25], [0.145, 0.25], [0.15, 0.245], [0.15, 0.0]], "famille": "bordure"}, "T2_basse": {"H": 0.15, "base": 0.151, "contour": [[0.0, 0.0], [0.0, 0.125], [0.002, 0.125], [0.002, 0.12566], [0.00265, 0.13073], [0.00457, 0.13547], [0.00762, 0.13956], [0.01162, 0.14275], [0.01629, 0.14483], [0.02133, 0.14565], [0.146, 0.15], [0.151, 0.145], [0.151, 0.0]], "famille": "bordure"}, "T2_bateau": {"H": 0.16, "base": 0.15, "contour": [[0.0, 0.0], [0.0, 0.12], [0.003, 0.1353], [0.0117, 0.1483], [0.0247, 0.157], [0.04, 0.16], [0.145, 0.16], [0.15, 0.155], [0.15, 0.0]], "famille": "bordure"}, "T2_surbaissee": {"H": 0.15, "base": 0.151, "contour": [[0.0, 0.0], [0.0, 0.02], [0.002, 0.02], [0.02665, 0.13002], [0.02805, 0.13414], [0.03032, 0.13786], [0.03334, 0.141], [0.03697, 0.14341], [0.04103, 0.14498], [0.04534, 0.14563], [0.146, 0.15], [0.151, 0.145], [0.151, 0.0]], "famille": "bordure"}, "T3": {"H": 0.28, "base": 0.17, "contour": [[0.0, 0.0], [0.0, 0.14], [0.0258, 0.2604], [0.0289, 0.269], [0.034, 0.2751], [0.041, 0.2788], [0.05, 0.28], [0.165, 0.28], [0.17, 0.275], [0.17, 0.0]], "famille": "bordure"}, "T3_basse": {"H": 0.2, "base": 0.17, "contour": [[0.0, 0.0], [0.0, 0.13], [0.002, 0.13], [0.0178, 0.18055], [0.01941, 0.18431], [0.02175, 0.18765], [0.02472, 0.19046], [0.02819, 0.1926], [0.03203, 0.19399], [0.03608, 0.19457], [0.165, 0.2], [0.17, 0.195], [0.17, 0.0]], "famille": "bordure"}, "T3_surbaissee": {"H": 0.2, "base": 0.17, "contour": [[0.0, 0.0], [0.0, 0.065], [0.002, 0.065], [0.06475, 0.18404], [0.06659, 0.18691], [0.0689, 0.18943], [0.0716, 0.19152], [0.07462, 0.19312], [0.07786, 0.19418], [0.08124, 0.19467], [0.165, 0.2], [0.17, 0.195], [0.17, 0.0]], "famille": "bordure"}, "T4": {"H": 0.3, "base": 0.2, "contour": [[0.0, 0.0], [0.0, 0.16], [0.002, 0.16], [0.0268, 0.2778], [0.02817, 0.28197], [0.03042, 0.28575], [0.03344, 0.28894], [0.03709, 0.29139], [0.04118, 0.29299], [0.04552, 0.29366], [0.195, 0.3], [0.2, 0.295], [0.2, 0.0]], "famille": "bordure"}, "TU": {"H": 0.16, "base": 0.25, "contour": [[0.0, 0.0], [0.0, 0.13], [0.0023, 0.1415], [0.0088, 0.1512], [0.0185, 0.1577], [0.03, 0.16], [0.245, 0.16], [0.25, 0.155], [0.25, 0.0]], "famille": "bordure"}}, "source": {"dossier": "assets/specs + assets/specs/route/regles_route_fr.json (RF-AS-profil_*)", "sha256": {"bordures.json": "3d95240ff2288cf4", "bordures_elements.json": "31673a9cab9f6b71", "regles_route_fr.json": "d4d63edeabf0820a"}}}'''

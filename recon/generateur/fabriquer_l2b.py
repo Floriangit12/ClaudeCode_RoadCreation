@@ -143,9 +143,30 @@ def cuire(noeuds, scene):
         mq.cook(force=True)
     except hou.OperationFailed:
         pass
-    # scène sans marque d'une famille : pj::marquage_solide contourné (entrée vide transmise telle quelle)
+    # marquages des carrefours (lot L4, intégration de l'étape 2) : rg::marquages_carrefour cuite et contrôlée d'abord
+    mc = noeuds.get("marquages_carrefour")
+    if mc is not None:
+        try:
+            mc.cook(force=True)
+        except hou.OperationFailed:
+            pass
+        err = [f"{c.path()} : {e}" for c in (mc,) + mc.allSubChildren() for e in c.errors()]
+        if err:
+            raise SystemExit(f"{scene} : erreurs de cuisson (lot L4)" + chr(10) + chr(10).join(err[:20]))
+    # scène sans marque d'une famille : pj::marquage_solide contourné (entrée vide transmise telle quelle) ; décidé sur
+    # l'entrée réelle du nœud (marques des carrefours, des giratoires et des musoirs fusionnées comprises ; intégration
+    # de l'étape 2 : lots L4 et autoroutes) — pour la chaîne simple, l'entrée est la sortie de rg::marquages
     for k, nom in enumerate(("peinture_lignes", "peinture_marques")):
-        g = mq.geometry(k)
+        cx = noeuds[nom].inputConnections()
+        src = cx[0].inputNode() if cx else None
+        if src is not None and src != mq:
+            try:
+                src.cook(force=True)
+            except hou.OperationFailed:
+                pass
+            g = src.geometry(cx[0].outputIndex())
+        else:
+            g = mq.geometry(k)
         noeuds[nom].bypass(g is None or len(g.prims()) == 0)
     for nom in ("marquages", "peinture_lignes", "peinture_marques", "mesure"):
         n = noeuds[nom]

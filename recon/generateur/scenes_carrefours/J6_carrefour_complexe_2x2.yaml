@@ -1,0 +1,106 @@
+# J6 — SECOND CARREFOUR COMPLEXE (lot correction de l'étape 2, 18/10/2026) : croisement de deux avenues 2 × 2 voies à
+# terre-plein central, voies de tourne-à-gauche face à face sur les QUATRE approches, TAG à l'indonésienne guidés en
+# T'2 0,10 sur les deux axes (deux phases spéciales), deux voies directes de tourne-à-droite en cédez derrière des îlots
+# directionnels (coins opposés), feux à quatre phases, passages avec refuges revêtus sur les quatre branches.
+#
+# Avenue est-ouest : celle de J5 (trottoir 3,00 | bande cyclable 1,50 | 2 voies de 3,00 | TPC engazonné de 3,50 m,
+# RF-OBS-TPC-01 | 2 voies | bande cyclable | trottoir) ; avenue nord-sud : même profil sans bande cyclable (trottoirs de
+# 3,00 m, RF-OSM-LAR-012). À chaque approche, sur 52,5 m : voie de TAG de 3,00 m (RF-GV-VS-002) et zone hachurée de
+# 3,50 m qui devient l'îlot de 3,50 m portant les R11 des deux couloirs (RF-FEU.PHASE_SPECIALE ; RF-GV-TPC-001 ≥ 2,00) ;
+# déport symétrique de 3,25 m (1/16,2 < 1/15, RF-GV-CAR-010) par la ligne de référence (deux arcs de 212,83 m) : voies
+# directes alignées (RF-GV-CAR-007), voies de TAG opposées dans le même axe, les deux courants guidés passent l'un devant
+# l'autre de part et d'autre de l'oblique (RF-MQ-CAR-03, garde RF-GV-TRJ-006).
+# Feux (RF-GV-FEU-001 ; DEF-028 : TAG à l'indonésienne seulement en phase spéciale) : P1 directs est-ouest (piétons
+# nord et sud), P2 TAG est-ouest guidés, P3 directs nord-sud (piétons est et ouest), P4 TAG nord-sud guidés.
+# Tourne-à-droite : voies directes en cédez de la branche sud vers l'est et de la branche nord vers l'ouest, voie de
+# 4,00 m, bordure R = 30 m (RF-GV-VS-017 ≥ 25 m), îlot directionnel en saillie de 0,50 m, nez 0,50 m (RF-GV-ILO-015) ;
+# autres coins : rayon 6 m (DEF-010 aux feux : 6-8 m).
+# Passages : 5 m en retrait de la zone de conflit (RF-GV-PIE-006 : 2-5 m), refuges revêtus (RF-OBS-ILO-01) ; sas vélos de
+# 4 m sur l'avenue est-ouest (DEF-016). Bus standard 12 m : lignes en tout droit sur les deux avenues.
+format: description_simple/0.2
+scene: J6_carrefour_complexe_2x2
+titre: Second carrefour complexe, deux avenues 2 × 2, TAG guidés sur les deux axes
+description: "Croisement de deux avenues 2 × 2 voies à TPC, voies de TAG face à face sur les quatre approches avec TAG à l'indonésienne guidés en T'2 0,10 sur les deux axes, deux voies directes de TAD derrière des îlots directionnels, feux à 4 phases, passages avec refuges revêtus."
+contexte: {agglomeration: oui, vitesse: 50, categorie: avenue}
+marquages: {usure: légère}
+troncons:
+  - id: ouest
+    nom: avenue est-ouest (ouest)
+    depart: [-170, 0]
+    cap: 0
+    trace:
+      - droite: 57.5
+      - arc: {rayon: 212.8317308, angle: 7.084722384, sens: gauche}
+      - arc: {rayon: 212.8317308, angle: 7.084722384, sens: droite}
+      - droite: 60
+    profil: "trottoir 3 | bande cyclable 1,5 | voie 3,0 ← | voie 3,0 ← | terre-plein 3,5 gazon | voie 3,0 → | voie 3,0 → | bande cyclable 1,5 | trottoir 3"
+    evenements:
+      - ouverture: {a: 110, longueur: 52.5, nouveau: "trottoir 3 | bande cyclable 1,5 | voie 3,0 ← | voie 3,0 ← | terre-plein 3,5 gazon | voie TAG 3,0 → | zone hachurée 3,5 | voie 3,0 → | voie 3,0 → | bande cyclable 1,5 | trottoir 3"}
+      - profil: {a: 115, nouveau: "trottoir 3 | bande cyclable 1,5 | voie 3,0 ← | voie 3,0 ← | bordure I2 vue 0,12 | terre-plein 3,5 gazon | bordure I2 vue 0,12 | voie TAG 3,0 → | bordure I2 vue 0,12 | terre-plein 3,5 béton | bordure I2 vue 0,12 | voie 3,0 → | voie 3,0 → | bande cyclable 1,5 | trottoir 3"}
+  - id: est
+    nom: avenue est-ouest (est)
+    depart: [170, 0]
+    cap: 180
+    trace:
+      - droite: 57.5
+      - arc: {rayon: 212.8317308, angle: 7.084722384, sens: gauche}
+      - arc: {rayon: 212.8317308, angle: 7.084722384, sens: droite}
+      - droite: 60
+    profil: "trottoir 3 | bande cyclable 1,5 | voie 3,0 ← | voie 3,0 ← | terre-plein 3,5 gazon | voie 3,0 → | voie 3,0 → | bande cyclable 1,5 | trottoir 3"
+    evenements:
+      - ouverture: {a: 110, longueur: 52.5, nouveau: "trottoir 3 | bande cyclable 1,5 | voie 3,0 ← | voie 3,0 ← | terre-plein 3,5 gazon | voie TAG 3,0 → | zone hachurée 3,5 | voie 3,0 → | voie 3,0 → | bande cyclable 1,5 | trottoir 3"}
+      - profil: {a: 115, nouveau: "trottoir 3 | bande cyclable 1,5 | voie 3,0 ← | voie 3,0 ← | bordure I2 vue 0,12 | terre-plein 3,5 gazon | bordure I2 vue 0,12 | voie TAG 3,0 → | bordure I2 vue 0,12 | terre-plein 3,5 béton | bordure I2 vue 0,12 | voie 3,0 → | voie 3,0 → | bande cyclable 1,5 | trottoir 3"}
+  - id: nord
+    nom: avenue nord-sud (nord)
+    depart: [0, 170]
+    cap: 270
+    trace:
+      - droite: 57.5
+      - arc: {rayon: 212.8317308, angle: 7.084722384, sens: gauche}
+      - arc: {rayon: 212.8317308, angle: 7.084722384, sens: droite}
+      - droite: 60
+    profil: "trottoir 3 | voie 3,0 ← | voie 3,0 ← | terre-plein 3,5 gazon | voie 3,0 → | voie 3,0 → | trottoir 3"
+    evenements:
+      - ouverture: {a: 110, longueur: 52.5, nouveau: "trottoir 3 | voie 3,0 ← | voie 3,0 ← | terre-plein 3,5 gazon | voie TAG 3,0 → | zone hachurée 3,5 | voie 3,0 → | voie 3,0 → | trottoir 3"}
+      - profil: {a: 115, nouveau: "trottoir 3 | voie 3,0 ← | voie 3,0 ← | bordure I2 vue 0,12 | terre-plein 3,5 gazon | bordure I2 vue 0,12 | voie TAG 3,0 → | bordure I2 vue 0,12 | terre-plein 3,5 béton | bordure I2 vue 0,12 | voie 3,0 → | voie 3,0 → | trottoir 3"}
+  - id: sud
+    nom: avenue nord-sud (sud)
+    depart: [0, -170]
+    cap: 90
+    trace:
+      - droite: 57.5
+      - arc: {rayon: 212.8317308, angle: 7.084722384, sens: gauche}
+      - arc: {rayon: 212.8317308, angle: 7.084722384, sens: droite}
+      - droite: 60
+    profil: "trottoir 3 | voie 3,0 ← | voie 3,0 ← | terre-plein 3,5 gazon | voie 3,0 → | voie 3,0 → | trottoir 3"
+    evenements:
+      - ouverture: {a: 110, longueur: 52.5, nouveau: "trottoir 3 | voie 3,0 ← | voie 3,0 ← | terre-plein 3,5 gazon | voie TAG 3,0 → | zone hachurée 3,5 | voie 3,0 → | voie 3,0 → | trottoir 3"}
+      - profil: {a: 115, nouveau: "trottoir 3 | voie 3,0 ← | voie 3,0 ← | bordure I2 vue 0,12 | terre-plein 3,5 gazon | bordure I2 vue 0,12 | voie TAG 3,0 → | bordure I2 vue 0,12 | terre-plein 3,5 béton | bordure I2 vue 0,12 | voie 3,0 → | voie 3,0 → | trottoir 3"}
+carrefours:
+  - id: J6
+    centre: [0, 0]
+    regime: feux
+    branches:
+      - {troncon: ouest, passage: {retrait: 5}, sas: oui, coin: 6}
+      - {troncon: est, passage: {retrait: 5}, sas: oui, coin: 6}
+      - {troncon: nord, passage: {retrait: 5}, coin: 6}
+      - {troncon: sud, passage: {retrait: 5}}
+    ilots:
+      - {type: directionnel, de: sud, vers: est, rayon: 30, largeur_voie: 4.0, regime: cédez, passage: oui}
+      - {type: directionnel, de: nord, vers: ouest, rayon: 30, largeur_voie: 4.0, regime: cédez, passage: oui}
+    feux:
+      phases:
+        - {nom: P1, mouvements: [ouest TD, ouest TAD, est TD, est TAD], pietons: [nord, sud], vert: 25}
+        - {nom: P2, mouvements: [ouest TAG, est TAG], vert: 12}
+        - {nom: P3, mouvements: [nord TD, sud TD], pietons: [ouest, est], vert: 25}
+        - {nom: P4, mouvements: [nord TAG, sud TAG], vert: 12}
+    guidage: {mouvements: [ouest TAG, est TAG, nord TAG, sud TAG], modulation: "T'2", largeur: 0.10}
+    vehicule: {bus: [ouest TD, est TD, nord TD, sud TD]}
+attendus:
+  branches: 4
+  regime: feux
+  refuges_min_m: 2.0
+  feux: {phases: 4, tag_phase_speciale: true, guidage: "T'2 0,10"}
+  guidage: {lignes: 2, trajectoires_guidees: 4, croisement_TAG_opposes: 0}
+  controles: {TAG_indonesienne_phase_speciale: 0, mouvements_servis: 0, traversee_hors_refuge_max_m: 12.0}
+  voies_directes_alignees: {ecart_lateral_max_m: 0.05}

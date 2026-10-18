@@ -1,0 +1,43 @@
+# J3 — Carrefour en croix à feux simple, en agglomération, deux phases.
+# Deux rues 2 × 1 voie de 3,00 m (RF-OSM-LAR-010), trottoirs de 3,00 m (A2007 : cheminement 1,40 m libre derrière les
+# mâts de feux ; RF-FEU.POSITION.GENERATEUR exige T ≥ 2,16 m pour un mât à 0,70 m), bordures T2 (DEF-005).
+# Régime feux sur les quatre branches : R11 + répétiteur à droite de chaque entrée, 0,30 m en aval de la ligne d'effet
+# (DEF-027, RF-FEU.POSITION.GENERATEUR) ; ligne d'effet non peinte, le passage piéton en tient lieu (ARB-01) ; R12 aux
+# deux extrémités de chaque passage (RF-FEU.R12.POSITION). Passages 2 m en retrait de la zone de conflit (RF-GV-PIE-006,
+# DEF-012), bandes de 4,00 m (DEF-011). Rayons d'angle 8 m (DEF-010, feux 6-8 m). Plan de feux en 2 phases (RF-GV-FEU-001,
+# CF p. 40 : TAG contournés par la droite, sans guidage) ; durées : vert dit, jaune 3 s (DEF-028), dégagement calculé.
+format: description_simple/0.2
+scene: J3_croix_feux
+titre: Carrefour en croix à feux, deux phases
+description: "Deux rues 2 × 1 voie à 50 km/h, trottoirs 3,00 m, feux tricolores à deux phases, passages piétons gérés sur les quatre branches."
+contexte: {agglomeration: oui, vitesse: 50, categorie: rue}
+marquages: {usure: légère}
+troncons:
+  - {id: ouest, de: [-80, 0], vers: [0, 0], profil: "trottoir 3 | bordure T2 | voie 3,0 ← | voie 3,0 → | bordure T2 | trottoir 3"}
+  - {id: est, de: [80, 0], vers: [0, 0], profil: "trottoir 3 | bordure T2 | voie 3,0 ← | voie 3,0 → | bordure T2 | trottoir 3"}
+  - {id: nord, de: [0, 80], vers: [0, 0], profil: "trottoir 3 | bordure T2 | voie 3,0 ← | voie 3,0 → | bordure T2 | trottoir 3"}
+  - {id: sud, de: [0, -80], vers: [0, 0], profil: "trottoir 3 | bordure T2 | voie 3,0 ← | voie 3,0 → | bordure T2 | trottoir 3"}
+carrefours:
+  - id: J3
+    centre: [0, 0]
+    regime: feux
+    branches:
+      - {troncon: ouest, passage: oui}
+      - {troncon: est, passage: oui}
+      - {troncon: nord, passage: oui}
+      - {troncon: sud, passage: oui}
+    feux:
+      phases:
+        - {nom: P1, mouvements: [ouest TD, ouest TAG, ouest TAD, est TD, est TAG, est TAD], pietons: [nord, sud], vert: 25}
+        - {nom: P2, mouvements: [nord TD, nord TAG, nord TAD, sud TD, sud TAG, sud TAD], pietons: [ouest, est], vert: 20}
+attendus:
+  branches: 4
+  regime: feux
+  frontiere_m: {ouest: 3.0, est: 3.0, nord: 3.0, sud: 3.0}
+  passage: {ouest: {bord_proche_au_centre_m: 5.0, largeur_m: 4.0}}      # 3,00 + 2,00 (RF-GV-PIE-006, DEF-012)
+  ligne: {ouest: {type: virtuelle}}                                     # ARB-01 : non peinte
+  feux: {R11: 4, R12: 8, phases: 2, jaune_s: 3}
+  cycle_s: 55                                                           # 25 + 3 + 2 + 20 + 3 + 2 : jaune 3 s (DEF-028), dégagement ceil(13 m / 10 m/s) = 2 s (RF-GV-FEU-004)
+  panneaux: {AB3a: 0, AB4: 0}
+  conflits: {croisement_reference_CU: 16, total_reference_CU: 32}
+  zone_conflit_m2: 36.0

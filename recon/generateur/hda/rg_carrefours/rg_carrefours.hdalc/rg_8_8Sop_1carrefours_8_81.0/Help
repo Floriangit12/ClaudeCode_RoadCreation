@@ -1,0 +1,58 @@
+= RG Carrefours (solveur, coupes) =
+
+"""Solveur des carrefours plans (lot L3, PLAN_GENERATEUR § 2.4 étapes 1 à 4) branché à la place de rg::lire_modele : coins tangents de rayon DEF-010 (ou du modèle), coupes des routes à la fin de leur chaussée (nez des îlots compris), trottoirs coupés à l'amorce des coins, frontière fermée, nez des îlots du profil arrondis et reculés au premier contact des balayages des véhicules (lot L3a) + 0,30 m."""
+
+== Entrées ==
+
+1. Routes, 2. Profils (rg::lire_modele, sorties 1 et 5).
+
+== Sorties ==
+
+1. Routes coupées (s_end ; sections et profils réduits ~cG / ~cD / ~cGD au-delà de s_cut).
+2. Profils (+ profils réduits : bandes extérieures retirées, bord de chaussée sans bordure ni marquage).
+3. SOLVEUR : points branche (repère, bords, s_end, s_cut_g / s_cut_d, s_tan_g / s_tan_d, retrait du nez) ; polylignes coin (face de bordure, côté haut à gauche, u, partie), nez, embouchure ; polygone frontiere ; îlots, passages, lignes, balayages lus.
+
+Règles : DEF-010, RF-GV-RAY-001, RF-GV-ILO-015, RF-OSM-CAR-001 ; choix [G] : amorce, pas du retrait. Branches tracées vers le centre (extrémité « fin ») ; routes droites près du carrefour.
+
+@parameters
+
+Modèle (modele_voie.json):
+    #id: fichier
+    Même fichier que rg::lire_modele (le pilote y renvoie son paramètre) : carrefours, îlots, passages et lignes transversales sont lus ici (rg::lire_modele ne les lit pas).
+
+Balayages des véhicules (JSON, lot L3a):
+    #id: balayages
+    Enveloppes balayées des trajectoires du modèle, calculées par le pilote avec vehicules/balayage.py (lot L3a) : {balayages: [{trajectoire, vehicule, carrefour, faisable, exterieur: [[x, y], …] locaux]}}. Vide : nez à la frontière.
+
+Amorce droite des bordures de coin (m):
+    #id: amorce
+    Longueur droite de la bordure de coin de part et d'autre du congé, prise sur la branche (le trottoir de la branche est coupé d'autant) : place des rampants d'abaissé (DEF-031 : 2,40 m à 5 %) d'un passage proche du coin dans la même file. Choix de fabrication [G] (aucune règle).
+
+Rayon de coin par défaut (m):
+    #id: rayon_defaut
+    Rayon d'un coin dont le modèle ne dit rien (coin_droit absent) et dont les bords ne sont pas alignés : DEF-010 bus / PL occasionnels (signalé dans le solveur).
+
+Flèche maximale des arcs (m):
+    #id: fleche
+    Échantillonnage des congés : flèche ≤ 0,5 mm (critère L1 du plan, RF-OSM-CAR-001).
+
+Pas angulaire maximal des arcs (°):
+    #id: pas_angulaire_max
+    Angle entre deux cordes consécutives d'un congé ≤ 0,8° : la rupture de la polyligne au point de tangence (demi-pas) reste sous 0,5° (critère « coins tangents, rupture ≤ 0,5° », PLAN_GENERATEUR § 3 L3).
+
+Rayon des nez d'îlot par défaut (m):
+    #id: nez_rayon
+    Nez d'un îlot du profil sans rayon dans le modèle : RF-GV-ILO-015 (nez 0,50 à 1,50 m).
+
+Marge au premier contact des balayages (m):
+    #id: marge_balayage
+    Nez des îlots au premier contact des balayages des véhicules (lot L3a) + 0,30 m (PLAN_GENERATEUR § 3, L3).
+
+Pas du retrait des nez (m):
+    #id: pas_retrait_nez
+    Retrait arrondi au pas supérieur [G].
+
+Longueur gardée après un passage (m):
+    #id: rampant_refuge
+    Le nez d'un îlot traversé par un passage n'est pas reculé au-delà de la bande du passage + le rampant de l'abaissé (DEF-031 : 2,40 m) : le refuge est gardé (DEF-022) ; le balayage non dégagé est signalé.
+

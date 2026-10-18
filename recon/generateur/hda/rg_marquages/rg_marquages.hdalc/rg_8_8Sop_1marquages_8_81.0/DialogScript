@@ -60,6 +60,14 @@
         range   { 0.1 1 }
     }
     parm {
+        name    "pp_degagement_zebra"
+        label   "Passage piéton : dégagement des zébras et aplats (m)"
+        type    float
+        default { "0.5" }
+        help    "RF-MQ-PP-03 (lignes interrompues à 0,50 m du passage), appliqué aux zébras et aux aplats : aucune hachure sous les bandes d'un passage (correction après le contrôle de l'étape 2)."
+        range   { 0 2 }
+    }
+    parm {
         name    "hach_bande"
         label   "Hachures : largeur des bandes (m)"
         type    float

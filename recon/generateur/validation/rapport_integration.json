@@ -1,0 +1,4493 @@
+{
+ "schema": "rapport_lot/0.1",
+ "lot": "integration",
+ "criteres": [
+  {
+   "id": "INT-1",
+   "nom": "une seule commande (fabriquer_generateur.py --complet) pour les 25 scènes, description → rendu",
+   "valeur": "25/25 scènes fabriquées, code de sortie 0",
+   "seuil": "25/25, code 0",
+   "atteint": true
+  },
+  {
+   "id": "INT-2",
+   "nom": "S01-S12 : sol, peinture, niveaux, HeightField, entités, BEV, empreintes, courbes L1 identiques à l'étape 1 (le livrable USD route_l2.usda, lui, change : caniveaux)",
+   "valeur": "12/12 scènes pour les fichiers listés ; route_l2.usda différent dans 11 des 12 scènes (toutes sauf S01) : maillages Caniveaux/* de pj::caniveau::2.2 (mêmes faces, points à 0,7 µm au plus, UV et normales recalculées)",
+   "seuil": "12/12 (écarts seulement voulus et listés)",
+   "atteint": true,
+   "correction_etape2": "formulation corrigée après le contrôle indépendant de l'étape 2 (la formule « 0 fichier géométrique différent » ne valait que pour la liste choisie)"
+  },
+  {
+   "id": "INT-3",
+   "nom": "écarts non voulus (25 scènes, toutes sorties hors rendus)",
+   "valeur": "0",
+   "seuil": "0",
+   "atteint": true
+  },
+  {
+   "id": "INT-4",
+   "nom": "compilation : rétrocompatibilité S01-S12, exemples, Meylan (modèle et rapport à l'octet)",
+   "valeur": "24/27 ; différents (voulus) : 05_rue_piste_bande_plantee_arret_bus.yaml, 08_sens_unique_stationnement_charretieres.yaml, 11_description_rapide_depuis_photo.yaml",
+   "seuil": "identiques hors changements voulus listés",
+   "atteint": true
+  },
+  {
+   "id": "INT-5-L3",
+   "nom": "contrôle du lot L3 rejoué sur les sorties intégrées = contrôle du lot",
+   "valeur": "écart numérique max 0, autres valeurs différentes 0",
+   "seuil": "écart 0, 0 valeur différente (hors changements voulus listés)",
+   "atteint": true
+  },
+  {
+   "id": "INT-5-L4",
+   "nom": "contrôle du lot L4 rejoué sur les sorties intégrées = contrôle du lot",
+   "valeur": "écart numérique max 0, autres valeurs différentes 0",
+   "seuil": "écart 0, 0 valeur différente (hors changements voulus listés)",
+   "atteint": true
+  },
+  {
+   "id": "INT-5-giratoires",
+   "nom": "contrôle du lot giratoires rejoué sur les sorties intégrées = contrôle du lot",
+   "valeur": "écart numérique max 0, autres valeurs différentes 0",
+   "seuil": "écart 0, 0 valeur différente (hors changements voulus listés)",
+   "atteint": true
+  },
+  {
+   "id": "INT-5-autoroutes",
+   "nom": "contrôle du lot autoroutes rejoué sur les sorties intégrées = contrôle du lot",
+   "valeur": "écart numérique max 0, autres valeurs différentes 0",
+   "seuil": "écart 0, 0 valeur différente (hors changements voulus listés)",
+   "atteint": true
+  },
+  {
+   "id": "INT-5-bordures",
+   "nom": "critères du lot bordures recalculés par controler_bordures.py après intégration (B01, S01-S12, Meylan)",
+   "valeur": "15/16 recalculés atteints ; R2 NON compté comme gagné : la teinte de B01 en vue conducteur ne passe (30,0° au lieu de 37,5°) que parce que la caméra est rendue en 1600 × 1000 au lieu de 1092 × 683 ; le matériau n'a pas été corrigé ni rejoué à la résolution du lot ; non recalculés (pilote du lot) : C-B11, C-B12",
+   "seuil": "aucun critère atteint par le lot perdu",
+   "atteint": "False",
+   "correction_etape2": "R2 retiré des critères gagnés après le contrôle indépendant de l'étape 2"
+  },
+  {
+   "id": "INT-6",
+   "nom": "rendus : 2 vues (3 pour J5, G1, A3), planche ≤ 1092 px, géométrie rendue = géométrie finale",
+   "valeur": "25/25",
+   "seuil": "25/25",
+   "atteint": true
+  },
+  {
+   "id": "INT-7",
+   "nom": "déterminisme (une fois en fin de lot : J5_carrefour_complexe, G1_giratoire_urbain_D40, deux processus)",
+   "valeur": "identique (70 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+   "seuil": "identique",
+   "atteint": true
+  },
+  {
+   "id": "INT-8",
+   "nom": "planches d'ensemble etape2_*.png ≤ 1092 px (dessus + conducteur par scène) regardées en entier",
+   "valeur": "7/7 ; tailles [(1092, 296), (1092, 1040)]",
+   "seuil": "toutes, ≤ 1092 px",
+   "atteint": true
+  }
+ ],
+ "non_regression": {
+  "S01": {
+   "identiques": 28,
+   "differents": [
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "S02": {
+   "identiques": 26,
+   "differents": [
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 398,
+       "angle_fin": 398,
+       "asset_id": 796,
+       "asset_motif": 796,
+       "fleche_mm": 796,
+       "proto_type": 796,
+       "prototype_pj": 796,
+       "sens": 796
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/fichiers/route_l2.usda",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/route_l2.usda",
+     "genre": "voulu",
+     "explication": "maillages Caniveaux/mortier_joint (pj::caniveau::2.2, lot bordures) : points à 0.0 µm au plus ; faces identiques ; tableaux primvars:st différents (UV des pièces : prototypes espacés de 2 m ; normales recalculées)",
+     "detail": {
+      "maillages": {
+       "Caniveaux/mortier_joint": {
+        "ecart_points_max_m": 0.0,
+        "points_differents": 0,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "primvars:st"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/avertissements (longueur 3 -> 6)",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "S03": {
+   "identiques": 25,
+   "differents": [
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_deviation_deg, angle_fin, angle_sens, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 576,
+       "angle_deviation_deg": 108,
+       "angle_fin": 576,
+       "angle_sens": 108,
+       "asset_id": 931,
+       "asset_motif": 931,
+       "fleche_mm": 918,
+       "proto_type": 918,
+       "prototype_pj": 918,
+       "sens": 918
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/fichiers/mesures_l2.json",
+       "/fichiers/route_l2.usda",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 5,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/mesures_l2.json",
+     "genre": "derive",
+     "explication": "mesures recalculées sur la géométrie fabriquée : écart numérique max 0.010705 (rayons des joints : impact derrière la face)",
+     "detail": {
+      "chemins": [
+       "/joints[0]/rayons[0]/derriere_m",
+       "/joints[0]/rayons[1]/derriere_m",
+       "/joints[0]/rayons[2]/derriere_m",
+       "/joints[0]/rayons[3]/derriere_m",
+       "/joints[0]/rayons[4]/derriere_m",
+       "/joints[0]/rayons[5]/derriere_m",
+       "/joints[1]/rayons[0]/derriere_m",
+       "/joints[1]/rayons[1]/derriere_m",
+       "/joints[1]/rayons[2]/derriere_m",
+       "/joints[1]/rayons[3]/derriere_m",
+       "/joints[1]/rayons[4]/derriere_m",
+       "/joints[1]/rayons[5]/derriere_m"
+      ],
+      "ecart_numerique_max": 0.010705000000000001,
+      "autres_valeurs_differentes": 0
+     }
+    },
+    {
+     "fichier": "l2/route_l2.usda",
+     "genre": "voulu",
+     "explication": "maillages Caniveaux/caniveau_beton, Caniveaux/mortier_joint (pj::caniveau::2.2, lot bordures) : points à 0.7 µm au plus ; faces identiques ; tableaux normals, primvars:st différents (UV des pièces : prototypes espacés de 2 m ; normales recalculées)",
+     "detail": {
+      "maillages": {
+       "Caniveaux/caniveau_beton": {
+        "ecart_points_max_m": 7.000000001866624e-07,
+        "points_differents": 14,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "normals",
+         "primvars:st"
+        ]
+       },
+       "Caniveaux/mortier_joint": {
+        "ecart_points_max_m": 7.000000001866624e-07,
+        "points_differents": 1510,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "normals",
+         "primvars:st"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/avertissements (longueur 3 -> 6)",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "S04": {
+   "identiques": 26,
+   "differents": [
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 398,
+       "angle_fin": 398,
+       "asset_id": 796,
+       "asset_motif": 796,
+       "fleche_mm": 796,
+       "proto_type": 796,
+       "prototype_pj": 796,
+       "sens": 796
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/fichiers/route_l2.usda",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/route_l2.usda",
+     "genre": "voulu",
+     "explication": "maillages Caniveaux/mortier_joint (pj::caniveau::2.2, lot bordures) : points à 0.0 µm au plus ; faces identiques ; tableaux primvars:st différents (UV des pièces : prototypes espacés de 2 m ; normales recalculées)",
+     "detail": {
+      "maillages": {
+       "Caniveaux/mortier_joint": {
+        "ecart_points_max_m": 0.0,
+        "points_differents": 0,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "primvars:st"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "S05": {
+   "identiques": 26,
+   "differents": [
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 398,
+       "angle_fin": 398,
+       "asset_id": 796,
+       "asset_motif": 796,
+       "fleche_mm": 796,
+       "proto_type": 796,
+       "prototype_pj": 796,
+       "sens": 796
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/fichiers/route_l2.usda",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/route_l2.usda",
+     "genre": "voulu",
+     "explication": "maillages Caniveaux/mortier_joint (pj::caniveau::2.2, lot bordures) : points à 0.0 µm au plus ; faces identiques ; tableaux primvars:st différents (UV des pièces : prototypes espacés de 2 m ; normales recalculées)",
+     "detail": {
+      "maillages": {
+       "Caniveaux/mortier_joint": {
+        "ecart_points_max_m": 0.0,
+        "points_differents": 0,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "primvars:st"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "S06": {
+   "identiques": 26,
+   "differents": [
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 796,
+       "angle_fin": 796,
+       "asset_id": 1194,
+       "asset_motif": 1194,
+       "fleche_mm": 1194,
+       "proto_type": 1194,
+       "prototype_pj": 1194,
+       "sens": 1194
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/fichiers/route_l2.usda",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/route_l2.usda",
+     "genre": "voulu",
+     "explication": "maillages Caniveaux/mortier_joint (pj::caniveau::2.2, lot bordures) : points à 0.0 µm au plus ; faces identiques ; tableaux primvars:st différents (UV des pièces : prototypes espacés de 2 m ; normales recalculées)",
+     "detail": {
+      "maillages": {
+       "Caniveaux/mortier_joint": {
+        "ecart_points_max_m": 0.0,
+        "points_differents": 0,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "primvars:st"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/avertissements (longueur 3 -> 6)",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "S07": {
+   "identiques": 26,
+   "differents": [
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 398,
+       "angle_fin": 398,
+       "asset_id": 796,
+       "asset_motif": 796,
+       "fleche_mm": 796,
+       "proto_type": 796,
+       "prototype_pj": 796,
+       "sens": 796
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/fichiers/route_l2.usda",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/route_l2.usda",
+     "genre": "voulu",
+     "explication": "maillages Caniveaux/mortier_joint (pj::caniveau::2.2, lot bordures) : points à 0.0 µm au plus ; faces identiques ; tableaux primvars:st différents (UV des pièces : prototypes espacés de 2 m ; normales recalculées)",
+     "detail": {
+      "maillages": {
+       "Caniveaux/mortier_joint": {
+        "ecart_points_max_m": 0.0,
+        "points_differents": 0,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "primvars:st"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "S08": {
+   "identiques": 25,
+   "differents": [
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 406,
+       "angle_fin": 406,
+       "asset_id": 800,
+       "asset_motif": 800,
+       "fleche_mm": 798,
+       "proto_type": 798,
+       "prototype_pj": 798,
+       "sens": 798
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/fichiers/mesures_l2.json",
+       "/fichiers/route_l2.usda",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 5,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/mesures_l2.json",
+     "genre": "derive",
+     "explication": "mesures recalculées sur la géométrie fabriquée : écart numérique max 0.726622 (rayons des joints : impact derrière la face)",
+     "detail": {
+      "chemins": [
+       "/joints[0]/rayons[0]/derriere_m",
+       "/joints[0]/rayons[1]/derriere_m",
+       "/joints[0]/rayons[2]/derriere_m",
+       "/joints[0]/rayons[3]/derriere_m",
+       "/joints[0]/rayons[4]/derriere_m",
+       "/joints[0]/rayons[5]/derriere_m",
+       "/joints[1]/rayons[0]/derriere_m",
+       "/joints[1]/rayons[1]/derriere_m",
+       "/joints[1]/rayons[2]/derriere_m",
+       "/joints[1]/rayons[3]/derriere_m",
+       "/joints[1]/rayons[4]/derriere_m",
+       "/joints[1]/rayons[5]/derriere_m"
+      ],
+      "ecart_numerique_max": 0.726622,
+      "autres_valeurs_differentes": 0
+     }
+    },
+    {
+     "fichier": "l2/route_l2.usda",
+     "genre": "voulu",
+     "explication": "maillages Caniveaux/caniveau_beton, Caniveaux/mortier_joint (pj::caniveau::2.2, lot bordures) : points à 0.5 µm au plus ; faces identiques ; tableaux normals, primvars:st différents (UV des pièces : prototypes espacés de 2 m ; normales recalculées)",
+     "detail": {
+      "maillages": {
+       "Caniveaux/caniveau_beton": {
+        "ecart_points_max_m": 5.00000000069889e-07,
+        "points_differents": 30,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "normals",
+         "primvars:st"
+        ]
+       },
+       "Caniveaux/mortier_joint": {
+        "ecart_points_max_m": 5.00000000069889e-07,
+        "points_differents": 1940,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "normals",
+         "primvars:st"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "S09": {
+   "identiques": 25,
+   "differents": [
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 400,
+       "angle_fin": 400,
+       "asset_id": 800,
+       "asset_motif": 800,
+       "fleche_mm": 800,
+       "proto_type": 800,
+       "prototype_pj": 800,
+       "sens": 800
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/fichiers/mesures_l2.json",
+       "/fichiers/route_l2.usda",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 5,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/mesures_l2.json",
+     "genre": "derive",
+     "explication": "mesures recalculées sur la géométrie fabriquée : écart numérique max 0.509365 (rayons des joints : impact derrière la face)",
+     "detail": {
+      "chemins": [
+       "/joints[0]/rayons[0]/derriere_m",
+       "/joints[0]/rayons[1]/derriere_m",
+       "/joints[0]/rayons[2]/derriere_m",
+       "/joints[0]/rayons[3]/derriere_m",
+       "/joints[0]/rayons[4]/derriere_m",
+       "/joints[0]/rayons[5]/derriere_m",
+       "/joints[1]/rayons[0]/derriere_m",
+       "/joints[1]/rayons[1]/derriere_m",
+       "/joints[1]/rayons[2]/derriere_m",
+       "/joints[1]/rayons[3]/derriere_m",
+       "/joints[1]/rayons[4]/derriere_m",
+       "/joints[1]/rayons[5]/derriere_m"
+      ],
+      "ecart_numerique_max": 0.509365,
+      "autres_valeurs_differentes": 0
+     }
+    },
+    {
+     "fichier": "l2/route_l2.usda",
+     "genre": "voulu",
+     "explication": "maillages Caniveaux/caniveau_beton, Caniveaux/mortier_joint (pj::caniveau::2.2, lot bordures) : points à 0.4 µm au plus ; faces identiques ; tableaux normals, primvars:st différents (UV des pièces : prototypes espacés de 2 m ; normales recalculées)",
+     "detail": {
+      "maillages": {
+       "Caniveaux/caniveau_beton": {
+        "ecart_points_max_m": 1.2000000002010403e-07,
+        "points_differents": 2,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "normals",
+         "primvars:st"
+        ]
+       },
+       "Caniveaux/mortier_joint": {
+        "ecart_points_max_m": 3.9999999978945766e-07,
+        "points_differents": 1990,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "normals",
+         "primvars:st"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "S10": {
+   "identiques": 25,
+   "differents": [
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 398,
+       "angle_fin": 398,
+       "asset_id": 768,
+       "asset_motif": 768,
+       "fleche_mm": 762,
+       "proto_type": 762,
+       "prototype_pj": 762,
+       "sens": 762
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/fichiers/mesures_l2.json",
+       "/fichiers/route_l2.usda",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 5,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/mesures_l2.json",
+     "genre": "derive",
+     "explication": "mesures recalculées sur la géométrie fabriquée : écart numérique max 0.010700 (rayons des joints : impact derrière la face)",
+     "detail": {
+      "chemins": [
+       "/joints[0]/rayons[0]/derriere_m",
+       "/joints[0]/rayons[1]/derriere_m",
+       "/joints[0]/rayons[2]/derriere_m",
+       "/joints[0]/rayons[3]/derriere_m",
+       "/joints[0]/rayons[4]/derriere_m",
+       "/joints[0]/rayons[5]/derriere_m",
+       "/joints[1]/rayons[0]/derriere_m",
+       "/joints[1]/rayons[1]/derriere_m",
+       "/joints[1]/rayons[2]/derriere_m",
+       "/joints[1]/rayons[3]/derriere_m",
+       "/joints[1]/rayons[4]/derriere_m",
+       "/joints[1]/rayons[5]/derriere_m"
+      ],
+      "ecart_numerique_max": 0.010700000000000001,
+      "autres_valeurs_differentes": 0
+     }
+    },
+    {
+     "fichier": "l2/route_l2.usda",
+     "genre": "voulu",
+     "explication": "maillages Caniveaux/caniveau_beton, Caniveaux/mortier_joint (pj::caniveau::2.2, lot bordures) : points à 0.3 µm au plus ; faces identiques ; tableaux normals, primvars:st différents (UV des pièces : prototypes espacés de 2 m ; normales recalculées)",
+     "detail": {
+      "maillages": {
+       "Caniveaux/caniveau_beton": {
+        "ecart_points_max_m": 2.9999999995311555e-07,
+        "points_differents": 5,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "normals",
+         "primvars:st"
+        ]
+       },
+       "Caniveaux/mortier_joint": {
+        "ecart_points_max_m": 2.0000000011677344e-07,
+        "points_differents": 1800,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "normals",
+         "primvars:st"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "S11": {
+   "identiques": 26,
+   "differents": [
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 410,
+       "angle_fin": 410,
+       "asset_id": 820,
+       "asset_motif": 820,
+       "fleche_mm": 820,
+       "proto_type": 820,
+       "prototype_pj": 820,
+       "sens": 820
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/fichiers/route_l2.usda",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/route_l2.usda",
+     "genre": "voulu",
+     "explication": "maillages Caniveaux/mortier_joint (pj::caniveau::2.2, lot bordures) : points à 0.0 µm au plus ; faces identiques ; tableaux primvars:st différents (UV des pièces : prototypes espacés de 2 m ; normales recalculées)",
+     "detail": {
+      "maillages": {
+       "Caniveaux/mortier_joint": {
+        "ecart_points_max_m": 0.0,
+        "points_differents": 0,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "primvars:st"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/avertissements (longueur 3 -> 6)",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "S12": {
+   "identiques": 26,
+   "differents": [
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 398,
+       "angle_fin": 398,
+       "asset_id": 796,
+       "asset_motif": 796,
+       "fleche_mm": 796,
+       "proto_type": 796,
+       "prototype_pj": 796,
+       "sens": 796
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/fichiers/route_l2.usda",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/route_l2.usda",
+     "genre": "voulu",
+     "explication": "maillages Caniveaux/mortier_joint (pj::caniveau::2.2, lot bordures) : points à 0.0 µm au plus ; faces identiques ; tableaux primvars:st différents (UV des pièces : prototypes espacés de 2 m ; normales recalculées)",
+     "detail": {
+      "maillages": {
+       "Caniveaux/mortier_joint": {
+        "ecart_points_max_m": 0.0,
+        "points_differents": 0,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "primvars:st"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/hda/rg::vers_entites::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0",
+       "rg::vers_entites::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "B01": {
+   "identiques": 17,
+   "differents": [
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "entrée charretière : vue 0,05 -> 0,03 m (bordures_elements.json, compilateur ; lot bordures) ; points du sol modifiés seulement dans s ∈ [83.62 ; 90.38] m (entrée et rampants : [83.5 ; 90.5], [83.5 ; 90.5]) ; écart numérique max 0.000",
+     "detail": {
+      "chemins": [
+       "/modele/sha256",
+       "/rg_modele/sha256"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/entree/compilateur (retiré)",
+       "/fichiers/courbes_controle.json",
+       "/modele/sha256"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": []
+     }
+    },
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "entrée charretière : vue 0,05 -> 0,03 m (bordures_elements.json, compilateur ; lot bordures) ; points du sol modifiés seulement dans s ∈ [83.62 ; 90.38] m (entrée et rampants : [83.5 ; 90.5], [83.5 ; 90.5]) ; écart numérique max 0.020",
+     "detail": {
+      "chemins": [
+       "[250]/asset_motif",
+       "[250]/prototype_pj",
+       "[250]/vue",
+       "[250]/vue_fin",
+       "[250]/xyz[2]",
+       "[251]/asset_id",
+       "[251]/asset_motif",
+       "[251]/prototype_pj",
+       "[251]/vue",
+       "[251]/vue_fin",
+       "[251]/xyz[2]",
+       "[252]/vue"
+      ],
+      "ecart_numerique_max": 0.020000000000000004,
+      "autres_valeurs_differentes": 10
+     }
+    },
+    {
+     "fichier": "l2/entites.json",
+     "genre": "voulu",
+     "explication": "entrée charretière : vue 0,05 -> 0,03 m (bordures_elements.json, compilateur ; lot bordures) ; points du sol modifiés seulement dans s ∈ [83.62 ; 90.38] m (entrée et rampants : [83.5 ; 90.5], [83.5 ; 90.5]) ; écart numérique max 0.020",
+     "detail": {
+      "chemins": [
+       "[14]/intervalles[2]/vue_m_fin",
+       "[14]/intervalles[3]/vue_m",
+       "[14]/intervalles[4]/vue_m"
+      ],
+      "ecart_numerique_max": 0.020000000000000004,
+      "autres_valeurs_differentes": 0
+     }
+    },
+    {
+     "fichier": "l2/heightfield.json",
+     "genre": "voulu",
+     "explication": "entrée charretière : vue 0,05 -> 0,03 m (bordures_elements.json, compilateur ; lot bordures) ; points du sol modifiés seulement dans s ∈ [83.62 ; 90.38] m (entrée et rampants : [83.5 ; 90.5], [83.5 ; 90.5]) ; écart numérique max 0.000",
+     "detail": {
+      "chemins": [
+       "/couches/height/sha256",
+       "/couches/z1/sha256"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m",
+       "/comptes/elements/longueur_sur_mesure_m",
+       "/entree/compilateur (retiré)",
+       "/fichiers/elements.json",
+       "/fichiers/entites.json",
+       "/fichiers/heightfield.json",
+       "/fichiers/mesures_l2.json",
+       "/fichiers/niveaux.json",
+       "/fichiers/route_l2.usda",
+       "/fichiers/sol_normales.npy",
+       "/fichiers/sol_points.npy",
+       "/hda/rg::nivellement::1.0 (ajouté)"
+      ],
+      "ecart_numerique_max": 1.9879999999999995,
+      "autres_valeurs_differentes": 8,
+      "hda_changees": [
+       "rg::nivellement::1.0",
+       "rg::nivellement::1.0 (table étendue, tmp/bordures/hda)"
+      ],
+      "cles_ajoutees": {
+       "rg::nivellement::1.0": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/mesures_l2.json",
+     "genre": "voulu",
+     "explication": "entrée charretière : vue 0,05 -> 0,03 m (bordures_elements.json, compilateur ; lot bordures) ; points du sol modifiés seulement dans s ∈ [83.62 ; 90.38] m (entrée et rampants : [83.5 ; 90.5], [83.5 ; 90.5]) ; écart numérique max 0.020",
+     "detail": {
+      "chemins": [
+       "/elements[408]/z_arriere",
+       "/elements[408]/z_dessus",
+       "/elements[409]/z_arriere",
+       "/elements[409]/z_dessus",
+       "/elements[410]/z_arriere",
+       "/elements[410]/z_dessus",
+       "/elements[411]/z_arriere",
+       "/elements[411]/z_dessus",
+       "/elements[412]/z_arriere",
+       "/elements[412]/z_dessus",
+       "/elements[413]/z_arriere",
+       "/elements[413]/z_dessus"
+      ],
+      "ecart_numerique_max": 0.020001,
+      "autres_valeurs_differentes": 0
+     }
+    },
+    {
+     "fichier": "l2/niveaux.json",
+     "genre": "voulu",
+     "explication": "entrée charretière : vue 0,05 -> 0,03 m (bordures_elements.json, compilateur ; lot bordures) ; points du sol modifiés seulement dans s ∈ [83.62 ; 90.38] m (entrée et rampants : [83.5 ; 90.5], [83.5 ; 90.5]) ; écart numérique max 0.020",
+     "detail": {
+      "chemins": [
+       "/bordures[16]/points[17]/tete",
+       "/bordures[16]/points[17]/vue",
+       "/bordures[16]/points[18]/tete",
+       "/bordures[16]/points[18]/vue",
+       "/bordures[16]/points[19]/tete",
+       "/bordures[16]/points[19]/vue",
+       "/bordures[16]/points[20]/tete",
+       "/bordures[16]/points[20]/vue",
+       "/bordures[16]/points[21]/tete",
+       "/bordures[16]/points[21]/vue",
+       "/bordures[16]/points[22]/tete",
+       "/bordures[16]/points[22]/vue"
+      ],
+      "ecart_numerique_max": 0.020000000000000004,
+      "autres_valeurs_differentes": 0
+     }
+    },
+    {
+     "fichier": "l2/route_l2.usda",
+     "genre": "voulu",
+     "explication": "entrée charretière : vue 0,05 -> 0,03 m (bordures_elements.json, compilateur ; lot bordures) ; points du sol modifiés seulement dans s ∈ [83.62 ; 90.38] m (entrée et rampants : [83.5 ; 90.5], [83.5 ; 90.5]) ; écart numérique max 0.000",
+     "detail": {
+      "maillages": {
+       "Bordures/beton_bordure_gris": {
+        "ecart_points_max_m": 0.01999999999999999,
+        "points_differents": 494,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "normals",
+         "primvars:st"
+        ]
+       },
+       "Bordures/mortier_joint": {
+        "ecart_points_max_m": 0.020000000000000004,
+        "points_differents": 110,
+        "faces_identiques": true,
+        "autres_tableaux_differents": []
+       },
+       "Sol/enrobe_trottoir": {
+        "ecart_points_max_m": 0.020000003000000002,
+        "points_differents": 388,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "normals"
+        ]
+       },
+       "Sol/gazon_tondu": {
+        "ecart_points_max_m": 0.02,
+        "points_differents": 808,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "normals"
+        ]
+       },
+       "Sol/sol_cache": {
+        "ecart_points_max_m": 0.02,
+        "points_differents": 36,
+        "faces_identiques": true,
+        "autres_tableaux_differents": [
+         "primvars:st"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "fichier": "l2/sol_normales.npy",
+     "genre": "voulu",
+     "explication": "entrée charretière : vue 0,05 -> 0,03 m (bordures_elements.json, compilateur ; lot bordures) ; points du sol modifiés seulement dans s ∈ [83.62 ; 90.38] m (entrée et rampants : [83.5 ; 90.5], [83.5 ; 90.5]) ; écart numérique max 0.010",
+     "detail": {
+      "forme": [
+       [
+        391652,
+        3
+       ],
+       [
+        391652,
+        3
+       ]
+      ],
+      "ecart_max": 0.009962528944015503,
+      "valeurs_differentes": 12719
+     }
+    },
+    {
+     "fichier": "l2/sol_points.npy",
+     "genre": "voulu",
+     "explication": "entrée charretière : vue 0,05 -> 0,03 m (bordures_elements.json, compilateur ; lot bordures) ; points du sol modifiés seulement dans s ∈ [83.62 ; 90.38] m (entrée et rampants : [83.5 ; 90.5], [83.5 ; 90.5]) ; écart numérique max 0.020",
+     "detail": {
+      "forme": [
+       [
+        67465,
+        5
+       ],
+       [
+        67465,
+        5
+       ]
+      ],
+      "ecart_max": 0.020000001415610313,
+      "valeurs_differentes": 1152
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/entree/compilateur (retiré)",
+       "/hda/rg::nivellement::1.0 (ajouté)",
+       "/hda/rg::nivellement::1.0 (table étendue, tmp/bordures/hda) (retiré)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "hda_changees": [
+       "rg::nivellement::1.0",
+       "rg::nivellement::1.0 (table étendue, tmp/bordures/hda)"
+      ],
+      "cles_ajoutees": {
+       "rg::nivellement::1.0": 1
+      }
+     }
+    },
+    {
+     "fichier": "modele_voie.json",
+     "genre": "voulu",
+     "explication": "entrée charretière : vue 0,05 -> 0,03 m (bordures_elements.json, compilateur ; lot bordures) ; points du sol modifiés seulement dans s ∈ [83.62 ; 90.38] m (entrée et rampants : [83.5 ; 90.5], [83.5 ; 90.5]) ; écart numérique max 0.020",
+     "detail": {
+      "chemins": [
+       "/profils[31]/limites[1]/bordure/abaisses[0]/vue_m",
+       "/profils[32]/limites[1]/bordure/abaisses[0]/vue_m"
+      ],
+      "ecart_numerique_max": 0.020000000000000004,
+      "autres_valeurs_differentes": 0
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "J1_T_cedez": {
+   "identiques": 35,
+   "differents": [
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "libellé « lot » seulement (pilote de l'étape 2)",
+     "detail": {
+      "chemins": [
+       "/lot"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/familles (ajouté)",
+       "/fichiers/courbes_controle.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "familles": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 943,
+       "angle_fin": 943,
+       "asset_id": 943,
+       "asset_motif": 943,
+       "fleche_mm": 943,
+       "proto_type": 943,
+       "prototype_pj": 943,
+       "sens": 943
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l3/manifest_l3.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l4/manifest_l4.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/fichiers/plan_l4.png",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "J2_croix_stop": {
+   "identiques": 36,
+   "differents": [
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "libellé « lot » seulement (pilote de l'étape 2)",
+     "detail": {
+      "chemins": [
+       "/lot"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/familles (ajouté)",
+       "/fichiers/courbes_controle.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "familles": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l3/manifest_l3.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l4/manifest_l4.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/fichiers/plan_l4.png",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "J3_croix_feux": {
+   "identiques": 35,
+   "differents": [
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "libellé « lot » seulement (pilote de l'étape 2)",
+     "detail": {
+      "chemins": [
+       "/lot"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/familles (ajouté)",
+       "/fichiers/courbes_controle.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "familles": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 1412,
+       "angle_fin": 1412,
+       "asset_id": 1412,
+       "asset_motif": 1412,
+       "fleche_mm": 1412,
+       "proto_type": 1412,
+       "prototype_pj": 1412,
+       "sens": 1412
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l3/manifest_l3.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l4/manifest_l4.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/fichiers/plan_l4.png",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "J4_ilots_directionnel_separateurs": {
+   "identiques": 35,
+   "differents": [
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "libellé « lot » seulement (pilote de l'étape 2)",
+     "detail": {
+      "chemins": [
+       "/lot"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/familles (ajouté)",
+       "/fichiers/courbes_controle.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "familles": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_deviation_deg, angle_fin, angle_sens, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 1905,
+       "angle_deviation_deg": 8,
+       "angle_fin": 1905,
+       "angle_sens": 8,
+       "asset_id": 1905,
+       "asset_motif": 1905,
+       "fleche_mm": 1905,
+       "proto_type": 1905,
+       "prototype_pj": 1905,
+       "sens": 1905
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l3/manifest_l3.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l4/manifest_l4.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/fichiers/plan_l4.png",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "J5_carrefour_complexe": {
+   "identiques": 35,
+   "differents": [
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "libellé « lot » seulement (pilote de l'étape 2)",
+     "detail": {
+      "chemins": [
+       "/lot"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/familles (ajouté)",
+       "/fichiers/courbes_controle.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "familles": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_deviation_deg, angle_fin, angle_sens, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 4387,
+       "angle_deviation_deg": 16,
+       "angle_fin": 4387,
+       "angle_sens": 16,
+       "asset_id": 4387,
+       "asset_motif": 4387,
+       "fleche_mm": 4387,
+       "proto_type": 4387,
+       "prototype_pj": 4387,
+       "sens": 4387
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l3/manifest_l3.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l4/manifest_l4.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/fichiers/plan_l4.png",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "G1_giratoire_urbain_D40": {
+   "identiques": 28,
+   "differents": [
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "libellé « lot » seulement (pilote de l'étape 2)",
+     "detail": {
+      "chemins": [
+       "/lot"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/familles (ajouté)",
+       "/fichiers/courbes_controle.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 5,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "familles": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 2206,
+       "angle_fin": 2206,
+       "asset_id": 2206,
+       "asset_motif": 2206,
+       "fleche_mm": 2206,
+       "proto_type": 2206,
+       "prototype_pj": 2206,
+       "sens": 2206
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l3/manifest_l3.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l5/giratoires.json",
+     "genre": "voulu",
+     "explication": "ordre des clés seulement (attributs triés à l'export depuis l'intégration), valeurs identiques",
+     "detail": {
+      "chemins": [],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0
+     }
+    },
+    {
+     "fichier": "l5/manifest_l5.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/fichiers/giratoires.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 5,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "G2_giratoire_periurbain_D50": {
+   "identiques": 28,
+   "differents": [
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "libellé « lot » seulement (pilote de l'étape 2)",
+     "detail": {
+      "chemins": [
+       "/lot"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/familles (ajouté)",
+       "/fichiers/courbes_controle.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 5,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "familles": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 707,
+       "angle_fin": 707,
+       "asset_id": 707,
+       "asset_motif": 707,
+       "fleche_mm": 707,
+       "proto_type": 707,
+       "prototype_pj": 707,
+       "sens": 707
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l3/manifest_l3.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l5/giratoires.json",
+     "genre": "voulu",
+     "explication": "ordre des clés seulement (attributs triés à l'export depuis l'intégration), valeurs identiques",
+     "detail": {
+      "chemins": [],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0
+     }
+    },
+    {
+     "fichier": "l5/manifest_l5.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/fichiers/giratoires.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 5,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "G3_mini_giratoire_D20": {
+   "identiques": 28,
+   "differents": [
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "libellé « lot » seulement (pilote de l'étape 2)",
+     "detail": {
+      "chemins": [
+       "/lot"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/avertissements (longueur 2 -> 1)",
+       "/avertissements[0]",
+       "/familles (ajouté)",
+       "/fichiers/courbes_controle.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 6,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "familles": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/elements.json",
+     "genre": "voulu",
+     "explication": "elements.json : champs ajoutés seulement (lot bordures : angle_debut, angle_fin, asset_id, asset_motif, fleche_mm, proto_type, prototype_pj, sens) ; valeurs existantes inchangées",
+     "detail": {
+      "chemins": [
+       "[0]/angle_debut (ajouté)",
+       "[0]/angle_fin (ajouté)",
+       "[0]/asset_id (ajouté)",
+       "[0]/asset_motif (ajouté)",
+       "[0]/fleche_mm (ajouté)",
+       "[0]/proto_type (ajouté)",
+       "[0]/prototype_pj (ajouté)",
+       "[0]/sens (ajouté)",
+       "[1]/angle_debut (ajouté)",
+       "[1]/angle_fin (ajouté)",
+       "[1]/asset_id (ajouté)",
+       "[1]/asset_motif (ajouté)"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0,
+      "cles_ajoutees": {
+       "angle_debut": 1084,
+       "angle_fin": 1084,
+       "asset_id": 1084,
+       "asset_motif": 1084,
+       "fleche_mm": 1084,
+       "proto_type": 1084,
+       "prototype_pj": 1084,
+       "sens": 1084
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/fichiers/elements.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l3/manifest_l3.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 4,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l5/giratoires.json",
+     "genre": "voulu",
+     "explication": "ordre des clés seulement (attributs triés à l'export depuis l'intégration), valeurs identiques",
+     "detail": {
+      "chemins": [],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 0
+     }
+    },
+    {
+     "fichier": "l5/manifest_l5.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/fichiers/giratoires.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::carrefours_sol::1.0",
+       "/hda/rg::giratoires_sol::1.0",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 5,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::carrefours_sol::1.0",
+       "rg::giratoires_sol::1.0",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "A1_autoroute_2x2_GBA": {
+   "identiques": 28,
+   "differents": [
+    {
+     "fichier": "autoroute/manifest_autoroute.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "libellé « lot » seulement (pilote de l'étape 2)",
+     "detail": {
+      "chemins": [
+       "/lot"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/familles (ajouté)",
+       "/fichiers/courbes_controle.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "familles": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "A2_autoroute_2x3_glissieres": {
+   "identiques": 28,
+   "differents": [
+    {
+     "fichier": "autoroute/manifest_autoroute.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "libellé « lot » seulement (pilote de l'étape 2)",
+     "detail": {
+      "chemins": [
+       "/lot"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/familles (ajouté)",
+       "/fichiers/courbes_controle.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "familles": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "A3_bretelle_entree": {
+   "identiques": 28,
+   "differents": [
+    {
+     "fichier": "autoroute/manifest_autoroute.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "libellé « lot » seulement (pilote de l'étape 2)",
+     "detail": {
+      "chemins": [
+       "/lot"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/familles (ajouté)",
+       "/fichiers/courbes_controle.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "familles": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  },
+  "A4_bretelle_sortie": {
+   "identiques": 28,
+   "differents": [
+    {
+     "fichier": "autoroute/manifest_autoroute.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 2,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l1/courbes_controle.json",
+     "genre": "voulu",
+     "explication": "libellé « lot » seulement (pilote de l'étape 2)",
+     "detail": {
+      "chemins": [
+       "/lot"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1
+     }
+    },
+    {
+     "fichier": "l1/manifest_l1.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/familles (ajouté)",
+       "/fichiers/courbes_controle.json",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0",
+       "/pilote"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 3,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "familles": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2/manifest_l2.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/comptes/elements/longueur_assets_catalogue_m (ajouté)",
+       "/comptes/elements/longueur_sur_mesure_m (ajouté)",
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "longueur_assets_catalogue_m": 1,
+       "longueur_sur_mesure_m": 1,
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    },
+    {
+     "fichier": "l2b/manifest_l2b.json",
+     "genre": "voulu",
+     "explication": "manifeste : signatures d'HDA (rg::nivellement à table étendue, pj::bordure::2.1, pj::caniveau::2.2, rg::carrefours_sol / rg::giratoires_sol à table étendue), pilote, familles, empreintes des fichiers",
+     "detail": {
+      "chemins": [
+       "/hda/pj::bordure::2.1 (ajouté)",
+       "/hda/pj::caniveau::2.2 (ajouté)",
+       "/hda/rg::nivellement::1.0"
+      ],
+      "ecart_numerique_max": 0.0,
+      "autres_valeurs_differentes": 1,
+      "hda_changees": [
+       "pj::bordure::2.1",
+       "pj::caniveau::2.2",
+       "rg::nivellement::1.0"
+      ],
+      "cles_ajoutees": {
+       "pj::bordure::2.1": 1,
+       "pj::caniveau::2.2": 1
+      }
+     }
+    }
+   ],
+   "absents": [],
+   "nouveaux": []
+  }
+ },
+ "controles_lots": {
+  "L3": {
+   "scenes": [
+    "J1_T_cedez",
+    "J2_croix_stop",
+    "J3_croix_feux",
+    "J4_ilots_directionnel_separateurs",
+    "J5_carrefour_complexe"
+   ],
+   "ecart_numerique_max": 0.0,
+   "autres_valeurs_differentes": 0,
+   "chemins": [],
+   "identique": true
+  },
+  "L4": {
+   "scenes": [
+    "J1_T_cedez",
+    "J2_croix_stop",
+    "J3_croix_feux",
+    "J4_ilots_directionnel_separateurs",
+    "J5_carrefour_complexe"
+   ],
+   "ecart_numerique_max": 0.0,
+   "autres_valeurs_differentes": 0,
+   "chemins": [],
+   "identique": true
+  },
+  "giratoires": {
+   "scenes": [
+    "G1_giratoire_urbain_D40",
+    "G2_giratoire_periurbain_D50",
+    "G3_mini_giratoire_D20"
+   ],
+   "ecart_numerique_max": 0.0,
+   "autres_valeurs_differentes": 0,
+   "chemins": [],
+   "identique": true
+  },
+  "autoroutes": {
+   "scenes": [
+    "A1_autoroute_2x2_GBA",
+    "A2_autoroute_2x3_glissieres",
+    "A3_bretelle_entree",
+    "A4_bretelle_sortie"
+   ],
+   "ecart_numerique_max": 0.0,
+   "autres_valeurs_differentes": 0,
+   "chemins": [],
+   "identique": true
+  },
+  "bordures": {
+   "criteres": {
+    "C-B1": {
+     "avant": [
+      "32/32",
+      true
+     ],
+     "apres": [
+      "32/32",
+      true
+     ]
+    },
+    "C-B10": {
+     "avant": [
+      "18/18",
+      true
+     ],
+     "apres": [
+      "18/18",
+      true
+     ]
+    },
+    "C-B2": {
+     "avant": [
+      "32/32",
+      true
+     ],
+     "apres": [
+      "32/32",
+      true
+     ]
+    },
+    "C-B3": {
+     "avant": [
+      "432/432",
+      true
+     ],
+     "apres": [
+      "432/432",
+      true
+     ]
+    },
+    "C-B4": {
+     "avant": [
+      "432/432",
+      true
+     ],
+     "apres": [
+      "432/432",
+      true
+     ]
+    },
+    "C-B5": {
+     "avant": [
+      "7/7",
+      true
+     ],
+     "apres": [
+      "7/7",
+      true
+     ]
+    },
+    "C-B6": {
+     "avant": [
+      "76/76",
+      true
+     ],
+     "apres": [
+      "76/76",
+      true
+     ]
+    },
+    "C-B7": {
+     "avant": [
+      "trous 0.0 m, recouvrements 0",
+      true
+     ],
+     "apres": [
+      "trous 0.0 m, recouvrements 0",
+      true
+     ]
+    },
+    "C-B8": {
+     "avant": [
+      "639/639 ; 74.6 % de la longueur au catalogue",
+      true
+     ],
+     "apres": [
+      "639/639 ; 74.9 % de la longueur au catalogue",
+      true
+     ]
+    },
+    "C-B9": {
+     "avant": [
+      "max 0.00 mm (17 profils)",
+      true
+     ],
+     "apres": [
+      "max 0.00 mm (17 profils)",
+      true
+     ]
+    },
+    "R1": {
+     "avant": [
+      "BEV 1760/1760 dalles, passage 23334/23334 faces",
+      true
+     ],
+     "apres": [
+      "BEV 1760/1760 dalles, passage 23334/23334 faces",
+      true
+     ]
+    },
+    "R2": {
+     "avant": [
+      "26.7-37.5°",
+      false
+     ],
+     "apres": [
+      "26.7-36.0°",
+      true
+     ]
+    },
+    "R3": {
+     "avant": [
+      "27.3-36.0°, saturation ≥ 0.062",
+      true
+     ],
+     "apres": [
+      "27.3-36.0°, saturation ≥ 0.062",
+      true
+     ]
+    },
+    "R4": {
+     "avant": [
+      "ΔY -0.058 à -0.055 ; teinte 25.7-30.0°",
+      true
+     ],
+     "apres": [
+      "ΔY -0.058 à -0.055 ; teinte 25.7-30.0°",
+      true
+     ]
+    },
+    "R5": {
+     "avant": [
+      "max 0.135",
+      true
+     ],
+     "apres": [
+      "max 0.137",
+      true
+     ]
+    },
+    "R6": {
+     "avant": [
+      "S03 : 13 avaloirs, 0 recouvrements, 0 trous, S10 : 4 avaloirs, 0 recouvrements, 0 trous",
+      true
+     ],
+     "apres": [
+      "S03 : 13 avaloirs, 0 recouvrements, 0 trous, S10 : 4 avaloirs, 0 recouvrements, 0 trous",
+      true
+     ]
+    }
+   },
+   "non_recalcules": [
+    "C-B11",
+    "C-B12"
+   ],
+   "perdus": [],
+   "gagnes": [
+    "R2"
+   ],
+   "statuts_identiques": false
+  }
+ },
+ "rendus": {
+  "S01": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 80.4
+  },
+  "S02": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 77.0
+  },
+  "S03": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 81.7
+  },
+  "S04": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 85.1
+  },
+  "S05": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 88.9
+  },
+  "S06": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 100.2
+  },
+  "S07": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 77.5
+  },
+  "S08": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 83.4
+  },
+  "S09": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 77.6
+  },
+  "S10": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 78.6
+  },
+  "S11": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 77.9
+  },
+  "S12": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 77.4
+  },
+  "B01": {
+   "vues": [
+    "conducteur",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    1018
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 85.7
+  },
+  "J1_T_cedez": {
+   "vues": [
+    "conducteur_carrefour",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 94.3
+  },
+  "J2_croix_stop": {
+   "vues": [
+    "conducteur_carrefour",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 179.3
+  },
+  "J3_croix_feux": {
+   "vues": [
+    "conducteur_carrefour",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 118.9
+  },
+  "J4_ilots_directionnel_separateurs": {
+   "vues": [
+    "conducteur_carrefour",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 128.2
+  },
+  "J5_carrefour_complexe": {
+   "vues": [
+    "conducteur_ouest_tag",
+    "dessus",
+    "oblique_carrefour"
+   ],
+   "n_vues": 3,
+   "planche": [
+    1092,
+    1075
+   ],
+   "attendu": 3,
+   "geometrie_finale": true,
+   "duree_s": 294.1
+  },
+  "G1_giratoire_urbain_D40": {
+   "vues": [
+    "conducteur_carrefour",
+    "dessus",
+    "oblique_carrefour"
+   ],
+   "n_vues": 3,
+   "planche": [
+    1092,
+    1075
+   ],
+   "attendu": 3,
+   "geometrie_finale": true,
+   "duree_s": 158.1
+  },
+  "G2_giratoire_periurbain_D50": {
+   "vues": [
+    "conducteur_carrefour",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 234.4
+  },
+  "G3_mini_giratoire_D20": {
+   "vues": [
+    "conducteur_carrefour",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    415
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 101.5
+  },
+  "A1_autoroute_2x2_GBA": {
+   "vues": [
+    "conducteur_autoroute",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    349
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 344.0
+  },
+  "A2_autoroute_2x3_glissieres": {
+   "vues": [
+    "conducteur_autoroute",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    349
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 355.4
+  },
+  "A3_bretelle_entree": {
+   "vues": [
+    "conducteur_autoroute",
+    "dessus",
+    "oblique_autoroute"
+   ],
+   "n_vues": 3,
+   "planche": [
+    1092,
+    1049
+   ],
+   "attendu": 3,
+   "geometrie_finale": true,
+   "duree_s": 470.5
+  },
+  "A4_bretelle_sortie": {
+   "vues": [
+    "conducteur_autoroute",
+    "dessus"
+   ],
+   "n_vues": 2,
+   "planche": [
+    1092,
+    349
+   ],
+   "attendu": 2,
+   "geometrie_finale": true,
+   "duree_s": 457.0
+  }
+ },
+ "retrocompatibilite_compilation": {
+  "fichiers": 27,
+  "identiques": 24,
+  "differents": [
+   "05_rue_piste_bande_plantee_arret_bus.yaml",
+   "08_sens_unique_stationnement_charretieres.yaml",
+   "11_description_rapide_depuis_photo.yaml"
+  ]
+ },
+ "planches": {
+  "etape2_1.png": [
+   1092,
+   1040
+  ],
+  "etape2_2.png": [
+   1092,
+   1040
+  ],
+  "etape2_3.png": [
+   1092,
+   1040
+  ],
+  "etape2_4.png": [
+   1092,
+   1040
+  ],
+  "etape2_5.png": [
+   1092,
+   1040
+  ],
+  "etape2_6.png": [
+   1092,
+   1040
+  ],
+  "etape2_7.png": [
+   1092,
+   296
+  ]
+ },
+ "scenes_fabriquees": [
+  "A1_autoroute_2x2_GBA",
+  "A2_autoroute_2x3_glissieres",
+  "A3_bretelle_entree",
+  "A4_bretelle_sortie",
+  "B01",
+  "G1_giratoire_urbain_D40",
+  "G2_giratoire_periurbain_D50",
+  "G3_mini_giratoire_D20",
+  "J1_T_cedez",
+  "J2_croix_stop",
+  "J3_croix_feux",
+  "J4_ilots_directionnel_separateurs",
+  "J5_carrefour_complexe",
+  "S01",
+  "S02",
+  "S03",
+  "S04",
+  "S05",
+  "S06",
+  "S07",
+  "S08",
+  "S09",
+  "S10",
+  "S11",
+  "S12"
+ ],
+ "correction_etape2": {
+  "note": "INT-2 et INT-5-bordures reformulés le 18/10/2026 par le lot « correction de l'étape 2 » (validation/RAPPORT_correction_etape2.md) ; ex05, ex08, ex11 refabriqués, correction connue de vex_sol.py appliquée par ce lot."
+ }
+}

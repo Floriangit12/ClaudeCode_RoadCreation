@@ -1,0 +1,188 @@
+# Dialog script for rg::marquages_carrefour::1.0 automatically generated
+
+{
+    name	rg::marquages_carrefour::1.0
+    inputlabel	1	"Solveur (rg::carrefours, sortie 3)"
+    inputlabel	2	"Niveaux (rg::nivellement, sortie 1)"
+    inputlabel	3	"Références (rg::graphe, sortie 1)"
+    inputlabel	4	"Lignes et marques (rg::marquages, sorties 1 + 2)"
+    outputlabel	1	"Lignes"
+    outputlabel	2	"Marques"
+    outputlabel	3	"Données"
+    outputlabel	4	"Contrôles"
+    script	rg::marquages_carrefour::1.0
+    label	"RG Marquages des carrefours (trajectoires, guidage, zone de conflit)"
+
+    help {
+    }
+
+    inputlabel	1	"Solveur (rg::carrefours, sortie 3)"
+    inputlabel	2	"Niveaux (rg::nivellement, sortie 1)"
+    inputlabel	3	"Références (rg::graphe, sortie 1)"
+    inputlabel	4	"Lignes et marques (rg::marquages, sorties 1 + 2)"
+
+    parm {
+        name    "fichier"
+        label   "Modèle (modele_voie.json)"
+        type    file
+        default { "" }
+        help    "Même fichier que rg::lire_modele (le pilote y renvoie son paramètre) : consignes de flèches, sas, mouvements autorisés, guidage décrit et phases des feux."
+    }
+    parm {
+        name    "spec"
+        label   "Gabarits IISR (dossier 08, format pj)"
+        type    file
+        default { "D:/ClaudeCode_RoadCreation/recon/generateur/hda/rg_marquages/gabarits_iisr7_pj.json" }
+        help    "gabarits_iisr7_pj.json du lot L2b (gabarits et glyphes de D:/DocRoute/08_Marquages_Geometrie_IISR7/marquages_iisr7.json), lus par pj::gabarits_iisr."
+    }
+    parm {
+        name    "vehicule"
+        label   "Véhicule de projet des trajectoires"
+        type    string
+        default { "vl" }
+        help    "Véhicule du lot L3a (vehicules/vehicules_projet.json) dont le rayon d'axe minimal borne les trajectoires (RF-GV-TRJ-006 ; plan § 3 L4 : « trajectoires de rayon ≥ véhicule de projet »)."
+    }
+    parm {
+        name    "r_min_vehicule"
+        label   "Rayon d'axe minimal du véhicule (m)"
+        type    float
+        default { "5.467" }
+        help    "vehicules/balayage.rayon_min('vl') (lot L3a : braquage maximal, empattement 2,875 m)."
+        range   { 1 30 }
+    }
+    parm {
+        name    "largeur_vehicule"
+        label   "Largeur de caisse du véhicule (m)"
+        type    float
+        default { "1.8" }
+        help    "VU p. 142 (vehicules_projet.json, vl)."
+        range   { 0.5 4 }
+    }
+    parm {
+        name    "angle_tout_droit"
+        label   "Écart angulaire d'un tout-droit (°)"
+        type    float
+        default { "25" }
+        help    "Mouvement traité en droite si les directions d'entrée et de sortie diffèrent de moins de cet angle [G]."
+        range   { 1 60 }
+    }
+    parm {
+        name    "fleche_arc"
+        label   "Flèche maximale des arcs (m)"
+        type    float
+        default { "0.0005" }
+        help    "Échantillonnage des arcs (RF-OSM-CAR-001)."
+        range   { 1e-05 0.01 }
+    }
+    parm {
+        name    "pas_angulaire_arc"
+        label   "Pas angulaire maximal des arcs (°)"
+        type    float
+        default { "0.8" }
+        help    "Échantillonnage des arcs : la première corde dévie de la tangente de la voie d'un demi-pas (0,4° ≤ 0,5°, tolérance d'orientation du plan § 3 L4) [G], comme les coins du lot L3."
+        range   { 0.1 5 }
+    }
+    parm {
+        name    "garde_guidage"
+        label   "Garde caisse / peinture de la ligne de guidage (m)"
+        type    float
+        default { "0.725" }
+        help    "TAG guidés : la caisse du VL reste à cette distance au moins du bord de la peinture de la ligne de guidage ; (garde entre enveloppes RF-GV-TRJ-006 − largeur de la ligne RF-MQ-GUI-01) / 2 + (rétroviseurs − caisse) / 2 (VU p. 142) : les enveloppes balayées des deux TAG opposés restent séparées de la garde minimale (correction après le contrôle de l'étape 2)."
+        range   { 0 3 }
+    }
+    parm {
+        name    "guidage_largeur"
+        label   "Largeur des lignes de guidage par défaut (m)"
+        type    float
+        default { "0.1" }
+        help    "RF-MQ-GUI-01, ARB-08 (le modèle prime)."
+        range   { 0.05 0.3 }
+    }
+    parm {
+        name    "tp2_trait"
+        label   "T'2 : trait (m)"
+        type    float
+        default { "0.5" }
+        help    "RF-MQ-MOD-T'2."
+        range   { 0.1 2 }
+    }
+    parm {
+        name    "tp2_intervalle"
+        label   "T'2 : intervalle (m)"
+        type    float
+        default { "0.5" }
+        help    "RF-MQ-MOD-T'2."
+        range   { 0.1 2 }
+    }
+    parm {
+        name    "effet_largeur"
+        label   "Ligne d'effet des feux : largeur (m)"
+        type    float
+        default { "0.15" }
+        help    "RF-MQ-FEU-01 (bord amont des lignes : flèches, sas, zone de conflit)."
+        range   { 0.05 1 }
+    }
+    parm {
+        name    "cedez_largeur"
+        label   "Ligne CÉDEZ : largeur (m)"
+        type    float
+        default { "0.5" }
+        help    "RF-MQ-CED-01."
+        range   { 0.1 1 }
+    }
+    parm {
+        name    "stop_largeur"
+        label   "Ligne STOP : largeur (m)"
+        type    float
+        default { "0.5" }
+        help    "RF-MQ-STOP-01."
+        range   { 0.1 1 }
+    }
+    parm {
+        name    "fleche_fraction_largeur"
+        label   "Flèches : largeur de voie minimale (fraction)"
+        type    float
+        default { "0.99" }
+        help    "Une flèche n'est posée que si la voie a au moins cette fraction de sa largeur à l'embouchure sous toute la flèche (voie de stockage formée, hors biseau d'ouverture) ; sinon la série s'arrête (« 2 si la voie est courte », ARB-11) [G]."
+        range   { 0.5 1 }
+    }
+    parm {
+        name    "fleche_rectitude"
+        label   "Flèches : déviation maximale de la voie sous la flèche (°)"
+        type    float
+        default { "0.5" }
+        help    "La flèche est rigide : la série s'arrête là où l'axe de la voie dévie de plus de cet angle sous la flèche (déport, biseau ; tolérance d'orientation du plan § 3 L4 : ± 0,5°) [G]."
+        range   { 0.05 5 }
+    }
+    parm {
+        name    "pas_densification"
+        label   "Pas de densification des empreintes (m)"
+        type    float
+        default { "0.25" }
+        help    "Arêtes des flèches et des tirets découpées pour le drapé sur le sol (pj::marquage_solide) [G]."
+        range   { 0.02 1 }
+    }
+    parm {
+        name    "pas_densification_lignes"
+        label   "Pas de densification des tirets de l'axe prolongé (m)"
+        type    float
+        default { "0.1" }
+        help    "Tirets de l'axe prioritaire prolongé dans le cœur (sol interpolé, triangulé à 0,5 m) : côtés découpés au pas de 0,10 m pour que le dessus drapé reste à 2 ± 0,3 mm du sol (TQ-MQG-005) [G]."
+        range   { 0.02 1 }
+    }
+    parm {
+        name    "gabarit_sas"
+        label   "Figurine des sas"
+        type    string
+        default { "VELO" }
+        help    "Gabarit VELO du dossier 08 (RF-MQ-SAS-01 : figurine dans l'axe de chaque voie de circulation du sas)."
+    }
+    parm {
+        name    "usure_peinture"
+        label   "Usure de la peinture"
+        type    float
+        default { "0.2" }
+        help    "Usure des marques ajoutées (le pilote la lit sur les LIGNES de rg::marquages : classe d'usure du modèle)."
+        range   { 0 1 }
+    }
+}

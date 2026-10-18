@@ -1,0 +1,43 @@
+= RG Giratoires (solveur) =
+
+"""Solveur des giratoires (lot L5, PLAN_GENERATEUR § 2.4 étape 4) branché après rg::carrefours : congés d'entrée et de sortie (raccordements Re / Rs du modèle, ACI tableau 1) tangents au bord réel des branches et au bord extérieur de la chaussée annulaire, coins (amorce, congé, anneau, congé, amorce) au contrat de rg::carrefours, trottoirs des branches coupés, routes d'anneau retirées (l'anneau est fabriqué dans le cœur par rg::carrefours_sol et les îlots posés par rg::giratoires_sol), SOLVEUR fusionné avec celui des carrefours plans."""
+
+== Entrées ==
+
+1. Routes, 2. Profils, 3. SOLVEUR (rg::carrefours, sorties 1, 2, 3).
+
+== Sorties ==
+
+1. Routes coupées (giratoires : s_end = frontière, profils réduits ~cG / ~cD au-delà de s_cut), routes d'anneau retirées.
+2. Profils (+ réduits).
+3. SOLVEUR fusionné (contrat rg::carrefours : branches, coins, embouchures, frontières, passages ; îlots des giratoires retirés).
+4. GIRATOIRES : points giratoire (anneau, rayons des limites r_lim, R0), branches (T_g / T_d, C_g / C_d, K_g / K_d des congés), passages, îlots (ilot_g), coins.
+
+Règles : RF-GV-GIR-003, RF-GV-GIR-004, RF-OSM-CAR-001, DEF-031 ; choix [G] : amorce, garde avant le rampant.
+
+@parameters
+
+Modèle (modele_voie.json):
+    #id: fichier
+    Même fichier que rg::lire_modele (le pilote y renvoie son paramètre) : carrefours de type giratoire et mini_giratoire (anneau, raccordements), îlots, passages et profil de la route d'anneau sont lus ici.
+
+Amorce droite des bordures de coin (m):
+    #id: amorce
+    Longueur droite de la bordure de coin avant le point de tangence du congé, prise sur la branche (le trottoir de la branche est coupé d'autant). Même choix de fabrication [G] que rg::carrefours.
+
+Rampant gardé sur la bordure de coin (m):
+    #id: rampant_passage
+    Un passage qui touche le coin garde tout son abaissé et ses rampants (DEF-031 : 2,40 m à 5 %) sur la bordure de coin : la coupe du trottoir de la branche recule jusqu'avant le rampant.
+
+Garde avant le rampant (m):
+    #id: garde_passage
+    Marge entre la coupe du trottoir et le début du rampant de l'abaissé (choix de fabrication [G]).
+
+Flèche maximale des arcs (m):
+    #id: fleche
+    Échantillonnage des congés et de l'anneau : flèche ≤ 0,5 mm (RF-OSM-CAR-001, critère L1).
+
+Pas angulaire maximal des arcs (°):
+    #id: pas_angulaire_max
+    Rupture au point de tangence ≤ 0,5° (demi-pas), comme rg::carrefours.
+

@@ -1,0 +1,47 @@
+# J1 — Carrefour en T en agglomération, branche secondaire en cédez le passage.
+# Valeurs : rue principale 2 × 1 voie de 3,00 m (RF-OSM-LAR-010 / DEF-002), trottoirs 2,50 m, bordures T2 vue 0,14
+# (DEF-005) ; rue secondaire 2 × 1 voie de 3,00 m, trottoirs 2,00 m (DEF-004). Régime : cédez sur la secondaire (AB3a
+# + M9c, RF-SV-AB3A.POSITION), ligne T'2 0,50 à la limite de la chaussée prioritaire (DEF-012, ARB-02, RF-MQ-CED-01),
+# continue axiale d'approche 2u sur 15 m (DEF-013, RF-MQ-STOP-03), passage piéton 2 m en amont de la ligne (DEF-012),
+# rayons d'angle 8 m (DEF-010 bus / PL occasionnels). Les branches sont tracées VERS le centre.
+format: description_simple/0.2
+scene: J1_T_cedez
+titre: Carrefour en T, branche secondaire en cédez le passage
+description: "Rue 2 × 1 voie à 50 km/h, trottoirs 2,50 m ; rue secondaire 2 × 1 voie en cédez le passage avec passage piéton et continue d'approche."
+contexte: {agglomeration: oui, vitesse: 50, categorie: rue}
+marquages: {usure: légère}
+troncons:
+  - id: ouest
+    nom: rue principale (ouest)
+    de: [-80, 0]
+    vers: [0, 0]
+    profil: "trottoir 2,5 | bordure T2 vue 0,14 | voie 3,0 ← | voie 3,0 → | bordure T2 vue 0,14 | trottoir 2,5"
+  - id: est
+    nom: rue principale (est)
+    de: [80, 0]
+    vers: [0, 0]
+    profil: "trottoir 2,5 | bordure T2 vue 0,14 | voie 3,0 ← | voie 3,0 → | bordure T2 vue 0,14 | trottoir 2,5"
+  - id: sud
+    nom: rue secondaire
+    de: [0, -70]
+    vers: [0, 0]
+    profil: "trottoir 2 | bordure T2 vue 0,14 | voie 3,0 ← | voie 3,0 → | bordure T2 vue 0,14 | trottoir 2"
+carrefours:
+  - id: J1
+    centre: [0, 0]
+    branches:
+      - {troncon: ouest, regime: prioritaire}
+      - {troncon: est, regime: prioritaire}
+      - {troncon: sud, regime: cédez, passage: oui}
+attendus:
+  branches: 3
+  regime: cedez
+  frontiere_m: {ouest: 3.0, est: 3.0, sud: 3.0}         # demi-chaussée de la branche sécante (bords prolongés)
+  ligne: {sud: {type: CEDEZ, distance_au_centre_m: 3.0, largeur_m: 0.5, modulation: "T'2"}}
+  passage: {sud: {bord_proche_au_centre_m: 5.5, largeur_m: 4.0}}   # 3,00 + 0,50 + 2,00 (DEF-012)
+  continue_approche_m: {sud: 15.0}
+  panneaux: {AB3a: 1, M9c: 1, AB4: 0}
+  coins_rayon_m: 8.0
+  trajectoires: 6
+  conflits: {croisement: 3, convergence: 3, divergence: 3, total: 9}   # carrefour en T à une voie par sens
+  zone_conflit_m2: 36.0

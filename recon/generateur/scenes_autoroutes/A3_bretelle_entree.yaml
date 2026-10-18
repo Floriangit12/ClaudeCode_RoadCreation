@@ -1,0 +1,62 @@
+# A3 — Bretelle d'entrée sur autoroute 2 × 2 voies : entrée en insertion (voie d'accélération parallèle + biseau).
+# Chaussée principale : profil de A1 (voies 3,50, BAU 3,00, bermes 1,00, TPC 2,60 à GBA ; RF-OSM-LAR-014, RF-GV-TPC-002).
+# Bretelle : voie de 3,50 m, BAU de 3,00 m (rive T'3 3u des bretelles, RF-MQ-SC-06), berme 1,00 m ; elle aborde la
+# principale avec une obliquité de 1/25 (VSA 90/110 Cerema 2014 p. 38 : entrée entre 1/33 et 1/20 ; ICTAVRU p. 84 :
+# 1/30 à 1/20), en alignement sur 140 m après un arc de 200 m.
+# Dispositif (VSA 90/110 p. 34, schéma 26 « insertion d'une voie ») : zone de manœuvre parallèle de 200 m depuis le point
+# E.1,00 m, puis biseau de 75 m ; la voie d'insertion est séparée de la voie de droite par une ligne T2 5u (RF-MQ-INS-01,
+# qui vaut ligne cédez ; IISR7 tableau 113-2 B1b) ; BAU interrompue au droit du musoir. Musoir de convergence : chevrons
+# entre le point à 5,00 m (E.5,00, nez du terre-plein latéral) et le point à 1,00 m (E.1,00), contour continue 3u, espace
+# 2u (RF-MQ-MUS-01, RF-MQ-HACH-02) ; terre-plein latéral en saillie au-delà, à 0,70 m des chaussées (VSA p. 39, note 23).
+# ICTAAL n'est pas dans les sources locales du dépôt : les longueurs sont celles de la VSA 110 (voie à caractéristiques
+# autoroutières), la vitesse de la principale est portée à 110 km/h en conséquence.
+# Lot autoroutes (18/10/2026) : rive gauche de la bretelle continue 3u (IISR7 art. 114-4 B p. 15 : « en l'absence de
+# bande d'arrêt d'urgence, la ligne de rive est continue de largeur 3u » ; RF-MQ-SC-06 sans_bau, RF-OSM-MRQ-022) au lieu
+# de la rive de route T2 3u déduite par défaut (RF-OSM-MRQ-021, routes). La BDG de 0,50 m de la VSA 90/110 (§ 6.4.5.2
+# p. 49) n'est pas décrite : le compilateur ancre une route à sens unique sur son bord gauche, une BDG interrompue
+# avant la jonction déplacerait la voie de 0,50 m (signalé à l'intégration).
+format: description_simple/0.2
+scene: A3_bretelle_entree
+titre: Autoroute 2 × 2, bretelle d'entrée en insertion
+description: "Entrée sur autoroute 2 × 2 voies : bretelle à obliquité 1/25, musoir à chevrons, voie d'insertion de 200 m puis biseau de 75 m, ligne T2 5u."
+contexte: {agglomeration: non, categorie: autoroute, vitesse: 110}
+troncons:
+  - id: principale
+    nom: autoroute (chaussée principale)
+    de: [-400, 0]
+    vers: [400, 0]
+    profil: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | BAU 3,0 | berme 1,0"
+    evenements:
+      # 35 m avant l'interruption de la BAU, la T4 3u de la BAU devient rive continue 3u jusqu'au contour du musoir
+      # (IISR7 p. 15, schéma « Suppression de la bande d'arrêt d'urgence », RF-MQ-SC-13 ; correction après le contrôle
+      # de l'étape 2 : la dernière T4 tronquée était retirée, 32 m de rive sans peinture avant le musoir)
+      - profil: {a: 140, nouveau: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | ligne continue 3u | BAU 3,0 | berme 1,0"}
+      # E.5,00 (écart de 5 m à 125 m de la jonction, obliquité 1/25) : la BAU s'interrompt au droit du musoir
+      - profil: {a: 175, nouveau: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 →"}
+      # jonction (pointe du musoir) : la voie de la bretelle devient la voie d'insertion
+      - profil: {a: 300, nouveau: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | ligne T2 5u | voie d'insertion 3,5 → | BAU 3,0 | berme 1,0"}
+      # fin de la zone de manœuvre (200 m après E.1,00, soit 175 m après la jonction) puis biseau de 75 m
+      - fermeture: {a: 550, longueur: 75, nouveau: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | BAU 3,0 | berme 1,0"}
+  - id: bretelle
+    nom: bretelle d'entrée
+    contexte: {categorie: bretelle, u_m: 0.075}         # u homogène sur l itinéraire (DEF-001, RF-OSM-MRQ-001)
+    depart: [-338.6773, -47.9146]      # référence de la bretelle (milieu voie + BAU) : axe de voie à 1,50 m à sa gauche
+    cap: 32.2906100
+    trace:
+      - arc: {rayon: 200, angle: 30, sens: droite}
+      - droite: 140
+    profil: "ligne continue 3u | voie 3,5 → | ligne T'3 3u | BAU 3,0 | berme 1,0"
+bretelles:
+  - id: E1
+    type: entrée
+    principale: principale
+    bretelle: bretelle
+    musoir: {longueur: 40}
+attendus:
+  obliquite: 0.04                      # 1/25 (1/33 à 1/20)
+  point_1m_m: 25.0                     # depuis la jonction, le long de la bretelle (1,00 / 0,04)
+  point_5m_m: 125.0
+  voie_insertion: {debut_s: 300, zone_parallele_m: 175, biseau_m: 75, fin_s: 550}   # 200 m depuis E.1,00 (25 m avant la jonction)
+  ligne_insertion: "T2 5u"
+  musoir: {chevrons: true, contour: "continue 3u", balise: J14a}
+  bau_interrompue_s: [175, 300]

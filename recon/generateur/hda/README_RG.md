@@ -1,6 +1,6 @@
-# recon/generateur/hda : HDA `rg::*` du générateur de routes (lots L1, L2 et L2b)
+# recon/generateur/hda : HDA `rg::*` du générateur de routes (étape 1 : lots L1, L2, L2b ; étape 2 : carrefours, giratoires, autoroutes, bordures)
 
-*`recon/generateur/hda/README_RG.md` — 17/10/2026. Plan : `recon/generateur/PLAN_GENERATEUR.md` § 2.3 et § 3 (L1, L2, L4 pour la section courante = L2b).
+*`recon/generateur/hda/README_RG.md` — 17/10/2026, complété le 18/10/2026 (intégration de l'étape 2 : § 10 à 14). Plan : `recon/generateur/PLAN_GENERATEUR.md` § 2.3 et § 3 (L1, L2, L4 pour la section courante = L2b).
 Conventions communes avec les HDA `pj::*` : `recon/pcg/houdini/hda/README_HDA.md` (repère, Python réservé aux
 entrées-sorties, HDA développées, VEX sans `#include "opdef:"` ni `struct`, déterminisme).*
 
@@ -26,12 +26,23 @@ hda/
   pj_caniveau_v2/construire.py, pj_caniveau_2.0.hdalc/       pj::caniveau::2.0 (nouvelle version, la 1.0 reste intacte)
   pj_bordure_v2/construire.py, pj_bordure_2.0.hdalc/         pj::bordure::2.0 (nouvelle version, la 1.0 reste intacte)
   pj_caniveau_v2_1/construire.py, pj_caniveau_2.1.hdalc/     pj::caniveau::2.1 (second contrôle ; 1.0 et 2.0 intactes)
+  pj_bordure_v2_1/construire.py, pj_bordure_2.1.hdalc/       pj::bordure::2.1 (lot bordures : table étendue ; § 13)
+  pj_caniveau_v2_2/construire.py, pj_caniveau_2.2.hdalc/     pj::caniveau::2.2 (lot bordures : CC2, CS4, prototypes ; § 13)
+  rg_carrefours/construire.py, rg_carrefours.hdalc/, rg_carrefours_sol.hdalc/   lot L3, carrefours plans (§ 9)
+  rg_marquages_carrefour/construire.py, rg_marquages_carrefour.hdalc/         lot L4, marquages des carrefours (§ 10)
+  rg_giratoires/construire.py, rg_giratoires.hdalc/, rg_giratoires_sol.hdalc/   lot L5, giratoires (§ 11)
+  rg_autoroute/construire.py, rg_autoroute.hdalc/            lot autoroutes : retenues, bifurcations, musoirs (§ 12)
   commun/vex/rg_marquage.h         lot L2b : empreintes en (s, t), découpe en cellules (lignes de rupture du sol, corps de
                                    bordure et caniveaux retirés), attributs du contrat de pj::marquage_solide
   rg_marquages/construire.py, marquages.vfl, rg_marquages.hdalc/     lot L2b
   rg_marquages/gabarits_iisr7.py, gabarits_iisr7_pj.json   gabarits et glyphes du dossier 08 au format de pj::gabarits_iisr
 recon/generateur/fabriquer_generateur.py    pilote hython (description .yaml ou modèle .json -> courbes de contrôle ;
-                                            --l2 : sol, bordures, caniveaux ; --rendus : rendus Karma XPU)
+                                            --l2 : sol, bordures, caniveaux ; --l2b : marquages et chaîne de réseau
+                                            choisie d'après le modèle ; --complet : description -> rendu ; § 14)
+recon/generateur/fabriquer_carrefours.py, fabriquer_marquages_carrefour.py, fabriquer_giratoires.py,
+  fabriquer_autoroutes.py, fabriquer_bordures.py   pilotes des lots de l'étape 2, bibliothèques de fabriquer_generateur
+commun/bordures_catalogue.py                types de bordures et caniveaux du catalogue route_fr (§ 13)
+vehicules/balayage.py, vehicules_projet.json   lot L3a : véhicules de projet et épures de giration
 recon/generateur/fabriquer_l2.py            lot L2 du pilote (réseau, exports, sondes de mesure, USD)
 recon/generateur/fabriquer_l2b.py           lot L2b du pilote (rg::marquages -> pj::marquage_solide x 2, mesures, USD)
 recon/generateur/rendu/                     rendus de contrôle (rendre_l2.py, rendu_scenes.py, decor.py) ; lot L2b :
@@ -386,7 +397,7 @@ avec `--hip`, à ouvrir après installation des trois HDA, par exemple `hou.hda.
 ## 8. Limites connues
 
 - Pas de carrefour : les routes d'un réseau se chevauchent aux nœuds (solveur au lot L3) ; les profils d'extrémité
-  sont prêts pour les coupes.
+  sont prêts pour les coupes. *Levé à l'étape 2 : carrefours plans, giratoires et bifurcations (§ 9 à 14).*
 - Routes sans géométrie régulière (polylignes OSM) : décalés en onglet ; aux sommets anguleux, les limites intérieures
   se replient (contrôle `inversions`) : régularisation du tracé à prévoir.
 - Primitive `parampoly3`, interpolation `cubique_lisse` et transitions d'entrée `lineaire`, `biseau_iisr`,
@@ -396,7 +407,8 @@ avec `--hip`, à ouvrir après installation des trois HDA, par exemple `hou.hda.
 - Décroché de bordure d'un changement instantané (ex10, s = 140) : la jonction est déclarée et mesurée ; le retour de
   bordure transversal est fabriqué au lot L2 (files de `rg::nivellement`).
 - Lot L2 : une nappe par route (pas de carrefour : lot L3) ; profil de bordure `autre` et piste à un niveau
-  intermédiaire entre deux bordures (scène E du plan, ex05) non pris en charge (erreur explicite) ; les nappes du
+  intermédiaire entre deux bordures (scène E du plan, ex05) non pris en charge (erreur explicite ; *depuis l'intégration
+  de l'étape 2, le compilateur choisit le profil par la vue nominale, § 13*) ; les nappes du
   HeightField sont numérotées par route (une même surface peut changer de numéro à une jonction de sections où le
   nombre de marches change ; les prolongements de la section voisine couvrent les requêtes au voisinage) ; marquages
   au lot L4 ; le volume des fosses d'arbres (9-12 m³) n'est pas modélisé (invisible), la surface plantée l'est.
@@ -411,3 +423,289 @@ avec `--hip`, à ouvrir après installation des trois HDA, par exemple `hou.hda.
   (moyens [G], règle demandée) ; files fermées par une avancée : un avaloir par file (moyen [G], règle demandée ; le
   caniveau ne contourne pas l'avancée, la description ne le dit pas) ; une bande qui naît en cours de tronçon décroche les rives (pas de biseau de
   terre-plein : les scènes de Meylan décrivent l'îlot dans une zone hachurée de même largeur).
+
+## 9. Lot L3 : carrefours plans (`rg::carrefours`, `rg::carrefours_sol`)
+
+*Ajout du lot L3 (18/10/2026). Plan : PLAN_GENERATEUR § 2.4 (étapes 1 à 6) et § 3 (L3). Rapport :
+`validation/RAPPORT_L3.md`. HDA construites par `hda/rg_carrefours/construire.py` (bibliothèque VEX
+`hda/rg_carrefours/vex/rg_carrefour.h`, code des wrangles `vex_solveur.py` et `vex_sol.py`, lecture Python
+`lecteur_carrefours.py`). Pilote : `fabriquer_carrefours.py` (importe fabriquer_generateur, fabriquer_l2 et
+fabriquer_l2b sans les modifier). Contrôle indépendant : `validation/controler_L3.py`.*
+
+```
+rg::lire_modele ─(1 routes, 5 profils)─► rg::carrefours ─► 1 routes coupées ─► rg::graphe ─► rg::profils
+                                                        ├► 2 profils (+ réduits) ─► rg::graphe, rg::profils, rg::nivellement,
+                                                        │                            rg::vers_entites, rg::marquages
+                                                        └► 3 SOLVEUR ──────────────┐
+rg::nivellement (NIVEAUX) + rg::graphe (références) ───────────────────────────────┴► rg::carrefours_sol
+   sorties : 1 sol du carrefour, 2 BEV, 3 ENTITÉS des bordures du carrefour, 4 MARQUES, 5 CONTRÔLES
+pilote : sol total = rg::sol + sol du carrefour (subnet « sol_total », sorties 1 sol, 2 BEV ; entrée 1 = rg::graphe) ;
+         entités totales = rg::vers_entites + ENTITÉS (subnet « entites_total ») -> pj::bordure, pj::caniveau ;
+         MARQUES + rg::marquages (sortie 2) -> pj::marquage_solide (marques, 3 mm, drapé sur le sol total)
+```
+
+### `rg::carrefours::1.0` (« RG Carrefours (solveur, coupes) »)
+
+Entrées : 1 routes, 2 profils de `rg::lire_modele` ; paramètres `fichier` (le pilote le relie à celui de
+`rg::lire_modele`) et `balayages` (JSON des enveloppes balayées du lot L3a, calculées par le pilote). Seuls les carrefours
+de type `plan_*` sont traités (giratoires, mini-giratoires et bifurcations : lots giratoires et autoroutes).
+
+1. **Branches** (VEX) : repère de la branche à la limite de la chaussée abordée (`s_front` = `s_frontiere_m` du modèle) ;
+   bords de chaussée = limites extérieures de la première et de la dernière bande `niv_reference = chaussee` (voies,
+   bandes cyclables, bandes dérasées, zones neutralisées ; trottoir, berme, terre-plein à l'extérieur) ; îlots de la bande
+   médiane (bandes non « chaussee » entre les bords).
+2. **Nez des îlots du profil** : arrondis au rayon du modèle (`ilots[].nez.rayon_m`, défaut RF-GV-ILO-015 : 0,50 m), de
+   longueur égale au rayon, pointe à `s_front − retrait` ; retrait = premier contact des balayages faisables (lot L3a ;
+   le pilote ajoute 15 m d'approche et de sortie dans l'axe des branches) avec la bande de l'îlot prolongée + 0,30 m,
+   **plafonné** pour garder le refuge d'un passage qui traverse l'îlot (bande + rampant DEF-031) ; le retrait requis et
+   le plafonnement sont rangés (`nez_retrait_requis`, `nez_limite_refuge`).
+3. **Coins** (droit de A, gauche de B, branches consécutives dans l'ordre trigonométrique) : congé de rayon
+   `coin_droit.rayon_m` (DEF-010 à défaut, signalé), tangent aux **bords réels** (lois de largeur suivies : ouverture
+   d'îlot à 1/15 près du coin), itéré au point de tangence ; arcs au pas angulaire ≤ 0,8° (rupture ≤ 0,4° au point de
+   tangence) et flèche ≤ 0,5 mm ; amorces droites de 3 m ([G]) sur les deux branches ; bords alignés (angle > 179°) :
+   bordure droite d'une embouchure à l'autre.
+4. **Coupes** : route raccourcie à `s_end` (fin de la chaussée de la branche) ; au-delà de `s_cut` de chaque côté, profil
+   réduit `<profil>~cG` / `~cD` / `~cGD` (bandes extérieures retirées, bord de chaussée sans bordure ni marquage de rive),
+   transition instantanée : `rg::nivellement` ne pose aucun retour (le trottoir retiré est hors de l'emprise commune).
+5. **Frontière** fermée (groupe `frontiere`) : embouchures en `s_end` (partie 0, joints) et bords + congés (partie 1).
+
+Sortie 3 **SOLVEUR** (API pour les lots giratoires, marquages et signalisation) :
+
+| Élément | Géométrie | Attributs |
+|---|---|---|
+| groupe de points `branche` | centre du carrefour | `carrefour`, `branche`, `route`, `rang`, `azimut`, `regime`, `ligne_type`, `ligne_distance`, `s_front`, `s_end`, `s_cut_g`, `s_cut_d`, `s_tan_g`, `s_tan_d`, `t_g`, `t_d` (bords de chaussée), `t_ext_g`, `t_ext_d`, `w_g`, `w_d` (largeurs extérieures), `bordure_g/d`, `vue_g/d`, `mat_ext_g/d`, `Pf` (point de la référence en `s_front`, local), `Pe` (en `s_end`), `dir` (vers le centre), `nrm` (gauche), `coin_g`, `coin_d`, `nez_c`, `nez_retrait`, `nez_retrait_requis`, `nez_limite_refuge`, `nez_intrusion_x`, `nez_balayage` |
+| polylignes `coin` | face de la bordure de coin (Houdini, Y = 0), côté haut à gauche, de B vers A | points `u` (abscisse), `partie` (0 amorce de B, 1 congé, 2 amorce de A) ; `coin`, `branche_a`, `branche_b`, `route_a`, `route_b`, `rayon`, `droit`, `rayon_defaut`, `centre_arc`, `angle_deg`, `bordure`, `vue`, `w_a`, `w_b`, `mat_ext`, `ref_ext`, `g_a`, `g_b` (dévers extérieurs), `s_cut_a`, `s_cut_b`, `bord_a`, `bord_b` (bords réels entre embouchure et tangence), `n_a`, `n_b`, `tangente_hors` |
+| polylignes `nez` | face de la bordure du nez, de la limite droite à la limite gauche de l'îlot (îlot à gauche) | `branche`, `route`, `s_end`, `t_g`, `t_d`, `bande`, `bordure`, `vue`, `materiau`, `rayon` |
+| polylignes `embouchure` | coupe en `s_end`, un sommet par limite du bord gauche au bord droit | points `t`, `limite` ; `branche`, `route`, `s_end` |
+| polygone `frontiere` | frontière fermée | points `partie` (0 joint, 1 voie) ; `carrefour` |
+| `ilot`, `passage`, `passage_libre`, `ligne`, `trajectoire`, `balayage` | lus dans le modèle et dans `balayages` | voir `lecteur_carrefours.py` |
+
+### `rg::carrefours_sol::1.0` (« RG Carrefours (sol, bordures, marques) »)
+
+Entrées : 1 NIVEAUX (`rg::nivellement`), 2 profils coupés, 3 SOLVEUR, 4 références (`rg::graphe`).
+
+- **Faces de bordure** : coins, nez, îlots du cœur (`ilots[]` sans `porte_par_profil`, sens trigonométrique, densifiés
+  à 0,5 m, boucle ouverte en un sommet aligné hors des passages) ; base de la table de `pj::bordure` ; **abaissés** là où
+  la face coupe la bande d'un passage (axe du modèle ± longueur des bandes / 2 ; passages sans route : repère de la voie
+  de coin la plus proche) : vue DEF-031 (0,02), rampants 2,40 m réduits au bout de la file (signalé sous 1,50 m).
+- **Sol** : contour (embouchures, bords réels, amorces, bords extérieurs des trottoirs de coin), lignes de contrainte
+  (faces, arrières des bordures = face + base − 12 mm, TQ-BOR-007), Triangulate 2D (arête 0,5 m, angle 25°) ; classes :
+  `carrefour_chaussee`, `sous_bordure` (chaussée prolongée sous la bordure, pente de la voie voisine),
+  `carrefour_trottoir` (tête − 4 mm + dévers depuis l'arrière, TQ-SOL-013 (5) ; abaissés : trottoir abaissé sur toute sa
+  largeur, rampants latéraux), `carrefour_accotement` (sans bordure : pied + dévers), `carrefour_ilot` (nez : plan de la
+  bande d'îlot de la branche ; îlots du cœur : tête − 4 mm, − 4 cm s'ils sont plantés), murs (`mur`, invisibles) aux
+  marches. Z imposés du modèle unique (`rg_coupe`) aux embouchures, sur les bords réels des branches et aux coupes des
+  trottoirs ; pied des coins = Z bas du modèle sur les amorces, linéaire sur le congé ; chaussée libre : interpolation
+  harmonique (initialisation 1/d⁴ puis Gauss-Seidel sur-relaxé, 400 itérations, ω = 1,8). Contrat de `rg::sol`
+  (z_type 10, murs 14 ; `s` = 10 000 + x, `t` = y pour les cartes d'usure du rendu).
+- **BEV** derrière chaque abaissé (DEF-031 : 0,50 m du nez, 0,5875 m, 0,40 m si trottoir < 1,90 m), 3 mm au-dessus du sol.
+- **ENTITÉS** : contrat de `rg::vers_entites` (identifiant `K-<coin|nez|îlot>`, intervalles courant / chartière / bateau,
+  pièce d'abaissé T2 -> T2_bateau, `niv_s`, `niv_z_pied`, `niv_z_tete`, caniveau vide).
+- **MARQUES** : lignes transversales du modèle (CÉDEZ T'2 0,50 ; STOP continue 0,50 ; EFFET_FEUX T'2 0,15 :
+  RF-MQ-CED-01, RF-MQ-STOP-01, RF-MQ-FEU-01, RF-MQ-MOD-T'2 ; motif centré, [G]) et bandes des passages sans route
+  (DEF-011) au contrat de `pj::marquage_solide`. Lignes de guidage, figurines, zones de sas et chevrons : lot L4.
+- **CONTRÔLES** : faces de bordure avec `pied_z`, `ab0` / `ab1` / `abv` / `abr`, `exterieur`, `arriere`, `base`.
+
+Exports du pilote : `<scene>/l3/carrefours.json` (branches, solveur, faces, entités, balayages résumés),
+`l3/mesures_l3.json` (raccords sol du carrefour / sol des branches : écart vertical, bords libres hors bord extérieur),
+`l3/manifest_l3.json` ; les sorties L1, L2, L2b et les rendus comprennent le carrefour.
+
+```
+hython recon/generateur/fabriquer_carrefours.py recon/generateur/scenes_carrefours/J5_carrefour_complexe.yaml [--rendus]
+                                                [--verifier-determinisme] [--sans-balayages]
+python recon/generateur/validation/controler_L3.py [recon/out/generateur/<scene> ...] [--json SORTIE]
+```
+
+Limites (lot L3) : branches tracées vers le centre (extrémité « fin ») et ligne de référence droite près du carrefour ;
+pas de ralentisseur ni de caniveau dans le carrefour (un coin ne prolonge pas le caniveau d'une branche) ; chaussée du
+cœur par interpolation harmonique (le profil en toit de la route prioritaire n'est pas prolongé tel quel) ; deux branches
+dont les profils diffèrent au point commun de leurs embouchures (J2 : bande dérasée de la RD contre voie de la VC)
+laissent une marche de 2 cm à ce point ; passages sans route : bandes rectangulaires dans le repère de la voie (non
+découpées) ; un seul carrefour par route, à son extrémité « fin ».
+
+## 10. Lot L4 : marquages des carrefours plans (`rg::marquages_carrefour::1.0`)
+
+*Détail complet : `hda/rg_marquages_carrefour/README_L4.md` ; rapport : `validation/RAPPORT_L4.md`.* Construite par
+`hda/rg_marquages_carrefour/construire.py` (VEX dans `vex_l4.py`, lecture du modèle dans `lecteur_marquages_carrefour.py`,
+bibliothèques `rg_geometrie.h`, `rg_niveau.h`, `rg_marquage.h`, `rg_carrefours/vex/rg_carrefour.h` recopiées en tête des
+wrangles).
+
+```
+rg::carrefours (3 SOLVEUR) ─┐
+rg::nivellement (1 NIVEAUX) ┼─► rg::marquages_carrefour ─► 1 LIGNES ─► pj::marquage_solide (2 mm)
+rg::graphe (1 références) ──┤                          ├► 2 MARQUES ─► + MARQUES de rg::marquages et de rg::carrefours_sol
+rg::marquages (1 + 2) ──────┘                          │               ─► pj::marquage_solide (3 mm)
+                                                       ├► 3 DONNÉES (trajectoires, conflits, zone de conflit, voies, guidage)
+                                                       └► 4 CONTRÔLES (LIGNES d'entrée : rg_l4_retire, rg_l4_raison)
+pilote : les ponctuels « fleche » ancrés à un carrefour sont retirés de l'entrée 4 de rg::marquages (l'HDA les pose)
+```
+
+- **Trajectoires voie à voie** (RF-GV-TRJ-006) : droite – arc – droite sur l'axe réel des voies, rayon ≥ rayon d'axe
+  minimal du VL (5,467 m, lot L3a) ; TAD : rayon du coin + écart axe-bord ; TAG opposés non guidés : rayon commun qui
+  sépare leurs axes ; TAG guidés : plus petit rayon qui garde la caisse de son côté de la ligne de guidage.
+- **Ligne de guidage** T'2 0,10 (RF-MQ-GUI-01, RF-MQ-CAR-03, ARB-08) seulement là où le modèle la décrit
+  (`guidage.materialise` : TAG à l'indonésienne).
+- **Conflits** (divergence, convergence, croisement ; `meme_phase`) ; **zone de conflit** (cœur + approches jusqu'au bord
+  amont des lignes d'arrêt, RF-MQ-CAR-02 / -04) sans ligne longitudinale (morceaux retirés ou coupés).
+- **Flèches** au gabarit exact du dossier 08 (DEF-017, ARB-11, RF-MQ-DIR-*) : pointe de la dernière à 1,50 m de la
+  ligne, 20 m entre pointes, sur voie formée et droite ; **figurines vélo** des sas (RF-MQ-SAS-01) ; **axe prioritaire**
+  prolongé et rives interrompues au droit des affluentes (RF-MQ-CAR-01, RF-MQ-SC-11).
+- Paramètres : `fichier` (relié à `rg::lire_modele`), `spec` (gabarits du lot L2b), véhicule de projet (`vl`,
+  `r_min_vehicule` 5,467, `largeur_vehicule` 1,80), angle d'un tout-droit 25° [G], `fleche_arc` 0,5 mm, pas angulaire
+  0,8°, largeurs des lignes, T'2 0,50 / 0,50, flèches (fraction de largeur 0,99, rectitude 0,5° [G]), pas de
+  densification 0,25 / 0,10 m [G], figurine `VELO`, `usure_peinture` (lue sur les LIGNES de `rg::marquages`).
+- Exports (`<scene>/l4/`) : `trajectoires.json`, `conflits.json`, `zone_conflit.json`, `guidage.json`,
+  `graphe_voies.json` (`rg_graphe_voies/0.1` : voies, connecteurs, zones, passages, étiquettes ≤ 32), `marques_l4.json`,
+  `lignes_retirees.json`, `mesures_l4.json`, `manifest_l4.json`. Contrôle : `validation/controler_L4.py`,
+  `dessiner_L4.py`, `faire_rapport_L4.py`.
+
+## 11. Lot L5 : giratoires (`rg::giratoires::1.0`, `rg::giratoires_sol::1.0`)
+
+*Détail complet : `hda/rg_giratoires/README_GIRATOIRES.md` ; rapport : `validation/RAPPORT_giratoires.md`.* Le giratoire
+réutilise le cœur des carrefours plans : `rg::giratoires` traduit l'anneau en coins au contrat de `rg::carrefours`, et
+`rg::carrefours_sol` (§ 9, inchangée) fabrique le sol de la chaussée annulaire, des bouches et des trottoirs de coin,
+les bordures des raccordements et les lignes CÉDEZ. Les îlots sont **posés** sur ce sol par `rg::giratoires_sol`.
+
+```
+rg::lire_modele ─► rg::carrefours ─(1 routes, 2 profils, 3 SOLVEUR)─► rg::giratoires ─► 1 routes coupées, sans anneaux ─► rg::graphe …
+                                                                                   ├► 2 profils (+ réduits ~cG / ~cD / ~cGD)
+                                                                                   ├► 3 SOLVEUR fusionné ─► rg::carrefours_sol
+                                                                                   └► 4 GIRATOIRES ─┐
+                                    sol sans îlots (rg::sol + rg::carrefours_sol, sortie 1) ───────┴► rg::giratoires_sol
+   sorties : 1 sol des îlots, 2 BEV, 3 ENTITÉS (bordures des îlots), 4 MARQUES (contour du dôme, lignes de l'anneau), 5 CONTRÔLES
+```
+
+- `rg::giratoires` : bord intérieur de la chaussée annulaire `Rg − la` ; rayons des limites du profil d'anneau ;
+  raccordements d'entrée `Re` et de sortie `Rs` (ACI tableau 1, RF-GV-GIR-003) tangents au bord réel de la branche
+  (évasement compris, itéré) et au cercle `R0` ; coins (amorce 3 m [G], congé de sortie, arc de l'anneau, congé d'entrée,
+  amorce) ; coupes des branches (code L3) ; routes d'anneau retirées ; SOLVEUR fusionné avec celui des carrefours plans.
+  Paramètres : `fichier`, `amorce` 3 [G], `rampant_passage` 2,40 (DEF-031), `garde_passage` 0,10 [G], `fleche` 0,0005,
+  `pas_angulaire_max` 0,8°.
+- `rg::giratoires_sol` : couronne franchissable (bordure du profil, A2 0,03 m ; pente 5 %, RF-GV-GIR-006 ; pavés), îlot
+  central (A2, gazon, tête − 4 cm, TQ-SOL-013 (7)), dôme du mini-giratoire (10 cm, relief 2 cm, RF-GV-GIR-016),
+  îlots séparateurs ACI tableau 2 (I2, refuges abaissés avec BEV, DEF-031) ; contour T'2 3u du dôme (RF-MQ-GIR-02) et
+  lignes de l'anneau interrompues aux bouches (RF-MQ-GIR-04).
+- Exports (`<scene>/l5/`) : `giratoires.json` (anneau, branches, congés, faces des îlots, coupes radiales, entités, BEV,
+  marques ; clés triées depuis l'intégration), `mesures_l5.json`, `manifest_l5.json` ; et ceux du lot L3 (`l3/`).
+  Contrôle : `validation/controler_giratoires.py`, `faire_rapport_giratoires.py`.
+
+## 12. Lot « autoroutes » : `rg::autoroute::1.0` (retenues, bifurcations, musoirs)
+
+*Rapport : `validation/RAPPORT_autoroutes.md`.* Construite par `hda/rg_autoroute/construire.py` (VEX dans
+`vex_autoroute.py`).
+
+```
+rg::profils (1 limites) ─┐
+rg::sol (1 sol) ─────────┼─► rg::autoroute ─► 1 SOL (bretelles raccordées en Z + musoirs + terre-plein latéral) = sol total
+zones + nœuds (lire 3+2) ┤                 ├► 2 ÉQUIPEMENTS (DBA / GBA / LBA / MVL, glissières GS2 / GS4 / DE2) ─► USD /Monde/Equipements
+rg::graphe (1 réf.) ─────┘                 ├► 3 MARQUES (aplat de pointe, chevrons « 2 pour 1 », moitiés de contour) ─► pj::marquage_solide
+                                           └► 4 CONTRÔLES (détail ra_* : raccord, musoirs, séparateurs)
+```
+
+- **Séparateurs** le long des limites `separateur` du modèle (`{type: GBA|DBA|LBA|MVL|glissiere, largeur_m, modele?}`) :
+  contours béton et pièces des glissières recopiés de `assets/specs/route/catalogue_assets_route.json` (Cerema, Dispositifs
+  de retenue, tableaux 15-16 p. 32 ; fiches GS2, GS4, DE2) ; GS2 par défaut [G] ; seuil GBA / DBA 0,55 m, encastrement
+  0,05 m [G].
+- **Bifurcations** (carrefours `bifurcation` du modèle) : raccord vertical de la bretelle (dz au point de jonction, profil
+  en long parallèle [G]) ; sol du musoir en enrobé, terre-plein latéral en gazon de plain-pied (pas de bordure sur
+  autoroute) ; aplat de pointe sous 0,30 m et chevrons pointés vers le conducteur, 2u non peints contre le contour
+  (DEF-020, RF-MQ-HACH-01 à -03, RF-MQ-MUS-01) ; moitiés manquantes des lignes de contour au droit du musoir.
+- u = 7,5 cm sur autoroute (RF-MQ-U-01). Exports (`<scene>/autoroute/`) : `musoirs.json`, `equipements.json`,
+  `manifest_autoroute.json` ; couche USD `/Monde/Equipements` de `l2/route_l2.usda` (double face). Contrôle :
+  `validation/controler_autoroutes.py`, `faire_rapport_autoroutes.py`.
+
+## 13. Lot « bordures » : 32 types du catalogue route_fr (`pj::bordure::2.1`, `pj::caniveau::2.2`)
+
+*Rapport : `validation/RAPPORT_bordures.md` ; données : `commun/bordures_catalogue.py`.* Depuis l'intégration, toute la
+chaîne connaît les types ajoutés :
+
+- **Table des profils étendue** (`bordures_catalogue.construire_table_etendue`) : table de `pj::bordure` (inchangée
+  pour ses profils) complétée de T4, I3, I4, P4, CS4, GR_T1, GR_T2, GR_P1, GR_A1, GR_A2, GR_P3, T2_basse, T3_basse,
+  T2_surbaissee, T3_surbaissee, P1_basse, ACCESBUS (cotes RF-AS-profil_* ; granits A1, A2, P3 : contour du mesh du
+  catalogue). Figée dans `rg::nivellement` (`table_profils`), donc aussi dans `rg::carrefours_sol` et
+  `rg::giratoires_sol`, et dans `pj::bordure::2.1` / `pj::caniveau::2.2`.
+- `pj::bordure::2.1` (`hda/pj_bordure_v2_1`) : réseau de la 2.0, table étendue. `pj::caniveau::2.2`
+  (`hda/pj_caniveau_v2_2`) : correctifs de la 2.1, face parasite du CC2 retirée, CS4, prototypes espacés de 2 m. Les
+  versions 1.0, 2.0 et 2.1 restent intactes.
+- `rg::vers_entites` : file coupée à chaque changement de type (`decouper_profils`, parts `id.1`, `id.2`…), boucles
+  ouvertes en un sommet aligné ; paramètres `pieces_abaisse` (posé par `fabriquer_l2.py` : T2 → T2_bateau,
+  T3 → T3_surbaissee, T2_basse → T2_surbaissee, T3_basse → T3_surbaissee, A2 → A2 ; même base contrôlée) et
+  `vue_max_bateau` (0,05 : RF-MA-TRO-015).
+- Description : mots de profil ajoutés au vocabulaire, énumérations du schéma étendues, saut de niveau sans règle
+  (profil « autre ») résolu par la vue nominale (`bordures_catalogue.resoudre_saut_de_niveau`, appelé par
+  `commun/profil.py`), entrée charretière à 0,03 m (`bordures_elements.json` abaisses.entree_charretiere, bornée par
+  RF-MA-TRO-015).
+- `elements.json` : `asset_id` et `asset_motif` (mesh du catalogue route_fr ou pièce sur mesure), `angle_debut`,
+  `angle_fin`, `angle_sens` (sortant / rentrant), `angle_deviation_deg`, `sens`, `fleche_mm`, `proto_type`,
+  `prototype_pj`. Contrôle : `validation/controler_bordures.py`.
+
+## 14. Chaîne complète : une seule commande, description → rendu (intégration de l'étape 2)
+
+`fabriquer_generateur.py` choisit la chaîne d'après le modèle compilé (`familles()`), puis compose les insertions des
+pilotes de lots, qui sont devenus des bibliothèques (`fabriquer_carrefours.reseau(avant_l2b)`,
+`fabriquer_giratoires.inserer`, `fabriquer_marquages_carrefour.inserer`, `fabriquer_autoroutes.inserer_sol` /
+`inserer_marques`, et leurs exports et caméras) :
+
+| Famille (modèle) | Détectée par | Réseau ajouté à L1 + L2 + L2b | Sorties ajoutées |
+|---|---|---|---|
+| aucune (rue, route) | — | chaîne de l'étape 1, inchangée | `l1/`, `l2/`, `l2b/` |
+| `carrefours` | carrefour `plan_simple`, `plan_ilots`, `plan_feux` | `rg::carrefours`, `rg::carrefours_sol` (§ 9) + `rg::marquages_carrefour` (§ 10) ; balayages VL et bus 12 m (lot L3a) | `l3/`, `l4/` |
+| `giratoires` | carrefour `giratoire`, `mini_giratoire` | `rg::carrefours`, `rg::carrefours_sol` + `rg::giratoires`, `rg::giratoires_sol` (§ 11) | `l3/`, `l5/` |
+| `autoroute` | carrefour `bifurcation`, ou séparateur DBA / GBA / LBA / MVL / glissière | `rg::autoroute` (§ 12) après le sol | `autoroute/`, couche USD Equipements |
+
+Les familles se composent (carrefours plans + giratoires sur le même cœur L3 ; autoroute insérée avant L2b par le
+crochet de `fabriquer_carrefours.reseau`) ; une composition sans scène de contrôle dédiée est signalée à la fabrication.
+Le contournement de `pj::marquage_solide` est décidé sur son entrée réelle (`fabriquer_l2b.cuire`, marques des
+carrefours, giratoires et musoirs comprises) ; `rg::marquages_carrefour` y est cuite et contrôlée d'abord.
+
+```
+hython recon/generateur/fabriquer_generateur.py --l2b --construire-hda          # (re)construit toutes les HDA
+hython recon/generateur/fabriquer_generateur.py SCENE.yaml [SCENE.yaml ...] --complet   # = --l2b --rendus
+hython recon/generateur/fabriquer_generateur.py ... --l2b --verifier-determinisme       # second processus, comparaison
+         [--vues dessus,conducteur | --vues toutes] [--decor-etape2] [--sortie DOSSIER]
+python recon/generateur/validation/comparer_integration.py RÉFÉRENCE recon/out/generateur [SCENE ...] [--json F]
+python recon/generateur/validation/faire_rapport_integration.py              # rapport de l'intégration
+```
+
+Rendus (route seule, sol neutre, ciel simple et soleil) : 2 vues par scène (dessus, conducteur à 1,20 m dans une voie
+entrante), 3 pour les scènes phares J5, G1, A3 (+ oblique 3/4) ; planche ≤ 1092 px par scène
+(`<scene>/rendus/planche_<scene>.png`) ; vue de dessus centrée sur le carrefour, le giratoire ou le musoir. Une
+description peut donner sa vue de dessus (`<scene>.vues.json` : largeur, résolution, abscisse du sujet ; B01). Les
+pilotes de lots restent utilisables seuls (mêmes sorties, rendus propres à chaque lot).
+
+## 15. Correction de l'étape 2 (contrôle indépendant, 18/10/2026)
+
+*Rapport : `validation/RAPPORT_correction_etape2.md` ; contrôles ajoutés : `validation/controler_correction_etape2.py`.*
+
+- **Une seule source de trajectoires.** Les balayages des véhicules (lot L3a) qui placent les nez des îlots sont calculés
+  sur les trajectoires FINALES de `rg::marquages_carrefour` (L4), et non plus sur les géométries du compilateur
+  (`fabriquer_generateur.balayages_trajectoires_l4`, `fabriquer_carrefours.balayages_l4`). Les nez dépendent des
+  balayages et la fin des branches (`s_end`) des nez : passes successives jusqu'à ce que les balayages ne changent plus
+  (journal `l3/manifest_l3.json` → `balayages_passes`, contrôle `l4/manifest_l4.json` → `trajectoires_balayees_identiques`) ;
+  balayages complets dans `l3/balayages.json`. Véhicules par mouvement : `trajectoires[].usagers` (clé de description
+  `vehicule`) ; le bus suit les axes de voie de la trajectoire L4 avec un arc de son rayon minimal.
+- **L4** : TAG guidés à `garde_guidage` (0,725 m) du bord de la peinture le long des raccords et de l'oblique
+  (RF-GV-TRJ-006, VU p. 142) ; rayon des TAG non guidés tenu entre les frontières du carrefour (`s_front`, indépendant
+  des nez) ; séparation des TAG opposés cherchée seulement s'ils partagent une phase.
+- **rg::carrefours** : une section qui commencerait à moins de 1 mm de `s_end` est absorbée par la précédente.
+- **rg::carrefours_sol** : pente du dessous de bordure des coins prise au bord de chaussée réel en `s_tan` (bords évasés) ;
+  bandes des passages des branches **prolongées dans les congés de coin** : la série de bandes des groupes extrêmes (zones
+  du modèle, attributs `pp_zxy`, `pp_zn`, `pp_zid` des points `passage` lus par `lecteur_carrefours.py` et
+  `lecteur_giratoires.py`) continue au-delà du bord de chaussée de la section, chaque bande découpée à e de la première
+  face rencontrée (congé, nez, îlot du cœur) ; entités `MQ_<marquage>_xg|xdNN`.
+- **rg::marquages** : zébras et aplats interrompus à 0,50 m des passages (paramètre `pp_degagement_zebra`, RF-MQ-PP-03) ;
+  zone hachurable bornée aussi par les lignes peintes au-delà des limites de sa bande (demi-bandes d'une zone centrale
+  scindée) et, là où sa ligne est interrompue, par la marge de la ligne la plus proche sur la même limite.
+- **rg::autoroute** : demi-lignes de contour des musoirs bornées à la moitié de l'écart entre les deux bords.
+- **Pilote** : réseau reconstruit pour chaque scène (sorties indépendantes de l'ordre des scènes).
+- **Compilateur** : lignes de bord d'une bande centrale qui naît de largeur nulle (ouverture) : la ligne de droite commence là
+  où les deux lignes se touchent (interruption sur la limite extérieure de la demi-bande droite) ;
+  refuges des terre-pleins plantés revêtus au droit des passages (opération `revetir`,
+  RF-OBS-ILO-01) ; ligne arrière du sas non doublée ; rives de l'anneau en continue 3u (RF-MQ-GIR-01 / -04) ; passage
+  de giratoire avec retrait dit ; îlot franchissable du mini-giratoire en retrait de 5u ; entrées de giratoire à 2 voies.
+- **Scènes** : J5 refaite (voies de TAG face à face, 4 phases, passages à 5 m, coins de 6 m, bus en tout droit) ; J6
+  (second carrefour complexe) et G4 (giratoire multivoie) ajoutées ; G3 (îlots 2,00 m, passages à 5 m) ; A3 (rive
+  continue 3u sur les 35 m avant l'interruption de la BAU, RF-MQ-SC-13) ; J4 (bus sur l'avenue, passage nord à 6 m).
+- **Limites restantes** (rapport § 6) : nez sud de J4 dans le balayage des TAG ; figurines des bandes cyclables posées
+  sans les exclusions du modèle (J6) ; bandes des passages voisins d'un îlot directionnel dimensionnées sur la voie peinte
+  et non jusqu'à la face de l'îlot ; deux trous de rive dans A4 ; pas de caniveau dans les coins.

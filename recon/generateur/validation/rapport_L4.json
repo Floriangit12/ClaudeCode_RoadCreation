@@ -1,0 +1,276 @@
+{
+ "schema": "rg_rapport_lot/0.1",
+ "lot": "L4",
+ "titre": "marquages, trajectoires, conflits et zone de conflit des carrefours plans",
+ "scenes": [
+  "J1_T_cedez",
+  "J2_croix_stop",
+  "J3_croix_feux",
+  "J4_ilots_directionnel_separateurs",
+  "J5_carrefour_complexe"
+ ],
+ "criteres": [
+  {
+   "id": "L4-1",
+   "critere": "flèches d'affectation : sommets = gabarit du dossier 08",
+   "valeur": "écart max 0,003 mm (12 flèches)",
+   "seuil": "± 1 mm",
+   "atteint": true,
+   "regles": "RF-MQ-DIR-02, RF-MQ-DIR-09 ; IISR7 annexes B.2, B.3"
+  },
+  {
+   "id": "L4-2",
+   "critere": "flèches centrées dans la voie (axe L1 des voies)",
+   "valeur": "0,00 cm",
+   "seuil": "± 2 cm",
+   "atteint": true,
+   "regles": "RF-MQ-DIR-03"
+  },
+  {
+   "id": "L4-3",
+   "critere": "flèches orientées le long de la voie",
+   "valeur": "0,000°",
+   "seuil": "± 0,5°",
+   "atteint": true,
+   "regles": "RF-MQ-DIR-03"
+  },
+  {
+   "id": "L4-4",
+   "critere": "pointe de la dernière flèche à la ligne (bord amont de la peinture)",
+   "valeur": "1,501 à 1,501 m (6 voies)",
+   "seuil": "1,50 ± 0,02 m",
+   "atteint": true,
+   "regles": "DEF-017, ARB-11"
+  },
+  {
+   "id": "L4-5",
+   "critere": "interdistance des flèches (pointe à pointe)",
+   "valeur": "20,000 à 20,000 m (6)",
+   "seuil": "20 ± 0,05 m",
+   "atteint": true,
+   "regles": "DEF-017, ARB-11"
+  },
+  {
+   "id": "L4-6",
+   "critere": "nombre de flèches : 3 par voie, 2 si la voie (formée et droite) est courte",
+   "valeur": "B-est/tag1 2/3, B-est/v3 2/3, B-est/v4 2/3, B-ouest/tag1 2/3, B-ouest/v3 2/3, B-ouest/v4 2/3",
+   "seuil": "posées = min(demandées, tenant dans la voie) ≥ 2",
+   "atteint": true,
+   "regles": "RF-MQ-DIR-04, ARB-11"
+  },
+  {
+   "id": "L4-7",
+   "critere": "sas vélos : figurine dans l'axe de chaque voie, centrée entre les lignes ; profondeur",
+   "valeur": "4 figurines ; axe ≤ 0,000 m ; centrage ≤ 0,000 m ; profondeur 3,852 m",
+   "seuil": "± 2 cm ; 3 à 5 m (bord à bord)",
+   "atteint": true,
+   "regles": "RF-MQ-SAS-01, DEF-016"
+  },
+  {
+   "id": "L4-8",
+   "critere": "trajectoires de rayon ≥ rayon d'axe minimal du véhicule de projet (VL, lot L3a)",
+   "valeur": "rayon mesuré min 5,506 m ; 56/56 trajectoires",
+   "seuil": "≥ 5,467 m (100 %)",
+   "atteint": true,
+   "regles": "RF-GV-TRJ-006"
+  },
+  {
+   "id": "L4-9",
+   "critere": "trajectoires droite – arc – droite tangentes aux voies (bouts sur l'axe L1, tangence) ; rupture des polylignes",
+   "valeur": "bouts 0,0 mm, 0,398° ; rupture max 0,798°",
+   "seuil": "≤ 1 cm, ≤ 0,5° ; ≤ 0,8° (pas angulaire des arcs)",
+   "atteint": true,
+   "regles": "RF-GV-TRJ-006"
+  },
+  {
+   "id": "L4-10",
+   "critere": "guidage seulement là où il est décrit (ARB-08)",
+   "valeur": "J1 0 ligne(s) / 0 trajectoire(s) décrite(s), J2 0 ligne(s) / 0 trajectoire(s) décrite(s), J3 0 ligne(s) / 0 trajectoire(s) décrite(s), J4 0 ligne(s) / 0 trajectoire(s) décrite(s), J5 1 ligne(s) / 2 trajectoire(s) décrite(s)",
+   "seuil": "J5 : 1 ligne pour 2 TAG décrits ; J1-J4 : 0",
+   "atteint": true,
+   "regles": "ARB-08, RF-OSM-MRQ-041, RF-MQ-GUI-01"
+  },
+  {
+   "id": "L4-11",
+   "critere": "ligne de guidage T'2 0,10 : traits, intervalles (le long de la courbe), largeur",
+   "valeur": "11 traits 0,5000-0,5000 m ; intervalles 0,5000-0,5000 m ; largeur 0,1000-0,1000 m",
+   "seuil": "0,50 ± 0,01 ; 0,50 ± 0,01 ; 0,10 ± 0,002 m",
+   "atteint": true,
+   "regles": "RF-MQ-MOD-T'2, RF-MQ-GUI-01, ARB-08"
+  },
+  {
+   "id": "L4-12",
+   "critere": "TAG à l'indonésienne (phase spéciale P2) : axes sans croisement ; caisse du VL (1,80 m) de son côté de la ligne",
+   "valeur": "croisements 0 ; garde 0,054 m",
+   "seuil": "0 ; ≥ 0 m",
+   "atteint": true,
+   "regles": "RF-MQ-CAR-03, DEF-021"
+  },
+  {
+   "id": "L4-13",
+   "critere": "balayages du VL (lot L3a, rétroviseurs 2,10 m) des deux TAG guidés : disjoints et hors bordures",
+   "valeur": "recouvrement 2,27 m² ; contre le nez du TPC 0,63, 0,63 m",
+   "seuil": "0 m² ; 0 m",
+   "atteint": false,
+   "regles": "RF-GV-TRJ-006 (garde 1,25 m), plan § 2.4 étape 9"
+  },
+  {
+   "id": "L4-14",
+   "critere": "zone de conflit : aucune ligne longitudinale dedans hors guidage (et hors discontinue de la route prioritaire, RF-MQ-CAR-01)",
+   "valeur": "0 ligne(s) ; 56 morceaux retirés, 8 coupés à la ligne d'arrêt",
+   "seuil": "0",
+   "atteint": true,
+   "regles": "RF-MQ-CAR-02, RF-MQ-CAR-04"
+  },
+  {
+   "id": "L4-15",
+   "critere": "points de conflit comptés et rapportés avec la liste des mouvements ; croix complète J2, J3 = CU (16 croisements, 32 conflits)",
+   "valeur": "croisements/total : J1 3/9, J2 16/32, J3 16/32, J4 16/32, J5 25/39",
+   "seuil": "J2, J3 : 16 / 32",
+   "atteint": true,
+   "regles": "RF-GV-TRJ-001 ; CU p. 120-122"
+  },
+  {
+   "id": "L4-16",
+   "critere": "conflits : géométrie (intersections des axes) = topologie (ordre des bouts autour du centre)",
+   "valeur": "1 écart(s) : T-nord.v2.TAG / T-sud.v2.TAG : géométrie croisement, topologie -",
+   "seuil": "0 écart",
+   "atteint": false,
+   "regles": "contrôle d'appui"
+  },
+  {
+   "id": "L4-17",
+   "critere": "graphe de voies : chaque voie entrante a ≥ 1 successeur ; ≤ 32 étiquettes ; raccords",
+   "valeur": "25 voies entrantes, 0 sans successeur ; étiquettes ≤ 6 ; raccords ≤ 0,04 mm, 0,398°",
+   "seuil": "0 ; ≤ 32 ; ≤ 1 mm, ≤ 0,5°",
+   "atteint": true,
+   "regles": "12M § 7"
+  },
+  {
+   "id": "L4-18",
+   "critere": "peinture du lot posée sur le sol fabriqué : dessus − sol = 2 mm (lignes) / 3 mm (marques)",
+   "valeur": "écart max 0,230 mm (sommets et centres des faces du dessus)",
+   "seuil": "± 0,3 mm",
+   "atteint": true,
+   "regles": "TQ-MQG-002, TQ-MQG-005"
+  },
+  {
+   "id": "L4-19",
+   "critere": "discontinue axiale de la route prioritaire non interrompue au droit de l'intersection ; rives interrompues au droit des affluentes",
+   "valeur": "J1 : 1 tiret(s); J2 : 1 tiret(s); J4 : 2 tiret(s) ; rives restantes 0",
+   "seuil": "≥ 1 tiret par carrefour à route prioritaire ; 0 rive",
+   "atteint": true,
+   "regles": "RF-MQ-CAR-01, RF-MQ-SC-11"
+  },
+  {
+   "id": "L4-20",
+   "critere": "planches de rendu regardées en entier (≤ 1092 px), vues en tuiles natives (J5 : 4 vues ; J1-J4 : 2)",
+   "valeur": "5/5",
+   "seuil": "5/5",
+   "atteint": true,
+   "regles": "consignes du dépôt"
+  },
+  {
+   "id": "L4-21",
+   "critere": "déterminisme (deux processus, une fois en fin de lot, 2 scènes)",
+   "valeur": "identique (76 fichiers : J1 et J5, lots L1, L2, L2b, L3, L4)",
+   "seuil": "identique",
+   "atteint": true,
+   "regles": "README_HDA § 9.2"
+  }
+ ],
+ "atteints": 19,
+ "total": 21,
+ "resume_scenes": {
+  "J1_T_cedez": {
+   "trajectoires": 6,
+   "conflits_points_CU": {
+    "croisement": 3,
+    "divergence": 3,
+    "convergence": 3,
+    "total": 9
+   },
+   "conflits_paires": {
+    "croisement": 3,
+    "convergence": 3,
+    "divergence": 3
+   },
+   "zone_m2": 63.47,
+   "fleches": 0,
+   "figurines_sas": 0,
+   "guidage": 0
+  },
+  "J2_croix_stop": {
+   "trajectoires": 12,
+   "conflits_points_CU": {
+    "croisement": 16,
+    "divergence": 8,
+    "convergence": 8,
+    "total": 32
+   },
+   "conflits_paires": {
+    "croisement": 16,
+    "convergence": 12,
+    "divergence": 12
+   },
+   "zone_m2": 165.63,
+   "fleches": 0,
+   "figurines_sas": 0,
+   "guidage": 0
+  },
+  "J3_croix_feux": {
+   "trajectoires": 12,
+   "conflits_points_CU": {
+    "croisement": 16,
+    "divergence": 8,
+    "convergence": 8,
+    "total": 32
+   },
+   "conflits_paires": {
+    "croisement": 16,
+    "convergence": 12,
+    "divergence": 12
+   },
+   "zone_m2": 234.94,
+   "fleches": 0,
+   "figurines_sas": 0,
+   "guidage": 0
+  },
+  "J4_ilots_directionnel_separateurs": {
+   "trajectoires": 12,
+   "conflits_points_CU": {
+    "croisement": 16,
+    "divergence": 8,
+    "convergence": 8,
+    "total": 32
+   },
+   "conflits_paires": {
+    "croisement": 16,
+    "convergence": 12,
+    "divergence": 12
+   },
+   "zone_m2": 228.0,
+   "fleches": 0,
+   "figurines_sas": 0,
+   "guidage": 0
+  },
+  "J5_carrefour_complexe": {
+   "trajectoires": 16,
+   "conflits_points_CU": {
+    "croisement": 25,
+    "divergence": 6,
+    "convergence": 8,
+    "total": 39
+   },
+   "conflits_paires": {
+    "croisement": 25,
+    "convergence": 10,
+    "divergence": 8
+   },
+   "zone_m2": 1187.87,
+   "fleches": 12,
+   "figurines_sas": 4,
+   "guidage": 1
+  }
+ }
+}

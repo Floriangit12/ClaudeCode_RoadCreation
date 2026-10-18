@@ -1,6 +1,6 @@
 = RG Vers entités (contrat pj::*) =
 
-"""Modèle -> entités au contrat de pj::lire_description : bordures (intervalles courant, chartière, bateau ; niv_s, niv_z_pied, niv_z_tete ; caniveau et ses intervalles ; aspect) pour pj::bordure et pj::caniveau ; points des arbres d'alignement ; caniveau à grille au droit des ralentisseurs (intervalles dans props) et grilles d'avaloir au pied des rampes de plateau et au bout des files de caniveau fermées (sortie 3), qui remplacent le caniveau qu'elles occupent (intervalles du caniveau coupés) ; retours transversaux à vue variable marqués usage = retour (elements.json : raccord_vue)."""
+"""Modèle -> entités au contrat de pj::lire_description : bordures (intervalles courant, chartière, bateau ; niv_s, niv_z_pied, niv_z_tete ; caniveau et ses intervalles ; aspect) pour pj::bordure et pj::caniveau ; points des arbres d'alignement ; caniveau à grille au droit des ralentisseurs (intervalles dans props) et grilles d'avaloir au pied des rampes de plateau et au bout des files de caniveau fermées (sortie 3), qui remplacent le caniveau qu'elles occupent (intervalles du caniveau coupés) ; retours transversaux à vue variable marqués usage = retour (elements.json : raccord_vue). Lot bordures : une file par profil, caniveau et matériau continus (coupe aux changements de type d'une section à l'autre) ; pièce d'abaissé de chaque type (paramètre pieces_abaisse) ; boucles ouvertes au milieu d'un côté (pièces d'angle à tous les coins)."""
 
 == Entrées ==
 
@@ -35,6 +35,14 @@ Aspect : mousse des joints:
 Longueur d'une grille d'avaloir (m):
     #id: avaloir_longueur
     Grille d'avaloir posée au pied de chaque rampe de plateau, dans le caniveau (Certu, Coussins et plateaux, 2010, p. 46 § 2.1.3) ; 0,65 m = asset decal_grille_avaloir de assets/specs/route/catalogue_assets_route.json (tile_m). Aucune règle de regles_route_fr.json ne la cote : règle demandée au propriétaire de la base.
+
+Pièces d'abaissé (profil:pièce, …):
+    #id: pieces_abaisse
+    Pièce d'abaissé (bateau, vue ≤ vue_max_bateau) de chaque profil courant, même base que lui : T2:T2_bateau (bordures_elements.json abaisses.traversee) ; lot bordures : T3:T3_surbaissee, T2_basse:T2_surbaissee, T3_basse:T3_surbaissee, A2:A2 (RF-AS-raccord_bateau ; commun/bordures_catalogue.py PIECES_ABAISSE). Un profil absent est posé abaissé avec son propre contour ([G]).
+
+Vue maximale d'une pièce d'abaissé (m):
+    #id: vue_max_bateau
+    Intervalle de vue constante ≤ cette valeur : pièce d'abaissé (rôle bateau). 0,04 : borne haute de la vue nominale de T2_bateau / T2_surbaissee (bordures.json, RF-AS-profil_T2_surbaissee) ; 0,05 couvre les entrées charretières (RF-MA-TRO-015 entree_charretiere_max).
 
 Avaloir au bout d'une file de caniveau fermée:
     #id: avaloir_fin_de_file

@@ -157,6 +157,9 @@ def analyser_dict(x: dict, chemin: str):
         lim["separateur"] = {"type": V.SEPARATEURS[cle]}
         if d.get("pas") is not None:
             lim["separateur"]["pas_m"] = V.nombre(d["pas"], chemin + ".pas")
+        for k in ("largeur", "hauteur"):
+            if d.get(k) is not None:
+                lim["separateur"][f"{k}_m"] = V.nombre(d[k], f"{chemin}.{k}")
         return "limite", lim
     raise ErreurFormat(f"{chemin} : élément structuré sans « bande », « bordure », « ligne » ni « separateur »")
 
@@ -167,7 +170,11 @@ def _est_limite(toks: list[str]) -> bool:
     if toks[0] in ("bordure", "bordures", "ligne", "lignes", "caniveau") or toks[:2] in (["sans", "bordure"], ["sans", "ligne"]):
         return True
     cle, _ = V.correspondance(toks, 0, V.SEPARATEURS)
-    return cle is not None and not any(V.NOMBRE.match(t) for t in toks)
+    if cle is not None and any(V.NOMBRE.match(t) for t in toks):
+        # lot « scenes » : « GBA largeur 0,60 hauteur 0,80 » est une limite (chaque nombre suit largeur / hauteur / pas)
+        return all(not V.NOMBRE.match(t) or (k > 0 and toks[k - 1] in ("largeur", "hauteur", "pas"))
+                   for k, t in enumerate(toks))
+    return cle is not None
 
 
 def analyser_ligne(toks: list[str], chemin: str) -> dict | str:
@@ -232,7 +239,10 @@ def analyser_limite(texte: str, chemin: str) -> dict:
         reste = toks[n:]
         for j, t in enumerate(reste):
             if V.NOMBRE.match(t):
-                lim["separateur"]["pas_m"] = float(t)
+                cle_n = {"largeur": "largeur_m", "hauteur": "hauteur_m"}.get(reste[j - 1] if j > 0 else "", "pas_m")
+                lim["separateur"][cle_n] = float(t)
+            elif t not in ("largeur", "hauteur", "pas", "m") and t not in V.MOTS_VIDES:
+                raise ErreurFormat(f"{chemin} : mot inconnu « {t} » dans un séparateur (largeur, hauteur, pas)")
         return lim
     bo, i = {}, 0
     while i < len(toks):
@@ -329,6 +339,11 @@ def analyser_bande(texte: str, chemin: str) -> dict:
             continue
         raise ErreurFormat(f"{chemin} : mot inconnu « {t} » dans « {texte} »")
     b["attributs"]["materiaux"] = materiaux
+    if typ == "terre_plein" and b["attributs"].get("niveau") == "chaussee" and "dz_m" not in b["attributs"]:
+        # lot « scenes » : terre-plein à niveau (bande médiane d'autoroute portant une GBA ou des glissières, sans
+        # bordure) : dz = 0, limites « changement de revêtement » avec les BDG (le séparateur est posé sur une limite)
+        b["attributs"]["dz_m"] = 0.0
+        b["attributs"]["prov_dz"] = P.description(chemin, note="terre-plein de plain-pied (dit)")
     if b["largeur"] is not None and not (0 < b["largeur"] <= 30):
         raise ErreurFormat(f"{chemin} : largeur {b['largeur']} m invraisemblable")
     return b

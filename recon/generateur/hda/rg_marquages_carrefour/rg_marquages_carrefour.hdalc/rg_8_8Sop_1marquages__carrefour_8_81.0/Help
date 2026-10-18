@@ -1,0 +1,103 @@
+= RG Marquages des carrefours (trajectoires, guidage, zone de conflit) =
+
+"""Marquages, trajectoires, conflits et zone de conflit des carrefours plans (lot L4, PLAN_GENERATEUR § 2.4 étapes 7 à 10) : flèches d'affectation au gabarit exact du dossier 08 (pointe de la dernière à 1,50 m de la ligne, interdistance 20 m), figurines des sas, trajectoires voie à voie droite – arc – droite de rayon ≥ véhicule de projet, points de conflit, lignes de guidage T'2 0,10 seulement si le modèle les décrit (TAG à l'indonésienne), zone de conflit sans ligne longitudinale, discontinue axiale de la route prioritaire prolongée, rives interrompues au droit des affluentes."""
+
+== Entrées ==
+
+1. SOLVEUR (rg::carrefours, sortie 3). 2. NIVEAUX (rg::nivellement, sortie 1). 3. Références (rg::graphe, sortie 1). 4. LIGNES + MARQUES (rg::marquages, sorties 1 et 2 fusionnées : classe « ligne » ou autre).
+
+== Sorties ==
+
+1. LIGNES (contrat pj::marquage_solide : section courante filtrée, guidage, axe prolongé).
+2. MARQUES (marques de section filtrées : passages hors terre-pleins ; flèches et figurines des sas du lot).
+3. DONNÉES : points br4 / fl / mv (modèle), voie (embouchure, limite de jonction s_j), conflit, table_l4 ; polylignes trajectoire_l4 et guidage ; polygones zone_conflit.
+4. CONTRÔLES : LIGNES d'entrée avec rg_l4_retire (1 zone de conflit, 2 rive) et rg_l4_raison.
+
+Règles : RF-GV-TRJ-006, RF-MQ-GUI-01, RF-MQ-GUI-03, RF-MQ-CAR-01 à -04, RF-MQ-SC-11, DEF-017, DEF-021, ARB-08, ARB-11, RF-MQ-DIR-02/-03/-04/-09, RF-MQ-SAS-01, DEF-016 ; choix [G] : rayon des raccords de la ligne de guidage, phase des tirets, répartition des tirets de l'axe prolongé, fraction de largeur des flèches, flèches cyclables absentes, vélos en tout droit.
+
+@parameters
+
+Modèle (modele_voie.json):
+    #id: fichier
+    Même fichier que rg::lire_modele (le pilote y renvoie son paramètre) : consignes de flèches, sas, mouvements autorisés, guidage décrit et phases des feux.
+
+Gabarits IISR (dossier 08, format pj):
+    #id: spec
+    gabarits_iisr7_pj.json du lot L2b (gabarits et glyphes de D:/DocRoute/08_Marquages_Geometrie_IISR7/marquages_iisr7.json), lus par pj::gabarits_iisr.
+
+Véhicule de projet des trajectoires:
+    #id: vehicule
+    Véhicule du lot L3a (vehicules/vehicules_projet.json) dont le rayon d'axe minimal borne les trajectoires (RF-GV-TRJ-006 ; plan § 3 L4 : « trajectoires de rayon ≥ véhicule de projet »).
+
+Rayon d'axe minimal du véhicule (m):
+    #id: r_min_vehicule
+    vehicules/balayage.rayon_min('vl') (lot L3a : braquage maximal, empattement 2,875 m).
+
+Largeur de caisse du véhicule (m):
+    #id: largeur_vehicule
+    VU p. 142 (vehicules_projet.json, vl).
+
+Écart angulaire d'un tout-droit (°):
+    #id: angle_tout_droit
+    Mouvement traité en droite si les directions d'entrée et de sortie diffèrent de moins de cet angle [G].
+
+Flèche maximale des arcs (m):
+    #id: fleche_arc
+    Échantillonnage des arcs (RF-OSM-CAR-001).
+
+Pas angulaire maximal des arcs (°):
+    #id: pas_angulaire_arc
+    Échantillonnage des arcs : la première corde dévie de la tangente de la voie d'un demi-pas (0,4° ≤ 0,5°, tolérance d'orientation du plan § 3 L4) [G], comme les coins du lot L3.
+
+Garde caisse / peinture de la ligne de guidage (m):
+    #id: garde_guidage
+    TAG guidés : la caisse du VL reste à cette distance au moins du bord de la peinture de la ligne de guidage ; (garde entre enveloppes RF-GV-TRJ-006 − largeur de la ligne RF-MQ-GUI-01) / 2 + (rétroviseurs − caisse) / 2 (VU p. 142) : les enveloppes balayées des deux TAG opposés restent séparées de la garde minimale (correction après le contrôle de l'étape 2).
+
+Largeur des lignes de guidage par défaut (m):
+    #id: guidage_largeur
+    RF-MQ-GUI-01, ARB-08 (le modèle prime).
+
+T'2 : trait (m):
+    #id: tp2_trait
+    RF-MQ-MOD-T'2.
+
+T'2 : intervalle (m):
+    #id: tp2_intervalle
+    RF-MQ-MOD-T'2.
+
+Ligne d'effet des feux : largeur (m):
+    #id: effet_largeur
+    RF-MQ-FEU-01 (bord amont des lignes : flèches, sas, zone de conflit).
+
+Ligne CÉDEZ : largeur (m):
+    #id: cedez_largeur
+    RF-MQ-CED-01.
+
+Ligne STOP : largeur (m):
+    #id: stop_largeur
+    RF-MQ-STOP-01.
+
+Flèches : largeur de voie minimale (fraction):
+    #id: fleche_fraction_largeur
+    Une flèche n'est posée que si la voie a au moins cette fraction de sa largeur à l'embouchure sous toute la flèche (voie de stockage formée, hors biseau d'ouverture) ; sinon la série s'arrête (« 2 si la voie est courte », ARB-11) [G].
+
+Flèches : déviation maximale de la voie sous la flèche (°):
+    #id: fleche_rectitude
+    La flèche est rigide : la série s'arrête là où l'axe de la voie dévie de plus de cet angle sous la flèche (déport, biseau ; tolérance d'orientation du plan § 3 L4 : ± 0,5°) [G].
+
+Pas de densification des empreintes (m):
+    #id: pas_densification
+    Arêtes des flèches et des tirets découpées pour le drapé sur le sol (pj::marquage_solide) [G].
+
+Pas de densification des tirets de l'axe prolongé (m):
+    #id: pas_densification_lignes
+    Tirets de l'axe prioritaire prolongé dans le cœur (sol interpolé, triangulé à 0,5 m) : côtés découpés au pas de 0,10 m pour que le dessus drapé reste à 2 ± 0,3 mm du sol (TQ-MQG-005) [G].
+
+Figurine des sas:
+    #id: gabarit_sas
+    Gabarit VELO du dossier 08 (RF-MQ-SAS-01 : figurine dans l'axe de chaque voie de circulation du sas).
+
+Usure de la peinture:
+    #id: usure_peinture
+    Usure des marques ajoutées (le pilote la lit sur les LIGNES de rg::marquages : classe d'usure du modèle).
+

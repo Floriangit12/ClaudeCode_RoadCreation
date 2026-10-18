@@ -1,0 +1,311 @@
+{
+ "lot": "scenes",
+ "date": "2026-10-17",
+ "bilan_controles": {
+  "scenes": 12,
+  "compilees_sans_erreur": 12,
+  "non_conformites": 0,
+  "attendus": 186,
+  "attendus_atteints": 186,
+  "coherence": 42,
+  "coherence_ok": 42
+ },
+ "criteres": [
+  {
+   "id": "SC-01 scènes compilées en modèle valide (0 erreur, provenance exigée)",
+   "valeur": "12/12",
+   "seuil": "12/12",
+   "atteint": true
+  },
+  {
+   "id": "SC-02 non-conformités bloquantes (contrôles des tronçons et du réseau)",
+   "valeur": "0",
+   "seuil": "0",
+   "atteint": true
+  },
+  {
+   "id": "SC-03 attendus mesurables retrouvés sur le modèle",
+   "valeur": "186/186",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "SC-04 rétrocompatibilité S01-S12 + exemples + Meylan (modèle et rapport à l'octet)",
+   "valeur": "27/27",
+   "seuil": "27/27",
+   "atteint": true
+  },
+  {
+   "id": "SC-05 îlots en saillie hors des voies motorisées (surface sur les voies)",
+   "valeur": "max 0.000 m² sur 16 îlots",
+   "seuil": "≤ 0,05 m² chacun",
+   "atteint": true
+  },
+  {
+   "id": "SC-06 îlots de giratoire dans l'enveloppe peinte ouverte par la branche",
+   "valeur": "max 0.000 m² hors enveloppe sur 12 îlots",
+   "seuil": "≤ 0,05 m²",
+   "atteint": true
+  },
+  {
+   "id": "SC-07 branches qui se rejoignent (extrémité au centre / sur l'anneau ; giratoire : axe vers le centre)",
+   "valeur": "tolérance d'extrémité 0,05 m imposée à la compilation ; excentration max 0.000 m",
+   "seuil": "≤ 0,05 m ; excentration ≤ 0,5 m",
+   "atteint": true
+  },
+  {
+   "id": "SC-08 continuité de la voie des bretelles à la jonction (axe dans la voie auxiliaire)",
+   "valeur": "0.000 m, 0.006 m",
+   "seuil": "≤ 1,75 m (demi-voie)",
+   "atteint": true
+  },
+  {
+   "id": "SC-09 déterminisme (deux compilations, J5 et G1)",
+   "valeur": "2/2 identiques",
+   "seuil": "2/2",
+   "atteint": true
+  },
+  {
+   "id": "SC-10 J5 : TAG guidés à l'indonésienne sans croisement entre eux ni avec la ligne T'2 0,10",
+   "valeur": "0",
+   "seuil": "0",
+   "atteint": true
+  },
+  {
+   "id": "SC-11 J5 : aucun TAG guidé dans une phase partagée avec le direct opposé (phase spéciale)",
+   "valeur": "0",
+   "seuil": "0",
+   "atteint": true
+  },
+  {
+   "id": "SC-12 traversées piétonnes hors refuge (J1-J5)",
+   "valeur": "max 7.50 m",
+   "seuil": "≤ 12 m (bloquant, RF-GV-PIE-010)",
+   "atteint": true
+  },
+  {
+   "id": "SC-13 refuges au droit des passages (J4, J5, G1)",
+   "valeur": "min 2.00 m",
+   "seuil": "≥ 2,00 m (DEF-022, RF-GV-GIR-014)",
+   "atteint": true
+  },
+  {
+   "id": "SC-14 déflexion des giratoires (G1, G2)",
+   "valeur": "G1 25.39 m, G2 31.45 m",
+   "seuil": "≤ 100 m (RF-GV-GIR-008)",
+   "atteint": true
+  },
+  {
+   "id": "SC-15 croix complète : décompte de référence des conflits (J2, J3)",
+   "valeur": "16 croisements / 32 conflits",
+   "seuil": "16 / 32 (CU p. 120-122)",
+   "atteint": true
+  },
+  {
+   "id": "SC-16 plans cotés SVG écrits et regardés en tuiles natives (ensemble ou zoom par scène)",
+   "valeur": "12/12 scènes (24 SVG ; zooms J1-J5, G1-G3, A3, A4, ensembles J5 et A1, section A2 regardés en tuiles ≤ 1092 px ; J4 et J5 revus après la dernière correction)",
+   "seuil": "12/12",
+   "atteint": true
+  }
+ ],
+ "scenes": [
+  {
+   "scene": "J1_T_cedez",
+   "fichier": "recon/generateur/scenes_carrefours/J1_T_cedez.yaml",
+   "erreurs_validation": 0,
+   "non_conformites": 0,
+   "controles_reseau": 6,
+   "routes": 3,
+   "profils": 3,
+   "carrefours": 1,
+   "ilots": 0,
+   "signaux": 1,
+   "marquages": 2,
+   "controleurs": 0,
+   "sha256_modele": "5c3cddd0e047d0f793d3131aa38f117373b63e09ff8dcfa532ef3f3742268062"
+  },
+  {
+   "scene": "J2_croix_stop",
+   "fichier": "recon/generateur/scenes_carrefours/J2_croix_stop.yaml",
+   "erreurs_validation": 0,
+   "non_conformites": 0,
+   "controles_reseau": 9,
+   "routes": 4,
+   "profils": 4,
+   "carrefours": 1,
+   "ilots": 0,
+   "signaux": 10,
+   "marquages": 2,
+   "controleurs": 0,
+   "sha256_modele": "3dc2e553f6afe44777582e0d3df428492a4ae3230e4b7d72d6f7d7297c2d30b8"
+  },
+  {
+   "scene": "J3_croix_feux",
+   "fichier": "recon/generateur/scenes_carrefours/J3_croix_feux.yaml",
+   "erreurs_validation": 0,
+   "non_conformites": 0,
+   "controles_reseau": 20,
+   "routes": 4,
+   "profils": 4,
+   "carrefours": 1,
+   "ilots": 0,
+   "signaux": 12,
+   "marquages": 4,
+   "controleurs": 1,
+   "sha256_modele": "c5bbc5315e7eb544324564188ddfe8020da27d9d9ea862f91cf5f7fd7a7e249d"
+  },
+  {
+   "scene": "J4_ilots_directionnel_separateurs",
+   "fichier": "recon/generateur/scenes_carrefours/J4_ilots_directionnel_separateurs.yaml",
+   "erreurs_validation": 0,
+   "non_conformites": 0,
+   "controles_reseau": 17,
+   "routes": 4,
+   "profils": 10,
+   "carrefours": 1,
+   "ilots": 3,
+   "signaux": 3,
+   "marquages": 8,
+   "controleurs": 0,
+   "sha256_modele": "6f7eb2ddd3362cf5d348d23d7bdd299705953c935028cae46c80600b28a2565d"
+  },
+  {
+   "scene": "J5_carrefour_complexe",
+   "fichier": "recon/generateur/scenes_carrefours/J5_carrefour_complexe.yaml",
+   "erreurs_validation": 0,
+   "non_conformites": 0,
+   "controles_reseau": 37,
+   "routes": 4,
+   "profils": 16,
+   "carrefours": 1,
+   "ilots": 7,
+   "signaux": 17,
+   "marquages": 45,
+   "controleurs": 1,
+   "sha256_modele": "687414f84bc8a603d0a83fae899bc45b15712f097ef0b02cd66e3959a4b2c002"
+  },
+  {
+   "scene": "G1_giratoire_urbain_D40",
+   "fichier": "recon/generateur/scenes_giratoires/G1_giratoire_urbain_D40.yaml",
+   "erreurs_validation": 0,
+   "non_conformites": 0,
+   "controles_reseau": 35,
+   "routes": 5,
+   "profils": 9,
+   "carrefours": 1,
+   "ilots": 5,
+   "signaux": 8,
+   "marquages": 8,
+   "controleurs": 0,
+   "sha256_modele": "bd481ef69eda016394d48286eff3fa816a8e2460fa830375840d3754eb773666"
+  },
+  {
+   "scene": "G2_giratoire_periurbain_D50",
+   "fichier": "recon/generateur/scenes_giratoires/G2_giratoire_periurbain_D50.yaml",
+   "erreurs_validation": 0,
+   "non_conformites": 0,
+   "controles_reseau": 31,
+   "routes": 5,
+   "profils": 9,
+   "carrefours": 1,
+   "ilots": 5,
+   "signaux": 12,
+   "marquages": 4,
+   "controleurs": 0,
+   "sha256_modele": "89e1f3e8db6f66e82c8a37ff2b9fd1999088b3a195bc739f7eb57d892218ce6f"
+  },
+  {
+   "scene": "G3_mini_giratoire_D20",
+   "fichier": "recon/generateur/scenes_giratoires/G3_mini_giratoire_D20.yaml",
+   "erreurs_validation": 0,
+   "non_conformites": 0,
+   "controles_reseau": 28,
+   "routes": 5,
+   "profils": 9,
+   "carrefours": 1,
+   "ilots": 5,
+   "signaux": 4,
+   "marquages": 8,
+   "controleurs": 0,
+   "sha256_modele": "9470527bb44fa66902607d29c5dfd9d3002474a3ecb5812b5d582fca59596f40"
+  },
+  {
+   "scene": "A1_autoroute_2x2_GBA",
+   "fichier": "recon/generateur/scenes_autoroutes/A1_autoroute_2x2_GBA.yaml",
+   "erreurs_validation": 0,
+   "non_conformites": 0,
+   "controles_reseau": 0,
+   "routes": 1,
+   "profils": 1,
+   "carrefours": 0,
+   "ilots": 0,
+   "signaux": 0,
+   "marquages": 0,
+   "controleurs": 0,
+   "sha256_modele": "b475c7c59b7d0633c57496cacb6232012499eb3350e07fce134b9b23647ed139"
+  },
+  {
+   "scene": "A2_autoroute_2x3_glissieres",
+   "fichier": "recon/generateur/scenes_autoroutes/A2_autoroute_2x3_glissieres.yaml",
+   "erreurs_validation": 0,
+   "non_conformites": 0,
+   "controles_reseau": 0,
+   "routes": 1,
+   "profils": 1,
+   "carrefours": 0,
+   "ilots": 0,
+   "signaux": 0,
+   "marquages": 0,
+   "controleurs": 0,
+   "sha256_modele": "fa00deedad000a1a065f59cc0adf4cd26d88e1744d7e9855a6dee5542f2df82c"
+  },
+  {
+   "scene": "A3_bretelle_entree",
+   "fichier": "recon/generateur/scenes_autoroutes/A3_bretelle_entree.yaml",
+   "erreurs_validation": 0,
+   "non_conformites": 0,
+   "controles_reseau": 2,
+   "routes": 2,
+   "profils": 6,
+   "carrefours": 1,
+   "ilots": 2,
+   "signaux": 1,
+   "marquages": 1,
+   "controleurs": 0,
+   "sha256_modele": "e0912bac19958aa2bbb72e33f5f0154e11da010cb0599685302c3ffbec5eb8bf"
+  },
+  {
+   "scene": "A4_bretelle_sortie",
+   "fichier": "recon/generateur/scenes_autoroutes/A4_bretelle_sortie.yaml",
+   "erreurs_validation": 0,
+   "non_conformites": 0,
+   "controles_reseau": 2,
+   "routes": 2,
+   "profils": 5,
+   "carrefours": 1,
+   "ilots": 2,
+   "signaux": 1,
+   "marquages": 1,
+   "controleurs": 0,
+   "sha256_modele": "4f6f37ae71f69d39c31cbd61b3488ac4fc7fc0ea9f84d4307806b26a45834aa5"
+  }
+ ],
+ "retrocompatibilite": {
+  "fichiers": 27,
+  "identiques": 27,
+  "differents": []
+ },
+ "determinisme": [
+  {
+   "scene": "J5_carrefour_complexe",
+   "identique": true,
+   "sha256": "687414f84bc8a603d0a83fae899bc45b15712f097ef0b02cd66e3959a4b2c002"
+  },
+  {
+   "scene": "G1_giratoire_urbain_D40",
+   "identique": true,
+   "sha256": "bd481ef69eda016394d48286eff3fa816a8e2460fa830375840d3754eb773666"
+  }
+ ],
+ "detail": "validation/controles_scenes.json (attendus mesurés un à un, cohérence géométrique)"
+}

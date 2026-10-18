@@ -1,0 +1,112 @@
+= RG Giratoires (îlots posés, marques de l'anneau) =
+
+"""Îlots posés des giratoires (lot L5) : couronne franchissable (bordure et vue du profil de l'anneau, pente RF-GV-GIR-006 vers l'anneau), îlot central (cercle de l'anneau du modèle, ceinture du modèle, pied sur la couronne), dôme franchissable du mini-giratoire (RF-GV-GIR-016), îlots séparateurs (polygones du modèle) avec abaissés et BEV au droit des passages (refuge, DEF-031) ; dessus et jupes au contrat de rg::sol ; bordures au contrat de pj::bordure ; contour du dôme et lignes de l'anneau au contrat de pj::marquage_solide. Le pilote fusionne sol, BEV, entités et marques avec ceux des branches et du cœur."""
+
+== Entrées ==
+
+1. GIRATOIRES (rg::giratoires, sortie 4). 2. Sol sans îlots (rg::sol + rg::carrefours_sol, sortie 1).
+
+== Sorties ==
+
+1. SOL des îlots (contrat de rg::sol ; classes giratoire_ilot, murs z_type 14).
+2. BEV (groupe dalles).
+3. ENTITÉS des bordures des îlots (contrat pj::bordure).
+4. MARQUES (contrat pj::marquage_solide).
+5. CONTRÔLES (faces de bordure, pied, abaissés).
+
+Règles : RF-GV-GIR-006, RF-GV-GIR-016, RF-MQ-GIR-02, RF-MQ-GIR-04, RF-OSM-MRQ-021, TQ-SOL-013, TQ-BOR-007, DEF-031, RF-MA-BEV-002, RF-MQ-MOD-*. Table des bases : {'bordures.json': '3d95240ff2288cf4', 'bordures_elements.json': '31673a9cab9f6b71', 'regles_route_fr.json': 'd4d63edeabf0820a'}.
+
+@parameters
+
+Flèche maximale des arcs (m):
+    #id: fleche
+    Faces circulaires : flèche ≤ 0,5 mm (RF-OSM-CAR-001).
+
+Pas angulaire maximal des arcs (°):
+    #id: pas_angulaire_max
+    Comme rg::giratoires.
+
+Angle de départ des faces circulaires (°):
+    #id: angle_depart
+    Ouverture des files fermées (couronne, îlot central) : point le plus au sud [G].
+
+Recouvrement sous la tête (m):
+    #id: recouvrement_tete
+    Le dessus d'un îlot passe sous la tête de sa bordure sur 12 mm (TQ-BOR-007, même valeur que rg::sol).
+
+Pente de la couronne franchissable (%):
+    #id: couronne_pente_pct
+    RF-GV-GIR-006 : bande franchissable en pente de 4 à 6 % vers l'anneau ; milieu de la plage [G].
+
+Pas radial des dessus circulaires (m):
+    #id: pas_radial
+    Maillage polaire [G].
+
+Relief au bord du dôme (m):
+    #id: dome_relief
+    RF-GV-GIR-016 : relief dissuasif de 1 à 3 cm au bord de l'îlot franchissable du mini-giratoire ; milieu [G].
+
+Aire minimale d'un îlot séparateur (m²):
+    #id: aire_min_ilot
+    Un polygone d'îlot plus petit est signalé et non fabriqué (îlot dégénéré du modèle) [G].
+
+Vue des abaissés (m):
+    #id: abaisse_vue
+    DEF-031 (RF-MA-ABA-001).
+
+Rampant des abaissés (m):
+    #id: abaisse_rampant
+    DEF-031 : 2,40 m à 5 %.
+
+Rampant minimal (m):
+    #id: abaisse_rampant_min
+    DEF-031 : 1,50 m à 8 % ; un rampant plus court est signalé.
+
+Marge de l'axe d'un passage (m):
+    #id: passage_marge
+    Une bordure reçoit l'abaissé d'un passage si elle coupe la bande du passage à moins de cette distance des bouts de l'axe du modèle [G] (même valeur que rg::carrefours_sol).
+
+Base d'une bordure absente des tables (m):
+    #id: base_defaut
+    Secours ; la table de pj::bordure prime.
+
+Table des bases (profil:base):
+    #id: table_bases
+    Bases des profils de bordure (table de pj::bordure, assets/specs/bordures.json, lue à la construction).
+
+Bordure d'îlot par défaut:
+    #id: bordure_ilot_defaut
+    Îlot sans ceinture : I2 (DEF-005 îlot).
+
+Pièces d'abaissé (profil:pièce, …):
+    #id: pieces_abaisse
+    Même table que rg::vers_entites (bordures_elements.json, abaisses.traversee).
+
+BEV : recul au nez (m):
+    #id: bev_recul
+    DEF-031, RF-MA-BEV-002.
+
+BEV : profondeur (m):
+    #id: bev_profondeur
+    DEF-031.
+
+BEV : profondeur réduite (m):
+    #id: bev_profondeur_reduite
+    DEF-031 : trottoir de moins de 1,90 m ; refuge : demi-largeur du refuge par côté [G].
+
+BEV : largeur de trottoir du seuil (m):
+    #id: bev_seuil_trottoir
+    DEF-031.
+
+Matériau de la peinture:
+    #id: materiau_peinture
+    Peinture blanche, classe d'usure 1 (usure légère 0,2), comme rg::carrefours_sol.
+
+Usure de la peinture:
+    #id: usure_peinture
+    Usure légère (description : marquages.usure).
+
+Modulations (nom:trait:intervalle):
+    #id: modulations
+    RF-MQ-MOD-* (regles_route_fr.json, lu à la construction).
+

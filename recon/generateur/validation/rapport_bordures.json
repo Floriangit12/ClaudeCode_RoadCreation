@@ -1,0 +1,833 @@
+{
+ "schema": "rg_rapport_lot/0.1",
+ "lot": "bordures",
+ "date": "2026-10-17",
+ "statut": "partial",
+ "resume": "Tous les types de bordures et de caniveaux du catalogue route_fr (32) choisissables dans la description et posés (nuancier B01, 96 m, 3 rangées) ; règles par défaut par contexte (18) ; pièces d'abaissé par type ; pièces d'angle à tous les coins ; asset du catalogue route_fr par élément ; deux défauts de la chaîne corrigés (une file par type, prototypes larges de pj::caniveau) ; reliquats de l'étape 1 vérifiés et Meylan refaites (2 vues). Un critère non atteint : R2 (B01 vue conducteur 37,5° pour 37° max).",
+ "criteres": [
+  {
+   "id": "C-B1",
+   "nom": "types du catalogue route_fr posés dans B01 (bordures et caniveaux)",
+   "valeur": "32/32",
+   "seuil": "32/32",
+   "atteint": true,
+   "detail": {
+    "bordures_catalogue": [
+     "A1",
+     "A2",
+     "ACCESBUS",
+     "GR_A1",
+     "GR_A2",
+     "GR_P1",
+     "GR_P3",
+     "GR_T1",
+     "GR_T2",
+     "I1",
+     "I2",
+     "I3",
+     "I4",
+     "P1",
+     "P1_basse",
+     "P2",
+     "P3",
+     "P4",
+     "T1",
+     "T2",
+     "T2_basse",
+     "T2_surbaissee",
+     "T3",
+     "T3_basse",
+     "T3_surbaissee",
+     "T4"
+    ],
+    "caniveaux_catalogue": [
+     "CC1",
+     "CC2",
+     "CS1",
+     "CS2",
+     "CS3",
+     "CS4"
+    ],
+    "manquants": [],
+    "profils_poses": [
+     "A1",
+     "A2",
+     "AC1",
+     "ACCESBUS",
+     "CC1",
+     "CC2",
+     "CS1",
+     "CS2",
+     "CS3",
+     "CS4",
+     "GR_A1",
+     "GR_A2",
+     "GR_P1",
+     "GR_P3",
+     "GR_T1",
+     "GR_T2",
+     "I1",
+     "I2",
+     "I3",
+     "I4",
+     "IL",
+     "P1",
+     "P1_basse",
+     "P2",
+     "P3",
+     "P4",
+     "PAVES_GRANIT",
+     "QUAI_BUS",
+     "T1",
+     "T2",
+     "T2_basse",
+     "T2_bateau",
+     "T2_surbaissee",
+     "T3",
+     "T3_basse",
+     "T3_surbaissee",
+     "T4",
+     "TU"
+    ],
+    "hors_catalogue_poses": [
+     "AC1",
+     "IL",
+     "PAVES_GRANIT",
+     "QUAI_BUS",
+     "T2_bateau",
+     "TU"
+    ]
+   }
+  },
+  {
+   "id": "C-B2",
+   "nom": "types du catalogue que la description peut nommer (vocabulaire étendu)",
+   "valeur": "32/32",
+   "seuil": "32/32",
+   "atteint": true,
+   "detail": {
+    "sans_mot": []
+   }
+  },
+  {
+   "id": "C-B3",
+   "nom": "vue posée des éléments courants = vue décrite (± 5 mm)",
+   "valeur": "432/432",
+   "seuil": "432/432",
+   "atteint": true,
+   "detail": {
+    "ecarts": []
+   }
+  },
+  {
+   "id": "C-B4",
+   "nom": "vue posée dans la vue nominale du profil (RF-AS-profil_*, bordures.json)",
+   "valeur": "432/432",
+   "seuil": "432/432",
+   "atteint": true,
+   "detail": {
+    "profils_hors_plage": [],
+    "exemples": []
+   }
+  },
+  {
+   "id": "C-B5",
+   "nom": "pièces d'abaissé : profil de la pièce du type courant (T2 → T2_bateau, T3 → T3_surbaissee…), vue ≤ 0,05 m",
+   "valeur": "7/7",
+   "seuil": "7/7 (≥ 1 par type d'abaissé décrit)",
+   "atteint": true,
+   "detail": {
+    "profils": [
+     "T2_bateau",
+     "T3_surbaissee"
+    ],
+    "vues": [
+     0.02,
+     0.05
+    ],
+    "ecarts": []
+   }
+  },
+  {
+   "id": "C-B6",
+   "nom": "coins de file (déviation > 30°) posés en pièce d'angle (onglet, sens sortant / rentrant)",
+   "valeur": "76/76",
+   "seuil": "76/76",
+   "atteint": true,
+   "detail": {
+    "manquants": [],
+    "sens": {
+     "sortant": 152
+    }
+   }
+  },
+  {
+   "id": "C-B7",
+   "nom": "continuité des files de bordures et de caniveaux (trous, recouvrements > 2 cm)",
+   "valeur": "trous 0.0 m, recouvrements 0",
+   "seuil": "0 m, 0",
+   "atteint": true
+  },
+  {
+   "id": "C-B8",
+   "nom": "éléments posés avec un mesh du catalogue route_fr (asset_id) ou un motif de pièce sur mesure",
+   "valeur": "639/639 ; 74.6 % de la longueur au catalogue",
+   "seuil": "639/639",
+   "atteint": true,
+   "detail": {
+    "longueur_catalogue_m": 432.09,
+    "longueur_totale_m": 579.29,
+    "assets_distincts": 49,
+    "motifs_sur_mesure": {
+     "pièce d'angle sur mesure en onglet": 120,
+     "chartière sur mesure": 16,
+     "retour transversal à vue variable": 8,
+     "profil IL sans mesh au catalogue route_fr": 8,
+     "profil TU sans mesh au catalogue route_fr": 8,
+     "profil AC1 sans mesh au catalogue route_fr": 8,
+     "profil PAVES_GRANIT sans mesh au catalogue route_fr": 5,
+     "profil QUAI_BUS sans mesh au catalogue route_fr": 3
+    }
+   }
+  },
+  {
+   "id": "C-B9",
+   "nom": "profils ajoutés : écart du contour posé (hors chanfrein arrière de 5 × 5 ou 3 × 3 mm, bordures_elements.json aretes) au contour du mesh du catalogue route_fr",
+   "valeur": "max 0.00 mm (17 profils)",
+   "seuil": "≤ 1 mm",
+   "atteint": true,
+   "detail": {
+    "ecart_hors_chanfrein_m": {
+     "ACCESBUS": 0.0,
+     "CS4": 0.0,
+     "GR_A1": 0.0,
+     "GR_A2": 0.0,
+     "GR_P1": 0.0,
+     "GR_P3": 0.0,
+     "GR_T1": 0.0,
+     "GR_T2": 0.0,
+     "I3": 0.0,
+     "I4": 0.0,
+     "P1_basse": 0.0,
+     "P4": 0.0,
+     "T2_basse": 0.0,
+     "T2_surbaissee": 0.0,
+     "T3_basse": 0.0,
+     "T3_surbaissee": 0.0,
+     "T4": 0.0
+    },
+    "chanfrein_arriere_ajoute_m": {
+     "ACCESBUS": 0.0,
+     "CS4": 0.0,
+     "GR_A1": 0.0,
+     "GR_A2": 0.0,
+     "GR_P1": 0.0,
+     "GR_P3": 0.0,
+     "GR_T1": 0.0,
+     "GR_T2": 0.0,
+     "I3": 0.0,
+     "I4": 0.0,
+     "P1_basse": 0.00212,
+     "P4": 0.00212,
+     "T2_basse": 0.00354,
+     "T2_surbaissee": 0.00354,
+     "T3_basse": 0.00354,
+     "T3_surbaissee": 0.00354,
+     "T4": 0.0
+    },
+    "profils_bordures_json_m (autre équipe, non modifiés, contour posé / mesh)": {
+     "A1": 0.00354,
+     "A2": 0.00354,
+     "CC1": 0.00636,
+     "CC2": 0.00355,
+     "CS1": 0.0015,
+     "CS2": 0.0015,
+     "CS3": 0.02921,
+     "I1": 0.01151,
+     "I2": 0.01151,
+     "P1": 0.00573,
+     "P2": 0.03,
+     "P3": 0.02,
+     "T1": 0.0041,
+     "T2": 0.00436,
+     "T3": 0.00737
+    }
+   }
+  },
+  {
+   "id": "C-B10",
+   "nom": "règles par défaut par contexte : profil connu, vue dans la plage nominale, règles citées existantes",
+   "valeur": "18/18",
+   "seuil": "18/18",
+   "atteint": true,
+   "detail": {
+    "contextes": [
+     {
+      "contexte": "trottoir",
+      "profil": "T2",
+      "vue_m": 0.14,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "ilot",
+      "profil": "I2",
+      "vue_m": 0.11,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "ilot_franchissable",
+      "profil": "I1",
+      "vue_m": 0.06,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "refuge",
+      "profil": "T2",
+      "vue_m": 0.12,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "terre_plein",
+      "profil": "I2",
+      "vue_m": 0.11,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "terre_plein_vru",
+      "profil": "T2",
+      "vue_m": 0.14,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "couronne_giratoire",
+      "profil": "T2_surbaissee",
+      "vue_m": 0.03,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "ilot_central_giratoire",
+      "profil": "I1",
+      "vue_m": 0.06,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "piste_trottoir",
+      "profil": "A2",
+      "vue_m": 0.05,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "piste_chaussee",
+      "profil": "T2",
+      "vue_m": 0.13,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "piste_intermediaire",
+      "profil": "A2",
+      "vue_m": 0.04,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "charretiere",
+      "profil": "T2_bateau",
+      "vue_m": 0.03,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "quai_bus",
+      "profil": "QUAI_BUS",
+      "vue_m": 0.21,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "quai_bus_accessible",
+      "profil": "ACCESBUS",
+      "vue_m": 0.21,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "bordurette",
+      "profil": "P1",
+      "vue_m": 0.03,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "accotement",
+      "profil": "A1",
+      "vue_m": 0.09,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "granit",
+      "profil": "GR_T2",
+      "vue_m": 0.14,
+      "regles_existantes": true,
+      "vue_nominale": true
+     },
+     {
+      "contexte": "autoroute",
+      "profil": null,
+      "vue_m": null,
+      "regles_existantes": true,
+      "vue_nominale": true
+     }
+    ],
+    "hors": []
+   }
+  },
+  {
+   "id": "C-B11",
+   "nom": "rétrocompatibilité : chaîne principale (fabriquer_generateur.py) avec le nouveau rg::vers_entites, fichiers l2/l2b comparés aux sorties précédentes",
+   "valeur": "S03 21/21 et S08 21/21 identiques ; S_M24 18/21 (elements, entites, mesures : boucle du refuge ouverte au milieu d'un côté, 4 pièces d'angle au lieu de 2)",
+   "seuil": "identiques hors correction déclarée",
+   "atteint": true,
+   "detail": {
+    "methode": "hython fabriquer_generateur.py S03 S08 M24 --l2b --sortie tmp/bordures/retro ; sha256 des .json/.npy l2 et l2b",
+    "log": "recon/generateur/tmp/bordures/retro.log"
+   }
+  },
+  {
+   "id": "C-B12",
+   "nom": "déterminisme du pilote du lot (B01, S_M24 ; second processus, sans rendu)",
+   "valeur": "identique (56 fichiers ; .usda : chemins relatifs des matériaux normalisés)",
+   "seuil": "identique",
+   "atteint": true,
+   "detail": {
+    "log": "recon/generateur/tmp/bordures/determinisme.log"
+   }
+  },
+  {
+   "id": "R1",
+   "nom": "Meylan : BEV sur surface piétonne ou refuge, bandes de passage sur chaussée ou piste (passage jusqu'au trottoir)",
+   "valeur": "BEV 1760/1760 dalles, passage 23334/23334 faces",
+   "seuil": "0 exception",
+   "atteint": true,
+   "detail": {
+    "S_M20": {
+     "bev": {
+      "BEV-R-1-1-1-0": {
+       "chemin_pieton": 240
+      },
+      "BEV-R-1-1-3-1": {
+       "chemin_pieton": 240
+      }
+     },
+     "passages": {
+      "MQ_M_1_1_b00": {
+       "voie_circulation": 1204
+      },
+      "MQ_M_1_1_b01": {
+       "voie_circulation": 1141
+      },
+      "MQ_M_1_1_b02": {
+       "voie_circulation": 1198
+      },
+      "MQ_M_1_1_b03": {
+       "voie_circulation": 1185
+      },
+      "MQ_M_1_1_b04": {
+       "voie_circulation": 1184
+      }
+     }
+    },
+    "S_M24": {
+     "bev": {
+      "BEV-R-1-1-2-0": {
+       "trottoir": 240
+      },
+      "BEV-R-1-1-3-1": {
+       "terre_plein": 160
+      },
+      "BEV-R-1-1-4-2": {
+       "terre_plein": 160
+      },
+      "BEV-R-1-1-5-3": {
+       "trottoir": 240
+      }
+     },
+     "passages": {
+      "MQ_M_1_1_b00": {
+       "voie_circulation": 1160
+      },
+      "MQ_M_1_1_b01": {
+       "voie_circulation": 1149
+      },
+      "MQ_M_1_2_b00": {
+       "voie_circulation": 1189
+      },
+      "MQ_M_1_2_b01": {
+       "voie_circulation": 1201
+      }
+     }
+    },
+    "S_M27": {
+     "bev": {
+      "BEV-R-1-2-4-0": {
+       "terre_plein": 240
+      },
+      "BEV-R-1-2-5-1": {
+       "terre_plein": 240
+      }
+     },
+     "passages": {
+      "MQ_M_1_1_b00": {
+       "accotement_revetu": 1188
+      },
+      "MQ_M_1_1_b01": {
+       "voie_circulation": 629,
+       "accotement_revetu": 495
+      },
+      "MQ_M_1_1_b02": {
+       "voie_circulation": 1133
+      },
+      "MQ_M_1_1_b03": {
+       "voie_circulation": 1151
+      },
+      "MQ_M_1_2_b00": {
+       "voie_circulation": 1194
+      },
+      "MQ_M_1_2_b01": {
+       "voie_circulation": 1151
+      },
+      "MQ_M_1_2_b02": {
+       "voie_circulation": 1167
+      },
+      "MQ_M_1_2_b03": {
+       "accotement_revetu": 1146
+      },
+      "MQ_M_1_2_b04": {
+       "accotement_revetu": 1173
+      },
+      "MQ_M_1_2_b05": {
+       "piste_cyclable": 1146
+      },
+      "MQ_M_1_2_b06": {
+       "piste_cyclable": 1150
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "R2",
+   "nom": "teinte rendue de l'enrobé (vue de dessus et vue conducteur), gris chaud des photos",
+   "valeur": "26.7-37.5°",
+   "seuil": "26-37°",
+   "atteint": false,
+   "detail": {
+    "dessus": {
+     "S01": 30.0,
+     "S02": 33.3,
+     "S03": 33.3,
+     "S05": 26.7,
+     "S10": 33.3,
+     "S12": 36.0,
+     "S_M20": 33.3,
+     "S_M24": 33.3,
+     "S_M27": 33.3,
+     "B01": 33.3
+    },
+    "conducteur": {
+     "S01": 33.3,
+     "S02": 30.0,
+     "S03": 30.0,
+     "S05": 30.0,
+     "S10": 30.0,
+     "S12": 26.7,
+     "S_M20": 33.3,
+     "S_M24": 30.0,
+     "S_M27": 30.0,
+     "B01": 37.5
+    }
+   }
+  },
+  {
+   "id": "R3",
+   "nom": "bordures et caniveaux non bleutés : teinte rendue (têtes, caniveaux, faces au soleil)",
+   "valeur": "27.3-36.0°, saturation ≥ 0.062",
+   "seuil": "20-45°, saturation ≥ 0,04",
+   "atteint": true,
+   "detail": {
+    "mesures": [
+     [
+      "tête (dessus)",
+      "S02",
+      27.3,
+      0.062
+     ],
+     [
+      "tête (dessus)",
+      "S03",
+      32.3,
+      0.072
+     ],
+     [
+      "tête (dessus)",
+      "S05",
+      27.3,
+      0.062
+     ],
+     [
+      "tête (dessus)",
+      "S10",
+      32.3,
+      0.075
+     ],
+     [
+      "tête (dessus)",
+      "S12",
+      30.0,
+      0.068
+     ],
+     [
+      "tête (dessus)",
+      "S_M27",
+      27.3,
+      0.062
+     ],
+     [
+      "tête (dessus)",
+      "B01",
+      27.3,
+      0.064
+     ],
+     [
+      "caniveau (dessus)",
+      "S02",
+      36.0,
+      0.068
+     ],
+     [
+      "caniveau (dessus)",
+      "S03",
+      32.7,
+      0.076
+     ],
+     [
+      "caniveau (dessus)",
+      "S05",
+      36.0,
+      0.068
+     ],
+     [
+      "caniveau (dessus)",
+      "S10",
+      33.3,
+      0.064
+     ],
+     [
+      "caniveau (dessus)",
+      "S12",
+      36.0,
+      0.069
+     ],
+     [
+      "caniveau (dessus)",
+      "B01",
+      36.0,
+      0.066
+     ],
+     [
+      "face au soleil (conducteur)",
+      "S02",
+      30.0,
+      0.093
+     ],
+     [
+      "face au soleil (conducteur)",
+      "S03",
+      33.3,
+      0.094
+     ],
+     [
+      "face au soleil (conducteur)",
+      "S05",
+      31.8,
+      0.089
+     ],
+     [
+      "face au soleil (conducteur)",
+      "S10",
+      33.3,
+      0.093
+     ],
+     [
+      "face au soleil (conducteur)",
+      "S12",
+      31.8,
+      0.089
+     ],
+     [
+      "face au soleil (conducteur)",
+      "S_M24",
+      33.3,
+      0.098
+     ],
+     [
+      "face au soleil (conducteur)",
+      "S_M27",
+      31.6,
+      0.096
+     ],
+     [
+      "face au soleil (conducteur)",
+      "B01",
+      28.2,
+      0.093
+     ]
+    ],
+    "faces_a_l_ombre (information : ciel bleu seul)": {
+     "S02": [
+      220.0,
+      0.184
+     ],
+     "S03": [
+      220.0,
+      0.196
+     ],
+     "S05": [
+      220.0,
+      0.184
+     ],
+     "S10": [
+      222.0,
+      0.2
+     ],
+     "S12": [
+      220.0,
+      0.196
+     ],
+     "S_M24": [
+      222.0,
+      0.233
+     ],
+     "S_M27": [
+      217.1,
+      0.273
+     ],
+     "B01": [
+      220.0,
+      0.184
+     ]
+    }
+   }
+  },
+  {
+   "id": "R4",
+   "nom": "piste cyclable plus sombre que la chaussée et non verdâtre (vue de dessus)",
+   "valeur": "ΔY -0.058 à -0.055 ; teinte 25.7-30.0°",
+   "seuil": "ΔY < 0 ; 20-45°",
+   "atteint": true,
+   "detail": {
+    "dY": {
+     "S05": -0.0562,
+     "S_M24": -0.058,
+     "S_M27": -0.0549
+    },
+    "teinte": {
+     "S05": 30.0,
+     "S_M24": 25.7,
+     "S_M27": 30.0
+    }
+   }
+  },
+  {
+   "id": "R5",
+   "nom": "usure de l'enrobé variée par scène : corrélation de luminance au même (x, y) entre scènes",
+   "valeur": "max 0.135",
+   "seuil": "< 0,2",
+   "atteint": true,
+   "detail": {
+    "S01/S02": {
+     "pixels": 52051,
+     "correlation": 0.129
+    },
+    "S01/S03": {
+     "pixels": 53959,
+     "correlation": 0.09
+    },
+    "S01/S07": {
+     "pixels": 51963,
+     "correlation": 0.022
+    },
+    "S01/S12": {
+     "pixels": 50968,
+     "correlation": -0.037
+    },
+    "S02/S03": {
+     "pixels": 54483,
+     "correlation": 0.135
+    },
+    "S02/S07": {
+     "pixels": 54395,
+     "correlation": 0.008
+    },
+    "S02/S12": {
+     "pixels": 48592,
+     "correlation": -0.012
+    },
+    "S03/S07": {
+     "pixels": 54408,
+     "correlation": 0.031
+    },
+    "S03/S12": {
+     "pixels": 50152,
+     "correlation": -0.071
+    },
+    "S07/S12": {
+     "pixels": 48504,
+     "correlation": 0.009
+    }
+   }
+  },
+  {
+   "id": "R6",
+   "nom": "avaloirs qui remplacent l'élément de caniveau (recouvrements et trous > 2 cm)",
+   "valeur": "S03 : 13 avaloirs, 0 recouvrements, 0 trous, S10 : 4 avaloirs, 0 recouvrements, 0 trous",
+   "seuil": "0 recouvrement, 0 trou",
+   "atteint": true
+  }
+ ],
+ "comptes_b01": {
+  "elements": 639,
+  "bordures": 537,
+  "caniveaux": 102
+ },
+ "a_integrer": [
+  "description/vocabulaire.py : PROFILS_BORDURE.update(bordures_catalogue.MOTS_PROFILS), CANIVEAUX.update(MOTS_CANIVEAUX)",
+  "schema/modele_voie.schema.json : enum bordure.profil et caniveau.profil (bordures_catalogue.enumerations_schema())",
+  "commun/profil.py : repli de bordure_entre pour le profil « autre » (bordures_catalogue.installer_description)",
+  "hda/rg_nivellement/construire.py : table_profils() sur bordures_catalogue.construire_table_etendue()",
+  "fabriquer_l2.py : pj::bordure::2.1, pj::caniveau::2.2, paramètres pieces_abaisse / vue_max_bateau de rg::vers_entites, asset_id dans elements.json (fabriquer_bordures.exporter_elements)",
+  "description_vers_modele.ev_charretiere : vue 0,03 (bordures_elements.json) au lieu de 0,05 (max RF-MA-TRO-015)"
+ ],
+ "rendus": [
+  "recon/out/generateur/B01/rendus/planche_B01.png",
+  "recon/out/generateur/B01/rendus/planche_B01_etiquettes_1.png",
+  "recon/out/generateur/B01/rendus/planche_B01_etiquettes_2.png",
+  "recon/out/generateur/B01/rendus/planche_B01_detail_1.png",
+  "recon/out/generateur/B01/rendus/planche_B01_detail_2.png",
+  "recon/out/generateur/B01/rendus/planche_B01_detail_3.png",
+  "recon/out/generateur/B01/rendus/planche_B01_detail_4.png",
+  "recon/out/generateur/S_M24/rendus/planche_S_M24.png",
+  "recon/out/generateur/S_M27/rendus/planche_S_M27.png",
+  "recon/out/generateur/S_M20/rendus/planche_S_M20.png"
+ ]
+}

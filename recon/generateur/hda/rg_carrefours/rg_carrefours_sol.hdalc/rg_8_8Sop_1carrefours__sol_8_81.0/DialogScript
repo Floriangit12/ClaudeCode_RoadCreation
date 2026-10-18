@@ -1,0 +1,243 @@
+# Dialog script for rg::carrefours_sol::1.0 automatically generated
+
+{
+    name	rg::carrefours_sol::1.0
+    inputlabel	1	"Niveaux (rg::nivellement)"
+    inputlabel	2	"Profils (rg::carrefours, sortie 2)"
+    inputlabel	3	"Solveur (rg::carrefours, sortie 3)"
+    inputlabel	4	"Références (rg::graphe)"
+    outputlabel	1	"Sol du carrefour"
+    outputlabel	2	"BEV du carrefour"
+    outputlabel	3	"Entités (bordures du carrefour)"
+    outputlabel	4	"Marques du carrefour"
+    outputlabel	5	"Contrôles"
+    script	rg::carrefours_sol::1.0
+    label	"RG Carrefours (sol, bordures, marques)"
+
+    help {
+    }
+
+    inputlabel	1	"Niveaux (rg::nivellement)"
+    inputlabel	2	"Profils (rg::carrefours, sortie 2)"
+    inputlabel	3	"Solveur (rg::carrefours, sortie 3)"
+    inputlabel	4	"Références (rg::graphe)"
+
+    parm {
+        name    "amorce"
+        label   "Amorce droite des bordures de coin (m)"
+        type    float
+        default { "3" }
+        help    "Même valeur que rg::carrefours (le pilote la relie)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "recouvrement_tete"
+        label   "Recouvrement du trottoir sous la tête (m)"
+        type    float
+        default { "0.012" }
+        help    "La chaussée passe sous la bordure jusqu'à l'arrière moins 12 mm, le trottoir sous la tête sur 12 mm (TQ-BOR-007 ; même valeur que rg::sol, RG_RECOUV_HAUT)."
+        range   { 0 0.05 }
+    }
+    parm {
+        name    "abaisse_vue"
+        label   "Vue des abaissés (m)"
+        type    float
+        default { "0.02" }
+        help    "DEF-031 (RF-MA-ABA-001)."
+        range   { 0 0.1 }
+    }
+    parm {
+        name    "abaisse_rampant"
+        label   "Rampant des abaissés (m)"
+        type    float
+        default { "2.4" }
+        help    "DEF-031 : 2,40 m à 5 %."
+        range   { 0 5 }
+    }
+    parm {
+        name    "abaisse_rampant_min"
+        label   "Rampant minimal (m)"
+        type    float
+        default { "1.5" }
+        help    "DEF-031 : 1,50 m à 8 % ; un rampant plus court (bout de file) est signalé."
+        range   { 0 5 }
+    }
+    parm {
+        name    "passage_marge"
+        label   "Marge de l'axe d'un passage (m)"
+        type    float
+        default { "2" }
+        help    "Une bordure reçoit l'abaissé d'un passage si elle coupe la bande du passage (axe ± longueur des bandes / 2) à moins de cette distance des bouts de l'axe du modèle [G]."
+        range   { 0 10 }
+    }
+    parm {
+        name    "base_defaut"
+        label   "Base d'une bordure absente des tables (m)"
+        type    float
+        default { "0.15" }
+        help    "Secours ; la table de pj::bordure prime."
+        range   { 0.05 0.5 }
+    }
+    parm {
+        name    "table_bases"
+        label   "Table des bases (profil:base)"
+        type    string
+        default { "A1:0.2000,A2:0.1500,AC1:0.3500,ACCESBUS:0.2000,GR_A1:0.2000,GR_A2:0.1500,GR_P1:0.0800,GR_P3:0.0600,GR_T1:0.1200,GR_T2:0.1500,I1:0.2500,I2:0.2500,I3:0.3000,I4:0.3000,IL:0.2000,MURET_TALUS:0.2000,P1:0.0800,P1_basse:0.0800,P2:0.0600,P3:0.0800,P4:0.0500,PAVES_GRANIT:0.1400,QUAI_BUS:0.3500,T1:0.1200,T2:0.1500,T2_basse:0.1510,T2_bateau:0.1500,T2_surbaissee:0.1510,T3:0.1700,T3_basse:0.1700,T3_surbaissee:0.1700,T4:0.2000,TU:0.2500" }
+        help    "Bases des profils de bordure (table de pj::bordure, assets/specs/bordures.json, lue à la construction)."
+    }
+    parm {
+        name    "bordure_ilot_defaut"
+        label   "Bordure d'îlot par défaut"
+        type    string
+        default { "I2" }
+        help    "Îlot du cœur sans ceinture : I2 (DEF-005 îlot)."
+    }
+    parm {
+        name    "materiau_bordure_defaut"
+        label   "Matériau des bordures par défaut"
+        type    string
+        default { "beton_bordure_gris" }
+        help    "Même défaut que rg::vers_entites."
+    }
+    parm {
+        name    "arete_cible"
+        label   "Arête cible de la triangulation (m)"
+        type    float
+        default { "0.5" }
+        help    "Triangulate 2D raffiné [G]."
+        range   { 0.05 5 }
+    }
+    parm {
+        name    "angle_min"
+        label   "Angle minimal (°)"
+        type    float
+        default { "25" }
+        help    "TQ-SOL-002 (rg::sol)."
+        range   { 5 33 }
+    }
+    parm {
+        name    "iterations_lissage"
+        label   "Itérations du lissage harmonique"
+        type    integer
+        default { "400" }
+        help    "Gauss-Seidel sur-relaxé des Z de chaussée libres (choix de fabrication [G])."
+        range   { 0 10000 }
+    }
+    parm {
+        name    "relaxation"
+        label   "Sur-relaxation"
+        type    float
+        default { "1.8" }
+        help    "Facteur ω du Gauss-Seidel (1 < ω < 2)."
+        range   { 1 1.99 }
+    }
+    parm {
+        name    "materiau_chaussee"
+        label   "Matériau de la chaussée du carrefour"
+        type    string
+        default { "enrobe_bbsg_ancien" }
+        help    "Revêtement des voies des branches (bande voie_circulation des J1-J5)."
+    }
+    parm {
+        name    "bev_recul"
+        label   "BEV : recul au nez (m)"
+        type    float
+        default { "0.5" }
+        help    "DEF-031, RF-MA-BEV-002."
+        range   { 0 2 }
+    }
+    parm {
+        name    "bev_profondeur"
+        label   "BEV : profondeur (m)"
+        type    float
+        default { "0.5875" }
+        help    "DEF-031."
+        range   { 0.1 2 }
+    }
+    parm {
+        name    "bev_profondeur_reduite"
+        label   "BEV : profondeur réduite (m)"
+        type    float
+        default { "0.4" }
+        help    "DEF-031 : trottoir de moins de 1,90 m."
+        range   { 0.1 2 }
+    }
+    parm {
+        name    "bev_seuil_trottoir"
+        label   "BEV : largeur de trottoir du seuil (m)"
+        type    float
+        default { "1.9" }
+        help    "DEF-031."
+        range   { 0 5 }
+    }
+    parm {
+        name    "pieces_abaisse"
+        label   "Pièces d'abaissé (profil:pièce, …)"
+        type    string
+        default { "T2:T2_bateau" }
+        help    "Même table que rg::vers_entites (bordures_elements.json, abaisses.traversee)."
+    }
+    parm {
+        name    "materiau_peinture"
+        label   "Matériau de la peinture"
+        type    string
+        default { "peinture_blanc_u1" }
+        help    "Peinture blanche, classe d'usure 1 (usure légère 0,2 : rg_m_materiau de rg::marquages)."
+    }
+    parm {
+        name    "usure_peinture"
+        label   "Usure de la peinture"
+        type    float
+        default { "0.2" }
+        help    "Usure légère des scènes J (description : marquages.usure)."
+        range   { 0 1 }
+    }
+    parm {
+        name    "stop_largeur"
+        label   "Ligne STOP : largeur (m)"
+        type    float
+        default { "0.5" }
+        help    "RF-MQ-STOP-01 : continue de 0,50 m."
+        range   { 0.1 1 }
+    }
+    parm {
+        name    "cedez_largeur"
+        label   "Ligne CÉDEZ : largeur (m)"
+        type    float
+        default { "0.5" }
+        help    "RF-MQ-CED-01 : T'2 de 0,50 m."
+        range   { 0.1 1 }
+    }
+    parm {
+        name    "effet_largeur"
+        label   "Ligne d'effet des feux : largeur (m)"
+        type    float
+        default { "0.15" }
+        help    "RF-MQ-FEU-01 : T'2 de 0,15 m."
+        range   { 0.05 1 }
+    }
+    parm {
+        name    "tp2_trait"
+        label   "T'2 : trait (m)"
+        type    float
+        default { "0.5" }
+        help    "RF-MQ-MOD-T'2."
+        range   { 0.1 2 }
+    }
+    parm {
+        name    "tp2_intervalle"
+        label   "T'2 : intervalle (m)"
+        type    float
+        default { "0.5" }
+        help    "RF-MQ-MOD-T'2."
+        range   { 0.1 2 }
+    }
+    parm {
+        name    "passage_bande"
+        label   "Passage : largeur des bandes (m)"
+        type    float
+        default { "0.5" }
+        help    "DEF-011."
+        range   { 0.1 1 }
+    }
+}

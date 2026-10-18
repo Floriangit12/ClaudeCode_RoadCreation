@@ -1,0 +1,223 @@
+{
+ "schema": "rg_rapport_lot/0.1",
+ "lot": "autoroutes",
+ "scenes": [
+  "A1_autoroute_2x2_GBA",
+  "A2_autoroute_2x3_glissieres",
+  "A3_bretelle_entree",
+  "A4_bretelle_sortie"
+ ],
+ "criteres": [
+  {
+   "id": "AU-01",
+   "libelle": "Largeurs des bandes mesurées sur le sol fabriqué = modèle (A1-A4)",
+   "valeur": "écart max 0.0000 m (56 bandes, 1416 coupes)",
+   "seuil": "≤ 0,01 m",
+   "atteint": true,
+   "detail": null
+  },
+  {
+   "id": "AU-02",
+   "libelle": "Largeurs du modèle = valeurs sourcées (voie 3,50, BAU 3,00, berme 1,00, BDG 1,00)",
+   "valeur": "115/115 bandes",
+   "seuil": "100 %",
+   "atteint": true,
+   "detail": []
+  },
+  {
+   "id": "AU-03",
+   "libelle": "Modulations des lignes (trait, intervalle) mesurées sur la peinture = RF-MQ-MOD-*",
+   "valeur": "écart max 0.0058 m (694 tirets ; T'3, T1, T2, T4)",
+   "seuil": "≤ 0,01 m",
+   "atteint": true,
+   "detail": null
+  },
+  {
+   "id": "AU-04",
+   "libelle": "Largeur des lignes mesurée = largeur_u × u (u = 7,5 cm sur autoroute, RF-MQ-U-01)",
+   "valeur": "écart max 0.0030 m (34 lignes)",
+   "seuil": "≤ 0,01 m",
+   "atteint": true,
+   "detail": {
+    "demi_lignes_au_bord_exterieur_du_profil": [
+     "A3_bretelle_entree:R-1:v4___continue_6=0.1105",
+     "A3_bretelle_entree:R-2:__v1_continue_0=0.111",
+     "A4_bretelle_sortie:R-1:v4___continue_6=0.1105",
+     "A4_bretelle_sortie:R-2:__v1_continue_0=0.111"
+    ]
+   }
+  },
+  {
+   "id": "AU-05",
+   "libelle": "Modulations du modèle conformes IISR7 autoroutes (délimitation T1 2u, BAU T4 3u, TPC continue 3u, bretelle T'3 3u et rive sans BAU continue 3u, insertion / décélération T2 5u)",
+   "valeur": "38 lignes, modulations [\"T'3\", 'T1', 'T2', 'T4', 'continue']",
+   "seuil": "100 % conformes",
+   "atteint": true,
+   "detail": [
+    "A1_autoroute_2x2_GBA:R-1:bau1_v1:T4",
+    "A1_autoroute_2x2_GBA:R-1:bdd2_v3:continue",
+    "A1_autoroute_2x2_GBA:R-1:v1_v2:T1",
+    "A1_autoroute_2x2_GBA:R-1:v2_bdd1:continue",
+    "A1_autoroute_2x2_GBA:R-1:v3_v4:T1",
+    "A1_autoroute_2x2_GBA:R-1:v4_bau2:T4",
+    "A2_autoroute_2x3_glissieres:R-1:bau1_v1:T4",
+    "A2_autoroute_2x3_glissieres:R-1:bdd2_v4:continue",
+    "A2_autoroute_2x3_glissieres:R-1:v1_v2:T1",
+    "A2_autoroute_2x3_glissieres:R-1:v2_v3:T1",
+    "A2_autoroute_2x3_glissieres:R-1:v3_bdd1:continue",
+    "A2_autoroute_2x3_glissieres:R-1:v4_v5:T1",
+    "A2_autoroute_2x3_glissieres:R-1:v5_v6:T1",
+    "A2_autoroute_2x3_glissieres:R-1:v6_bau2:T4",
+    "A3_bretelle_entree:R-1:bau1_v1:T4",
+    "A3_bretelle_entree:R-1:bdd2_v3:continue",
+    "A3_bretelle_entree:R-1:ins1_bau2:T4",
+    "A3_bretelle_entree:R-1:v1_v2:T1",
+    "A3_bretelle_entree:R-1:v2_bdd1:continue",
+    "A3_bretelle_entree:R-1:v3_v4:T1",
+    "A3_bretelle_entree:R-1:v4__:continue",
+    "A3_bretelle_entree:R-1:v4_bau2:T4",
+    "A3_bretelle_entree:R-1:v4_bau2:T4",
+    "A3_bretelle_entree:R-1:v4_ins1:T2",
+    "A3_bretelle_entree:R-2:__v1:continue",
+    "A3_bretelle_entree:R-2:v1_bau1:T'3",
+    "A4_bretelle_sortie:R-1:bau1_v1:T4",
+    "A4_bretelle_sortie:R-1:bdd2_v3:continue",
+    "A4_bretelle_sortie:R-1:dec1_bau2:T4",
+    "A4_bretelle_sortie:R-1:v1_v2:T1",
+    "A4_bretelle_sortie:R-1:v2_bdd1:continue",
+    "A4_bretelle_sortie:R-1:v3_v4:T1",
+    "A4_bretelle_sortie:R-1:v4__:continue",
+    "A4_bretelle_sortie:R-1:v4_bau2:T4",
+    "A4_bretelle_sortie:R-1:v4_bau2:T4",
+    "A4_bretelle_sortie:R-1:v4_dec1:T2",
+    "A4_bretelle_sortie:R-2:__v1:continue",
+    "A4_bretelle_sortie:R-2:v1_bau1:T'3"
+   ]
+  },
+  {
+   "id": "AU-06",
+   "libelle": "Séparateur béton DBA (catalogue retenue_DBA, Cerema DR p. 32) : base 0,60 et hauteur 0,81 au-dessus du sol fabriqué, continu sur toute la principale",
+   "valeur": "écart max 0.0000 m sur 38 coupes (3 scènes) ; continu 3/3",
+   "seuil": "≤ 0,01 m ; continu",
+   "atteint": true,
+   "detail": null
+  },
+  {
+   "id": "AU-07",
+   "libelle": "Glissières GS2 (catalogue, fiche Aximum GS2, Setra BVL p. 30) : haut de lisse 0,70 au-dessus du sol, supports tous les 2,00 m, face de la lisse sur la limite du modèle",
+   "valeur": "2 glissières, 500 supports ; écart max 0.0013 m",
+   "seuil": "2 glissières ; ≤ 0,01 m",
+   "atteint": true,
+   "detail": [
+    {
+     "cote": "gauche",
+     "haut_lisse_sur_sol_m": [
+      0.7,
+      0.7013
+     ],
+     "face_t_m": [
+      1.5,
+      1.5
+     ],
+     "limite_t_m": 1.5,
+     "supports": 250,
+     "pas_supports_m": [
+      2.0,
+      2.0
+     ]
+    },
+    {
+     "cote": "droite",
+     "haut_lisse_sur_sol_m": [
+      0.7,
+      0.7012
+     ],
+     "face_t_m": [
+      -1.5,
+      -1.5
+     ],
+     "limite_t_m": -1.5,
+     "supports": 250,
+     "pas_supports_m": [
+      2.0,
+      2.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "AU-08",
+   "libelle": "Voie d'insertion (A3) : largeur fabriquée = loi du modèle (3,50 m sur la zone parallèle, biseau linéaire de 75 m jusqu'à 0) ; zone de manœuvre de 200 m depuis E.1,00 (VSA 90/110 p. 34, schéma 26)",
+   "valeur": "écart de largeur max 0.0000 m ; biseau 75.0 m ; zone de manœuvre depuis E.1,00 : 199.926 m",
+   "seuil": "≤ 0,01 m ; biseau 75 m ± 0,01 ; 200 ± 0,1 m",
+   "atteint": true,
+   "detail": null
+  },
+  {
+   "id": "AU-09",
+   "libelle": "Voie de décélération (A4) : biseau de 150 m de 0 à 3,50 m (VSA 90/110 p. 31, schéma 14), largeur fabriquée = loi du modèle",
+   "valeur": "écart de largeur max 0.0000 m ; biseau 150.0 m",
+   "seuil": "≤ 0,01 m ; biseau 150 m ± 0,01",
+   "atteint": true,
+   "detail": null
+  },
+  {
+   "id": "AU-10",
+   "libelle": "Points à 1,00 m et 5,00 m et obliquité des bretelles (VSA 90/110 p. 38 : entrée 1/25 ; sortie 1/33)",
+   "valeur": "A3 : E/S.1,00 à 24.986 m, E/S.5,00 à 125.066 m, obliquité 0.03997 ; A4 : E/S.1,00 à 32.989 m, E/S.5,00 à 165.05 m, obliquité 0.03029",
+   "seuil": "± 0,10 m ; obliquité ± 0,0005",
+   "atteint": true,
+   "detail": null
+  },
+  {
+   "id": "AU-11",
+   "libelle": "Chevrons des musoirs mesurés sur la peinture (RF-MQ-HACH-02, DEF-020) : 2 pour 1 sur la bissectrice (26,565°), bandes de 0,50, pas perpendiculaire 1,85, pointe vers le conducteur",
+   "valeur": "98 bandes ; angle ± 0.001° ; largeur ± 0.0020 m ; pas ± 0.0001 m ; pointe vers l'amont 98/98",
+   "seuil": "± 0,1° ; ± 0,01 m ; 100 %",
+   "atteint": true,
+   "detail": null
+  },
+  {
+   "id": "AU-12",
+   "libelle": "Raccord vertical bretelle / principale à la jonction et sol du musoir raccordé aux deux sols",
+   "valeur": "écart de Z à la jonction 0.0020 m (dz appliqué [-0.281223, -0.281239]) ; marche aux bords du musoir 0.0016 m",
+   "seuil": "≤ 0,01 m",
+   "atteint": true,
+   "detail": null
+  },
+  {
+   "id": "AU-13",
+   "libelle": "BAU de la principale interrompue au droit du musoir (A3 [175 ; 300], A4 [500 ; 665])",
+   "valeur": "[[[175.0, 300.0]], [[500.0, 665.0]]] : 0 sommet de BAU dedans",
+   "seuil": "0",
+   "atteint": true,
+   "detail": null
+  },
+  {
+   "id": "AU-14",
+   "libelle": "Gabarits des flèches ± 1 mm (flèches ×4/3 demandées)",
+   "valeur": "sans objet : aucune flèche dans A1-A4 (IISR7 annexe B.1 : pas d'homothétie de la flèche de rabattement ; ×4/3 = flèches directionnelles, nota B.2/B.3 p. 62-63, liées à une affectation non décrite)",
+   "seuil": "± 1 mm",
+   "atteint": false,
+   "detail": null
+  },
+  {
+   "id": "AU-15",
+   "libelle": "Déterminisme (vérifié une fois en fin de lot, 2 scènes)",
+   "valeur": "identique (60 fichiers, A2 et A3 : l1, l2, l2b, autoroute)",
+   "seuil": "identique",
+   "atteint": true,
+   "detail": null
+  },
+  {
+   "id": "AU-16",
+   "libelle": "Rendus regardés en tuiles natives ≤ 1092 px (2 vues par scène, 3 pour A3)",
+   "valeur": "9/9 vues",
+   "seuil": "9/9",
+   "atteint": true,
+   "detail": null
+  }
+ ],
+ "atteints": 15,
+ "total": 16
+}

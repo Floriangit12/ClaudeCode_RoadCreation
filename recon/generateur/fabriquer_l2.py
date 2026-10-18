@@ -78,6 +78,7 @@ if (ok) {
 }
 """
 VERSION_L2 = "fabriquer_l2/1.0 (lot L2)"
+VUE_MAX_BATEAU = 0.05            # RF-MA-TRO-015 entree_charretiere_max : abaissés et entrées en pièce d'abaissé du type
 
 
 def _r(x, n=6):
@@ -98,9 +99,13 @@ def installer_pj(forcer=False):
     import importlib.util
     PJ.installer_tout()
     sigs = {}
+    # intégration de l'étape 2 (lot bordures) : pj::bordure::2.1 et pj::caniveau::2.2, table des profils étendue au
+    # catalogue route_fr (commun/bordures_catalogue.py) ; 2.2 : face parasite du CC2 corrigée, prototypes espacés de 2 m
     for dossier, fichier, cle in (("pj_caniveau_v2", "pj_caniveau_2.0.hdalc", "pj::caniveau::2.0"),
                                   ("pj_caniveau_v2_1", "pj_caniveau_2.1.hdalc", "pj::caniveau::2.1"),
-                                  ("pj_bordure_v2", "pj_bordure_2.0.hdalc", "pj::bordure::2.0")):
+                                  ("pj_bordure_v2", "pj_bordure_2.0.hdalc", "pj::bordure::2.0"),
+                                  ("pj_bordure_v2_1", "pj_bordure_2.1.hdalc", "pj::bordure::2.1"),
+                                  ("pj_caniveau_v2_2", "pj_caniveau_2.2.hdalc", "pj::caniveau::2.2")):
         d = ICI / "hda" / dossier
         cible = d / fichier
         if forcer or not cible.exists():
@@ -136,11 +141,20 @@ def reseau(obj, lire, graphe, nom_type):
     chf.setInput(1, niv, 1)
     chf.setInput(2, niv, 0)
     chf.setInput(3, graphe, 0)
-    bor = obj.createNode("pj::bordure::2.0", "bordures")
+    # pièce d'abaissé de chaque type (lot bordures : T2 → T2_bateau, T3 → T3_surbaissee, T2_basse → T2_surbaissee,
+    # T3_basse → T3_surbaissee, A2 → A2 ; commun/bordures_catalogue.PIECES_ABAISSE, même base contrôlée) ; un intervalle
+    # abaissé est posé en pièce d'abaissé jusqu'à la vue maximale d'une entrée charretière (RF-MA-TRO-015 : 0,05 m)
+    sys.path.insert(0, str(ICI / "commun"))
+    import bordures_catalogue as BC
+    ent.parm("pieces_abaisse").set(",".join(f"{k}:{v}" for k, v in sorted(BC.table_pieces_abaisse().items())))
+    ent.parm("vue_max_bateau").set(VUE_MAX_BATEAU)
+    # pj::bordure::2.1 (lot bordures : table étendue ; 2.0 gardée intacte)
+    bor = obj.createNode("pj::bordure::2.1", "bordures")
     bor.setInput(0, ent, 0)
-    # pj::caniveau::2.1 (correction après le second contrôle : l'avaloir remplace le caniveau, pièce gardée dès 5 mm à
-    # la borne de l'intervalle, sans trou devant l'avaloir) ; 2.0 gardée intacte
-    can = obj.createNode("pj::caniveau::2.1", "caniveaux")
+    # pj::caniveau::2.2 (lot bordures : correctifs de 2.1 — l'avaloir remplace le caniveau, pièce gardée dès 5 mm à la
+    # borne de l'intervalle —, face parasite du CC2 retirée, table étendue (CS4), prototypes espacés de 2 m) ; 2.0 et
+    # 2.1 gardées intactes
+    can = obj.createNode("pj::caniveau::2.2", "caniveaux")
     can.setInput(0, ent, 0)
     # contrat de branche (README_HDA § 4) : entrée 2 = HeightField de nivellement ; le pied reste lu sur le profil en
     # long niv_z_pied (paramètre altitude = profil, défaut des HDA pj), tiré du même modèle de Z
@@ -300,8 +314,62 @@ def _points_instances(geo, famille):
         if "orient" in noms:
             q = p.attribValue("orient")
             d["orient"] = [_r(x) for x in q]
+        # lot bordures (intégration de l'étape 2) : pièces d'angle (début, fin), sens de pose, flèche, prototype pj
+        for n in ("angle_debut", "angle_fin", "sens", "fleche_mm", "proto_type"):
+            if n in noms:
+                v = p.attribValue(n)
+                d[n] = _r(v) if isinstance(v, float) else v
+        if "asset" in noms:
+            d["prototype_pj"] = p.attribValue("asset")
         out.append(d)
     return out
+
+
+def _files_bordures(ent):
+    """{id de file: (s cumulés, xy)} des courbes de bordure (rg::vers_entites, repère local)."""
+    out = {}
+    for pr in ent.geometry(0).prims():
+        xy = [(p.position()[0], -p.position()[2]) for p in pr.points()]
+        s = [0.0]
+        for a, b in zip(xy, xy[1:]):
+            s.append(s[-1] + math.dist(a, b))
+        out[pr.attribValue("id")] = (s, xy)
+    return out
+
+
+def _cap_file(s, xy, x):
+    """Cap (rad) de la file à l'abscisse x (segment non dégénéré le plus proche)."""
+    for i in range(len(s) - 1):
+        if s[i] - 1e-9 <= x <= s[i + 1] + 1e-9 and s[i + 1] - s[i] > 1e-6:
+            return math.atan2(xy[i + 1][1] - xy[i][1], xy[i + 1][0] - xy[i][0])
+    i = 0 if x < s[0] else len(s) - 2
+    while i > 0 and s[i + 1] - s[i] <= 1e-6:
+        i -= 1
+    return math.atan2(xy[i + 1][1] - xy[i][1], xy[i + 1][0] - xy[i][0])
+
+
+def _assets_elements(el, ent):
+    """Lot bordures (intégration de l'étape 2) : asset du catalogue route_fr de chaque élément (asset_id, asset_motif ;
+    commun/bordures_catalogue.asset_element) ; pièces d'angle : sens (sortant si la file tourne vers le haut, à gauche ;
+    rentrant sinon) et déviation. Renvoie les longueurs posées au catalogue et sur mesure."""
+    sys.path.insert(0, str(ICI / "commun"))
+    import bordures_catalogue as BC
+    files = _files_bordures(ent) if ent is not None else {}
+    lg = {"catalogue": 0.0, "sur_mesure": 0.0}
+    for e in el:
+        if e.get("famille") == "bordure" and (e.get("angle_debut") or e.get("angle_fin")) and e.get("bordure") in files:
+            s, xy = files[e["bordure"]]
+            sc = e["s0"] if e.get("angle_debut") else e["s1"]
+            a1, a2 = _cap_file(s, xy, sc - 0.06), _cap_file(s, xy, sc + 0.06)
+            dv = math.degrees(math.atan2(math.sin(a2 - a1), math.cos(a2 - a1)))
+            e["angle_sens"] = "sortant" if dv > 0 else "rentrant"
+            e["angle_deviation_deg"] = _r(dv, 2)
+        a, motif = BC.asset_element(e)
+        e["asset_id"] = a
+        e["asset_motif"] = motif
+        if e.get("kind") == "element":
+            lg["catalogue" if a else "sur_mesure"] += float(e.get("longueur") or 0.0)
+    return {"longueur_assets_catalogue_m": _r(lg["catalogue"], 3), "longueur_sur_mesure_m": _r(lg["sur_mesure"], 3)}
 
 
 def _points_poses(noeud):
@@ -376,12 +444,13 @@ def exporter_elements(bor, can, dossier, ent=None):
                 e["type"], e["role"] = "raccord_vue", "retour"
     if ent is not None:
         el += _grilles_avaloirs(ent)
+    lg = _assets_elements(el, ent)
     (dossier / "elements.json").write_text(json.dumps(el, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     return {"bordure": sum(1 for e in el if e["famille"] == "bordure"), "caniveau": sum(1 for e in el if e["famille"] == "caniveau"),
             "sur_mesure": sum(1 for e in el if e.get("sur_mesure") and e.get("kind") == "element"),
             "raccords_vue_retours": sum(1 for e in el if e.get("type") == "raccord_vue"),
             "caniveau_grille": sum(1 for e in el if e.get("type") == "grille"),
-            "avaloirs": sum(1 for e in el if e.get("type") == "avaloir")}
+            "avaloirs": sum(1 for e in el if e.get("type") == "avaloir"), **lg}
 
 
 def exporter_bev_vegetation(sol, ent, dossier):
@@ -589,7 +658,23 @@ def ecrire_usd(noeuds, dossier):
         RL.ecrire_couche(stage, f"/Monde/{nom}", d, liaisons)
     stage.SetDefaultPrim(stage.GetPrimAtPath("/Monde"))
     stage.GetRootLayer().Save()
-    return {"fichier": f.name, "materiaux": sources}
+    res = {"fichier": f.name, "materiaux": sources}
+    # lot autoroutes (intégration de l'étape 2) : couche /Monde/Equipements (sortie 2 de rg::autoroute : dispositifs de
+    # retenue DBA / GBA, glissières), double face, matériaux de la bibliothèque route_fr
+    au = noeuds.get("autoroute")
+    geo = au.geometry(1) if au is not None else None
+    if geo is not None and len(geo.prims()):
+        stage = Usd.Stage.Open(str(f))
+        d = RL.maillages(geo, "Equipements")
+        liaisons, src_eq = RL.materiaux(stage, set(d), Path(dossier), racine="/Monde/Looks")
+        RL.ecrire_couche(stage, "/Monde/Equipements", d, liaisons)
+        for mid in d:
+            nom = "".join(c if c.isalnum() else "_" for c in mid)
+            UsdGeom.Mesh(stage.GetPrimAtPath(f"/Monde/Equipements/{nom}")).CreateDoubleSidedAttr(True)
+        stage.GetRootLayer().Save()
+        res["materiaux"] = dict(res["materiaux"], **src_eq)
+        res["equipements"] = {mid: len(v["n"]) for mid, v in d.items()}
+    return res
 
 
 def controles_houdini(noeuds):

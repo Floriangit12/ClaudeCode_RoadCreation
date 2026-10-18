@@ -1,0 +1,72 @@
+# G4 — Giratoire urbain MULTIVOIE de 50 m de diamètre, anneau de 9,00 m sans marquage de voies, entrées à 2 voies
+# (lot correction de l'étape 2, 18/10/2026 : demande « autoroutes, ronds-points… complet » ; type observé en Isère).
+# Rg = 25 m (DEF-024 : diamètres observés 29-66 m ; RF-GV-GIR-002 : 20-25 m pour deux chaussées) ; anneau de 9,00 m
+# (RF-GV-GIR-004 : max 9, courante 8,50 pour des entrées à 2 voies, uniforme) sans voies concentriques peintes
+# (RF-GV-GIR-023 : « voies concentriques : non ») ; couronne franchissable de 2,00 m en pavés, bordure de 0,03 m
+# (RF-GV-GIR-006 : 1,50-2,00 m ; RF-OBS-GIR-03 : 1,4-3,0 m observés) ; îlot central engazonné de rayon 14,00 m.
+# Branches : avenues à 2 voies entrantes et 1 voie sortante (voies de 3,00 m, RF-OSM-LAR-010), trottoirs
+# de 3,00 m ; sur les 25 derniers mètres : entrée à 2 voies de 3,25 m = 6,50 m (RF-GV-GIR-010 urbain 2 voies 6-7 m,
+# longueur ≥ 25-30 m), sortie de 4,50 m (RF-GV-GIR-012 : 4-5 m) et enveloppe de l'îlot séparateur ACI tableau 2
+# (RF-GV-GIR-013 : H = Rg = 25 m, B = Rg/4 = 6,25 m, d = 0,50 m, r = 0,50 m, retrait 1 m sur l'anneau) ; voies
+# d'entrée séparées par une T3 2u, continue sur les 13 derniers mètres (RF-GV-GIR-023 « entrées 2 voies »).
+# Ligne cédez à chaque entrée, AB25 à 50 m, B21-1 face à chaque entrée (RF-GV-GIR-024) ; passages à 5 m de la ligne
+# cédez (ARB-02, Rg ≥ 15 m), refuge ≥ 2,00 m dans l'îlot séparateur (RF-GV-GIR-014).
+format: description_simple/0.2
+scene: G4_giratoire_multivoie_D50
+titre: Giratoire urbain multivoie Ø 50 m, anneau sans marquage de voies
+description: "Giratoire urbain de 50 m de diamètre, anneau de 9 m sans voies peintes, couronne franchissable de 2 m en pavés, îlot central engazonné ; 4 avenues à entrées 2 voies avec îlots séparateurs ACI et passages à 5 m."
+contexte: {agglomeration: oui, vitesse: 50, categorie: avenue}
+marquages: {usure: légère}
+troncons:
+  - id: ouest
+    de: [-125, 0]
+    vers: [-25, 0]
+    profil: "trottoir 3 | voie 3,0 ← | voie 3,0 → | voie 3,0 → | trottoir 3"
+    evenements:
+      - ouverture: {a: 100, longueur: 25, nouveau: "trottoir 3 | voie 4,5 ← | zone hachurée 6,25 | voie 3,25 → | ligne T3 2u | voie 3,25 → | trottoir 3"}
+      - profil: {a: 87, nouveau: "trottoir 3 | voie 4,5 ← | zone hachurée 6,25 | voie 3,25 → | ligne continue 2u | voie 3,25 → | trottoir 3"}
+  - id: nord
+    de: [0, 125]
+    vers: [0, 25]
+    profil: "trottoir 3 | voie 3,0 ← | voie 3,0 → | voie 3,0 → | trottoir 3"
+    evenements:
+      - ouverture: {a: 100, longueur: 25, nouveau: "trottoir 3 | voie 4,5 ← | zone hachurée 6,25 | voie 3,25 → | ligne T3 2u | voie 3,25 → | trottoir 3"}
+      - profil: {a: 87, nouveau: "trottoir 3 | voie 4,5 ← | zone hachurée 6,25 | voie 3,25 → | ligne continue 2u | voie 3,25 → | trottoir 3"}
+  - id: est
+    de: [125, 0]
+    vers: [25, 0]
+    profil: "trottoir 3 | voie 3,0 ← | voie 3,0 → | voie 3,0 → | trottoir 3"
+    evenements:
+      - ouverture: {a: 100, longueur: 25, nouveau: "trottoir 3 | voie 4,5 ← | zone hachurée 6,25 | voie 3,25 → | ligne T3 2u | voie 3,25 → | trottoir 3"}
+      - profil: {a: 87, nouveau: "trottoir 3 | voie 4,5 ← | zone hachurée 6,25 | voie 3,25 → | ligne continue 2u | voie 3,25 → | trottoir 3"}
+  - id: sud
+    de: [0, -125]
+    vers: [0, -25]
+    profil: "trottoir 3 | voie 3,0 ← | voie 3,0 → | voie 3,0 → | trottoir 3"
+    evenements:
+      - ouverture: {a: 100, longueur: 25, nouveau: "trottoir 3 | voie 4,5 ← | zone hachurée 6,25 | voie 3,25 → | ligne T3 2u | voie 3,25 → | trottoir 3"}
+      - profil: {a: 87, nouveau: "trottoir 3 | voie 4,5 ← | zone hachurée 6,25 | voie 3,25 → | ligne continue 2u | voie 3,25 → | trottoir 3"}
+giratoires:
+  - id: G4
+    centre: [0, 0]
+    diametre: 50
+    anneau: 9
+    couronne: 2.0
+    ilot_central: gazon
+    trottoir: 3
+    branches:
+      - {troncon: ouest, ilot: oui, passage: oui}
+      - {troncon: nord, ilot: oui, passage: oui}
+      - {troncon: est, ilot: oui, passage: oui}
+      - {troncon: sud, ilot: oui, passage: oui}
+attendus:
+  Rg_m: 25.0
+  anneau_m: 9.0
+  couronne_m: 2.0
+  Ri_infranchissable_m: 14.0                          # 25 − 9 − 2 (≥ 3,50, RF-GV-GIR-006)
+  ilots_separateurs: {H_m: 25.0, B_m: 6.25, d_m: 0.5, r_m: 0.5, retrait_anneau_m: 1.0}   # ACI tabl. 2
+  entree_m: 6.5
+  sortie_m: 4.5
+  passage_retrait_m: 5.0
+  refuges_min_m: 2.0
+  lignes_anneau: 0                                    # anneau sans voies peintes (RF-GV-GIR-023)

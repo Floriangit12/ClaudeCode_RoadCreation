@@ -71,11 +71,15 @@ def arrondir(o, nd=4):
 CLES_RACINE = {"scene", "nom", "titre", "description", "format", "date", "confiance", "origine", "contexte", "troncon",
                "troncons", "trace", "polyligne", "longueur", "depart", "cap", "de", "vers", "repere", "profil", "materiaux",
                "marquages", "evenements", "vegetation", "abords", "signalisation", "objets", "attendus",
-               "ecarts_admis"}
+               "ecarts_admis",
+               # lot « scenes » (17/10/2026) : réseau de tronçons reliés (carrefours plans, giratoires, bretelles),
+               # compilé par description/carrefours.py ; « plan » : options du plan coté SVG
+               "carrefours", "giratoires", "bretelles", "plan"}
+CLES_RESEAU = ("carrefours", "giratoires", "bretelles")
 CLES_CONTEXTE = {"agglomeration", "vitesse", "vitesse_kmh", "categorie", "u", "u_m", "sens_unique", "usure_marquages",
                  "v15", "v15_kmh"}
 CLES_TRONCON = {"trace", "polyligne", "longueur", "depart", "cap", "de", "vers", "repere", "profil", "evenements",
-                "vegetation", "abords", "signalisation", "objets", "nom", "contexte"}
+                "vegetation", "abords", "signalisation", "objets", "nom", "contexte", "id"}
 PARAMS = {  # paramètres admis par évènement (en plus de a, type, chemin, texte)
     "passage_pieton": {"largeur", "abaisses", "bev", "panneau", "pente_rampants_pct", "regime"},
     "dos_d_ane": {"longueur", "hauteur", "triangles"},
@@ -92,6 +96,8 @@ PARAMS = {  # paramètres admis par évènement (en plus de a, type, chemin, tex
     "zone_depassement_interdit": {"sens", "fin", "annonce", "fleches"},
     "fleches": {"type_fleche", "voies", "nombre", "interdistance", "sens"},
     "inscription": {"texte_sol", "voie", "hauteur"},
+    "ouverture": {"longueur", "nouveau", "sens"},
+    "fermeture": {"longueur", "nouveau"},
 }
 
 
@@ -457,7 +463,7 @@ class Troncon:
             bl, limd = copy.deepcopy(m["bandes"]), m["lim"]
         else:
             bl, limd = copy.deepcopy(self.base), self.lim_base
-        ordre = {"inserer": 0, "absente": 1, "remplacer": 2, "remplacer_largeur": 3, "loi": 4}
+        ordre = {"inserer": 0, "absente": 1, "remplacer": 2, "remplacer_largeur": 3, "loi": 4, "revetir": 5}
         for m in sorted((m for m in act if m["op"] != "profil"), key=lambda m: (ordre[m["op"]], m["s0"], m.get("bande", ""))):
             ids = [x["id"] for x in bl]
             if m["op"] == "inserer":
@@ -485,6 +491,19 @@ class Troncon:
                     x = bl[ids.index(m["bande"])]
                     x["largeur"] = m["largeur"]
                     x["prov"]["largeur"] = m["prov"]
+            elif m["op"] == "revetir":
+                # refuge revêtu au droit d'un passage (correction après le contrôle de l'étape 2) : seul le revêtement
+                # d'un terre-plein planté traversé change (largeur, niveau, bordures gardés) ; plantation retirée
+                if m["bande"] in ids:
+                    x = bl[ids.index(m["bande"])]
+                    if x.get("type") == "terre_plein" and _plante(x):
+                        x["materiau_id"] = m["materiau_id"]
+                        tp = dict(x.get("terre_plein") or {})
+                        tp.pop("plantation", None)
+                        tp["remplissage"] = dict(m["remplissage"])
+                        x["terre_plein"] = tp
+                        x.pop("objets_le_long", None)
+                        x["prov"] = dict(x.get("prov") or {}, materiau_id=m["prov"], terre_plein=m["prov"])
             elif m["op"] == "loi":
                 if m["bande"] in ids:
                     x = bl[ids.index(m["bande"])]
@@ -545,6 +564,14 @@ class Troncon:
             p, av, ctrl = PF.construire_profil("P-tmp", sec["bandes"], sec["lims"], self.ctx,
                                                decalage_sens_unique=self.dec_su if self.bord_ref == "gauche" else -self.dec_su,
                                                bord_reference=self.bord_ref)
+            ids_p = [b["id"] for b in p["bandes"]]
+            k_axe = next((k for k, b in enumerate(ids_p) if b.endswith(AXE_G) and k + 1 < len(ids_p)
+                          and ids_p[k + 1] == b[:-len(AXE_G)] + AXE_D), None)
+            if k_axe is not None:
+                # ouverture d'une bande centrale (lot « scenes ») : séparation des sens entre les deux demi-bandes
+                p["reference"] = {"limite": k_axe + 1}
+                p["prov"]["reference"] = P.inference("RF-OSM-PRF-010", note="séparation des sens au milieu de la bande "
+                                                                            "centrale qui s'ouvre (deux demi-bandes)")
             for w in av:
                 if w not in self.av:
                     self.av.append(w)
@@ -706,6 +733,15 @@ def cibles(p: dict, cible) -> list[int]:
         tt = t_limites(p, -1e9)
         i = j if abs(tt[j]) < abs(tt[j + 1]) else j + 1          # limite la plus proche de l'axe
         return [i] if "marquage" in lims[i]["nature"] else []
+    if kind == "limite_bande_ext":
+        # limite de la bande la plus éloignée de l'axe (bord extérieur d'une demi-bande centrale)
+        ids = [b["id"] for b in bandes]
+        if cote not in ids:
+            return []
+        j = ids.index(cote)
+        tt = t_limites(p, -1e9)
+        i = j + 1 if abs(tt[j + 1]) >= abs(tt[j]) else j
+        return [i] if 0 < i < n and "marquage" in lims[i]["nature"] else []
     t = t_limites(p, -1e9)              # largeurs au début de chaque loi
     if cote == "droite":
         rng = sorted((i for i in range(n + 1) if t[i] < -1e-9), key=lambda i: -t[i])
@@ -829,7 +865,7 @@ def lire_evenements(liste, chemin: str) -> list[dict]:
                 continue
         typ = e.get("type")
         if typ is not None and V.norm_cle(typ) in V.CLES_EVENEMENTS:
-            out.append(dict(e, type=V.norm_cle(typ), chemin=c))
+            out.append(dict(e, type=V.norm_cle(typ), chemin=e.get("_chemin") or c))
             continue
         raise ErreurDescription(f"{c} : type d'évènement inconnu ({', '.join(sorted(V.CLES_EVENEMENTS))})")
     for e in out:
@@ -894,7 +930,8 @@ def appliquer_evenements(tr: Troncon, evs: list[dict], d: dict):
              "coussin": ev_coussin, "rabattement": ev_rabattement, "elargissement": ev_elargissement,
              "arret_bus": ev_arret_bus, "entree_charretiere": ev_charretiere, "abaisse": ev_abaisse,
              "panneau": ev_panneau, "profil": ev_profil, "zone_depassement_interdit": ev_zone_continue,
-             "fleches": ev_fleches, "inscription": ev_inscription}[e["type"]]
+             "fleches": ev_fleches, "inscription": ev_inscription, "ouverture": ev_ouverture,
+             "fermeture": ev_fermeture}[e["type"]]
         if e["type"] == "plateau_pieton":
             e["passage_pieton"] = True
         if not (0 <= e["a"] <= tr.L + 1e-6):
@@ -961,6 +998,39 @@ def _largeur_resolue(tr: Troncon, b: dict):
     return PF.largeur_defaut(b, tr.base, tr.ctx)
 
 
+REMPLISSAGES_PLANTES = {"plante", "gazon", "brf", "terre", "paillage_mineral", "galets", "gravier"}
+
+
+def _plante(b) -> bool:
+    """Terre-plein meuble ou planté (gazon, massif, paillage, terre, galets, gravier) : ni béton, ni enrobé, ni pavés."""
+    r = ((b.get("terre_plein") or {}).get("remplissage") or {}).get("type")
+    return r in REMPLISSAGES_PLANTES or str(b.get("materiau_id", "")).startswith(("gazon", "herbe", "terre", "brf"))
+
+
+def _revetir_refuges(tr: Troncon, s0, s1, e):
+    """Refuge revêtu au droit d'un passage qui traverse un terre-plein planté (correction après le contrôle de l'étape 2 :
+    les refuges des TPC plantés de J5 restaient en gazon, BEV posées sur l'herbe). Le passage coupe l'îlot à niveau et
+    l'îlot est revêtu au droit de la traversée (RF-OBS-ILO-01, observations d'Isère M24, M29, I10 ; cheminement non
+    meuble) : chaque terre-plein planté situé entre les voies motorisées (refuge) prend sur [s0, s1] (passage, rampants
+    compris) le revêtement des îlots revêtus du générateur (béton balayé, comme les îlots du cœur des carrefours)."""
+    bl, _ = tr._variante(max(s0, 0.0), min(s1, tr.L))
+    mot = [i for i, b in enumerate(bl) if b["type"] in PF.VOIES_MOTORISEES]
+    if not mot:
+        return []
+    faits = []
+    for i in range(min(mot) + 1, max(mot)):
+        b = bl[i]
+        if b["type"] != "terre_plein" or not _plante(b):
+            continue
+        tr.mods.append({"op": "revetir", "s0": max(s0, 0.0), "s1": min(s1, tr.L), "bande": b["id"], "chemin": e["chemin"],
+                        "materiau_id": "beton_balaye", "remplissage": {"type": "beton", "materiau_id": "beton_balaye"},
+                        "prov": P.inference("RF-OBS-ILO-01", note=f"refuge revêtu au droit du passage {e['chemin']} "
+                                                                  f"(s = {s0:.2f} à {s1:.2f}, rampants compris) : le "
+                                                                  "passage coupe l'îlot à niveau, surface revêtue")})
+        faits.append(b["id"])
+    return faits
+
+
 def _neutraliser(tr: Troncon, s0, s1, cote, e, regle):
     """Stationnement du côté `cote` → zone neutralisée sur [s0, s1]."""
     for i in _bande_cote(tr.base, cote, ("stationnement", "livraison")):
@@ -1001,6 +1071,9 @@ def ev_passage(tr: Troncon, e):
               "rampant_m": regles.valeur("DEF-031", "rampant_5pct" if pr == 5.0 else "rampant_8pct"),
               "bev": e["_bev"], "regle": "DEF-031"}
         tr.decos.append({"type": "abaisse", "s0": s0, "s1": s1, "cible": "bordures", "abaisse": ab, "passage": s})
+        e["_refuges_revetus"] = _revetir_refuges(tr, s0 - ab["rampant_m"], s1 + ab["rampant_m"], e)
+    else:
+        e["_refuges_revetus"] = _revetir_refuges(tr, s0, s1, e)
     tr._apres.append(lambda: _passage_controles(tr, e))
     # interruption des lignes longitudinales à 0,50 m (RF-MQ-PP-03)
     dg = regles.valeur("RF-MQ-PP-03", "distance")
@@ -1531,9 +1604,12 @@ def ev_elargissement(tr: Troncon, e):
     voie = V.norm(e.get("voie", e.get("cote", "gauche")))
     typ = {"voie": "voie_circulation", "tourne-a-gauche": "voie_tourne_gauche", "tag": "voie_tourne_gauche",
            "tourne-a-droite": "voie_tourne_droite", "tad": "voie_tourne_droite", "bus": "voie_bus",
-           "voie bus": "voie_bus"}.get(V.norm(e.get("type_voie", "voie")), None)
+           "voie bus": "voie_bus", "insertion": "voie_insertion", "acceleration": "voie_insertion",
+           "voie d'insertion": "voie_insertion", "deceleration": "voie_deceleration",
+           "voie de deceleration": "voie_deceleration"}.get(V.norm(e.get("type_voie", "voie")), None)
     if typ is None:
-        raise ErreurDescription(f"{e['chemin']} : type_voie inconnu (voie, tourne-à-gauche, tourne-à-droite, bus)")
+        raise ErreurDescription(f"{e['chemin']} : type_voie inconnu (voie, tourne-à-gauche, tourne-à-droite, bus, "
+                                "insertion, décélération)")
     nb = {"id": f"{PF.ABREVIATIONS[typ]}_e{e['chemin'].split('[')[-1].rstrip(']')}", "type": typ, "sous_type": None,
           "sens": sens, "largeur": None, "attributs": {}, "prov": {"*": _prov_ev(e)}}
     if e.get("largeur") is not None:
@@ -1558,8 +1634,32 @@ def ev_elargissement(tr: Troncon, e):
     if tr.sens_unique and ((sens == "avant") == (voie == "gauche")):
         tr.bord_ref = "droite"
     tr.mods.append(dict({"op": "inserer", "s0": pres[0], "s1": pres[1], "bande": nb, "chemin": e["chemin"]}, **pos))
+    if typ in ("voie_insertion", "voie_deceleration"):
+        _lignes_voie_auxiliaire(tr, e, nb, typ, pos)
     w0, w1 = (0.0, w) if sens == "avant" else (w, 0.0)
     tr.mods.append({"op": "loi", "s0": s0, "s1": s1, "bande": nb["id"], "w0": w0, "w1": w1, "chemin": e["chemin"], "prov": plb})
+
+
+def _lignes_voie_auxiliaire(tr: Troncon, e, nb: dict, typ: str, pos: dict):
+    """Voie d'insertion ou de décélération (lot « scenes ») : délimitation T2 5u avec la voie voisine (RF-MQ-INS-01,
+    RF-MQ-DEC-01 ; IISR7 tableau 113-2 B1b, RF-MQ-LAR-B1b) au lieu du T1 2u des voies de même sens, et rive T'3 3u
+    du côté extérieur (RF-MQ-LAR-B2d : rive aux approches et dans les bretelles). Posées comme limites décrites ; le
+    compilateur de réseau retire l'avertissement d'écart de règle qui en résulte (règle spéciale citée)."""
+    ids = [b["id"] for b in tr.base]
+    regle = "RF-MQ-INS-01" if typ == "voie_insertion" else "RF-MQ-DEC-01"
+    voisine = pos.get("apres") or pos.get("avant")
+    k = ids.index(voisine)
+    paire_voie = (voisine, nb["id"]) if "apres" in pos else (nb["id"], voisine)
+    tr.lim_base[paire_voie] = {"raffiner": True, "_voie_auxiliaire": regle,
+                               "marquages": {"modulation": "T2", "largeur_u": 5.0, "couleur": "blanc", "regle": regle},
+                               "prov": P.defaut(regle, note=f"délimitation de la {typ.replace('_', ' ')} : T2 5u")}
+    ext = ids[k + 1] if "apres" in pos and k + 1 < len(ids) else (ids[k - 1] if "avant" in pos and k > 0 else None)
+    if ext is not None:
+        paire_ext = (nb["id"], ext) if "apres" in pos else (ext, nb["id"])
+        tr.lim_base[paire_ext] = {"raffiner": True, "_voie_auxiliaire": "RF-MQ-LAR-B2d",
+                                  "marquages": {"modulation": "T'3", "largeur_u": 3.0, "couleur": "blanc",
+                                                "regle": "RF-MQ-LAR-B2d"},
+                                  "prov": P.defaut("RF-MQ-LAR-B2d", note="rive de voie auxiliaire T'3 3u")}
 
 
 def ev_arret_bus(tr: Troncon, e):
@@ -1653,13 +1753,25 @@ def ev_arret_bus(tr: Troncon, e):
     tr._apres.append(apres)
 
 
+def _vue_charretiere_defaut() -> float:
+    """Vue par défaut d'une entrée charretière : assets/specs/bordures_elements.json (autre équipe, lecture seule),
+    abaisses.entree_charretiere.vue_m.defaut."""
+    f = DEPOT / "assets" / "specs" / "bordures_elements.json"
+    d = json.loads(f.read_text(encoding="utf-8"))
+    return float(d["abaisses"]["entree_charretiere"]["vue_m"]["defaut"])
+
+
 def ev_charretiere(tr: Troncon, e):
     s = e["a"]
     if e.get("largeur") is None:
         raise ErreurDescription(f"{e['chemin']} : largeur de l'entrée charretière à dire (aucune règle ne la fixe)")
     w = V.nombre(e["largeur"], e["chemin"])
     cote = _cote(e)
-    ab = {"type": "charretiere", "vue_m": regles.valeur("RF-MA-TRO-015", "entree_charretiere_max"), "bev": False,
+    # vue de l'entrée : défaut de bordures_elements.json (abaisses.entree_charretiere : 0,02-0,04, défaut 0,03 ; pièce
+    # T2_bateau, vue nominale 0,02-0,04), bornée par le maximum de RF-MA-TRO-015 (0,05) ; intégration de l'étape 2
+    # (lot bordures : 0,05 posait la pièce 1 cm au-dessus de sa vue nominale)
+    ab = {"type": "charretiere", "vue_m": min(regles.valeur("RF-MA-TRO-015", "entree_charretiere_max"),
+                                              _vue_charretiere_defaut()), "bev": False,
           "regle": "RF-MA-TRO-016"}
     tro = [tr.base[i] for i in _bande_cote(tr.base, cote, ("trottoir",))]
     if tro and tro[0]["largeur"] is not None and PF.nombre(tro[0]["largeur"]) < 2.5:
@@ -1731,6 +1843,179 @@ def ev_profil(tr: Troncon, e):
                                 "chemin": e["chemin"], "prov": _prov_ev(e, "transition")})
     elif trans > 0:
         tr.av.append(f"{e['chemin']} : transition ignorée (le nombre ou l'ordre des bandes change) : changement instantané")
+
+
+def ev_ouverture(tr: Troncon, e):
+    """Ouverture progressive (lot « scenes », 17/10/2026) : sur « longueur » m, le profil passe de la base au profil
+    « nouveau ». Les bandes du nouveau profil absentes de la base (sous-suite de même type et même sens, dans l'ordre)
+    y entrent avec une largeur qui croît de 0 à leur largeur ; les bandes communes passent linéairement de leur largeur
+    de base à la nouvelle. « sens: → » (défaut) : base avant a − longueur, nouveau profil après a (jusqu'au prochain
+    changement de profil) ; « sens: ← » : nouveau profil de 0 à a, retour à la base en a + longueur. Sert aux
+    évasements d'approche de carrefour (voie de stockage, îlot séparateur précédé de sa zone hachurée)."""
+    nouveau = e.get("nouveau")
+    if not nouveau:
+        raise ErreurDescription(f"{e['chemin']} : « nouveau: \"trottoir 2 | voie 3 ← | …\" » attendu")
+    if e.get("longueur") is None:
+        raise ErreurDescription(f"{e['chemin']} : longueur de l'ouverture (m) à dire (aucune règle ne la fixe seule : "
+                                "déport 1/15 RF-GV-CAR-010, 1/10 si route ≤ 5 m)")
+    lg = V.nombre(e["longueur"], e["chemin"] + ".longueur")
+    sens = V.SENS.get(V.norm(e.get("sens", "→")))
+    if sens not in ("avant", "arriere") or lg <= 0:
+        raise ErreurDescription(f"{e['chemin']} : sens → ou ← et longueur > 0 attendus")
+    try:
+        bl, lims = FP.analyser(nouveau, e["chemin"] + ".nouveau")
+        bl, lims = resoudre_bandes(bl, lims, {"contexte": {}}, e["chemin"], {"conf": tr.conf})
+    except FP.ErreurFormat as x:
+        raise ErreurDescription(str(x))
+    a0 = e["a"] - lg if sens == "avant" else e["a"] + lg
+    base, lim_courant = _profil_en_vigueur(tr, a0)
+    cle = lambda b: (b["type"], b.get("sous_type"), b.get("sens"))  # noqa: E731
+    j, assoc = 0, {}
+    for i, b in enumerate(bl):
+        if j < len(base) and cle(base[j]) == cle(b):
+            assoc[i] = j
+            j += 1
+    if j != len(base):
+        raise ErreurDescription(f"{e['chemin']} : l'ouverture ajoute des bandes à la base, elle n'en retire pas "
+                                f"(bande de base non retrouvée : {base[j]['id']})")
+    pris = {b["id"] for b in base}
+    for i, b in enumerate(bl):
+        if i in assoc:
+            b["id"] = base[assoc[i]]["id"]
+            continue
+        ab = PF.ABREVIATIONS.get(b["type"], "b")
+        k = 1
+        while f"{ab}{k}" in pris:
+            k += 1
+        b["id"] = b.get("id") or f"{ab}{k}"
+        pris.add(b["id"])
+    for b in bl:
+        if b["largeur"] is None:
+            b["largeur"], b["prov"]["largeur"] = PF.largeur_defaut(b, bl, tr.ctx)
+    # bande centrale qui s'ouvre entre les deux sens (îlot, enveloppe d'îlot) : coupée en deux demi-bandes de part et
+    # d'autre de la séparation des sens, pour que celle-ci reste sur la ligne de référence pendant l'ouverture
+    # (déport symétrique, RF-GV-CAR-010) — sinon la référence, constante par profil, resterait au bord de la bande
+    arr = [i for i, b in enumerate(bl) if b["type"] in PF.VOIES_MOTORISEES and b["sens"] == "arriere"]
+    ava = [i for i, b in enumerate(bl) if b["type"] in PF.VOIES_MOTORISEES and b["sens"] == "avant"]
+    if arr and ava and max(arr) < min(ava):
+        centre = list(range(max(arr) + 1, min(ava)))
+        neuves = [i for i in centre if i not in assoc]
+        if len(centre) == 1 and neuves == centre:
+            i = centre[0]
+            b = bl[i]
+            g, d_ = copy.deepcopy(b), copy.deepcopy(b)
+            g["id"], d_["id"] = f"{b['id']}{AXE_G}", f"{b['id']}{AXE_D}"
+            g["largeur"] = d_["largeur"] = PF.nombre(b["largeur"]) / 2.0
+            for x in (g, d_):
+                x["prov"]["largeur"] = _prov_ev(e, "nouveau", note=f"moitié de la bande centrale de {PF.nombre(b['largeur'])} m")
+            lims = lims[:i + 1] + [None] + lims[i + 1:]
+            bl = bl[:i] + [g, d_] + bl[i + 1:]
+            assoc = {(k if k < i else k + 1): v for k, v in assoc.items()}
+    limd = {Troncon._cle(bl, i): l for i, l in enumerate(lims) if l is not None}
+    # limites décrites du profil en vigueur (bordures, caniveaux, lignes) conservées entre les mêmes bandes
+    for i in range(len(bl) + 1):
+        k = Troncon._cle(bl, i)
+        if k not in limd and k in lim_courant:
+            limd[k] = lim_courant[k]
+    a = e["a"]
+    t0, t1 = (a - lg, a) if sens == "avant" else (a, a + lg)
+    if t0 < -1e-6 or t1 > tr.L + 1e-6:
+        raise ErreurDescription(f"{e['chemin']} : l'ouverture [{t0:.1f} ; {t1:.1f}] sort du tronçon [0 ; {tr.L:.2f}]")
+    e["_s0"], e["_s1"] = t0, t1
+    if arr and ava and max(arr) < min(ava) and any(b["id"].endswith(AXE_D) for b in bl):
+        # lignes de bord de la bande centrale qui naît de largeur nulle : elles partent du même point et se recouvrent
+        # sur la longueur où leur écart est inférieur à leur largeur (pointes de 0,04-0,08 m² de J4, J5, G1, G2,
+        # contrôle de l'étape 2) ; la ligne du bord droit commence là où les deux lignes se touchent (largeur 3u, celle
+        # que le profil leur donne) ; la ligne du bord gauche reste continue jusqu'à la pointe [G]
+        bd = next(b for b in bl if b["id"].endswith(AXE_D))
+        wc = 2.0 * PF.nombre(bd["largeur"])
+        w = 3.0 * float(tr.ctx.get("u", 0.05) or 0.05)
+        if wc > w:
+            dlt = lg * w / wc
+            i0, i1 = (t0, t0 + dlt) if sens == "avant" else (t1 - dlt, t1)
+            tr.decos.append({"type": "interruption", "s0": i0, "s1": i1, "cible": ("limite_bande_ext", bd["id"]),
+                             "motif": "autre"})
+    zone = (t0, tr.L) if sens == "avant" else (0.0, t1)
+    tr.mods.append({"op": "profil", "s0": zone[0], "s1": zone[1], "bandes": bl, "lim": limd, "chemin": e["chemin"],
+                    "instantane": False})
+    po = _prov_ev(e, "longueur", note=f"ouverture progressive sur {lg:.1f} m")
+    for i, b in enumerate(bl):
+        wn = PF.nombre(b["largeur"])
+        wb = 0.0 if i not in assoc else PF.nombre(_largeur_resolue(tr, base[assoc[i]])[0])
+        if abs(wn - wb) > 1e-9:
+            w0, w1 = (wb, wn) if sens == "avant" else (wn, wb)
+            tr.mods.append({"op": "loi", "s0": t0, "s1": t1, "bande": b["id"], "w0": w0, "w1": w1,
+                            "chemin": e["chemin"], "prov": po})
+
+
+def _profil_en_vigueur(tr: Troncon, s: float):
+    """(bandes, limites décrites) du profil en vigueur à l'abscisse s : dernier changement de profil (évènement
+    « profil », « ouverture », « fermeture ») actif en s, sinon la base."""
+    act = [m for m in tr.mods if m["op"] == "profil" and m["s0"] <= s + 1e-9 and m["s1"] >= s - 1e-9]
+    if not act:
+        return tr.base, tr.lim_base
+    m = max(act, key=lambda m: m["s0"])
+    return m["bandes"], m["lim"]
+
+
+AXE_G, AXE_D = "_axe_g", "_axe_d"      # demi-bandes centrales d'une ouverture (référence entre elles)
+
+
+def ev_fermeture(tr: Troncon, e):
+    """Fermeture progressive (lot « scenes ») : inverse de l'ouverture. Sur « longueur » m avant a, les bandes du
+    profil en vigueur absentes du profil « nouveau » voient leur largeur décroître jusqu'à 0 (voie d'insertion qui se
+    termine en biseau, îlot qui se referme) et disparaissent en a ; les bandes communes passent linéairement à leur
+    nouvelle largeur ; le nouveau profil s'applique après a."""
+    nouveau = e.get("nouveau")
+    if not nouveau or e.get("longueur") is None:
+        raise ErreurDescription(f"{e['chemin']} : « nouveau » (profil après la fermeture) et « longueur » attendus")
+    lg = V.nombre(e["longueur"], e["chemin"] + ".longueur")
+    a = e["a"]
+    t0 = a - lg
+    if t0 < -1e-6 or a > tr.L + 1e-6 or lg <= 0:
+        raise ErreurDescription(f"{e['chemin']} : la fermeture [{t0:.1f} ; {a:.1f}] sort du tronçon [0 ; {tr.L:.2f}]")
+    try:
+        bl, lims = FP.analyser(nouveau, e["chemin"] + ".nouveau")
+        bl, lims = resoudre_bandes(bl, lims, {"contexte": {}}, e["chemin"], {"conf": tr.conf})
+    except FP.ErreurFormat as x:
+        raise ErreurDescription(str(x))
+    cour, lim_courant = _profil_en_vigueur(tr, t0)
+    cle = lambda b: (b["type"], b.get("sous_type"), b.get("sens"))  # noqa: E731
+    j, assoc = 0, {}                       # indice dans le profil en vigueur → indice dans le nouveau
+    for i, b in enumerate(cour):
+        if j < len(bl) and cle(bl[j]) == cle(b):
+            assoc[i] = j
+            j += 1
+    if j != len(bl):
+        raise ErreurDescription(f"{e['chemin']} : la fermeture retire des bandes, elle n'en ajoute pas (bande nouvelle "
+                                f"non retrouvée : {bl[j]['type']})")
+    for i, k in assoc.items():
+        bl[k]["id"] = cour[i]["id"]
+    for b in bl:
+        if b["largeur"] is None:
+            b["largeur"], b["prov"]["largeur"] = PF.largeur_defaut(b, bl, tr.ctx)
+    # profil de transition : bandes en vigueur, largeurs selon des lois ; puis le nouveau profil après a
+    trans = copy.deepcopy(cour)
+    for b in trans:
+        if b["largeur"] is None:
+            b["largeur"], b["prov"]["largeur"] = PF.largeur_defaut(b, trans, tr.ctx)
+    tr.mods.append({"op": "profil", "s0": t0, "s1": a, "bandes": trans, "lim": lim_courant, "chemin": e["chemin"],
+                    "instantane": False})
+    limd = {Troncon._cle(bl, i): l for i, l in enumerate(lims) if l is not None}
+    for i in range(len(bl) + 1):
+        k = Troncon._cle(bl, i)
+        if k not in limd and k in lim_courant:
+            limd[k] = lim_courant[k]
+    tr.mods.append({"op": "profil", "s0": a, "s1": tr.L, "bandes": bl, "lim": limd, "chemin": e["chemin"],
+                    "instantane": False})
+    e["_s0"], e["_s1"] = t0, a
+    po = _prov_ev(e, "longueur", note=f"fermeture progressive sur {lg:.1f} m")
+    for i, b in enumerate(trans):
+        wb = PF.nombre(b["largeur"])
+        wn = 0.0 if i not in assoc else PF.nombre(bl[assoc[i]]["largeur"])
+        if abs(wn - wb) > 1e-9:
+            tr.mods.append({"op": "loi", "s0": t0, "s1": a, "bande": b["id"], "w0": wb, "w1": wn,
+                            "chemin": e["chemin"], "prov": po})
 
 
 # ================================================================================================ végétation
@@ -2130,9 +2415,16 @@ def marquages_globaux(d: dict, ctx: dict, conf: str):
     return out, usure
 
 
-def compiler(d_brut: dict, source: str = "(objet)", sha: str | None = None):
-    """(modele, rapport). ErreurDescription si la description est incomplète ou incohérente."""
+def compiler(d_brut: dict, source: str = "(objet)", sha: str | None = None, _reseau=None):
+    """(modele, rapport). ErreurDescription si la description est incomplète ou incohérente.
+
+    Réseau (lot « scenes ») : une description qui porte « carrefours », « giratoires » ou « bretelles » est compilée par
+    `description/carrefours.py` (deux passes : tronçons seuls, puis tronçons + évènements posés aux branches + objets
+    du réseau, construits par `_reseau(modele, rapport, contexte)` avant la validation)."""
     d = normaliser_cles(d_brut)
+    if _reseau is None and any(d.get(k) for k in CLES_RESEAU):
+        from description import carrefours as CR
+        return CR.compiler_reseau(d, source, sha)
     verifier_cles(d, CLES_RACINE, "description")
     verifier_cles(d.get("contexte") or {}, CLES_CONTEXTE, "contexte")
     for i, t in enumerate(d.get("troncons") or []):
@@ -2161,6 +2453,7 @@ def compiler(d_brut: dict, source: str = "(objet)", sha: str | None = None):
     num_p = [0]
     tous = {"marquages": [], "objets": [], "signaux": [], "zones": [], "ilots": []}
     av_glob = []
+    trs = []                    # tronçons construits (compilateur de réseau)
     for k, tdesc in enumerate(troncons, start=1):
         ch = "troncon" if len(troncons) == 1 and d.get("troncon") is not None else f"troncons[{k - 1}]"
         rid = f"R-{k}"
@@ -2246,18 +2539,22 @@ def compiler(d_brut: dict, source: str = "(objet)", sha: str | None = None):
         for cle, lst in (("marquages", tr.marquages), ("objets", tr.objets), ("signaux", tr.signaux), ("zones", tr.zones),
                          ("ilots", tr.ilots)):
             tous[cle] += lst
+        trs.append({"rid": rid, "tr": tr, "desc": tdesc, "ctx": ctx, "ctxd": ctxd, "chemin": ch, "route": route})
         rapport["troncons"].append({"route": rid, "longueur_m": _r(trace.longueur, 3), "sections": len(tr.secs),
                                     "profils": [p["id"] for p in tr.profils], "evenements": len(evs),
                                     "avertissements": tr.av, "controles": tr.ctrl,
                                     "non_portes_par_le_schema": tr.non_portes,
                                     "_abords": {f"{rid}.{k}": v for k, v in tr.abords_sans_largeur.items()}})
+    if _reseau is not None:
+        _reseau(modele, rapport, {"tous": tous, "num_p": num_p, "trs": trs, "conf": conf, "admis": admis,
+                                  "origine": origine, "d": d, "av_glob": av_glob})
     for cle in ("ilots", "marquages", "objets", "signaux", "zones"):
         if tous[cle]:
             modele[cle] = tous[cle]
     # écarts admis : un contrôle non conforme ou hors plage dont la règle est admise par la description devient
     # « <statut>_admis » (motif recopié) ; les autres restent bloquants pour la fabrication (fabriquer_generateur)
     utilises = set()
-    for t in rapport["troncons"]:
+    for t in rapport["troncons"] + ([{"controles": rapport["reseau"]["controles"]}] if "reseau" in rapport else []):
         for c in t["controles"]:
             if c.get("statut") in ("non_conforme", "hors_plage") and c.get("regle") in admis:
                 c["statut"] += "_admis"
@@ -2268,6 +2565,9 @@ def compiler(d_brut: dict, source: str = "(objet)", sha: str | None = None):
     rapport["ecarts_admis"] = admis
     rapport["non_conformites"] = [dict(c, route=t["route"]) for t in rapport["troncons"] for c in t["controles"]
                                   if c.get("statut") in STATUTS_BLOQUANTS]
+    if "reseau" in rapport:
+        rapport["non_conformites"] += [dict(c, route="reseau") for c in rapport["reseau"]["controles"]
+                                       if c.get("statut") in STATUTS_BLOQUANTS]
     meta = {"auteur": "description simple compilée par recon/generateur/description/description_vers_modele.py",
             "zone": scene}
     if d.get("date"):
@@ -2382,9 +2682,10 @@ def main():
     ap.add_argument("--verifier-determinisme", action="store_true", help="compile deux fois et compare à l'octet")
     a = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
+    from description import description_vers_modele as _paquet      # même module importé par le réseau (carrefours.py)
     try:
         modele, rapport, sortie = compiler_fichier(Path(a.description), Path(a.sortie) if a.sortie else None)
-    except (ErreurDescription, yaml_simple.ErreurYaml) as e:
+    except (ErreurDescription, _paquet.ErreurDescription, yaml_simple.ErreurYaml) as e:
         print(f"ERREUR\t{e}")
         return 2
     for t in rapport["troncons"]:

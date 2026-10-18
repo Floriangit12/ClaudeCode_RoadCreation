@@ -1,0 +1,69 @@
+# Dialog script for rg::giratoires::1.0 automatically generated
+
+{
+    name	rg::giratoires::1.0
+    inputlabel	1	"Routes (rg::carrefours, sortie 1)"
+    inputlabel	2	"Profils (rg::carrefours, sortie 2)"
+    inputlabel	3	"Solveur (rg::carrefours, sortie 3)"
+    outputlabel	1	"Routes coupées"
+    outputlabel	2	"Profils (+ réduits)"
+    outputlabel	3	"Solveur fusionné"
+    outputlabel	4	"Giratoires"
+    script	rg::giratoires::1.0
+    label	"RG Giratoires (solveur)"
+
+    help {
+    }
+
+    inputlabel	1	"Routes (rg::carrefours, sortie 1)"
+    inputlabel	2	"Profils (rg::carrefours, sortie 2)"
+    inputlabel	3	"Solveur (rg::carrefours, sortie 3)"
+
+    parm {
+        name    "fichier"
+        label   "Modèle (modele_voie.json)"
+        type    file
+        default { "" }
+        help    "Même fichier que rg::lire_modele (le pilote y renvoie son paramètre) : carrefours de type giratoire et mini_giratoire (anneau, raccordements), îlots, passages et profil de la route d'anneau sont lus ici."
+    }
+    parm {
+        name    "amorce"
+        label   "Amorce droite des bordures de coin (m)"
+        type    float
+        default { "3" }
+        help    "Longueur droite de la bordure de coin avant le point de tangence du congé, prise sur la branche (le trottoir de la branche est coupé d'autant). Même choix de fabrication [G] que rg::carrefours."
+        range   { 0 10 }
+    }
+    parm {
+        name    "rampant_passage"
+        label   "Rampant gardé sur la bordure de coin (m)"
+        type    float
+        default { "2.4" }
+        help    "Un passage qui touche le coin garde tout son abaissé et ses rampants (DEF-031 : 2,40 m à 5 %) sur la bordure de coin : la coupe du trottoir de la branche recule jusqu'avant le rampant."
+        range   { 0 10 }
+    }
+    parm {
+        name    "garde_passage"
+        label   "Garde avant le rampant (m)"
+        type    float
+        default { "0.1" }
+        help    "Marge entre la coupe du trottoir et le début du rampant de l'abaissé (choix de fabrication [G])."
+        range   { 0 2 }
+    }
+    parm {
+        name    "fleche"
+        label   "Flèche maximale des arcs (m)"
+        type    float
+        default { "0.0005" }
+        help    "Échantillonnage des congés et de l'anneau : flèche ≤ 0,5 mm (RF-OSM-CAR-001, critère L1)."
+        range   { 1e-05 0.01 }
+    }
+    parm {
+        name    "pas_angulaire_max"
+        label   "Pas angulaire maximal des arcs (°)"
+        type    float
+        default { "0.8" }
+        help    "Rupture au point de tangence ≤ 0,5° (demi-pas), comme rg::carrefours."
+        range   { 0.05 5 }
+    }
+}

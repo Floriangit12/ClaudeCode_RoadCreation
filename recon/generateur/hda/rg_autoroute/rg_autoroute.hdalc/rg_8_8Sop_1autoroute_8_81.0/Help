@@ -1,0 +1,107 @@
+= RG Autoroute (retenues, musoirs, raccord des bretelles) =
+
+"""Autoroutes : dispositifs de retenue des terre-pleins (GBA / DBA béton, glissières) le long des limites « separateur » du modèle ; bifurcations (bretelles) : raccord vertical de la bretelle, sol du musoir et du terre-plein latéral, aplat de pointe et chevrons."""
+
+== Entrées ==
+
+1. Limites (rg::profils, sortie 1), 2. Sol (rg::sol, sortie 1), 3. Zones et îlots (rg::lire_modele, sortie 3), 4. Nœuds (rg::lire_modele, sortie 2), 5. Références (rg::graphe, sortie 1).
+
+== Sorties ==
+
+1. SOL : sol des routes (bretelles décalées de dz) + sol des musoirs (contrat de rg::sol).
+2. ÉQUIPEMENTS : maillages des dispositifs de retenue.
+3. MARQUES : aplats et chevrons (contrat de pj::marquage_solide).
+4. CONTRÔLES : détail (ra_m_* : bifurcations ; ra_s_* : séparateurs ; ra_bretelles, ra_dz).
+
+Règles : RF-GV-TPC-002, -003, -008 ; RF-MQ-MUS-01 ; RF-MQ-HACH-01 à -03 ; DEF-020 ; RF-MQ-U-01 ; catalogue route_fr (retenue_*).
+
+@parameters
+
+Contour DBA (catalogue):
+    #id: contour_dba
+    retenue_DBA_L100 : séparateur béton DBA coulé en place – module de 1 m ; contour (largeur, hauteur) en m, base au sol. profil symétrique : talons 9 cm, faces à 36° sur 25 cm (r = 25 cm), 72 cm au-dessus du talon, sommet 15 cm, base 60 cm. Sources : cerema_dr p. 32 (GBA 72 + talon 9, base 48, sommet 15 ; DBA base 60 ; LBA 135 + 15, base 85, sommet 20 ; MVL 60, base 36, sommet 24 ; tolérances +2/−1 cm) ; cerema_dr p. 31 (ouvrages coulés en place, fers filants).
+
+Contour GBA (catalogue):
+    #id: contour_gba
+    retenue_GBA_L100 : séparateur béton GBA coulé en place – module de 1 m ; contour (largeur, hauteur) en m, base au sol. talon 9 cm vertical ; face à 36° de la verticale sur 25 cm (cassure en congé r = 25 cm) ; face haute jusqu'à 72 cm au-dessus du talon ; sommet 15 cm ; base 48 cm ; dos incliné de 6°. Sources : cerema_dr p. 32 (GBA 72 + talon 9, base 48, sommet 15 ; DBA base 60 ; LBA 135 + 15, base 85, sommet 20 ; MVL 60, base 36, sommet 24 ; tolérances +2/−1 cm) ; cerema_dr p. 31 (ouvrages coulés en place, fers filants).
+
+Contour LBA (catalogue):
+    #id: contour_lba
+    retenue_LBA_L100 : séparateur béton LBA coulé en place – module de 1 m ; contour (largeur, hauteur) en m, base au sol. talon 15 cm ; 36° sur 25 cm (r = 25) ; 135 cm au-dessus du talon ; sommet 20 cm ; base 85 cm ; pentes de la face haute (6°) et du dos déduites de la base et du sommet (non cotées). Sources : cerema_dr p. 32 (GBA 72 + talon 9, base 48, sommet 15 ; DBA base 60 ; LBA 135 + 15, base 85, sommet 20 ; MVL 60, base 36, sommet 24 ; tolérances +2/−1 cm) ; cerema_dr p. 31 (ouvrages coulés en place, fers filants).
+
+Contour MVL (catalogue):
+    #id: contour_mvl
+    retenue_MVL_L100 : séparateur béton MVL coulé en place – module de 1 m ; contour (largeur, hauteur) en m, base au sol. muret trapézoïdal : hauteur hors sol 60 cm, base 36 cm, sommet 24 cm. Sources : cerema_dr p. 32 (GBA 72 + talon 9, base 48, sommet 15 ; DBA base 60 ; LBA 135 + 15, base 85, sommet 20 ; MVL 60, base 36, sommet 24 ; tolérances +2/−1 cm) ; cerema_dr p. 31 (ouvrages coulés en place, fers filants).
+
+Pièces GS2 (catalogue):
+    #id: pieces_gs2
+    retenue_glissiere_GS2_module_L400 : glissière métallique GS2 – module de 4 m (lisse + supports + écarteurs) ; module de 4.0 m (x le long, y vers l'arrière, z haut ; syntaxe route::assemblage Q / B / T). section de la lisse profil A : 312 × 83 × 3 mm ESTIMÉE (profil européen courant à 2 ondes ; profil B : 296 × 2,5 mm d'après une fiche Hellopro) ; écarteurs 70 × 150 × 200 et C100 100 × 50 × 5 estimés. Sources : setra_bvl p. 30 (GS4 : C 100 ou U 100 tous les 4 m ; GS2 : tous les 2 m ; lisse profil A ou B (NF P 98-411) ; niveau N2) ; setra_bvl p. 73 (hauteur de l'élément de glissement 70 cm sans bordure (graphe H = f(D))) ; aximum_gs2 p. 2 (lisse profil A 4,315 m (recouvrement 0,315 : pas de 4 m) ; support C100 de 1,50 m ; supports tous les 2 m ; hauteur de pose 700 mm (+0/−50)).
+
+Pièces GS4 (catalogue):
+    #id: pieces_gs4
+    retenue_glissiere_GS4_module_L400 : glissière métallique GS4 – module de 4 m (lisse + supports + écarteurs) ; module de 4.0 m (x le long, y vers l'arrière, z haut ; syntaxe route::assemblage Q / B / T). section de la lisse profil A : 312 × 83 × 3 mm ESTIMÉE (profil européen courant à 2 ondes ; profil B : 296 × 2,5 mm d'après une fiche Hellopro) ; écarteurs 70 × 150 × 200 et C100 100 × 50 × 5 estimés. Sources : setra_bvl p. 30 (GS4 : C 100 ou U 100 tous les 4 m ; GS2 : tous les 2 m ; lisse profil A ou B (NF P 98-411) ; niveau N2) ; setra_bvl p. 73 (hauteur de l'élément de glissement 70 cm sans bordure (graphe H = f(D))) ; aximum_gs2 p. 2 (lisse profil A 4,315 m (recouvrement 0,315 : pas de 4 m) ; support C100 de 1,50 m ; supports tous les 2 m ; hauteur de pose 700 mm (+0/−50)) ; aximum_gs4p p. 2 (GS4+ : supports tous les 4 m, hauteur de pose 720 mm).
+
+Pièces DE2 (catalogue):
+    #id: pieces_de2
+    retenue_glissiere_DE2_module_L400 : glissière double DE2 (terre-plein central) – module de 4 m ; module de 4.0 m (x le long, y vers l'arrière, z haut ; syntaxe route::assemblage Q / B / T). section de la lisse profil A : 312 × 83 × 3 mm ESTIMÉE (profil européen courant à 2 ondes ; profil B : 296 × 2,5 mm d'après une fiche Hellopro) ; écarteurs 70 × 150 × 200 et C100 100 × 50 × 5 estimés. Sources : setra_bvl p. 30 (GS4 : C 100 ou U 100 tous les 4 m ; GS2 : tous les 2 m ; lisse profil A ou B (NF P 98-411) ; niveau N2) ; aximum_de2 p. 2 (deux files de lisses profil A 4,315 ml liées par entretoises de 0,636 ml, supports C100 de 1,50 m tous les 2 m, hauteur de pose 800 mm (± 25)).
+
+Glissière par défaut:
+    #id: glissiere_defaut
+    [G] choix déclaré : modèle posé quand le modèle dit « glissière » sans modèle (GS2 : supports tous les 2 m, niveau N2, Setra BVL 2001 p. 30 ; GS4 : tous les 4 m).
+
+Module de glissière (m):
+    #id: module_glissiere
+    Pas des modules du catalogue (pose.pas_m : lisse de 4,315 m, recouvrement 0,315 m).
+
+Largeur minimale d'une DBA (m):
+    #id: largeur_dba_min
+    [G] seuil déclaré : une « GBA » de largeur ≥ 0,55 m est posée en séparateur double DBA (base 0,60 m, Cerema DR p. 32) ; en dessous, GBA simple (base 0,48 m).
+
+Encastrement de la base béton (m):
+    #id: encastrement
+    [G] base des contours béton descendue sous le sol fabriqué (coulé en place sur la chaussée : aucune lumière sous le talon quand le sol a un dévers).
+
+Classes de sol circulées:
+    #id: classes_trafic
+    Classes de rg::sol qui désignent le côté du trafic d'une limite (face de la glissière).
+
+Matériau béton:
+    #id: materiau_beton
+    Catalogue route_fr : matériau des séparateurs béton.
+
+Matériau acier:
+    #id: materiau_acier
+    Catalogue route_fr : matériau des glissières.
+
+Raccord des bretelles : distance de mesure (m):
+    #id: mesure_raccord
+    Z de chaque chaussée mesuré à cette distance à l'intérieur de la chaussée, de part et d'autre du point de jonction (dz = Z principale − Z bretelle ; profil en long de la bretelle parallèle, [G]).
+
+Pas du sol du musoir (m):
+    #id: pas_musoir
+    Pas en long des bandes du sol du musoir (bornes des sections et point à 5,00 m ajoutés).
+
+Espace non peint (u):
+    #id: degagement_u
+    RF-MQ-MUS-01 : 2u entre la ligne de contour 3u et les hachures ou chevrons.
+
+Chevrons : largeur des bandes (m):
+    #id: hach_bande
+    DEF-020, RF-MQ-HACH-01 et -02 (chevrons : dimensions des hachures) : 0,50.
+
+Chevrons : espacement entre parallèles (m):
+    #id: hach_espacement
+    DEF-020, RF-MQ-HACH-01 : 1,35.
+
+Chevrons : angle avec la bissectrice (°):
+    #id: hach_angle
+    RF-MQ-HACH-02 : 2 pour 1 par rapport à la bissectrice (26,565°).
+
+Aplat sous la largeur (m):
+    #id: hach_aplat
+    RF-MQ-HACH-03, DEF-020 : pointe effilée de moins de 0,30 m peinte en aplat.
+
+u par défaut (m):
+    #id: u_defaut
+    RF-MQ-U-01 : u = 7,5 cm sur autoroute (si la ligne de contour ne le dit pas).
+

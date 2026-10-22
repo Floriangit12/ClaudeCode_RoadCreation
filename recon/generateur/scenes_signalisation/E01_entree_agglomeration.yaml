@@ -1,0 +1,29 @@
+# E01 — Entrée d'agglomération sur une route départementale : rase campagne (accotements, rives peintes) puis rue
+# (bordures T2, trottoirs), plateau surélevé portant un passage piéton dans une section limitée à 30 km/h.
+# Scène imaginée d'après les entrées de Meylan (D1090 par Montbonnot, chemin de la Carronnerie : accotements enherbés,
+# trottoirs qui commencent au panneau, plateau au premier passage), sans reproduire un lieu.
+# Signalisation (complément scenes_signalisation/complements/E01_entree_agglomeration.yaml, posée par le lot L6) :
+# palier B14 70 avant l'entrée (RF-SV-B14.EMPLOI : forte décélération 80 -> 50), EB10 / EB20 dos à dos à la limite
+# (RF-SV-EB.POSITION), avancé du plateau A13b + B14 30 + M9d (RF-SV-A13B.EMPLOI), C20a + M9d au passage surélevé
+# (RF-SV-C20A.EMPLOI), B33 de fin de limitation après le plateau (L6-SV-B33.EMPLOI). Aucun B14 50 sous l'EB10 :
+# l'EB10 suffit à 50 km/h (RF-SV-B14.EMPLOI, agglo_50).
+format: description_simple/0.1
+scene: E01_entree_agglomeration
+titre: Entrée d'agglomération, plateau et passage piéton
+description: "Route départementale 2 × 1 voies de 3,00 m ; rase campagne jusqu'à 150 m (bandes dérasées de 0,50 m, accotements enherbés de 2,50 m), puis rue à trottoirs de 2,00 m et bordures T2 ; plateau de 4,00 m à 0,10 m portant un passage piéton à 230 m."
+contexte:
+  agglomeration: oui          # le modèle ne porte qu'un contexte par route : la limite d'agglomération (150 m) est
+  vitesse: 50                 # décrite dans le complément de signalisation (EB10 / EB20)
+  categorie: route départementale
+marquages: {usure: légère}
+troncon: {de: [0, 0], vers: [300, 0]}
+profil: "accotement herbe 2,5 | bande dérasée 0,5 | voie 3,0 ← | voie 3,0 → | bande dérasée 0,5 | accotement herbe 2,5"
+evenements:
+  # les trottoirs commencent à la limite d'agglomération (changement instantané de profil, signalé)
+  - profil: {a: 150, nouveau: "trottoir 2,0 | voie 3,0 ← | voie 3,0 → | trottoir 2,0"}
+  # plateau trapézoïdal avec passage (RF-MA-RAL-001, DEF-034 ; bandes prolongées de 0,50 m, RF-MQ-PP-04)
+  - plateau: {a: 230, longueur: 4.0, hauteur: 0.10, rampe_pct: 7, passage_pieton: oui, bev: oui}
+ecarts_admis:
+  RF-MA-RAL-001: "plateau dans une section limitée à 30 km/h par B14 30 (lot L6, complément de signalisation) : le modèle ne porte qu'une vitesse par route (50)"
+abords: {gauche: pelouse 6, droite: pelouse 6}
+attendus: {longueur: 300}

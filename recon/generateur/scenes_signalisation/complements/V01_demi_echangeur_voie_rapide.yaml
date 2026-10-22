@@ -1,0 +1,10 @@
+scene: V01_demi_echangeur_voie_rapide
+# Scène vitrine imaginée (intégration de l'étape 4) : sortie numérotée de la voie rapide vers la route départementale
+# (numéro et mentions de la scène, imaginés d'après la sortie de Meylan sur l'A41) ; filante vers Chambéry (D62c sur le
+# même portique) ; directions du carrefour à feux au bas de la bretelle.
+sortie: {numero: "14", destinations: ["Meylan", "Inovallée"], filante: ["Chambéry"]}
+directions: {rd_nord: "Meylan", rd_sud: "Grenoble", bretelle_bas: "Chambéry"}
+# rappels B14 de la voie rapide : au premier quart (s = 224), le rappel tomberait au droit du musoir de sortie, et au
+# dernier quart (s = 671) sur le remblai de l'ouvrage ; ils sont posés en palier, au début de chaque sens de la scène
+rappel_b14: {avant: 30, arriere: 870}
+vue_conducteur: {ensemble: E-portique.R-1, recul: 110, focale: 40}

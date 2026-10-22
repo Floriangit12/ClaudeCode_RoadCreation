@@ -580,11 +580,23 @@ class CarrefourPlan(ObjetReseau):
                 if veut_pp:
                     x.passage = {"x0": d0 + ret, "largeur": w_pp, "retrait": ret}
                 sas = b.get("sas") is not None and _b(b["sas"], f"{x.chemin}.sas")
-                lep = sas or (b.get("ligne_effet") is not None and _b(b["ligne_effet"], f"{x.chemin}.ligne_effet"))
+                # intégration de l'étape 4 : « ligne_effet: {recul: d} » (forme dictionnaire) = ligne d'effet peinte à
+                # d m en amont de la frontière (sans passage) ou du passage ; la forme oui / non est inchangée
+                le = b.get("ligne_effet")
+                x.recul_effet_dit = None
+                if isinstance(le, dict):
+                    _cles(le, {"recul", "note"}, f"{x.chemin}.ligne_effet")
+                    if le.get("recul") is not None:
+                        x.recul_effet_dit = _v(le["recul"], f"{x.chemin}.ligne_effet.recul")
+                    lep = True
+                else:
+                    lep = sas or (le is not None and _b(le, f"{x.chemin}.ligne_effet"))
                 x.ligne_effet_peinte = lep
                 base = (x.passage["x0"] + w_pp) if x.passage else d0
                 if lep:
                     recul = regles.valeur("DEF-015", "recul_passage") if x.passage else 0.0
+                    if x.recul_effet_dit is not None:
+                        recul = x.recul_effet_dit
                     xe = base + recul
                     if sas:
                         if not x.cyclables_entrantes:
@@ -723,9 +735,15 @@ class CarrefourPlan(ObjetReseau):
                                                                                     "prioritaire (0 m), ARB-02")
                 else:
                     la.update(largeur_m=regles.valeur("RF-MQ-FEU-01", "largeur"), modulation="T'2", regle="RF-MQ-FEU-01")
-                    prov[f"branches[{bid}].ligne_arret"] = P.defaut(
-                        "DEF-015", note="ligne d'effet peinte (sas ou dite) à 3,0 m en amont du passage (ARB-01)"
-                        + (" ; ligne des véhicules au fond du sas de 4 m (DEF-016)" if x.sas else ""))
+                    if getattr(x, "recul_effet_dit", None) is not None:
+                        prov[f"branches[{bid}].ligne_arret"] = P.description(
+                            f"{x.chemin}.ligne_effet.recul", note=f"ligne d'effet peinte à {x.recul_effet_dit:g} m en "
+                            "amont de la frontière" + (" et du passage" if x.passage else "") + " (recul dit ; DEF-015 "
+                            "ne le fixe qu'en amont d'un passage)")
+                    else:
+                        prov[f"branches[{bid}].ligne_arret"] = P.defaut(
+                            "DEF-015", note="ligne d'effet peinte (sas ou dite) à 3,0 m en amont du passage (ARB-01)"
+                            + (" ; ligne des véhicules au fond du sas de 4 m (DEF-016)" if x.sas else ""))
                 bo["ligne_arret"] = la
                 marquages += self._marque_transversale(x, la, u_m)
             elif x.ligne and x.ligne["type"] == "virtuelle":

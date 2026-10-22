@@ -1,6 +1,6 @@
-# recon/generateur/hda : HDA `rg::*` du générateur de routes (étape 1 : lots L1, L2, L2b ; étape 2 : carrefours, giratoires, autoroutes, bordures)
+# recon/generateur/hda : HDA `rg::*` du générateur de routes (étape 1 : lots L1, L2, L2b ; étape 2 : carrefours, giratoires, autoroutes, bordures ; étape 4 : ouvrages, signalisation verticale et feux)
 
-*`recon/generateur/hda/README_RG.md` — 17/10/2026, complété le 18/10/2026 (intégration de l'étape 2 : § 10 à 14). Plan : `recon/generateur/PLAN_GENERATEUR.md` § 2.3 et § 3 (L1, L2, L4 pour la section courante = L2b).
+*`recon/generateur/hda/README_RG.md` — 17/10/2026, complété le 18/10/2026 (intégration de l'étape 2 : § 10 à 14) et le 22/10/2026 (lots « ouvrages » § 16, L6 § 17 ; intégration de l'étape 4 § 18). Plan : `recon/generateur/PLAN_GENERATEUR.md` § 2.3 et § 3 (L1, L2, L4 pour la section courante = L2b).
 Conventions communes avec les HDA `pj::*` : `recon/pcg/houdini/hda/README_HDA.md` (repère, Python réservé aux
 entrées-sorties, HDA développées, VEX sans `#include "opdef:"` ni `struct`, déterminisme).*
 
@@ -32,15 +32,21 @@ hda/
   rg_marquages_carrefour/construire.py, rg_marquages_carrefour.hdalc/         lot L4, marquages des carrefours (§ 10)
   rg_giratoires/construire.py, rg_giratoires.hdalc/, rg_giratoires_sol.hdalc/   lot L5, giratoires (§ 11)
   rg_autoroute/construire.py, rg_autoroute.hdalc/            lot autoroutes : retenues, bifurcations, musoirs (§ 12)
+  rg_ouvrages/construire.py, vex_ouvrages.py, rg_ouvrages.hdalc/   lot ouvrages : ponts, PI, viaducs, terrain (§ 16, § 18)
+  rg_signalisation/construire.py, plan_signalisation.py, faces_composees.py, rg_signalisation.hdalc/
+                                   lot L6 : signalisation verticale et feux (§ 17, § 18)
   commun/vex/rg_marquage.h         lot L2b : empreintes en (s, t), découpe en cellules (lignes de rupture du sol, corps de
                                    bordure et caniveaux retirés), attributs du contrat de pj::marquage_solide
   rg_marquages/construire.py, marquages.vfl, rg_marquages.hdalc/     lot L2b
   rg_marquages/gabarits_iisr7.py, gabarits_iisr7_pj.json   gabarits et glyphes du dossier 08 au format de pj::gabarits_iisr
 recon/generateur/fabriquer_generateur.py    pilote hython (description .yaml ou modèle .json -> courbes de contrôle ;
                                             --l2 : sol, bordures, caniveaux ; --l2b : marquages et chaîne de réseau
-                                            choisie d'après le modèle ; --complet : description -> rendu ; § 14)
+                                            choisie d'après le modèle ; --complet : description -> rendu ; § 14 ;
+                                            étape 4 : ouvrages et signalisation compris, § 18)
 recon/generateur/fabriquer_carrefours.py, fabriquer_marquages_carrefour.py, fabriquer_giratoires.py,
   fabriquer_autoroutes.py, fabriquer_bordures.py   pilotes des lots de l'étape 2, bibliothèques de fabriquer_generateur
+recon/generateur/fabriquer_ouvrages.py, fabriquer_signalisation.py   pilotes des lots de l'étape 4 (ouvrages, L6),
+                                            bibliothèques de fabriquer_generateur (§ 18), utilisables seuls
 commun/bordures_catalogue.py                types de bordures et caniveaux du catalogue route_fr (§ 13)
 vehicules/balayage.py, vehicules_projet.json   lot L3a : véhicules de projet et épures de giration
 recon/generateur/fabriquer_l2.py            lot L2 du pilote (réseau, exports, sondes de mesure, USD)
@@ -709,3 +715,184 @@ pilotes de lots restent utilisables seuls (mêmes sorties, rendus propres à cha
 - **Limites restantes** (rapport § 6) : nez sud de J4 dans le balayage des TAG ; figurines des bandes cyclables posées
   sans les exclusions du modèle (J6) ; bandes des passages voisins d'un îlot directionnel dimensionnées sur la voie peinte
   et non jusqu'à la face de l'îlot ; deux trous de rive dans A4 ; pas de caniveau dans les coins.
+
+## 16. Lot « ouvrages » : `rg::ouvrages::1.0` (L8 du plan, étape E07 de la chaîne)
+
+*Ajout du lot « ouvrages » (22/10/2026). Rapport : `validation/RAPPORT_ouvrages.md`. HDA construite par
+`hda/rg_ouvrages/construire.py` (VEX et Python SOP de lecture dans `vex_ouvrages.py`). Pilote : `fabriquer_ouvrages.py`
+(importe `fabriquer_generateur` sans le modifier ; l'agent d'intégration fusionnera). Description : clé `ouvrages`
+(`description/FORMAT_DESCRIPTION.md` § 17, compilateur `description/ouvrages.py`). Règles complémentaires sourcées :
+`assets/specs/route/regles_ouvrages_fr.json` (OA-*), demandées à la base (`validation/regles_demandees_ouvrages.json`).
+Contrôle indépendant : `validation/controler_ouvrages.py`. Scènes : `scenes_ouvrages/D1` à `D4`.*
+
+```
+description (ouvrages) ─► modèle : ouvrages[].construction, routes[].profil_long, layer
+   ─► une COUCHE par route (sous-modèle) fabriquée par la chaîne de l'étape 2 (L1 + L2 + L2b, rg::autoroute) :
+      sol, BEV, bordures, caniveaux, avaloirs, équipements, peinture figés en bgeo (<scene>/couches/<route>/)
+      [deux routes superposées ne partagent pas le HeightField de rg::nivellement : un seul Z par (x, y)]
+   ─► rg::ouvrages (entrées 1 couches, 2 références de rg::graphe ; paramètre fichier = modèle)
+        lire_ouvrages (Python SOP, entrée-sortie seulement) ─► points « ouvrage » et « profil »
+        routes : briques de 1 m (Divide) ─► z += z_long(s) ─► normales J^-T ─► normales des pièces qui n'en avaient pas
+        structures (VEX) + joints (VEX, drapés sur le sol déformé) ─► orientation ─► normales ─► uv
+        grille ─► terrain (VEX) ─► triangulation (diagonale la moins pliée) + jupes ─► normales ─► uv
+        points (garde-corps, BN4)
+      sorties 1 ROUTES DÉFORMÉES, 2 OUVRAGES, 3 TERRAIN, 4 POINTS, 5 OUVRAGES LUS
+   ─► <scene>/ouvrages/ : scene_ouvrages.usdc (Z haut : /Monde/Routes/<route>/<couche>, /Monde/Ouvrages/<partie>,
+      /Monde/Terrain), points_ouvrages.json (pj_points/0.1), maillage_{routes,ouvrages,terrain}.npz (contrôle),
+      ouvrages.json, manifest_ouvrages.json ; rendus <scene>/rendus/ (dessus, oblique 3/4, conducteur, planche)
+```
+
+- **Profil en long** : z_long(s) analytique (palier, rentrant Rr, rampe g, saillant Rs centré sur le croisement), le même
+  que les échantillons de `routes[].profil_long` du modèle (contrôle indépendant : écart ≤ 5 mm dans l'axe). La
+  déformation verticale de toute la couche (sol, bordures, caniveaux, peinture, GBA) garde le profil en travers, les
+  marches des bordures et l'épaisseur de la peinture : les marquages sont continus sur l'ouvrage.
+- **Tablier** balayé sous la section de la route portée, entre les abouts : dalle (rectangle), dalle à larges
+  encorbellements (nervure chanfreinée à 45° [G]), portique (traverse), caisson (hourdis, âmes inclinées, hourdis
+  inférieur), poutres PRAD (hourdis continu, poutres à talon de 0,20 m [G] interrompues sur appuis) ; dessus = surface
+  la plus basse de la coupe − revêtement (OA-REV-001).
+- **Corniche** en L qui habille la rive du tablier (larmier 3 × 5 cm [G]), prolongée sur les murs en retour ; longrine
+  des BN4 comprise.
+- **Appuis** : piles voiles ou poteaux + chevêtre (pied au terrain − 1 m), bossages et appareils d'appui (espace de
+  visite de 0,30 m sous l'intrados, OA-ESP-001) ; culées perchées : sommier, garde-grève (vide de 0,40 m à l'about),
+  murs en retour sous la corniche, dalles de transition ; portiques : piédroits monolithiques et murs en aile dans le plan
+  des piédroits, sommet sur le talus du remblai + 0,10 m, arrêtés au terrain naturel.
+- **Joints** de chaussée : bande de 0,50 m posée à 3 mm au-dessus du sol déformé (rayons verticaux), sur toute la
+  plate-forme, trottoirs compris (RF-GV-PON-011).
+- **Garde-corps S8** (sections RF-AS-garde_corps_S8, hauteur du modèle) et **BN4** (OA-BN4-001) fabriqués, et points
+  d'instances (`garde_corps_pont_S8_L30` / `_cycles_L30` mis à la hauteur du modèle par `echelle_z`).
+- **Terrain** : un seul champ de Z — naturel (bord extérieur de la route franchie) ; talweg dit ; remblais de la route
+  portée hors de l'ouvrage (« cône » de pente OA-TAL-001 autour des bords de plate-forme bornés à la route, coins
+  arrondis de 1 m [G] : pas de sommet de cône), raccord adouci au pied (maximum lissé sur 0,60 m [G] : la pente du
+  raccord ne dépasse pas celle des talus) ; massif sous les sommiers (élargi de 1 m) ; déblais : plate-forme portée sous
+  le terrain naturel (cône 3/2), route franchie (cône 3/2 ; couloir vertical entre les murs d'un portique), sol abaissé
+  sous le tablier (intrados − revanche 0,10 − 0,05 m de discrétisation [G], talus 3/2 autour) ; maillage de 1 m
+  (0,50 m autour de l'ouvrage) avec lignes imposées sur les bords des plates-formes et les faces intérieures des
+  piédroits (routes parallèles aux axes), triangulation par la diagonale de plus faible pente, mailles croissantes
+  jusqu'à 2 km (horizon) ; jupes de 0,60 m sous les bords des plates-formes et aux bouts des routes.
+- **BN4** : file d'au moins 30 m centrée sur l'ouvrage (OA-BN4-001), sur longrine béton au-delà du tablier.
+
+```
+hython recon/generateur/fabriquer_ouvrages.py recon/generateur/scenes_ouvrages/D1_passage_superieur_autoroute.yaml [...] \
+       [--rendus] [--construire-hda] [--reprendre-couches]
+python recon/generateur/validation/controler_ouvrages.py [recon/out/generateur/<scene> ...] [--json SORTIE]
+```
+
+Limites (lot ouvrages) : routes portées droites près de l'ouvrage (repère par segments ; une courbe donnerait des
+facettes au droit des sommets de la référence) ; un ouvrage par route portée ; profil en long symétrique centré sur le
+croisement ; protection des piles par une glissière (RF-GV-PON-014, P13-2) laissée à l'étape E13 ; pas de culée
+« enterrée » à colonnes ni de mur de front ; trémies et tunnels non traités ; aucun relèvement de la route franchie
+(déblai sous l'ouvrage) ; cotes des corniches, piles et appareils dites par la description (règles demandées).
+
+## 17. Lot L6 « signalisation verticale et feux » : `rg::signalisation::1.0` (étape E14 de la chaîne)
+
+*Ajout du lot L6 (22/10/2026). Détail : `hda/rg_signalisation/README_SIGNALISATION.md` ; rapport :
+`validation/RAPPORT_signalisation.md`. Pilote : `fabriquer_signalisation.py` (lit les sorties de la chaîne, ne modifie
+aucun fichier partagé).*
+
+```
+plan_signalisation.py (Python hors Houdini : modèle, l1, l3, entités, autoroute/, complément) ─► l6/plan_signalisation.json
+l2/sol_*.npy, l1/courbes, autoroute/equipements ─► rg::signalisation (classer, ancrer, placer, plaques : VEX)
+   sorties : 1 ENSEMBLES (supports et contrôles), 2 INSTANCES (assets route_fr), 3 PLAQUES (faces composées), 4 CONTEXTE
+   ─► l6/points/signalisation.json, l6/points/feux.json (pj_points/0.1), l6/signalisation.usda, rendus (3 vues)
+```
+
+Règle de placement ARB-20 sur le sol fabriqué (rive mesurée, cheminement de 1,40 m, surplomb ≥ 2,20 m, axe réduit
+signalé), refus des surfaces circulées, îlots peints, abaissés et emprises de retenue, hauteurs DEF-025 / DEF-026 /
+DEF-027, orientation DEF-025, AB4 refusé sur une branche à feux ou « stop_a_verifier » (ARB-19). Règles hors base :
+`hda/rg_signalisation/regles_signalisation_l6.json` (espace L6-). Complément de description de la signalisation :
+`scenes_signalisation/complements/<scene>.yaml` ; scène ajoutée : `scenes_signalisation/E01_entree_agglomeration.yaml`.
+
+## 18. Chaîne complète de l'étape 4 : une seule commande, ouvrages et signalisation compris (intégration, 22/10/2026)
+
+*Rapport : `validation/RAPPORT_integration_etape4.md` (`rapport_integration_etape4.json`). Les pilotes des lots
+« ouvrages » (`fabriquer_ouvrages.py`) et L6 (`fabriquer_signalisation.py`) sont devenus des bibliothèques de
+`fabriquer_generateur.py` ; ils restent utilisables seuls (mêmes sorties).*
+
+```
+hython recon/generateur/fabriquer_generateur.py SCENE.yaml [SCENE.yaml ...] --complet [--signalisation auto|oui|non]
+                                                [--reprendre-couches] [--sortie DOSSIER] [--verifier-determinisme]
+```
+
+Après la compilation, la chaîne est choisie d'après le modèle et la scène :
+
+| Modèle ou scène | Chaîne | Sorties en plus de l'étape 2 |
+|---|---|---|
+| modèle sans `ouvrages` | chaîne de l'étape 2 (§ 14), **inchangée** | — |
+| modèle avec `ouvrages` (`FORMAT_DESCRIPTION.md` § 17) | **couches** : groupes de routes reliées par un carrefour du modèle (carrefour plan, giratoire, bifurcation), chacun fabriqué par la chaîne de l'étape 2 (familles comprises) et figé en bgeo ; puis `rg::ouvrages` (§ 16) ; rendu route seule sur terrain neutre (dessus, oblique 3/4, conducteur) | `couches/<groupe>/`, `couches/<scène>__<groupe>/` (sorties de la chaîne de chaque couche), `ouvrages/`, `rendus/` |
+| scène avec un complément de signalisation (`scenes_signalisation/complements/<scène>.yaml` ; `--signalisation oui` : toutes, `non` : aucune) | **lot L6** après la fabrication et les rendus de la chaîne (pris en sous-couche) : plan, faces, `rg::signalisation`, exports, rendus | `l6/`, `l6/rendus/` (dessus, oblique 3/4, conducteur à 1,20 m) ; scène à ouvrages : `couches/<scène>__<groupe>/l6/` par couche et rendu composé dans `rendus/` |
+
+**Couches de plusieurs routes (scène vitrine V01).** Le lot « ouvrages » fabriquait une couche par route. Une couche
+est maintenant un **groupe** de routes reliées par un carrefour du modèle (`fabriquer_ouvrages.groupes_couches` : nœuds
+`carrefours[].noeuds` et routes des branches) ; une route sans carrefour reste seule (D1 à D4 : une couche par route,
+comme avant). Le sous-modèle d'une couche (`sous_modele_groupe`) garde ses routes, nœuds et profils, les carrefours et
+contrôleurs dont toutes les routes sont dans le groupe, et les objets (marquages, objets, signaux, îlots, zones) qui ne
+citent aucune route d'une autre couche. Deux routes d'une même couche ne doivent pas se superposer en plan
+(`rg::nivellement` : un seul Z par (x, y)) : une route qui passe d'une couche à l'autre se décrit en **deux tronçons
+qui se suivent sans carrefour** (V01 : `bretelle`, dans la couche de la voie rapide avec la bifurcation ;
+`bretelle_bas`, branche du carrefour à feux, dans la couche de la départementale). Dans une couche de plusieurs routes,
+chaque primitive reçoit sa route (`attribuer_routes`, verbe SOP sans nœud) : la route portée si la primitive est dans
+son couloir (demi-largeur maximale de sa plate-forme + 0,5 m), sinon la route dont la référence est la plus proche ;
+seule la route portée est déformée par `rg::ouvrages`.
+
+**Raccord vertical des jonctions de couches** (`fabriquer_ouvrages.raccorder_couches`, choix [G]). Chaque couche a son
+propre modèle de Z ; une bretelle est mise au niveau de la voie de décélération par `rg::autoroute` (raccord
+« parallèle », § 12) et finit donc plus bas que la route de l'autre couche qui la prolonge (V01 : 0,28 m, dévers de la
+voie rapide). L'écart est mesuré sur les sols fabriqués à 0,50 m de part et d'autre de la jonction ; la route qui finit
+à la jonction est relevée par une rampe linéaire entre la fin des îlots de sa bifurcation + 5 m et la jonction (V01 :
+0,19 %), points à moins de sa demi-largeur + 0,5 m ; la couche est réécrite et la rampe notée dans `couche.json`
+(`raccords`) ; la signalisation de la couche suit la rampe. Aucune jonction dans D1 à D4.
+
+**Terrain des routes à niveau** (`rg::ouvrages`, ajout rétrocompatible). Si le modèle a des routes ni portées ni
+franchies par un ouvrage (détail `rg_autres_routes` de `lire_ouvrages`) :
+
+- le compilateur (`description/ouvrages.py`) place le terrain naturel 0,65 m [G] sous le plus bas des bords de toutes
+  les routes (`MARGE_TERRAIN_NIVEAU` : au moins le raccord adouci de 0,60 m + 2 cm, sinon le congé du pied des talus
+  remonte au bord des plates-formes) ; les hauteurs de chute en tiennent compte ;
+- le nœud `routes_a_niveau` garde le sol (couche Sol) des routes là où leur profil en long est nul, `aplatir` le pose à
+  y = 0 (f@zs = z du sol aux points) ; le nœud `terrain` (seul à définir `OA_AVEC_NIVEAU`) remblaie autour de ce sol
+  (`oa_niveau`, maximum simple : 5 cm sous le sol dans son emprise ; au-dehors, **maximum des cônes de talus**
+  OA-TAL-001 issus du point du sol le plus proche, 2 cm sous lui, et de tous les points du sol à moins de 2,50 m [G] :
+  continu et jamais plus raide que le talus, même à l'angle de deux routes de niveaux différents, où le seul point le
+  plus proche saute d'une route à l'autre), après le remblai de la route portée et avant les déblais (route portée, sol
+  abaissé, route franchie) ; zone 6 ; le remblai de la route portée est alors lui aussi un maximum simple (le raccord
+  adouci le rendrait plus haut que le remblai du même sol au-delà des bouts de la route : marche au bout de la scène).
+  Les supports de signalisation posés hors de l'emprise fabriquée gardent la fiche de 0,40 m du lot L6
+  (`vex_signalisation.py`).
+
+Sans autre route (D1 à D4), l'entrée est vide et le terrain est inchangé.
+
+**Signalisation d'une scène à ouvrages.** Le lot L6 est passé sur **chaque couche**, avec le complément de la scène ;
+le modèle de la couche est recopié dans son dossier (lu par le plan). La signalisation est posée sur le sol plat de la
+couche, puis remontée par le profil en long de la route portée de la couche (`dz_portee` : z du profil à l'abscisse du
+point projeté sur la référence, à moins de la demi-largeur + 10 m ; positions des ensembles, des instances et des
+plaques composées : `fabriquer_signalisation._corriger_z`). Le rendu de la scène référence `l6/signalisation.usda` de
+chaque couche sous `/Monde/Signalisation/<couche>` ; si le complément désigne un ensemble (`vue_conducteur`), la vue
+du conducteur du lot L6 remplace la vue « conducteur » de l'ouvrage.
+
+**Ligne d'effet des feux en retrait** (compilateur, `description/carrefours.py`, ajout rétrocompatible) : clé de branche
+`ligne_effet: {recul: d}` = ligne d'effet peinte à d m en amont de la frontière (ou du passage) ; le R11 est posé
+0,30 m en aval (DEF-027). En rase campagne, sans passage, la ligne d'effet était à la frontière et le R11 tombait dans
+le raccordement revêtu de l'angle : aucun point admissible pour le lot L6. Les formes oui / non sont inchangées.
+
+**Complément de signalisation, clé ajoutée** : `rappel_b14: {avant: s, arriere: s}` (abscisses sur l'autoroute) place
+les rappels B14 d'une autoroute là où le premier ou le dernier quart tomberait sur un ouvrage ou dans une sortie ;
+sans la clé, inchangé (`plan_signalisation.autoroutes`).
+
+**Déterminisme** (`--verifier-determinisme`) : en plus de l1, l2 et l2b (§ 7), les sorties des lots l3, l4, l5,
+autoroute, l6, ouvrages et couches sont comparées au second processus (`commun/determinisme.comparer_arborescence` :
+.json, .npy, .usda à l'octet après normalisation des chemins de sortie ; .npz par contenu, l'archive zip de numpy
+étant horodatée ; manifestes exclus).
+
+Limites de l'étape 4 :
+
+- **Emprise d'une couche dans ± 500 m environ autour de l'origine locale** : `rg::nivellement` contrôle le rangement de
+  son HeightField en lisant les positions des voxels en simple précision ; au-delà de 512 m, l'écart entre deux voxels
+  (0,10 m) n'est plus lu à 1e-5 près et la cuisson s'arrête (« HeightField : rangement inattendu »). Les scènes de
+  l'étape 2 (800 m, centrées) passent ; V01 est centrée en conséquence. À lever dans `rg::nivellement` (contrôle en
+  double précision ou relatif au premier voxel).
+- Une couche ne peut pas contenir deux routes superposées ; la jonction de deux couches (fin d'un tronçon, début du
+  suivant) est une simple coupe : les tirets reprennent leur phase au début du second tronçon.
+- Terrain des routes à niveau : remblai seulement (le terrain naturel est sous toutes les routes), ni déblai ni fossé ;
+  pas de ligne de grille imposée le long des routes courbes (le remblai les longe 2 cm sous le bord).
+- La signalisation d'une couche est remontée par le profil en long, mais un support posé sur le talus d'un remblai
+  resterait au niveau de la route : la scène pose ses panneaux là où le profil est en palier (clé `rappel_b14`).

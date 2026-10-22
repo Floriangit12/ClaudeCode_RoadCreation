@@ -1,0 +1,976 @@
+{
+ "schema": "rg_controles_ouvrages/0.1",
+ "scenes": [
+  {
+   "scene": "D1_passage_superieur_autoroute",
+   "ouvrage": "O-PS1",
+   "type": "pont_route",
+   "famille_tablier": "PSIDP_LE",
+   "criteres": {
+    "profil_en_long": {
+     "valeur": 0.0,
+     "seuil": "<= 0,005 m",
+     "atteint": true,
+     "points": 39,
+     "regle": "routes[].profil_long (modèle)"
+    },
+    "hauteur_libre": {
+     "valeur": 4.896,
+     "seuil": ">= 4.85 m (gabarit 4.75 + revanche 0.1)",
+     "atteint": true,
+     "regle": "RF-GV-PON-012 ; DEF-033",
+     "rayons_sous_tablier": 475
+    },
+    "epaisseur_dalle": {
+     "valeur": 0.929,
+     "seuil": "l/28 = 26.0/28 = 0.9286 m (+- 0,01)",
+     "atteint": true,
+     "elancement_mesure": "l/27.99",
+     "regle": "RF-GV-PON-015 ; OA-ELA-002 (GPOA p. 210)"
+    },
+    "rapport_travees": {
+     "valeur": [
+      0.75,
+      0.75
+     ],
+     "seuil": "[0,6 ; 0,85]",
+     "atteint": true,
+     "travees_mesurees_m": [
+      19.5,
+      26.0,
+      19.5
+     ],
+     "regle": "RF-GV-PON-015 ; OA-BAL-001"
+    },
+    "garde_corps": {
+     "valeur": {
+      "gauche": 0.985,
+      "droite": 0.985
+     },
+     "seuil": "voir détail",
+     "atteint": true,
+     "detail": {
+      "gauche": {
+       "type": "garde_corps",
+       "hauteur_mesuree_m": 0.985,
+       "hc_mesuree_m": 6.44,
+       "seuil": "[0.932 ; 1.032] (GC97, Hc mesurée 6.44 m)",
+       "atteint": true,
+       "echantillons": 86
+      },
+      "droite": {
+       "type": "garde_corps",
+       "hauteur_mesuree_m": 0.985,
+       "hc_mesuree_m": 6.44,
+       "seuil": "[0.932 ; 1.032] (GC97, Hc mesurée 6.44 m)",
+       "atteint": true,
+       "echantillons": 86
+      }
+     },
+     "regle": "DEF-033 ; RF-GV-PON-007 ; OA-BN4-001"
+    },
+    "marquages_continus": {
+     "valeur": 1,
+     "seuil": "chaque ligne : vide <= vide de la modulation + 0,10 m ; peinture à 0-6 mm du sol",
+     "atteint": true,
+     "lignes": [
+      {
+       "limite": 2,
+       "t": 0.0,
+       "modulation": "T'1",
+       "vide_modulation_m": 5.0,
+       "plus_grand_vide_sur_ouvrage_m": 5.0,
+       "part_peinte_ouvrage": 0.227,
+       "part_peinte_approches": 0.243,
+       "peinture_au_dessus_du_sol_mm": [
+        1.0,
+        2.0
+       ],
+       "atteint": true
+      }
+     ],
+     "regle": "RF-GV-PON-001 (profil courant conservé) ; TQ-MQG-005"
+    },
+    "pas_de_trou": {
+     "valeur": {
+      "sol_sans_tablier_dessous": 0,
+      "ecart_sol_tablier_m": [
+       0.111,
+       0.256
+      ],
+      "ecart_corniche_bord_m": 0.003
+     },
+     "seuil": "0 rayon sans tablier ; écart 0,08-0,60 m ; corniche au bord à 3 cm",
+     "atteint": true,
+     "rayons": 975,
+     "regle": "RF-GV-PON-001 ; GPOA p. 54 (continuité)"
+    },
+    "joints": {
+     "valeur": 2,
+     "seuil": "2 joints, couverture >= 99 % de la plate-forme, posés à 1-6 mm au-dessus du revêtement (sol, bordures) sur >= 95 % de la largeur (le reste : marches des bordures)",
+     "atteint": true,
+     "detail": [
+      {
+       "s": 166.8,
+       "couverture_largeur": 1.0,
+       "part_posee_1_6_mm": 0.97,
+       "hauteur_sur_revetement_mm_mediane": 3.0,
+       "atteint": true
+      },
+      {
+       "s": 233.2,
+       "couverture_largeur": 1.0,
+       "part_posee_1_6_mm": 0.97,
+       "hauteur_sur_revetement_mm_mediane": 3.0,
+       "atteint": true
+      }
+     ],
+     "regle": "RF-GV-PON-011 ; OA-JNT-001"
+    },
+    "talus": {
+     "valeur": 0.677,
+     "seuil": "<= 1/1,5 + 5 % = 0.7000 ; 0 facette plus raide ; 0 facette verticale",
+     "atteint": true,
+     "facettes_controlees": 478565,
+     "facettes_trop_raides": 0,
+     "facettes_exclues": 62885,
+     "regle": "OA-TAL-001 (GPOA p. 241)"
+    },
+    "terrain_sous_routes": {
+     "valeur": 0,
+     "seuil": "0 point où le terrain affleure la chaussée (terrain <= sol - 5 mm)",
+     "atteint": true,
+     "echantillons": 5576,
+     "pire_m": 0.0,
+     "regle": "TQ-SOL-007 (raccord au terrain hors des surfaces modélisées)"
+    }
+   },
+   "controles_compilateur": [
+    {
+     "controle": "O-PS1 portée principale dans le domaine du type PSIDP",
+     "valeur": 26.0,
+     "plage": [
+      15,
+      30
+     ],
+     "regle": null,
+     "statut": "conforme",
+     "note": "OA-ELA-002"
+    },
+    {
+     "controle": "O-PS1 balancement travée de rive gauche",
+     "valeur": 0.75,
+     "plage": [
+      0.6,
+      0.85
+     ],
+     "regle": "RF-GV-PON-015",
+     "statut": "conforme",
+     "note": "OA-BAL-001 : max ≈ 0,80, min 0,55"
+    },
+    {
+     "controle": "O-PS1 balancement travée de rive droite",
+     "valeur": 0.75,
+     "plage": [
+      0.6,
+      0.85
+     ],
+     "regle": "RF-GV-PON-015",
+     "statut": "conforme",
+     "note": "OA-BAL-001 : max ≈ 0,80, min 0,55"
+    },
+    {
+     "controle": "O-PS1 garde-corps gauche (pietons) h",
+     "valeur": 0.982,
+     "plage": [
+      0.932,
+      1.032
+     ],
+     "regle": "DEF-033",
+     "statut": "conforme",
+     "note": "Hc = 6.439 m"
+    },
+    {
+     "controle": "O-PS1 garde-corps droite (pietons) h",
+     "valeur": 0.982,
+     "plage": [
+      0.932,
+      1.032
+     ],
+     "regle": "DEF-033",
+     "statut": "conforme",
+     "note": "Hc = 6.439 m"
+    },
+    {
+     "controle": "O-PS1 trottoir sur l'ouvrage (tr1)",
+     "valeur": 1.5,
+     "plage": [
+      1.0,
+      null
+     ],
+     "regle": "RF-GV-PON-003",
+     "statut": "conforme",
+     "note": "≥ 1,25 m si fréquenté"
+    },
+    {
+     "controle": "O-PS1 trottoir sur l'ouvrage (tr2)",
+     "valeur": 1.5,
+     "plage": [
+      1.0,
+      null
+     ],
+     "regle": "RF-GV-PON-003",
+     "statut": "conforme",
+     "note": "≥ 1,25 m si fréquenté"
+    },
+    {
+     "controle": "O-PS1 pile s = 187.00 : distance au bord des voies franchies",
+     "valeur": 4.3,
+     "plage": [
+      2.0,
+      null
+     ],
+     "regle": "RF-GV-PON-014",
+     "statut": "conforme"
+    },
+    {
+     "controle": "O-PS1 pile s = 213.00 : distance au bord des voies franchies",
+     "valeur": 4.3,
+     "plage": [
+      2.0,
+      null
+     ],
+     "regle": "RF-GV-PON-014",
+     "statut": "conforme"
+    },
+    {
+     "controle": "O-PS1 épaisseur de la dalle e / l",
+     "valeur": 0.03573,
+     "plage": [
+      0.03573,
+      0.03573
+     ],
+     "regle": null,
+     "statut": "conforme",
+     "note": "e = 0.929 m = l/28 (l = 26.0 m)"
+    },
+    {
+     "controle": "O-PS1 déclivité du profil en long",
+     "valeur": 6.0,
+     "plage": [
+      null,
+      6.0
+     ],
+     "regle": null,
+     "statut": "conforme",
+     "note": "classe U60 (OA-PEL)"
+    }
+   ],
+   "points_instances": 50,
+   "atteint": true
+  },
+  {
+   "scene": "D2_passage_inferieur_voie_rapide",
+   "ouvrage": "O-PI1",
+   "type": "passage_inferieur",
+   "famille_tablier": "PIPO",
+   "criteres": {
+    "profil_en_long": {
+     "valeur": 0.0,
+     "seuil": "<= 0,005 m",
+     "atteint": true,
+     "points": 45,
+     "regle": "routes[].profil_long (modèle)"
+    },
+    "hauteur_libre": {
+     "valeur": 4.402,
+     "seuil": ">= 4.4 m (gabarit 4.3 + revanche 0.1)",
+     "atteint": true,
+     "regle": "RF-GV-PON-012 ; DEF-033",
+     "rayons_sous_tablier": 1175
+    },
+    "epaisseur_dalle": {
+     "valeur": 0.365,
+     "seuil": "sans objet (portique) ; e = l/40 + 0,10 = 0.3650 (+- 0,01)",
+     "atteint": true,
+     "regle": "RF-GV-PON-015"
+    },
+    "rapport_travees": {
+     "valeur": [
+      10.6
+     ],
+     "seuil": "sans objet (moins de 3 travées) ; travées = modèle [10.6] à 5 cm",
+     "atteint": true,
+     "regle": "RF-GV-PON-015"
+    },
+    "garde_corps": {
+     "valeur": {
+      "gauche": 0.999,
+      "droite": 0.999
+     },
+     "seuil": "voir détail",
+     "atteint": true,
+     "detail": {
+      "gauche": {
+       "type": "BN4",
+       "hauteur_mesuree_m": 0.999,
+       "hc_mesuree_m": 4.99,
+       "seuil": "> 0,90 m (piétons interdits, RF-GV-PON-007) ; lisse supérieure 1,00 m ; file >= 30 m (OA-BN4-001 ; mesurée 30.1 m)",
+       "atteint": true,
+       "echantillons": 13
+      },
+      "droite": {
+       "type": "BN4",
+       "hauteur_mesuree_m": 0.999,
+       "hc_mesuree_m": 4.99,
+       "seuil": "> 0,90 m (piétons interdits, RF-GV-PON-007) ; lisse supérieure 1,00 m ; file >= 30 m (OA-BN4-001 ; mesurée 30.1 m)",
+       "atteint": true,
+       "echantillons": 13
+      }
+     },
+     "regle": "DEF-033 ; RF-GV-PON-007 ; OA-BN4-001"
+    },
+    "marquages_continus": {
+     "valeur": 6,
+     "seuil": "chaque ligne : vide <= vide de la modulation + 0,10 m ; peinture à 0-6 mm du sol",
+     "atteint": true,
+     "lignes": [
+      {
+       "limite": 1,
+       "t": 8.3,
+       "modulation": "T4",
+       "vide_modulation_m": 13.0,
+       "plus_grand_vide_sur_ouvrage_m": 0.0,
+       "part_peinte_ouvrage": 1.0,
+       "part_peinte_approches": 0.567,
+       "peinture_au_dessus_du_sol_mm": [
+        1.0,
+        2.0
+       ],
+       "atteint": true
+      },
+      {
+       "limite": 2,
+       "t": 4.8,
+       "modulation": "T1",
+       "vide_modulation_m": 10.0,
+       "plus_grand_vide_sur_ouvrage_m": 9.6,
+       "part_peinte_ouvrage": 0.143,
+       "part_peinte_approches": 0.273,
+       "peinture_au_dessus_du_sol_mm": [
+        1.0,
+        2.0
+       ],
+       "atteint": true
+      },
+      {
+       "limite": 3,
+       "t": 1.3,
+       "modulation": "continue",
+       "vide_modulation_m": 0.0,
+       "plus_grand_vide_sur_ouvrage_m": 0.0,
+       "part_peinte_ouvrage": 1.0,
+       "part_peinte_approches": 1.0,
+       "peinture_au_dessus_du_sol_mm": [
+        1.99,
+        2.0
+       ],
+       "atteint": true
+      },
+      {
+       "limite": 7,
+       "t": -1.3,
+       "modulation": "continue",
+       "vide_modulation_m": 0.0,
+       "plus_grand_vide_sur_ouvrage_m": 0.0,
+       "part_peinte_ouvrage": 1.0,
+       "part_peinte_approches": 1.0,
+       "peinture_au_dessus_du_sol_mm": [
+        1.99,
+        2.0
+       ],
+       "atteint": true
+      },
+      {
+       "limite": 8,
+       "t": -4.8,
+       "modulation": "T1",
+       "vide_modulation_m": 10.0,
+       "plus_grand_vide_sur_ouvrage_m": 9.6,
+       "part_peinte_ouvrage": 0.143,
+       "part_peinte_approches": 0.273,
+       "peinture_au_dessus_du_sol_mm": [
+        1.0,
+        2.0
+       ],
+       "atteint": true
+      },
+      {
+       "limite": 9,
+       "t": -8.3,
+       "modulation": "T4",
+       "vide_modulation_m": 13.0,
+       "plus_grand_vide_sur_ouvrage_m": 0.0,
+       "part_peinte_ouvrage": 1.0,
+       "part_peinte_approches": 0.567,
+       "peinture_au_dessus_du_sol_mm": [
+        1.0,
+        2.0
+       ],
+       "atteint": true
+      }
+     ],
+     "regle": "RF-GV-PON-001 (profil courant conservé) ; TQ-MQG-005"
+    },
+    "pas_de_trou": {
+     "valeur": {
+      "sol_sans_tablier_dessous": 0,
+      "ecart_sol_tablier_m": [
+       0.101,
+       0.363
+      ],
+      "ecart_corniche_bord_m": 0.001
+     },
+     "seuil": "0 rayon sans tablier ; écart 0,08-0,60 m ; corniche au bord à 3 cm",
+     "atteint": true,
+     "rayons": 150,
+     "regle": "RF-GV-PON-001 ; GPOA p. 54 (continuité)"
+    },
+    "joints": {
+     "valeur": 0,
+     "seuil": "0 joint (portique : OA-PIPO-001)",
+     "atteint": true,
+     "regle": "OA-PIPO-001"
+    },
+    "talus": {
+     "valeur": 0.6811,
+     "seuil": "<= 1/1,5 + 5 % = 0.7000 ; 0 facette plus raide ; 0 facette verticale",
+     "atteint": true,
+     "facettes_controlees": 285244,
+     "facettes_trop_raides": 0,
+     "facettes_exclues": 58718,
+     "regle": "OA-TAL-001 (GPOA p. 241)"
+    },
+    "terrain_sous_routes": {
+     "valeur": 0,
+     "seuil": "0 point où le terrain affleure la chaussée (terrain <= sol - 5 mm)",
+     "atteint": true,
+     "echantillons": 5236,
+     "pire_m": 0.0,
+     "regle": "TQ-SOL-007 (raccord au terrain hors des surfaces modélisées)"
+    }
+   },
+   "controles_compilateur": [
+    {
+     "controle": "O-PI1 portée principale dans le domaine du type PIPO",
+     "valeur": 10.6,
+     "plage": [
+      8.0,
+      22.0
+     ],
+     "regle": "RF-GV-PON-015",
+     "statut": "conforme"
+    },
+    {
+     "controle": "O-PI1 barrière gauche (piétons interdits : h > 0,90 m)",
+     "valeur": 1.0,
+     "plage": [
+      0.9,
+      null
+     ],
+     "regle": "RF-GV-PON-007",
+     "statut": "conforme"
+    },
+    {
+     "controle": "O-PI1 barrière droite (piétons interdits : h > 0,90 m)",
+     "valeur": 1.0,
+     "plage": [
+      0.9,
+      null
+     ],
+     "regle": "RF-GV-PON-007",
+     "statut": "conforme"
+    },
+    {
+     "controle": "O-PI1 trottoir sous l'ouvrage (R-2.tr1)",
+     "valeur": 2.0,
+     "plage": [
+      2.0,
+      null
+     ],
+     "regle": "RF-GV-PON-014",
+     "statut": "conforme"
+    },
+    {
+     "controle": "O-PI1 trottoir sous l'ouvrage (R-2.tr2)",
+     "valeur": 2.0,
+     "plage": [
+      2.0,
+      null
+     ],
+     "regle": "RF-GV-PON-014",
+     "statut": "conforme"
+    },
+    {
+     "controle": "O-PI1 déclivité du profil en long",
+     "valeur": 5.065,
+     "plage": [
+      null,
+      6.0
+     ],
+     "regle": null,
+     "statut": "conforme",
+     "note": "classe U80_A80 (OA-PEL)"
+    }
+   ],
+   "points_instances": 24,
+   "atteint": true
+  },
+  {
+   "scene": "D3_viaduc_vallee_seche",
+   "ouvrage": "O-V1",
+   "type": "viaduc",
+   "famille_tablier": "CAISSON",
+   "criteres": {
+    "profil_en_long": {
+     "valeur": 0.0,
+     "seuil": "<= 0,005 m",
+     "atteint": true,
+     "points": 31,
+     "regle": "routes[].profil_long (modèle)"
+    },
+    "hauteur_libre": {
+     "valeur": 0.153,
+     "seuil": ">= 0,10 m au-dessus du terrain (talweg ; pas de voie dessous : gabarit routier sans objet)",
+     "atteint": true,
+     "regle": "RF-GV-PON-012 (revanche)",
+     "rayons_sous_tablier": 180
+    },
+    "epaisseur_dalle": {
+     "valeur": 2.0,
+     "seuil": "sans objet (caisson) ; élancement h/l observé [0.045 ; 0.056] (OA-CAI-001, avertissement)",
+     "atteint": true,
+     "elancement_mesure": 0.05,
+     "dans_observations": true,
+     "regle": "OA-CAI-001"
+    },
+    "rapport_travees": {
+     "valeur": [
+      0.8,
+      0.8
+     ],
+     "seuil": "[0,6 ; 0,85]",
+     "atteint": true,
+     "travees_mesurees_m": [
+      32.0,
+      40.0,
+      40.0,
+      40.0,
+      32.0
+     ],
+     "regle": "RF-GV-PON-015 ; OA-BAL-001"
+    },
+    "garde_corps": {
+     "valeur": {
+      "gauche": 0.998,
+      "droite": 0.998
+     },
+     "seuil": "voir détail",
+     "atteint": true,
+     "detail": {
+      "gauche": {
+       "type": "BN4",
+       "hauteur_mesuree_m": 0.998,
+       "hc_mesuree_m": 31.83,
+       "seuil": "> 0,90 m (piétons interdits, RF-GV-PON-007) ; lisse supérieure 1,00 m ; file >= 30 m (OA-BN4-001 ; mesurée 196.4 m)",
+       "atteint": true,
+       "echantillons": 244
+      },
+      "droite": {
+       "type": "BN4",
+       "hauteur_mesuree_m": 0.998,
+       "hc_mesuree_m": 31.83,
+       "seuil": "> 0,90 m (piétons interdits, RF-GV-PON-007) ; lisse supérieure 1,00 m ; file >= 30 m (OA-BN4-001 ; mesurée 196.4 m)",
+       "atteint": true,
+       "echantillons": 244
+      }
+     },
+     "regle": "DEF-033 ; RF-GV-PON-007 ; OA-BN4-001"
+    },
+    "marquages_continus": {
+     "valeur": 3,
+     "seuil": "chaque ligne : vide <= vide de la modulation + 0,10 m ; peinture à 0-6 mm du sol",
+     "atteint": true,
+     "lignes": [
+      {
+       "limite": 1,
+       "t": 3.5,
+       "modulation": "T2",
+       "vide_modulation_m": 3.5,
+       "plus_grand_vide_sur_ouvrage_m": 3.5,
+       "part_peinte_ouvrage": 0.457,
+       "part_peinte_approches": 0.492,
+       "peinture_au_dessus_du_sol_mm": [
+        1.0,
+        2.0
+       ],
+       "atteint": true
+      },
+      {
+       "limite": 2,
+       "t": 0.0,
+       "modulation": "T1",
+       "vide_modulation_m": 10.0,
+       "plus_grand_vide_sur_ouvrage_m": 10.0,
+       "part_peinte_ouvrage": 0.23,
+       "part_peinte_approches": 0.242,
+       "peinture_au_dessus_du_sol_mm": [
+        1.0,
+        2.0
+       ],
+       "atteint": true
+      },
+      {
+       "limite": 3,
+       "t": -3.5,
+       "modulation": "T2",
+       "vide_modulation_m": 3.5,
+       "plus_grand_vide_sur_ouvrage_m": 3.5,
+       "part_peinte_ouvrage": 0.457,
+       "part_peinte_approches": 0.492,
+       "peinture_au_dessus_du_sol_mm": [
+        1.0,
+        2.0
+       ],
+       "atteint": true
+      }
+     ],
+     "regle": "RF-GV-PON-001 (profil courant conservé) ; TQ-MQG-005"
+    },
+    "pas_de_trou": {
+     "valeur": {
+      "sol_sans_tablier_dessous": 0,
+      "ecart_sol_tablier_m": [
+       0.102,
+       0.268
+      ],
+      "ecart_corniche_bord_m": 0.001
+     },
+     "seuil": "0 rayon sans tablier ; écart 0,08-0,60 m ; corniche au bord à 3 cm",
+     "atteint": true,
+     "rayons": 2760,
+     "regle": "RF-GV-PON-001 ; GPOA p. 54 (continuité)"
+    },
+    "joints": {
+     "valeur": 2,
+     "seuil": "2 joints, couverture >= 99 % de la plate-forme, posés à 1-6 mm au-dessus du revêtement (sol, bordures) sur >= 95 % de la largeur (le reste : marches des bordures)",
+     "atteint": true,
+     "detail": [
+      {
+       "s": 67.3,
+       "couverture_largeur": 1.0,
+       "part_posee_1_6_mm": 1.0,
+       "hauteur_sur_revetement_mm_mediane": 3.0,
+       "atteint": true
+      },
+      {
+       "s": 252.7,
+       "couverture_largeur": 1.0,
+       "part_posee_1_6_mm": 1.0,
+       "hauteur_sur_revetement_mm_mediane": 3.0,
+       "atteint": true
+      }
+     ],
+     "regle": "RF-GV-PON-011 ; OA-JNT-001"
+    },
+    "talus": {
+     "valeur": 0.6772,
+     "seuil": "<= 1/1,5 + 5 % = 0.7000 ; 0 facette plus raide ; 0 facette verticale",
+     "atteint": true,
+     "facettes_controlees": 697346,
+     "facettes_trop_raides": 0,
+     "facettes_exclues": 29218,
+     "regle": "OA-TAL-001 (GPOA p. 241)"
+    },
+    "terrain_sous_routes": {
+     "valeur": 0,
+     "seuil": "0 point où le terrain affleure la chaussée (terrain <= sol - 5 mm)",
+     "atteint": true,
+     "echantillons": 2703,
+     "pire_m": 0.0,
+     "regle": "TQ-SOL-007 (raccord au terrain hors des surfaces modélisées)"
+    }
+   },
+   "controles_compilateur": [
+    {
+     "controle": "O-V1 élancement du caisson h / l",
+     "valeur": 0.05,
+     "plage": [
+      0.045,
+      0.056
+     ],
+     "regle": null,
+     "statut": "conforme",
+     "note": "OA-CAI-001 (observations sur ouvrages réels, confiance faible) : contrôle d'avertissement"
+    },
+    {
+     "controle": "O-V1 balancement travée de rive gauche",
+     "valeur": 0.8,
+     "plage": [
+      0.6,
+      0.85
+     ],
+     "regle": "RF-GV-PON-015",
+     "statut": "conforme",
+     "note": "OA-BAL-001 : max ≈ 0,80, min 0,55"
+    },
+    {
+     "controle": "O-V1 balancement travée de rive droite",
+     "valeur": 0.8,
+     "plage": [
+      0.6,
+      0.85
+     ],
+     "regle": "RF-GV-PON-015",
+     "statut": "conforme",
+     "note": "OA-BAL-001 : max ≈ 0,80, min 0,55"
+    },
+    {
+     "controle": "O-V1 barrière gauche (piétons interdits : h > 0,90 m)",
+     "valeur": 1.0,
+     "plage": [
+      0.9,
+      null
+     ],
+     "regle": "RF-GV-PON-007",
+     "statut": "conforme"
+    },
+    {
+     "controle": "O-V1 barrière droite (piétons interdits : h > 0,90 m)",
+     "valeur": 1.0,
+     "plage": [
+      0.9,
+      null
+     ],
+     "regle": "RF-GV-PON-007",
+     "statut": "conforme"
+    }
+   ],
+   "points_instances": 156,
+   "atteint": true
+  },
+  {
+   "scene": "D4_pont_urbain_piste_cyclable",
+   "ouvrage": "O-PU1",
+   "type": "pont_route",
+   "famille_tablier": "PRAD",
+   "criteres": {
+    "profil_en_long": {
+     "valeur": 0.0,
+     "seuil": "<= 0,005 m",
+     "atteint": true,
+     "points": 21,
+     "regle": "routes[].profil_long (modèle)"
+    },
+    "hauteur_libre": {
+     "valeur": 1.563,
+     "seuil": ">= 0,10 m au-dessus du terrain (talweg ; pas de voie dessous : gabarit routier sans objet)",
+     "atteint": true,
+     "regle": "RF-GV-PON-012 (revanche)",
+     "rayons_sous_tablier": 28
+    },
+    "epaisseur_dalle": {
+     "valeur": 0.845,
+     "seuil": "sans objet (poutres PRAD) ; élancement [1/20 ; 1/18] (OA-ELA-001)",
+     "atteint": true,
+     "elancement_mesure": "l/18.93",
+     "regle": "OA-ELA-001"
+    },
+    "rapport_travees": {
+     "valeur": [
+      16.0,
+      16.0
+     ],
+     "seuil": "sans objet (moins de 3 travées) ; travées = modèle [16.0, 16.0] à 5 cm",
+     "atteint": true,
+     "regle": "RF-GV-PON-015"
+    },
+    "garde_corps": {
+     "valeur": {
+      "gauche": 0.981,
+      "droite": 1.202
+     },
+     "seuil": "voir détail",
+     "atteint": true,
+     "detail": {
+      "gauche": {
+       "type": "garde_corps",
+       "hauteur_mesuree_m": 0.981,
+       "hc_mesuree_m": 5.59,
+       "seuil": "[0.928 ; 1.028] (GC97, Hc mesurée 5.59 m)",
+       "atteint": true,
+       "echantillons": 42
+      },
+      "droite": {
+       "type": "garde_corps",
+       "hauteur_mesuree_m": 1.202,
+       "hc_mesuree_m": 5.59,
+       "seuil": "1,20 m +- 0,02 le long d'une piste cyclable (DEF-033, RF-GV-PON-007)",
+       "atteint": true,
+       "echantillons": 42
+      }
+     },
+     "regle": "DEF-033 ; RF-GV-PON-007 ; OA-BN4-001"
+    },
+    "marquages_continus": {
+     "valeur": 2,
+     "seuil": "chaque ligne : vide <= vide de la modulation + 0,10 m ; peinture à 0-6 mm du sol",
+     "atteint": true,
+     "lignes": [
+      {
+       "limite": 2,
+       "t": 0.0,
+       "modulation": "T'1",
+       "vide_modulation_m": 5.0,
+       "plus_grand_vide_sur_ouvrage_m": 5.0,
+       "part_peinte_ouvrage": 0.227,
+       "part_peinte_approches": 0.233,
+       "peinture_au_dessus_du_sol_mm": [
+        1.0,
+        2.0
+       ],
+       "atteint": true
+      },
+      {
+       "limite": 5,
+       "t": -6.5,
+       "modulation": "T'1",
+       "vide_modulation_m": 5.0,
+       "plus_grand_vide_sur_ouvrage_m": 5.0,
+       "part_peinte_ouvrage": 0.227,
+       "part_peinte_approches": 0.233,
+       "peinture_au_dessus_du_sol_mm": [
+        1.0,
+        2.0
+       ],
+       "atteint": true
+      }
+     ],
+     "regle": "RF-GV-PON-001 (profil courant conservé) ; TQ-MQG-005"
+    },
+    "pas_de_trou": {
+     "valeur": {
+      "sol_sans_tablier_dessous": 0,
+      "ecart_sol_tablier_m": [
+       0.097,
+       0.264
+      ],
+      "ecart_corniche_bord_m": 0.003
+     },
+     "seuil": "0 rayon sans tablier ; écart 0,08-0,60 m ; corniche au bord à 3 cm",
+     "atteint": true,
+     "rayons": 480,
+     "regle": "RF-GV-PON-001 ; GPOA p. 54 (continuité)"
+    },
+    "joints": {
+     "valeur": 2,
+     "seuil": "2 joints, couverture >= 99 % de la plate-forme, posés à 1-6 mm au-dessus du revêtement (sol, bordures) sur >= 95 % de la largeur (le reste : marches des bordures)",
+     "atteint": true,
+     "detail": [
+      {
+       "s": 93.3,
+       "couverture_largeur": 1.0,
+       "part_posee_1_6_mm": 0.98,
+       "hauteur_sur_revetement_mm_mediane": 3.0,
+       "atteint": true
+      },
+      {
+       "s": 126.7,
+       "couverture_largeur": 1.0,
+       "part_posee_1_6_mm": 0.975,
+       "hauteur_sur_revetement_mm_mediane": 3.0,
+       "atteint": true
+      }
+     ],
+     "regle": "RF-GV-PON-011 ; OA-JNT-001"
+    },
+    "talus": {
+     "valeur": 0.6669,
+     "seuil": "<= 1/1,5 + 5 % = 0.7000 ; 0 facette plus raide ; 0 facette verticale",
+     "atteint": true,
+     "facettes_controlees": 179730,
+     "facettes_trop_raides": 0,
+     "facettes_exclues": 18866,
+     "regle": "OA-TAL-001 (GPOA p. 241)"
+    },
+    "terrain_sous_routes": {
+     "valeur": 0,
+     "seuil": "0 point où le terrain affleure la chaussée (terrain <= sol - 5 mm)",
+     "atteint": true,
+     "echantillons": 1853,
+     "pire_m": 0.0,
+     "regle": "TQ-SOL-007 (raccord au terrain hors des surfaces modélisées)"
+    }
+   },
+   "controles_compilateur": [
+    {
+     "controle": "O-PU1 portée principale dans le domaine du type PRAD",
+     "valeur": 16.0,
+     "plage": [
+      10,
+      30
+     ],
+     "regle": null,
+     "statut": "conforme",
+     "note": "OA-ELA-001"
+    },
+    {
+     "controle": "O-PU1 garde-corps gauche (pietons) h",
+     "valeur": 0.978,
+     "plage": [
+      0.928,
+      1.028
+     ],
+     "regle": "DEF-033",
+     "statut": "conforme",
+     "note": "Hc = 5.591 m"
+    },
+    {
+     "controle": "O-PU1 garde-corps droite (cycles) h",
+     "valeur": 1.2,
+     "plage": [
+      1.2,
+      1.4
+     ],
+     "regle": "RF-GV-PON-007",
+     "statut": "conforme",
+     "note": "Hc = 5.591 m"
+    },
+    {
+     "controle": "O-PU1 trottoir sur l'ouvrage (tr1)",
+     "valeur": 2.0,
+     "plage": [
+      1.0,
+      null
+     ],
+     "regle": "RF-GV-PON-003",
+     "statut": "conforme",
+     "note": "≥ 1,25 m si fréquenté"
+    },
+    {
+     "controle": "O-PU1 trottoir sur l'ouvrage (tr2)",
+     "valeur": 2.0,
+     "plage": [
+      1.0,
+      null
+     ],
+     "regle": "RF-GV-PON-003",
+     "statut": "conforme",
+     "note": "≥ 1,25 m si fréquenté"
+    }
+   ],
+   "points_instances": 26,
+   "atteint": true
+  }
+ ]
+}

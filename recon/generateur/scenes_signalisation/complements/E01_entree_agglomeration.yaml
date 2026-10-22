@@ -1,0 +1,13 @@
+# Complément de description de la signalisation de E01 (lot L6) : lu par hda/rg_signalisation/plan_signalisation.py.
+scene: E01_entree_agglomeration
+agglomeration: {nom: "MEYLAN", cartouche: "D 1090"}
+# limite d'agglomération : EB10 face aux usagers qui entrent (sens →), EB20 dos à dos pour ceux qui sortent (←)
+limite_agglomeration: {troncon: R-1, a: 150, vitesse_hors: 80}
+panneaux:
+  # palier de décélération 80 -> 70 avant l'EB10 (RF-SV-B14.EMPLOI : paliers de 20 km/h, ≈ 100 m) ; rase campagne
+  - {id: B14_70, troncon: R-1, a: 50, sens: avant, codes: [B14_70], agglomeration: non, vitesse: 80, regles: [RF-SV-B14.EMPLOI], exigence: vitesse}
+  # fin de la limitation à 30 après le plateau (L6-SV-B33.EMPLOI : retour à la limite générale de l'agglomération)
+  - {id: B33_av, troncon: R-1, a: 248, sens: avant, codes: [B33_30], regles: [L6-SV-B33.EMPLOI], exigence: fin_limitation}
+  - {id: B33_ar, troncon: R-1, a: 212, sens: arriere, codes: [B33_30], regles: [L6-SV-B33.EMPLOI], exigence: fin_limitation}
+vue_conducteur: {ensemble: E-EB10.R-1, recul: 30, focale: 45}
+vue_oblique: {distance: 26, hauteur: 9}

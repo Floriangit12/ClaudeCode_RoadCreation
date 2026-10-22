@@ -1,0 +1,267 @@
+# Dialog script for rg::signalisation::1.0 automatically generated
+
+{
+    name	rg::signalisation::1.0
+    inputlabel	1	"Sol fabriqué (classe)"
+    inputlabel	2	"Références (rg::graphe)"
+    inputlabel	3	"Obstacles (retenue)"
+    outputlabel	1	"Ensembles (supports, contrôles)"
+    outputlabel	2	"Instances (assets)"
+    outputlabel	3	"Plaques composées"
+    outputlabel	4	"Contexte"
+    script	rg::signalisation::1.0
+    label	"RG Signalisation verticale et feux"
+
+    help {
+    }
+
+    inputlabel	1	"Sol fabriqué (classe)"
+    inputlabel	2	"Références (rg::graphe)"
+    inputlabel	3	"Obstacles (retenue)"
+
+    parm {
+        name    "fichier"
+        label   "Plan de signalisation"
+        type    file
+        default { "" }
+        help    "rg_plan_signalisation/0.1 écrit par hda/rg_signalisation/plan_signalisation.py (hors Houdini)."
+    }
+    parm {
+        name    "classes_chaussee"
+        label   "Classes chaussee"
+        type    string
+        default { "voie_circulation voie_bus voie_tourne_gauche voie_tourne_droite voie_insertion voie_deceleration voie_acceleration voie_stockage bande_cyclable stationnement livraison chaussee_partagee carrefour_chaussee zone_neutralisee musoir sous_element caniveau_releve tampon" }
+        help    "chaussée : référence de la rive (RF-SV-GEN.DISTANCE_RIVE) ; zone neutralisée = îlot peint (jamais de support, RF-SV-GEN.EMPLACEMENT)"
+    }
+    parm {
+        name    "classes_circulees"
+        label   "Classes circulees"
+        type    string
+        default { "bande_derasee bande_arret_urgence accotement_revetu surlargeur piste_cyclable voie_verte" }
+        help    "surfaces circulées ou circulables hors chaussée : aucun support (PLAN_GENERATEUR L6)"
+    }
+    parm {
+        name    "classes_pietons"
+        label   "Classes pietons"
+        type    string
+        default { "trottoir carrefour_trottoir quai_bus chemin_pieton" }
+        help    "surfaces piétonnes : cheminement libre de 1,40 m (RF-MA-TRO-001, ARB-20)"
+    }
+    parm {
+        name    "classes_ilots"
+        label   "Classes ilots"
+        type    string
+        default { "terre_plein carrefour_ilot giratoire_ilot separateur ilot" }
+        help    "îlots et terre-pleins bordés (RF-SV-GEN.EMPLACEMENT : îlot, terre-plein central)"
+    }
+    parm {
+        name    "classes_accotements"
+        label   "Classes accotements"
+        type    string
+        default { "berme carrefour_accotement accotement terre_plein_lateral bande_plantee talus fosse noue" }
+        help    "accotements non revêtus (rase campagne : RF-SV-GEN.DISTANCE_RIVE.RASE_CAMPAGNE)"
+    }
+    parm {
+        name    "classes_abords"
+        label   "Classes abords"
+        type    string
+        default { "abord" }
+        help    "abords du modèle, hors de l'emprise décrite (admis en rase campagne, signalé)"
+    }
+    parm {
+        name    "classes_interdites"
+        label   "Classes interdites"
+        type    string
+        default { "sous_bordure mur sol_cache" }
+        help    "corps de bordure, murs, sols cachés"
+    }
+    parm {
+        name    "materiaux_franchissables"
+        label   "Matériaux franchissables d'îlot"
+        type    string
+        default { "paves_beton paves_granit" }
+        help    "Îlot de giratoire ou de carrefour revêtu de ces matériaux : couronne ou bande franchissable (RF-GV-GIR-006) : surface circulable, aucun support."
+    }
+    parm {
+        name    "materiaux_refuges"
+        label   "Matériaux des refuges revêtus"
+        type    string
+        default { "" }
+        help    "Îlot de giratoire ou de carrefour revêtu de ces matériaux : refuge du passage (RF-OBS-ILO-01) : aucun support."
+    }
+    parm {
+        name    "bord_rive"
+        label   "Bord du panneau à la rive (m)"
+        type    float
+        default { "0.7" }
+        help    "RF-SV-GEN.DISTANCE_RIVE (IISR1 art. 8 i, p. 18) ; DEF-025 bord_panneau_a_la_rive."
+        range   { 0 10 }
+    }
+    parm {
+        name    "cheminement"
+        label   "Cheminement libre (m)"
+        type    float
+        default { "1.4" }
+        help    "ARB-20 ; RF-MA-TRO-001 (A2007 art. 1, 3°, p. 1)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "surplomb"
+        label   "Passage libre sous une plaque en surplomb (m)"
+        type    float
+        default { "2.2" }
+        help    "ARB-20 (A2007 art. 1, 6° c-d, p. 2)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "support_rase_campagne"
+        label   "Support à la rive en rase campagne (m)"
+        type    float
+        default { "2" }
+        help    "RF-SV-GEN.DISTANCE_RIVE.RASE_CAMPAGNE (IISR1 art. 8 i) : support à ≥ 2 m du bord (zone de récupération non décrite)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "ecart_plaques"
+        label   "Écart entre plaques (m)"
+        type    float
+        default { "0.05" }
+        help    "[G] L6-SV-EMPILEMENT.ECART."
+        range   { 0 10 }
+    }
+    parm {
+        name    "depassement"
+        label   "Dépassement du support (m)"
+        type    float
+        default { "0.08" }
+        help    "[G] L6-SV-SUPPORT.DEPASSEMENT."
+        range   { 0 10 }
+    }
+    parm {
+        name    "espacement"
+        label   "Distance entre supports (m)"
+        type    float
+        default { "1" }
+        help    "[G] L6-SV-ESPACEMENT.SUPPORTS."
+        range   { 0 10 }
+    }
+    parm {
+        name    "pas"
+        label   "Pas de la recherche (m)"
+        type    float
+        default { "0.05" }
+        help    "[G] pas des anneaux de recherche du point admissible le plus proche du point visé."
+        range   { 0.01 0.5 }
+    }
+    parm {
+        name    "rayon_max"
+        label   "Rayon de recherche (m)"
+        type    float
+        default { "6" }
+        help    "[G] rayon maximal de la recherche."
+        range   { 0 10 }
+    }
+    parm {
+        name    "pas_marche"
+        label   "Pas des marches latérales (m)"
+        type    float
+        default { "0.02" }
+        help    "[G] mesure de la rive."
+        range   { 0 10 }
+    }
+    parm {
+        name    "trou_rive"
+        label   "Îlot franchi pour trouver la rive (m)"
+        type    float
+        default { "5" }
+        help    "[G] la rive d'un panneau de droite est le bord extérieur de la chaussée du sens visé : un îlot ou terre-plein de moins de 5,00 m entre deux couloirs (îlot de TAG bordé) est franchi."
+        range   { 0 10 }
+    }
+    parm {
+        name    "vue_abaisse"
+        label   "Vue du fond d'un abaissé (m)"
+        type    float
+        default { "0.03" }
+        help    "DEF-031 (vue d'un abaissé 0,02) + 0,01 m [G] : fond de l'abaissé, aucun support. La zone d'attente derrière le bateau (1,20 m de part et d'autre de la face) est exclue par le plan (exclusions)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "collier"
+        label   "Saillie du collier (m)"
+        type    float
+        default { "0.06" }
+        help    "Catalogue route_fr, panneaux : pose.accroche (face à Y = rayon du poteau + 0,06 m)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "lacet_ext"
+        label   "Rotation vers l'extérieur (°)"
+        type    float
+        default { "4" }
+        help    "DEF-025 ; RF-SV-GEN.ORIENTATION.GENERATEUR (3 à 6°) ; RF-SV-GEN.ORIENTATION (IISR1 art. 8 a)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "axe_mat_feu"
+        label   "Axe du mât de feux à la rive (m)"
+        type    float
+        default { "0.7" }
+        help    "RF-FEU.POSITION.GENERATEUR ; DEF-027 (0,70 [G] si 1,40 m restent libres, sinon ARB-20)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "bras_feu"
+        label   "Avancée de la tête de feu (m)"
+        type    float
+        default { "0.3" }
+        help    "[G] dos du module feu_R11v_D200 (y = −0,265, catalogue) + 0,035 m de fixation."
+        range   { 0 10 }
+    }
+    parm {
+        name    "retrait_min"
+        label   "Retrait minimal du support (m)"
+        type    float
+        default { "0.15" }
+        help    "[G] distance minimale support - rive au cas 3 d'ARB-20 (axe réduit)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "axe_feu_max"
+        label   "Axe du feu supérieur maximal (m)"
+        type    float
+        default { "4.2" }
+        help    "RF-FEU.HAUTEUR.TROTTOIR (IISR6 art. 109-4, fig. 16)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "bas_feu_min"
+        label   "Gabarit sous le feu (m)"
+        type    float
+        default { "2" }
+        help    "RF-FEU.HAUTEUR.TROTTOIR (IISR6 art. 109-4, fig. 16)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "module_feu"
+        label   "Hauteur d'un module de feu (m)"
+        type    float
+        default { "0.24" }
+        help    "Catalogue route_fr feu_R11v_D200 (module_h_m)."
+        range   { 0 10 }
+    }
+    parm {
+        name    "supports_ronds"
+        label   "Supports ronds du catalogue"
+        type    string
+        default { "mat_directionnel_D114_H40:0.1140:4.00 mat_directionnel_D89_H40:0.0890:4.00 support_rond_D48_H30:0.0483:3.00 support_rond_D48_H35:0.0483:3.50 support_rond_D60_H18:0.0603:1.80 support_rond_D60_H29:0.0603:2.90 support_rond_D60_H30:0.0603:3.00 support_rond_D60_H31:0.0603:3.10 support_rond_D60_H32:0.0603:3.20 support_rond_D60_H33:0.0603:3.30 support_rond_D60_H34:0.0603:3.40 support_rond_D60_H35:0.0603:3.50 support_rond_D60_H40:0.0603:4.00 support_rond_D76_H19:0.0760:1.90 support_rond_D76_H21:0.0760:2.10 support_rond_D76_H30:0.0760:3.00 support_rond_D76_H35:0.0760:3.50 support_rond_D76_H40:0.0760:4.00 support_rond_D76_H45:0.0760:4.50" }
+        help    "id:diamètre:hauteur des supports support_rond_* du catalogue route_fr (IISR1 art. 6 B)."
+    }
+    parm {
+        name    "epaisseur_plaque"
+        label   "Épaisseur des plaques composées (m)"
+        type    float
+        default { "0.025" }
+        help    "Catalogue route_fr, panneaux : bord tombé de 25 mm."
+        range   { 0 10 }
+    }
+}

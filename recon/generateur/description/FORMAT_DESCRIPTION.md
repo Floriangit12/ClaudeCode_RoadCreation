@@ -301,6 +301,11 @@ signalisation:
   - {code: C20a, a: 38, cote: droite}
 ```
 
+*Étape 4* : les panneaux et les feux décidés par le compilateur (régimes, feux, panneaux dits) sont **posés** par le
+lot L6 (`rg::signalisation`, règle de placement ARB-20) quand la scène a un **complément de signalisation**
+`recon/generateur/scenes_signalisation/complements/<scene>.yaml` (destinations des panneaux de direction, nom de
+l'agglomération, sortie d'autoroute, vues) : § 18.
+
 ## 11. Ce que contient le modèle produit
 
 - `meta.conventions` : toutes les abscisses (lois de largeur, intervalles, interruptions, abaissés, ancrages) sont
@@ -413,7 +418,7 @@ de la ligne de référence est admis et rapporté (séparation des sens déport�
 | `regime` | prioritaire, cédez, stop, feux, priorité à droite, sortie seule | celui du carrefour (`feux`, `priorité à droite`) ; sinon **à dire** |
 | `passage` | oui, ou `{largeur, retrait}` | non ; largeur 4,00 (DEF-011) ; retrait 2,00 m de la ligne cédez / STOP (DEF-012, ARB-02) ou de la zone de conflit aux feux (RF-GV-PIE-006) |
 | `sas` | oui (feux) : sas vélo de 4 m sur le couloir de droite (DEF-016, RF-MQ-SAS-01) ; la ligne d'effet est alors peinte (ARB-01) | non |
-| `ligne_effet` | oui : ligne d'effet T'2 0,15 à 3,0 m en amont du passage (DEF-015) | non peinte : le passage tient lieu de ligne (ARB-01) |
+| `ligne_effet` | oui : ligne d'effet T'2 0,15 à 3,0 m en amont du passage (DEF-015) ; *étape 4* : `{recul: d}` : ligne peinte à d m en amont de la frontière (ou du passage), R11 0,30 m en aval (rase campagne sans passage : au point de tangence du rayon d'angle, scène V01) | non peinte : le passage tient lieu de ligne (ARB-01) |
 | `coin` | rayon (m) du raccord de bordure vers la branche suivante (sens trigonométrique) | 8 m en agglomération (DEF-010) ; hors agglomération **à dire** |
 | `fleches` | oui / non | oui si la branche a une voie de TAG ou de TAD : 3 flèches au pas de 20 m, pointe de la dernière à 1,50 m (DEF-017) |
 | `mouvements` | `{voie: [TD, TAG, TAD]}` | voie de TAG → TAG ; voie de TAD → TAD ; voie générale de gauche + TAG, de droite + TAD (sans voie dédiée) ; toutes TD |
@@ -569,4 +574,111 @@ carrefours plans ; giratoires ; autoroutes et bretelles ; familles composées en
 fabrique dans Houdini (sol, bordures, caniveaux, marquages, carrefours, îlots, retenues) et rend la route seule sur un
 sol neutre (2 vues, 3 pour les scènes phares ; planche ≤ 1092 px dans `<scene>/rendus/`). Une description sans réseau
 est fabriquée exactement comme à l'étape 1. Sorties : `recon/out/generateur/<scene>/` (`l1/`, `l2/`, `l2b/`, et selon
-la scène `l3/`, `l4/`, `l5/`, `autoroute/`, `rendus/`).
+la scène `l3/`, `l4/`, `l5/`, `autoroute/`, `rendus/`). *Depuis l'intégration de l'étape 4 (§ 18), la même commande
+fabrique aussi les ouvrages (§ 17) et la signalisation verticale et les feux (complément de signalisation).*
+
+## 17. Ouvrages d'art : ponts, passages inférieurs, viaducs (lot « ouvrages », 22/10/2026)
+
+*Ajout rétrocompatible : une description sans clé `ouvrages` compile exactement comme avant. Compilateur :
+`description/ouvrages.py` (appelé par `description_vers_modele.compiler`) ; fabrication : `fabriquer_ouvrages.py` et
+`rg::ouvrages` (`hda/README_RG.md` § 16) ; règles complémentaires sourcées : `assets/specs/route/regles_ouvrages_fr.json`
+(OA-*). Scènes : `scenes_ouvrages/D1` à `D4`.*
+
+Un ouvrage porte un tronçon (`porte`) au-dessus d'un autre tronçon (`franchit: <id>`) ou d'un talweg (`franchit:
+{talweg: {profondeur, largeur_fond, pente_versants}}`, avec `centre` = abscisse du talweg sur le tronçon porté). Les
+deux tronçons sont décrits dans `troncons:` (avec `id`) et se croisent sans carrefour. La clé est une **liste** (la clé
+`ouvrages` de la couche réseau, dictionnaire par identifiant, reste celle de `FORMAT_DESCRIPTION_RESEAU.md` § 7.5 ; le
+compilateur accepte aussi cette forme et ses listes `porte: [id]`).
+
+```yaml
+ouvrages:
+  - id: PS1
+    type: passage supérieur            # passage supérieur | passage inférieur | pont | viaduc
+    porte: haut                        # tronçon porté
+    franchit: autoroute                # tronçon franchi, ou {talweg: {profondeur: 32, largeur_fond: 20, pente_versants: 3}}
+    travees: [19.5, 26, 19.5]          # portées entre axes d'appuis (à dire)
+    tablier: {type: PSIDP, encorbellements: {longueur: 2.0, epaisseur_extremite: 0.25, epaisseur_racine: 0.45}}
+    piles: {type: voiles, epaisseur: 0.8, largeur: 5.0}      # ou {type: poteaux, nombre, diametre, entraxe, chevetre: {...}}
+    culees: {type: perchée, sommier: {hauteur: 1.0, largeur: 1.4}, garde_greve: 0.30, murs_retour: 4.0, murs_retour_epaisseur: 0.40}
+    corniche: {hauteur: 0.70, largeur: 0.40, debord: 0.05}
+    appareils_appui: {a: 0.40, b: 0.50, hauteur: 0.10, nombre: 3}
+    equipements: {gauche: garde-corps S8, droite: garde-corps S8}   # ou BN4
+    profil_en_long: {classe: U60}      # U60 | U80_A80 | A100 (OA-PEL-002) | R1 | R2 | artere_interurbaine_110 (OA-PEL-001)
+```
+
+| Clé | Contenu | Si non dit |
+|---|---|---|
+| `type` | passage supérieur (PS), passage inférieur (PI), pont, viaduc | **à dire** |
+| `porte`, `franchit`, `centre`, `biais` | tronçons ; abscisse du croisement (calculée au croisement des lignes de référence) | `centre` : croisement calculé ; talweg : **à dire** |
+| `travees` | portées entre axes d'appuis (m) ; l'ouvrage est centré sur le croisement | **à dire** |
+| `tablier.type` | `PSIDA`, `PSIDP` (+ `encorbellements`), `PIPO`, `PICF`, `PRAD` (+ `poutres: {nombre, largeur_ame, talon, hourdis}`), `VIPP`, `caisson` (+ `caisson: {largeur_inferieure, ecart_ames, hourdis, epaisseur_extremite}`) | **à dire** |
+| `epaisseur` | épaisseur du tablier (m) | élancement du type : RF-GV-PON-015 (PSIDA l/20, l/26, l/28 ; PSIDP ; PIPO l/40 + 0,10 ; PICF l/32 + 0,125), OA-ELA-002 (PSIDP à larges encorbellements, l/28 à trois travées), OA-ELA-001 (PRAD, VIPP : milieu de la plage, [G]) ; caisson : **à dire** (OA-CAI-001 : observations seulement) |
+| `piles`, `culees`, `piedroits`, `murs_aile`, `corniche`, `appareils_appui` | cotes des appuis et des équipements | **à dire** (aucune règle de DocRoute ne les fixe) |
+| `equipements` | `garde-corps S8` (piétons, cycles) ou `BN4` (bord de tablier sans piétons) par côté | **à dire** ; hauteur : DEF-033 (min(0,95 + 0,005 Hc ; 1,20), bande GC97), 1,20 m le long d'une piste (DEF-033, RF-GV-PON-007), BN4 1,00 m (OA-BN4-001) |
+| `profil_en_long` | classe des valeurs limites ou `pente_max`, `rayon_saillant`, `rayon_rentrant` | **à dire** si la route portée doit être relevée |
+| `revetement`, `dalles_transition` | épaisseur étanchéité + roulement ; oui / non | 0,10 m (OA-REV-001, [G]) ; dalles de 4,0 × 0,30 m (OA-DDT-001) |
+
+Ce que le compilateur calcule et écrit (provenances `description:`, `inference:`/`defaut:` RF-/DEF-, `catalogue:
+regles_ouvrages_fr.json#OA-…`, `solveur:`) :
+
+- **gabarit** sous l'ouvrage : 4,30 m (4,75 m sous une autoroute, une voie express ou une bretelle) + revanche 0,10 m
+  (RF-GV-PON-012, DEF-033) au-dessus de la plus haute surface circulable de la route franchie ;
+- **profil en long** de la route portée (`routes[].profil_long`, source « ouvrage », z NGF tous les 0,50 m) : palier,
+  rentrant, rampe, saillant centré sur le croisement, symétrique ; sommet au centimètre supérieur qui garantit le
+  gabarit sur toute la largeur franchie (et une revanche de 0,10 m au-dessus du terrain naturel sous le tablier) ;
+  déclivité réduite tant que les deux raccordements suffisent ; refus si le tronçon est trop court ;
+- appuis, abouts (0,50 m de l'axe des appareils, OA-JNT-002 [G]), **joints** à 0,20 m de l'about (vide de 0,40 m
+  jusqu'au garde-grève, OA-ESP-001 ; joint à revêtement amélioré de 0,50 m, OA-JNT-001 ; aucun sur un portique,
+  OA-PIPO-001) ; hauteur de chute Hc ; talus 3/2 (OA-TAL-001) ;
+- `routes[].layer` (1 portée, 0 franchie, RF-OSM-OUV-001), `routes[].ouvrages`, `ouvrages[]` au contrat du schéma
+  (+ `construction`, ajout rétrocompatible : section du tablier, appuis, équipements, gabarit, coupes en travers) ;
+- **contrôles** (compilation.json, contrôles du tronçon porté, bloquants s'ils sont hors plage) : domaine de portée du
+  type, balancement des travées dans [0,6 ; 0,85] (RF-GV-PON-015), épaisseur dite contre l'élancement (± 5 %), garde-corps
+  dans la bande GC97, trottoirs sur l'ouvrage ≥ 1,00 m (RF-GV-PON-003) et dessous ≥ 2,00 m (RF-GV-PON-014), distance des
+  piles aux voies franchies ≥ 2 m (RF-GV-PON-014), déclivité du profil en long.
+
+Refusé : clé inconnue, valeur non dite sans règle, garde-corps seul le long d'une chaussée, BN4 seule le long d'un
+trottoir ou d'une piste (RF-GV-PON-010), tronçons qui ne se croisent pas, profil en long plus long que le tronçon porté.
+
+## 18. Une seule commande à l'étape 4 : ouvrages, signalisation, scènes composées (intégration, 22/10/2026)
+
+```
+hython recon/generateur/fabriquer_generateur.py MA_SCENE.yaml --complet [--signalisation auto|oui|non]
+```
+
+La commande de l'étape 2 (§ 16) fabrique maintenant, d'après la description :
+
+- les **ouvrages** (clé `ouvrages`, § 17) : chaque groupe de routes reliées par un carrefour (carrefour plan, giratoire,
+  bretelle) est fabriqué en une couche, puis `rg::ouvrages` applique le profil en long de la route portée et construit
+  le tablier, les appuis, les équipements et le terrain (`hda/README_RG.md` § 16 et § 18) ;
+- la **signalisation verticale et les feux** (lot L6) de toute scène qui a un complément
+  `scenes_signalisation/complements/<scene>.yaml` (`--signalisation oui` : toutes les scènes, destinations génériques
+  sans complément ; `non` : aucune). Clés du complément : `directions` (destination par branche, nom du tronçon),
+  `agglomeration`, `limite_agglomeration`, `panneaux` (panneaux dits), `sortie` (`numero`, `destinations`, `filante`),
+  `feux` (`boutons`), `vue_conducteur` (`ensemble`, `recul`, `focale`), `vue_oblique`, et depuis l'étape 4
+  `rappel_b14: {avant: s, arriere: s}` (abscisses des rappels B14 d'une autoroute, sinon au premier et au dernier quart).
+
+**Scène composée : un ouvrage, une bretelle et un carrefour** (scène vitrine
+`scenes_vitrine/V01_demi_echangeur_voie_rapide.yaml`). Une description peut réunir `troncons`, `bretelles`,
+`carrefours` et `ouvrages`. Règles à suivre pour qu'elle se fabrique :
+
+- deux routes qui se superposent en plan (la route portée et la route franchie) doivent être dans des **couches
+  différentes**, c'est-à-dire ne pas être reliées, même indirectement, par un carrefour ou une bretelle ;
+- une route qui va d'une couche à l'autre (la bretelle de sortie qui part de la voie rapide portée et aboutit au
+  carrefour sur la route franchie) se décrit en **deux tronçons qui se suivent** (fin de l'un = début de l'autre, même
+  profil au point de jonction, aucun carrefour entre eux) ;
+- la bifurcation de la bretelle doit se faire là où le profil en long de la route portée est en **palier** (avant la
+  montée vers l'ouvrage : V01, divergence 155 m avant le début du raccordement), et les autres routes doivent rester
+  hors des remblais de la route portée ;
+- l'**emprise de chaque couche** doit tenir dans ± 500 m environ autour de l'origine des coordonnées de la description
+  (limite de `rg::nivellement`, `README_RG.md` § 18) : centrer la scène ;
+- un tourne-à-gauche tracé entre les frontières du carrefour doit garder le rayon intérieur de giration du VL
+  (3,60 m, RF-GV-RAY-006) : la voie d'une bretelle qui aboutit à un carrefour est souvent collée à sa rive gauche ;
+  V01 ouvre une bande dérasée de gauche de 2,00 m avant le carrefour (`ouverture`).
+
+- un carrefour à feux de rase campagne (sans passage) : décrire la ligne d'effet en retrait (`ligne_effet: {recul: d}`,
+  § 15.1) au point de tangence du rayon d'angle, pour que le R11 se pose sur la berme et non dans le raccordement
+  revêtu ; un angle qu'aucun mouvement n'emprunte peut garder un petit rayon (V01 : 4 m).
+
+Le terrain des scènes à ouvrages qui ont d'autres routes à niveau passe 0,65 m [G] sous le plus bas des bords de toutes
+les routes : chaque route repose sur un léger remblai à talus 3/2 (OA-TAL-001).

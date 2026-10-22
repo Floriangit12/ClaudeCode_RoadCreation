@@ -1,0 +1,50 @@
+# D1 — Passage supérieur d'une route 1 + 1 avec trottoirs au-dessus d'une autoroute 2 × 2 (profil de la scène A1).
+# Imaginé d'après les passages supérieurs courants des autoroutes françaises (A41 à Meylan, A48 à Voreppe : route
+# communale 1 + 1 à trottoirs étroits, pont-dalle à trois travées sur piles voiles hors des bermes, culées perchées
+# sur perrés, corniche béton claire, garde-corps métallique à barreaudage vertical). Décrit « comme sur une photo » :
+# ce qui est dit est repris (provenance description) ; le reste vient des règles (RF-GV-PON-*, DEF-033) ou des
+# règles complémentaires du lot (assets/specs/route/regles_ouvrages_fr.json, OA-*).
+# Travées 19,5 + 26 + 19,5 m : piles à ± 13,0 m de l'axe de l'autoroute, hors de la plate-forme de 24,6 m (berme
+# comprise) ; balancement 0,75 dans [0,6 ; 0,85] (RF-GV-PON-015) ; PSIDP à larges encorbellements, e = l/28 (GPOA
+# p. 210, OA-ELA-002). Gabarit sous autoroute 4,75 m + revanche 0,10 (RF-GV-PON-012, DEF-033). Profil en long de la
+# route portée : classe U60 de l'ICTAVRU appliquée par analogie (rue à 50 km/h, OA-PEL-002).
+format: description_simple/0.2
+scene: D1_passage_superieur_autoroute
+titre: Passage supérieur d'une route 1 + 1 au-dessus d'une autoroute 2 × 2
+description: "Route 1 + 1 de 3,00 m avec trottoirs de 1,50 m franchissant une autoroute 2 × 2 (TPC à GBA) par un pont-dalle précontraint à larges encorbellements à trois travées, culées perchées sur perrés, garde-corps S8."
+confiance: moyenne
+marquages: {usure: légère}
+troncons:
+  - id: haut
+    nom: route communale portée
+    contexte: {agglomeration: oui, vitesse: 50, categorie: avenue}
+    de: [0, -200]
+    vers: [0, 200]
+    profil: "trottoir 1,5 | voie 3,0 ← | voie 3,0 → | trottoir 1,5"
+  - id: autoroute
+    nom: autoroute franchie (profil de A1)
+    contexte: {agglomeration: non, categorie: autoroute, vitesse: 130}
+    de: [-130, 0]
+    vers: [130, 0]
+    profil: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | BAU 3,0 | berme 1,0"
+ouvrages:
+  - id: PS1
+    nom: passage supérieur de la route communale
+    type: passage supérieur
+    porte: haut
+    franchit: autoroute
+    travees: [19.5, 26, 19.5]
+    tablier: {type: PSIDP, encorbellements: {longueur: 2.0, epaisseur_extremite: 0.25, epaisseur_racine: 0.45}}
+    piles: {type: voiles, epaisseur: 0.8, largeur: 5.0}
+    culees: {type: perchée, sommier: {hauteur: 1.0, largeur: 1.4}, garde_greve: 0.30, murs_retour: 4.0, murs_retour_epaisseur: 0.40}
+    corniche: {hauteur: 0.70, largeur: 0.40, debord: 0.05}
+    appareils_appui: {a: 0.40, b: 0.50, hauteur: 0.10, nombre: 3}
+    equipements: {gauche: garde-corps S8, droite: garde-corps S8}
+    profil_en_long: {classe: U60}
+attendus:
+  travees_m: [19.5, 26.0, 19.5]
+  balancement: 0.75
+  epaisseur_tablier_m: 0.929            # 26 / 28
+  hauteur_libre_min_m: 4.85              # 4,75 + 0,10
+  garde_corps_bande_m: [0.92, 1.03]      # GC97 pour Hc ≈ 6 m
+  joints: 2

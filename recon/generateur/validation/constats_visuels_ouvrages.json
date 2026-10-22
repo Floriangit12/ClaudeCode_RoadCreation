@@ -1,0 +1,115 @@
+{
+ "schema": "rg_constats_visuels/0.1",
+ "lot": "ouvrages",
+ "methode": "tuiles natives (<= 1092 px, recon/generateur/rendu/rendre_l2.tuiles) des vues dessus, oblique 3/4 et conducteur de chaque scène, regardées une à une ; planches <= 1092 px ; chaque défaut vu a été corrigé à la source puis la scène refabriquée (passes 1 à 9 : tmp/ouvrages/passe*.log)",
+ "defauts_vus_et_corriges": [
+  {
+   "passe": 1,
+   "scene": "D1",
+   "vue": "conducteur",
+   "constat": "bordures en dents de scie le long de la rampe",
+   "cause": "normales de sommet nulles sur les pièces fusionnées qui n'en avaient pas (bordures, peinture)",
+   "correction": "rg::ouvrages : normales calculées sur ces seules pièces (groupe sans_n)"
+  },
+  {
+   "passe": 1,
+   "scene": "D1",
+   "vue": "oblique",
+   "constat": "pied des talus en escalier",
+   "cause": "grille découpée par une diagonale fixe",
+   "correction": "triangulation par la diagonale de plus faible pente, coins de plate-forme arrondis (1 m), raccord adouci au pied"
+  },
+  {
+   "passe": 1,
+   "scene": "D2",
+   "vue": "conducteur",
+   "constat": "falaises de terrain de part et d'autre de l'ouverture, murs en aile absents",
+   "cause": "sens du point de lecture du remblai inversé dans la construction des murs en aile",
+   "correction": "murs en aile dans le plan des piédroits, sommet sur le talus + 0,10 m"
+  },
+  {
+   "passe": 1,
+   "scene": "D3, D4",
+   "vue": "conducteur",
+   "constat": "terrain naturel plat recouvrant la chaussée hors de l'ouvrage",
+   "cause": "aucun déblai pour la route portée quand elle est sous le terrain naturel",
+   "correction": "cône de déblai de la plate-forme portée"
+  },
+  {
+   "passe": 3,
+   "scene": "D1",
+   "vue": "contrôle talus",
+   "constat": "marche le long des rives du tablier devant les culées",
+   "cause": "remblai coupé devant les culées dans la seule largeur du tablier",
+   "correction": "remplacé par le sol abaissé sous le tablier (intrados - revanche, talus 3/2 autour)"
+  },
+  {
+   "passe": 5,
+   "scene": "D2",
+   "vue": "oblique",
+   "constat": "file de BN4 de 11 m seulement",
+   "cause": "file limitée au tablier",
+   "correction": "file d'au moins 30 m (OA-BN4-001) sur longrine au-delà du tablier"
+  },
+  {
+   "passe": 5,
+   "scene": "D2",
+   "vue": "conducteur (tuile native)",
+   "constat": "bande de terrain neutre sur le bord droit de la voie franchie",
+   "cause": "coupe de la route franchie interpolée par limites, marche des bordures perdue",
+   "correction": "Z de la coupe par bande ; critère « terrain_sous_routes » ajouté au contrôle"
+  },
+  {
+   "passe": 7,
+   "scene": "D3",
+   "vue": "contrôle terrain_sous_routes",
+   "constat": "liseré de terrain de 1 à 6 cm sur le bord des bandes dérasées",
+   "cause": "maille qui chevauche le bord de plate-forme",
+   "correction": "lignes de grille imposées sur les bords des plates-formes"
+  },
+  {
+   "passe": 9,
+   "scene": "D2",
+   "vue": "contrôle terrain_sous_routes",
+   "constat": "liseré de remblai sur le bord extérieur du trottoir de la rue sous l'ouvrage",
+   "cause": "nœud de la ligne imposée classé hors de la plate-forme (tolérance 1e-6 m)",
+   "correction": "tolérance d'appartenance de 1 mm ; vérifié sur la tuile native conducteur (passe 10)"
+  },
+  {
+   "passe": 9,
+   "scene": "D1",
+   "vue": "contrôle talus",
+   "constat": "une facette de pente 0,74 au-delà du bout de la route portée",
+   "cause": "cône de remblai autour du bout de scène",
+   "correction": "ni remblai ni déblai au-delà des bouts des routes (la jupe de bout masque la marche)"
+  }
+ ],
+ "scenes": {
+  "D1_passage_superieur_autoroute": {
+   "dessus": "croisement net ; joints sombres en travers aux deux abouts ; garde-corps continus sur le tablier et les murs en retour ; axe T'1 de la route portée continu sur l'ouvrage ; remblais d'accès lisibles (dégradé de lumière) ; GBA et marquages de l'autoroute continus sous l'ouvrage",
+   "oblique": "pont-dalle à trois travées, nervure et encorbellements visibles en sous-face, deux piles voiles hors des bermes, culées perchées sur perrés, murs en retour, talus lisses sans escalier ; ombre portée du tablier sur l'autoroute",
+   "conducteur": "rampe à 6 % puis saillant ; bordures T2 régulières ; garde-corps à barreaudage visibles au sommet ; le tablier lui-même est masqué par le sommet du saillant à cette distance (32 m avant l'about)"
+  },
+  "D2_passage_inferieur_voie_rapide": {
+   "dessus": "voie rapide en remblai, ouverture du portique et murs en aile en plan, BN4 sur 30 m",
+   "oblique": "portique ouvert dans le remblai, murs en aile à sommet incliné suivant le talus, BN4 et longrines, rue au terrain naturel",
+   "conducteur": "vue sous l'ouvrage : traverse, piédroits, murs en aile, BN4 au-dessus ; trottoirs de 2 m continus sous l'ouvrage ; ombre sous la traverse"
+  },
+  "D3_viaduc_vallee_seche": {
+   "dessus": "tablier rectiligne de 185 m ; l'ombre du tablier et des piles sur les versants dessine le profil de la vallée ; terrain neutre (vallée peu lisible de dessus)",
+   "oblique": "caisson sur quatre piles voiles de 7 à 25 m, culées en rebord de vallée sur perrés ; la vallée se lit par l'ombrage des versants",
+   "conducteur": "route au niveau du plateau, rives T2 et axe T1 continus jusque sur l'ouvrage, BN4 des deux côtés"
+  },
+  "D4_pont_urbain_piste_cyclable": {
+   "dessus": "canal sec en bande, tablier à deux travées, joints aux abouts",
+   "oblique": "pile à trois poteaux et chevêtre au fond du canal, poutres sous hourdis, corniches, garde-corps plus haut côté piste (1,20 m) que côté trottoir (0,98 m), berges à 3/2",
+   "conducteur": "rue plate, trottoir et piste bidirectionnelle (axe T'1 en u = 3 cm) continus sur l'ouvrage"
+  }
+ },
+ "limites_visuelles": [
+  "terrain volontairement neutre (route seule, ni végétation ni bâti) : les reliefs se lisent seulement par l'ombrage",
+  "la protection des piles par une glissière (E13) n'est pas posée : piles nues au bord des bermes de l'autoroute (D1)",
+  "bouts des routes coupés net en limite de scène (jupes de 0,60 m), visibles au loin dans les vues obliques"
+ ],
+ "resultat_final": "passe 10 : 10 critères sur 10 dans les 4 scènes (validation/rapport_ouvrages.json) ; tuiles natives regardées"
+}

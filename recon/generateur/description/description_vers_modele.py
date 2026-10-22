@@ -74,7 +74,10 @@ CLES_RACINE = {"scene", "nom", "titre", "description", "format", "date", "confia
                "ecarts_admis",
                # lot « scenes » (17/10/2026) : réseau de tronçons reliés (carrefours plans, giratoires, bretelles),
                # compilé par description/carrefours.py ; « plan » : options du plan coté SVG
-               "carrefours", "giratoires", "bretelles", "plan"}
+               "carrefours", "giratoires", "bretelles", "plan",
+               # lot « ouvrages » (22/10/2026) : ouvrages d'art (ponts, passages inférieurs, viaducs), compilés par
+               # description/ouvrages.py ; sans cette clé, la sortie est inchangée à l'octet
+               "ouvrages"}
 CLES_RESEAU = ("carrefours", "giratoires", "bretelles")
 CLES_CONTEXTE = {"agglomeration", "vitesse", "vitesse_kmh", "categorie", "u", "u_m", "sens_unique", "usure_marquages",
                  "v15", "v15_kmh"}
@@ -2585,6 +2588,14 @@ def compiler(d_brut: dict, source: str = "(objet)", sha: str | None = None, _res
     if _reseau is not None:
         _reseau(modele, rapport, {"tous": tous, "num_p": num_p, "trs": trs, "conf": conf, "admis": admis,
                                   "origine": origine, "d": d, "av_glob": av_glob})
+    if d.get("ouvrages"):
+        # lot « ouvrages » : ouvrages[], profils en long et couches (layer) des routes portées et franchies ; contrôles
+        # rangés dans les contrôles du tronçon porté (bloquants s'ils sont non conformes ou hors plage)
+        from description import ouvrages as OUV
+        try:
+            OUV.compiler_ouvrages(d, modele, rapport, trs, origine, conf)
+        except OUV.ErreurOuvrage as e:
+            raise ErreurDescription(str(e))
     for cle in ("ilots", "marquages", "objets", "signaux", "zones"):
         if tous[cle]:
             modele[cle] = tous[cle]
@@ -2718,8 +2729,16 @@ def compiler_fichier(entree: Path, sortie: Path | None = None):
     rap_reseau = None
     if entree.suffix.lower() != ".json":
         RR = _reseau()
+        # lot « ouvrages » (22/10/2026) : la liste « ouvrages » d'une description de l'étape 2 (FORMAT_DESCRIPTION.md
+        # § 17) est compilée par description/ouvrages.py ; elle ne déclenche pas la couche réseau, dont la clé
+        # « ouvrages » (dictionnaire par identifiant, recopiée sans être portée) reste traitée comme avant
+        ouv_etape2 = None
+        if isinstance(d, dict) and isinstance(d.get("ouvrages"), list) and                 not str(d.get("format", "")).startswith("description_reseau"):
+            ouv_etape2 = d.pop("ouvrages")
         if RR.est_reseau(d):
             d, rap_reseau = RR.resoudre_dict(d, src, entree.resolve().parent)
+        if ouv_etape2 is not None:
+            d["ouvrages"] = ouv_etape2
     modele, rapport = compiler(d, src, hashlib.sha256(octets).hexdigest())
     if rap_reseau is not None:
         RR.apres_compilation(rap_reseau, d, modele, rapport)

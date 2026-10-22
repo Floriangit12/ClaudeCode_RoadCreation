@@ -2,10 +2,31 @@
 
     hython recon/generateur/fabriquer_generateur.py ENTREE [ENTREE ...] [--sortie DOSSIER] [--construire-hda]
                                                     [--verifier-determinisme] [--hip] [--vex-jit]
-                                                    [--l2] [--l2b] [--rendus] [--complet] [--vues V1,V2]
+                                                    [--l2] [--l2b] [--complet] [--sans-rendu | --rendus-karma]
+                                                    [--vues V1,V2] [--signalisation auto|oui|non] [--reprendre-couches]
+
+Une seule commande, description -> toutes les couches et sorties pour Unreal Engine (intégration sans Karma, 23/10/2026) :
+    hython recon/generateur/fabriquer_generateur.py SCENE.yaml [...] --complet
+--complet (= --l2b) compile la description et fabrique toutes ses couches (sol, bordures, caniveaux, marquages,
+carrefours, giratoires, autoroutes et bretelles, ouvrages d'art, signalisation verticale et feux), puis écrit pour
+chaque scène les sorties à charger dans Unreal Engine : <scene>/ue/index_ue.json (USD à importer, points pj_points/0.1,
+repère, empreintes), <scene>/ue/scene_ue.usda (assemblage des couches USD de la scène, par sous-couches et références
+relatives) et, pour une scène à ouvrages, <scene>/ue/points/ouvrages.json (points d'instances au contrat pj_points/0.1
+de pj_tools.charger_points). AUCUN rendu Karma par défaut (--sans-rendu, explicite) : la visualisation et le contrôle se
+font dans Unreal Engine ; les rendus Karma de contrôle restent disponibles avec --rendus-karma (ancien --rendus).
+
+Étape 4 (intégration, 22/10/2026) : la même commande fabrique aussi les OUVRAGES d'art (modèle avec « ouvrages » :
+une couche par groupe de routes de même niveau fabriquée par la chaîne de l'étape 2, puis rg::ouvrages ; pilote de
+lot fabriquer_ouvrages.py devenu bibliothèque) et la SIGNALISATION VERTICALE ET LES FEUX (lot L6, rg::signalisation ;
+fabriquer_signalisation.py devenu bibliothèque) de toute scène qui a un complément de signalisation
+(scenes_signalisation/complements/<scene>.yaml ; --signalisation oui : toutes les scènes, non : aucune). Sorties en
+plus : <scene>/couches/, <scene>/ouvrages/, <scene>/l6/ (et couches/<couche>/l6/ pour une scène à ouvrages) ; rendus
+de la signalisation dans l6/rendus/ (scène de rendu de la chaîne en sous-couche), ou rendu composé (ouvrages +
+signalisation des couches) dans <scene>/rendus/. Documentation : hda/README_RG.md § 18.
 
 Étape 2 (intégration, 18/10/2026) : une seule commande, description -> rendu, quel que soit le type de scène :
-    hython recon/generateur/fabriquer_generateur.py SCENE.yaml ... --complet      (= --l2b --rendus)
+    hython recon/generateur/fabriquer_generateur.py SCENE.yaml ... --complet --rendus-karma   (avant le 23/10 :
+    --complet = --l2b --rendus ; depuis : --complet = --l2b, sans rendu)
 Avec --l2b, la chaîne est choisie d'après le modèle compilé (familles()) : rue ou route seule (chaîne de l'étape 1,
 inchangée) ; carrefours plans (lots L3 et L4 : rg::carrefours, rg::carrefours_sol, rg::marquages_carrefour) ;
 giratoires (L3 + L5 : rg::giratoires, rg::giratoires_sol) ; autoroutes et bretelles (rg::autoroute) ; familles
@@ -34,6 +55,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -353,17 +375,38 @@ def _reseau_simple(l2, l2b, signatures, construire, reglages):
 
 
 def fabriquer(entrees, sortie, signatures, hip=False, reglages=None, l2=False, rendus=False, l2b=False,
-              construire=False, decor_etape2=False, vues=VUES_SIMPLES):
+              construire=False, decor_etape2=False, vues=VUES_SIMPLES, signalisation="auto", reprendre_couches=False,
+              export_ue=True):
     """Fabrique chaque entrée. Avec --l2b, la chaîne est choisie d'après le modèle (familles()) : chaîne simple de
     l'étape 1 (rue, route : inchangée) ou chaîne de réseau (carrefours plans, giratoires, autoroutes et bretelles,
-    composées entre elles). Sans --l2b : lots L1 (et L2) de l'étape 1, quel que soit le modèle."""
+    composées entre elles) ; étape 4 : chaîne des ouvrages (modèle avec « ouvrages », fabriquer_ouvrages) et
+    signalisation verticale et feux (lot L6) des scènes qui ont un complément de signalisation (signalisation='auto',
+    'oui' : toutes, 'non' : aucune). Sans --l2b : lots L1 (et L2) de l'étape 1, quel que soit le modèle.
+    Avec --l2b et export_ue (défaut ; faux pour les couches d'une scène à ouvrages, fabriquer_ouvrages) : sorties pour
+    Unreal Engine de chaque scène (exporter_ue : <scene>/ue/). rendus : rendus Karma (option --rendus-karma)."""
     preparees = [preparer_entree(e, sortie) for e in entrees]      # compilation d'abord (refus avant toute fabrication)
-    fams = [familles(json.loads(Path(c).read_text(encoding="utf-8"))) if l2b else () for _, c, _ in preparees]
+    modeles = [json.loads(Path(c).read_text(encoding="utf-8")) for _, c, _ in preparees]
+    ouvr = [bool(l2b and m.get("ouvrages")) for m in modeles]
+    fams = [familles(m) if l2b and not o else () for m, o in zip(modeles, ouvr)]
     sig_reseau = None
     if any(fams):
         sig_reseau = construire_hda_reseau(signatures, forcer=construire)
     produits = []
-    for e, (scene, chemin_modele, info), fam in zip(entrees, preparees, fams):
+    for e, (scene, chemin_modele, info), fam, ouv in zip(entrees, preparees, fams, ouvr):
+        if ouv:
+            # étape 4 : scène à ouvrages (couches fabriquées par cette même fonction, rg::ouvrages, signalisation des
+            # couches, rendu composé) ; produit : dossier de la scène
+            import fabriquer_ouvrages as FO
+            FO.REPRENDRE = reprendre_couches
+            sig_ouv = dict(signatures)
+            sig_ouv.update(FO.construire_hda(forcer=construire and not FO_CONSTRUITE))
+            _marquer_construite("ouvrages")
+            sig_l6 = sig_signalisation(construire) if signalisation_demandee(scene, signalisation) else None
+            produits.append(str(FO.fabriquer_scene_preparee(scene, chemin_modele, info, e, sortie, sig_ouv, rendus=rendus,
+                                                            sig_l6=sig_l6)))
+            if export_ue:
+                exporter_ue(Path(sortie) / scene, chemin_modele, scene, info)
+            continue
         # réseau reconstruit pour CHAQUE scène (correction après le contrôle de l'étape 2 : les nœuds réutilisés d'une
         # scène à l'autre transmettaient leur état, d'où des avertissements de pj::marquage_solide qui dépendaient de
         # l'ordre des scènes dans le processus) ; les HDA ne sont installées qu'une fois
@@ -372,6 +415,10 @@ def fabriquer(entrees, sortie, signatures, hip=False, reglages=None, l2=False, r
             produits.append(fabriquer_scene_reseau(noeuds, fam, scene, chemin_modele, info, e, sortie,
                                                    signatures_familles(sig_reseau, fam), rendus=rendus,
                                                    decor_etape2=decor_etape2))
+            if l2b and signalisation_demandee(scene, signalisation):
+                fabriquer_signalisation_scene(Path(sortie) / scene, sortie, construire, rendus, modele=chemin_modele)
+            if l2b and export_ue:
+                exporter_ue(Path(sortie) / scene, chemin_modele, scene, info, fam)
             continue
         simple = _reseau_simple(l2, l2b, signatures, construire and not produits, reglages)
         lire, graphe, prof, noeuds_l2, noeuds_l2b, sig_l2, sig_l2b = simple
@@ -430,7 +477,59 @@ def fabriquer(entrees, sortie, signatures, hip=False, reglages=None, l2=False, r
               f"{c['n_limites']} limites, {c['n_rubans']} rubans ; largeur min {c['largeur_min_m']:.4f} m, "
               f"jonctions discontinues {c['jonctions_discontinues']} -> {rel(dossier)}")
         produits.append(str(dossier))
+        if l2b and signalisation_demandee(scene, signalisation):
+            fabriquer_signalisation_scene(Path(sortie) / scene, sortie, construire, rendus, modele=chemin_modele)
+        if l2b and export_ue:
+            exporter_ue(Path(sortie) / scene, chemin_modele, scene, info)
     return produits
+
+
+# ------------------------------------------------------------------------------------------------------- étape 4
+# Intégration de l'étape 4 (22/10/2026) : ouvrages d'art (lot « ouvrages », fabriquer_ouvrages.py) et signalisation
+# verticale et feux (lot L6, fabriquer_signalisation.py), pilotes de lots devenus bibliothèques. Les sorties des chaînes
+# de l'étape 2 sont inchangées : la signalisation lit la scène fabriquée (l1, l2, l3, autoroute) et écrit l6/.
+VERSION_PILOTE_ETAPE4 = "fabriquer_generateur/3.0 (étape 4 : + ouvrages, signalisation verticale et feux)"
+FO_CONSTRUITE = False
+_SIG_L6 = {}
+
+
+def _marquer_construite(nom):
+    global FO_CONSTRUITE
+    if nom == "ouvrages":
+        FO_CONSTRUITE = True
+
+
+def signalisation_demandee(scene, mode="auto"):
+    """La chaîne complète pose la signalisation verticale et les feux (lot L6) d'une scène qui a un complément de
+    signalisation (scenes_signalisation/complements/<scene>.yaml : destinations, agglomération, sortie, vues) ;
+    mode « oui » : toute scène (destinations génériques sans complément), « non » : aucune."""
+    if mode == "non":
+        return False
+    if mode == "oui":
+        return True
+    return (ICI / "scenes_signalisation" / "complements" / f"{scene}.yaml").exists()
+
+
+def sig_signalisation(construire=False):
+    """HDA rg::signalisation installée (construite une seule fois par processus avec --construire-hda)."""
+    if not _SIG_L6:
+        sys.path.insert(0, str(ICI / "rendu"))
+        import fabriquer_signalisation as FS
+        _SIG_L6.update(FS.construire_hda(forcer=construire))
+    return dict(_SIG_L6)
+
+
+def fabriquer_signalisation_scene(dsc, sortie, construire=False, rendus=False, complement=None, correction_z=None,
+                                  modele=None):
+    """Lot L6 sur une scène fabriquée (dossier) : plan, faces, rg::signalisation, exports l6/, rendus (3 vues : dessus,
+    oblique 3/4, conducteur à 1,20 m ; scène de rendu de la chaîne en sous-couche). Sorties de la chaîne lues seulement.
+    modele : modèle compilé, recopié dans le dossier de la scène s'il n'y est pas (sortie autre que la sortie par
+    défaut du compilateur, par exemple le second processus du contrôle de déterminisme)."""
+    import fabriquer_signalisation as FS
+    sig = sig_signalisation(construire)
+    if modele is not None and Path(modele).resolve() != (Path(dsc) / "modele_voie.json").resolve():
+        (Path(dsc) / "modele_voie.json").write_bytes(Path(modele).read_bytes())
+    return FS.fabriquer_scene(str(dsc), sortie, sig, rendus=rendus, complement=complement, correction_z=correction_z)
 
 
 def familles(modele):
@@ -835,6 +934,13 @@ def main():
     ap.add_argument("--decor-etape2", action="store_true",
                     help="avec --l2b --rendus : décor de l'étape 2 (arbres, prolongements, sol de décor, relief, nuages) ; "
                          "par défaut (étape 1, décision de l'utilisateur) : la route seule sur un socle neutre")
+    ap.add_argument("--signalisation", choices=("auto", "oui", "non"), default="auto",
+                    help="étape 4, avec --l2b : signalisation verticale et feux (lot L6) des scènes qui ont un complément "
+                         "(scenes_signalisation/complements/<scene>.yaml ; « auto », défaut), de toutes (« oui ») ou "
+                         "d'aucune (« non »)")
+    ap.add_argument("--reprendre-couches", action="store_true",
+                    help="étape 4, scènes à ouvrages (essais) : reprendre les couches déjà fabriquées dont le sous-modèle "
+                         "est inchangé")
     a = ap.parse_args()
     if a.complet:
         a.l2b = a.rendus = True
@@ -849,12 +955,14 @@ def main():
     reglages = {"fleche_max": a.fleche, "pas_max": a.pas_max}
     produits = fabriquer(a.entrees, a.sortie, signatures, hip=a.hip, reglages=reglages, l2=a.l2, rendus=a.rendus,
                          l2b=a.l2b, construire=a.construire_hda, decor_etape2=a.decor_etape2,
-                         vues=tuple(v for v in a.vues.split(",") if v))
+                         vues=tuple(v for v in a.vues.split(",") if v), signalisation=a.signalisation,
+                         reprendre_couches=a.reprendre_couches)
     if a.verifier_determinisme:
         autre = ICI / "tmp" / "l1" / "determinisme"
         opts = [x for k, v in (("--fleche", a.fleche), ("--pas-max", a.pas_max)) if v is not None for x in (k, str(v))]
         opts += ["--l2"] if a.l2 else []
         opts += ["--l2b"] if a.l2b else []
+        opts += ["--signalisation", a.signalisation]
         r = subprocess.run([sys.executable, __file__] + a.entrees + ["--sortie", str(autre)] + opts,
                            env=dict(os.environ, RG_PILOTE_ENV=""), capture_output=True, text=True, encoding="utf-8",
                            errors="replace")
@@ -862,20 +970,20 @@ def main():
             print(r.stdout[-3000:], r.stderr[-3000:])
             raise SystemExit("second processus en échec")
         from commun import determinisme as DET
-        ecarts, n = DET.comparer(produits, autre, a.l2, a.l2b)
-        # sorties des familles de réseau (lots L3, L4, L5, autoroutes) : JSON à l'octet, manifestes exclus (chemins)
+        l1s = [p for p in produits if Path(p).name == "l1"]
+        ecarts, n = DET.comparer(l1s, autre, a.l2, a.l2b)
+        # sorties des familles de réseau (lots L3, L4, L5, autoroutes), de la signalisation (l6) et des ouvrages
+        # (ouvrages/, couches/) : JSON, .npy, .usda à l'octet (normalisation de commun/determinisme.py), .npz par
+        # contenu (horodatage de l'archive zip) ; manifestes exclus (chemins de sortie)
         for p in produits:
-            sc = Path(p).parent
-            for lot in ("l3", "l4", "l5", "autoroute"):
-                for f in sorted((sc / lot).glob("*.json")):
-                    if f.name.startswith("manifest"):
-                        continue
-                    g = autre / sc.name / lot / f.name
-                    n += 1
-                    if not g.exists() or g.read_bytes() != f.read_bytes():
-                        ecarts.append(f"{sc.name}/{lot}/{f.name}")
-        print("déterminisme :", f"identique ({n} fichiers ; .usda : chemins relatifs des matériaux normalisés)"
-              if not ecarts else f"DIFFÉRENT : {ecarts}")
+            sc = Path(p).parent if Path(p).name == "l1" else Path(p)
+            e2, n2 = DET.comparer_arborescence(sc, autre / sc.name, ("l3", "l4", "l5", "autoroute", "l6", "ouvrages",
+                                                                       "couches"),
+                                               remplacer=[(rel(autre).encode(), rel(a.sortie).encode())])
+            ecarts += e2
+            n += n2
+        print("déterminisme :", f"identique ({n} fichiers ; .usda : chemins relatifs des matériaux normalisés ; .npz "
+                                f"par contenu)" if not ecarts else f"DIFFÉRENT : {ecarts}")
         return 1 if ecarts else 0
     return 0
 

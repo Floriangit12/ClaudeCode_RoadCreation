@@ -1,0 +1,40 @@
+# D4 — Pont urbain avec piste cyclable bidirectionnelle sur un canal sec. Imaginé d'après les ponts urbains de
+# l'agglomération grenobloise (ponts sur les canaux et les ruisseaux endigués de Meylan et de la Tronche : travées de
+# poutres préfabriquées, pile à poteaux et chevêtre au fond du lit, culées perchées sur les berges, garde-corps à
+# barreaudage ; piste bidirectionnelle le long du garde-corps aval). Rue 1 + 1 de 3,00 m, trottoir de 2,00 m à gauche,
+# trottoir de 2,00 m puis piste bidirectionnelle de 3,00 m à droite (niveau du trottoir, RF-OSM-NIV-013).
+# Deux travées isostatiques de 16 m en poutres PRAD (OA-ELA-001 : 1/18 à 1/20 ; GPOA p. 220 : espacement des poutres
+# voisin d'un mètre). Garde-corps : 1,20 m le long de la piste (DEF-033, RF-GV-PON-007 cycles), bande GC97 côté
+# trottoir. Canal dit : 5,50 m de profondeur, fond de 18 m, berges à 3/2 (OA-TAL-001).
+format: description_simple/0.2
+scene: D4_pont_urbain_piste_cyclable
+titre: Pont urbain avec piste cyclable et garde-corps de 1,20 m
+description: "Rue 1 + 1 de 3,00 m avec trottoirs de 2,00 m et piste cyclable bidirectionnelle de 3,00 m franchissant un canal sec par un pont à poutres préfabriquées de deux travées, garde-corps de 1,20 m le long de la piste."
+confiance: moyenne
+marquages: {usure: légère}
+troncons:
+  - id: rue
+    nom: rue portée
+    contexte: {agglomeration: oui, vitesse: 50, categorie: avenue}
+    de: [-110, 0]
+    vers: [110, 0]
+    profil: "trottoir 2,0 | voie 3,0 ← | voie 3,0 → | trottoir 2,0 | piste bidirectionnelle 3,0"
+ouvrages:
+  - id: PU1
+    nom: pont urbain sur le canal
+    type: pont
+    porte: rue
+    franchit: {talweg: {profondeur: 5.5, largeur_fond: 18, pente_versants: 1.5}}
+    centre: 110
+    travees: [16, 16]
+    tablier: {type: PRAD, poutres: {nombre: 12, largeur_ame: 0.25, talon: 0.50, hourdis: 0.22}}
+    piles: {type: poteaux, nombre: 3, diametre: 0.90, entraxe: 4.2, chevetre: {hauteur: 1.0, largeur: 1.6, longueur: 12.0}}
+    culees: {type: perchée, sommier: {hauteur: 0.9, largeur: 1.5}, garde_greve: 0.30, murs_retour: 3.5, murs_retour_epaisseur: 0.40}
+    corniche: {hauteur: 0.75, largeur: 0.35, debord: 0.05}
+    appareils_appui: {a: 0.30, b: 0.40, hauteur: 0.08, nombre: 12}
+    equipements: {gauche: garde-corps S8, droite: garde-corps S8}
+    profil_en_long: {classe: U60}
+attendus:
+  travees_m: [16, 16]
+  garde_corps_piste_m: 1.20
+  joints: 2

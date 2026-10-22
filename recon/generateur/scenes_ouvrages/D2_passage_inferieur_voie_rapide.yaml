@@ -1,0 +1,46 @@
+# D2 — Passage inférieur : une rue 1 + 1 à trottoirs passe sous une voie rapide 2 × 2 en remblai, par un portique
+# ouvert en béton armé (PIPO). Imaginé d'après les passages inférieurs courants des rocades françaises (N87 Rocade
+# Sud de Grenoble à Meylan et à Gières : chaussées séparées par une GBA, BAU de 2,50 m, remblai de 5 à 6 m, portique
+# à murs en aile parallèles à la voie franchie, barrière BN4 en rive). Décrit « comme sur une photo » ; les cotes
+# non dites viennent des règles (RF-GV-PON-*, DEF-033) ou des règles complémentaires du lot (regles_ouvrages_fr.json).
+# Ouverture de 10,00 m = plate-forme de la rue (trottoirs de 2,00 m sous l'ouvrage, RF-GV-PON-014) ; piédroits de
+# 0,60 m : portée entre axes 10,60 m, traverse e = l/40 + 0,10 (RF-GV-PON-015) ; aucun joint ni appareil d'appui sur
+# un portique (OA-PIPO-001). Gabarit sous ouvrage 4,30 m + revanche 0,10 (RF-GV-PON-012, DEF-033). Profil en long de
+# la voie rapide : classe U80/A80 de l'ICTAVRU (OA-PEL-002).
+format: description_simple/0.2
+scene: D2_passage_inferieur_voie_rapide
+titre: Passage inférieur d'une rue sous une voie rapide 2 × 2
+description: "Voie rapide 2 × 2 de 3,50 m avec BAU de 2,50 m et GBA au terre-plein, en remblai, franchissant une rue 1 + 1 à trottoirs de 2,00 m par un portique ouvert en béton armé, murs en aile et BN4."
+confiance: moyenne
+marquages: {usure: légère}
+troncons:
+  - id: rapide
+    nom: voie rapide portée
+    contexte: {agglomeration: non, categorie: voie express, vitesse: 90}
+    de: [-230, 0]
+    vers: [230, 0]
+    profil: "BAU 2,5 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | BAU 2,5"
+  - id: rue
+    nom: rue franchie
+    contexte: {agglomeration: oui, vitesse: 50, categorie: avenue}
+    de: [0, -80]
+    vers: [0, 80]
+    profil: "trottoir 2,0 | voie 3,0 ← | voie 3,0 → | trottoir 2,0"
+ouvrages:
+  - id: PI1
+    nom: passage inférieur de la rue
+    type: passage inférieur
+    porte: rapide
+    franchit: rue
+    travees: [10.6]
+    tablier: {type: PIPO}
+    piedroits: {epaisseur: 0.60}
+    murs_aile: {epaisseur: 0.50}
+    corniche: {hauteur: 0.60, largeur: 0.30, debord: 0.05}
+    equipements: {gauche: BN4, droite: BN4}
+    profil_en_long: {classe: U80_A80}
+attendus:
+  travees_m: [10.6]
+  epaisseur_tablier_m: 0.365            # 10,6 / 40 + 0,10
+  hauteur_libre_min_m: 4.40              # 4,30 + 0,10
+  joints: 0                              # portique (OA-PIPO-001)

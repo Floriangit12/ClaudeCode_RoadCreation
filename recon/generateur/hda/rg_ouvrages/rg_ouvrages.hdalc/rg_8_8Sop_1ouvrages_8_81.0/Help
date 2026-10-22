@@ -1,0 +1,26 @@
+= RG Ouvrages (tabliers, appuis, retenues, terrain) =
+
+"""Ouvrages d'art du générateur (lot L8 / étape E07) : profil en long des routes portées, tabliers balayés sous la section courante, appuis, culées, joints, garde-corps et BN4, terrain (remblais, talus 3/2, talweg, déblai de la route franchie). Cotes du modèle (description/ouvrages.py) ; choix [G] déclarés dans vex_ouvrages.py."""
+
+@parameters
+
+Modèle (modele_voie.json):
+    #id: fichier
+    modèle compilé : ouvrages[].construction (description/ouvrages.py) et routes[].profil_long
+
+Brique de déformation (m):
+    #id: brique
+    [G] : les polygones des routes profilées sont découpés en briques de 1 m avant la déformation verticale (flèche d'une corde de 1 m sur un rentrant de 800 m : 0,16 mm, sous l'épaisseur de la peinture)
+
+Pas du terrain (m):
+    #id: pas_terrain
+    [G] maillage du terrain
+
+Pas du terrain près des ouvrages (m):
+    #id: pas_terrain_fin
+    [G] maillage du terrain dans l'emprise de l'ouvrage + 30 m ; ≤ épaisseur des murs en aile
+
+Étendue du terrain au-delà des routes (m):
+    #id: etendue_terrain
+    [G] le terrain (naturel, talweg) continue jusqu'à 2 km au-delà de l'emprise des routes, mailles croissantes (quart de la distance) : horizon sans couture au rendu
+

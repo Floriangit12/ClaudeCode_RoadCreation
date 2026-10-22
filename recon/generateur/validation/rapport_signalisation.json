@@ -1,0 +1,1056 @@
+{
+ "schema": "rg_rapport_lot/0.1",
+ "lot": "L6 signalisation verticale et feux (E14)",
+ "scenes": [
+  "E01_entree_agglomeration",
+  "J1_T_cedez",
+  "J2_croix_stop",
+  "J3_croix_feux",
+  "J4_ilots_directionnel_separateurs",
+  "J5_carrefour_complexe",
+  "J6_carrefour_complexe_2x2",
+  "G1_giratoire_urbain_D40",
+  "G2_giratoire_periurbain_D50",
+  "G3_mini_giratoire_D20",
+  "G4_giratoire_multivoie_D50",
+  "A1_autoroute_2x2_GBA",
+  "A2_autoroute_2x3_glissieres",
+  "A3_bretelle_entree",
+  "A4_bretelle_sortie",
+  "S07",
+  "S08",
+  "S10"
+ ],
+ "criteres": [
+  {
+   "id": "L6-1",
+   "critere": "branches et sections à régime : panneaux présents (P14-1)",
+   "valeur": "63/63",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L6-2",
+   "critere": "AB4 sur une branche à feux ou « stop_a_verifier » (P14-2, ARB-19)",
+   "valeur": "0 ; test ARB-19 réussi",
+   "seuil": "0",
+   "atteint": true
+  },
+  {
+   "id": "L6-3",
+   "critere": "bord du panneau à ≥ 0,70 m de la rive, sauf contrainte signalée (P14-3, ARB-20)",
+   "valeur": "0 non signalé(s) ; 11 plaque(s) sous 0,70 m signalée(s) « contrainte » sur 207",
+   "seuil": "0 non signalé",
+   "atteint": true
+  },
+  {
+   "id": "L6-4",
+   "critere": "supports dans le cheminement de 1,40 m ; plaque au-dessus d'un trottoir sous 2,20 m (P14-5)",
+   "valeur": "0 sur 106 supports sur trottoir",
+   "seuil": "0",
+   "atteint": true
+  },
+  {
+   "id": "L6-5",
+   "critere": "supports sur surface circulée, îlot peint ou abaissé",
+   "valeur": "0 sur 213",
+   "seuil": "0",
+   "atteint": true
+  },
+  {
+   "id": "L6-6",
+   "critere": "hauteur sous panneau (2,30 agglo / 1,00 campagne / îlot, feux, surplomb) ± 2 cm",
+   "valeur": "165/165 ; écart max 0.0 m",
+   "seuil": "100 % à ± 0,02 m",
+   "atteint": true
+  },
+  {
+   "id": "L6-7",
+   "critere": "feux (IISR6) : R11 à droite du couloir, au droit ou à l'aval de la ligne d'effet, bas ≥ 2,00 m, axe < 4,20 m, ≤ 2 ensembles juxtaposés ; R12 aux deux extrémités",
+   "valeur": "R11 24/24 ; R12 24/24 ; R14 0",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L6-8",
+   "critere": "branches à voies affectées : C24 (ou Da30) présent (P14-6, RF-MQ-DIR-01)",
+   "valeur": "6/6",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L6-9",
+   "critere": "faces tournées vers l'usager (écart ≤ 15°, RF-SV-GEN.ORIENTATION)",
+   "valeur": "169/169",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L6-10",
+   "critere": "séquences : EB10 / EB20 dos à dos, B14 répété à gauche sur 2 × 2 (P14-8)",
+   "valeur": "9/9",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L6-11",
+   "critere": "ensembles en échec de placement (aucun point admissible)",
+   "valeur": "0 ; 9 sous contrainte signalée ; 208 conformes",
+   "seuil": "0 échec",
+   "atteint": true
+  },
+  {
+   "id": "L6-12",
+   "critere": "vue du conducteur : la plaque visée est dans l'image et mesure ≥ 40 px",
+   "valeur": "18/18",
+   "seuil": "100 %",
+   "atteint": true
+  },
+  {
+   "id": "L6-13",
+   "critere": "déterminisme (second passage, fichiers l6 à l'octet)",
+   "valeur": "35 fichiers, écarts []",
+   "seuil": "identique",
+   "atteint": true
+  },
+  {
+   "id": "L6-14",
+   "critere": "rendus regardés en tuiles : faces texturées, orientées vers l'usager, lisibles dans la vue du conducteur",
+   "valeur": "18/18",
+   "seuil": "100 %",
+   "atteint": true
+  }
+ ],
+ "ensembles": {
+  "ok": 208,
+  "contrainte": 9,
+  "echec": 0
+ },
+ "test_arb19": {
+  "scene": "J2_croix_stop (copie, B-nord « stop_a_verifier »)",
+  "AB4_poses_sur_B_nord": [],
+  "refus_ARB19": [
+   {
+    "code": "AB4",
+    "id": "SG-J2.nord.AB4",
+    "regle": "ARB-19",
+    "motif": "branche au régime « stop_a_verifier » : AB4 refusé"
+   }
+  ],
+  "exigence": [
+   {
+    "id": "X-J2.nord",
+    "carrefour": "C-J2",
+    "branche": "B-nord",
+    "type": "regime",
+    "regime": "stop_a_verifier",
+    "codes": [],
+    "interdits": [
+     "AB4"
+    ],
+    "regle": "ARB-19",
+    "ensembles": [
+     "E-J2.nord.AB5",
+     "E-D43.nord"
+    ]
+   }
+  ],
+  "ok": true
+ },
+ "determinisme": {
+  "scenes": [
+   "J1_T_cedez",
+   "J5_carrefour_complexe",
+   "G2_giratoire_periurbain_D50",
+   "A4_bretelle_sortie",
+   "E01_entree_agglomeration"
+  ],
+  "fichiers": 35,
+  "ecarts": [],
+  "ok": true
+ },
+ "constats_visuels": {
+  "schema": "rg_constats_visuels/0.1",
+  "lot": "L6 signalisation verticale et feux",
+  "methode": "planche ≤ 1092 px de chaque scène (dessus, oblique 3/4, conducteur à 1,20 m) regardée ; vue du conducteur relue en tuiles natives (decoupe.py, 1092 px, recouvrement 20 %) pour E01, J1, J3, G2 ; lisibilité aussi mesurée par projection de la plaque visée (critère L6-12)",
+  "scenes": [
+   {
+    "scene": "E01_entree_agglomeration",
+    "cible": "EB10 « MEYLAN » + cartouche « D 1090 »",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "tuile native : MEYLAN et D 1090 lisibles ; A13b + 30 + M9d au support suivant, C20a au plateau ; revers gris de l'EB20 à gauche ; trottoirs qui commencent à la limite"
+   },
+   {
+    "scene": "J1_T_cedez",
+    "cible": "AB3a + M9c et ensemble D21 en face",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "tuile native : « CÉDEZ LE PASSAGE », D21 « GRENOBLE » (pointe à gauche) et « MONTBONNOT » (pointe à droite) lisibles ; AB3a au coin, hors chaussée"
+   },
+   {
+    "scene": "J2_croix_stop",
+    "cible": "AB4",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "STOP lisible sur l'accotement ; balises J3 rouges et blanches aux angles ; D43 et AB5 en amont"
+   },
+   {
+    "scene": "J3_croix_feux",
+    "cible": "R11v + répétiteur",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "tuile native : R11 au rouge (1re phase) et répétiteur ; R12 au vert de la traversée parallèle ; mâts hors du cheminement"
+   },
+   {
+    "scene": "J4_ilots_directionnel_separateurs",
+    "cible": "AB3a sur l'îlot directionnel",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "AB3a + M9c lisible ; J5 au nez de l'îlot ; revers des AB3a des autres branches"
+   },
+   {
+    "scene": "J5_carrefour_complexe",
+    "cible": "R11v de droite (voies directes)",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "R11 au vert sur le trottoir de droite et rappel sur l'îlot de TAG ; AB3a de l'îlot directionnel, J5 et C24b visibles"
+   },
+   {
+    "scene": "J6_carrefour_complexe_2x2",
+    "cible": "R11v de droite (voies directes)",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "même disposition que J5 sur les deux avenues ; feux et J5 lisibles"
+   },
+   {
+    "scene": "G1_giratoire_urbain_D40",
+    "cible": "AB25",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "AB25 lisible ; B21-1 sur l'îlot central face à l'entrée ; D21 aux sorties"
+   },
+   {
+    "scene": "G2_giratoire_periurbain_D50",
+    "cible": "D42b à 150 m",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "tuile native : D42b « CORENC », « GRENOBLE », « SAINT-ISMIER » lisibles ; AB25 ramené à 100 m derrière ; support sur l'accotement hors emprise"
+   },
+   {
+    "scene": "G3_mini_giratoire_D20",
+    "cible": "AB25",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "AB25 puis D42b 15 m plus loin, sans masque ; pas de B21-1 (mini-giratoire)"
+   },
+   {
+    "scene": "G4_giratoire_multivoie_D50",
+    "cible": "AB25",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "AB25 lisible ; B21-1 au centre ; D21 aux sorties"
+   },
+   {
+    "scene": "A1_autoroute_2x2_GBA",
+    "cible": "B14 130 « RAPPEL » à droite",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "B14 130 + RAPPEL à droite et répété à gauche sur la GBA (contrainte signalée)"
+   },
+   {
+    "scene": "A2_autoroute_2x3_glissieres",
+    "cible": "B14 130 « RAPPEL » à droite",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "B14 130 + RAPPEL à droite et sur le terre-plein central derrière la glissière"
+   },
+   {
+    "scene": "A3_bretelle_entree",
+    "cible": "AB3a + M9c d'insertion",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "AB3a + M9c à droite de la bretelle au bout du musoir ; B14 110 RAPPEL après l'insertion"
+   },
+   {
+    "scene": "S08",
+    "cible": "C27 (dos-d'âne)",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "C20a au passage puis C27 au dos-d'âne, lisibles ; B14 30 + A2b à l'entrée de la rue ; supports hors cheminement"
+   },
+   {
+    "scene": "S10",
+    "cible": "C20a + M9d au plateau",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "C20a + M9d (passage surélevé) lisibles au plateau ; à l'entrée de la rue, A13b + B14 30 + M9d sur le même support"
+   },
+   {
+    "scene": "A4_bretelle_sortie",
+    "cible": "portique : D62c filante + D31d de sortie",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "portique L1600 au-dessus des deux voies et de la voie de sortie : D62c « CHAMBÉRY » à flèches vers le bas au-dessus des voies, D31d « SORTIE 13 / MEYLAN / MONTBONNOT » au-dessus de la voie de sortie, faces perpendiculaires à l'axe, lisibles à ~110 m (tuile native) ; vue de dessus : le portique n'est qu'un trait"
+   },
+   {
+    "scene": "S07",
+    "cible": "C12 (sens unique) à l'entrée de la rue",
+    "texturees": true,
+    "orientees": true,
+    "lisible": true,
+    "constat": "C12 lisible sur le trottoir de droite à l'entrée ; B1 au bout opposé vu de dos (il fait face au sens interdit) ; la caméra est à 22 m en amont du début de la rue, hors du tronçon modélisé"
+   }
+  ]
+ },
+ "non_poses": {
+  "J4_ilots_directionnel_separateurs": [
+   {
+    "code": "J5",
+    "id": "I-J4.dir_sud_est.nez1",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   }
+  ],
+  "J5_carrefour_complexe": [
+   {
+    "code": "J5",
+    "id": "I-J5.dir_sud_est.nez1",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   }
+  ],
+  "J6_carrefour_complexe_2x2": [
+   {
+    "code": "J5",
+    "id": "I-J6.dir_nord_ouest.nez1",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-J6.dir_sud_est.nez1",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   }
+  ],
+  "G1_giratoire_urbain_D40": [
+   {
+    "code": "J5",
+    "id": "I-G1.est.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-G1.nord.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-G1.ouest.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-G1.sud.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   }
+  ],
+  "G2_giratoire_periurbain_D50": [
+   {
+    "code": "J5",
+    "id": "I-G2.est.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-G2.nord.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-G2.ouest.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-G2.sud.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   }
+  ],
+  "G3_mini_giratoire_D20": [
+   {
+    "code": "J5",
+    "id": "I-G3.est.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-G3.nord.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-G3.ouest.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-G3.sud.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   }
+  ],
+  "G4_giratoire_multivoie_D50": [
+   {
+    "code": "J5",
+    "id": "I-G4.est.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-G4.nord.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-G4.ouest.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "J5",
+    "id": "I-G4.sud.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   }
+  ],
+  "A3_bretelle_entree": [
+   {
+    "code": "J5",
+    "id": "I-E1.musoir.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   }
+  ],
+  "A4_bretelle_sortie": [
+   {
+    "code": "J5",
+    "id": "I-S1.musoir.nez0",
+    "regle": "RF-GV-ILO-008",
+    "motif": "îlot trop étroit pour une J5 (balise « aucune » du compilateur)"
+   },
+   {
+    "code": "D41a",
+    "route": "R-1",
+    "regle": "L6-SV-D40.POSITION",
+    "motif": "présignalisation à 917 m en amont du D31d (s = -502) : hors de la scène (tronçon de 800 m) — non posée"
+   },
+   {
+    "code": "D51c",
+    "route": "R-1",
+    "regle": "L6-SV-D50.EMPLOI",
+    "motif": "avertissement réservé aux échangeurs numérotés espacés d'au moins 5 km : espacement non décrit — non posé"
+   }
+  ]
+ },
+ "par_scene": [
+  {
+   "scene": "E01_entree_agglomeration",
+   "statuts": {
+    "ok": 9,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "7/7",
+   "C3_min_m": 1.127,
+   "C4_libre_min_m": 1.425,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-EB10.R-1",
+    "plaques": [
+     {
+      "code": "E42",
+      "u_px": 836.6,
+      "v_px": 488.4,
+      "largeur_px": 53.1,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     },
+     {
+      "code": "EB10",
+      "u_px": 836.6,
+      "v_px": 519.9,
+      "largeur_px": 106.3,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "J1_T_cedez",
+   "statuts": {
+    "ok": 2,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "1/1",
+   "C3_min_m": 1.337,
+   "C4_libre_min_m": 1.415,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-J1.sud.AB3a",
+    "plaques": [
+     {
+      "code": "AB3a",
+      "u_px": 868.0,
+      "v_px": 374.7,
+      "largeur_px": 82.3,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "J2_croix_stop",
+   "statuts": {
+    "ok": 14,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "4/4",
+   "C3_min_m": 0.952,
+   "C4_libre_min_m": 99.0,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-J2.sud.AB4",
+    "plaques": [
+     {
+      "code": "AB4",
+      "u_px": 881.4,
+      "v_px": 516.4,
+      "largeur_px": 64.5,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "J3_croix_feux",
+   "statuts": {
+    "ok": 16,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "4/4",
+   "C3_min_m": 0.709,
+   "C4_libre_min_m": 1.445,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "4/4",
+   "C10": {
+    "ensemble": "E-J3.sud.R11.1",
+    "plaques": [
+     {
+      "code": "R11v",
+      "u_px": 843.3,
+      "v_px": 407.8,
+      "largeur_px": 21.6,
+      "seuil_px": 15.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "J4_ilots_directionnel_separateurs",
+   "statuts": {
+    "ok": 9,
+    "contrainte": 1,
+    "echec": 0
+   },
+   "C1": "2/2",
+   "C3_min_m": 0.201,
+   "C4_libre_min_m": 1.422,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-J4.sud.AB3a",
+    "plaques": [
+     {
+      "code": "AB3a",
+      "u_px": 843.0,
+      "v_px": 387.0,
+      "largeur_px": 74.1,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "J5_carrefour_complexe",
+   "statuts": {
+    "ok": 28,
+    "contrainte": 2,
+    "echec": 0
+   },
+   "C1": "6/6",
+   "C3_min_m": 0.081,
+   "C4_libre_min_m": 1.435,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "8/8",
+   "C10": {
+    "ensemble": "E-J5.ouest.R11.2",
+    "plaques": [
+     {
+      "code": "M12a",
+      "u_px": 835.6,
+      "v_px": 484.6,
+      "largeur_px": 14.9,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": false
+     },
+     {
+      "code": "R11v",
+      "u_px": 846.2,
+      "v_px": 415.7,
+      "largeur_px": 19.7,
+      "seuil_px": 15.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "J6_carrefour_complexe_2x2",
+   "statuts": {
+    "ok": 36,
+    "contrainte": 4,
+    "echec": 0
+   },
+   "C1": "8/8",
+   "C3_min_m": 0.081,
+   "C4_libre_min_m": 1.464,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "12/12",
+   "C10": {
+    "ensemble": "E-J6.ouest.R11.2",
+    "plaques": [
+     {
+      "code": "M12a",
+      "u_px": 835.6,
+      "v_px": 484.6,
+      "largeur_px": 14.9,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": false
+     },
+     {
+      "code": "R11v",
+      "u_px": 846.2,
+      "v_px": 415.7,
+      "largeur_px": 19.7,
+      "seuil_px": 15.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "G1_giratoire_urbain_D40",
+   "statuts": {
+    "ok": 16,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "4/4",
+   "C3_min_m": 0.829,
+   "C4_libre_min_m": 1.42,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-G1.sud.AB25",
+    "plaques": [
+     {
+      "code": "AB25",
+      "u_px": 843.3,
+      "v_px": 400.0,
+      "largeur_px": 83.5,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "G2_giratoire_periurbain_D50",
+   "statuts": {
+    "ok": 20,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "4/4",
+   "C3_min_m": 0.865,
+   "C4_libre_min_m": 99.0,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-D42b.sud",
+    "plaques": [
+     {
+      "code": "D42b",
+      "u_px": 835.9,
+      "v_px": 486.7,
+      "largeur_px": 126.2,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "G3_mini_giratoire_D20",
+   "statuts": {
+    "ok": 12,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "4/4",
+   "C3_min_m": 0.829,
+   "C4_libre_min_m": 1.415,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-G3.sud.AB25",
+    "plaques": [
+     {
+      "code": "AB25",
+      "u_px": 982.3,
+      "v_px": 261.1,
+      "largeur_px": 186.3,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "G4_giratoire_multivoie_D50",
+   "statuts": {
+    "ok": 16,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "4/4",
+   "C3_min_m": 0.707,
+   "C4_libre_min_m": 1.445,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-G4.sud.AB25",
+    "plaques": [
+     {
+      "code": "AB25",
+      "u_px": 837.4,
+      "v_px": 399.7,
+      "largeur_px": 83.7,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "A1_autoroute_2x2_GBA",
+   "statuts": {
+    "ok": 2,
+    "contrainte": 2,
+    "echec": 0
+   },
+   "C1": "2/2",
+   "C3_min_m": 0.67,
+   "C4_libre_min_m": 99.0,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-B14.R-1.av.droite",
+    "plaques": [
+     {
+      "code": "B14_130",
+      "u_px": 827.2,
+      "v_px": 484.2,
+      "largeur_px": 46.2,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     },
+     {
+      "code": "M9z",
+      "u_px": 827.2,
+      "v_px": 515.7,
+      "largeur_px": 46.2,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "A2_autoroute_2x3_glissieres",
+   "statuts": {
+    "ok": 4,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "2/2",
+   "C3_min_m": 1.388,
+   "C4_libre_min_m": 99.0,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-B14.R-1.av.droite",
+    "plaques": [
+     {
+      "code": "B14_130",
+      "u_px": 827.2,
+      "v_px": 484.3,
+      "largeur_px": 46.2,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     },
+     {
+      "code": "M9z",
+      "u_px": 827.2,
+      "v_px": 515.7,
+      "largeur_px": 46.2,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "A3_bretelle_entree",
+   "statuts": {
+    "ok": 6,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "4/4",
+   "C3_min_m": 0.737,
+   "C4_libre_min_m": 99.0,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-AB3a.insertion.R-2",
+    "plaques": [
+     {
+      "code": "AB3a",
+      "u_px": 836.5,
+      "v_px": 485.6,
+      "largeur_px": 57.6,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "A4_bretelle_sortie",
+   "statuts": {
+    "ok": 6,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "2/2",
+   "C3_min_m": 0.737,
+   "C4_libre_min_m": 99.0,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-portique.R-1",
+    "plaques": [
+     {
+      "code": "D31d",
+      "u_px": 748.5,
+      "v_px": 416.6,
+      "largeur_px": 48.7,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     },
+     {
+      "code": "D62c",
+      "u_px": 679.3,
+      "v_px": 419.6,
+      "largeur_px": 57.0,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "S07",
+   "statuts": {
+    "ok": 2,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "1/1",
+   "C3_min_m": 1.059,
+   "C4_libre_min_m": 1.432,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-C12.R-1",
+    "plaques": [
+     {
+      "code": "C12",
+      "u_px": 843.1,
+      "v_px": 405.2,
+      "largeur_px": 63.2,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "S08",
+   "statuts": {
+    "ok": 6,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "2/2",
+   "C3_min_m": 1.008,
+   "C4_libre_min_m": 1.432,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-C27.R-1.av",
+    "plaques": [
+     {
+      "code": "C27",
+      "u_px": 838.3,
+      "v_px": 415.7,
+      "largeur_px": 56.2,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  },
+  {
+   "scene": "S10",
+   "statuts": {
+    "ok": 4,
+    "contrainte": 0,
+    "echec": 0
+   },
+   "C1": "2/2",
+   "C3_min_m": 1.008,
+   "C4_libre_min_m": 1.432,
+   "C6_ecart_max_m": 0.0,
+   "C7_R11": "0/0",
+   "C10": {
+    "ensemble": "E-C20a_M9d.R-1.av",
+    "plaques": [
+     {
+      "code": "C20a",
+      "u_px": 838.2,
+      "v_px": 395.6,
+      "largeur_px": 56.2,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     },
+     {
+      "code": "M9D",
+      "u_px": 838.3,
+      "v_px": 435.7,
+      "largeur_px": 56.2,
+      "seuil_px": 40.0,
+      "visible": true,
+      "ok": true
+     }
+    ],
+    "ok": true
+   }
+  }
+ ]
+}

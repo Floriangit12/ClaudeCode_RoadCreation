@@ -2790,11 +2790,18 @@
         "haubane",
         "dalle",
         "voute",
-        "autre"
+        "autre",
+        "caisson",
+        "portique",
+        "cadre"
        ]
       },
       "corniche": {
        "type": "boolean"
+      },
+      "type": {
+       "type": "string",
+       "description": "famille de tablier (PSIDA, PSIDP, PIPO, PICF, PRAD, VIPP, CAISSON) ; lot ouvrages, ajout rétrocompatible"
       }
      },
      "additionalProperties": false
@@ -2888,6 +2895,10 @@
     },
     "prov": {
      "$ref": "#/$defs/prov"
+    },
+    "construction": {
+     "type": "object",
+     "description": "géométrie résolue de l'ouvrage (travées, appuis, abouts, section du tablier, équipements, gabarit, profil en long) écrite par description/ouvrages.py ; lot ouvrages, ajout rétrocompatible"
     }
    },
    "required": [

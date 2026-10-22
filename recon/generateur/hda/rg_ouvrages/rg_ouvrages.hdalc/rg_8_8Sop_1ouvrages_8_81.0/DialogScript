@@ -1,0 +1,60 @@
+# Dialog script for rg::ouvrages::1.0 automatically generated
+
+{
+    name	rg::ouvrages::1.0
+    inputlabel	1	"routes fabriquées"
+    inputlabel	2	"références (rg::graphe)"
+    outputlabel	1	"routes déformées"
+    outputlabel	2	"ouvrages"
+    outputlabel	3	"terrain"
+    outputlabel	4	"points"
+    outputlabel	5	"ouvrages lus"
+    script	rg::ouvrages::1.0
+    label	"RG Ouvrages (tabliers, appuis, retenues, terrain)"
+
+    help {
+    }
+
+    inputlabel	1	"routes fabriquées"
+    inputlabel	2	"références (rg::graphe)"
+
+    parm {
+        name    "fichier"
+        label   "Modèle (modele_voie.json)"
+        type    file
+        default { "" }
+        help    "modèle compilé : ouvrages[].construction (description/ouvrages.py) et routes[].profil_long"
+    }
+    parm {
+        name    "brique"
+        label   "Brique de déformation (m)"
+        type    float
+        default { "1" }
+        help    "[G] : les polygones des routes profilées sont découpés en briques de 1 m avant la déformation verticale (flèche d'une corde de 1 m sur un rentrant de 800 m : 0,16 mm, sous l'épaisseur de la peinture)"
+        range   { 0 10 }
+    }
+    parm {
+        name    "pas_terrain"
+        label   "Pas du terrain (m)"
+        type    float
+        default { "1" }
+        help    "[G] maillage du terrain"
+        range   { 0 10 }
+    }
+    parm {
+        name    "pas_terrain_fin"
+        label   "Pas du terrain près des ouvrages (m)"
+        type    float
+        default { "0.5" }
+        help    "[G] maillage du terrain dans l'emprise de l'ouvrage + 30 m ; ≤ épaisseur des murs en aile"
+        range   { 0 10 }
+    }
+    parm {
+        name    "etendue_terrain"
+        label   "Étendue du terrain au-delà des routes (m)"
+        type    float
+        default { "2000" }
+        help    "[G] le terrain (naturel, talweg) continue jusqu'à 2 km au-delà de l'emprise des routes, mailles croissantes (quart de la distance) : horizon sans couture au rendu"
+        range   { 0 10 }
+    }
+}

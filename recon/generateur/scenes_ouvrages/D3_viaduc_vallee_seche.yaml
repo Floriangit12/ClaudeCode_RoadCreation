@@ -1,0 +1,41 @@
+# D3 — Viaduc de cinq travées sur une vallée sèche. Imaginé d'après les viaducs courants des routes départementales
+# de montagne (Isère, Drôme : caisson en béton précontraint de hauteur constante, piles voiles, culées perchées en
+# rebord de vallée, BN4 en rive, sans trottoir). Route bidirectionnelle 2 × 1 de 3,50 m à bandes dérasées de 2,00 m,
+# au niveau du plateau (profil en long plat : l'intrados reste au-dessus du terrain naturel, aucun relèvement).
+# Travées 32 + 40 + 40 + 40 + 32 m : balancement 0,80 dans [0,6 ; 0,85] (RF-GV-PON-015). Caisson de 2,00 m dit
+# (l/20 ; OA-CAI-001 : observations de 1/22 à 1/18 sur des caissons de hauteur constante, contrôle d'avertissement).
+# Vallée dite : 32 m de profondeur, fond de 20 m, versants à 3 pour 1.
+format: description_simple/0.2
+scene: D3_viaduc_vallee_seche
+titre: Viaduc de cinq travées sur une vallée sèche
+description: "Route départementale 2 × 1 de 3,50 m à bandes dérasées de 2,00 m franchissant une vallée sèche de 32 m de profondeur par un viaduc caisson de cinq travées sur piles voiles, BN4 en rive."
+confiance: moyenne
+marquages: {usure: légère}
+troncons:
+  - id: rd
+    nom: route départementale portée
+    contexte: {agglomeration: non, categorie: route départementale, vitesse: 80}
+    de: [-160, 0]
+    vers: [160, 0]
+    profil: "BDD 2,0 | voie 3,5 ← | voie 3,5 → | BDD 2,0"
+ouvrages:
+  - id: V1
+    nom: viaduc de la vallée sèche
+    type: viaduc
+    porte: rd
+    franchit: {talweg: {profondeur: 32, largeur_fond: 20, pente_versants: 3}}
+    centre: 160
+    travees: [32, 40, 40, 40, 32]
+    tablier: {type: caisson, caisson: {largeur_inferieure: 5.0, ecart_ames: 6.0, hourdis: 0.30, epaisseur_extremite: 0.22}}
+    epaisseur: 2.0
+    piles: {type: voiles, epaisseur: 1.6, largeur: 4.4}
+    culees: {type: perchée, sommier: {hauteur: 1.2, largeur: 1.8}, garde_greve: 0.35, murs_retour: 5.0, murs_retour_epaisseur: 0.45}
+    corniche: {hauteur: 0.80, largeur: 0.35, debord: 0.05}
+    appareils_appui: {a: 0.60, b: 0.70, hauteur: 0.12, nombre: 2}
+    equipements: {gauche: BN4, droite: BN4}
+    profil_en_long: {classe: R2}
+attendus:
+  travees_m: [32, 40, 40, 40, 32]
+  balancement: 0.8
+  elancement_caisson: 0.05
+  joints: 2

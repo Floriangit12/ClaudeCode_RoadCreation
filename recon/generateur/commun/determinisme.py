@@ -63,3 +63,54 @@ def comparer(dossiers_l1, autre: Path, l2: bool, l2b: bool = False) -> tuple[lis
                     if not b.exists() or octets(f) != octets(b):
                         ecarts.append(f"{d.parent.name}/{lot}/{f.name}")
     return ecarts, n
+
+
+SUFFIXES_ARBO = (".json", ".npy", ".npz", ".usda")
+
+
+def _npz_egaux(a: Path, b: Path) -> bool:
+    """Archives .npz comparées par contenu (noms, formes, types, valeurs) : l'horodatage des entrées de l'archive zip
+    écrite par numpy change d'un processus à l'autre."""
+    import numpy as np
+    with np.load(a, allow_pickle=False) as A, np.load(b, allow_pickle=False) as B:
+        if sorted(A.files) != sorted(B.files):
+            return False
+        for k in A.files:
+            x, y = A[k], B[k]
+            if x.shape != y.shape or x.dtype != y.dtype or not np.array_equal(x, y):
+                return False
+    return True
+
+
+def comparer_arborescence(scene: Path, autre_scene: Path, lots, remplacer=()) -> tuple[list[str], int]:
+    """Intégration de l'étape 4 : sorties des lots (sous-dossiers `lots` de la scène, récursivement : l3, l4, l5,
+    autoroute, l6, ouvrages, couches/<couche>/l1…) comparées au second processus. .json, .npy, .usda à l'octet après la
+    normalisation de octets() ; .npz par contenu ; manifestes (chemins de sortie) et rendus exclus. remplacer : paires
+    (chemin de sortie du second processus, chemin de sortie du premier), en octets, ramenées l'une à l'autre (fichiers
+    des couches d'une scène à ouvrages, qui citent le modèle de la couche écrit dans la sortie).
+    Renvoie (écarts, nombre de fichiers comparés)."""
+    ecarts, n = [], 0
+    for lot in lots:
+        d = Path(scene) / lot
+        if not d.exists():
+            continue
+        for f in sorted(d.rglob("*")):
+            if not f.is_file() or f.suffix not in SUFFIXES_ARBO or f.name.startswith("manifest"):
+                continue
+            rel = f.relative_to(scene)
+            if "rendus" in rel.parts or "tuiles" in rel.parts:
+                continue
+            g = Path(autre_scene) / rel
+            n += 1
+            if not g.exists():
+                ecarts.append(f"{Path(scene).name}/{rel.as_posix()} (absent)")
+            elif f.suffix == ".npz":
+                if not _npz_egaux(f, g):
+                    ecarts.append(f"{Path(scene).name}/{rel.as_posix()}")
+            else:
+                a, b = octets(f), octets(g)
+                for x, y in remplacer:
+                    b = b.replace(x, y)
+                if a != b:
+                    ecarts.append(f"{Path(scene).name}/{rel.as_posix()}")
+    return ecarts, n

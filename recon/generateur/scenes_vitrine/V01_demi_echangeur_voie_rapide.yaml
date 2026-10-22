@@ -1,0 +1,118 @@
+# V01 — Scène vitrine « imaginée » (intégration de l'étape 4) : demi-échangeur d'une voie rapide urbaine 2 × 2.
+# Imaginée d'après les demi-échangeurs en losange des voies rapides de l'agglomération grenobloise (A41 à Meylan, N87
+# Rocade Sud) : la voie rapide monte en remblai et franchit une route départementale par un portique en béton armé
+# (passage inférieur, comme D2) ; la bretelle de sortie quitte la voie rapide avant la montée, en déboîtement (comme A4),
+# reste au niveau du terrain naturel et rejoint la départementale par un carrefour à feux en T, au pied du remblai.
+# Signalisation de la sortie sur portique (D31d + D62c, lot L6, complément scenes_signalisation/complements/V01_*.yaml).
+# Valeurs dites (provenance description) ou des règles citées par les lots :
+#  - voie rapide : profil de A1 / A4 (voies 3,50, BAU 3,00, bermes 1,00, TPC 2,60 à GBA), 90 km/h (VRU de type A,
+#    ICTAVRU) ; biseau de déboîtement de 150 m, ligne T2 5u, musoir à chevrons et J14a (comme A4, VSA 90/110) ;
+#  - bretelle : tracé de A4 (obliquité 1/33 sur 200 m, arc de 200 m à droite), puis arc de 100 m à gauche qui la ramène
+#    perpendiculaire à la départementale ; la bretelle est décrite en deux tronçons (« bretelle » : bifurcation, couche
+#    de la voie rapide ; « bretelle_bas » : branche du carrefour, couche de la départementale) qui se suivent sans
+#    carrefour au point (81,61 ; -62,37) — deux couches fabriquées séparément (README_RG § 18) ;
+#  - départementale hors agglomération à 70 km/h : voies de 3,00 m, bandes dérasées de 0,50 m, bermes de 1,50 m
+#    (accotement de 2,00 m : appuis à 2 m des voies, RF-GV-PON-014) ;
+#  - carrefour à feux en T : deux phases (départementale ; bretelle), rayons d'angle 10 m (tourne-à-droite de la
+#    bretelle) et 4 m (angle sans mouvement), lignes d'effet peintes en retrait ; aucun passage piéton (rase campagne) ;
+#  - emprise de chaque couche dans ± 500 m autour de l'origine locale (contrôle du rangement du HeightField de
+#    rg::nivellement en simple précision : au-delà de 512 m, le pas de 0,10 m n'est plus lu à 1e-5 près) : ouvrage en
+#    x = 150, voie rapide de x = -480 à 415, départementale de y = -242 à 200 ;
+#  - ouvrage : portique PIPO de 10,60 m entre axes (ouverture 10,00 m = plate-forme de la départementale, piédroits de
+#    0,60 m, comme D2), murs en aile, BN4 en rive ; gabarit 4,30 + 0,10 (RF-GV-PON-012, DEF-033) ; profil en long de la
+#    voie rapide U80/A80 (OA-PEL-002).
+format: description_simple/0.2
+scene: V01_demi_echangeur_voie_rapide
+titre: Voie rapide 2 × 2 sur un pont, bretelle de sortie, portique et carrefour à feux
+description: "Voie rapide urbaine 2 × 2 à GBA en remblai franchissant une route départementale par un portique ; bretelle de sortie en déboîtement signalée sur portique ; carrefour à feux en T au pied du remblai."
+confiance: moyenne
+marquages: {usure: légère}
+troncons:
+  - id: rapide
+    nom: voie rapide urbaine 2 × 2 (portée par l'ouvrage)
+    contexte: {agglomeration: non, categorie: autoroute, vitesse: 90}
+    de: [-480, 0]
+    vers: [415, 0]
+    profil: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | BAU 3,0 | berme 1,0"
+    evenements:
+      # biseau de déboîtement de 150 m (s = 60 à 210) : la voie de décélération s'ouvre entre la voie de droite et la BAU
+      - ouverture: {a: 210, longueur: 150, nouveau: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | ligne T2 5u | voie de décélération 3,5 → | BAU 3,0 | berme 1,0"}
+      # divergence (pointe du musoir, x = -270) : la bretelle part, la voie rapide reste sans BAU au droit du musoir
+      - profil: {a: 210, nouveau: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 →"}
+      # S.5,00 (165 m après la divergence) : la BAU reprend au nez du terre-plein latéral
+      - profil: {a: 375, nouveau: "berme 1,0 | BAU 3,0 | voie 3,5 ← | voie 3,5 ← | BDG 1,0 | TPC 0,3 béton plain-pied | GBA largeur 0,6 | TPC 0,3 béton plain-pied | BDG 1,0 | voie 3,5 → | voie 3,5 → | BAU 3,0 | berme 1,0"}
+  - id: bretelle
+    nom: bretelle de sortie (de la divergence au pied du remblai)
+    contexte: {categorie: bretelle, u_m: 0.075}
+    depart: [-270.0454, -11.5493]
+    cap: -1.7357045
+    trace:
+      - droite: 200
+      - arc: {rayon: 200, angle: 30, sens: droite}
+      - arc: {rayon: 100, angle: 31.7357045, sens: gauche}
+    profil: "ligne continue 3u | voie 3,5 → | ligne T'3 3u | BAU 3,0 | berme 1,0"
+  - id: bretelle_bas
+    nom: bretelle de sortie (branche du carrefour à feux)
+    contexte: {categorie: bretelle, u_m: 0.075}
+    de: [81.6055, -62.3703]
+    vers: [150, -62.3703]
+    profil: "ligne continue 3u | voie 3,5 → | ligne T'3 3u | BAU 3,0 | berme 1,0"
+    evenements:
+      # surlargeur à gauche avant le carrefour : bande dérasée de gauche de 2,00 m (sur 30 m) ; sans elle, le
+      # tourne-à-gauche vers le nord, tracé entre les frontières du carrefour, n'aurait que 1,75 m de rayon (berline :
+      # rayon intérieur 3,60 m, RF-GV-RAY-006)
+      - ouverture: {a: 50, longueur: 30, nouveau: "BDG 2,0 | ligne continue 3u | voie 3,5 → | ligne T'3 3u | BAU 3,0 | berme 1,0"}
+  - id: rd_nord
+    nom: route départementale (passe sous la voie rapide)
+    contexte: {agglomeration: non, categorie: route départementale, vitesse: 70}
+    de: [150, 200]
+    vers: [150, -62.3703]
+    profil: "berme 1,5 | bande dérasée 0,5 | voie 3,0 ← | voie 3,0 → | bande dérasée 0,5 | berme 1,5"
+  - id: rd_sud
+    nom: route départementale (sud du carrefour)
+    contexte: {agglomeration: non, categorie: route départementale, vitesse: 70}
+    de: [150, -242.3703]
+    vers: [150, -62.3703]
+    profil: "berme 1,5 | bande dérasée 0,5 | voie 3,0 ← | voie 3,0 → | bande dérasée 0,5 | berme 1,5"
+bretelles:
+  - id: S1
+    type: sortie
+    principale: rapide
+    bretelle: bretelle
+    musoir: {longueur: 40}
+carrefours:
+  - id: J1
+    centre: [150, -62.3703]
+    regime: feux
+    branches:
+      # rayons d'angle : 10 m au tourne-à-droite de la bretelle vers le sud (PL ; rase campagne, à dire) ; 4 m à l'angle
+      # nord-ouest, qu'aucun mouvement n'emprunte (la bretelle est à sens unique vers le carrefour). Lignes d'effet
+      # peintes, en retrait de la frontière au point de tangence des rayons d'angle (recul dit : DEF-015 ne le fixe
+      # qu'en amont d'un passage, et il n'y a pas de passage en rase campagne) : les R11 se posent sur la berme, au droit
+      # de la ligne (IISR6), et non dans le raccordement revêtu
+      - {troncon: rd_nord, coin: 4, ligne_effet: {recul: 5}}
+      - {troncon: bretelle_bas, coin: 10, ligne_effet: {recul: 11}}
+      - {troncon: rd_sud, coin: 12}
+    feux:
+      phases:
+        - {nom: P1, mouvements: [rd_nord TD, rd_sud TD], vert: 30}
+        - {nom: P2, mouvements: [bretelle_bas TAG, bretelle_bas TAD], vert: 15}
+ouvrages:
+  - id: PI1
+    nom: passage inférieur de la départementale
+    type: passage inférieur
+    porte: rapide
+    franchit: rd_nord
+    travees: [10.6]
+    tablier: {type: PIPO}
+    piedroits: {epaisseur: 0.60}
+    murs_aile: {epaisseur: 0.50}
+    corniche: {hauteur: 0.60, largeur: 0.30, debord: 0.05}
+    equipements: {gauche: BN4, droite: BN4}
+    profil_en_long: {classe: U80_A80}
+attendus:
+  travees_m: [10.6]
+  epaisseur_tablier_m: 0.365            # 10,6 / 40 + 0,10 (RF-GV-PON-015)
+  hauteur_libre_min_m: 4.40              # 4,30 + 0,10
+  joints: 0                              # portique (OA-PIPO-001)
+  couches: 2                             # {voie rapide, bretelle} ; {bretelle_bas, départementale nord et sud}

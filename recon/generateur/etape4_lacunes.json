@@ -1,0 +1,5814 @@
+{
+ "schema": "etape4_lacunes/0.1",
+ "date": "2026-10-22",
+ "role": "Inventaire des lacunes du générateur procédural de routes françaises (recon/generateur) : grille complète, état vérifié, règles et assets, priorités, TOP 20.",
+ "fichier_humain": "recon/generateur/ETAPE4_LACUNES.md",
+ "methode": {
+  "etats": {
+   "fait": "fabriqué et contrôlé sur au moins une scène",
+   "partiel": "porté par le modèle ou fabriqué en partie",
+   "absent": "ni décrit ni fabriqué",
+   "en_cours_autre_workflow": "implémenté en parallèle par le workflow ponts / ouvrages et signalisation verticale + feux"
+  },
+  "frequence_contexte": "0 absent du contexte ; 1 rare (< 10 % des scènes) ; 2 occasionnel (10-40 %) ; 3 fréquent (40-80 %) ; 4 quasi systématique (> 80 %) ; estimations [G], appuyées par DocRoute 13 quand c'est noté",
+  "contextes": {
+   "U": "urbain dense et rues",
+   "P": "périurbain, entrées de ville, zones d'activités",
+   "R": "rase campagne, routes départementales",
+   "A": "autoroutes et voies rapides"
+  },
+  "poids": {
+   "U": 0.4,
+   "P": 0.25,
+   "R": 0.2,
+   "A": 0.15
+  },
+  "poids_nature": "choix [G] déclaré, modifiable : le score se recalcule depuis frequence_contexte et impact",
+  "frequence": "1 + somme(poids × fréquence du contexte), de 1 à 5",
+  "impact": "1 négligeable ; 2 détail ; 3 visible pour un œil attentif ou manque de richesse ; 4 visible au premier regard ; 5 casse la scène ou fausse un comportement ADAS",
+  "score": "impact × fréquence (1 à 25) ; pour un item fait, le score indique le poids de la fonctionnalité, pas une lacune",
+  "priorites": {
+   "P1": "score ≥ 15",
+   "P2": "10 ≤ score < 15",
+   "P3": "6 ≤ score < 10",
+   "P4": "score < 6"
+  },
+  "effort": {
+   "S": "≤ 2 jours",
+   "M": "3 à 7 jours",
+   "L": "2 à 4 semaines",
+   "XL": "plus d'un mois"
+  },
+  "hors_classement": "leviers de méthode (IM), éléments en cours dans le workflow parallèle, végétation et bâti (étape ultérieure)"
+ },
+ "familles": [
+  {
+   "code": "TR",
+   "titre": "Tracé, profil en long, relief et terrassements",
+   "n": 11
+  },
+  {
+   "code": "PR",
+   "titre": "Profils en travers : catégories de voies",
+   "n": 22
+  },
+  {
+   "code": "CP",
+   "titre": "Carrefours plans et giratoires",
+   "n": 14
+  },
+  {
+   "code": "EC",
+   "titre": "Échangeurs, autoroutes et voies rapides",
+   "n": 11
+  },
+  {
+   "code": "OA",
+   "titre": "Ouvrages d'art et ouvrages hydrauliques",
+   "n": 10
+  },
+  {
+   "code": "EQ",
+   "titre": "Équipements : retenue, éclairage, clôtures, exploitation",
+   "n": 13
+  },
+  {
+   "code": "SV",
+   "titre": "Signalisation verticale",
+   "n": 11
+  },
+  {
+   "code": "FE",
+   "titre": "Feux de circulation",
+   "n": 4
+  },
+  {
+   "code": "MQ",
+   "titre": "Marquages (IISR 7e partie)",
+   "n": 17
+  },
+  {
+   "code": "MA",
+   "titre": "Modes actifs : piétons, cycles",
+   "n": 6
+  },
+  {
+   "code": "TC",
+   "titre": "Transports collectifs",
+   "n": 4
+  },
+  {
+   "code": "AS",
+   "titre": "Assainissement",
+   "n": 5
+  },
+  {
+   "code": "RV",
+   "titre": "Revêtements, aspect et conditions de rendu",
+   "n": 6
+  },
+  {
+   "code": "MU",
+   "titre": "Mobilier urbain",
+   "n": 3
+  },
+  {
+   "code": "VB",
+   "titre": "Végétation et bâti (étape ultérieure)",
+   "n": 4
+  },
+  {
+   "code": "CO",
+   "titre": "Comportements et exports (graphe de voies, trajectoires, conflits)",
+   "n": 6
+  },
+  {
+   "code": "RS",
+   "titre": "Continuité du réseau",
+   "n": 1
+  },
+  {
+   "code": "IM",
+   "titre": "Imaginer des scènes (nouvelle orientation)",
+   "n": 5
+  }
+ ],
+ "statistiques": {
+  "n": 153,
+  "par_etat": {
+   "fait": 26,
+   "absent": 89,
+   "partiel": 32,
+   "en_cours_autre_workflow": 6
+  },
+  "par_priorite_classes": {
+   "—": 26,
+   "P1": 6,
+   "P3": 39,
+   "P4": 53,
+   "P2": 14
+  }
+ },
+ "items": [
+  {
+   "id": "TR-01",
+   "famille": "TR",
+   "fonctionnalite": "Tracé en plan : droites, arcs, clothoïdes",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "rg::graphe (README_RG § 3) ; scènes S11 (R 60), ex01 (R 150), E1_rue_clothoides ; contrôle L1 (flèche ≤ 0,5 mm)",
+   "regles_disponibles": [
+    "RF-GV-RAY-*",
+    "RF-GV-PT-014"
+   ],
+   "regles_a_trouver": "règles de tracé ARP / ICTAVRU / VSA 90-110 non versées (CHAINE L-01)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 4,
+    "R": 4,
+    "A": 4
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 5.0,
+   "score": 20.0,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TR-02",
+   "famille": "TR",
+   "fonctionnalite": "Profil en long : déclivités, raccordements, points hauts et bas",
+   "etat": "absent",
+   "manque": "chaussée ancrée à Z = 0 sur chaque route ; profil_long jamais lu ; pas de MNT",
+   "preuve": "hda/commun/vex/rg_niveau.h l. 5 (ancrage Z = 0) ; CHAINE R-03 ; aucun mot « declivite », « altitude », « layer » dans reseau/ ni description/",
+   "regles_disponibles": [
+    "RF-GV-CAR-005",
+    "RF-GV-GIR-022",
+    "RF-MA-TRO-003",
+    "RF-OSM-OUV-001"
+   ],
+   "regles_a_trouver": "ARP 2022 (DocRoute 10, sources) p. PDF 61-62, 78, 85-86 ; ICTAVRU p. PDF 33-34, 92 ; VSA 90/110 p. PDF 15, 18, 49-50 ; Règles de visibilité (madoc) p. PDF 13, 22, 33-42 ; en ville aucune règle (CHAINE L-02)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "MNT / LiDAR HD des chantiers (CHAINE L-08)",
+   "effort": "L",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 4,
+    "A": 4
+   },
+   "impact": 4,
+   "note_frequence": "relief partout hors plaine ; Grenoble : rampes des échangeurs, piémont de Chartreuse",
+   "coordination": "",
+   "frequence": 4.35,
+   "score": 17.4,
+   "priorite": "P1",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TR-03",
+   "famille": "TR",
+   "fonctionnalite": "Dévers en courbe, variation de dévers (gauchissement)",
+   "etat": "absent",
+   "manque": "seuls le toit 2,5 % et la pente unique existent ; aucun dévers lié à la courbure",
+   "preuve": "commun/profil.py l. 675-702 (dévers dit ou déduit, sans courbure) ; aucune occurrence de RF-GV-DEV-002 dans le code",
+   "regles_disponibles": [
+    "RF-GV-DEV-001",
+    "RF-GV-DEV-002",
+    "RF-GV-DEV-003"
+   ],
+   "regles_a_trouver": "VSA 90/110 et ICTAVRU (dévers des bretelles) à verser",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "TR-02"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 2,
+    "R": 3,
+    "A": 4
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.1,
+   "score": 9.3,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TR-04",
+   "famille": "TR",
+   "fonctionnalite": "Surlargeur en courbe",
+   "etat": "absent",
+   "manque": "aucune loi de largeur liée au rayon",
+   "preuve": "le mot « surlargeur » du vocabulaire désigne un accotement revêtu (vocabulaire.py l. 99)",
+   "regles_disponibles": [
+    "RF-GV-RAY-012"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [
+    "TR-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 2,
+    "R": 3,
+    "A": 2
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.8,
+   "score": 5.6,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TR-05",
+   "famille": "TR",
+   "fonctionnalite": "Terrain naturel et abords (relief, raccord au terrain, sol hors emprise)",
+   "etat": "absent",
+   "manque": "rendu sur sol plat neutre et socle à coupe nette ; abords décrits (zones) mais non rendus",
+   "preuve": "rendu/decor_l2b.py l. 820 (socle_jupe), l. 855 (sol_plat) ; CHAINE R-08 ; rendus regardés : A1, A3, S01, nœud A41/N87 sur fond uni",
+   "regles_disponibles": [
+    "RF-OSM-BDT-*"
+   ],
+   "regles_a_trouver": "aucune règle : MNT mesuré (provenance mesure:mnt)",
+   "assets_disponibles": "décor de l'étape 2 désactivé (--decor-etape2)",
+   "assets_a_creer": "HDA rg::terrain (lot N9) ; matériaux de terre, herbe sèche, rochers",
+   "effort": "L",
+   "dependances": [
+    "TR-02"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 3,
+    "R": 4,
+    "A": 4
+   },
+   "impact": 5,
+   "note_frequence": "toute scène hors centre dense ; la route « flotte » aujourd'hui",
+   "coordination": "",
+   "frequence": 3.95,
+   "score": 19.8,
+   "priorite": "P1",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TR-06",
+   "famille": "TR",
+   "fonctionnalite": "Talus de déblai et de remblai (pente, hauteur, raccord, végétation)",
+   "etat": "partiel",
+   "manque": "la bande « talus » est une bande plate de largeur donnée ; ni pente, ni hauteur, ni crête, ni pied",
+   "preuve": "commun/profil.py l. 40 (TYPES_TERRAIN) ; vocabulaire.py l. 108 ; nœud A41/N87 « talus 2 » plat",
+   "regles_disponibles": [
+    "CAND-E4-001",
+    "CAND-E4-002"
+   ],
+   "regles_a_trouver": "ARP p. PDF 28, 39, 72, 108 ; Cerema Dispositifs de retenue (2022) p. 22-25 imprimées ; GTR (Sétra-LCPC) pour les pentes types : à obtenir",
+   "assets_disponibles": "—",
+   "assets_a_creer": "profil de talus paramétrique, matériaux (terre, enherbé, enrochement)",
+   "effort": "L",
+   "dependances": [
+    "TR-02",
+    "TR-05"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 2,
+    "R": 3,
+    "A": 4
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.1,
+   "score": 12.4,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TR-07",
+   "famille": "TR",
+   "fonctionnalite": "Fossés, noues et bermes en creux",
+   "etat": "partiel",
+   "manque": "bandes plates « fosse », « noue », « berme » : pas de profil en V ou trapézoïdal, pas de fil d'eau",
+   "preuve": "commun/profil.py l. 40 ; vocabulaire.py l. 106-107",
+   "regles_disponibles": [
+    "GA-ASS-* (regles_conception.json du dépôt)"
+   ],
+   "regles_a_trouver": "Sétra, Assainissement routier, guide technique 2006 (à télécharger) ; ARP p. PDF 39, 100, 108 ; Cerema Dispositifs de retenue p. PDF 10, 25-28 (fossés, cunettes)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "profil de fossé paramétrique",
+   "effort": "M",
+   "dependances": [
+    "TR-02",
+    "TR-05"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 2,
+    "R": 4,
+    "A": 3
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.75,
+   "score": 8.2,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TR-08",
+   "famille": "TR",
+   "fonctionnalite": "Murs de soutènement, murets, enrochements",
+   "etat": "absent",
+   "manque": "un « muret » observé est écrit GBA faute de mieux (nœud A41/N87) ; profil MURET_TALUS seulement dans la table des bordures",
+   "preuve": "commun/bordures_catalogue.py l. 66 ; meylan/auto_noeud_a41_n87/description.yaml l. 92",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "GPOA p. PDF 294-296 (murs) ; guide Sétra des murs de soutènement à rechercher",
+   "assets_disponibles": "—",
+   "assets_a_creer": "murs béton, gabions, enrochements, couronnement",
+   "effort": "M",
+   "dependances": [
+    "TR-02"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 2,
+    "R": 2,
+    "A": 2
+   },
+   "impact": 3,
+   "note_frequence": "« mur / muret » cité sur 10 des 72 sites du dossier 13",
+   "coordination": "",
+   "frequence": 3.0,
+   "score": 9.0,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TR-09",
+   "famille": "TR",
+   "fonctionnalite": "Merlons et buttes paysagères",
+   "etat": "absent",
+   "manque": "aucun objet",
+   "preuve": "—",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "ARP p. PDF 39, 109",
+   "assets_disponibles": "—",
+   "assets_a_creer": "butte paramétrique (via rg::terrain)",
+   "effort": "S",
+   "dependances": [
+    "TR-05"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 1,
+    "A": 2
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.75,
+   "score": 3.5,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TR-10",
+   "famille": "TR",
+   "fonctionnalite": "Route de montagne : lacets, épingles, parapets, murs, pare-blocs",
+   "etat": "absent",
+   "manque": "aucune scène ; dépend du profil en long, des surlargeurs, des murs et des talus",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-GV-RAY-012",
+    "RF-SV-J4"
+   ],
+   "regles_a_trouver": "ARP (rayons minimaux, enchaînements) p. PDF 59-63 ; guide spécifique montagne à rechercher (Cerema)",
+   "assets_disponibles": "balises J1, J4 (catalogue)",
+   "assets_a_creer": "parapets maçonnés, filets pare-blocs, murs de soutènement",
+   "effort": "L",
+   "dependances": [
+    "TR-02",
+    "TR-03",
+    "TR-04",
+    "TR-06",
+    "TR-08"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 2,
+    "A": 0
+   },
+   "impact": 4,
+   "note_frequence": "faible au niveau national, forte en Isère (Chartreuse, Vercors, Belledonne)",
+   "coordination": "",
+   "frequence": 1.65,
+   "score": 6.6,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TR-11",
+   "famille": "TR",
+   "fonctionnalite": "Ajustement d'un tracé régulier sur une polyligne (OSM, photo, ortho)",
+   "etat": "absent",
+   "manque": "lot N2 non fait : routes OSM en onglet, replis aux sommets",
+   "preuve": "README_RG § 8 ; CHAINE R-09 ; besoin B14 (BESOINS_FORMAT_AUTO)",
+   "regles_disponibles": [
+    "RF-GV-DEV-002",
+    "RF-GV-DEV-003"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "L",
+   "dependances": [
+    "TR-01"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 2,
+    "R": 2,
+    "A": 2
+   },
+   "impact": 2,
+   "note_frequence": "surtout utile pour la reconstruction fidèle (Meylan)",
+   "coordination": "",
+   "frequence": 3.0,
+   "score": 6.0,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-01",
+   "famille": "PR",
+   "fonctionnalite": "Rue urbaine : trottoirs, bordures (32 types), caniveaux, stationnement longitudinal",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "S02, S03, ex02, ex08 ; lot bordures (README_RG § 13) ; rendus S03 regardés",
+   "regles_disponibles": [
+    "RF-OSM-LAR-*",
+    "DEF-004",
+    "DEF-005",
+    "RF-AS-profil_*"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "104 bordures, 24 caniveaux",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 3,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.55,
+   "score": 17.8,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-02",
+   "famille": "PR",
+   "fonctionnalite": "Stationnement en épi, en bataille, marquage des places",
+   "etat": "partiel",
+   "manque": "bande d'épi ou de bataille admise par le vocabulaire, jamais éprouvée ; marquage transversal des places non dessiné (champ marquage_places compilé seulement)",
+   "preuve": "description_vers_modele.py l. 302-306 ; aucune scène en épi ; rendu S03 : seule la T'2 longitudinale",
+   "regles_disponibles": [
+    "RF-MQ-STA-01",
+    "RF-MQ-STA-09",
+    "RF-OSM-LAR-041"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 2,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.7,
+   "score": 8.1,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-03",
+   "famille": "PR",
+   "fonctionnalite": "Bandes et pistes cyclables (uni, bi, niveau intermédiaire)",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "S04, S05, ex12, ex05",
+   "regles_disponibles": [
+    "RF-MA-PIS-*",
+    "RF-MA-BAN-*",
+    "DEF-007",
+    "DEF-008"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.15,
+   "score": 12.6,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-04",
+   "famille": "PR",
+   "fonctionnalite": "Avenue 2 × 2 à terre-plein central (planté, hachuré, franchissable)",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "S06, ex04, J5, J6",
+   "regles_disponibles": [
+    "RF-GV-TPC-*",
+    "DEF-020"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "îlots préfabriqués (9)",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 3,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.75,
+   "score": 11.0,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-05",
+   "famille": "PR",
+   "fonctionnalite": "Rue à sens unique, voies de même sens",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "S07, ex08",
+   "regles_disponibles": [
+    "RF-OSM-MRQ-011"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.45,
+   "score": 7.4,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-06",
+   "famille": "PR",
+   "fonctionnalite": "Zone 30 : porte d'entrée (B30, marquage « ZONE 30 », anneau 30), plateaux, coussins",
+   "etat": "partiel",
+   "manque": "ralentisseurs faits ; entrée de zone absente (ni panneau, ni inscription, ni anneau E.1, ni effet de porte)",
+   "preuve": "S08, S10, ex07, G3 (zone 30) ; aucun gabarit ZONE 30 / anneau 30 utilisé",
+   "regles_disponibles": [
+    "RF-SV-B30.ZONE30",
+    "RF-MQ-INS-TXT-04",
+    "RF-MQ-INS-TXT-06",
+    "RF-MA-ZCA-001",
+    "RF-MQ-RAL-04"
+   ],
+   "regles_a_trouver": "forme de l'anneau E.1 non cotée par l'IISR (dossier 08 § 14)",
+   "assets_disponibles": "glyphes, ANNEAU_LIMITATION_50 (modèle de forme)",
+   "assets_a_creer": "anneau 30 vectorisé",
+   "effort": "S",
+   "dependances": [
+    "SV-01"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "ville à 30 généralisée dans la Métropole de Grenoble (GAM-F16)",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 6.1,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-07",
+   "famille": "PR",
+   "fonctionnalite": "Zone de rencontre et aire piétonne (plain-pied, caniveau central, B52 / B54, figurines dilatées)",
+   "etat": "partiel",
+   "manque": "catégorie et vitesse 20 seulement ; aucune scène ; pas de chaussée de plain-pied à caniveau central",
+   "preuve": "description_vers_modele.py l. 148, 164 ; vocabulaire.py l. 268",
+   "regles_disponibles": [
+    "RF-OSM-VIT-004",
+    "RF-MA-ZCA-001",
+    "RF-MQ-INS-TXT-06"
+   ],
+   "regles_a_trouver": "Cerema, fiches zones de circulation apaisée (à télécharger)",
+   "assets_disponibles": "dalles, pavés, caniveaux CC",
+   "assets_a_creer": "figurines B52 / B54 au sol",
+   "effort": "M",
+   "dependances": [
+    "AS-05",
+    "MU-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 0,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.4,
+   "score": 4.2,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-08",
+   "famille": "PR",
+   "fonctionnalite": "Chaussée à voie centrale banalisée (CVCB, « chaucidou »)",
+   "etat": "partiel",
+   "manque": "vocabulaire présent, aucune scène, contrôle non éprouvé",
+   "preuve": "vocabulaire.py l. 64, 72-73",
+   "regles_disponibles": [
+    "RF-MA-CVCB-*"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 2,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.1,
+   "score": 4.2,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-09",
+   "famille": "PR",
+   "fonctionnalite": "Voie verte et piste indépendante (barrières d'accès, croisements)",
+   "etat": "partiel",
+   "manque": "type et catégorie présents, aucune scène ; ni barrières d'accès ni croisement de route",
+   "preuve": "vocabulaire.py l. 71, 269",
+   "regles_disponibles": [
+    "RF-MA-VV-001",
+    "RF-MA-VV-003",
+    "RF-MA-VV-004",
+    "RF-MA-VV-005"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "barrières (6)",
+   "assets_a_creer": "barrière de voie verte, chicane",
+   "effort": "M",
+   "dependances": [
+    "MU-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 2,
+    "R": 2,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.3,
+   "score": 4.6,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-10",
+   "famille": "PR",
+   "fonctionnalite": "Vélorue, rue partagée",
+   "etat": "absent",
+   "manque": "aucun type",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-MA-VLR-001"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 0,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.4,
+   "score": 2.8,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-11",
+   "famille": "PR",
+   "fonctionnalite": "Contre-allée (desserte parallèle séparée)",
+   "etat": "absent",
+   "manque": "besoin A9 non porté",
+   "preuve": "meylan/BESOINS_FORMAT.md A9",
+   "regles_disponibles": [
+    "RF-OSM-PRF-001"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "RS-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.65,
+   "score": 4.9,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-12",
+   "famille": "PR",
+   "fonctionnalite": "Route bidirectionnelle hors agglomération (rives, BDD, accotements)",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "S01, ex01, J2, G2 ; rendu S01 regardé (ni terrain, ni balises, ni panneaux : voir TR-05, SV-*, EQ-11)",
+   "regles_disponibles": [
+    "RF-MQ-SC-01",
+    "RF-MQ-SC-10",
+    "RF-GV-PT-009",
+    "RF-GV-DEV-001"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 3,
+    "R": 4,
+    "A": 0
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.55,
+   "score": 12.8,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-13",
+   "famille": "PR",
+   "fonctionnalite": "Route étroite < 5,20 m (sans axe, marques MRE)",
+   "etat": "partiel",
+   "manque": "axe supprimé sous 5,20 m ; marques MRE (gabarit présent) jamais posées",
+   "preuve": "gabarit MRE non utilisé (grep)",
+   "regles_disponibles": [
+    "RF-MQ-SC-02",
+    "RF-MQ-MRE-01",
+    "RF-OSM-MRQ-010"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "gabarit MRE (dossier 08)",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 2,
+    "R": 3,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.5,
+   "score": 5.0,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-14",
+   "famille": "PR",
+   "fonctionnalite": "Route à 3 voies, 2 + 1, créneaux de dépassement, ligne mixte",
+   "etat": "absent",
+   "manque": "ni profil 2 + 1 alterné, ni ligne mixte, ni affectation de la voie centrale",
+   "preuve": "aucune scène ; RF-MQ-MIX-01 non utilisée",
+   "regles_disponibles": [
+    "RF-MQ-SC-03",
+    "RF-MQ-MIX-01",
+    "RF-MQ-VIS-04",
+    "RF-GV-PT-014"
+   ],
+   "regles_a_trouver": "ARP 2022 p. PDF 19-24, 46-53 (créneaux) ; Cerema 2 × 1 voie 2021 p. PDF 4-33 ; Catalogue des types de routes p. PDF 21-36",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "TR-02"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 2,
+    "A": 1
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.8,
+   "score": 5.4,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-15",
+   "famille": "PR",
+   "fonctionnalite": "Zones de dépassement interdit calculées depuis la visibilité",
+   "etat": "partiel",
+   "manque": "évènement décrit à la main ; aucun calcul de visibilité (dépend du profil en long et des courbes)",
+   "preuve": "FORMAT_DESCRIPTION § 8",
+   "regles_disponibles": [
+    "RF-MQ-VIS-01",
+    "RF-MQ-VIS-02",
+    "RF-MQ-VIS-03",
+    "RF-MQ-PS-04",
+    "RF-MQ-PS-05"
+   ],
+   "regles_a_trouver": "Règles de visibilité (madoc) p. PDF 11-42",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "TR-02"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 3,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.85,
+   "score": 5.6,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-16",
+   "famille": "PR",
+   "fonctionnalite": "2 × 2 nationale, voie express, 2 × 1 à chaussées séparées",
+   "etat": "partiel",
+   "manque": "profils d'autoroute réutilisables ; catégorie voie_express sans scène ; 2 × 1 séparée absente ; C107 / C108 absents",
+   "preuve": "vocabulaire.py l. 267 ; scenes_autoroutes A1-A4 seulement",
+   "regles_disponibles": [
+    "RF-MQ-SC-05",
+    "RF-MQ-U-01",
+    "RF-GV-TPC-007"
+   ],
+   "regles_a_trouver": "Cerema 2 × 1 voie 2021 (local) ; ICTAAL 2015 (fiche Cerema, à obtenir)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "SV-01"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 2,
+    "R": 2,
+    "A": 3
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.35,
+   "score": 7.1,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-17",
+   "famille": "PR",
+   "fonctionnalite": "Voie rapide urbaine (rocade, VRU)",
+   "etat": "partiel",
+   "manque": "profils d'autoroute ; règles ICTAVRU non versées sauf deux",
+   "preuve": "CHAINE L-01 ; site meylan auto_n87_rocade_sud",
+   "regles_disponibles": [
+    "RF-GV-PT-008",
+    "RF-GV-TPC-002"
+   ],
+   "regles_a_trouver": "ICTAVRU 2009 (local) p. PDF 31-34, 50, 85-94",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "EC-02"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 2,
+    "R": 0,
+    "A": 3
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.95,
+   "score": 5.8,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-18",
+   "famille": "PR",
+   "fonctionnalite": "Autoroute 2 × 2 / 2 × 3 en section courante",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "A1, A2 ; rendus regardés (GBA, glissières)",
+   "regles_disponibles": [
+    "RF-MQ-SC-06",
+    "RF-MQ-U-01",
+    "RF-GV-TPC-008"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "retenue (21)",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 0,
+    "R": 0,
+    "A": 4
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.6,
+   "score": 8.0,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-19",
+   "famille": "PR",
+   "fonctionnalite": "Transitions : élargissement, rabattement, biseau, ouverture, fermeture",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "S09, ex06, ex09, ex10 ; FORMAT § 15.5",
+   "regles_disponibles": [
+    "RF-MQ-OBL-*",
+    "RF-MQ-RAB-*",
+    "RF-GV-PT-014"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 2,
+    "R": 2,
+    "A": 3
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.15,
+   "score": 12.6,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-20",
+   "famille": "PR",
+   "fonctionnalite": "Ralentisseurs : dos-d'âne, plateau, coussin",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "S08, S10, ex07",
+   "regles_disponibles": [
+    "RF-MA-RAL-001",
+    "RF-MQ-RAL-01",
+    "RF-MQ-RAL-02",
+    "RF-MQ-RAL-03",
+    "DEF-034"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 6.1,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-21",
+   "famille": "PR",
+   "fonctionnalite": "Chicanes, écluses, rétrécissements à sens alterné (B15 / C18)",
+   "etat": "absent",
+   "manque": "aucun évènement",
+   "preuve": "vocabulaire.py (aucun mot)",
+   "regles_disponibles": [
+    "RF-SV-B15.C18",
+    "RF-MQ-ALT-01",
+    "RF-MA-TRO-009"
+   ],
+   "regles_a_trouver": "Cerema PAS VII06 Chicane (local, DocRoute 10)",
+   "assets_disponibles": "potelets, jardinières (à créer)",
+   "assets_a_creer": "jardinières",
+   "effort": "M",
+   "dependances": [
+    "MU-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 2,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.1,
+   "score": 6.3,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "PR-22",
+   "famille": "PR",
+   "fonctionnalite": "Traverse d'agglomération : porte d'entrée, îlot séparateur d'entrée, transition de profil",
+   "etat": "absent",
+   "manque": "aucune scène ; EB10 / EB20 non posés",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-SV-EB.POSITION",
+    "RF-SV-EB10.PRESCRIPTIONS",
+    "RF-SV-B14.EMPLOI"
+   ],
+   "regles_a_trouver": "CERTU PAS VII04 Îlot séparateur d'entrée d'agglomération (local, DocRoute 10)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "SV-03"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 3,
+    "R": 2,
+    "A": 0
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.15,
+   "score": 8.6,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-01",
+   "famille": "CP",
+   "fonctionnalite": "Carrefours en T et en croix : priorité à droite, cédez, STOP",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "J1, J2 ; carrefours.py l. 455-507",
+   "regles_disponibles": [
+    "RF-MQ-CED-*",
+    "RF-MQ-STOP-*",
+    "DEF-012",
+    "DEF-013",
+    "ARB-19"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 4,
+    "R": 3,
+    "A": 0
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 4.2,
+   "score": 21.0,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-02",
+   "famille": "CP",
+   "fonctionnalite": "Carrefours à feux : phases, ligne d'effet, sas vélo, contrôleur",
+   "etat": "fait",
+   "manque": "géométrie et contrôleur faits ; les feux eux-mêmes ne sont pas fabriqués (FE-01)",
+   "preuve": "J3, J5, J6 ; rendu J5 regardé (sas, ligne d'effet)",
+   "regles_disponibles": [
+    "RF-FEU.*",
+    "DEF-015",
+    "DEF-016",
+    "DEF-027",
+    "DEF-028",
+    "ARB-01"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 2,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.7,
+   "score": 13.5,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-03",
+   "famille": "CP",
+   "fonctionnalite": "Îlots séparateurs, directionnels, gouttes d'eau, refuges",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "J4, J5, G1-G4",
+   "regles_disponibles": [
+    "RF-GV-ILO-*",
+    "DEF-022",
+    "RF-GV-GIR-013"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "îlots préfabriqués (9)",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 2,
+    "A": 0
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.35,
+   "score": 13.4,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-04",
+   "famille": "CP",
+   "fonctionnalite": "Carrefour complexe : TAG guidés, zone de conflit, trajectoires balayées",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "J5, J6 ; L4 (trajectoires.json, zone_conflit.json, guidage.json) ; correction étape 2 (balayages sur trajectoires finales)",
+   "regles_disponibles": [
+    "RF-GV-TRJ-006",
+    "RF-MQ-GUI-01",
+    "RF-MQ-CAR-02",
+    "RF-MQ-CAR-03",
+    "ARB-08"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 10.2,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-05",
+   "famille": "CP",
+   "fonctionnalite": "Branches courbes ou très obliques près d'un carrefour, carrefour en Y",
+   "etat": "absent",
+   "manque": "branches rectilignes exigées au voisinage du carrefour",
+   "preuve": "README_RG l. 519 ; FORMAT_DESCRIPTION § 15.7 (limites)",
+   "regles_disponibles": [
+    "RF-GV-RAY-*"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "L",
+   "dependances": [
+    "TR-01"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 2,
+    "A": 1
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.5,
+   "score": 10.5,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-06",
+   "famille": "CP",
+   "fonctionnalite": "Carrefour sur chaussées séparées (plusieurs nœuds de feux), demi-carrefour sur 2 × 2",
+   "etat": "absent",
+   "manque": "besoin A18 non porté ; demi-carrefour interurbain absent",
+   "preuve": "meylan/BESOINS_FORMAT.md A18",
+   "regles_disponibles": [
+    "RF-GV-ILO-007",
+    "RF-GV-VS-018",
+    "RF-GV-VS-008"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "L",
+   "dependances": [
+    "RS-01"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 2,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.5,
+   "score": 7.5,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-07",
+   "famille": "CP",
+   "fonctionnalite": "Carrefour surélevé (plateau sur tout le carrefour)",
+   "etat": "absent",
+   "manque": "aucune clé",
+   "preuve": "carrefours.py : aucune occurrence de « plateau »",
+   "regles_disponibles": [
+    "RF-MA-RAL-001",
+    "DEF-034"
+   ],
+   "regles_a_trouver": "Cerema PAS V03 Carrefour plateau surélevé (local)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.65,
+   "score": 3.3,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-08",
+   "famille": "CP",
+   "fonctionnalite": "Ouverture de terre-plein pour tourne-à-gauche ou demi-tour",
+   "etat": "absent",
+   "manque": "aucune clé",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-GV-TPC-014",
+    "RF-GV-VS-008"
+   ],
+   "regles_a_trouver": "rayon de demi-tour non chiffré (00_SYNTHESE § 18)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 2,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.5,
+   "score": 7.5,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-09",
+   "famille": "CP",
+   "fonctionnalite": "Traversées cyclables de carrefour (IISR : doubles chevrons, figurines ; styles locaux)",
+   "etat": "absent",
+   "manque": "besoin A2 ; gabarit DOUBLE_CHEVRON_CEREMA présent mais jamais posé",
+   "preuve": "grep : DOUBLE_CHEVRON non utilisé",
+   "regles_disponibles": [
+    "RF-MQ-CYC-03",
+    "RF-OBS-MAR-01",
+    "RF-MA-CAR-*"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "gabarits VELO, DOUBLE_CHEVRON_CEREMA",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 2,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.3,
+   "score": 6.9,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-10",
+   "famille": "CP",
+   "fonctionnalite": "Giratoires urbain, périurbain, mini, multivoie",
+   "etat": "fait",
+   "manque": "B21-1, AB25, J5 dans le modèle mais non fabriqués (SV-01)",
+   "preuve": "G1-G4 ; rendu G1 regardé",
+   "regles_disponibles": [
+    "RF-GV-GIR-*",
+    "RF-MQ-GIR-*",
+    "DEF-024"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "éléments Ariane, giratoire franchissable",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 3,
+    "R": 2,
+    "A": 0
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.95,
+   "score": 14.8,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-11",
+   "famille": "CP",
+   "fonctionnalite": "Giratoire : îlot central composé, bande cyclable annulaire, bras entrée seule / sortie seule, shunt",
+   "etat": "partiel",
+   "manque": "besoins A4, A5 ; shunt de giratoire non porté",
+   "preuve": "meylan/BESOINS_FORMAT.md A4, A5",
+   "regles_disponibles": [
+    "RF-GV-VS-016",
+    "RF-GV-VS-017",
+    "RF-MA-GIR-002",
+    "RF-OBS-GIR-04"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "muret d'îlot, butte",
+   "effort": "M",
+   "dependances": [
+    "VB-02"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 2,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.1,
+   "score": 4.2,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-12",
+   "famille": "CP",
+   "fonctionnalite": "Double giratoire, giratoire allongé, giratoire à feux, giratoire traversé par un tram",
+   "etat": "absent",
+   "manque": "aucune clé",
+   "preuve": "—",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "Cerema SdB fiche 36 Doubles giratoires urbains (local) ; Cerema Giratoires et tramways 2017 (local, non exploité)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "L",
+   "dependances": [
+    "CP-10"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 0,
+    "A": 1
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.8,
+   "score": 5.4,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-13",
+   "famille": "CP",
+   "fonctionnalite": "Carrefour à 5 branches et plus, place",
+   "etat": "partiel",
+   "manque": "non éprouvé (aucune scène)",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-SV-CARREFOUR.COMPLEXE"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 0,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.4,
+   "score": 2.8,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CP-14",
+   "famille": "CP",
+   "fonctionnalite": "Caniveau, ralentisseur et nivellement dans le cœur du carrefour",
+   "etat": "partiel",
+   "manque": "pas de caniveau dans les coins ; cœur par interpolation harmonique (pas de plan coté)",
+   "preuve": "README_RG l. 519-524 ; § 15 (limites restantes)",
+   "regles_disponibles": [
+    "TQ-SOL-014",
+    "GA-CHA-003"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "caniveaux courbes (12)",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "TR-02"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 2,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.7,
+   "score": 5.4,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EC-01",
+   "famille": "EC",
+   "fonctionnalite": "Bretelles d'entrée (insertion) et de sortie (déboîtement), musoirs à chevrons",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "A3, A4 ; rendu A3 regardé",
+   "regles_disponibles": [
+    "RF-MQ-INS-*",
+    "RF-MQ-DEC-*",
+    "RF-MQ-MUS-01",
+    "RF-MQ-HACH-02"
+   ],
+   "regles_a_trouver": "obliquité contrôlée sur VSA 90/110 p. 38",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 0,
+    "A": 4
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.85,
+   "score": 9.2,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EC-02",
+   "famille": "EC",
+   "fonctionnalite": "Voie d'entrecroisement",
+   "etat": "absent",
+   "manque": "décrite seulement par une suite de profils",
+   "preuve": "aucune clé",
+   "regles_disponibles": [
+    "RF-MQ-DEC-01",
+    "RF-MQ-LAR-B1b",
+    "RF-SV-INSERTION.AB3A"
+   ],
+   "regles_a_trouver": "VSA 90/110 p. PDF 25, 32, 39, 49-51, 62-64 ; ICTAVRU p. PDF 55, 64-66, 81-82, 95-100 ; VSA Voies auxiliaires 2020 p. PDF 11",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "EC-01"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 0,
+    "A": 3
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.7,
+   "score": 5.1,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EC-03",
+   "famille": "EC",
+   "fonctionnalite": "Bifurcation et convergence de chaussées (juxtaposition 2 + 2, affectation)",
+   "etat": "partiel",
+   "manque": "bifurcation de bretelle seulement ; convergence 2 + 2 et divergence jumelée non représentables (B2)",
+   "preuve": "meylan/BESOINS_FORMAT_AUTO.md B2 ; RESULTATS_ETAPE3_PASSE1 (décalage de 4,8 m)",
+   "regles_disponibles": [
+    "RF-MQ-INS-02",
+    "RF-MQ-INS-03",
+    "RF-MQ-DEC-03"
+   ],
+   "regles_a_trouver": "VSA 90/110 p. PDF 30-31",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "EC-01"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 0,
+    "A": 3
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.7,
+   "score": 6.8,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EC-04",
+   "famille": "EC",
+   "fonctionnalite": "Diffuseur en losange (et losange éclaté)",
+   "etat": "absent",
+   "manque": "aucun gabarit d'échangeur ; demande ouvrages, profil en long, carrefours de raccordement",
+   "preuve": "FORMAT_DESCRIPTION_RESEAU § 7.4 : l'échangeur ne fait que regrouper des objets",
+   "regles_disponibles": [
+    "RF-SV-J14"
+   ],
+   "regles_a_trouver": "ICTAVRU p. PDF 63-65, 77-79 ; VSA 90/110 p. PDF 66 (typologie) ; guide Sétra 2013 « Les échangeurs sur routes de type autoroute » (à obtenir)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "XL",
+   "dependances": [
+    "TR-02",
+    "OA-01",
+    "CP-10"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 1,
+    "A": 4
+   },
+   "impact": 5,
+   "note_frequence": "chaque sortie d'autoroute ou de voie rapide en a un",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 10.2,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EC-05",
+   "famille": "EC",
+   "fonctionnalite": "Demi-trèfle, trèfle, trompette, giratoire dénivelé",
+   "etat": "absent",
+   "manque": "aucun gabarit",
+   "preuve": "—",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "ICTAVRU p. PDF 77-81 ; VSA 90/110 p. PDF 66-67 ; guide Sétra 2013 (à obtenir)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "XL",
+   "dependances": [
+    "EC-04",
+    "TR-03"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 0,
+    "R": 0,
+    "A": 3
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.45,
+   "score": 7.2,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EC-06",
+   "famille": "EC",
+   "fonctionnalite": "Nœud autoroutier (bretelles semi-directes, ouvrages superposés)",
+   "etat": "absent",
+   "manque": "nœud A41 / N87 décrit, fabriqué à plat sans ouvrage",
+   "preuve": "rendu meylan_auto_noeud_a41_n87 regardé ; description.yaml l. 122-126 (ouvrages en extensions_auto)",
+   "regles_disponibles": [
+    "RF-OSM-OUV-001"
+   ],
+   "regles_a_trouver": "ICTAVRU p. PDF 63-100 ; guide Sétra 2013",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "XL",
+   "dependances": [
+    "EC-04",
+    "OA-01"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 0,
+    "R": 0,
+    "A": 2
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.3,
+   "score": 6.5,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EC-07",
+   "famille": "EC",
+   "fonctionnalite": "Bretelles en boucle et bretelles bidirectionnelles (rayon, dévers, profil en long)",
+   "etat": "partiel",
+   "manque": "tracé arc / clothoïde possible ; ni dévers ni profil en long",
+   "preuve": "A3, A4 droites ; hélice de Meylan à plat",
+   "regles_disponibles": [
+    "RF-GV-DEV-002"
+   ],
+   "regles_a_trouver": "VSA 90/110 p. PDF 13-15, 41-44 ; ICTAVRU p. PDF 89-94",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "TR-02",
+    "TR-03"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 0,
+    "A": 3
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.7,
+   "score": 6.8,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EC-08",
+   "famille": "EC",
+   "fonctionnalite": "Barrière de péage (élargissement, cabines, auvent, voies télépéage)",
+   "etat": "absent",
+   "manque": "aucun objet",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-FEU.R23"
+   ],
+   "regles_a_trouver": "IISR5 p. PDF 15-17, 39, 46-52 (signalisation) ; guide de conception des gares de péage à rechercher",
+   "assets_disponibles": "—",
+   "assets_a_creer": "auvent, cabines, îlots de péage, barrières",
+   "effort": "L",
+   "dependances": [
+    "EC-01"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 0,
+    "R": 0,
+    "A": 2
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.3,
+   "score": 5.2,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EC-09",
+   "famille": "EC",
+   "fonctionnalite": "Aires de repos et de service (accès, parkings PL, bâtiments)",
+   "etat": "absent",
+   "manque": "besoin B4 non porté",
+   "preuve": "meylan/BESOINS_FORMAT_AUTO.md B4",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "ICTAVRU p. PDF 188 ; guide Sétra 2013 (accès aux aires annexes) ; IISR5 p. PDF 22, 33, 64",
+   "assets_disponibles": "—",
+   "assets_a_creer": "bâtiments, abris, mobilier d'aire",
+   "effort": "L",
+   "dependances": [
+    "EC-01",
+    "VB-04"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 0,
+    "R": 0,
+    "A": 1
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.15,
+   "score": 3.4,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EC-10",
+   "famille": "EC",
+   "fonctionnalite": "Voie de détresse (lit d'arrêt, damier rouge et blanc)",
+   "etat": "absent",
+   "manque": "gabarit CARREAU_DETRESSE présent, jamais posé",
+   "preuve": "grep : CARREAU_DETRESSE non utilisé",
+   "regles_disponibles": [
+    "dossier 08 § 16 (IISR7 art. 118-10)"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "gabarit CARREAU_DETRESSE",
+   "assets_a_creer": "lit de gravier",
+   "effort": "S",
+   "dependances": [
+    "TR-02"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 0,
+    "R": 1,
+    "A": 1
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.35,
+   "score": 2.7,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EC-11",
+   "famille": "EC",
+   "fonctionnalite": "Début et fin d'autoroute, vitesses par sens (C207 / C208, B14)",
+   "etat": "absent",
+   "manque": "besoins B10, B11",
+   "preuve": "meylan/BESOINS_FORMAT_AUTO.md B10, B11",
+   "regles_disponibles": [
+    "RF-OSM-VIT-003",
+    "RF-SV-B14.EMPLOI"
+   ],
+   "regles_a_trouver": "IISR5 (C207, C208)",
+   "assets_disponibles": "faces C207, C208",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [
+    "SV-01"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 0,
+    "A": 2
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.55,
+   "score": 3.1,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "OA-01",
+   "famille": "OA",
+   "fonctionnalite": "Pont courant (PI, PS, PO) : tablier, piles, culées, corniches, garde-corps, joints",
+   "etat": "en_cours_autre_workflow",
+   "manque": "rien n'est fabriqué à ce jour ; famille « ouvrages » non lue par Houdini",
+   "preuve": "hda/rg_lire_modele/lecteur.py l. 32 (NON_LUS_L1) ; nœud A41/N87 à plat",
+   "regles_disponibles": [
+    "RF-GV-PON-001 à -016",
+    "DEF-033",
+    "RF-OSM-OUV-001",
+    "RF-OSM-OUV-002",
+    "RF-OBS-PON-01",
+    "RF-OBS-PON-02"
+   ],
+   "regles_a_trouver": "GPOA (local) ; Joints de chaussée 2016 (local)",
+   "assets_disponibles": "garde-corps (4)",
+   "assets_a_creer": "corniches, appareils d'appui, BN1 / BN2 / BN4",
+   "effort": "XL",
+   "dependances": [
+    "TR-02"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 2,
+    "R": 2,
+    "A": 3
+   },
+   "impact": 5,
+   "note_frequence": "pont relevé sur 8 des 72 sites du dossier 13",
+   "coordination": "workflow parallèle (ponts / ouvrages)",
+   "frequence": 3.15,
+   "score": 15.8,
+   "priorite": "P1",
+   "nature": "fonctionnalite",
+   "hors_classement": "en cours dans le workflow parallèle (ponts / ouvrages, signalisation verticale + feux)"
+  },
+  {
+   "id": "OA-02",
+   "famille": "OA",
+   "fonctionnalite": "Passerelle piétons et cycles",
+   "etat": "en_cours_autre_workflow",
+   "manque": "voir OA-01",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-MA-VV-002",
+    "RF-GV-PON-006",
+    "RF-GV-PON-007"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "garde_corps_pont_S8_cycles_L30",
+   "assets_a_creer": "—",
+   "effort": "L",
+   "dependances": [
+    "OA-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 1,
+    "A": 1
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "workflow parallèle (à vérifier)",
+   "frequence": 2.0,
+   "score": 6.0,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": "en cours dans le workflow parallèle (ponts / ouvrages, signalisation verticale + feux)"
+  },
+  {
+   "id": "OA-03",
+   "famille": "OA",
+   "fonctionnalite": "Pont sur cours d'eau (berges, perrés, piles en rivière)",
+   "etat": "absent",
+   "manque": "ni eau ni berge",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-GV-PON-*"
+   ],
+   "regles_a_trouver": "GPOA (local)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "berges, perrés, surface d'eau",
+   "effort": "L",
+   "dependances": [
+    "OA-01",
+    "TR-05"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 1,
+    "A": 1
+   },
+   "impact": 4,
+   "note_frequence": "Isère : ponts de Meylan, Grenoble",
+   "coordination": "à coordonner avec le workflow ponts",
+   "frequence": 2.0,
+   "score": 8.0,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "OA-04",
+   "famille": "OA",
+   "fonctionnalite": "Pont-rail et passage sous voie ferrée (gabarit, B12)",
+   "etat": "absent",
+   "manque": "aucune voie ferrée",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-GV-PON-012",
+    "RF-SV-B12.HAUTEUR"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "voie ferrée, ballast, caténaire",
+   "effort": "L",
+   "dependances": [
+    "OA-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "à coordonner avec le workflow ponts",
+   "frequence": 1.85,
+   "score": 5.6,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "OA-05",
+   "famille": "OA",
+   "fonctionnalite": "Viaduc (grandes portées, piles hautes)",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-GV-PON-015"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "piles hautes",
+   "effort": "L",
+   "dependances": [
+    "OA-01",
+    "TR-05"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 0,
+    "R": 1,
+    "A": 1
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "à coordonner avec le workflow ponts",
+   "frequence": 1.35,
+   "score": 4.1,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "OA-06",
+   "famille": "OA",
+   "fonctionnalite": "Tunnel, tranchée couverte, trémie urbaine",
+   "etat": "absent",
+   "manque": "aucun objet ; tunnel=* lu par l'inférence seulement",
+   "preuve": "RF-OSM-OUV-001 (inférence)",
+   "regles_disponibles": [
+    "RF-OSM-OUV-001",
+    "RF-SV-DIM.HB_CARACTERES (tunnel)"
+   ],
+   "regles_a_trouver": "CETU, Dossier pilote des tunnels, document Géométrie (1990) et Éclairage (à télécharger) ; ICTAVRU p. PDF 7-9, 24, 49, 54, 75, 108-160",
+   "assets_disponibles": "—",
+   "assets_a_creer": "portail, voûte, piédroits, éclairage de tunnel, niches",
+   "effort": "L",
+   "dependances": [
+    "TR-02"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 0,
+    "R": 1,
+    "A": 1
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.75,
+   "score": 7.0,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "OA-07",
+   "famille": "OA",
+   "fonctionnalite": "Buses, dalots, ponceaux, têtes d'aqueduc",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "GPOA p. PDF 16, 114, 194, 254 ; Sétra Assainissement routier 2006",
+   "assets_disponibles": "—",
+   "assets_a_creer": "têtes d'aqueduc",
+   "effort": "S",
+   "dependances": [
+    "TR-07"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 2,
+    "A": 1
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.8,
+   "score": 3.6,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "OA-08",
+   "famille": "OA",
+   "fonctionnalite": "Passages à faune (supérieurs, inférieurs)",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "Cerema, guide des passages à faune (mise à jour des guides Sétra 1993 et 2005, à obtenir) ; GPOA p. PDF 123-127, 157-161",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "L",
+   "dependances": [
+    "OA-01"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 0,
+    "R": 0,
+    "A": 1
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.15,
+   "score": 2.3,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "OA-09",
+   "famille": "OA",
+   "fonctionnalite": "Écrans acoustiques (section courante et sur ouvrage)",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "ICTAVRU p. PDF 107, 111-121 ; GPOA p. PDF 114-126, 152-175",
+   "assets_disponibles": "—",
+   "assets_a_creer": "panneaux absorbants, poteaux HEA, écrans transparents",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 0,
+    "A": 2
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.95,
+   "score": 5.8,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "OA-10",
+   "famille": "OA",
+   "fonctionnalite": "Joints de chaussée et dalles de transition",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-GV-PON-011"
+   ],
+   "regles_a_trouver": "Joints de chaussée 2016 (local)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "joint à peigne, joint à lèvres",
+   "effort": "S",
+   "dependances": [
+    "OA-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 1,
+    "A": 2
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "workflow ponts",
+   "frequence": 2.15,
+   "score": 4.3,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EQ-01",
+   "famille": "EQ",
+   "fonctionnalite": "Séparateurs béton GBA, DBA, LBA, MVL le long d'une limite",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "rg::autoroute (README_RG § 12) ; A1 ; rendu A1 regardé",
+   "regles_disponibles": [
+    "RF-GV-TPC-002",
+    "RF-GV-TPC-003",
+    "RF-GV-TPC-008"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "retenue_GBA_*, DBA_*, LBA_*, MVL_*",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 0,
+    "A": 3
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.7,
+   "score": 6.8,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EQ-02",
+   "famille": "EQ",
+   "fonctionnalite": "Glissières GS2, GS4, DE2 le long d'une limite",
+   "etat": "partiel",
+   "manque": "posées seulement là où le profil les écrit ; pas de contournement de pile ni de double file décalée (B3)",
+   "preuve": "hda/rg_autoroute/construire.py l. 44-45 ; nœud A41/N87 regardé",
+   "regles_disponibles": [
+    "RF-GV-PON-009",
+    "RF-GV-PON-010"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "retenue_glissiere_GS2/GS4/DE2_module_L400",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 2,
+    "R": 3,
+    "A": 4
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.7,
+   "score": 10.8,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EQ-03",
+   "famille": "EQ",
+   "fonctionnalite": "Extrémités de dispositifs (abaissées, ancrées), raccords GBA-glissière, atténuateurs de choc",
+   "etat": "absent",
+   "manque": "les files commencent et finissent net",
+   "preuve": "rg_autoroute : aucune extrémité ni atténuateur",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "Cerema Dispositifs de retenue 2022 (local, non exploité, CHAINE L-05)",
+   "assets_disponibles": "extrémités GBA/DBA/GS2/GS4 abaissées, 4 atténuateurs",
+   "assets_a_creer": "terminal « queue de carpe », raccord NF 058, GR4, GRC (ASSETS_ROUTE_ETAPE3 § 10)",
+   "effort": "M",
+   "dependances": [
+    "EQ-02"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 2,
+    "R": 3,
+    "A": 4
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.7,
+   "score": 8.1,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EQ-04",
+   "famille": "EQ",
+   "fonctionnalite": "Implantation de la retenue par règle (zone de sécurité, talus, obstacles, appuis)",
+   "etat": "absent",
+   "manque": "la retenue n'existe que si on l'écrit",
+   "preuve": "CHAINE L-05",
+   "regles_disponibles": [
+    "RF-GV-TPC-008",
+    "RF-GV-PON-014",
+    "CAND-E4-001",
+    "CAND-E4-002",
+    "CAND-E4-003"
+   ],
+   "regles_a_trouver": "Cerema Dispositifs de retenue en section courante (2022, local) p. imprimées 19-54 ; VSA 90/110 p. 23 imprimée (zone de sécurité)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "TR-06",
+    "EQ-02"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 2,
+    "R": 3,
+    "A": 4
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.7,
+   "score": 10.8,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EQ-05",
+   "famille": "EQ",
+   "fonctionnalite": "Barrières de pont BN1, BN2, BN4 et garde-corps d'ouvrage",
+   "etat": "en_cours_autre_workflow",
+   "manque": "voir OA-01",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-GV-PON-007",
+    "RF-GV-PON-008",
+    "RF-GV-PON-009",
+    "RF-GV-PON-010",
+    "DEF-033"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "garde-corps (4)",
+   "assets_a_creer": "BN1, BN2, BN4",
+   "effort": "M",
+   "dependances": [
+    "OA-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 1,
+    "A": 2
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "workflow ponts",
+   "frequence": 2.15,
+   "score": 6.4,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": "en cours dans le workflow parallèle (ponts / ouvrages, signalisation verticale + feux)"
+  },
+  {
+   "id": "EQ-06",
+   "famille": "EQ",
+   "fonctionnalite": "Éclairage public (candélabres, pas, implantation en rue, giratoire, échangeur)",
+   "etat": "absent",
+   "manque": "aucune pose ; 8 candélabres au catalogue non utilisés",
+   "preuve": "aucune occurrence « candelabre » / « eclairage » dans le code ; rendus sans mât",
+   "regles_disponibles": [
+    "RF-OBS-ECL-01",
+    "RI ECL-01 à ECL-05 (regles_implantation.json)"
+   ],
+   "regles_a_trouver": "NF EN 13201 non lue (payante) ; ARP p. PDF 73-79 ; ICTAVRU p. PDF 23-27, 106-110 ; VSA Voies auxiliaires p. PDF 40-41 ; guide Cerema éclairage à rechercher",
+   "assets_disponibles": "8 candélabres (routiers 8-12 m, urbains 4-8 m)",
+   "assets_a_creer": "luminaires photométriques, mâts à crosse double, candélabres de style",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 3,
+    "R": 1,
+    "A": 1
+   },
+   "impact": 4,
+   "note_frequence": "candélabre relevé sur 11 des 72 sites (dossier 13)",
+   "coordination": "",
+   "frequence": 3.7,
+   "score": 14.8,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EQ-07",
+   "famille": "EQ",
+   "fonctionnalite": "Clôtures autoroutières, grillages faune, portails de service",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "ICTAVRU p. PDF 106-108 ; Cerema 2 × 1 p. PDF 7, 44",
+   "assets_disponibles": "—",
+   "assets_a_creer": "clôture grillagée, poteaux, portails",
+   "effort": "S",
+   "dependances": [
+    "TR-05"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 1,
+    "A": 4
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 4.1,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EQ-08",
+   "famille": "EQ",
+   "fonctionnalite": "Postes d'appel d'urgence (PAU) et leur marquage",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-MQ-PAU-01"
+   ],
+   "regles_a_trouver": "Cerema Dispositifs de retenue p. PDF 21, 39, 74 ; VSA 90/110 p. PDF 61 ; IISR5 art. 78-1 p. PDF 23",
+   "assets_disponibles": "—",
+   "assets_a_creer": "borne PAU orange, refuge",
+   "effort": "S",
+   "dependances": [
+    "EQ-02"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 0,
+    "R": 0,
+    "A": 3
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.45,
+   "score": 2.9,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EQ-09",
+   "famille": "EQ",
+   "fonctionnalite": "Panneaux à messages variables (PMV)",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "IISR 9e partie (local) p. PDF 3-43",
+   "assets_disponibles": "—",
+   "assets_a_creer": "PMV sur portique et sur mât",
+   "effort": "M",
+   "dependances": [
+    "EQ-10"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 0,
+    "A": 2
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.55,
+   "score": 4.7,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EQ-10",
+   "famille": "EQ",
+   "fonctionnalite": "Portiques, potences et hauts mâts de signalisation",
+   "etat": "absent",
+   "manque": "assets présents, aucune pose",
+   "preuve": "aucune occurrence « portique » / « potence » dans le code",
+   "regles_disponibles": [
+    "RF-SV-GEN.HAUTEUR.SURPLOMB",
+    "RF-SV-DIM.HB_CARACTERES"
+   ],
+   "regles_a_trouver": "IISR5 p. PDF 44, 48, 57-60 ; GPOA (structures)",
+   "assets_disponibles": "portique_signalisation_L1600, potence_signalisation_L600, potences de feux (4)",
+   "assets_a_creer": "portiques à treillis de grande portée, potences doubles",
+   "effort": "M",
+   "dependances": [
+    "SV-05"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 0,
+    "A": 4
+   },
+   "impact": 4,
+   "note_frequence": "portique ou potence relevé sur 6 des 72 sites",
+   "coordination": "à coordonner avec le workflow signalisation",
+   "frequence": 2.25,
+   "score": 9.0,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EQ-11",
+   "famille": "EQ",
+   "fonctionnalite": "Balises J1, J3, J4, J5, J6, J11, J13, J14",
+   "etat": "partiel",
+   "manque": "J3, J5, J14a placées dans le modèle, aucune fabriquée ; J1 / J4 (virages) jamais posées",
+   "preuve": "carrefours.py l. 411-412, 1523",
+   "regles_disponibles": [
+    "RF-SV-J1",
+    "RF-SV-J3",
+    "RF-SV-J4",
+    "RF-SV-J5",
+    "RF-SV-J6",
+    "RF-SV-J11_J12",
+    "RF-SV-J13",
+    "RF-SV-J14"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "11 balises (J1, J3, J6, J11, J12, J13, J15a…)",
+   "assets_a_creer": "J14a / J14b, J1 sur glissière, J7",
+   "effort": "S",
+   "dependances": [
+    "SV-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 3,
+    "R": 3,
+    "A": 3
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "à coordonner avec le workflow signalisation",
+   "frequence": 3.2,
+   "score": 9.6,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EQ-12",
+   "famille": "EQ",
+   "fonctionnalite": "Réseaux aériens et coffrets : poteaux EDF / télécom, armoires, caméras",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "feu_armoire_commande",
+   "assets_a_creer": "poteaux bois et béton, câbles, coffrets",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 3,
+    "R": 3,
+    "A": 1
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.3,
+   "score": 6.6,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "EQ-13",
+   "famille": "EQ",
+   "fonctionnalite": "Bornes et repères kilométriques (PR)",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "dossier 08 § 16 (IISR7 art. 118-12)"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "borne PR, plaquette",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 3,
+    "A": 4
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.45,
+   "score": 4.9,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "SV-01",
+   "famille": "SV",
+   "fonctionnalite": "Signalisation de police (AB, B, C) : choix, placement, supports, ensembles",
+   "etat": "en_cours_autre_workflow",
+   "manque": "le compilateur place AB3a, AB4, AB25, AB2, AB5, B21-1, C20a, C6, M9c… dans le modèle ; aucun panneau fabriqué ni rendu",
+   "preuve": "carrefours.py l. 411-412 ; description_vers_modele.py l. 1092, 1759 ; rendus J5, G1, S01 sans panneau",
+   "regles_disponibles": [
+    "RF-SV-* (95 règles)",
+    "DEF-025",
+    "DEF-026",
+    "ARB-04",
+    "ARB-20"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "600 panneaux, 39 supports, 24 ensembles montés",
+   "assets_a_creer": "—",
+   "effort": "L",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 4,
+    "R": 4,
+    "A": 3
+   },
+   "impact": 5,
+   "note_frequence": "panneau relevé sur 19 des 72 sites",
+   "coordination": "workflow parallèle (signalisation verticale + feux)",
+   "frequence": 4.85,
+   "score": 24.2,
+   "priorite": "P1",
+   "nature": "fonctionnalite",
+   "hors_classement": "en cours dans le workflow parallèle (ponts / ouvrages, signalisation verticale + feux)"
+  },
+  {
+   "id": "SV-02",
+   "famille": "SV",
+   "fonctionnalite": "Signalisation de danger (A) et ses distances",
+   "etat": "absent",
+   "manque": "aucune pose",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-SV-A.DISTANCE",
+    "RF-SV-A13B.EMPLOI",
+    "RF-SV-A17.FEUX"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "30 faces A, 2 ensembles A13",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [
+    "SV-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 2,
+    "R": 3,
+    "A": 1
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "à coordonner avec le workflow signalisation",
+   "frequence": 2.65,
+   "score": 7.9,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "SV-03",
+   "famille": "SV",
+   "fonctionnalite": "Entrée et sortie d'agglomération EB10 / EB20, limitations B14 et leur répétition",
+   "etat": "absent",
+   "manque": "EB10 / EB20 sont des exemples à recomposer (nom de commune) ; B14 jamais posé automatiquement",
+   "preuve": "panneaux_fr_catalogue.json (EB10, EB20 : « exemple de composition ») ; CHAINE CC-13",
+   "regles_disponibles": [
+    "RF-SV-EB.POSITION",
+    "RF-SV-EB10.PRESCRIPTIONS",
+    "RF-SV-B14.EMPLOI"
+   ],
+   "regles_a_trouver": "IISR5 p. PDF 36, 78-80",
+   "assets_disponibles": "ensembles B14 30 / 50 / 70 / 90",
+   "assets_a_creer": "EB10 / EB20 composés (texte)",
+   "effort": "M",
+   "dependances": [
+    "SV-05"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 3,
+    "R": 3,
+    "A": 2
+   },
+   "impact": 4,
+   "note_frequence": "B14 relevé sur 10 des 72 sites",
+   "coordination": "placement : workflow signalisation ; composition du texte : avec SV-05",
+   "frequence": 3.05,
+   "score": 12.2,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "SV-04",
+   "famille": "SV",
+   "fonctionnalite": "Indication (C) : C12, C13, C24 (affectation), C27, C107 / C108, C207 / C208",
+   "etat": "partiel",
+   "manque": "C20a, C6, C24a placés dans le modèle (non fabriqués) ; C24 exigé par les flèches d'affectation",
+   "preuve": "carrefours.py l. 411-412",
+   "regles_disponibles": [
+    "RF-SV-C12.EMPLOI",
+    "RF-SV-C24.EMPLOI",
+    "RF-SV-C27.RALENTISSEUR",
+    "RF-MQ-DIR-01"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "74 faces C, 4 ensembles C",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [
+    "SV-01"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 2,
+    "R": 1,
+    "A": 2
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "workflow signalisation",
+   "frequence": 2.8,
+   "score": 8.4,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "SV-05",
+   "famille": "SV",
+   "fonctionnalite": "Signalisation de direction : D20 (position, ex-D21), D30, D40 (D42, D43), D50, D60 (D61, D62), Da, Dc, Dp",
+   "etat": "absent",
+   "manque": "aucune pose ; faces D = exemples à recomposer (texte, cartouches, flèches) ; D21 / D20 absent du catalogue de faces",
+   "preuve": "panneaux_fr_catalogue.json (259 « exemples de composition ») ; aucun code D2x dans les faces",
+   "regles_disponibles": [
+    "RF-SV-D21.POSITION",
+    "RF-SV-D.TEMPS_DE_PARCOURS",
+    "RF-SV-D.HAUTEURS",
+    "RF-SV-DIM.HB_CARACTERES",
+    "RF-SV-DIM.D_E_EB",
+    "RF-OBS-SIG-05"
+   ],
+   "regles_a_trouver": "IISR5 art. 79 à 84 p. PDF 42-58 ; NF P 98-532 (alphabets L1, L2, L4 et règles de composition des panneaux directionnels : norme, accès à obtenir) ; police numérisée libre à rechercher",
+   "assets_disponibles": "103 faces D (exemples), mâts directionnels Ø 89 / 114",
+   "assets_a_creer": "compositeur de panneaux (texte, cartouches E / SU / SE, flèches), polices",
+   "effort": "L",
+   "dependances": [
+    "SV-01"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 3,
+    "A": 4
+   },
+   "impact": 4,
+   "note_frequence": "D21 relevé sur 9 des 72 sites",
+   "coordination": "à coordonner avec le workflow signalisation",
+   "frequence": 4.15,
+   "score": 16.6,
+   "priorite": "P1",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "SV-06",
+   "famille": "SV",
+   "fonctionnalite": "Signalisation autoroutière : présignalisation sur portique, numéros de sortie, D41 / Da",
+   "etat": "absent",
+   "manque": "besoin B9 ; ni portique ni panneau d'autoroute",
+   "preuve": "meylan/BESOINS_FORMAT_AUTO.md B9 ; description nœud A41/N87 l. 130 (D41a relevé)",
+   "regles_disponibles": [
+    "RF-SV-GEN.REPETITION_GAUCHE_2X2",
+    "RF-SV-DIM.CHOIX_GAMME",
+    "RF-SV-J14"
+   ],
+   "regles_a_trouver": "IISR5 p. PDF 44-60 ; guide Sétra 2013 (échangeurs)",
+   "assets_disponibles": "portique L16, faces D41 / Da41",
+   "assets_a_creer": "panneaux autoroutiers composés (fond bleu), cartouches SE",
+   "effort": "L",
+   "dependances": [
+    "SV-05",
+    "EQ-10"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 0,
+    "A": 4
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.85,
+   "score": 7.4,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "SV-07",
+   "famille": "SV",
+   "fonctionnalite": "Jalonnement cyclable (Dv) et piéton",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-SV-DV.POSITION",
+    "RF-MA-CYC-010"
+   ],
+   "regles_a_trouver": "IISR5 p. PDF 71-72",
+   "assets_disponibles": "faces Dv (exemples)",
+   "assets_a_creer": "compositeur (SV-05)",
+   "effort": "S",
+   "dependances": [
+    "SV-05"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 2,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.5,
+   "score": 5.0,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "SV-08",
+   "famille": "SV",
+   "fonctionnalite": "Localisation et services : E (cours d'eau, lieux-dits), CE, H, SR, plaques de rue E60",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-SV-E60.PLAQUE_RUE"
+   ],
+   "regles_a_trouver": "IISR5 (local)",
+   "assets_disponibles": "faces E, CE, H, SR",
+   "assets_a_creer": "plaques E60 composées",
+   "effort": "S",
+   "dependances": [
+    "SV-05"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 2,
+    "R": 2,
+    "A": 1
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.25,
+   "score": 6.5,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "SV-09",
+   "famille": "SV",
+   "fonctionnalite": "Signalisation temporaire de chantier (K, AK, cônes, K16, alternat)",
+   "etat": "absent",
+   "manque": "besoin A8 ; l'option chantier a été retirée des descriptions (RESULTATS_ETAPE3_PASSE1)",
+   "preuve": "meylan/BESOINS_FORMAT.md A8",
+   "regles_disponibles": [
+    "RF-MQ-TMP-01",
+    "RF-OBS-MAR-03",
+    "RF-FEU.EXTENSION_EMPLOI"
+   ],
+   "regles_a_trouver": "IISR 8e partie (local) p. PDF 3-46",
+   "assets_disponibles": "faces K et AK (temporaire_K : 10)",
+   "assets_a_creer": "cônes, K16, K8, barrières de chantier, GBA plastique",
+   "effort": "M",
+   "dependances": [
+    "MQ-12"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 1,
+    "A": 1
+   },
+   "impact": 4,
+   "note_frequence": "marquage de chantier vu sur 5 sites (RF-OBS-MAR-03) ; cas difficile pour l'ADAS",
+   "coordination": "",
+   "frequence": 2.0,
+   "score": 8.0,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "SV-10",
+   "famille": "SV",
+   "fonctionnalite": "Passage à niveau (G, A7 / A8, SAL, R24, barrières, rails)",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-MQ-PN-01",
+    "RF-FEU.R24.HAUTEUR",
+    "RF-FEU.R24.IMPLANTATION"
+   ],
+   "regles_a_trouver": "IISR2 p. PDF 4, 10-15 ; arrêté du 18 mars 1991 (PN) à télécharger (Légifrance)",
+   "assets_disponibles": "faces G (passage_niveau_G_balises_J)",
+   "assets_a_creer": "barrières, SAL, rails, platelage",
+   "effort": "L",
+   "dependances": [
+    "SV-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.85,
+   "score": 5.6,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "SV-11",
+   "famille": "SV",
+   "fonctionnalite": "Miroirs, panneaux de rue, numéros",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-SV-GEN.MIROIR"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "miroir convexe",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 1,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.65,
+   "score": 1.6,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "FE-01",
+   "famille": "FE",
+   "fonctionnalite": "Feux R11 + répétiteurs, R12, boutons d'appel : fabrication et pose",
+   "etat": "en_cours_autre_workflow",
+   "manque": "placés et phasés dans le modèle (signaux, contrôleur) ; aucun feu fabriqué",
+   "preuve": "carrefours.py l. 1590-1627 ; rendu J5 sans mât",
+   "regles_disponibles": [
+    "RF-FEU.* (45)",
+    "DEF-027",
+    "DEF-028",
+    "ARB-05",
+    "ARB-14"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "17 têtes de feux, 3 ensembles, mâts Ø 90 / 114",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 2,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 5,
+   "note_frequence": "feux relevés sur 17 des 72 sites",
+   "coordination": "workflow parallèle (feux)",
+   "frequence": 2.7,
+   "score": 13.5,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": "en cours dans le workflow parallèle (ponts / ouvrages, signalisation verticale + feux)"
+  },
+  {
+   "id": "FE-02",
+   "famille": "FE",
+   "fonctionnalite": "Potences, juxtaposition, R14 directionnels, R13 bus, R19 vélos, écran de contraste",
+   "etat": "en_cours_autre_workflow",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-FEU.R14",
+    "RF-FEU.JUXTAPOSITION",
+    "RF-FEU.OPTIQUE.CONTRASTE",
+    "RF-OBS-FEU-04"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "4 potences de feux, R13b, R13c, écran de contraste",
+   "assets_a_creer": "R14, R19, pictogrammes R12 / R13c (ASSETS_ROUTE_ETAPE3 § 10)",
+   "effort": "M",
+   "dependances": [
+    "FE-01"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "workflow parallèle (feux)",
+   "frequence": 2.05,
+   "score": 8.2,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": "en cours dans le workflow parallèle (ponts / ouvrages, signalisation verticale + feux)"
+  },
+  {
+   "id": "FE-03",
+   "famille": "FE",
+   "fonctionnalite": "Feux d'alternat, de PN (R24), de contrôle d'accès et de péage (R23)",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-FEU.EXTENSION_EMPLOI",
+    "RF-FEU.R23",
+    "RF-FEU.R24.IMPLANTATION"
+   ],
+   "regles_a_trouver": "IISR6 (local)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "R23, R24",
+   "effort": "M",
+   "dependances": [
+    "FE-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 1,
+    "A": 1
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.0,
+   "score": 4.0,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "FE-04",
+   "famille": "FE",
+   "fonctionnalite": "États lumineux animés et synchronisés au plan de feux (Unreal)",
+   "etat": "absent",
+   "manque": "contrôleur exporté dans le modèle, rien côté UE",
+   "preuve": "FORMAT § 15.3 (controleurs[])",
+   "regles_disponibles": [
+    "DEF-028",
+    "RF-GV-FEU-003"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "matériaux émissifs pilotés",
+   "effort": "M",
+   "dependances": [
+    "FE-01"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 2,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "à coordonner avec le workflow feux",
+   "frequence": 2.7,
+   "score": 10.8,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-01",
+   "famille": "MQ",
+   "fonctionnalite": "Lignes longitudinales (axes, rives, délimitations, T1 à T4, continues, doubles), u = 5 et 7,5 cm",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "L2b (rg::marquages) ; S01-S12 ; A1-A4",
+   "regles_disponibles": [
+    "RF-MQ-MOD-*",
+    "RF-MQ-LAR-*",
+    "RF-MQ-SC-*",
+    "RF-MQ-U-*"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 4,
+    "R": 4,
+    "A": 4
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 5.0,
+   "score": 25.0,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-02",
+   "famille": "MQ",
+   "fonctionnalite": "Lignes transversales : STOP, cédez, effet des feux",
+   "etat": "fait",
+   "manque": "ligne d'effet de passage piéton et d'alternat absentes",
+   "preuve": "rg::carrefours_sol (README_RG § 9)",
+   "regles_disponibles": [
+    "RF-MQ-CED-01",
+    "RF-MQ-STOP-01",
+    "RF-MQ-FEU-01",
+    "RF-MQ-PPE-01",
+    "RF-MQ-ALT-01"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 2,
+    "A": 0
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.35,
+   "score": 13.4,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-03",
+   "famille": "MQ",
+   "fonctionnalite": "Flèches directionnelles et de rabattement",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "L2b, L4 ; gabarits TD, TAG, TAD, RAB_D, RAB_G",
+   "regles_disponibles": [
+    "RF-MQ-DIR-*",
+    "RF-MQ-RAB-*",
+    "DEF-017",
+    "ARB-11"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "gabarits du dossier 08",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 2,
+    "A": 3
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.8,
+   "score": 15.2,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-04",
+   "famille": "MQ",
+   "fonctionnalite": "Passages piétons, hachures, zébras, chevrons de musoir, guidage TAG",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "L2b, L4, autoroute",
+   "regles_disponibles": [
+    "RF-MQ-PP-*",
+    "RF-MQ-HACH-*",
+    "RF-MQ-MUS-01",
+    "RF-MQ-GUI-01",
+    "DEF-020"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 3,
+    "R": 1,
+    "A": 2
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.85,
+   "score": 19.2,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-05",
+   "famille": "MQ",
+   "fonctionnalite": "Ligne mixte et ligne d'annonce calculées",
+   "etat": "partiel",
+   "manque": "annonce posée avec la zone de dépassement interdit ; ligne mixte absente",
+   "preuve": "RF-MQ-MIX-01 non utilisée",
+   "regles_disponibles": [
+    "RF-MQ-MIX-01",
+    "RF-MQ-PS-04"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [
+    "PR-15"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 1,
+    "R": 3,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.85,
+   "score": 3.7,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-06",
+   "famille": "MQ",
+   "fonctionnalite": "Marquages cyclables : figurines encadrées début / fin, doubles chevrons, flèches ½, sas",
+   "etat": "partiel",
+   "manque": "figurines au pas et sas faits ; doubles chevrons, figurine encadrée, flèches ½ absents",
+   "preuve": "J5 (sas) ; DOUBLE_CHEVRON non utilisé",
+   "regles_disponibles": [
+    "RF-MQ-CYC-01",
+    "RF-MQ-CYC-03",
+    "RF-MQ-CYC-04",
+    "RF-MQ-SAS-01",
+    "RF-MQ-PRA-NAN-01"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "VELO, DOUBLE_CHEVRON_CEREMA",
+   "assets_a_creer": "figurine encadrée, flèche ½ cycliste",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 2,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.7,
+   "score": 5.4,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-07",
+   "famille": "MQ",
+   "fonctionnalite": "Marquage du stationnement : places, PMR, IRVE, livraison (croix jaune), PAYANT, zone bleue",
+   "etat": "absent",
+   "manque": "gabarits PMR et IRVE présents, jamais posés ; aucun trait de place",
+   "preuve": "grep : PMR, IRVE non utilisés ; rendu S03",
+   "regles_disponibles": [
+    "RF-MQ-STA-01 à -10"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "gabarits PMR, PMR_X2, IRVE, glyphes",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "PR-02"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 2,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.7,
+   "score": 8.1,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-08",
+   "famille": "MQ",
+   "fonctionnalite": "Marques jaunes sur bordure et en rive (arrêt, stationnement gênants)",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-MQ-STA-04"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "peinture sur face de bordure (aujourd'hui interdite par MQ-DET-010 pour le blanc)",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 4.1,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-09",
+   "famille": "MQ",
+   "fonctionnalite": "Transports collectifs : damier TC, BUS / TRAM répétés, interruption au carrefour",
+   "etat": "partiel",
+   "manque": "zigzag fait ; inscription BUS possible à la main ; damier jamais posé",
+   "preuve": "description_vers_modele.py l. 1732 ; CARRE_DAMIER_TC non utilisé",
+   "regles_disponibles": [
+    "RF-MQ-TC-01 à -04"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "CARRE_DAMIER_TC, glyphes",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 4.1,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-10",
+   "famille": "MQ",
+   "fonctionnalite": "Inscriptions de zone : ZONE 30, anneaux 30 / 50, figurine piéton",
+   "etat": "absent",
+   "manque": "voir PR-06",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-MQ-INS-TXT-04",
+    "RF-MQ-INS-TXT-05",
+    "RF-MQ-INS-TXT-06"
+   ],
+   "regles_a_trouver": "formes E.1, E.2 non cotées (00_SYNTHESE § 18)",
+   "assets_disponibles": "ANNEAU_LIMITATION_50, glyphes",
+   "assets_a_creer": "anneau 30, figurine piéton",
+   "effort": "S",
+   "dependances": [
+    "PR-06"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 4.1,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-11",
+   "famille": "MQ",
+   "fonctionnalite": "Triangles cédez au sol (« dents de requin »)",
+   "etat": "absent",
+   "manque": "gabarit CEDEZ_V60 présent, jamais posé",
+   "preuve": "grep : CEDEZ_V60 non utilisé",
+   "regles_disponibles": [
+    "ARB-16",
+    "RF-OBS-MAR-05"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "CEDEZ_V60, CEDEZ_V60P",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [
+    "CP-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 2,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.1,
+   "score": 4.2,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-12",
+   "famille": "MQ",
+   "fonctionnalite": "Marquage temporaire jaune (chantier)",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-MQ-TMP-01",
+    "RF-OBS-MAR-03"
+   ],
+   "regles_a_trouver": "IISR8 p. PDF 10-12",
+   "assets_disponibles": "couleurs de peinture (jaune existe pour zigzag / livraison)",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 1,
+    "A": 1
+   },
+   "impact": 3,
+   "note_frequence": "cas d'école des essais ADAS de maintien dans la voie",
+   "coordination": "",
+   "frequence": 2.0,
+   "score": 6.0,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-13",
+   "famille": "MQ",
+   "fonctionnalite": "Marquages autoroutiers complémentaires : surlargeur, PAU, points de repère",
+   "etat": "absent",
+   "manque": "gabarit BANDE_SURLARGEUR_1M présent, jamais posé",
+   "preuve": "grep",
+   "regles_disponibles": [
+    "RF-MQ-SUR-01",
+    "RF-MQ-PAU-01",
+    "RF-MQ-SC-12"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "BANDE_SURLARGEUR_1M, RECTANGLE_POINT_REPERE",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 0,
+    "R": 1,
+    "A": 3
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.65,
+   "score": 3.3,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-14",
+   "famille": "MQ",
+   "fonctionnalite": "Balisage d'obstacles, marquage de passage à niveau",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-MQ-OBS-01",
+    "RF-MQ-PN-01"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [
+    "SV-10"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.85,
+   "score": 3.7,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-15",
+   "famille": "MQ",
+   "fonctionnalite": "Phase continue des tirets le long d'un itinéraire",
+   "etat": "absent",
+   "manque": "« chaque tronçon commence par un trait » [G]",
+   "preuve": "hda/rg_marquages/marquages.vfl l. 435 ; CHAINE R-06",
+   "regles_disponibles": [
+    "RF-MQ-U-05"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "RS-01"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 3,
+    "A": 3
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 4.0,
+   "score": 8.0,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-16",
+   "famille": "MQ",
+   "fonctionnalite": "Usure fine : faïençage, effacement, marquages fantômes, reprises",
+   "etat": "partiel",
+   "manque": "usure globale par classe faite ; faïençage et fantômes absents (besoin A14)",
+   "preuve": "FORMAT_DESCRIPTION § 6 ; BESOINS_FORMAT A14",
+   "regles_disponibles": [
+    "RF-OBS-REV-01"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "peinture_<couleur>_u<usure>",
+   "assets_a_creer": "décalques de fantômes",
+   "effort": "M",
+   "dependances": [
+    "RV-02"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 3,
+    "A": 2
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.85,
+   "score": 11.6,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MQ-17",
+   "famille": "MQ",
+   "fonctionnalite": "Pratiques locales relevées : damier cyclable, Chronovélo, îlot ocre, anneau vert",
+   "etat": "absent",
+   "manque": "besoins A2, A3 ; styles admis seulement s'ils sont photographiés (§ 0.1)",
+   "preuve": "BESOINS_FORMAT A2, A3",
+   "regles_disponibles": [
+    "RF-OBS-MAR-01",
+    "RF-OBS-MAR-02",
+    "RF-OBS-ILO-03",
+    "RF-OBS-GIR-07"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "résine verte, enrobé ocre",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 0,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "propre à la métropole grenobloise",
+   "coordination": "",
+   "frequence": 1.4,
+   "score": 2.8,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MA-01",
+   "famille": "MA",
+   "fonctionnalite": "Trottoirs, cheminement de 1,40 m, abaissés, BEV, refuges",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "L2, L3 ; ex05 ; J4",
+   "regles_disponibles": [
+    "RF-MA-TRO-*",
+    "RF-MA-BEV-*",
+    "DEF-022",
+    "DEF-031"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "dalles et BEV (10)",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 3,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.55,
+   "score": 14.2,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MA-02",
+   "famille": "MA",
+   "fonctionnalite": "Séparateurs ponctuels de piste : potelets, balises, plots, jardinières",
+   "etat": "partiel",
+   "manque": "le séparateur bordé est fait ; les séparateurs ponctuels sont lus mais pas fabriqués",
+   "preuve": "commun/profil.py l. 444-448 ; aucune HDA ne pose de potelet",
+   "regles_disponibles": [
+    "RF-MA-SEP-*",
+    "RF-MA-SEP-011"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "potelets (9), balise J11",
+   "assets_a_creer": "jardinières, plots",
+   "effort": "S",
+   "dependances": [
+    "MU-01"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 2,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.3,
+   "score": 6.9,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MA-03",
+   "famille": "MA",
+   "fonctionnalite": "Réseau piéton et cyclable continu (CC-10, CC-11)",
+   "etat": "absent",
+   "manque": "contrôles de réseau non écrits",
+   "preuve": "CHAINE § 4",
+   "regles_disponibles": [
+    "RF-MA-BAN-008"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "RS-01"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 2,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.9,
+   "score": 5.8,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MA-04",
+   "famille": "MA",
+   "fonctionnalite": "Stationnement vélo (arceaux), abris vélo",
+   "etat": "absent",
+   "manque": "aucune pose",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-MA-SVE-001"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "3 arceaux",
+   "assets_a_creer": "abri vélo",
+   "effort": "S",
+   "dependances": [
+    "MU-01"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 4.1,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MA-05",
+   "famille": "MA",
+   "fonctionnalite": "Escaliers, rampes PMR, garde-corps urbains, passages inférieurs piétons",
+   "etat": "absent",
+   "manque": "besoin A12",
+   "preuve": "BESOINS_FORMAT A12",
+   "regles_disponibles": [
+    "RF-MA-TRO-003",
+    "DEF-033"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "garde_corps_urbain_L20",
+   "assets_a_creer": "escaliers, rampes",
+   "effort": "M",
+   "dependances": [
+    "TR-02",
+    "OA-01"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 4.1,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MA-06",
+   "famille": "MA",
+   "fonctionnalite": "Trottoir et piste traversants au débouché d'une rue",
+   "etat": "absent",
+   "manque": "aucune clé",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-MA-CAR-010"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "CP-01"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.65,
+   "score": 3.3,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TC-01",
+   "famille": "TC",
+   "fonctionnalite": "Arrêt de bus : quai, zigzag, neutralisations",
+   "etat": "fait",
+   "manque": "abri, poteau et arrêt sans quai contigu absents (A11)",
+   "preuve": "ex05 ; description_vers_modele.py l. 1732, 1759",
+   "regles_disponibles": [
+    "RF-MA-BUS-*",
+    "DEF-019",
+    "DEF-032",
+    "ARB-03"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "abris bus (2), bordures quai",
+   "assets_a_creer": "poteau d'arrêt",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 2,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.5,
+   "score": 7.5,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TC-02",
+   "famille": "TC",
+   "fonctionnalite": "Couloirs bus, voies réservées",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "S12",
+   "regles_disponibles": [
+    "RF-MQ-SC-08",
+    "RF-OSM-MRQ-031"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 6.1,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TC-03",
+   "famille": "TC",
+   "fonctionnalite": "Tramway : plateforme, rails, quais, ligne aérienne, traversées, giratoire percé",
+   "etat": "absent",
+   "manque": "type voie_tram dans le modèle sans mot dans le vocabulaire ni fabrication",
+   "preuve": "commun/profil.py l. 33 (voie_tram) ; vocabulaire.py (aucun mot tram)",
+   "regles_disponibles": [
+    "RF-GV-RAY-009",
+    "RF-MQ-TC-03",
+    "RF-SV-B27A.EMPLOI",
+    "RF-FEU.R24.IMPLANTATION"
+   ],
+   "regles_a_trouver": "Cerema Giratoires et tramways 2017 (local, non exploité) ; guide d'insertion urbaine du tramway (Certu / STRMTG) à rechercher",
+   "assets_disponibles": "—",
+   "assets_a_creer": "rails, plateforme engazonnée, poteaux LAC, quais",
+   "effort": "L",
+   "dependances": [
+    "CP-12"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 0,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 4,
+   "note_frequence": "fort à Grenoble, nul à Meylan",
+   "coordination": "",
+   "frequence": 1.4,
+   "score": 5.6,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "TC-04",
+   "famille": "TC",
+   "fonctionnalite": "Arrêt sur accotement, en encoche, station BHNS",
+   "etat": "partiel",
+   "manque": "besoins A11, B4",
+   "preuve": "BESOINS_FORMAT A11",
+   "regles_disponibles": [
+    "RF-MA-BUS-*"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 2,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.1,
+   "score": 4.2,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "AS-01",
+   "famille": "AS",
+   "fonctionnalite": "Caniveaux au pied des bordures (CS, CC)",
+   "etat": "fait",
+   "manque": "pas de caniveau dans les coins de carrefour",
+   "preuve": "pj::caniveau 2.2 ; README_RG § 15",
+   "regles_disponibles": [
+    "TQ-BOR-007",
+    "RF-AS-profil_*"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "24 caniveaux",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 3,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.55,
+   "score": 10.6,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "AS-02",
+   "famille": "AS",
+   "fonctionnalite": "Avaloirs, grilles, regards, tampons, bouches à clé (pose réglée)",
+   "etat": "partiel",
+   "manque": "grilles au pied des rampes et en bout de file seulement [G] ; ni pas, ni regards, ni tampons",
+   "preuve": "README_RG § 8 (caniveau aux ralentisseurs)",
+   "regles_disponibles": [
+    "GA-ASS-*",
+    "RF-MA-BUS-016"
+   ],
+   "regles_a_trouver": "Sétra Assainissement routier 2006 (à télécharger)",
+   "assets_disponibles": "5 assets d'assainissement",
+   "assets_a_creer": "tampons de chaussée variés",
+   "effort": "M",
+   "dependances": [
+    "AS-03"
+   ],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 3,
+    "R": 1,
+    "A": 1
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.7,
+   "score": 11.1,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "AS-03",
+   "famille": "AS",
+   "fonctionnalite": "Points bas, pente du fil d'eau, bassins de surface (CC-12)",
+   "etat": "absent",
+   "manque": "lot N5",
+   "preuve": "CHAINE E06",
+   "regles_disponibles": [
+    "GA-CHA-003",
+    "GA-CHA-004",
+    "TQ-SOL-014"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "TR-02"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 2,
+    "R": 1,
+    "A": 1
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.05,
+   "score": 6.1,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "AS-04",
+   "famille": "AS",
+   "fonctionnalite": "Fossés, cunettes, descentes d'eau sur talus, bassins de rétention",
+   "etat": "absent",
+   "manque": "voir TR-07",
+   "preuve": "—",
+   "regles_disponibles": [
+    "GA-ASS-*"
+   ],
+   "regles_a_trouver": "Sétra Assainissement routier 2006 ; Cerema Dispositifs de retenue p. PDF 25-28",
+   "assets_disponibles": "—",
+   "assets_a_creer": "descentes d'eau, cunettes béton",
+   "effort": "M",
+   "dependances": [
+    "TR-06",
+    "TR-07"
+   ],
+   "frequence_contexte": {
+    "U": 0,
+    "P": 2,
+    "R": 3,
+    "A": 3
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.55,
+   "score": 7.6,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "AS-05",
+   "famille": "AS",
+   "fonctionnalite": "Caniveau central (zone de rencontre, rue pavée)",
+   "etat": "absent",
+   "manque": "besoin A10 (variante)",
+   "preuve": "BESOINS_FORMAT A10",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "caniveaux CC",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 0,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 1.4,
+   "score": 2.8,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "RV-01",
+   "famille": "RV",
+   "fonctionnalite": "Matériaux de chaussée et de trottoir (enrobés, béton, dalles, pavés)",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "34 matériaux de sol ; vocabulaire § 6",
+   "regles_disponibles": [
+    "RF-AS-regle_materiaux_elements"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "48 PBR + 29 matériaux du site",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 4,
+    "R": 4,
+    "A": 4
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 5.0,
+   "score": 20.0,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "RV-02",
+   "famille": "RV",
+   "fonctionnalite": "Dégradations : pontages de fissures, rapiéçages, tranchées, faïençage, nids-de-poule",
+   "etat": "absent",
+   "manque": "besoin A14 ; aucune décalcomanie",
+   "preuve": "BESOINS_FORMAT A14",
+   "regles_disponibles": [
+    "RF-OBS-REV-01"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "enrobe_reprise_tranchee",
+   "assets_a_creer": "décalques (graphe PG_Decalques)",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 4,
+    "R": 4,
+    "A": 3
+   },
+   "impact": 3,
+   "note_frequence": "observé sur les 8 sites du lot A",
+   "coordination": "",
+   "frequence": 4.85,
+   "score": 14.5,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "RV-03",
+   "famille": "RV",
+   "fonctionnalite": "Plaques de réseaux non hydrauliques (télécom, gaz, électricité), joints de dalles, reprises linéaires",
+   "etat": "absent",
+   "manque": "aucune pose (les regards d'assainissement sont en AS-02)",
+   "preuve": "—",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "plaques télécom, gaz, chambres de tirage",
+   "effort": "S",
+   "dependances": [
+    "AS-02"
+   ],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 3,
+    "R": 1,
+    "A": 1
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.7,
+   "score": 7.4,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "RV-04",
+   "famille": "RV",
+   "fonctionnalite": "Coutures de texture d'usure entre routes",
+   "etat": "absent",
+   "manque": "cartes d'usure lues en (s, t) de chaque route",
+   "preuve": "rendu_l2b.py l. 963 ; CHAINE R-07",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "RS-01"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 2,
+    "A": 2
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.65,
+   "score": 7.3,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "RV-05",
+   "famille": "RV",
+   "fonctionnalite": "Salissures, traces de pneus, taches, feuilles, sable en rive",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "décalques",
+   "effort": "M",
+   "dependances": [
+    "RV-02"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 3,
+    "A": 2
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.85,
+   "score": 7.7,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "RV-06",
+   "famille": "RV",
+   "fonctionnalite": "Conditions de rendu : nuit et rétroréflexion, chaussée mouillée, neige, ciel couvert",
+   "etat": "absent",
+   "manque": "ciel clair et soleil franc toujours (comparaison CONTROLE.md § Rendus)",
+   "preuve": "comparaison/CONTROLE.md l. 194",
+   "regles_disponibles": [
+    "RF-SV-GEN.RETROREFLEXION",
+    "RF-MQ-RETRO-01"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "matériaux rétroréfléchissants, eau, neige",
+   "effort": "L",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 2,
+    "R": 2,
+    "A": 2
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.0,
+   "score": 12.0,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MU-01",
+   "famille": "MU",
+   "fonctionnalite": "Potelets, bornes, barrières de trottoir",
+   "etat": "absent",
+   "manque": "aucune pose",
+   "preuve": "aucune occurrence « potelet » hors vocabulaire",
+   "regles_disponibles": [
+    "RF-MA-OBS-001",
+    "RF-MA-OBS-002",
+    "RI (regles_implantation.json)"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "potelets (9), barrières (6)",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 2,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 3,
+   "note_frequence": "potelets relevés sur 8 des 72 sites",
+   "coordination": "",
+   "frequence": 2.7,
+   "score": 8.1,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MU-02",
+   "famille": "MU",
+   "fonctionnalite": "Bancs, corbeilles, abris, arceaux, bornes fontaines",
+   "etat": "absent",
+   "manque": "aucune pose",
+   "preuve": "—",
+   "regles_disponibles": [
+    "RF-MA-TRO-013",
+    "RF-MA-BUS-012"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "11 assets de mobilier",
+   "assets_a_creer": "—",
+   "effort": "S",
+   "dependances": [
+    "MU-01"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 4.1,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "MU-03",
+   "famille": "MU",
+   "fonctionnalite": "Jardinières, bacs, conteneurs, sanisettes, kiosques, totems",
+   "etat": "absent",
+   "manque": "—",
+   "preuve": "—",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "conteneurs, jardinières",
+   "effort": "M",
+   "dependances": [
+    "MU-01"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 1,
+    "R": 0,
+    "A": 0
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.05,
+   "score": 4.1,
+   "priorite": "P4",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "VB-01",
+   "famille": "VB",
+   "fonctionnalite": "Arbres d'alignement (essences, fosses, exclusions)",
+   "etat": "partiel",
+   "manque": "portés par le modèle et le décor de l'étape 2, désactivé à l'étape 1",
+   "preuve": "README_RG § 6 (étape 1 route seule)",
+   "regles_disponibles": [
+    "DEF-030",
+    "RF-OSM-VEG-001",
+    "RF-OBS-VEG-01",
+    "ARB-13"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "35 essences (vegetation.json, autre équipe)",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 2,
+    "A": 1
+   },
+   "impact": 5,
+   "note_frequence": "arbre relevé sur 13 des 72 sites",
+   "coordination": "étape ultérieure (décision du 17/10/2026)",
+   "frequence": 3.5,
+   "score": 17.5,
+   "priorite": "P1",
+   "nature": "fonctionnalite",
+   "hors_classement": "étape ultérieure (végétation et bâti, décision du 17/10/2026)"
+  },
+  {
+   "id": "VB-02",
+   "famille": "VB",
+   "fonctionnalite": "Îlots et terre-pleins plantés (strates, massifs, haies), visibilité 0,60 m",
+   "etat": "partiel",
+   "manque": "gazon seul ; strates non portées (A15)",
+   "preuve": "BESOINS_FORMAT A15",
+   "regles_disponibles": [
+    "DEF-029",
+    "RF-GV-TPC-011",
+    "RF-OBS-GIR-04"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 2,
+    "A": 1
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "étape ultérieure",
+   "frequence": 3.5,
+   "score": 14.0,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": "étape ultérieure (végétation et bâti, décision du 17/10/2026)"
+  },
+  {
+   "id": "VB-03",
+   "famille": "VB",
+   "fonctionnalite": "Abords : prairie, champs, forêt, végétation de talus",
+   "etat": "partiel",
+   "manque": "zones décrites, non rendues",
+   "preuve": "FORMAT_DESCRIPTION § 9",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "TR-05"
+   ],
+   "frequence_contexte": {
+    "U": 1,
+    "P": 3,
+    "R": 4,
+    "A": 4
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "étape ultérieure",
+   "frequence": 3.55,
+   "score": 17.8,
+   "priorite": "P1",
+   "nature": "fonctionnalite",
+   "hors_classement": "étape ultérieure (végétation et bâti, décision du 17/10/2026)"
+  },
+  {
+   "id": "VB-04",
+   "famille": "VB",
+   "fonctionnalite": "Bâti : façades, murs de clôture, portails, accès",
+   "etat": "absent",
+   "manque": "rg::vegetation_bati non écrite",
+   "preuve": "PLAN_GENERATEUR § 2.3 (HDA 12)",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "BD TOPO (bâti)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "bâti procédural",
+   "effort": "XL",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 3,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "étape ultérieure",
+   "frequence": 3.55,
+   "score": 17.8,
+   "priorite": "P1",
+   "nature": "fonctionnalite",
+   "hors_classement": "étape ultérieure (végétation et bâti, décision du 17/10/2026)"
+  },
+  {
+   "id": "CO-01",
+   "famille": "CO",
+   "fonctionnalite": "Graphe de voies des carrefours plans (voies, connecteurs, zones, ≤ 32 étiquettes)",
+   "etat": "fait",
+   "manque": "—",
+   "preuve": "fabriquer_marquages_carrefour.py l. 240-297 ; RAPPORT_L4 L4-17",
+   "regles_disponibles": [
+    "RF-GV-TRJ-006"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "—",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 2,
+    "R": 1,
+    "A": 0
+   },
+   "impact": 5,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 2.9,
+   "score": 14.5,
+   "priorite": "—",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CO-02",
+   "famille": "CO",
+   "fonctionnalite": "Graphe de voies des sections courantes, giratoires, bretelles et bifurcations",
+   "etat": "absent",
+   "manque": "graphe_voies.json n'est écrit que par le lot L4 (carrefours plans)",
+   "preuve": "sorties G1 (l3, l5) et A3 (autoroute) sans l4/graphe_voies.json",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "12M § 7 (DocRoute 12)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 4,
+    "R": 3,
+    "A": 4
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 4.4,
+   "score": 17.6,
+   "priorite": "P1",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CO-03",
+   "famille": "CO",
+   "fonctionnalite": "Trajectoires et conflits des giratoires et des bretelles, balayages",
+   "etat": "partiel",
+   "manque": "trajectoires de giratoire calculées par le compilateur, non balayées par la chaîne L3a / L4 ; aucune pour les bretelles",
+   "preuve": "FORMAT § 15.4 ; README_RG § 14",
+   "regles_disponibles": [
+    "RF-GV-GIR-008",
+    "RF-GV-TRJ-006"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "CO-02"
+   ],
+   "frequence_contexte": {
+    "U": 2,
+    "P": 3,
+    "R": 2,
+    "A": 3
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.4,
+   "score": 13.6,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CO-04",
+   "famille": "CO",
+   "fonctionnalite": "Export OpenDRIVE 1.4 (CARLA) et 1.8.1",
+   "etat": "absent",
+   "manque": "rg::exporter_opendrive non écrite ; CARLA non installé",
+   "preuve": "PLAN_GENERATEUR L7 ; CHAINE E18",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "ASAM OpenDRIVE 1.8.1 ; validateur autonome (esmini, libOpenDRIVE)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "L",
+   "dependances": [
+    "CO-02",
+    "TR-02"
+   ],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 4,
+    "R": 4,
+    "A": 4
+   },
+   "impact": 3,
+   "note_frequence": "toute scène destinée à la simulation ADAS",
+   "coordination": "",
+   "frequence": 5.0,
+   "score": 15.0,
+   "priorite": "P1",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CO-05",
+   "famille": "CO",
+   "fonctionnalite": "Import ZoneGraph dans Unreal",
+   "etat": "absent",
+   "manque": "script d'éditeur à écrire",
+   "preuve": "PLAN_GENERATEUR § 7",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "CO-02"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 3,
+    "A": 3
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 4.0,
+   "score": 12.0,
+   "priorite": "P2",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "CO-06",
+   "famille": "CO",
+   "fonctionnalite": "Branchement du modèle de trafic (DocRoute 17) sur le graphe pour éprouver les trajectoires",
+   "etat": "absent",
+   "manque": "prototype autonome (recon/trafic/prototype)",
+   "preuve": "DocRoute 17, synthèse",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "CO-02"
+   ],
+   "frequence_contexte": {
+    "U": 3,
+    "P": 3,
+    "R": 3,
+    "A": 3
+   },
+   "impact": 2,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 4.0,
+   "score": 8.0,
+   "priorite": "P3",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "RS-01",
+   "famille": "RS",
+   "fonctionnalite": "Plusieurs carrefours sur une même route ; plan-masse et nivellement à l'échelle du réseau",
+   "etat": "absent",
+   "manque": "un seul carrefour par route, à son extrémité « fin » ; une nappe et un HeightField par route ; corridors de Meylan sans leurs carrefours",
+   "preuve": "README_RG l. 524 ; CHAINE R-04, R-05 ; meylan/axe_verdun_centre/description.yaml l. 104",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "CHAINE_CONSTRUCTION E05, E06 (lots N4, N5)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "L",
+   "dependances": [
+    "TR-02"
+   ],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 3,
+    "R": 2,
+    "A": 1
+   },
+   "impact": 4,
+   "note_frequence": "une rue entre deux carrefours est le cas le plus courant en ville",
+   "coordination": "",
+   "frequence": 3.9,
+   "score": 15.6,
+   "priorite": "P1",
+   "nature": "fonctionnalite",
+   "hors_classement": null
+  },
+  {
+   "id": "IM-01",
+   "famille": "IM",
+   "fonctionnalite": "Catalogue de typologies françaises (« routes types ») tiré de photos réelles",
+   "etat": "absent",
+   "manque": "les scènes de test sont des cas d'école ; aucune fiche de typologie (rue de centre ancien, faubourg, traverse de village, RD de plaine, route de montagne, 2 × 2, rocade, autoroute, échangeur, zone d'activités)",
+   "preuve": "scenes_simples, scenes_carrefours, scenes_giratoires, scenes_autoroutes",
+   "regles_disponibles": [
+    "RF-OBS-*",
+    "DocRoute 13"
+   ],
+   "regles_a_trouver": "relevé de fréquences sur un échantillon national stratifié (IM-04) ; Cerema Catalogue des types de routes (local)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 4,
+    "R": 4,
+    "A": 4
+   },
+   "impact": 4,
+   "note_frequence": "nouvelle orientation : imaginer des routes à partir d'images réelles",
+   "coordination": "",
+   "frequence": 5.0,
+   "score": 20.0,
+   "priorite": "P1",
+   "nature": "levier",
+   "hors_classement": "levier de méthode (classé à part, § 6)"
+  },
+  {
+   "id": "IM-02",
+   "famille": "IM",
+   "fonctionnalite": "Tirage de variantes plausibles et déterministes (largeurs, matériaux, usure, équipements, probabilités)",
+   "etat": "absent",
+   "manque": "chaque scène est écrite à la main ; aucune loi de tirage",
+   "preuve": "—",
+   "regles_disponibles": [
+    "ARB-16",
+    "RF-OBS-GIR-06",
+    "RF-OBS-ILO-04",
+    "DEF-024"
+   ],
+   "regles_a_trouver": "lois de fréquence à mesurer (IM-04)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "IM-01"
+   ],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 4,
+    "R": 4,
+    "A": 4
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 5.0,
+   "score": 20.0,
+   "priorite": "P1",
+   "nature": "levier",
+   "hors_classement": "levier de méthode (classé à part, § 6)"
+  },
+  {
+   "id": "IM-03",
+   "famille": "IM",
+   "fonctionnalite": "Description d'une scène par Claude depuis une photo (Panoramax, Mapillary)",
+   "etat": "partiel",
+   "manque": "boucle faite sur 3 rues et 15 sites de Meylan ; pas de procédure générique ni de contrôle de plausibilité",
+   "preuve": "scenes_meylan M20, M24, M27 ; meylan/*/description.yaml ; comparaison/",
+   "regles_disponibles": [
+    "PLAN_GENERATEUR § 6.2"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "IM-01"
+   ],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 4,
+    "R": 4,
+    "A": 4
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 5.0,
+   "score": 15.0,
+   "priorite": "P1",
+   "nature": "levier",
+   "hors_classement": "levier de méthode (classé à part, § 6)"
+  },
+  {
+   "id": "IM-04",
+   "famille": "IM",
+   "fonctionnalite": "Relevé de fréquences d'éléments sur un échantillon national de photos",
+   "etat": "absent",
+   "manque": "dossier 13 : 72 sites choisis par thème (biais de sélection)",
+   "preuve": "DocRoute 13 (observations.json)",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "Panoramax (API publique) ; Mapillary (jeton local)",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 4,
+    "R": 4,
+    "A": 4
+   },
+   "impact": 3,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 5.0,
+   "score": 15.0,
+   "priorite": "P1",
+   "nature": "levier",
+   "hors_classement": "levier de méthode (classé à part, § 6)"
+  },
+  {
+   "id": "IM-05",
+   "famille": "IM",
+   "fonctionnalite": "Assembler un quartier ou un itinéraire imaginé (plusieurs tronçons, carrefours, giratoires)",
+   "etat": "partiel",
+   "manque": "résolveur réseau N1 et compositions faits ; limité par RS-01",
+   "preuve": "reseau/resoudre_reseau.py ; RESULTATS_ETAPE3_PASSE1 (5 compositions)",
+   "regles_disponibles": [
+    "—"
+   ],
+   "regles_a_trouver": "—",
+   "assets_disponibles": "—",
+   "assets_a_creer": "—",
+   "effort": "M",
+   "dependances": [
+    "RS-01",
+    "IM-02"
+   ],
+   "frequence_contexte": {
+    "U": 4,
+    "P": 3,
+    "R": 2,
+    "A": 1
+   },
+   "impact": 4,
+   "note_frequence": "",
+   "coordination": "",
+   "frequence": 3.9,
+   "score": 15.6,
+   "priorite": "P1",
+   "nature": "levier",
+   "hors_classement": "levier de méthode (classé à part, § 6)"
+  }
+ ],
+ "top20": [
+  {
+   "rang": 1,
+   "items": [
+    "TR-05"
+   ],
+   "titre": "Terrain naturel et abords : le relief autour de la route, au lieu du socle sur sol neutre",
+   "score": 19.8,
+   "priorite": "P1",
+   "effort": "L",
+   "dependances": [
+    "TR-02"
+   ],
+   "coordination": [],
+   "pourquoi": "la route « flotte » sur un plan uni dans tous les rendus ; c'est le premier défaut vu sur toute scène hors centre dense",
+   "premiere_action": "rg::terrain (lot N9) : MNT ou relief procédural raccordé aux limites extérieures du profil ; matériaux d'abord sans végétation"
+  },
+  {
+   "rang": 2,
+   "items": [
+    "CO-02"
+   ],
+   "titre": "Graphe de voies complet : sections courantes, giratoires, bretelles, bifurcations",
+   "score": 17.6,
+   "priorite": "P1",
+   "effort": "M",
+   "dependances": [],
+   "coordination": [],
+   "pourquoi": "aujourd'hui seuls les carrefours plans ont un graphe ; un véhicule simulé ne peut ni faire le tour d'un giratoire ni prendre une bretelle",
+   "premiere_action": "généraliser l'écriture de graphe_voies.json du lot L4 aux sorties l5 et autoroute ; contrôle « chaque voie entrante a un successeur » sur G1-G4 et A3-A4"
+  },
+  {
+   "rang": 3,
+   "items": [
+    "TR-02"
+   ],
+   "titre": "Profil en long : déclivités, raccordements, points hauts et bas",
+   "score": 17.4,
+   "priorite": "P1",
+   "effort": "L",
+   "dependances": [],
+   "coordination": [],
+   "pourquoi": "condition de presque tout le reste : ponts, échangeurs, talus, assainissement, visibilité, route de montagne",
+   "premiere_action": "lot N2 : profil_long.py (MNT ou loi décrite), puis lecture par rg::nivellement ; règles à verser depuis ARP et ICTAVRU (§ 4.2)"
+  },
+  {
+   "rang": 4,
+   "items": [
+    "SV-05",
+    "SV-07",
+    "SV-08"
+   ],
+   "titre": "Signalisation de direction composée : D20 (ex-D21), D40 (D42, D43), D60 (D61, D62), Dv, E, E60",
+   "score": 16.6,
+   "priorite": "P1",
+   "effort": "L",
+   "dependances": [
+    "SV-01"
+   ],
+   "coordination": [
+    "à coordonner avec le workflow signalisation"
+   ],
+   "pourquoi": "les mâts de D21 à l'angle des carrefours et les présignalisations sont la signature visuelle d'un carrefour français ; aucune face n'est utilisable telle quelle",
+   "premiere_action": "compositeur de panneaux (texte, cartouches, flèches, Hb selon RF-SV-DIM.HB_CARACTERES) ; obtenir l'accès à NF P 98-532 ; vérifier d'abord le périmètre du workflow signalisation"
+  },
+  {
+   "rang": 5,
+   "items": [
+    "RS-01",
+    "MQ-15",
+    "RV-04"
+   ],
+   "titre": "Réseau continu : plusieurs carrefours par route, plan-masse et nivellement communs, phase des tirets et usure sans couture",
+   "score": 15.6,
+   "priorite": "P1",
+   "effort": "L",
+   "dependances": [
+    "TR-02"
+   ],
+   "coordination": [],
+   "pourquoi": "une rue entre deux carrefours est le cas le plus courant en ville ; aujourd'hui un seul carrefour par route, à son extrémité « fin »",
+   "premiere_action": "lots N4 et N5 de la chaîne (rg::plan_masse, rg::nivellement 2.0) ; scène de contrôle : une rue de 150 m entre un carrefour à feux et un giratoire"
+  },
+  {
+   "rang": 6,
+   "items": [
+    "CO-04"
+   ],
+   "titre": "Export OpenDRIVE 1.4 (CARLA) et 1.8.1",
+   "score": 15.0,
+   "priorite": "P1",
+   "effort": "L",
+   "dependances": [
+    "CO-02",
+    "TR-02"
+   ],
+   "coordination": [],
+   "pourquoi": "sans lui, aucune scène imaginée ne sert à la simulation ADAS",
+   "premiere_action": "rg::exporter_opendrive sur J1 et A1 ; validateur autonome tant que CARLA n'est pas installé"
+  },
+  {
+   "rang": 7,
+   "items": [
+    "EQ-06"
+   ],
+   "titre": "Éclairage public : candélabres en rue, sur giratoire, en échangeur",
+   "score": 14.8,
+   "priorite": "P2",
+   "effort": "M",
+   "dependances": [],
+   "coordination": [],
+   "pourquoi": "élément vertical le plus répété d'une rue française (11 sites sur 72 le citent) ; 8 assets existent et ne sont jamais posés",
+   "premiere_action": "rg::eclairage::1.0 (règles RI ECL-01 à -05, RF-OBS-ECL-01) ; pas et côté décrits, sinon [G] déclaré"
+  },
+  {
+   "rang": 8,
+   "items": [
+    "RV-02",
+    "MQ-16"
+   ],
+   "titre": "Chaussée et peinture vieillies : pontages, rapiéçages, tranchées, faïençage, marquages fantômes",
+   "score": 14.5,
+   "priorite": "P2",
+   "effort": "M",
+   "dependances": [],
+   "coordination": [],
+   "pourquoi": "observé sur tous les sites du lot A ; une chaussée neuve et uniforme est le second défaut visible des rendus",
+   "premiere_action": "décalques en points (graphe PG_Decalques) tirés par graine ; densité décrite (A14)"
+  },
+  {
+   "rang": 9,
+   "items": [
+    "CO-03"
+   ],
+   "titre": "Trajectoires et conflits des giratoires et des bretelles, balayés comme les carrefours plans",
+   "score": 13.6,
+   "priorite": "P2",
+   "effort": "M",
+   "dependances": [
+    "CO-02"
+   ],
+   "coordination": [],
+   "pourquoi": "priorité rappelée par l'utilisateur : des trajectoires qui passent correctement dans les zones de conflit",
+   "premiere_action": "brancher les trajectoires du compilateur de giratoire sur la chaîne L3a / L4 (balayages VL et bus) ; ajouter les trajectoires de bretelle"
+  },
+  {
+   "rang": 10,
+   "items": [
+    "TR-06",
+    "TR-07",
+    "AS-04"
+   ],
+   "titre": "Talus de déblai et de remblai, fossés, cunettes et descentes d'eau",
+   "score": 12.4,
+   "priorite": "P2",
+   "effort": "L",
+   "dependances": [
+    "TR-02",
+    "TR-05"
+   ],
+   "coordination": [],
+   "pourquoi": "toute route hors agglomération ; aujourd'hui des bandes plates",
+   "premiere_action": "profils de talus et de fossé paramétriques dans rg::terrain ; règles candidates CAND-E4-001 et -002 (§ 4.4)"
+  },
+  {
+   "rang": 11,
+   "items": [
+    "SV-03",
+    "PR-22"
+   ],
+   "titre": "Entrées d'agglomération et traverses : EB10 / EB20, B14 et leur répétition, porte d'entrée, îlot",
+   "score": 12.2,
+   "priorite": "P2",
+   "effort": "M",
+   "dependances": [
+    "SV-05"
+   ],
+   "coordination": [
+    "placement : workflow signalisation ; composition du texte : avec SV-05"
+   ],
+   "pourquoi": "séquence vue sur toute route départementale qui entre dans un bourg",
+   "premiere_action": "placement : workflow signalisation ; composition des noms de commune avec le compilateur de SV-05 ; gabarit d'îlot d'entrée (CERTU PAS VII04)"
+  },
+  {
+   "rang": 12,
+   "items": [
+    "CO-05"
+   ],
+   "titre": "Import ZoneGraph dans Unreal",
+   "score": 12.0,
+   "priorite": "P2",
+   "effort": "M",
+   "dependances": [
+    "CO-02"
+   ],
+   "coordination": [],
+   "pourquoi": "le graphe ne sert dans UE que s'il y est importé",
+   "premiere_action": "script d'éditeur recon/pcg/ue/zonegraph_depuis_graphe.py (PLAN § 7)"
+  },
+  {
+   "rang": 13,
+   "items": [
+    "RV-06"
+   ],
+   "titre": "Conditions de rendu : nuit et rétroréflexion, chaussée mouillée, neige, ciel couvert",
+   "score": 12.0,
+   "priorite": "P2",
+   "effort": "L",
+   "dependances": [],
+   "coordination": [],
+   "pourquoi": "les essais ADAS se jouent de nuit et sous la pluie ; les comparaisons Panoramax sont faussées par le ciel toujours clair",
+   "premiere_action": "côté Unreal d'abord (matériaux rétroréfléchissants des panneaux et de la peinture) ; contrôle sur une planche de nuit"
+  },
+  {
+   "rang": 14,
+   "items": [
+    "AS-02",
+    "AS-03",
+    "RV-03"
+   ],
+   "titre": "Avaloirs, regards, tampons et plaques en chaussée, points bas",
+   "score": 11.1,
+   "priorite": "P2",
+   "effort": "M",
+   "dependances": [
+    "TR-02"
+   ],
+   "coordination": [],
+   "pourquoi": "chaque rue française en porte plusieurs ; 5 assets existent",
+   "premiere_action": "pose réglée par le fil d'eau (après TR-02) ; d'ici là, pas [G] déclaré"
+  },
+  {
+   "rang": 15,
+   "items": [
+    "EQ-04",
+    "EQ-02",
+    "EQ-03"
+   ],
+   "titre": "Retenue routière : implantation par règle, extrémités, raccords, contournement des piles",
+   "score": 10.8,
+   "priorite": "P2",
+   "effort": "M",
+   "dependances": [
+    "TR-06"
+   ],
+   "coordination": [],
+   "pourquoi": "la retenue n'existe que si on l'écrit et ses files finissent net",
+   "premiere_action": "exploiter le guide Cerema 2022 (local) ; règles candidates CAND-E4-001 à -004 ; poser les extrémités abaissées déjà au catalogue"
+  },
+  {
+   "rang": 16,
+   "items": [
+    "FE-04"
+   ],
+   "titre": "Feux animés selon le plan de feux (Unreal)",
+   "score": 10.8,
+   "priorite": "P2",
+   "effort": "M",
+   "dependances": [
+    "FE-01"
+   ],
+   "coordination": [
+    "à coordonner avec le workflow feux"
+   ],
+   "pourquoi": "un carrefour à feux figé n'est pas utilisable en simulation",
+   "premiere_action": "à faire après la fabrication des feux (workflow parallèle) : matériaux émissifs pilotés par le contrôleur du modèle"
+  },
+  {
+   "rang": 17,
+   "items": [
+    "CP-05"
+   ],
+   "titre": "Branches courbes ou très obliques près d'un carrefour, carrefour en Y",
+   "score": 10.5,
+   "priorite": "P2",
+   "effort": "L",
+   "dependances": [
+    "TR-01"
+   ],
+   "coordination": [],
+   "pourquoi": "les routes réelles arrivent rarement droites ; imaginer une scène plausible l'exige",
+   "premiere_action": "coins et trajectoires sur bords courbes dans rg::carrefours (aujourd'hui droites prolongées)"
+  },
+  {
+   "rang": 18,
+   "items": [
+    "EC-04",
+    "EC-07"
+   ],
+   "titre": "Diffuseur en losange et bretelles en courbe avec dévers et profil en long",
+   "score": 10.2,
+   "priorite": "P2",
+   "effort": "XL",
+   "dependances": [
+    "CP-10",
+    "OA-01",
+    "TR-02",
+    "TR-03"
+   ],
+   "coordination": [],
+   "pourquoi": "chaque sortie d'autoroute ou de voie rapide ; le premier échangeur à savoir faire",
+   "premiere_action": "après TR-02 et les ponts du workflow parallèle : gabarit losange ICTAVRU / VSA 90-110, carrefours de raccordement en giratoire (G2)"
+  },
+  {
+   "rang": 19,
+   "items": [
+    "EQ-11"
+   ],
+   "titre": "Balises J1, J3, J4, J5, J11, J13, J14",
+   "score": 9.6,
+   "priorite": "P3",
+   "effort": "S",
+   "dependances": [
+    "SV-01"
+   ],
+   "coordination": [
+    "à coordonner avec le workflow signalisation"
+   ],
+   "pourquoi": "fréquentes hors agglomération ; J3, J5, J14a déjà placées dans le modèle ; 11 assets existent",
+   "premiere_action": "vérifier d'abord si le workflow signalisation les pose ; sinon pose directe (effort S)"
+  },
+  {
+   "rang": 20,
+   "items": [
+    "TR-03",
+    "TR-04"
+   ],
+   "titre": "Dévers en courbe, gauchissement, surlargeur",
+   "score": 9.3,
+   "priorite": "P3",
+   "effort": "M",
+   "dependances": [
+    "TR-01",
+    "TR-02"
+   ],
+   "coordination": [],
+   "pourquoi": "toute courbe hors agglomération et toute bretelle ; les règles existent déjà dans la base",
+   "premiere_action": "loi de dévers fonction de la courbure (RF-GV-DEV-002, -003) dans commun/profil.py et rg::nivellement"
+  }
+ ],
+ "gains_rapides": [
+  "EQ-11",
+  "MU-01",
+  "MA-02",
+  "MQ-11",
+  "MQ-06",
+  "CP-09",
+  "MQ-09",
+  "MQ-10",
+  "PR-06",
+  "PR-13",
+  "MQ-13",
+  "EC-10",
+  "MQ-12"
+ ],
+ "regles_candidates": [
+  {
+   "id": "CAND-E4-001",
+   "sujet": "traitement d'un talus de remblai selon sa pente p et sa hauteur h",
+   "condition": "talus de remblai en section courante ; h = hauteur totale si la crête est dans la zone de sécurité",
+   "valeur": {
+    "colonnes_h_m": [
+     "h < 1",
+     "1 ≤ h < 2,5",
+     "2,5 ≤ h < 4",
+     "h ≥ 4"
+    ],
+    "p ≤ 25 %": [
+     "non isolé",
+     "non isolé",
+     "non isolé",
+     "non isolé"
+    ],
+    "25 % < p ≤ 33 %": [
+     "non isolé",
+     "DR à étudier",
+     "DR conseillé",
+     "talus à isoler"
+    ],
+    "33 % < p ≤ 67 %": [
+     "non isolé",
+     "DR à étudier",
+     "talus à isoler",
+     "talus à isoler"
+    ],
+    "p > 67 %": [
+     "DR à étudier",
+     "talus à isoler",
+     "talus à isoler",
+     "talus à isoler"
+    ]
+   },
+   "unite": "m ; %",
+   "source": {
+    "doc": "Cerema, Dispositifs de retenue en section courante, guide d'installation (janvier 2022), tableau 6",
+    "page": "22 imprimée (PDF 24)",
+    "fichier": "D:/DocRoute/10_Carrefours_Ilots_TerrePleins_Giratoires_Ponts/sources/Cerema_Guide_Dispositifs_Retenue_Routiers.pdf"
+   },
+   "confiance": "moyenne",
+   "note": "tableau lu par extraction du texte (ordre des cellules déduit) : à relire sur une tuile native de la page avant versement ; DR = dispositif de retenue"
+  },
+  {
+   "id": "CAND-E4-002",
+   "sujet": "talus qui appellent l'étude d'un dispositif de retenue",
+   "condition": "déblai de pente > 33 % (3 pour 1) ; remblai de hauteur > 2,50 m et de pente > 25 %",
+   "valeur": {
+    "deblai_pente_pct_min": 33,
+    "remblai_hauteur_m_min": 2.5,
+    "remblai_pente_pct_min": 25,
+    "decision": "étude au cas par cas, DR souvent nécessaire"
+   },
+   "unite": "% ; m",
+   "source": {
+    "doc": "Cerema, Dispositifs de retenue en section courante (janvier 2022), § 1.2.6",
+    "page": "22 imprimée (PDF 24)"
+   },
+   "confiance": "haute",
+   "note": "la réglementation ne l'impose pas ; recommandation"
+  },
+  {
+   "id": "CAND-E4-003",
+   "sujet": "largeur de la zone de sécurité d'une voie structurante d'agglomération",
+   "condition": "VSA 110 / VSA 90, à compter du bord de chaussée ; en déblai, limitée à 3,00 m de hauteur",
+   "valeur": {
+    "VSA_110": 8.5,
+    "VSA_90": 7.0,
+    "deblai_hauteur_max": 3.0
+   },
+   "unite": "m",
+   "source": {
+    "doc": "Cerema, VSA 90/110 (2014), § 5.3.1",
+    "page": "23 imprimée (PDF 25)",
+    "fichier": "D:/DocRoute/10_Carrefours_Ilots_TerrePleins_Giratoires_Ponts/sources/Cerema_VSA_90_110_2014.pdf"
+   },
+   "confiance": "haute",
+   "note": "tout dispositif agressif y est exclu ou isolé"
+  },
+  {
+   "id": "CAND-E4-004",
+   "sujet": "pente de déport d'un dispositif de retenue (cas particuliers)",
+   "condition": "routes bidirectionnelles ou à chaussées séparées, V autorisée ≤ 110 km/h, contraintes d'emprise ou d'exploitation",
+   "valeur": {
+    "eloignement_du_bord": "1/4",
+    "rapprochement_du_bord": "1/10"
+   },
+   "unite": "rapport",
+   "source": {
+    "doc": "Cerema, Dispositifs de retenue en section courante (janvier 2022), § 1.2.4.2.3",
+    "page": "19 imprimée (PDF 21)"
+   },
+   "confiance": "moyenne",
+   "note": "disposition appréciée par le maître d'ouvrage ; sert au contournement d'une pile (besoin B3)"
+  }
+ ],
+ "pointeurs_locaux_non_verses": [
+  {
+   "document": "Cerema, ARP Aménagement des routes principales (2022)",
+   "ou": "DocRoute 10, sources",
+   "pages": "pages PDF",
+   "sujets": "créneaux de dépassement 19-24, 46-53 ; clothoïdes 49, 58-60 ; rayons 59-63 ; déclivités 61-62, 78, 85-86 ; talus 28, 39, 72, 108 ; fossés 39, 100, 108 ; éclairage 73-79 ; écrans 78, 109 ; tunnels 53, 90 ; diffuseurs 122, 129",
+   "items": "TR-02, TR-06, TR-07, PR-14, EQ-06"
+  },
+  {
+   "document": "Cerema, VSA 90/110 (2014)",
+   "ou": "DocRoute 10, sources",
+   "pages": "pages PDF (imprimée = PDF − 2)",
+   "sujets": "zone de sécurité 25 ; entrecroisement 25, 32, 39, 49-51, 62-64 ; diffuseurs 30-31, 47, 50-51, 60-66 ; typologie losange / trèfle / trompette 66-67 ; clothoïdes 13-14, 29, 41-44 ; déclivités 15, 18, 49-50 ; PAU 61",
+   "items": "EC-02 à EC-07, EQ-04, EQ-08"
+  },
+  {
+   "document": "Cerema, VSA Voies auxiliaires (2020)",
+   "ou": "DocRoute 10, sources",
+   "pages": "pages PDF",
+   "sujets": "entrecroisement 11 ; portiques 30, 36, 52 ; éclairage 40-41",
+   "items": "EC-02, EQ-10, EQ-06"
+  },
+  {
+   "document": "Certu, ICTAVRU (réédition 2009)",
+   "ou": "DocRoute 10, sources",
+   "pages": "pages PDF (imprimée = PDF − 2)",
+   "sujets": "échanges 63-100 (losange 77-79, trèfle 79-81, trompette 80) ; tracé 31-34, 85-94 ; tunnels 7-9, 108-160 ; écrans 107, 111-121 ; éclairage 23-27, 106-110 ; clôtures 106-108 ; aires 188",
+   "items": "EC-04, EC-05, EC-06, OA-06, OA-09, EQ-06, EQ-07"
+  },
+  {
+   "document": "Cerema, Dispositifs de retenue en section courante (2022)",
+   "ou": "DocRoute 10, sources",
+   "pages": "pages PDF (imprimée = PDF − 2)",
+   "sujets": "refuges et déports 21 ; talus 21-25, 39-41, 48-56 ; fossés et cunettes 10, 25-28, 56 ; écrans 27, 33, 66-68 ; PAU 21, 39, 74",
+   "items": "EQ-02, EQ-03, EQ-04, TR-06, AS-04"
+  },
+  {
+   "document": "Sétra, Guide du projeteur ouvrages d'art, ponts courants (1999)",
+   "ou": "DocRoute 10, sources",
+   "pages": "pages PDF",
+   "sujets": "portiques et cadres 16-22 ; buses et dalots 16, 114, 194, 254 ; murs de soutènement 294-296 ; écrans 114-126, 152-175 ; faune 123-127, 157-161",
+   "items": "OA-*, TR-08"
+  },
+  {
+   "document": "Cerema, 2 × 1 voie à chaussées séparées (2021)",
+   "ou": "DocRoute 10, sources",
+   "pages": "pages PDF",
+   "sujets": "créneaux 4-33 ; rayons 12, 27-35 ; clôtures 7, 44",
+   "items": "PR-14, PR-16"
+  },
+  {
+   "document": "Cerema, Catalogue des types de routes ; Règles de visibilité (copies madoc)",
+   "ou": "DocRoute 10, sources",
+   "pages": "pages PDF",
+   "sujets": "créneaux 21-36 ; échangeurs 51 ; péage 52 / visibilité et déclivités 11-42",
+   "items": "PR-14, PR-15, IM-01"
+  },
+  {
+   "document": "Certu / Cerema PAS VII04, V03, VII06 ; SdB fiche 36 ; Giratoires et tramways (2017)",
+   "ou": "DocRoute 10, sources",
+   "pages": "fichiers entiers",
+   "sujets": "îlot d'entrée d'agglomération ; carrefour plateau ; chicane ; doubles giratoires ; giratoire percé par un tram (non exploités)",
+   "items": "PR-22, CP-07, PR-21, CP-12, TC-03"
+  },
+  {
+   "document": "IISR 5e partie (VC 2025-09-04)",
+   "ou": "DocRoute 01",
+   "pages": "pages PDF",
+   "sujets": "direction art. 79 à 84 : 42-58 ; Hb 48-49 ; EB10 36, 78-80 ; portiques et potences 44, 48, 57-60 ; péage 15-17, 39, 46-52 ; aires 22, 33, 64 ; PAU art. 78-1 : 23",
+   "items": "SV-03, SV-05, SV-06, EQ-10, EC-08"
+  },
+  {
+   "document": "IISR 8e partie (temporaire) ; 9e partie (dynamique, PMV) ; 2e partie (PN)",
+   "ou": "DocRoute 01",
+   "pages": "pages PDF",
+   "sujets": "temporaire 3-46 ; PMV 3-43, portiques 8, 18, 24, 31-33 ; PN 4, 10-15",
+   "items": "SV-09, EQ-09, SV-10"
+  }
+ ],
+ "documents_a_obtenir": [
+  {
+   "document": "Sétra, Assainissement routier, guide technique (octobre 2006)",
+   "acces": "https://piles.cerema.fr/IMG/pdf/setra_guide_technique_assainissement_routier_2006_cle04a7e3.pdf",
+   "etat": "PDF public repéré",
+   "items": "TR-07, AS-02, AS-04, OA-07"
+  },
+  {
+   "document": "CETU, Dossier pilote des tunnels, document Géométrie (1990)",
+   "acces": "https://www.cetu.developpement-durable.gouv.fr/IMG/pdf/DP_geometrie_cle797c61-2.pdf",
+   "etat": "PDF public repéré",
+   "items": "OA-06"
+  },
+  {
+   "document": "CETU, Dossier pilote des tunnels, Éclairage",
+   "acces": "https://www.cetu.developpement-durable.gouv.fr/IMG/pdf/DP_Eclairage_cle7c81c7.pdf",
+   "etat": "PDF public repéré",
+   "items": "OA-06, EQ-06"
+  },
+  {
+   "document": "ICTAAL (2000, version consolidée 2015) et instruction du 13/07/2015 (BO MEDDE 2015/14)",
+   "acces": "https://cerema.fr/fr/product/4569 ; https://www.bulletin-officiel.developpement-durable.gouv.fr/documents/Bulletinofficiel-0028736/met_20150014_0000_0018.pdf",
+   "etat": "fiche Cerema ; texte intégral à obtenir (CHAINE L-01 : absente de DocRoute)",
+   "items": "PR-16, PR-18, EC-*"
+  },
+  {
+   "document": "Sétra, Les échangeurs sur routes de type autoroute, complément à l'ICTAAL (2013, amendé 2015)",
+   "acces": "https://cerema.fr/en/product/4568",
+   "etat": "fiche Cerema ; texte intégral à obtenir",
+   "items": "EC-04 à EC-09"
+  },
+  {
+   "document": "Cerema, guide des passages à faune (mise à jour des guides Sétra 1993 et 2005)",
+   "acces": "https://doc.cerema.fr/Default/doc/SYRACUSE/595295",
+   "etat": "notice ; titre exact et accès à confirmer",
+   "items": "OA-08"
+  },
+  {
+   "document": "NF P 98-532 (alphabets, graphismes, compositions des panneaux directionnels)",
+   "acces": "AFNOR (norme payante)",
+   "etat": "accès à obtenir ; seule source des règles de composition",
+   "items": "SV-05, SV-06, SV-03"
+  },
+  {
+   "document": "NF EN 13201 (éclairage public)",
+   "acces": "AFNOR (norme payante)",
+   "etat": "non lue (CHAINE L-04)",
+   "items": "EQ-06"
+  },
+  {
+   "document": "Arrêté du 18 mars 1991 relatif aux passages à niveau",
+   "acces": "Légifrance",
+   "etat": "à télécharger",
+   "items": "SV-10"
+  },
+  {
+   "document": "Guide des terrassements routiers (GTR, Sétra-LCPC)",
+   "acces": "à rechercher (Cerema)",
+   "etat": "pentes types de talus",
+   "items": "TR-06"
+  },
+  {
+   "document": "Wiki OpenStreetMap, France/Autoroutes (description des sorties, échangeurs, aires)",
+   "acces": "https://wiki.openstreetmap.org/wiki/France/Autoroutes",
+   "etat": "description, pas une règle",
+   "items": "IM-01, EC-*"
+  }
+ ],
+ "assets_presents_jamais_poses": [
+  {
+   "famille": "Éclairage",
+   "assets": "8 candélabres (routiers 8 à 12 m, urbains 4 à 8 m)",
+   "items": "EQ-06"
+  },
+  {
+   "famille": "Retenue",
+   "assets": "extrémités abaissées GBA / DBA / GS2 / GS4, 4 atténuateurs",
+   "items": "EQ-03"
+  },
+  {
+   "famille": "Supports",
+   "assets": "portique L16, potence de signalisation L6, mâts directionnels Ø 89 / 114",
+   "items": "EQ-10, SV-05"
+  },
+  {
+   "famille": "Balises",
+   "assets": "J1, J3, J6, J11 (3 hauteurs), J12, J13, J15a, bornes et quilles",
+   "items": "EQ-11, MA-02"
+  },
+  {
+   "famille": "Assainissement",
+   "assets": "avaloir T2, grille 750 × 300, 2 regards Ø 600, bouche à clé",
+   "items": "AS-02"
+  },
+  {
+   "famille": "Mobilier",
+   "assets": "2 abris bus, 3 arceaux, 3 bancs, 2 corbeilles, borne fontaine",
+   "items": "MU-02, TC-01, MA-04"
+  },
+  {
+   "famille": "Potelets et barrières",
+   "assets": "9 potelets et bornes, 6 barrières",
+   "items": "MU-01, MA-02"
+  },
+  {
+   "famille": "Panneaux et ensembles",
+   "assets": "600 faces 3D, 24 ensembles montés (AB, B, C, J5…)",
+   "items": "SV-*"
+  },
+  {
+   "famille": "Feux",
+   "assets": "17 assets (R11, R12, R13, répétiteurs, écran, armoire), 3 ensembles, 4 potences",
+   "items": "FE-*"
+  },
+  {
+   "famille": "Gabarits de marquage",
+   "assets": "PMR, IRVE, CARRE_DAMIER_TC, DOUBLE_CHEVRON_CEREMA, MRE, CEDEZ_V60, CARREAU_DETRESSE, BANDE_SURLARGEUR_1M, ANNEAU_LIMITATION_50, RECTANGLE_POINT_REPERE",
+   "items": "MQ-*"
+  }
+ ]
+}
